@@ -1,0 +1,31 @@
+verkko_dryrun = TRUE
+
+datasets = ["published"]
+
+rule all:
+    input:
+        expand("assembly/{dataset}", dataset = datasets)
+
+rule verkko:
+    input:
+        ul = 
+        duplex = 
+        porec = 
+    output:
+        directory("assembly/{dataset}")
+    conda:
+        "env/verkko.yml"
+    threads:
+        240
+    params:
+        dryrun = "--dryrun" if verkko_dryrun else ""
+    script:
+        """
+        verkko -d asm \
+            --hifi {input.duplex} \
+            --nano {input.ul} \
+            --porec {input.porec} \
+            -snakeopts "--cores {threads} {params.dryrun}"
+            >{log} 2>{log}
+        "
+    
