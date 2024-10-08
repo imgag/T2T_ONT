@@ -8,6 +8,8 @@ datasets = [
 
 rule all:
     input:
+        "mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.tsv.gz",
+        "mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.tsv",
         expand("assembly/{dataset}", dataset = datasets)
 
 rule map_bam:
@@ -34,6 +36,27 @@ rule map_bam:
 
         samtools index {output}
         """
+
+rule bam_qc:
+    input:
+        bam="mapped/{path}.bam"
+        ref=config['ref'],
+    output:
+        tsv="mapped/{path}.qc.tsv.gz",
+    log:
+        "logs/bam_qc_{path}.log",
+    threads:
+        1
+    params:
+        alfred="bin/alfred",
+    shell:
+        """
+        {params.alfred} qc \
+            -r {input.ref} \
+            -o {output.tsv} \
+            -i \
+            {input.bam} >{log} 2>&1
+        """    
 
 rule extract_chr19_testdata:
     input:
