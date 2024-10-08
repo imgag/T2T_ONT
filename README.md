@@ -9,3 +9,8 @@ From Koren et al 2024:
 - Duplex: https://s3-us-west2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/0CB931D5-AE0C4187-8BD8-B3A9C9BFDADE--UCSC_HG002_R1041_Duplex_Dorado/Dorado_v0.1.1/
 - Pore-C: https://www.ncbi.nlm.nih.gov/sra/?term=SRR27664048
 
+## T2T Reference genome
+
+Used for mapping and comparison of final assemblies: [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/)
+
+    
