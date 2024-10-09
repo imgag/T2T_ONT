@@ -1,6 +1,6 @@
 config = {}
 config['ref'] = "data/ref/T2T-CHM13.v2.fasta"
-config['verkko_dryrun'] = True
+config['verkko_dryrun'] = False
 
 datasets = [
     #"published",
@@ -9,7 +9,7 @@ datasets = [
 rule all:
     input:
         "mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.tsv.gz",
-        "mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.tsv",
+        "mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.tsv.gz",
         expand("assembly/{dataset}", dataset = datasets)
 
 rule map_bam:
@@ -39,7 +39,7 @@ rule map_bam:
 
 rule bam_qc:
     input:
-        bam="mapped/{path}.bam"
+        bam="mapped/{path}.bam",
         ref=config['ref'],
     output:
         tsv="mapped/{path}.qc.tsv.gz",
@@ -48,7 +48,7 @@ rule bam_qc:
     threads:
         1
     params:
-        alfred="bin/alfred",
+        alfred="bin/alfred"
     shell:
         """
         {params.alfred} qc \
@@ -69,9 +69,9 @@ rule extract_chr19_testdata:
         fq_porec = "data/published_chr19/published_chr19.POREC.fastq.gz"
     shell:
         """
-        samtools view {input.bam_hq} chr19 | samtools fastq -o {output.fq_hq} -
-        samtools view {input.bam_ul} chr19 | samtools fastq -o {output.fq_ul} -
-        ln -s {input.fq_porec} {output.fq_porec}
+        samtools view -h {input.bam_hq} chr19 | samtools fastq -0 {output.fq_hq} -
+        samtools view -h {input.bam_ul} chr19 | samtools fastq -0 {output.fq_ul} -
+        cp {input.fq_porec} {output.fq_porec}
         """
 
 rule verkko:
@@ -83,19 +83,21 @@ rule verkko:
         directory("assembly/{dataset}")
     conda:
         "env/verkko.yml"
+    log:
+        "logs/verkko_{dataset}.log"
     benchmark:
         "runtimes/{dataset}.verkko.txt"
     threads:
         120
     params:
         dryrun = "--dryrun" if config['verkko_dryrun'] else ""
-    script:
+    shell:
         """
-        verkko -d asm \
+        verkko -d {output} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \
-            -snakeopts "--cores {threads} {params.dryrun}"
+            --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
     
