@@ -224,3 +224,35 @@ rule dotplot:
 #        {input. fa1} {input.fa2} \
 #        {output} &> {log}
 #    """
+
+#rule preprocess_simplex:
+#   input:
+#       trim_len =
+#       infile = 
+#       min_len = 
+#   output:
+#       ".fastq"
+#   conda:
+#
+#   shell:
+#       """
+#       python3 scripts/fq_prep.py -i {input.infile} -o {output} -t {input.trim_len} -l {input.min_len}
+#       """
+#### 
+#rule herro_correct:
+#   input:
+#       ".fastq"
+#   output:
+#       fa = ".fasta"
+#       index = ".fai"
+#   conda:
+#       "env/dorado.yml"
+#   shell:
+#       """
+#       dorado correct {input} > {output.fa}
+#       """
+#
+#
+#
+#
+#
