@@ -29,6 +29,7 @@ rule bam_qc:
         ref=config['ref'],
     output:
         tsv="mapped/{path}.qc.tsv.gz",
+        json="mapped/{path}.qc.json.gz",
     log:
         "logs/bam_qc_{path}.log",
     threads:
@@ -40,6 +41,7 @@ rule bam_qc:
         {params.alfred} qc \
             -r {input.ref} \
             -o {output.tsv} \
+            -j {output.json} \
             -i \
             {input.bam} >{log} 2>&1
         """    
