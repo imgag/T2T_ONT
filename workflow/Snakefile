@@ -1,3 +1,5 @@
+import glob
+
 config = {}
 config['ref'] = "data/ref/T2T-CHM13.v2.fasta"
 config['verkko_dryrun'] = False
@@ -13,11 +15,13 @@ include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 
+published_simplex = glob_wildcards("downloads/simplex/{file}.fastq.gz").file
+
 rule all:
     input:
         "mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz",
         "mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
-        "corrected/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.corrected.fasta",
+        expand("corrected/published/{file}.corrected.fasta", file = published_simplex),
         expand("assembly/{dataset}", dataset = datasets),
         expand("assembly_qc/{dataset}/bandage_graph.png", dataset = datasets),
         expand("assembly_qc/{dataset}/qc_paftools.{hp}.txt", dataset = datasets, hp = ['haplotype1','haplotype2']),
