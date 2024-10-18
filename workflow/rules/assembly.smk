@@ -1,13 +1,13 @@
 rule verkko:
     input:
-        ul = "data/{dataset}/{dataset}.UL.fastq.gz",
-        hq = "data/{dataset}/{dataset}.HQ.fastq.gz",
-        porec = "data/{dataset}/{dataset}.POREC.fastq.gz"
+        ul = "assembly/input/{dataset}/{dataset}.UL.fastq.gz",
+        hq = "assenmbly/input/{dataset}/{dataset}.HQ.fastq.gz",
+        porec = "assembly/input/{dataset}/{dataset}.POREC.fastq.gz"
     output:
-        gfa = "assembly/{dataset}/assembly.homopolymer-compressed.noseq.gfa",
-        fa = "assembly/{dataset}/assembly.fasta",
-        hp1 = "assembly/{dataset}/assembly.haplotype1.fasta",
-        hp2 = "assembly/{dataset}/assembly.haplotype2.fasta"
+        gfa = "assembly/output/{dataset}/assembly.homopolymer-compressed.noseq.gfa",
+        fa = "assembly/output/{dataset}/assembly.fasta",
+        hp1 = "assembly/output/{dataset}/assembly.haplotype1.fasta",
+        hp2 = "assembly/output/{dataset}/assembly.haplotype2.fasta"
     conda:
         "../env/verkko.yml"
     log:

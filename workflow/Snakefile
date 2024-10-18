@@ -1,14 +1,13 @@
 import glob
+import yaml
 
-config = {}
-config['ref'] = "data/ref/T2T-CHM13.v2.fasta"
-config['verkko_dryrun'] = False
-config['dorado'] = "bin/dorado-0.8.1-linux-x64/bin/dorado"
-config['herro_model'] = "bin/herro-v1"
+configfile: os.path.join(workflow.basedir, "config.yml")
 
-datasets = [
-    #"published",
-    "published_chr19"]
+with open('data/datasets.yml') as f:
+    datasets = yaml.safe_load(f)
+
+with open('assembly/analyses.yaml') as f:
+    asm = yaml.safe_load(f)
 
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
@@ -19,10 +18,10 @@ published_simplex = glob_wildcards("downloads/simplex/{file}.fastq.gz").file
 
 rule all:
     input:
-        "mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz",
-        "mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
-        expand("corrected/published/{file}.corrected.fasta", file = published_simplex),
-        expand("assembly/{dataset}", dataset = datasets),
-        expand("assembly_qc/{dataset}/bandage_graph.png", dataset = datasets),
-        expand("assembly_qc/{dataset}/qc_paftools.{hp}.txt", dataset = datasets, hp = ['haplotype1','haplotype2']),
-        expand("assembly_qc/{dataset}/dotplot.{hp}.pdf", dataset = datasets, hp = ['haplotype1', 'haplotype2']),
+        "data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz", #QC
+        "data/mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
+        expand("data/corrected/published/{file}.corrected.fasta", file = published_simplex),
+        expand("assembly/output/{dataset}/assembly.fasta", dataset = asm.keys()),
+        expand("assembly/qc/{dataset}/bandage_graph.png", dataset = asm.keys()),
+        expand("assembly/qc/{dataset}/qc_paftools.{hp}.txt", dataset = asm.keys(), hp = ['haplotype1','haplotype2']),
+        expand("assembly/qc/{dataset}/dotplot.{hp}.pdf", dataset = asm.keys(), hp = ['haplotype1', 'haplotype2']),

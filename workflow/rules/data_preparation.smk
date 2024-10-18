@@ -1,9 +1,9 @@
-rule map_bam:
+rule map_unaligned_bam:
     input:
         bam = "data/{path}.bam",
         ref = config['ref']
     output:
-        bam = "mapped/{path}.bam"
+        bam = "data/mapped/{path}.bam"
     conda:
         "../env/minimap2.yml"
     log:
@@ -25,11 +25,11 @@ rule map_bam:
 
 rule bam_qc:
     input:
-        bam="mapped/{path}.bam",
+        bam="data/mapped/{path}.bam",
         ref=config['ref'],
     output:
-        tsv="mapped/{path}.qc.tsv.gz",
-        json="mapped/{path}.qc.json.gz",
+        tsv="data/mapped/{path}.qc.tsv.gz",
+        json="data/mapped/{path}.qc.json.gz",
     log:
         "logs/bam_qc_{path}.log",
     threads:

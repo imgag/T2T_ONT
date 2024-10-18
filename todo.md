@@ -1,10 +1,5 @@
 # Tasks
 
-
-Additional tools to implements
-
-
-
 - [X] Prepare published test datasets:
     - [X] Download datasets (see Readme)
     - [X] Merge bamfiles

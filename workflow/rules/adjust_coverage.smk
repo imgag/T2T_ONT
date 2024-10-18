@@ -1,4 +1,4 @@
-rule change_coverage:
+rule sample_to_target_cov:
     input:
         fq_dup = "data/combined/Duplex/1_3_23_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass_all.fastq",
         fq_ul = "data/combined/UL/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup_all.fastq",

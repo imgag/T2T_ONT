@@ -1,16 +1,3 @@
-#rule preprocess_simplex:
-#   input:
-#       trim_len =
-#       infile = 
-#       min_len = 
-#   output:
-#       ".fastq"
-#   conda:#
-#
-#   shell:
-#       """
-#       python3 scripts/fq_prep.py -i {input.infile} -o {output} -t {input.trim_len} -l {input.min_len}
-#       """
 def get_reads_for_sample(wc):
     if wc.sample == "published":
         return{'fastq' : expand("downloads/simplex/{path}.fastq.gz", path = wc.path)}
@@ -20,7 +7,7 @@ rule dorado_trim:
     input:
         unpack(get_reads_for_sample)
     output:
-        fastq = "corrected/{sample}/{path}.trimmed.fastq"
+        fastq = "data/corrected/{sample}/{path}.trimmed.fastq"
     params: 
         dorado = config['dorado']
     threads:
@@ -42,7 +29,7 @@ rule dorado_correct_mapping:
     input:
         fastq = rules.dorado_trim.output.fastq
     output:
-        paf = "corrected/{sample}/{path}.ovl.paf"
+        paf = "data/corrected/{sample}/{path}.ovl.paf"
     params: 
         dorado = config['dorado'],
         herro_model = config['herro_model']
@@ -68,7 +55,7 @@ rule dorado_correct_inference:
         fastq = rules.dorado_trim.output.fastq,
         paf = rules.dorado_correct_mapping.output.paf
     output:
-        fa = "corrected/{sample}/{path}.corrected.fasta"
+        fa = "data/corrected/{sample}/{path}.corrected.fasta"
     params:
         dorado = config['dorado'],
         herro_model = config['herro_model']
