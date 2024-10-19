@@ -2,12 +2,12 @@ rule bandage:
     input:
         gfa = rules.verkko.output.gfa
     output:
-        svg = "assembly_qc/{dataset}/bandage_graph.svg",
-        png = "assembly_qc/{dataset}/bandage_graph.png",
+        svg = "assembly/qc/{asm}/bandage_graph.svg",
+        png = "assembly/qc/{asm}/bandage_graph.png",
     conda:
         "../env/bandage.yml"
     log:
-        "logs/bandage_{dataset}.log"
+        "logs/bandage_{asm}.log"
     threads:
         1
     shell:
@@ -18,14 +18,14 @@ rule bandage:
 
 rule map_asm_to_ref:
     input:
-        fa = "assembly/{dataset}/assembly.{hp}.fasta",
+        fa = "assembly/output/{asm}/assembly.{hp}.fasta",
         ref = config['ref']
     output:
-        paf = "assembly_qc/{dataset}/{hp}.mapped_T2T.paf"
+        paf = "assembly/qc/{asm}/{hp}.mapped_T2T.paf"
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_asm_to_ref.{dataset}_{hp}.log"
+        "logs/map_asm_to_ref.{asm}_{hp}.log"
     threads:
         4
     shell:
@@ -42,12 +42,12 @@ rule qc_paftools:
         paf = rules.map_asm_to_ref.output.paf,
         ref = config['ref']
     output:
-        "assembly_qc/{dataset}/qc_paftools.{hp}.txt"
+        "assembly/qc/{asm}/qc_paftools.{hp}.txt"
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_{dataset}_{hp}.log"
+        "logs/paftools_{asm}_{hp}.log"
     shell:
         """
         paftools.js asmstat {input.ref}.fai {input.paf} > {output}
@@ -55,15 +55,15 @@ rule qc_paftools:
 
 rule scaffold_lengths:
     input:
-        fa = "assembly/{dataset}/assembly.{hp}.fasta",
+        fa = "assembly/output/{asm}/assembly.{hp}.fasta",
         ref = config['ref']
     output:
-        txt = "assembly_qc/{dataset}/scaffold_lengths.{hp}.txt"
+        txt = "assembly/qc/{asm}/scaffold_lengths.{hp}.txt"
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/scaffold_lengths.{dataset}_{hp}.txt"
+        "logs/scaffold_lengths.{asm}_{hp}.txt"
     shell:
         """
         samtools faidx {input.fa}
@@ -74,16 +74,16 @@ rule scaffold_lengths:
     
 rule dotplot:
     input:
-        len = "assembly_qc/{dataset}/scaffold_lengths.{hp}.txt",
+        len = "assembly/qc/{asm}/scaffold_lengths.{hp}.txt",
         paf = rules.map_asm_to_ref.output.paf
     output:
-        "assembly_qc/{dataset}/dotplot.{hp}.pdf"
+        "assembly/qc/{asm}/dotplot.{hp}.pdf"
     conda:
         "../env/R.yml"
     threads:
         1
     log:
-        "logs/dotplot.{dataset}_{hp}.log"
+        "logs/dotplot.{asm}_{hp}.log"
     shell:
         """
         Rscript workflow/scripts/minidot.R \
@@ -96,15 +96,15 @@ rule dotplot:
 #    input:
 #        
 #    output:
-#        "assembly_qc/{dataset}/kmers.{hp}.meryl"
+#        "assembly_qc/{asm}/kmers.{hp}.meryl"
 
 #rule qc_merqury:
 #    input:
-#        meryl = expand("assembly_qc/{dataset}/kmers.{hp}.meryl", hp = ["haplotype1", "haplotype2"]),
+#        meryl = expand("assembly_qc/{asm}/kmers.{hp}.meryl", hp = ["haplotype1", "haplotype2"]),
 #        fa1 = rules.verkko.output.hp1,
 #        fa2 = rules.verkko.output.hp2,
 #    output:
-#        directory("assembly_qc/{dataset}/merqury")
+#        directory("assembly_qc/{asm}/merqury")
 #    conda:
 #        "../env/merqury.yml"
 #    threads: 1

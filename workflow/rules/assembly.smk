@@ -1,19 +1,36 @@
+def get_assembly_input(wc):
+    s_d = asm[wc.asm]['dataset']
+    s_ul = asm[wc.asm].get('cov_UL', '')
+    if s_ul != '':
+        s_ul = str(s_ul)+'x.'
+    s_hq = asm[wc.asm].get('cov_HQ', '')
+    if s_hq != '':
+        s_hq = str(s_hq)+'x.'
+    s_re = asm[wc.asm].get('region', '')
+    if s_re != '':
+        s_re = s_re+'.'
+#    print(s_d, s_ul, s_hq, s_re)
+    files = {
+        'ul' : f"assembly/input/{s_d}.UL.{s_ul}{s_re}fastq.gz",
+        'hq' : f"assembly/input/{s_d}.HQ.{s_hq}{s_re}fastq.gz",
+        'porec' : f"assembly/input/{s_d}.POREC.fastq.gz"
+    }
+    return(files)
+
 rule verkko:
     input:
-        ul = "assembly/input/{dataset}/{dataset}.UL.fastq.gz",
-        hq = "assenmbly/input/{dataset}/{dataset}.HQ.fastq.gz",
-        porec = "assembly/input/{dataset}/{dataset}.POREC.fastq.gz"
+        unpack(get_assembly_input)
     output:
-        gfa = "assembly/output/{dataset}/assembly.homopolymer-compressed.noseq.gfa",
-        fa = "assembly/output/{dataset}/assembly.fasta",
-        hp1 = "assembly/output/{dataset}/assembly.haplotype1.fasta",
-        hp2 = "assembly/output/{dataset}/assembly.haplotype2.fasta"
+        gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        fa = "assembly/output/{asm}/assembly.fasta",
+        hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
+        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta"
     conda:
         "../env/verkko.yml"
     log:
-        "logs/verkko_{dataset}.log"
+        "logs/verkko_{asm}.log"
     benchmark:
-        "runtimes/{dataset}.verkko.txt"
+        "runtimes/{asm}.verkko.txt"
     threads:
         120
     params:

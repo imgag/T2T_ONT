@@ -1,21 +1,16 @@
-def get_reads_for_sample(wc):
-    if wc.sample == "published":
-        return{'fastq' : expand("downloads/simplex/{path}.fastq.gz", path = wc.path)}
-    
-
 rule dorado_trim:
     input:
-        unpack(get_reads_for_sample)
+        fastq = lambda wc: datasets['wc.dataset']
     output:
-        fastq = "data/corrected/{sample}/{path}.trimmed.fastq"
+        fastq = "data/corrected/{dataset}/{file}.trimmed.fastq"
     params: 
         dorado = config['dorado']
     threads:
         60
     benchmark:
-        "runtimes/dorado_trim_{sample}_{path}.txt"
+        "runtimes/dorado_trim_{dataset}_{file}.txt"
     log:
-        "logs/dorado_trim_{sample}_{path}.log"
+        "logs/dorado_trim_{dataset}_{file}.log"
     shell:
         """
         {params.dorado} trim \
@@ -29,16 +24,16 @@ rule dorado_correct_mapping:
     input:
         fastq = rules.dorado_trim.output.fastq
     output:
-        paf = "data/corrected/{sample}/{path}.ovl.paf"
+        paf = "data/corrected/{dataset}/{file}.ovl.paf"
     params: 
         dorado = config['dorado'],
         herro_model = config['herro_model']
     threads:
         60
     benchmark:
-        "runtimes/dorado_correct_mapping_{sample}_{path}.txt"
+        "runtimes/dorado_correct_mapping_{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_mapping_{sample}_{path}.log"
+        "logs/dorado_correct_mapping_{dataset}_{file}.log"
     shell:
         """
         {params.dorado} correct \
@@ -55,16 +50,16 @@ rule dorado_correct_inference:
         fastq = rules.dorado_trim.output.fastq,
         paf = rules.dorado_correct_mapping.output.paf
     output:
-        fa = "data/corrected/{sample}/{path}.corrected.fasta"
+        fa = "data/corrected/{dataset}/{file}.corrected.fasta"
     params:
         dorado = config['dorado'],
         herro_model = config['herro_model']
     threads:
         6
     benchmark:
-        "runtimes/dorado_correct_inference_{sample}_{path}.txt"
+        "runtimes/dorado_correct_inference_{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_inference_{sample}_{path}.log"
+        "logs/dorado_correct_inference_{dataset}_{file}.log"
     resources:
         gpu = 2
     shell:

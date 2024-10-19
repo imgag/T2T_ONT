@@ -6,21 +6,23 @@ configfile: os.path.join(workflow.basedir, "config.yml")
 with open('data/datasets.yml') as f:
     datasets = yaml.safe_load(f)
 
-with open('assembly/analyses.yaml') as f:
+with open('assembly/assemblies.yml') as f:
     asm = yaml.safe_load(f)
+
+print(asm['published_chr19_herro_35x'])
 
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 
-published_simplex = glob_wildcards("downloads/simplex/{file}.fastq.gz").file
+#published_simplex = glob_wildcards("downloads/simplex/{file}.fastq.gz").file
 
 rule all:
     input:
         "data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz", #QC
         "data/mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
-        expand("data/corrected/published/{file}.corrected.fasta", file = published_simplex),
+        #expand("data/corrected/published/{file}.corrected.fasta", file = published_simplex),
         expand("assembly/output/{dataset}/assembly.fasta", dataset = asm.keys()),
         expand("assembly/qc/{dataset}/bandage_graph.png", dataset = asm.keys()),
         expand("assembly/qc/{dataset}/qc_paftools.{hp}.txt", dataset = asm.keys(), hp = ['haplotype1','haplotype2']),
