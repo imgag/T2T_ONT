@@ -1,5 +1,3 @@
-import re
-
 def update_herro_paths(f, dataset):
     f = os.path.basename(f)
     match = re.search(r'(\.fastq|\.fastq.gz|\.bam|\.fasta|\.fq|\.fq.gz|\.fa|\.cram)$', 
@@ -16,7 +14,7 @@ def update_herro_paths(f, dataset):
 
 def find_input_datasets(wc):
     files = datasets[wc.dataset][wc.type]
-    if wc.type == "HQ" and datasets[wc.dataset]['HQ_processing'] == "herro":
+    if wc.type == "HQ_herro":
         files = [update_herro_paths(f, wc.dataset) for f in files]
     return(files)
 
@@ -24,10 +22,9 @@ rule merge_copy_rename_fastq:
     input:
         find_input_datasets
     output:
-#        "assembly/input/{dataset}.{type,['HQ', 'UL', 'POREC']}.fastq.gz"
         "assembly/input/{dataset}.{type}.fastq.gz"
     conda:
-        "../env/minimap2"
+        "../env/minimap2.yml"
     log:
         "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
     shell:
@@ -59,8 +56,6 @@ rule map_unaligned_bam:
 
         samtools index {output.bam}
         """
-
-# Maybe fuse the two mapping rules?
 
 rule map_fq:
     input:

@@ -1,6 +1,6 @@
 rule dorado_trim:
     input:
-        fastq = lambda wc: datasets['wc.dataset']
+        fastq = lambda wc: datasets[wc.dataset].get('HQ_herro', '')
     output:
         fastq = "data/corrected/{dataset}/{file}.trimmed.fastq"
     params: 

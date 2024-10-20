@@ -1,18 +1,20 @@
 def get_assembly_input(wc):
     s_d = asm[wc.asm]['dataset']
-    s_ul = asm[wc.asm].get('cov_UL', '')
-    if s_ul != '':
-        s_ul = str(s_ul)+'x.'
-    s_hq = asm[wc.asm].get('cov_HQ', '')
-    if s_hq != '':
-        s_hq = str(s_hq)+'x.'
+    s_hq = asm[wc.asm]['HQ_method']
+    s_hq = "HQ_" + s_hq
+    s_cov_ul = asm[wc.asm].get('cov_UL', '')
+    if s_cov_ul != '':
+        s_cov_ul = str(s_cov_ul)+'x.'
+    s_cov_hq = asm[wc.asm].get('cov_HQ', '')
+    if s_cov_hq != '':
+        s_cov_hq = str(s_cov_hq)+'x.'
     s_re = asm[wc.asm].get('region', '')
     if s_re != '':
         s_re = s_re+'.'
 #    print(s_d, s_ul, s_hq, s_re)
     files = {
-        'ul' : f"assembly/input/{s_d}.UL.{s_ul}{s_re}fastq.gz",
-        'hq' : f"assembly/input/{s_d}.HQ.{s_hq}{s_re}fastq.gz",
+        'ul' : f"assembly/input/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
+        'hq' : f"assembly/input/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
         'porec' : f"assembly/input/{s_d}.POREC.fastq.gz"
     }
     return(files)

@@ -1,0 +1,537 @@
+Building DAG of jobs...
+Conda environment workflow/env/filtlong.yml will be created.
+Job stats:
+job                        count
+-----------------------  -------
+all                            1
+bandage                        2
+dotplot                        4
+extract_location_data          3
+map_asm_to_ref                 4
+map_fq                         3
+merge_copy_rename_fastq        3
+qc_paftools                    4
+sample_to_target_cov           3
+scaffold_lengths               4
+verkko                         2
+total                         33
+
+Execute 3 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule merge_copy_rename_fastq:
+    input: data/raw/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.bam
+    output: assembly/input/published_herro.UL.fastq.gz
+    log: logs/merge_copy_rename_fastq.published_herro.UL.log
+    jobid: 12
+    reason: Missing output files: assembly/input/published_herro.UL.fastq.gz
+    wildcards: dataset=published_herro, type=UL
+    resources: tmpdir=<TBD>
+
+
+        samtools fastq data/raw/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.bam 2>logs/merge_copy_rename_fastq.published_herro.UL.log        | bgzip -c assembly/input/published_herro.UL.fastq.gz 2>>logs/merge_copy_rename_fastq.published_herro.UL.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule merge_copy_rename_fastq:
+    input: data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.corrected.fasta, data/corrected/published_herro/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.corrected.fasta
+    output: assembly/input/published_herro.HQ.fastq.gz
+    log: logs/merge_copy_rename_fastq.published_herro.HQ.log
+    jobid: 16
+    reason: Missing output files: assembly/input/published_herro.HQ.fastq.gz
+    wildcards: dataset=published_herro, type=HQ
+    resources: tmpdir=<TBD>
+
+
+        samtools fastq data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.corrected.fasta data/corrected/published_herro/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.corrected.fasta 2>logs/merge_copy_rename_fastq.published_herro.HQ.log        | bgzip -c assembly/input/published_herro.HQ.fastq.gz 2>>logs/merge_copy_rename_fastq.published_herro.HQ.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule merge_copy_rename_fastq:
+    input: data/raw/published/SRR27664048.1.1.fastq.gz
+    output: assembly/input/published_herro.POREC.fastq.gz
+    log: logs/merge_copy_rename_fastq.published_herro.POREC.log
+    jobid: 17
+    reason: Missing output files: assembly/input/published_herro.POREC.fastq.gz
+    wildcards: dataset=published_herro, type=POREC
+    resources: tmpdir=<TBD>
+
+
+        samtools fastq data/raw/published/SRR27664048.1.1.fastq.gz 2>logs/merge_copy_rename_fastq.published_herro.POREC.log        | bgzip -c assembly/input/published_herro.POREC.fastq.gz 2>>logs/merge_copy_rename_fastq.published_herro.POREC.log
+        
+Execute 3 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule sample_to_target_cov:
+    input: assembly/input/published_herro.UL.fastq.gz
+    output: assembly/input/published_herro.UL.70x.fastq.gz
+    log: logs/filtlong_published_herro.UL_70x.log
+    jobid: 11
+    reason: Missing output files: assembly/input/published_herro.UL.70x.fastq.gz; Input files updated by another job: assembly/input/published_herro.UL.fastq.gz
+    wildcards: file=published_herro.UL, cov=70x
+    resources: tmpdir=<TBD>
+
+
+        filtlong             --min_length 10000             --target_bases 224000000000             --length_weight 10             --min_mean_q 7             assembly/input/published_herro.UL.fastq.gz 2>logs/filtlong_published_herro.UL_70x.log         | bgzip -c > assembly/input/published_herro.UL.70x.fastq.gz 2>>logs/filtlong_published_herro.UL_70x.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule sample_to_target_cov:
+    input: assembly/input/published_herro.HQ.fastq.gz
+    output: assembly/input/published_herro.HQ.60x.fastq.gz
+    log: logs/filtlong_published_herro.HQ_60x.log
+    jobid: 21
+    reason: Missing output files: assembly/input/published_herro.HQ.60x.fastq.gz; Input files updated by another job: assembly/input/published_herro.HQ.fastq.gz
+    wildcards: file=published_herro.HQ, cov=60x
+    resources: tmpdir=<TBD>
+
+
+        filtlong             --min_length 10000             --target_bases 192000000000             --length_weight 10             --min_mean_q 7             assembly/input/published_herro.HQ.fastq.gz 2>logs/filtlong_published_herro.HQ_60x.log         | bgzip -c > assembly/input/published_herro.HQ.60x.fastq.gz 2>>logs/filtlong_published_herro.HQ_60x.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule sample_to_target_cov:
+    input: assembly/input/published_herro.HQ.fastq.gz
+    output: assembly/input/published_herro.HQ.35x.fastq.gz
+    log: logs/filtlong_published_herro.HQ_35x.log
+    jobid: 15
+    reason: Missing output files: assembly/input/published_herro.HQ.35x.fastq.gz; Input files updated by another job: assembly/input/published_herro.HQ.fastq.gz
+    wildcards: file=published_herro.HQ, cov=35x
+    resources: tmpdir=<TBD>
+
+
+        filtlong             --min_length 10000             --target_bases 112000000000             --length_weight 10             --min_mean_q 7             assembly/input/published_herro.HQ.fastq.gz 2>logs/filtlong_published_herro.HQ_35x.log         | bgzip -c > assembly/input/published_herro.HQ.35x.fastq.gz 2>>logs/filtlong_published_herro.HQ_35x.log
+        
+Execute 3 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_fq:
+    input: assembly/input/published_herro.UL.70x.fastq.gz, data/ref/T2T-CHM13.v2.fasta
+    output: data/mapped/published_herro.UL.70x.bam
+    log: logs/map_fq_published_herro.UL.70x.log
+    jobid: 10
+    reason: Missing output files: data/mapped/published_herro.UL.70x.bam; Input files updated by another job: assembly/input/published_herro.UL.70x.fastq.gz
+    wildcards: file=published_herro.UL.70x
+    threads: 60
+    resources: tmpdir=<TBD>
+
+
+        minimap2 --MD -ax map-ont --eqx             -t 60             data/ref/T2T-CHM13.v2.fasta assembly/input/published_herro.UL.70x.fastq.gz 2>logs/map_fq_published_herro.UL.70x.log         | samtools sort -m 4G -@ 4 -o data/mapped/published_herro.UL.70x.bam -O BAM - >>logs/map_fq_published_herro.UL.70x.log 2>&1
+
+        samtools index data/mapped/published_herro.UL.70x.bam
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_fq:
+    input: assembly/input/published_herro.HQ.35x.fastq.gz, data/ref/T2T-CHM13.v2.fasta
+    output: data/mapped/published_herro.HQ.35x.bam
+    log: logs/map_fq_published_herro.HQ.35x.log
+    jobid: 14
+    reason: Missing output files: data/mapped/published_herro.HQ.35x.bam; Input files updated by another job: assembly/input/published_herro.HQ.35x.fastq.gz
+    wildcards: file=published_herro.HQ.35x
+    threads: 60
+    resources: tmpdir=<TBD>
+
+
+        minimap2 --MD -ax map-ont --eqx             -t 60             data/ref/T2T-CHM13.v2.fasta assembly/input/published_herro.HQ.35x.fastq.gz 2>logs/map_fq_published_herro.HQ.35x.log         | samtools sort -m 4G -@ 4 -o data/mapped/published_herro.HQ.35x.bam -O BAM - >>logs/map_fq_published_herro.HQ.35x.log 2>&1
+
+        samtools index data/mapped/published_herro.HQ.35x.bam
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_fq:
+    input: assembly/input/published_herro.HQ.60x.fastq.gz, data/ref/T2T-CHM13.v2.fasta
+    output: data/mapped/published_herro.HQ.60x.bam
+    log: logs/map_fq_published_herro.HQ.60x.log
+    jobid: 20
+    reason: Missing output files: data/mapped/published_herro.HQ.60x.bam; Input files updated by another job: assembly/input/published_herro.HQ.60x.fastq.gz
+    wildcards: file=published_herro.HQ.60x
+    threads: 60
+    resources: tmpdir=<TBD>
+
+
+        minimap2 --MD -ax map-ont --eqx             -t 60             data/ref/T2T-CHM13.v2.fasta assembly/input/published_herro.HQ.60x.fastq.gz 2>logs/map_fq_published_herro.HQ.60x.log         | samtools sort -m 4G -@ 4 -o data/mapped/published_herro.HQ.60x.bam -O BAM - >>logs/map_fq_published_herro.HQ.60x.log 2>&1
+
+        samtools index data/mapped/published_herro.HQ.60x.bam
+        
+Execute 3 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule extract_location_data:
+    input: data/mapped/published_herro.UL.70x.bam
+    output: assembly/input/published_herro.UL.70x.chr19.fastq.gz
+    jobid: 9
+    reason: Missing output files: assembly/input/published_herro.UL.70x.chr19.fastq.gz; Input files updated by another job: data/mapped/published_herro.UL.70x.bam
+    wildcards: file=published_herro.UL.70x, roi=chr19
+    resources: tmpdir=<TBD>
+
+
+        samtools view -h data/mapped/published_herro.UL.70x.bam chr19 \ 
+        | samtools fastq -0 assembly/input/published_herro.UL.70x.chr19.fastq.gz         | bgzip -c > assembly/input/published_herro.UL.70x.chr19.fastq.gz
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule extract_location_data:
+    input: data/mapped/published_herro.HQ.60x.bam
+    output: assembly/input/published_herro.HQ.60x.chr19.fastq.gz
+    jobid: 19
+    reason: Missing output files: assembly/input/published_herro.HQ.60x.chr19.fastq.gz; Input files updated by another job: data/mapped/published_herro.HQ.60x.bam
+    wildcards: file=published_herro.HQ.60x, roi=chr19
+    resources: tmpdir=<TBD>
+
+
+        samtools view -h data/mapped/published_herro.HQ.60x.bam chr19 \ 
+        | samtools fastq -0 assembly/input/published_herro.HQ.60x.chr19.fastq.gz         | bgzip -c > assembly/input/published_herro.HQ.60x.chr19.fastq.gz
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule extract_location_data:
+    input: data/mapped/published_herro.HQ.35x.bam
+    output: assembly/input/published_herro.HQ.35x.chr19.fastq.gz
+    jobid: 13
+    reason: Missing output files: assembly/input/published_herro.HQ.35x.chr19.fastq.gz; Input files updated by another job: data/mapped/published_herro.HQ.35x.bam
+    wildcards: file=published_herro.HQ.35x, roi=chr19
+    resources: tmpdir=<TBD>
+
+
+        samtools view -h data/mapped/published_herro.HQ.35x.bam chr19 \ 
+        | samtools fastq -0 assembly/input/published_herro.HQ.35x.chr19.fastq.gz         | bgzip -c > assembly/input/published_herro.HQ.35x.chr19.fastq.gz
+        
+Execute 2 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule verkko:
+    input: assembly/input/published_herro.UL.70x.chr19.fastq.gz, assembly/input/published_herro.HQ.35x.chr19.fastq.gz, assembly/input/published_herro.POREC.fastq.gz
+    output: assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa, assembly/output/published_chr19_herro_35x/assembly.fasta, assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta, assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta
+    log: logs/verkko_published_chr19_herro_35x.log
+    jobid: 8
+    benchmark: runtimes/published_chr19_herro_35x.verkko.txt
+    reason: Missing output files: assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta, assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa, assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta, assembly/output/published_chr19_herro_35x/assembly.fasta; Input files updated by another job: assembly/input/published_herro.POREC.fastq.gz, assembly/input/published_herro.UL.70x.chr19.fastq.gz, assembly/input/published_herro.HQ.35x.chr19.fastq.gz
+    wildcards: asm=published_chr19_herro_35x
+    threads: 120
+    resources: tmpdir=<TBD>
+
+
+        verkko -d $(dirname assembly/output/published_chr19_herro_35x/assembly.fasta)             --hifi assembly/input/published_herro.HQ.35x.chr19.fastq.gz             --nano assembly/input/published_herro.UL.70x.chr19.fastq.gz             --porec assembly/input/published_herro.POREC.fastq.gz             --snakeopts "--cores 120 "             >logs/verkko_published_chr19_herro_35x.log 2>logs/verkko_published_chr19_herro_35x.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule verkko:
+    input: assembly/input/published_herro.UL.70x.chr19.fastq.gz, assembly/input/published_herro.HQ.60x.chr19.fastq.gz, assembly/input/published_herro.POREC.fastq.gz
+    output: assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa, assembly/output/published_chr19_herro_60x/assembly.fasta, assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta, assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta
+    log: logs/verkko_published_chr19_herro_60x.log
+    jobid: 18
+    benchmark: runtimes/published_chr19_herro_60x.verkko.txt
+    reason: Missing output files: assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta, assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta, assembly/output/published_chr19_herro_60x/assembly.fasta, assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa; Input files updated by another job: assembly/input/published_herro.HQ.60x.chr19.fastq.gz, assembly/input/published_herro.POREC.fastq.gz, assembly/input/published_herro.UL.70x.chr19.fastq.gz
+    wildcards: asm=published_chr19_herro_60x
+    threads: 120
+    resources: tmpdir=<TBD>
+
+
+        verkko -d $(dirname assembly/output/published_chr19_herro_60x/assembly.fasta)             --hifi assembly/input/published_herro.HQ.60x.chr19.fastq.gz             --nano assembly/input/published_herro.UL.70x.chr19.fastq.gz             --porec assembly/input/published_herro.POREC.fastq.gz             --snakeopts "--cores 120 "             >logs/verkko_published_chr19_herro_60x.log 2>logs/verkko_published_chr19_herro_60x.log
+        
+Execute 10 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule scaffold_lengths:
+    input: assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt
+    log: logs/scaffold_lengths.published_chr19_herro_35x_haplotype2.txt
+    jobid: 47
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt; Input files updated by another job: assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        samtools faidx assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta
+        cut -f 1,2 assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta.fai > assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt
+        cut -f 1,2 data/ref/T2T-CHM13.v2.fasta.fai >> assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt
+        rm assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta data/ref/T2T-CHM13.v2.fasta.fai
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule bandage:
+    input: assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa
+    output: assembly/qc/published_chr19_herro_35x/bandage_graph.svg, assembly/qc/published_chr19_herro_35x/bandage_graph.png
+    log: logs/bandage_published_chr19_herro_35x.log
+    jobid: 26
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/bandage_graph.png; Input files updated by another job: assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa
+    wildcards: asm=published_chr19_herro_35x
+    resources: tmpdir=<TBD>
+
+
+        Bandage image assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa assembly/qc/published_chr19_herro_35x/bandage_graph.svg
+        Bandage image assembly/output/published_chr19_herro_35x/assembly.homopolymer-compressed.noseq.gfa assembly/qc/published_chr19_herro_35x/bandage_graph.png
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_asm_to_ref:
+    input: assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf
+    log: logs/map_asm_to_ref.published_chr19_herro_35x_haplotype2.log
+    jobid: 35
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf; Input files updated by another job: assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype2
+    threads: 4
+    resources: tmpdir=<TBD>
+
+
+        minimap2             -cx asm5             -t 4             data/ref/T2T-CHM13.v2.fasta assembly/output/published_chr19_herro_35x/assembly.haplotype2.fasta             > assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf 2> logs/map_asm_to_ref.published_chr19_herro_35x_haplotype2.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule scaffold_lengths:
+    input: assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt
+    log: logs/scaffold_lengths.published_chr19_herro_35x_haplotype1.txt
+    jobid: 45
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt; Input files updated by another job: assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        samtools faidx assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta
+        cut -f 1,2 assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta.fai > assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt
+        cut -f 1,2 data/ref/T2T-CHM13.v2.fasta.fai >> assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt
+        rm assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta data/ref/T2T-CHM13.v2.fasta.fai
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_asm_to_ref:
+    input: assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf
+    log: logs/map_asm_to_ref.published_chr19_herro_35x_haplotype1.log
+    jobid: 33
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf; Input files updated by another job: assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype1
+    threads: 4
+    resources: tmpdir=<TBD>
+
+
+        minimap2             -cx asm5             -t 4             data/ref/T2T-CHM13.v2.fasta assembly/output/published_chr19_herro_35x/assembly.haplotype1.fasta             > assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf 2> logs/map_asm_to_ref.published_chr19_herro_35x_haplotype1.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_asm_to_ref:
+    input: assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf
+    log: logs/map_asm_to_ref.published_chr19_herro_60x_haplotype1.log
+    jobid: 37
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf; Input files updated by another job: assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype1
+    threads: 4
+    resources: tmpdir=<TBD>
+
+
+        minimap2             -cx asm5             -t 4             data/ref/T2T-CHM13.v2.fasta assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta             > assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf 2> logs/map_asm_to_ref.published_chr19_herro_60x_haplotype1.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule map_asm_to_ref:
+    input: assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf
+    log: logs/map_asm_to_ref.published_chr19_herro_60x_haplotype2.log
+    jobid: 39
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf; Input files updated by another job: assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype2
+    threads: 4
+    resources: tmpdir=<TBD>
+
+
+        minimap2             -cx asm5             -t 4             data/ref/T2T-CHM13.v2.fasta assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta             > assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf 2> logs/map_asm_to_ref.published_chr19_herro_60x_haplotype2.log
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule scaffold_lengths:
+    input: assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt
+    log: logs/scaffold_lengths.published_chr19_herro_60x_haplotype1.txt
+    jobid: 49
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt; Input files updated by another job: assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        samtools faidx assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta
+        cut -f 1,2 assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta.fai > assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt
+        cut -f 1,2 data/ref/T2T-CHM13.v2.fasta.fai >> assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt
+        rm assembly/output/published_chr19_herro_60x/assembly.haplotype1.fasta data/ref/T2T-CHM13.v2.fasta.fai
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule scaffold_lengths:
+    input: assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt
+    log: logs/scaffold_lengths.published_chr19_herro_60x_haplotype2.txt
+    jobid: 51
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt; Input files updated by another job: assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        samtools faidx assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta
+        cut -f 1,2 assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta.fai > assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt
+        cut -f 1,2 data/ref/T2T-CHM13.v2.fasta.fai >> assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt
+        rm assembly/output/published_chr19_herro_60x/assembly.haplotype2.fasta data/ref/T2T-CHM13.v2.fasta.fai
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule bandage:
+    input: assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa
+    output: assembly/qc/published_chr19_herro_60x/bandage_graph.svg, assembly/qc/published_chr19_herro_60x/bandage_graph.png
+    log: logs/bandage_published_chr19_herro_60x.log
+    jobid: 27
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/bandage_graph.png; Input files updated by another job: assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa
+    wildcards: asm=published_chr19_herro_60x
+    resources: tmpdir=<TBD>
+
+
+        Bandage image assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa assembly/qc/published_chr19_herro_60x/bandage_graph.svg
+        Bandage image assembly/output/published_chr19_herro_60x/assembly.homopolymer-compressed.noseq.gfa assembly/qc/published_chr19_herro_60x/bandage_graph.png
+        
+Execute 8 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule dotplot:
+    input: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt, assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf
+    output: assembly/qc/published_chr19_herro_35x/dotplot.haplotype2.pdf
+    log: logs/dotplot.published_chr19_herro_35x_haplotype2.log
+    jobid: 46
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/dotplot.haplotype2.pdf; Input files updated by another job: assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf, assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        Rscript workflow/scripts/minidot.R             -i assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf             -l assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype2.txt             -o assembly/qc/published_chr19_herro_35x/dotplot.haplotype2.pdf &> logs/dotplot.published_chr19_herro_35x_haplotype2.log
+         
+
+[Sat Oct 19 23:52:38 2024]
+localrule qc_paftools:
+    input: assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype1.txt
+    log: logs/paftools_published_chr19_herro_35x_haplotype1.log
+    jobid: 32
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype1.txt; Input files updated by another job: assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        paftools.js asmstat data/ref/T2T-CHM13.v2.fasta.fai assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf > assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype1.txt
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule qc_paftools:
+    input: assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype1.txt
+    log: logs/paftools_published_chr19_herro_60x_haplotype1.log
+    jobid: 36
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype1.txt; Input files updated by another job: assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        paftools.js asmstat data/ref/T2T-CHM13.v2.fasta.fai assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf > assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype1.txt
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule dotplot:
+    input: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt, assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf
+    output: assembly/qc/published_chr19_herro_35x/dotplot.haplotype1.pdf
+    log: logs/dotplot.published_chr19_herro_35x_haplotype1.log
+    jobid: 44
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/dotplot.haplotype1.pdf; Input files updated by another job: assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt, assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        Rscript workflow/scripts/minidot.R             -i assembly/qc/published_chr19_herro_35x/haplotype1.mapped_T2T.paf             -l assembly/qc/published_chr19_herro_35x/scaffold_lengths.haplotype1.txt             -o assembly/qc/published_chr19_herro_35x/dotplot.haplotype1.pdf &> logs/dotplot.published_chr19_herro_35x_haplotype1.log
+         
+
+[Sat Oct 19 23:52:38 2024]
+localrule qc_paftools:
+    input: assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype2.txt
+    log: logs/paftools_published_chr19_herro_35x_haplotype2.log
+    jobid: 34
+    reason: Missing output files: assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype2.txt; Input files updated by another job: assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_35x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        paftools.js asmstat data/ref/T2T-CHM13.v2.fasta.fai assembly/qc/published_chr19_herro_35x/haplotype2.mapped_T2T.paf > assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype2.txt
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule qc_paftools:
+    input: assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf, data/ref/T2T-CHM13.v2.fasta
+    output: assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype2.txt
+    log: logs/paftools_published_chr19_herro_60x_haplotype2.log
+    jobid: 38
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype2.txt; Input files updated by another job: assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        paftools.js asmstat data/ref/T2T-CHM13.v2.fasta.fai assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf > assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype2.txt
+        
+
+[Sat Oct 19 23:52:38 2024]
+localrule dotplot:
+    input: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt, assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf
+    output: assembly/qc/published_chr19_herro_60x/dotplot.haplotype1.pdf
+    log: logs/dotplot.published_chr19_herro_60x_haplotype1.log
+    jobid: 48
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/dotplot.haplotype1.pdf; Input files updated by another job: assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf, assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype1
+    resources: tmpdir=<TBD>
+
+
+        Rscript workflow/scripts/minidot.R             -i assembly/qc/published_chr19_herro_60x/haplotype1.mapped_T2T.paf             -l assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype1.txt             -o assembly/qc/published_chr19_herro_60x/dotplot.haplotype1.pdf &> logs/dotplot.published_chr19_herro_60x_haplotype1.log
+         
+
+[Sat Oct 19 23:52:38 2024]
+localrule dotplot:
+    input: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt, assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf
+    output: assembly/qc/published_chr19_herro_60x/dotplot.haplotype2.pdf
+    log: logs/dotplot.published_chr19_herro_60x_haplotype2.log
+    jobid: 50
+    reason: Missing output files: assembly/qc/published_chr19_herro_60x/dotplot.haplotype2.pdf; Input files updated by another job: assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt, assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf
+    wildcards: asm=published_chr19_herro_60x, hp=haplotype2
+    resources: tmpdir=<TBD>
+
+
+        Rscript workflow/scripts/minidot.R             -i assembly/qc/published_chr19_herro_60x/haplotype2.mapped_T2T.paf             -l assembly/qc/published_chr19_herro_60x/scaffold_lengths.haplotype2.txt             -o assembly/qc/published_chr19_herro_60x/dotplot.haplotype2.pdf &> logs/dotplot.published_chr19_herro_60x_haplotype2.log
+         
+Execute 1 jobs...
+
+[Sat Oct 19 23:52:38 2024]
+localrule all:
+    input: data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz, data/mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz, assembly/output/published_chr19_duplex/assembly.fasta, assembly/output/published_chr19_herro_35x/assembly.fasta, assembly/output/published_chr19_herro_60x/assembly.fasta, assembly/qc/published_chr19_duplex/bandage_graph.png, assembly/qc/published_chr19_herro_35x/bandage_graph.png, assembly/qc/published_chr19_herro_60x/bandage_graph.png, assembly/qc/published_chr19_duplex/qc_paftools.haplotype1.txt, assembly/qc/published_chr19_duplex/qc_paftools.haplotype2.txt, assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype1.txt, assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype2.txt, assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype1.txt, assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype2.txt, assembly/qc/published_chr19_duplex/dotplot.haplotype1.pdf, assembly/qc/published_chr19_duplex/dotplot.haplotype2.pdf, assembly/qc/published_chr19_herro_35x/dotplot.haplotype1.pdf, assembly/qc/published_chr19_herro_35x/dotplot.haplotype2.pdf, assembly/qc/published_chr19_herro_60x/dotplot.haplotype1.pdf, assembly/qc/published_chr19_herro_60x/dotplot.haplotype2.pdf
+    jobid: 0
+    reason: Input files updated by another job: assembly/qc/published_chr19_herro_35x/dotplot.haplotype2.pdf, assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype1.txt, assembly/output/published_chr19_herro_35x/assembly.fasta, assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype1.txt, assembly/qc/published_chr19_herro_60x/dotplot.haplotype1.pdf, assembly/qc/published_chr19_herro_60x/dotplot.haplotype2.pdf, assembly/qc/published_chr19_herro_60x/bandage_graph.png, assembly/output/published_chr19_herro_60x/assembly.fasta, assembly/qc/published_chr19_herro_60x/qc_paftools.haplotype2.txt, assembly/qc/published_chr19_herro_35x/bandage_graph.png, assembly/qc/published_chr19_herro_35x/dotplot.haplotype1.pdf, assembly/qc/published_chr19_herro_35x/qc_paftools.haplotype2.txt
+    resources: tmpdir=<TBD>
+
+Job stats:
+job                        count
+-----------------------  -------
+all                            1
+bandage                        2
+dotplot                        4
+extract_location_data          3
+map_asm_to_ref                 4
+map_fq                         3
+merge_copy_rename_fastq        3
+qc_paftools                    4
+sample_to_target_cov           3
+scaffold_lengths               4
+verkko                         2
+total                         33
+
+Reasons:
+    (check individual jobs above for details)
+    input files updated by another job:
+        all, bandage, dotplot, extract_location_data, map_asm_to_ref, map_fq, qc_paftools, sample_to_target_cov, scaffold_lengths, verkko
+    missing output files:
+        bandage, dotplot, extract_location_data, map_asm_to_ref, map_fq, merge_copy_rename_fastq, qc_paftools, sample_to_target_cov, scaffold_lengths, verkko
+
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
