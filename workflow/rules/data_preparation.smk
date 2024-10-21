@@ -22,15 +22,15 @@ rule merge_copy_rename_fastq:
     input:
         find_input_datasets
     output:
-        "assembly/input/{dataset}.{type}.fastq.gz"
+        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
     conda:
         "../env/minimap2.yml"
     log:
         "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
     shell:
         """
-        samtools fastq {input} 2>{log}\
-        | bgzip -c {output} 2>>{log}
+        samtools fastq <(cat {input}) 2>{log}\
+        | gzip -c >{output} 2>>{log}
         """
 
 rule map_unaligned_bam:
@@ -124,7 +124,7 @@ rule sample_to_target_cov:
             --length_weight 10 \
             --min_mean_q {params.min_mean_q} \
             {input} 2>{log} \
-        | bgzip -c > {output} 2>>{log}
+        | gzip -c > {output} 2>>{log}
         """
 
 
