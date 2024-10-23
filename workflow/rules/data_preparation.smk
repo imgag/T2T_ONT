@@ -135,7 +135,7 @@ rule extract_location_data:
         fq="assembly/input/{file}.{roi,chr.*}.fastq.gz",
     shell:
         """
-        samtools view -h {input.bam} {wildcards.roi} \ 
-        | samtools fastq -0 {output.fq} \
-        | bgzip -c > {output.fq}
+        samtools view -h {input.bam} {wildcards.roi} 2>>{log} \
+        | samtools fastq 2>>{log} \
+        | gzip -c > {output.fq} 2>>{log}
         """

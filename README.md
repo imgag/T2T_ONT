@@ -14,4 +14,7 @@ From Koren et al 2024:
 
 Used for mapping and comparison of final assemblies: [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/)
 
-    
+## Assembly polishing 
+
+There is a 3rd method to generate HQ assembly reads:
+[Nanopore Polishing Kit](https://labs.epi2me.io/lc2024_t2t/)
