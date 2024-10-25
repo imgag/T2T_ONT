@@ -25,8 +25,6 @@ rule verkko:
     output:
         gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         fa = "assembly/output/{asm}/assembly.fasta",
-        hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
-        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta"
     conda:
         "../env/verkko.yml"
     log:
@@ -40,6 +38,32 @@ rule verkko:
     shell:
         """
         verkko -d $(dirname {output.fa}) \
+            --hifi {input.hq} \
+            --nano {input.ul} \
+            --snakeopts "--cores {threads} {params.dryrun}" \
+            >{log} 2>{log}
+        """
+
+
+rule verkko_scaffold:
+    input:
+        unpack(get_assembly_input)
+    output:
+        hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
+        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta"
+    conda:
+        "../env/verkko.yml"
+    log:
+        "logs/verkko_scaffold_{asm}.log"
+    benchmark:
+        "runtimes/{asm}.verkko_scaffold.txt"
+    threads:
+        120
+    params:
+        dryrun = "--dryrun" if config['verkko_dryrun'] else ""
+    shell:
+        """
+        verkko -d $(dirname {output.hp1}) \
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \

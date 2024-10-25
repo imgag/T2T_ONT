@@ -133,6 +133,8 @@ rule extract_location_data:
         bam="data/mapped/{file}.bam",
     output:
         fq="assembly/input/{file}.{roi,chr.*}.fastq.gz",
+    log:
+        "logs/extract_location_data_{file}_{roi}.log"
     shell:
         """
         samtools view -h {input.bam} {wildcards.roi} 2>>{log} \

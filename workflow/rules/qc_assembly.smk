@@ -69,7 +69,7 @@ rule scaffold_lengths:
         samtools faidx {input.fa}
         cut -f 1,2 {input.fa}.fai > {output}
         cut -f 1,2 {input.ref}.fai >> {output}
-        rm {input}.fai
+        rm {input.fa}.fai
         """
     
 rule dotplot:
