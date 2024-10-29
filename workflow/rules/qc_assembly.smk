@@ -1,6 +1,7 @@
 rule bandage:
     input:
-        gfa = rules.verkko.output.gfa
+        gfa = rules.verkko.output.gfa,
+        color = rules.verkko_scaffold.output.colors
     output:
         svg = "assembly/qc/{asm}/bandage_graph.svg",
         png = "assembly/qc/{asm}/bandage_graph.png",
@@ -12,8 +13,8 @@ rule bandage:
         1
     shell:
         """
-        Bandage image {input.gfa} {output.svg}
-        Bandage image {input.gfa} {output.png}
+        Bandage image {input.gfa} {output.svg} --colors {input.color}
+        Bandage image {input.gfa} {output.png} --colors {input.color}
         """
 
 rule map_asm_to_ref:
@@ -52,6 +53,24 @@ rule qc_paftools:
         """
         paftools.js asmstat {input.ref}.fai {input.paf} > {output}
         """
+
+#rule qc_asmgene_map:
+
+#rule qc_asmgene:
+#    input:
+#        paf = rules.map_asm_to_ref.output.paf,
+#        ref = config['ref']
+#    output:
+#        "assembly/qc/{asm}/qc_paftools.{hp}.txt"
+#    conda:
+#        "../env/minimap2.yml"
+#    threads: 1
+#    log:
+#        "logs/paftools_{asm}_{hp}.log"
+#    shell:
+#        """
+#        paftools.js asmstat {input.ref}.fai {input.paf} > {output}
+#        """
 
 rule scaffold_lengths:
     input:

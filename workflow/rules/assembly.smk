@@ -50,7 +50,8 @@ rule verkko_scaffold:
         unpack(get_assembly_input)
     output:
         hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
-        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta"
+        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta",
+        colors = "assembly/output/{asm}/assembly.colors.csv"
     conda:
         "../env/verkko.yml"
     log:

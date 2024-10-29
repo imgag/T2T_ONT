@@ -1,5 +1,9 @@
 # Tasks
 
+- [ ] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
+- [ ] Investigate if what is inside the [T2T bundle[(https://labs.epi2me.io/lc2024_t2 )] from ONT. Maybe includes pipeline?
+- [ ] Include [asmgene](https://github.com/lh3/minimap2/issues/355) QC for gene completenes stats
+
 - [X] Prepare published test datasets:
     - [X] Download datasets (see Readme)
     - [X] Merge bamfiles
