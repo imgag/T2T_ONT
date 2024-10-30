@@ -23,10 +23,12 @@ rule verkko:
     input:
         unpack(get_assembly_input)
     output:
-        gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        fa = "assembly/output/{asm}/assembly.fasta",
+        gfa = temp("/tmp/verrko_{asm}/assembly.homopolymer-compressed.noseq.gfa"),
+        fa = temp("/tmp/verrko_{asm}/assembly.fasta"),
     conda:
         "../env/verkko.yml"
+    group: 
+        "verrko"
     log:
         "logs/verkko_{asm}.log"
     benchmark:
@@ -49,11 +51,13 @@ rule verkko_scaffold:
     input:
         unpack(get_assembly_input)
     output:
-        hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
-        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta",
-        colors = "assembly/output/{asm}/assembly.colors.csv"
+        hp1 = temp("/tmp/verrko_{asm}/assembly.haplotype1.fasta"),
+        hp2 = temp("/tmp/verrko_{asm}/assembly.haplotype2.fasta"),
+        colors = temp("/tmp/verrko_{asm}/assembly.colors.csv")
     conda:
         "../env/verkko.yml"
+    group: 
+        "verrko"
     log:
         "logs/verkko_scaffold_{asm}.log"
     benchmark:
@@ -71,3 +75,27 @@ rule verkko_scaffold:
             --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
+
+rule verkko_copy_results:
+    input:
+        gfa ="/tmp/verrko_{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        fa = "/tmp/verrko_{asm}/assembly.fasta",
+        hp1 = "/tmp/verrko_{asm}/assembly.haplotype1.fasta",
+        hp2 = "/tmp/verrko_{asm}/assembly.haplotype2.fasta",
+        colors = "/tmp/verrko_{asm}/assembly.colors.csv"
+    output:
+        gfa ="assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        fa = "assembly/output/{asm}/assembly.fasta",
+        hp1 = "assembly/output/{asm}/assembly.haplotype1.fasta",
+        hp2 = "assembly/output/{asm}/assembly.haplotype2.fasta",
+        colors = "assembly/output/{asm}/assembly.colors.csv"
+    log:
+        "logs/verkko_copy_results_{asm}.log"
+    group: 
+        "verrko"
+    shell:
+        """
+        cp -v /tmp/verrko_{wildcards.asm}/assembly.* assembly/output/{asm}/  >{log} 2>{log}
+        """
+
+

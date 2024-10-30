@@ -40,7 +40,7 @@ rule map_asm_to_ref:
 
 rule map_cdna_to_asm:
     input:
-        fa = "assembly/output/{asm}/assembly.{hp}.fasta",
+        asm = "assembly/output/{asm}/assembly.{hp}.fasta",
         ref = config['ref_cdna']
     output:
         paf = "assembly/qc/{asm}/cdna_aln.{hp}.paf"
@@ -54,7 +54,7 @@ rule map_cdna_to_asm:
         """
         minimap2 -cxsplice -C5\
             -t {threads} \
-            {input.ref} {input.fa} \
+            {input.asm} {input.ref} \
             >{output.paf} 2>{log}
         """
 
@@ -71,7 +71,9 @@ rule qc_paftools_stat:
         "logs/paftools_stat_{asm}_{hp}.log"
     shell:
         """
-        paftools.js stat {input.paf} > {output}
+        paftools.js stat\
+            {input.paf} \
+            > {output} 2>{log}
         """
 
 rule qc_paftools_asmstat:
@@ -87,13 +89,15 @@ rule qc_paftools_asmstat:
         "logs/paftools_asmstat_{asm}_{hp}.log"
     shell:
         """
-        paftools.js asmstat {input.ref}.fai {input.paf} > {output}
+        paftools.js asmstat\
+            {input.ref}.fai {input.paf} \
+            > {output} 2>{log}
         """
 
 rule qc_paftools_asmgene:
     input:
         paf_asm = rules.map_cdna_to_asm.output.paf,
-        paf_ref = config['ref_cdna']
+        paf_ref = config['ref_cdna_paf']
     output:
         "assembly/qc/{asm}/qc_paftools_asmgene.{hp}.txt"
     conda:
@@ -103,8 +107,9 @@ rule qc_paftools_asmgene:
         "logs/paftools_asmgene_{asm}_{hp}.log"
     shell:
         """
-        paftools.js asmgene {input.paf_ref}
-         {input.paf_asm} > {output}
+        paftools.js asmgene \
+            {input.paf_ref} {input.paf_asm} \
+            > {output} 2>{log}
         """
 
 rule scaffold_lengths:
