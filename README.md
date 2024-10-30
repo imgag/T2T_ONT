@@ -14,6 +14,11 @@ From Koren et al 2024:
 
 Used for mapping and comparison of final assemblies: [T2T-CHM13v2.0](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/)
 
+Annotation for checking genome completeness:
+https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/cdna/
+Ensembl cdna dataset. The header is for GRCh38 alignment, i havent found T2T based annotation yet. cDNA should still be valid, so can be used with T2T after new alignment.
+There is also a [comparison](https://ccb.jhu.edu/T2T.shtml) of the RefSeq alignment to both GRCh38 and T2T.
+
 ## Assembly polishing 
 
 There is a 3rd method to generate HQ assembly reads:

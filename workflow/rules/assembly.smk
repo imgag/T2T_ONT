@@ -44,7 +44,7 @@ rule verkko:
             >{log} 2>{log}
         """
 
-
+# Second rule for scaffolding is needed because not all required outputs are well defined in verrko. This workaround helps recreate all required output files if they are deleted. 
 rule verkko_scaffold:
     input:
         unpack(get_assembly_input)

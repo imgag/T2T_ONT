@@ -38,39 +38,74 @@ rule map_asm_to_ref:
             > {output.paf} 2> {log}
         """
 
-rule qc_paftools:
+rule map_cdna_to_asm:
+    input:
+        fa = "assembly/output/{asm}/assembly.{hp}.fasta",
+        ref = config['ref_cdna']
+    output:
+        paf = "assembly/qc/{asm}/cdna_aln.{hp}.paf"
+    conda:
+        "../env/minimap2.yml"
+    threads:
+        20
+    log:
+        "logs/qc_asmgene_map_{asm}_{hp}.log"
+    shell:
+        """
+        minimap2 -cxsplice -C5\
+            -t {threads} \
+            {input.ref} {input.fa} \
+            >{output.paf} 2>{log}
+        """
+
+rule qc_paftools_stat:
     input:
         paf = rules.map_asm_to_ref.output.paf,
         ref = config['ref']
     output:
-        "assembly/qc/{asm}/qc_paftools.{hp}.txt"
+        "assembly/qc/{asm}/qc_paftools_stat.{hp}.txt"
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_{asm}_{hp}.log"
+        "logs/paftools_stat_{asm}_{hp}.log"
+    shell:
+        """
+        paftools.js stat {input.paf} > {output}
+        """
+
+rule qc_paftools_asmstat:
+    input:
+        paf = rules.map_asm_to_ref.output.paf,
+        ref = config['ref']
+    output:
+        "assembly/qc/{asm}/qc_paftools_asmstat.{hp}.txt"
+    conda:
+        "../env/minimap2.yml"
+    threads: 1
+    log:
+        "logs/paftools_asmstat_{asm}_{hp}.log"
     shell:
         """
         paftools.js asmstat {input.ref}.fai {input.paf} > {output}
         """
 
-#rule qc_asmgene_map:
-
-#rule qc_asmgene:
-#    input:
-#        paf = rules.map_asm_to_ref.output.paf,
-#        ref = config['ref']
-#    output:
-#        "assembly/qc/{asm}/qc_paftools.{hp}.txt"
-#    conda:
-#        "../env/minimap2.yml"
-#    threads: 1
-#    log:
-#        "logs/paftools_{asm}_{hp}.log"
-#    shell:
-#        """
-#        paftools.js asmstat {input.ref}.fai {input.paf} > {output}
-#        """
+rule qc_paftools_asmgene:
+    input:
+        paf_asm = rules.map_cdna_to_asm.output.paf,
+        paf_ref = config['ref_cdna']
+    output:
+        "assembly/qc/{asm}/qc_paftools_asmgene.{hp}.txt"
+    conda:
+        "../env/minimap2.yml"
+    threads: 1
+    log:
+        "logs/paftools_asmgene_{asm}_{hp}.log"
+    shell:
+        """
+        paftools.js asmgene {input.paf_ref}
+         {input.paf_asm} > {output}
+        """
 
 rule scaffold_lengths:
     input:
@@ -90,7 +125,7 @@ rule scaffold_lengths:
         cut -f 1,2 {input.ref}.fai >> {output}
         rm {input.fa}.fai
         """
-    
+
 rule dotplot:
     input:
         len = "assembly/qc/{asm}/scaffold_lengths.{hp}.txt",
