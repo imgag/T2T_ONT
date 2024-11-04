@@ -34,7 +34,7 @@ rule verkko:
     benchmark:
         "runtimes/{asm}.verkko.txt"
     threads:
-        120
+        320
     params:
         dryrun = "--dryrun" if config['verkko_dryrun'] else ""
     shell:
@@ -95,7 +95,7 @@ rule verkko_copy_results:
         "verrko"
     shell:
         """
-        cp -v /tmp/verrko_{wildcards.asm}/assembly.* assembly/output/{asm}/  >{log} 2>{log}
+        cp -v /tmp/verrko_{wildcards.asm}/assembly.* assembly/output/{wildcards.asm}/  >{log} 2>{log}
         """
 
 
