@@ -96,6 +96,7 @@ rule verkko_copy_results:
     shell:
         """
         cp -v /tmp/verrko_{wildcards.asm}/assembly.* assembly/output/{wildcards.asm}/  >{log} 2>{log}
+        rm -rf /tmp/verrko_{wildcards.asm}
         """
 
 

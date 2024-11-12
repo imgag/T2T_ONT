@@ -2,35 +2,105 @@
 # Required parameters:
 #   - dataset
 #   - HQ_method
- 
-published_chr19_duplex:
+
+
+# Analysis matrix for testset chr19
+
+# LR↓/UL→ |     50x      |      70x     |     90x      |
+#         +--------------+--------------+--------------+
+#     35x | duplex/herro | duplex/herro | duplex/herro |
+#     60x |     herro    |     herro    |    herro     |
+#    120x |     herro    |     herro    |    herro     |
+
+published_chr19_duplex_UL50x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+
+published_chr19_duplex_UL70x:
   dataset: published
   HQ_method: duplex
   region: chr19
   cov_UL: 70
 
-published_chr19_herro_35x:
+published_chr19_duplex_UL90x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 90
+
+published_chr19_herro_35x_UL50x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 35
+  region: chr19
+
+published_chr19_herro_35x_UL70x:
   dataset: published
   HQ_method: herro
   cov_UL: 70
   cov_HQ: 35
   region: chr19
 
-published_chr19_herro_60x:
+published_chr19_herro_35x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 35
+  region: chr19
+
+published_chr19_herro_60x_UL50x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 60
+  region: chr19
+
+published_chr19_herro_60_UL70x:
   dataset: published
   HQ_method: herro
   cov_UL: 70
   cov_HQ: 60
   region: chr19
 
-published_chr19_herro_120x:
+published_chr19_herro_60x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 60
+  region: chr19
+
+published_chr19_herro_120x_UL50x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 120
+  region: chr19
+
+published_chr19_herro_120x_UL70x:
   dataset: published
   HQ_method: herro
   cov_UL: 70
   cov_HQ: 120
   region: chr19
 
+published_chr19_herro_120x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 120
+  region: chr19
+
+# Full genome published datasets:
+
 published_duplex:
   dataset: published
   HQ_method: duplex
+  cov_UL: 70
+
+published_herro:
+  dataset:  published
+  HQ_method: herro
   cov_UL: 70
