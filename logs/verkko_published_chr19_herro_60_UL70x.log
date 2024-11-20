@@ -32,7 +32,7 @@ total                             22
 
 Select jobs to execute...
 
-[Tue Nov 12 14:34:25 2024]
+[Sun Nov 17 00:35:00 2024]
 localrule emptyfile:
     output: emptyfile
     jobid: 16
@@ -40,7 +40,7 @@ localrule emptyfile:
     resources: tmpdir=/tmp
 
 
-[Tue Nov 12 14:34:25 2024]
+[Sun Nov 17 00:35:00 2024]
 checkpoint splitONT:
     input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.UL.70x.chr19.fastq.gz
     output: 3-align/splitONT.finished, 3-align/splitONT.ids
@@ -51,7 +51,7 @@ checkpoint splitONT:
 DAG of jobs will be updated after completion.
 
 
-[Tue Nov 12 14:34:25 2024]
+[Sun Nov 17 00:35:00 2024]
 rule buildStore:
     input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.60x.chr19.fastq.gz
     output: 0-correction/hifi.seqStore
@@ -60,34 +60,34 @@ rule buildStore:
     reason: Missing output files: 0-correction/hifi.seqStore
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
 
-[Tue Nov 12 14:34:25 2024]
+[Sun Nov 17 00:35:00 2024]
 Finished job 16.
 1 of 22 steps (5%) done
-[Tue Nov 12 14:35:20 2024]
+[Sun Nov 17 00:36:01 2024]
 Finished job 7.
 2 of 22 steps (9%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:35:20 2024]
+[Sun Nov 17 00:36:01 2024]
 checkpoint prepareOverlaps:
     input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.60x.chr19.fastq.gz, 0-correction/hifi.seqStore
     output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
     log: 0-correction/matchchains-index.err
     jobid: 10
-    reason: Missing output files: 0-correction/matchchains.metadata, 0-correction/matchchains.positions; Input files updated by another job: 0-correction/hifi.seqStore
+    reason: Missing output files: 0-correction/matchchains.positions, 0-correction/matchchains.metadata; Input files updated by another job: 0-correction/hifi.seqStore
     threads: 8
     resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=1, time_h=24
 DAG of jobs will be updated after completion.
 
-[Tue Nov 12 14:36:17 2024]
+[Sun Nov 17 00:37:06 2024]
 Finished job 13.
 3 of 22 steps (14%) done
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:32 2024]
 Finished job 10.
 4 of 25 steps (16%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/009.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/009.ovb
@@ -98,7 +98,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/006.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/006.ovb
@@ -109,18 +109,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/029.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/029.ovb
-    log: 0-correction/overlap-jobs/029.err
-    jobid: 36
-    reason: Missing output files: 0-correction/overlap-jobs/029.ovb
-    wildcards: nnnn=029
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/028.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/028.ovb
@@ -131,7 +120,18 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/029.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/029.ovb
+    log: 0-correction/overlap-jobs/029.err
+    jobid: 36
+    reason: Missing output files: 0-correction/overlap-jobs/029.ovb
+    wildcards: nnnn=029
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/004.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/004.ovb
@@ -142,7 +142,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/020.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/020.ovb
@@ -153,7 +153,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/026.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/026.ovb
@@ -164,18 +164,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/021.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/021.ovb
-    log: 0-correction/overlap-jobs/021.err
-    jobid: 37
-    reason: Missing output files: 0-correction/overlap-jobs/021.ovb
-    wildcards: nnnn=021
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/005.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/005.ovb
@@ -186,7 +175,18 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/021.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/021.ovb
+    log: 0-correction/overlap-jobs/021.err
+    jobid: 37
+    reason: Missing output files: 0-correction/overlap-jobs/021.ovb
+    wildcards: nnnn=021
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/013.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/013.ovb
@@ -197,7 +197,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/002.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/002.ovb
@@ -208,7 +208,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/027.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/027.ovb
@@ -219,7 +219,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/024.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/024.ovb
@@ -230,7 +230,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/011.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/011.ovb
@@ -241,183 +241,7 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/014.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/014.ovb
-    log: 0-correction/overlap-jobs/014.err
-    jobid: 59
-    reason: Missing output files: 0-correction/overlap-jobs/014.ovb
-    wildcards: nnnn=014
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/015.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/015.ovb
-    log: 0-correction/overlap-jobs/015.err
-    jobid: 31
-    reason: Missing output files: 0-correction/overlap-jobs/015.ovb
-    wildcards: nnnn=015
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/019.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/019.ovb
-    log: 0-correction/overlap-jobs/019.err
-    jobid: 45
-    reason: Missing output files: 0-correction/overlap-jobs/019.ovb
-    wildcards: nnnn=019
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/010.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/010.ovb
-    log: 0-correction/overlap-jobs/010.err
-    jobid: 53
-    reason: Missing output files: 0-correction/overlap-jobs/010.ovb
-    wildcards: nnnn=010
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/016.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/016.ovb
-    log: 0-correction/overlap-jobs/016.err
-    jobid: 39
-    reason: Missing output files: 0-correction/overlap-jobs/016.ovb
-    wildcards: nnnn=016
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/017.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/017.ovb
-    log: 0-correction/overlap-jobs/017.err
-    jobid: 32
-    reason: Missing output files: 0-correction/overlap-jobs/017.ovb
-    wildcards: nnnn=017
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/022.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/022.ovb
-    log: 0-correction/overlap-jobs/022.err
-    jobid: 46
-    reason: Missing output files: 0-correction/overlap-jobs/022.ovb
-    wildcards: nnnn=022
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/023.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/023.ovb
-    log: 0-correction/overlap-jobs/023.err
-    jobid: 60
-    reason: Missing output files: 0-correction/overlap-jobs/023.ovb
-    wildcards: nnnn=023
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/018.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/018.ovb
-    log: 0-correction/overlap-jobs/018.err
-    jobid: 40
-    reason: Missing output files: 0-correction/overlap-jobs/018.ovb
-    wildcards: nnnn=018
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/030.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/030.ovb
-    log: 0-correction/overlap-jobs/030.err
-    jobid: 54
-    reason: Missing output files: 0-correction/overlap-jobs/030.ovb
-    wildcards: nnnn=030
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/025.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/025.ovb
-    log: 0-correction/overlap-jobs/025.err
-    jobid: 33
-    reason: Missing output files: 0-correction/overlap-jobs/025.ovb
-    wildcards: nnnn=025
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/000.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/000.ovb
-    log: 0-correction/overlap-jobs/000.err
-    jobid: 47
-    reason: Missing output files: 0-correction/overlap-jobs/000.ovb
-    wildcards: nnnn=000
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/012.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/012.ovb
-    log: 0-correction/overlap-jobs/012.err
-    jobid: 41
-    reason: Missing output files: 0-correction/overlap-jobs/012.ovb
-    wildcards: nnnn=012
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/008.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/008.ovb
-    log: 0-correction/overlap-jobs/008.err
-    jobid: 55
-    reason: Missing output files: 0-correction/overlap-jobs/008.ovb
-    wildcards: nnnn=008
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/031.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/031.ovb
-    log: 0-correction/overlap-jobs/031.err
-    jobid: 34
-    reason: Missing output files: 0-correction/overlap-jobs/031.ovb
-    wildcards: nnnn=031
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
-rule computeOverlaps:
-    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/007.id, 0-correction/hifi.seqStore
-    output: 0-correction/overlap-jobs/007.ovb
-    log: 0-correction/overlap-jobs/007.err
-    jobid: 48
-    reason: Missing output files: 0-correction/overlap-jobs/007.ovb
-    wildcards: nnnn=007
-    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
-
-
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/003.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/003.ovb
@@ -428,7 +252,183 @@ rule computeOverlaps:
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
 
-[Tue Nov 12 14:36:52 2024]
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/015.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/015.ovb
+    log: 0-correction/overlap-jobs/015.err
+    jobid: 31
+    reason: Missing output files: 0-correction/overlap-jobs/015.ovb
+    wildcards: nnnn=015
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/014.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/014.ovb
+    log: 0-correction/overlap-jobs/014.err
+    jobid: 59
+    reason: Missing output files: 0-correction/overlap-jobs/014.ovb
+    wildcards: nnnn=014
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/019.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/019.ovb
+    log: 0-correction/overlap-jobs/019.err
+    jobid: 45
+    reason: Missing output files: 0-correction/overlap-jobs/019.ovb
+    wildcards: nnnn=019
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/016.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/016.ovb
+    log: 0-correction/overlap-jobs/016.err
+    jobid: 39
+    reason: Missing output files: 0-correction/overlap-jobs/016.ovb
+    wildcards: nnnn=016
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/010.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/010.ovb
+    log: 0-correction/overlap-jobs/010.err
+    jobid: 53
+    reason: Missing output files: 0-correction/overlap-jobs/010.ovb
+    wildcards: nnnn=010
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/017.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/017.ovb
+    log: 0-correction/overlap-jobs/017.err
+    jobid: 32
+    reason: Missing output files: 0-correction/overlap-jobs/017.ovb
+    wildcards: nnnn=017
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/022.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/022.ovb
+    log: 0-correction/overlap-jobs/022.err
+    jobid: 46
+    reason: Missing output files: 0-correction/overlap-jobs/022.ovb
+    wildcards: nnnn=022
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/023.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/023.ovb
+    log: 0-correction/overlap-jobs/023.err
+    jobid: 60
+    reason: Missing output files: 0-correction/overlap-jobs/023.ovb
+    wildcards: nnnn=023
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/018.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/018.ovb
+    log: 0-correction/overlap-jobs/018.err
+    jobid: 40
+    reason: Missing output files: 0-correction/overlap-jobs/018.ovb
+    wildcards: nnnn=018
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/030.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/030.ovb
+    log: 0-correction/overlap-jobs/030.err
+    jobid: 54
+    reason: Missing output files: 0-correction/overlap-jobs/030.ovb
+    wildcards: nnnn=030
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/025.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/025.ovb
+    log: 0-correction/overlap-jobs/025.err
+    jobid: 33
+    reason: Missing output files: 0-correction/overlap-jobs/025.ovb
+    wildcards: nnnn=025
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/000.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/000.ovb
+    log: 0-correction/overlap-jobs/000.err
+    jobid: 47
+    reason: Missing output files: 0-correction/overlap-jobs/000.ovb
+    wildcards: nnnn=000
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/012.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/012.ovb
+    log: 0-correction/overlap-jobs/012.err
+    jobid: 41
+    reason: Missing output files: 0-correction/overlap-jobs/012.ovb
+    wildcards: nnnn=012
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/008.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/008.ovb
+    log: 0-correction/overlap-jobs/008.err
+    jobid: 55
+    reason: Missing output files: 0-correction/overlap-jobs/008.ovb
+    wildcards: nnnn=008
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/031.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/031.ovb
+    log: 0-correction/overlap-jobs/031.err
+    jobid: 34
+    reason: Missing output files: 0-correction/overlap-jobs/031.ovb
+    wildcards: nnnn=031
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/007.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/007.ovb
+    log: 0-correction/overlap-jobs/007.err
+    jobid: 48
+    reason: Missing output files: 0-correction/overlap-jobs/007.ovb
+    wildcards: nnnn=007
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 00:37:33 2024]
 rule computeOverlaps:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/001.id, 0-correction/hifi.seqStore
     output: 0-correction/overlap-jobs/001.ovb
@@ -438,119 +438,119 @@ rule computeOverlaps:
     wildcards: nnnn=001
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=24
 
-[Tue Nov 12 14:37:37 2024]
-Finished job 42.
-5 of 57 steps (9%) done
-[Tue Nov 12 14:37:39 2024]
-Finished job 59.
-6 of 57 steps (11%) done
-[Tue Nov 12 14:37:39 2024]
+[Sun Nov 17 00:38:18 2024]
 Finished job 52.
-7 of 57 steps (12%) done
-[Tue Nov 12 14:37:39 2024]
+5 of 57 steps (9%) done
+[Sun Nov 17 00:38:18 2024]
 Finished job 49.
-8 of 57 steps (14%) done
-[Tue Nov 12 14:37:39 2024]
-Finished job 51.
-9 of 57 steps (16%) done
-[Tue Nov 12 14:37:39 2024]
-Finished job 36.
-10 of 57 steps (18%) done
-[Tue Nov 12 14:37:39 2024]
+6 of 57 steps (11%) done
+[Sun Nov 17 00:38:19 2024]
+Finished job 59.
+7 of 57 steps (12%) done
+[Sun Nov 17 00:38:20 2024]
 Finished job 31.
-11 of 57 steps (19%) done
-[Tue Nov 12 14:37:40 2024]
-Finished job 34.
-12 of 57 steps (21%) done
-[Tue Nov 12 14:37:40 2024]
-Finished job 35.
-13 of 57 steps (23%) done
-[Tue Nov 12 14:37:40 2024]
-Finished job 54.
-14 of 57 steps (25%) done
-[Tue Nov 12 14:37:40 2024]
-Finished job 41.
-15 of 57 steps (26%) done
-[Tue Nov 12 14:37:40 2024]
+8 of 57 steps (14%) done
+[Sun Nov 17 00:38:20 2024]
 Finished job 50.
-16 of 57 steps (28%) done
-[Tue Nov 12 14:37:40 2024]
+9 of 57 steps (16%) done
+[Sun Nov 17 00:38:20 2024]
 Finished job 53.
-17 of 57 steps (30%) done
-[Tue Nov 12 14:37:41 2024]
-Finished job 46.
-18 of 57 steps (32%) done
-[Tue Nov 12 14:37:41 2024]
+10 of 57 steps (18%) done
+[Sun Nov 17 00:38:20 2024]
+Finished job 36.
+11 of 57 steps (19%) done
+[Sun Nov 17 00:38:20 2024]
+Finished job 41.
+12 of 57 steps (21%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 54.
+13 of 57 steps (23%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 47.
+14 of 57 steps (25%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 42.
+15 of 57 steps (26%) done
+[Sun Nov 17 00:38:21 2024]
 Finished job 39.
+16 of 57 steps (28%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 46.
+17 of 57 steps (30%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 35.
+18 of 57 steps (32%) done
+[Sun Nov 17 00:38:21 2024]
+Finished job 51.
 19 of 57 steps (33%) done
-[Tue Nov 12 14:37:41 2024]
+[Sun Nov 17 00:38:21 2024]
 Finished job 44.
 20 of 57 steps (35%) done
-[Tue Nov 12 14:37:41 2024]
+[Sun Nov 17 00:38:21 2024]
 Finished job 33.
 21 of 57 steps (37%) done
-[Tue Nov 12 14:37:41 2024]
-Finished job 47.
-22 of 57 steps (39%) done
-[Tue Nov 12 14:37:41 2024]
-Finished job 32.
-23 of 57 steps (40%) done
-[Tue Nov 12 14:37:42 2024]
+[Sun Nov 17 00:38:21 2024]
 Finished job 48.
+22 of 57 steps (39%) done
+[Sun Nov 17 00:38:22 2024]
+Finished job 38.
+23 of 57 steps (40%) done
+[Sun Nov 17 00:38:22 2024]
+Finished job 34.
 24 of 57 steps (42%) done
-[Tue Nov 12 14:37:42 2024]
+[Sun Nov 17 00:38:22 2024]
 Finished job 37.
 25 of 57 steps (44%) done
-[Tue Nov 12 14:37:42 2024]
+[Sun Nov 17 00:38:22 2024]
 Finished job 40.
 26 of 57 steps (46%) done
-[Tue Nov 12 14:37:42 2024]
-Finished job 56.
+[Sun Nov 17 00:38:22 2024]
+Finished job 32.
 27 of 57 steps (47%) done
-[Tue Nov 12 14:37:42 2024]
-Finished job 38.
-28 of 57 steps (49%) done
-[Tue Nov 12 14:37:42 2024]
+[Sun Nov 17 00:38:22 2024]
 Finished job 55.
+28 of 57 steps (49%) done
+[Sun Nov 17 00:38:23 2024]
+Finished job 60.
 29 of 57 steps (51%) done
-[Tue Nov 12 14:37:42 2024]
+[Sun Nov 17 00:38:23 2024]
 Finished job 57.
 30 of 57 steps (53%) done
-[Tue Nov 12 14:37:42 2024]
-Finished job 60.
+[Sun Nov 17 00:38:23 2024]
+Finished job 56.
 31 of 57 steps (54%) done
-[Tue Nov 12 14:37:45 2024]
+[Sun Nov 17 00:38:25 2024]
 Finished job 45.
 32 of 57 steps (56%) done
-[Tue Nov 12 14:37:47 2024]
-Finished job 30.
-33 of 57 steps (58%) done
-[Tue Nov 12 14:37:47 2024]
+[Sun Nov 17 00:38:27 2024]
 Finished job 43.
+33 of 57 steps (58%) done
+[Sun Nov 17 00:38:27 2024]
+Finished job 30.
 34 of 57 steps (60%) done
-[Tue Nov 12 14:37:50 2024]
+[Sun Nov 17 00:38:29 2024]
 Finished job 58.
 35 of 57 steps (61%) done
-[Tue Nov 12 14:37:51 2024]
+[Sun Nov 17 00:38:30 2024]
 Finished job 29.
 36 of 57 steps (63%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:37:51 2024]
+[Sun Nov 17 00:38:30 2024]
 rule combineOverlapsConfigure:
     input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/hifi.seqStore, 0-correction/overlap-jobs/004.ovb, 0-correction/overlap-jobs/013.ovb, 0-correction/overlap-jobs/015.ovb, 0-correction/overlap-jobs/017.ovb, 0-correction/overlap-jobs/025.ovb, 0-correction/overlap-jobs/031.ovb, 0-correction/overlap-jobs/003.ovb, 0-correction/overlap-jobs/029.ovb, 0-correction/overlap-jobs/021.ovb, 0-correction/overlap-jobs/024.ovb, 0-correction/overlap-jobs/016.ovb, 0-correction/overlap-jobs/018.ovb, 0-correction/overlap-jobs/012.ovb, 0-correction/overlap-jobs/009.ovb, 0-correction/overlap-jobs/020.ovb, 0-correction/overlap-jobs/002.ovb, 0-correction/overlap-jobs/019.ovb, 0-correction/overlap-jobs/022.ovb, 0-correction/overlap-jobs/000.ovb, 0-correction/overlap-jobs/007.ovb, 0-correction/overlap-jobs/001.ovb, 0-correction/overlap-jobs/028.ovb, 0-correction/overlap-jobs/005.ovb, 0-correction/overlap-jobs/011.ovb, 0-correction/overlap-jobs/010.ovb, 0-correction/overlap-jobs/030.ovb, 0-correction/overlap-jobs/008.ovb, 0-correction/overlap-jobs/006.ovb, 0-correction/overlap-jobs/026.ovb, 0-correction/overlap-jobs/027.ovb, 0-correction/overlap-jobs/014.ovb, 0-correction/overlap-jobs/023.ovb
     output: 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request
     log: 0-correction/combineOverlapsConfigure.err
     jobid: 9
-    reason: Missing output files: 0-correction/hifi.ovlStore.config.memory-request, 0-correction/hifi.ovlStore.config; Input files updated by another job: 0-correction/overlap-jobs/008.ovb, 0-correction/overlap-jobs/031.ovb, 0-correction/overlap-jobs/021.ovb, 0-correction/overlap-jobs/000.ovb, 0-correction/overlap-jobs/011.ovb, 0-correction/overlap-jobs/006.ovb, 0-correction/overlap-jobs/019.ovb, 0-correction/overlap-jobs/001.ovb, 0-correction/overlap-jobs/017.ovb, 0-correction/overlap-jobs/029.ovb, 0-correction/overlap-jobs/010.ovb, 0-correction/overlap-jobs/012.ovb, 0-correction/overlap-jobs/009.ovb, 0-correction/overlap-jobs/015.ovb, 0-correction/overlap-jobs/024.ovb, 0-correction/overlap-jobs/014.ovb, 0-correction/overlap-jobs/023.ovb, 0-correction/overlap-jobs/007.ovb, 0-correction/overlap-jobs/003.ovb, 0-correction/overlap-jobs/018.ovb, 0-correction/overlap-jobs/028.ovb, 0-correction/overlap-jobs/013.ovb, 0-correction/overlap-jobs/025.ovb, 0-correction/overlap-jobs/004.ovb, 0-correction/overlap-jobs/016.ovb, 0-correction/overlap-jobs/005.ovb, 0-correction/overlap-jobs/030.ovb, 0-correction/overlap-jobs/027.ovb, 0-correction/overlap-jobs/020.ovb, 0-correction/overlap-jobs/022.ovb, 0-correction/overlap-jobs/026.ovb, 0-correction/overlap-jobs/002.ovb
+    reason: Missing output files: 0-correction/hifi.ovlStore.config.memory-request, 0-correction/hifi.ovlStore.config; Input files updated by another job: 0-correction/overlap-jobs/003.ovb, 0-correction/overlap-jobs/015.ovb, 0-correction/overlap-jobs/026.ovb, 0-correction/overlap-jobs/010.ovb, 0-correction/overlap-jobs/000.ovb, 0-correction/overlap-jobs/013.ovb, 0-correction/overlap-jobs/004.ovb, 0-correction/overlap-jobs/031.ovb, 0-correction/overlap-jobs/001.ovb, 0-correction/overlap-jobs/016.ovb, 0-correction/overlap-jobs/022.ovb, 0-correction/overlap-jobs/024.ovb, 0-correction/overlap-jobs/008.ovb, 0-correction/overlap-jobs/028.ovb, 0-correction/overlap-jobs/017.ovb, 0-correction/overlap-jobs/014.ovb, 0-correction/overlap-jobs/007.ovb, 0-correction/overlap-jobs/018.ovb, 0-correction/overlap-jobs/005.ovb, 0-correction/overlap-jobs/025.ovb, 0-correction/overlap-jobs/002.ovb, 0-correction/overlap-jobs/029.ovb, 0-correction/overlap-jobs/019.ovb, 0-correction/overlap-jobs/012.ovb, 0-correction/overlap-jobs/030.ovb, 0-correction/overlap-jobs/021.ovb, 0-correction/overlap-jobs/009.ovb, 0-correction/overlap-jobs/011.ovb, 0-correction/overlap-jobs/023.ovb, 0-correction/overlap-jobs/006.ovb, 0-correction/overlap-jobs/027.ovb, 0-correction/overlap-jobs/020.ovb
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=12
 
-[Tue Nov 12 14:37:51 2024]
+[Sun Nov 17 00:38:30 2024]
 Finished job 9.
 37 of 57 steps (65%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:37:51 2024]
+[Sun Nov 17 00:38:30 2024]
 rule combineOverlaps:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request
     output: 0-correction/hifi.ovlStore
@@ -559,27 +559,27 @@ rule combineOverlaps:
     reason: Missing output files: 0-correction/hifi.ovlStore; Input files updated by another job: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore.config.memory-request, 0-correction/hifi.ovlStore.config
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=12
 
-[Tue Nov 12 14:37:55 2024]
+[Sun Nov 17 00:38:33 2024]
 Finished job 8.
 38 of 57 steps (67%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:37:55 2024]
+[Sun Nov 17 00:38:33 2024]
 localcheckpoint configureFindErrors:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore
     output: 0-correction/configureFindErrors.finished
     log: 0-correction/configureFindErrors.err
     jobid: 11
-    reason: Missing output files: 0-correction/configureFindErrors.finished; Input files updated by another job: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore
+    reason: Missing output files: 0-correction/configureFindErrors.finished; Input files updated by another job: 0-correction/hifi.ovlStore, 0-correction/hifi.seqStore
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=1
 DAG of jobs will be updated after completion.
 
-[Tue Nov 12 14:37:55 2024]
+[Sun Nov 17 00:38:33 2024]
 Finished job 11.
 39 of 57 steps (68%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:37:55 2024]
+[Sun Nov 17 00:38:33 2024]
 rule computeErrors:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0009.range, 0-correction/configureFindErrors.finished
     output: 0-correction/find-errors-jobs/0009.red
@@ -591,7 +591,7 @@ rule computeErrors:
     resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
 
 
-[Tue Nov 12 14:37:55 2024]
+[Sun Nov 17 00:38:33 2024]
 rule computeErrors:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0002.range, 0-correction/configureFindErrors.finished
     output: 0-correction/find-errors-jobs/0002.red
@@ -602,12 +602,12 @@ rule computeErrors:
     threads: 4
     resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
 
-[Tue Nov 12 14:39:27 2024]
+[Sun Nov 17 00:40:03 2024]
 Finished job 69.
 40 of 66 steps (61%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:39:27 2024]
+[Sun Nov 17 00:40:04 2024]
 rule computeErrors:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0005.range, 0-correction/configureFindErrors.finished
     output: 0-correction/find-errors-jobs/0005.red
@@ -618,12 +618,12 @@ rule computeErrors:
     threads: 4
     resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
 
-[Tue Nov 12 14:42:06 2024]
+[Sun Nov 17 00:42:38 2024]
 Finished job 67.
 41 of 66 steps (62%) done
 Select jobs to execute...
 
-[Tue Nov 12 14:42:07 2024]
+[Sun Nov 17 00:42:38 2024]
 rule computeErrors:
     input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0001.range, 0-correction/configureFindErrors.finished
     output: 0-correction/find-errors-jobs/0001.red
@@ -634,3 +634,711 @@ rule computeErrors:
     threads: 4
     resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
 
+[Sun Nov 17 00:44:02 2024]
+Finished job 70.
+42 of 66 steps (64%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:44:02 2024]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0006.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0006.red
+    log: 0-correction/find-errors-jobs/0006.err
+    jobid: 63
+    reason: Missing output files: 0-correction/find-errors-jobs/0006.red
+    wildcards: nnnn=0006
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Nov 17 00:45:13 2024]
+Finished job 65.
+43 of 66 steps (65%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:45:13 2024]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0007.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0007.red
+    log: 0-correction/find-errors-jobs/0007.err
+    jobid: 66
+    reason: Missing output files: 0-correction/find-errors-jobs/0007.red
+    wildcards: nnnn=0007
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Nov 17 00:47:54 2024]
+Finished job 66.
+44 of 66 steps (67%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:47:54 2024]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0004.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0004.red
+    log: 0-correction/find-errors-jobs/0004.err
+    jobid: 64
+    reason: Missing output files: 0-correction/find-errors-jobs/0004.red
+    wildcards: nnnn=0004
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Nov 17 00:48:15 2024]
+Finished job 63.
+45 of 66 steps (68%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:48:15 2024]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0003.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0003.red
+    log: 0-correction/find-errors-jobs/0003.err
+    jobid: 68
+    reason: Missing output files: 0-correction/find-errors-jobs/0003.red
+    wildcards: nnnn=0003
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Nov 17 00:51:03 2024]
+Finished job 68.
+46 of 66 steps (70%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:51:03 2024]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0008.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0008.red
+    log: 0-correction/find-errors-jobs/0008.err
+    jobid: 62
+    reason: Missing output files: 0-correction/find-errors-jobs/0008.red
+    wildcards: nnnn=0008
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Nov 17 00:54:34 2024]
+Finished job 64.
+47 of 66 steps (71%) done
+[Sun Nov 17 00:57:15 2024]
+Finished job 62.
+48 of 66 steps (73%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:57:15 2024]
+rule fixErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0008.red, 0-correction/find-errors-jobs/0006.red, 0-correction/find-errors-jobs/0004.red, 0-correction/find-errors-jobs/0001.red, 0-correction/find-errors-jobs/0007.red, 0-correction/find-errors-jobs/0005.red, 0-correction/find-errors-jobs/0003.red, 0-correction/find-errors-jobs/0009.red, 0-correction/find-errors-jobs/0002.red, 0-correction/configureFindErrors.finished
+    output: 0-correction/red.red, 0-correction/hifi-corrected.fasta.gz
+    log: 0-correction/fixErrors.err
+    jobid: 6
+    reason: Missing output files: 0-correction/hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/find-errors-jobs/0001.red, 0-correction/find-errors-jobs/0009.red, 0-correction/find-errors-jobs/0006.red, 0-correction/find-errors-jobs/0002.red, 0-correction/find-errors-jobs/0003.red, 0-correction/find-errors-jobs/0005.red, 0-correction/find-errors-jobs/0008.red, 0-correction/find-errors-jobs/0007.red, 0-correction/find-errors-jobs/0004.red
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=16, time_h=4
+
+[Sun Nov 17 00:57:34 2024]
+Finished job 6.
+49 of 66 steps (74%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:57:34 2024]
+localrule correctHiFi:
+    input: 0-correction/hifi-corrected.fasta.gz
+    output: hifi-corrected.fasta.gz
+    jobid: 5
+    reason: Missing output files: hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi-corrected.fasta.gz
+    resources: tmpdir=/tmp, n_cpus=1, mem_gb=1, time_h=1
+
+[Sun Nov 17 00:57:34 2024]
+Finished job 5.
+50 of 66 steps (76%) done
+Select jobs to execute...
+
+[Sun Nov 17 00:57:34 2024]
+rule buildGraph:
+    input: hifi-corrected.fasta.gz
+    output: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    log: 1-buildGraph/buildGraph.err
+    jobid: 4
+    reason: Missing output files: 1-buildGraph/paths.gaf, 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv; Input files updated by another job: hifi-corrected.fasta.gz
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=4, time_h=72
+
+[Sun Nov 17 01:04:52 2024]
+Finished job 4.
+51 of 66 steps (77%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:04:52 2024]
+rule processGraph:
+    input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
+    output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
+    log: 2-processGraph/process.err
+    jobid: 3
+    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa; Input files updated by another job: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Nov 17 01:05:16 2024]
+Finished job 3.
+52 of 66 steps (79%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:05:16 2024]
+rule indexGraph:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/graph.index, 3-align/diploid.index
+    log: 3-align/index.err
+    jobid: 26
+    reason: Missing output files: 3-align/diploid.index, 3-align/graph.index; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=3, time_h=24
+
+[Sun Nov 17 01:06:50 2024]
+Finished job 26.
+53 of 66 steps (80%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:06:51 2024]
+rule alignONT:
+    input: 3-align/split/ont002.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned002.gaf
+    log: 3-align/aligned002.err
+    jobid: 25
+    reason: Missing output files: 3-align/aligned002.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=002
+    threads: 24
+    resources: tmpdir=/tmp, job_id=2, n_cpus=24, mem_gb=1, time_h=24
+
+
+[Sun Nov 17 01:06:51 2024]
+rule alignONT:
+    input: 3-align/split/ont001.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned001.gaf
+    log: 3-align/aligned001.err
+    jobid: 27
+    reason: Missing output files: 3-align/aligned001.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=1, time_h=24
+
+[Sun Nov 17 01:09:48 2024]
+Finished job 25.
+54 of 66 steps (82%) done
+[Sun Nov 17 01:13:51 2024]
+Finished job 27.
+55 of 66 steps (83%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:13:51 2024]
+rule combineONT:
+    input: 3-align/splitONT.finished, 3-align/aligned002.gaf, 3-align/aligned001.gaf
+    output: 3-align/alns-ont.gaf
+    log: 3-align/combineONT.err
+    jobid: 12
+    reason: Missing output files: 3-align/alns-ont.gaf; Input files updated by another job: 3-align/aligned001.gaf, 3-align/aligned002.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Sun Nov 17 01:13:52 2024]
+Finished job 12.
+56 of 66 steps (85%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:13:52 2024]
+checkpoint splitTipsONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.UL.70x.chr19.fastq.gz, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf, 3-align/splitONT.finished
+    output: 3-alignTips/splitONT.finished
+    log: 3-alignTips/splitONT.err
+    jobid: 15
+    reason: Missing output files: 3-alignTips/splitONT.finished; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+[Sun Nov 17 01:14:54 2024]
+Finished job 15.
+57 of 66 steps (86%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:14:54 2024]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont001.fasta.gz
+    output: 3-alignTips/aligned001.gaf
+    log: 3-alignTips/aligned001.err
+    jobid: 72
+    reason: Missing output files: 3-alignTips/aligned001.gaf
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=24
+
+[Sun Nov 17 01:19:12 2024]
+Finished job 72.
+58 of 67 steps (87%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:19:12 2024]
+rule combineTipsONT:
+    input: 3-alignTips/splitONT.finished, 3-alignTips/aligned001.gaf
+    output: 3-alignTips/alns-ont.gaf
+    log: 3-alignTips/combineONT.err
+    jobid: 14
+    reason: Missing output files: 3-alignTips/alns-ont.gaf; Input files updated by another job: 3-alignTips/aligned001.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Sun Nov 17 01:19:12 2024]
+Finished job 14.
+59 of 67 steps (88%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:19:12 2024]
+rule processONT:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 3-align/alns-ont.gaf, 3-alignTips/alns-ont.gaf
+    output: 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf, 4-processONT/nodecovs-ont.csv
+    log: 4-processONT/processONT.err
+    jobid: 2
+    reason: Missing output files: 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/nodecovs-ont.csv, 4-processONT/gaps-ont.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-alignTips/alns-ont.gaf, 1-buildGraph/hifi_nodecov.csv, 3-align/alns-ont.gaf
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=64, time_h=48
+
+[Sun Nov 17 01:19:56 2024]
+Finished job 2.
+60 of 67 steps (90%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:19:57 2024]
+rule extractONT:
+    input: 4-processONT/gaps-ont.gaf, 3-align/splitONT.finished
+    output: 7-consensus/ont_subset.id, 7-consensus/ont_subset.extract, 7-consensus/ont_subset.fasta.gz
+    log: 7-consensus/extractONT.err
+    jobid: 21
+    reason: Missing output files: 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id; Input files updated by another job: 4-processONT/gaps-ont.gaf
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=16, time_h=24
+
+[Sun Nov 17 01:20:09 2024]
+Finished job 21.
+61 of 67 steps (91%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:20:09 2024]
+rule untip:
+    input: 4-processONT/unitig-unrolled-ont-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 4-processONT/nodecovs-ont.csv
+    output: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    log: 5-untip/untip.err
+    jobid: 1
+    reason: Missing output files: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv; Input files updated by another job: 4-processONT/nodecovs-ont.csv, 1-buildGraph/hifi_nodecov.csv, 4-processONT/unitig-unrolled-ont-resolved.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Nov 17 01:20:43 2024]
+Finished job 1.
+62 of 67 steps (93%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:20:43 2024]
+rule generateLayoutContigsInputs:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 1-buildGraph/paths.gaf, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf
+    output: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    log: 6-layoutContigs/createLayoutInputs.err
+    jobid: 18
+    reason: Missing output files: 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/nodelens.txt, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf; Input files updated by another job: 4-processONT/alns-ont-mapqfilter.gaf, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 1-buildGraph/paths.gaf, 4-processONT/gaps-ont.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Sun Nov 17 01:20:51 2024]
+Finished job 18.
+63 of 67 steps (94%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:20:51 2024]
+rule layoutContigs:
+    input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
+    log: 6-layoutContigs/createLayout.err
+    jobid: 17
+    reason: Missing output files: 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/unitig-popped.layout; Input files updated by another job: 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/nodelens.txt, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Sun Nov 17 01:20:57 2024]
+Finished job 17.
+64 of 67 steps (96%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:20:57 2024]
+checkpoint buildPackages:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.60x.chr19.fastq.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
+    output: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished, 7-consensus/packages.report
+    log: 7-consensus/buildPackages.err
+    jobid: 20
+    reason: Missing output files: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished; Input files updated by another job: 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=3, time_h=24
+DAG of jobs will be updated after completion.
+
+[Sun Nov 17 01:21:49 2024]
+Finished job 20.
+65 of 67 steps (97%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part021.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part021.fasta
+    log: 7-consensus/packages/part021.err
+    jobid: 81
+    reason: Missing output files: 7-consensus/packages/part021.fasta
+    wildcards: nnnn=021
+    threads: 8
+    resources: tmpdir=/tmp, job_id=21, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part022.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part022.fasta
+    log: 7-consensus/packages/part022.err
+    jobid: 95
+    reason: Missing output files: 7-consensus/packages/part022.fasta
+    wildcards: nnnn=022
+    threads: 8
+    resources: tmpdir=/tmp, job_id=22, n_cpus=8, mem_gb=6, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part018.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part018.fasta
+    log: 7-consensus/packages/part018.err
+    jobid: 84
+    reason: Missing output files: 7-consensus/packages/part018.fasta
+    wildcards: nnnn=018
+    threads: 8
+    resources: tmpdir=/tmp, job_id=18, n_cpus=8, mem_gb=9, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part011.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part011.fasta
+    log: 7-consensus/packages/part011.err
+    jobid: 88
+    reason: Missing output files: 7-consensus/packages/part011.fasta
+    wildcards: nnnn=011
+    threads: 8
+    resources: tmpdir=/tmp, job_id=11, n_cpus=8, mem_gb=9, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part019.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part019.fasta
+    log: 7-consensus/packages/part019.err
+    jobid: 90
+    reason: Missing output files: 7-consensus/packages/part019.fasta
+    wildcards: nnnn=019
+    threads: 8
+    resources: tmpdir=/tmp, job_id=19, n_cpus=8, mem_gb=8, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part020.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part020.fasta
+    log: 7-consensus/packages/part020.err
+    jobid: 85
+    reason: Missing output files: 7-consensus/packages/part020.fasta
+    wildcards: nnnn=020
+    threads: 8
+    resources: tmpdir=/tmp, job_id=20, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part016.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part016.fasta
+    log: 7-consensus/packages/part016.err
+    jobid: 87
+    reason: Missing output files: 7-consensus/packages/part016.fasta
+    wildcards: nnnn=016
+    threads: 8
+    resources: tmpdir=/tmp, job_id=16, n_cpus=8, mem_gb=9, time_h=24
+
+
+[Sun Nov 17 01:21:54 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part014.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part014.fasta
+    log: 7-consensus/packages/part014.err
+    jobid: 77
+    reason: Missing output files: 7-consensus/packages/part014.fasta
+    wildcards: nnnn=014
+    threads: 8
+    resources: tmpdir=/tmp, job_id=14, n_cpus=8, mem_gb=9, time_h=24
+
+[Sun Nov 17 01:23:16 2024]
+Finished job 81.
+66 of 89 steps (74%) done
+Select jobs to execute...
+[Sun Nov 17 01:23:19 2024]
+Finished job 85.
+67 of 89 steps (75%) done
+
+[Sun Nov 17 01:23:19 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part002.fasta
+    log: 7-consensus/packages/part002.err
+    jobid: 91
+    reason: Missing output files: 7-consensus/packages/part002.fasta
+    wildcards: nnnn=002
+    threads: 8
+    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=12, time_h=24
+
+[Sun Nov 17 01:23:21 2024]
+Finished job 90.
+68 of 89 steps (76%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:23:21 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part010.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part010.fasta
+    log: 7-consensus/packages/part010.err
+    jobid: 80
+    reason: Missing output files: 7-consensus/packages/part010.fasta
+    wildcards: nnnn=010
+    threads: 8
+    resources: tmpdir=/tmp, job_id=10, n_cpus=8, mem_gb=10, time_h=24
+
+[Sun Nov 17 01:23:21 2024]
+Finished job 87.
+69 of 89 steps (78%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:23:21 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part013.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part013.fasta
+    log: 7-consensus/packages/part013.err
+    jobid: 94
+    reason: Missing output files: 7-consensus/packages/part013.fasta
+    wildcards: nnnn=013
+    threads: 8
+    resources: tmpdir=/tmp, job_id=13, n_cpus=8, mem_gb=9, time_h=24
+
+[Sun Nov 17 01:23:22 2024]
+Finished job 88.
+70 of 89 steps (79%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:23:22 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part017.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part017.fasta
+    log: 7-consensus/packages/part017.err
+    jobid: 93
+    reason: Missing output files: 7-consensus/packages/part017.fasta
+    wildcards: nnnn=017
+    threads: 8
+    resources: tmpdir=/tmp, job_id=17, n_cpus=8, mem_gb=9, time_h=24
+
+[Sun Nov 17 01:23:36 2024]
+Finished job 77.
+71 of 89 steps (80%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:23:41 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part008.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part008.fasta
+    log: 7-consensus/packages/part008.err
+    jobid: 76
+    reason: Missing output files: 7-consensus/packages/part008.fasta
+    wildcards: nnnn=008
+    threads: 8
+    resources: tmpdir=/tmp, job_id=8, n_cpus=8, mem_gb=9, time_h=24
+
+[Sun Nov 17 01:23:42 2024]
+Finished job 84.
+72 of 89 steps (81%) done
+Select jobs to execute...
+[Sun Nov 17 01:24:00 2024]
+Finished job 95.
+73 of 89 steps (82%) done
+
+[Sun Nov 17 01:24:00 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part004.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part004.fasta
+    log: 7-consensus/packages/part004.err
+    jobid: 75
+    reason: Missing output files: 7-consensus/packages/part004.fasta
+    wildcards: nnnn=004
+    threads: 8
+    resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=11, time_h=24
+
+[Sun Nov 17 01:24:49 2024]
+Finished job 94.
+74 of 89 steps (83%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:24:49 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part001.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part001.fasta
+    log: 7-consensus/packages/part001.err
+    jobid: 89
+    reason: Missing output files: 7-consensus/packages/part001.fasta
+    wildcards: nnnn=001
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=12, time_h=24
+
+[Sun Nov 17 01:24:50 2024]
+Finished job 80.
+75 of 89 steps (84%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:24:50 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part007.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part007.fasta
+    log: 7-consensus/packages/part007.err
+    jobid: 79
+    reason: Missing output files: 7-consensus/packages/part007.fasta
+    wildcards: nnnn=007
+    threads: 8
+    resources: tmpdir=/tmp, job_id=7, n_cpus=8, mem_gb=10, time_h=24
+
+[Sun Nov 17 01:24:55 2024]
+Finished job 93.
+76 of 89 steps (85%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:25:00 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part015.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part015.fasta
+    log: 7-consensus/packages/part015.err
+    jobid: 78
+    reason: Missing output files: 7-consensus/packages/part015.fasta
+    wildcards: nnnn=015
+    threads: 8
+    resources: tmpdir=/tmp, job_id=15, n_cpus=8, mem_gb=10, time_h=24
+
+[Sun Nov 17 01:25:19 2024]
+Finished job 76.
+77 of 89 steps (87%) done
+Select jobs to execute...
+[Sun Nov 17 01:25:49 2024]
+Finished job 91.
+78 of 89 steps (88%) done
+
+[Sun Nov 17 01:25:52 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part012.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part012.fasta
+    log: 7-consensus/packages/part012.err
+    jobid: 86
+    reason: Missing output files: 7-consensus/packages/part012.fasta
+    wildcards: nnnn=012
+    threads: 8
+    resources: tmpdir=/tmp, job_id=12, n_cpus=8, mem_gb=10, time_h=24
+
+
+[Sun Nov 17 01:25:52 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part006.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part006.fasta
+    log: 7-consensus/packages/part006.err
+    jobid: 74
+    reason: Missing output files: 7-consensus/packages/part006.fasta
+    wildcards: nnnn=006
+    threads: 8
+    resources: tmpdir=/tmp, job_id=6, n_cpus=8, mem_gb=10, time_h=24
+
+[Sun Nov 17 01:26:13 2024]
+Finished job 75.
+79 of 89 steps (89%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:26:13 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part005.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part005.fasta
+    log: 7-consensus/packages/part005.err
+    jobid: 82
+    reason: Missing output files: 7-consensus/packages/part005.fasta
+    wildcards: nnnn=005
+    threads: 8
+    resources: tmpdir=/tmp, job_id=5, n_cpus=8, mem_gb=12, time_h=24
+
+[Sun Nov 17 01:26:24 2024]
+Finished job 79.
+80 of 89 steps (90%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:26:25 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part009.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part009.fasta
+    log: 7-consensus/packages/part009.err
+    jobid: 92
+    reason: Missing output files: 7-consensus/packages/part009.fasta
+    wildcards: nnnn=009
+    threads: 8
+    resources: tmpdir=/tmp, job_id=9, n_cpus=8, mem_gb=10, time_h=24
+
+[Sun Nov 17 01:26:31 2024]
+Finished job 78.
+81 of 89 steps (91%) done
+Select jobs to execute...
+[Sun Nov 17 01:27:17 2024]
+Finished job 86.
+82 of 89 steps (92%) done
+
+[Sun Nov 17 01:27:17 2024]
+rule generateConsensus:
+    input: 7-consensus/packages/part003.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part003.fasta
+    log: 7-consensus/packages/part003.err
+    jobid: 83
+    reason: Missing output files: 7-consensus/packages/part003.fasta
+    wildcards: nnnn=003
+    threads: 8
+    resources: tmpdir=/tmp, job_id=3, n_cpus=8, mem_gb=12, time_h=24
+
+[Sun Nov 17 01:27:19 2024]
+Finished job 89.
+83 of 89 steps (93%) done
+[Sun Nov 17 01:27:26 2024]
+Finished job 74.
+84 of 89 steps (94%) done
+[Sun Nov 17 01:27:50 2024]
+Finished job 92.
+85 of 89 steps (96%) done
+[Sun Nov 17 01:28:21 2024]
+Finished job 82.
+86 of 89 steps (97%) done
+[Sun Nov 17 01:29:42 2024]
+Finished job 83.
+87 of 89 steps (98%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:29:42 2024]
+rule combineConsensus:
+    input: 7-consensus/packages/part006.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part022.fasta, 7-consensus/packages.tigName_to_ID.map, 6-layoutContigs/unitig-popped.layout.scfmap, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 7-consensus/packages.finished, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa
+    output: 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/combined.fasta
+    log: 7-consensus/combineConsensus.out, 7-consensus/combineConsensus.err
+    jobid: 19
+    reason: Missing output files: 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.haplotype2.fasta; Input files updated by another job: 7-consensus/packages/part008.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part022.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part017.fasta
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=1, time_h=4
+
+[Sun Nov 17 01:29:49 2024]
+Finished job 19.
+88 of 89 steps (99%) done
+Select jobs to execute...
+
+[Sun Nov 17 01:29:49 2024]
+localrule verkko:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, emptyfile, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    output: assembly.homopolymer-compressed.gfa, assembly.homopolymer-compressed.noseq.gfa, assembly.homopolymer-compressed.layout, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.fasta, assembly.scfmap
+    jobid: 0
+    reason: Missing output files: assembly.hifi-coverage.csv, assembly.fasta, assembly.homopolymer-compressed.noseq.gfa, assembly.homopolymer-compressed.gfa, assembly.scfmap, assembly.homopolymer-compressed.layout, assembly.ont-coverage.csv; Input files updated by another job: 6-layoutContigs/unitig-popped.layout, 7-consensus/unitig-popped.haplotype1.fasta, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/unitig-popped.bam, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv, 7-consensus/unitig-popped.haplotype2.fasta, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv
+    resources: tmpdir=/tmp
+
+Reading graph from stdin
+[Sun Nov 17 01:29:49 2024]
+Finished job 0.
+89 of 89 steps (100%) done
+Complete log: .snakemake/log/2024-11-17T003454.261189.snakemake.log

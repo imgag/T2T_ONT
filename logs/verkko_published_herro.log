@@ -1,0 +1,591 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 320
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineOverlaps                    1
+combineOverlapsConfigure           1
+combineTipsONT                     1
+configureFindErrors                1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+prepareOverlaps                    1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             22
+
+Select jobs to execute...
+
+[Tue Nov 12 15:35:09 2024]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 16
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Tue Nov 12 15:35:09 2024]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 13
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Tue Nov 12 15:35:09 2024]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Tue Nov 12 15:35:09 2024]
+Finished job 16.
+1 of 22 steps (5%) done
+[Tue Nov 12 17:08:32 2024]
+Finished job 13.
+2 of 22 steps (9%) done
+[Tue Nov 12 17:20:11 2024]
+Finished job 7.
+3 of 98 steps (3%) done
+Select jobs to execute...
+
+[Tue Nov 12 17:20:11 2024]
+checkpoint prepareOverlaps:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.fastq.gz, 0-correction/hifi.seqStore
+    output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
+    log: 0-correction/matchchains-index.err
+    jobid: 10
+    reason: Missing output files: 0-correction/matchchains.metadata, 0-correction/matchchains.positions; Input files updated by another job: 0-correction/hifi.seqStore
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=60, time_h=24
+DAG of jobs will be updated after completion.
+
+[Wed Nov 13 03:53:10 2024]
+Finished job 10.
+4 of 98 steps (4%) done
+Select jobs to execute...
+
+[Wed Nov 13 03:53:11 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/010.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/010.ovb
+    log: 0-correction/overlap-jobs/010.err
+    jobid: 126
+    reason: Missing output files: 0-correction/overlap-jobs/010.ovb
+    wildcards: nnnn=010
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Wed Nov 13 06:53:16 2024]
+Finished job 126.
+5 of 130 steps (4%) done
+Select jobs to execute...
+
+[Wed Nov 13 06:53:17 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/025.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/025.ovb
+    log: 0-correction/overlap-jobs/025.err
+    jobid: 106
+    reason: Missing output files: 0-correction/overlap-jobs/025.ovb
+    wildcards: nnnn=025
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Wed Nov 13 10:34:04 2024]
+Finished job 106.
+6 of 130 steps (5%) done
+Select jobs to execute...
+
+[Wed Nov 13 10:34:05 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/000.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/000.ovb
+    log: 0-correction/overlap-jobs/000.err
+    jobid: 120
+    reason: Missing output files: 0-correction/overlap-jobs/000.ovb
+    wildcards: nnnn=000
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Wed Nov 13 13:02:19 2024]
+Finished job 120.
+7 of 130 steps (5%) done
+Select jobs to execute...
+
+[Wed Nov 13 13:02:21 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/030.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/030.ovb
+    log: 0-correction/overlap-jobs/030.err
+    jobid: 127
+    reason: Missing output files: 0-correction/overlap-jobs/030.ovb
+    wildcards: nnnn=030
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Wed Nov 13 17:04:31 2024]
+Finished job 127.
+8 of 130 steps (6%) done
+Select jobs to execute...
+
+[Wed Nov 13 17:04:32 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/018.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/018.ovb
+    log: 0-correction/overlap-jobs/018.err
+    jobid: 113
+    reason: Missing output files: 0-correction/overlap-jobs/018.ovb
+    wildcards: nnnn=018
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Wed Nov 13 20:27:20 2024]
+Finished job 113.
+9 of 130 steps (7%) done
+Select jobs to execute...
+
+[Wed Nov 13 20:27:22 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/031.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/031.ovb
+    log: 0-correction/overlap-jobs/031.err
+    jobid: 107
+    reason: Missing output files: 0-correction/overlap-jobs/031.ovb
+    wildcards: nnnn=031
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 00:33:38 2024]
+Finished job 107.
+10 of 130 steps (8%) done
+Select jobs to execute...
+
+[Thu Nov 14 00:33:40 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/007.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/007.ovb
+    log: 0-correction/overlap-jobs/007.err
+    jobid: 121
+    reason: Missing output files: 0-correction/overlap-jobs/007.ovb
+    wildcards: nnnn=007
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 03:21:45 2024]
+Finished job 121.
+11 of 130 steps (8%) done
+Select jobs to execute...
+
+[Thu Nov 14 03:21:47 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/008.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/008.ovb
+    log: 0-correction/overlap-jobs/008.err
+    jobid: 128
+    reason: Missing output files: 0-correction/overlap-jobs/008.ovb
+    wildcards: nnnn=008
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 06:10:33 2024]
+Finished job 128.
+12 of 130 steps (9%) done
+Select jobs to execute...
+
+[Thu Nov 14 06:10:35 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/012.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/012.ovb
+    log: 0-correction/overlap-jobs/012.err
+    jobid: 114
+    reason: Missing output files: 0-correction/overlap-jobs/012.ovb
+    wildcards: nnnn=012
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 09:11:46 2024]
+Finished job 114.
+13 of 130 steps (10%) done
+Select jobs to execute...
+
+[Thu Nov 14 09:11:48 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/001.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/001.ovb
+    log: 0-correction/overlap-jobs/001.err
+    jobid: 122
+    reason: Missing output files: 0-correction/overlap-jobs/001.ovb
+    wildcards: nnnn=001
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 11:57:02 2024]
+Finished job 122.
+14 of 130 steps (11%) done
+Select jobs to execute...
+
+[Thu Nov 14 11:57:03 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/003.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/003.ovb
+    log: 0-correction/overlap-jobs/003.err
+    jobid: 108
+    reason: Missing output files: 0-correction/overlap-jobs/003.ovb
+    wildcards: nnnn=003
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 14:42:23 2024]
+Finished job 108.
+15 of 130 steps (12%) done
+Select jobs to execute...
+
+[Thu Nov 14 14:42:24 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/009.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/009.ovb
+    log: 0-correction/overlap-jobs/009.err
+    jobid: 115
+    reason: Missing output files: 0-correction/overlap-jobs/009.ovb
+    wildcards: nnnn=009
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 17:32:12 2024]
+Finished job 115.
+16 of 130 steps (12%) done
+Select jobs to execute...
+
+[Thu Nov 14 17:32:13 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/022.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/022.ovb
+    log: 0-correction/overlap-jobs/022.err
+    jobid: 119
+    reason: Missing output files: 0-correction/overlap-jobs/022.ovb
+    wildcards: nnnn=022
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Thu Nov 14 21:10:42 2024]
+Finished job 119.
+17 of 130 steps (13%) done
+Select jobs to execute...
+
+[Thu Nov 14 21:10:44 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/006.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/006.ovb
+    log: 0-correction/overlap-jobs/006.err
+    jobid: 129
+    reason: Missing output files: 0-correction/overlap-jobs/006.ovb
+    wildcards: nnnn=006
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 00:05:41 2024]
+Finished job 129.
+18 of 130 steps (14%) done
+Select jobs to execute...
+
+[Fri Nov 15 00:05:43 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/011.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/011.ovb
+    log: 0-correction/overlap-jobs/011.err
+    jobid: 125
+    reason: Missing output files: 0-correction/overlap-jobs/011.ovb
+    wildcards: nnnn=011
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 03:10:15 2024]
+Finished job 125.
+19 of 130 steps (15%) done
+Select jobs to execute...
+
+[Fri Nov 15 03:10:17 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/016.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/016.ovb
+    log: 0-correction/overlap-jobs/016.err
+    jobid: 112
+    reason: Missing output files: 0-correction/overlap-jobs/016.ovb
+    wildcards: nnnn=016
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 06:31:19 2024]
+Finished job 112.
+20 of 130 steps (15%) done
+Select jobs to execute...
+
+[Fri Nov 15 06:31:21 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/021.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/021.ovb
+    log: 0-correction/overlap-jobs/021.err
+    jobid: 110
+    reason: Missing output files: 0-correction/overlap-jobs/021.ovb
+    wildcards: nnnn=021
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 10:00:38 2024]
+Finished job 110.
+21 of 130 steps (16%) done
+Select jobs to execute...
+
+[Fri Nov 15 10:00:41 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/005.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/005.ovb
+    log: 0-correction/overlap-jobs/005.err
+    jobid: 124
+    reason: Missing output files: 0-correction/overlap-jobs/005.ovb
+    wildcards: nnnn=005
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 12:48:41 2024]
+Finished job 124.
+22 of 130 steps (17%) done
+Select jobs to execute...
+
+[Fri Nov 15 12:48:43 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/013.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/013.ovb
+    log: 0-correction/overlap-jobs/013.err
+    jobid: 103
+    reason: Missing output files: 0-correction/overlap-jobs/013.ovb
+    wildcards: nnnn=013
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 15:52:46 2024]
+Finished job 103.
+23 of 130 steps (18%) done
+Select jobs to execute...
+
+[Fri Nov 15 15:52:47 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/029.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/029.ovb
+    log: 0-correction/overlap-jobs/029.err
+    jobid: 109
+    reason: Missing output files: 0-correction/overlap-jobs/029.ovb
+    wildcards: nnnn=029
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 19:44:42 2024]
+Finished job 109.
+24 of 130 steps (18%) done
+Select jobs to execute...
+
+[Fri Nov 15 19:44:43 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/002.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/002.ovb
+    log: 0-correction/overlap-jobs/002.err
+    jobid: 117
+    reason: Missing output files: 0-correction/overlap-jobs/002.ovb
+    wildcards: nnnn=002
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Fri Nov 15 22:11:34 2024]
+Finished job 117.
+25 of 130 steps (19%) done
+Select jobs to execute...
+
+[Fri Nov 15 22:11:34 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/023.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/023.ovb
+    log: 0-correction/overlap-jobs/023.err
+    jobid: 133
+    reason: Missing output files: 0-correction/overlap-jobs/023.ovb
+    wildcards: nnnn=023
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 01:38:43 2024]
+Finished job 133.
+26 of 130 steps (20%) done
+Select jobs to execute...
+
+[Sat Nov 16 01:38:44 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/028.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/028.ovb
+    log: 0-correction/overlap-jobs/028.err
+    jobid: 123
+    reason: Missing output files: 0-correction/overlap-jobs/028.ovb
+    wildcards: nnnn=028
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 05:14:39 2024]
+Finished job 123.
+27 of 130 steps (21%) done
+Select jobs to execute...
+
+[Sat Nov 16 05:14:40 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/017.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/017.ovb
+    log: 0-correction/overlap-jobs/017.err
+    jobid: 105
+    reason: Missing output files: 0-correction/overlap-jobs/017.ovb
+    wildcards: nnnn=017
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 08:20:52 2024]
+Finished job 105.
+28 of 130 steps (22%) done
+Select jobs to execute...
+
+[Sat Nov 16 08:20:53 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/027.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/027.ovb
+    log: 0-correction/overlap-jobs/027.err
+    jobid: 131
+    reason: Missing output files: 0-correction/overlap-jobs/027.ovb
+    wildcards: nnnn=027
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 11:53:50 2024]
+Finished job 131.
+29 of 130 steps (22%) done
+Select jobs to execute...
+
+[Sat Nov 16 11:53:51 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/014.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/014.ovb
+    log: 0-correction/overlap-jobs/014.err
+    jobid: 132
+    reason: Missing output files: 0-correction/overlap-jobs/014.ovb
+    wildcards: nnnn=014
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 14:51:36 2024]
+Finished job 132.
+30 of 130 steps (23%) done
+Select jobs to execute...
+
+[Sat Nov 16 14:51:37 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/019.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/019.ovb
+    log: 0-correction/overlap-jobs/019.err
+    jobid: 118
+    reason: Missing output files: 0-correction/overlap-jobs/019.ovb
+    wildcards: nnnn=019
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 18:08:07 2024]
+Finished job 118.
+31 of 130 steps (24%) done
+Select jobs to execute...
+
+[Sat Nov 16 18:08:08 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/026.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/026.ovb
+    log: 0-correction/overlap-jobs/026.err
+    jobid: 130
+    reason: Missing output files: 0-correction/overlap-jobs/026.ovb
+    wildcards: nnnn=026
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+[Sat Nov 16 21:38:27 2024]
+Finished job 130.
+32 of 130 steps (25%) done
+Select jobs to execute...
+
+[Sat Nov 16 21:38:28 2024]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/020.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/020.ovb
+    log: 0-correction/overlap-jobs/020.err
+    jobid: 116
+    reason: Missing output files: 0-correction/overlap-jobs/020.ovb
+    wildcards: nnnn=020
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=60, time_h=24
+
+Terminating processes on user request, this might take some time.
+[Sun Nov 17 00:26:07 2024]
+Error in rule computeOverlaps:
+    jobid: 116
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/020.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/020.ovb
+    log: 0-correction/overlap-jobs/020.err (check log file(s) for error details)
+    shell:
+        
+cd 0-correction/overlap-jobs
+
+batchnum=`cat ../../0-correction/overlap-jobs/020.id`
+
+cat > ./020.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+#  $batchnum == 020
+#  Outputs:  (all on one line)
+#    left   leftlen   leftstart   leftend   (leftFw  ? "fw" : "bw")
+#    right  rightlen  rightstart  rightend  (rightFw ? "fw" : "bw")
+#
+#  Note FS.
+#   -For parsing readNames.txt we can split on any whitespace to
+#    get the ident and the first word of the read name.
+#   -For overlap output, we need to split on tabs initially, then
+#    split just the name to extract the first word.
+#
+
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/lib/verkko/bin/matchchains_matchindex \\
+  -i ../matchchains \\
+  --batchindex 020 --batchcount 32 \\
+  --min-match-length 1000 \\
+ | awk \\
+'BEGIN \\
+ { \\
+   FS="[ \t]"; \\
+   while (getline < "../hifi.seqStore/readNames.txt") { \\
+     map[\$2]=\$1; \\
+   } \\
+   FS="[\t]"; \\
+   OFS="\t"; \\
+ } \\
+ { \\
+   split(\$1,na," ");  fn = map[na[1]]; \\
+   split(\$6,na," ");  sn = map[na[1]]; \\
+   if (\$4 > \$2) \$4 = \$2; \\
+   if (\$9 > \$7) \$9 = \$7; \\
+   if (fn == "")  next; \\
+   if (sn == "")  next; \\
+   if (\$10 == "fw") \\
+     print fn,\$2,\$3,\$4,"+",sn,\$7,\$8,\$9,"0",\$4-\$3,"255","id:f:0.99"; \\
+   else \\
+     print fn,\$2,\$3,\$4,"-",sn,\$7,\$7-\$9,\$7-\$8,"0",\$4-\$3,"255","id:f:0.99"; \\
+ }' \\
+ | /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/lib/verkko/bin/overlapImport \\
+  -maxerror 0.01 \\
+  -minreadlength 4000 \\
+  -minoverlaplength 1000 \\
+  -paf \\
+  -o ../../0-correction/overlap-jobs/020.ovb \\
+  -S ../../0-correction/hifi.seqStore \\
+  -
+EOF
+
+chmod +x ./020.sh
+
+./020.sh > ../../0-correction/overlap-jobs/020.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-11-12T153509.363391.snakemake.log

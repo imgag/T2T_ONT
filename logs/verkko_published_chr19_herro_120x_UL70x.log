@@ -1,0 +1,133 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 320
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineOverlaps                    1
+combineOverlapsConfigure           1
+combineTipsONT                     1
+configureFindErrors                1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+prepareOverlaps                    1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             22
+
+Select jobs to execute...
+
+[Tue Nov 12 15:30:21 2024]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 16
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Tue Nov 12 15:30:21 2024]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.UL.70x.chr19.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 13
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Tue Nov 12 15:30:21 2024]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.120x.chr19.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Tue Nov 12 15:30:21 2024]
+Finished job 16.
+1 of 22 steps (5%) done
+[Tue Nov 12 15:31:33 2024]
+Finished job 7.
+2 of 22 steps (9%) done
+Select jobs to execute...
+
+[Tue Nov 12 15:31:33 2024]
+checkpoint prepareOverlaps:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.120x.chr19.fastq.gz, 0-correction/hifi.seqStore
+    output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
+    log: 0-correction/matchchains-index.err
+    jobid: 10
+    reason: Missing output files: 0-correction/matchchains.positions, 0-correction/matchchains.metadata; Input files updated by another job: 0-correction/hifi.seqStore
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=1, time_h=24
+DAG of jobs will be updated after completion.
+
+[Tue Nov 12 15:31:48 2024]
+Finished job 13.
+3 of 22 steps (14%) done
+Terminating processes on user request, this might take some time.
+[Tue Nov 12 15:32:02 2024]
+Error in rule prepareOverlaps:
+    jobid: 10
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.120x.chr19.fastq.gz, 0-correction/hifi.seqStore
+    output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
+    log: 0-correction/matchchains-index.err (check log file(s) for error details)
+    shell:
+        
+cd 0-correction
+
+cat > ./matchchains-index.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+mkdir -p overlap-jobs
+
+#  This baloney is because we need indices 0 .. nbatches-1 but seq can't do that.
+nbatches1=\`expr 32 - 1\`
+batchlist=\`seq 0 \$nbatches1\`
+
+for ii in \$batchlist ; do
+  jj=\`printf %03d \$ii\`
+  echo \$ii > overlap-jobs/\$jj.id
+done
+
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/lib/verkko/bin/matchchains_index \\
+  --hpc \\
+  -t 8 \\
+  -k 425 \\
+  -n 1 -w 19 \\
+  --max-coverage 1000 \\
+  --tmp-file-count 16 \\
+  -o matchchains \\
+  /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_herro.120x.chr19.fastq.gz
+
+if [ ! -s matchchains.positions ]; then
+   echo "Error: indexing failed, check above for any errors"
+   exit 1
+fi
+EOF
+
+chmod +x ./matchchains-index.sh
+
+./matchchains-index.sh > ../0-correction/matchchains-index.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2024-11-12T153016.908968.snakemake.log

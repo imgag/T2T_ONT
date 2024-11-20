@@ -151,6 +151,21 @@ rule dotplot:
             -o {output} &> {log}
          """
 
+rule minigraph:
+    input:
+        gfa = rules.verkko.output.gfa,
+        ref = config['ref']
+    output:
+        gfa =  
+    conda:
+        "../env/minigraph.yml"
+    shell:
+        """
+        minigraph -cx asm\
+            {input.gfa} {input.ref} \
+            >{output} 2>{log}
+        """
+
 #rule qc_meryl:
 #    input:
 #        

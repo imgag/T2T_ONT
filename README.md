@@ -23,3 +23,36 @@ There is also a [comparison](https://ccb.jhu.edu/T2T.shtml) of the RefSeq alignm
 
 There is a 3rd method to generate HQ assembly reads:
 [Nanopore Polishing Kit](https://labs.epi2me.io/lc2024_t2t/)
+
+
+## SUP basecalling
+
+
+### 24070
+
+#### #04339
+```
+bin/dorado-0.8.3-linux-x64/bin/dorado basecaller \
+    data/ref/dna_r10.4.1_e8.2_400bps_sup@v5.0.0 \
+    data/raw/set1/24070/24070LRa003_04399/20241111_1425_2A_PBA32113_7de81dc2 \
+    --recursive \
+    --trim all \
+    --output-dir data/basecalled/24070LRa003_04399
+
+bin/dorado-0.8.3-linux-x64/bin/dorado summary \
+    data/basecalled/24070LRa003_04399/*.bam \
+    > data/basecalled/24070LRa003_04399/sequencing_summary.txt
+```
+running
+
+#### 04400
+```
+bin/dorado-0.8.3-linux-x64/bin/dorado basecaller \
+    data/ref/dna_r10.4.1_e8.2_400bps_sup@v5.0.0 \
+    /mnt/storage3/raw_data/VULCAN/24070/24070LRa010_04400/20241111_1433_2B_PBA36199_3fb5db31 \
+    --recursive \
+    --trim all \
+    --output-dir data/basecalled/24070LRa010_04400 
+```
+
+todo
