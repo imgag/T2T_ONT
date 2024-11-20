@@ -21,26 +21,19 @@ def find_input_datasets(wc):
     return files
 
 
-rule merge_copy_rename_fastq_fastcat:
+rule merge_copy_rename_fastq:
     input:
-        find_input_datasets,
+        find_input_datasets
     output:
-        fq="assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
-        hist_l="assembly/input_qc/{dataset}/{dataset}.{type}/length.hist",
-        hist_q="assembly/input_qc/{dataset}/{dataset}.{type}/quality.hist",
-        stat_reads="assembly/input_qc/{dataset}/{dataset}.{type}/read_stats.txt",
+        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
     conda:
-        "../env/fastcat.yml"
+        "../env/minimap2.yml"
     log:
-        "logs/merge_copy_rename_fastq_fastcat.{dataset}.{type}.log",
+        "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
     shell:
         """
-        fastcat \
-            --histograms=$(dirname {output.hist_l}) \
-            --read={output.stat_reads} \
-            --sample={wildcards.dataset}_{wildcards.type} \
-            {input} 2>{log}
-        | gzip -c >{output.fq} 2>>{log}
+        samtools fastq <(cat {input}) 2>{log}\
+        | gzip -c >{output} 2>>{log}
         """
 
 rule fastcat_qc_only:
@@ -62,23 +55,6 @@ rule fastcat_qc_only:
             --sample={wildcards.dataset}_{wildcards.type} \
             {input} >/dev/null 2>{log}
         """
-
-ruleorder: fastcat_qc_only > merge_copy_rename_fastq_fastcat
-
-# rule merge_copy_rename_fastq:
-#    input:
-#        find_input_datasets
-#    output:
-#        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
-#    conda:
-#        "../env/minimap2.yml"
-#    log:
-#        "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
-#    shell:
-#        """
-#        samtools fastq <(cat {input}) 2>{log}\
-#        | gzip -c >{output} 2>>{log}
-#        """
 
 
 rule map_unaligned_bam:
