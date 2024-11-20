@@ -1,37 +1,85 @@
 def update_herro_paths(f, dataset):
     f = os.path.basename(f)
-    match = re.search(r'(\.fastq|\.fastq.gz|\.bam|\.fasta|\.fq|\.fq.gz|\.fa|\.cram)$', 
-                    f, flags=re.I)
+    match = re.search(
+        r"(\.fastq|\.fastq.gz|\.bam|\.fasta|\.fq|\.fq.gz|\.fa|\.cram)$", f, flags=re.I
+    )
     if bool(match):
         ext = match[1]
-        fn = re.sub(fr'\{ext}$', '', f)
+        fn = re.sub(rf"\{ext}$", "", f)
     else:
         ext = ""
         fn = f
-    #print(fn, ext)
-    f = os.path.join("data", "corrected", dataset, fn+".corrected.fasta")
-    return(f)
+    # print(fn, ext)
+    f = os.path.join("data", "corrected", dataset, fn + ".corrected.fasta")
+    return f
+
 
 def find_input_datasets(wc):
     files = datasets[wc.dataset][wc.type]
     if wc.type == "HQ_herro":
         files = [update_herro_paths(f, wc.dataset) for f in files]
-    return(files)
+    return files
 
-rule merge_copy_rename_fastq:
+
+rule merge_copy_rename_fastq_fastcat:
     input:
-        find_input_datasets
+        find_input_datasets,
     output:
-        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
+        fq="assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
+        hist_l="assembly/input_qc/{dataset}/{dataset}.{type}/length.hist",
+        hist_q="assembly/input_qc/{dataset}/{dataset}.{type}/quality.hist",
+        stat_reads="assembly/input_qc/{dataset}/{dataset}.{type}/read_stats.txt",
     conda:
-        "../env/minimap2.yml"
+        "../env/fastcat.yml"
     log:
-        "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
+        "logs/merge_copy_rename_fastq_fastcat.{dataset}.{type}.log",
     shell:
         """
-        samtools fastq <(cat {input}) 2>{log}\
-        | gzip -c >{output} 2>>{log}
+        fastcat \
+            --histograms=$(dirname {output.hist_l}) \
+            --read={output.stat_reads} \
+            --sample={wildcards.dataset}_{wildcards.type} \
+            {input} 2>{log}
+        | gzip -c >{output.fq} 2>>{log}
         """
+
+rule fastcat_qc_only:
+    input:
+        fq="assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
+    output:
+        hist_l="assembly/input_qc/{dataset}/{dataset}.{type}/length.hist",
+        hist_q="assembly/input_qc/{dataset}/{dataset}.{type}/quality.hist",
+        stat_reads="assembly/input_qc/{dataset}/{dataset}.{type}/read_stats.txt",
+    conda:
+        "../env/fastcat.yml"
+    log:
+        "logs/fastcat_qc_only.{dataset}.{type}.log",
+    shell:
+        """
+        fastcat \
+            --histograms=$(dirname {output.hist_l}) \
+            --read={output.stat_reads} \
+            --sample={wildcards.dataset}_{wildcards.type} \
+            {input} >/dev/null 2>{log}
+        """
+
+ruleorder: fastcat_qc_only > merge_copy_rename_fastq_fastcat
+
+# rule merge_copy_rename_fastq:
+#    input:
+#        find_input_datasets
+#    output:
+#        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
+#    conda:
+#        "../env/minimap2.yml"
+#    log:
+#        "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
+#    shell:
+#        """
+#        samtools fastq <(cat {input}) 2>{log}\
+#        | gzip -c >{output} 2>>{log}
+#        """
+
 
 rule map_unaligned_bam:
     input:
@@ -57,6 +105,7 @@ rule map_unaligned_bam:
         samtools index {output.bam}
         """
 
+
 rule map_fq:
     input:
         fq="assembly/input/{file}.fastq.gz",
@@ -79,6 +128,7 @@ rule map_fq:
 
         samtools index {output.bam}
         """
+
 
 rule bam_qc:
     input:
@@ -115,7 +165,9 @@ rule sample_to_target_cov:
     params:
         min_length=config["min_length"],
         min_mean_q=config["min_mean_q"],
-        target_base=lambda wc: str(int(wc.cov.replace('x', '')) * config["genome_length"]),
+        target_base=lambda wc: str(
+            int(wc.cov.replace("x", "")) * config["genome_length"]
+        ),
     shell:
         """
         filtlong \
@@ -134,7 +186,7 @@ rule extract_location_data:
     output:
         fq="assembly/input/{file}.{roi,chr.*}.fastq.gz",
     log:
-        "logs/extract_location_data_{file}_{roi}.log"
+        "logs/extract_location_data_{file}_{roi}.log",
     shell:
         """
         samtools view -h {input.bam} {wildcards.roi} 2>>{log} \

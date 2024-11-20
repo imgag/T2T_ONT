@@ -2,10 +2,9 @@
 
 - [ ] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
 - [ ] Investigate if what is inside the [T2T bundle[(https://labs.epi2me.io/lc2024_t2 )] from ONT. Maybe includes pipeline?
-- [ ] Include [asmgene](https://github.com/lh3/minimap2/issues/355) QC for gene completenes stats
+- [X] Include [asmgene](https://github.com/lh3/minimap2/issues/355) QC for gene completenes stats
 - [ ] Generate sequencing stats on raw data files
-- [ ] Try different Ultralong coverages
-
+- [X] Try different Ultralong coverages
 
 - [X] Prepare published test datasets:
     - [X] Download datasets (see Readme)
@@ -24,3 +23,7 @@
     - [X] HERRO corrected reads
     - [X] Normal/no duplex reads
 - [ ]  Compare assembly results with publication
+
+
+Six sentence abstract
+Meeting in Bremen

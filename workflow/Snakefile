@@ -1,28 +1,44 @@
 import glob
 import yaml
 import re
+from types import SimpleNamespace
+
 
 configfile: os.path.join(workflow.basedir, "config.yml")
 
-with open('data/datasets.yml') as f:
+
+with open("data/datasets.yml") as f:
     datasets = yaml.safe_load(f)
 
-with open('assembly/assemblies.yml') as f:
+with open("assembly/assemblies.yml") as f:
     asm = yaml.safe_load(f)
+
 
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 
+# Function to return all input FastQs and 
+fq_files = [item for x in asm for item in get_assembly_input(SimpleNamespace(**{'asm': x})).values()]
+fq_qc = [x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt") for x in fq_files]
+
 rule all:
     input:
-        "data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz", #QC
+        "data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz",  #QC
         "data/mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
-        expand("assembly/output/{dataset}/assembly.fasta", dataset = asm.keys()),
-        expand("assembly/qc/{dataset}/bandage_graph.png", dataset = asm.keys()),
-        expand("assembly/qc/{dataset}/qc_paftools_{module}.{hp}.txt",
-             dataset = asm.keys(),
-             module = ['stat', 'asmstat', 'asmgene'],
-             hp = ['haplotype1','haplotype2']),
-        expand("assembly/qc/{dataset}/dotplot.{hp}.pdf", dataset = asm.keys(), hp = ['haplotype1', 'haplotype2']),
+        fq_files,
+        fq_qc,
+        expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
+        expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm.keys()),
+        expand(
+            "assembly/qc/{dataset}/qc_paftools_{module}.{hp}.txt",
+            dataset=asm.keys(),
+            module=["stat", "asmstat", "asmgene"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        expand(
+            "assembly/qc/{dataset}/dotplot.{hp}.pdf",
+            dataset=asm.keys(),
+            hp=["haplotype1", "haplotype2"],
+        ),

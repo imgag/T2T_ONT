@@ -1,16 +1,15 @@
 rule dorado_trim:
     input:
-        fastq = lambda wc: datasets[wc.dataset].get('HQ_herro', '')
+        fastq=lambda wc: datasets[wc.dataset].get("HQ_herro", ""),
     output:
-        fastq = "data/corrected/{dataset}/{file}.trimmed.fastq"
-    params: 
-        dorado = config['dorado']
-    threads:
-        60
+        fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
+    params:
+        dorado=config["dorado"],
+    threads: 60
     benchmark:
         "runtimes/dorado_trim_{dataset}_{file}.txt"
     log:
-        "logs/dorado_trim_{dataset}_{file}.log"
+        "logs/dorado_trim_{dataset}_{file}.log",
     shell:
         """
         {params.dorado} trim \
@@ -20,20 +19,20 @@ rule dorado_trim:
             2> {log}
         """
 
+
 rule dorado_correct_mapping:
     input:
-        fastq = rules.dorado_trim.output.fastq
+        fastq=rules.dorado_trim.output.fastq,
     output:
-        paf = "data/corrected/{dataset}/{file}.ovl.paf"
-    params: 
-        dorado = config['dorado'],
-        herro_model = config['herro_model']
-    threads:
-        60
+        paf="data/corrected/{dataset}/{file}.ovl.paf",
+    params:
+        dorado=config["dorado"],
+        herro_model=config["herro_model"],
+    threads: 60
     benchmark:
         "runtimes/dorado_correct_mapping_{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_mapping_{dataset}_{file}.log"
+        "logs/dorado_correct_mapping_{dataset}_{file}.log",
     shell:
         """
         {params.dorado} correct \
@@ -45,25 +44,25 @@ rule dorado_correct_mapping:
             2> {log}
         """
 
+
 rule dorado_correct_inference:
     input:
-        fastq = rules.dorado_trim.output.fastq,
-        paf = rules.dorado_correct_mapping.output.paf
+        fastq=rules.dorado_trim.output.fastq,
+        paf=rules.dorado_correct_mapping.output.paf,
     output:
-        fa = "data/corrected/{dataset}/{file}.corrected.fasta"
+        fa="data/corrected/{dataset}/{file}.corrected.fasta",
     params:
-        dorado = config['dorado'],
-        herro_model = config['herro_model']
-    threads:
-        6
+        dorado=config["dorado"],
+        herro_model=config["herro_model"],
+    threads: 6
     benchmark:
         "runtimes/dorado_correct_inference_{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_inference_{dataset}_{file}.log"
+        "logs/dorado_correct_inference_{dataset}_{file}.log",
     resources:
-        gpu = 2
+        gpu=2,
     shell:
-       """
+        """
         {params.dorado} correct \
             --from-paf {input.paf} \
             --threads {threads} \
