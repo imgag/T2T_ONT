@@ -49,11 +49,14 @@ rule fastcat_qc_only:
         "logs/fastcat_qc_only.{dataset}.{type}.log",
     shell:
         """
+        tmp=$(mktemp -u)
         fastcat \
-            --histograms=$(dirname {output.hist_l}) \
-            --read={output.stat_reads} \
+            --histograms=$tmp\
+            --read=$tmp/$(basename {output.stat_reads}) \
             --sample={wildcards.dataset}_{wildcards.type} \
             {input} >/dev/null 2>{log}
+        cp -r $tmp/* $(dirname {output.stat_reads})
+        rm -rf $tmp
         """
 
 
@@ -81,6 +84,35 @@ rule map_unaligned_bam:
         samtools index {output.bam}
         """
 
+rule bamstats:
+    input:
+        bam="data/mapped/{path}.bam",
+    output:
+        hist_l="data/bamstats/{path}/length.hist",
+        hist_q="data/bamstats/{path}/quality.hist",
+        hist_a="data/bamstats/{path}/accuracy.hist",
+        hist_c="data/bamstats/{path}/coverage.hist",
+        bamstats="data/bamstats/{path}/bamstats.txt",
+        flagstats="data/bamstats/{path}/flagstats.txt",
+        basecallers="data/bamstats/{path}/basecallers.txt"
+    conda:
+        "../env/fastcat.yml"
+    log:
+        "logs/bamstats.{path}.log",
+    threads: 4
+    shell:
+        """
+        tmp=$(mktemp -u)
+        bamstats \
+            --histograms=$tmp \
+            --flagstats=$tmp/$(basename {output.flagstats}) \
+            --basecallers=$tmp/$(basename {output.basecallers}) \
+            --sample={wildcards.path}\
+            --threads {threads} \
+            {input.bam} >{output.bamstats} 2>{log}
+        cp -r $tmp/* $(dirname {output.bamstats})
+        rm -rf $tmp
+        """
 
 rule map_fq:
     input:
@@ -111,8 +143,8 @@ rule bam_qc:
         bam="data/mapped/{path}.bam",
         ref=config["ref"],
     output:
-        tsv="data/mapped/{path}.qc.tsv.gz",
-        json="data/mapped/{path}.qc.json.gz",
+        tsv="data/bamstats/{path}/{path}.qc.tsv.gz",
+        json="data/bamstats/{path}/{path}.qc.json.gz",
     log:
         "logs/bam_qc_{path}.log",
     threads: 1

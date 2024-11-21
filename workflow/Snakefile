@@ -19,16 +19,21 @@ include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 
-# Function to return all input FastQs and 
+# Function to find all input FastQs and create required QC files
 fq_files = [item for x in asm for item in get_assembly_input(SimpleNamespace(**{'asm': x})).values()]
 fq_qc = [x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt") for x in fq_files]
+# Create QC for all input BAM files
+bam_qc = []
+for dataset in datasets:
+    for filetype in datasets[dataset]:
+        if filetype != "POREC":
+            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt")
 
 rule all:
     input:
-        "data/mapped/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.qc.json.gz",  #QC
-        "data/mapped/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.qc.json.gz",
         fq_files,
         fq_qc,
+        bam_qc,
         expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
         expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm.keys()),
         expand(
