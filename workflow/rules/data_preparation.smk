@@ -23,18 +23,19 @@ def find_input_datasets(wc):
 
 rule merge_copy_rename_fastq:
     input:
-        find_input_datasets
+        find_input_datasets,
     output:
-        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz"
+        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/merge_copy_rename_fastq.{dataset}.{type}.log"
+        "logs/merge_copy_rename_fastq.{dataset}.{type}.log",
     shell:
         """
         samtools fastq <(cat {input}) 2>{log}\
         | gzip -c >{output} 2>>{log}
         """
+
 
 rule fastcat_qc_only:
     input:
@@ -84,6 +85,7 @@ rule map_unaligned_bam:
         samtools index {output.bam}
         """
 
+
 rule bamstats:
     input:
         bam="data/mapped/{path}.bam",
@@ -94,7 +96,7 @@ rule bamstats:
         hist_c="data/bamstats/{path}/coverage.hist",
         bamstats="data/bamstats/{path}/bamstats.txt",
         flagstats="data/bamstats/{path}/flagstats.txt",
-        basecallers="data/bamstats/{path}/basecallers.txt"
+        basecallers="data/bamstats/{path}/basecallers.txt",
     conda:
         "../env/fastcat.yml"
     log:
@@ -113,6 +115,7 @@ rule bamstats:
         cp -r $tmp/* $(dirname {output.bamstats})
         rm -rf $tmp
         """
+
 
 rule map_fq:
     input:
@@ -143,8 +146,8 @@ rule bam_qc:
         bam="data/mapped/{path}.bam",
         ref=config["ref"],
     output:
-        tsv="data/bamstats/{path}/{path}.qc.tsv.gz",
-        json="data/bamstats/{path}/{path}.qc.json.gz",
+        tsv="data/bamstats/{path}/bamqc.tsv.gz",
+        json="data/bamstats/{path}/bamqc.json.gz",
     log:
         "logs/bam_qc_{path}.log",
     threads: 1
@@ -157,6 +160,28 @@ rule bam_qc:
             -o {output.tsv} \
             -j {output.json} \
             -i {input.bam} \
+            >{log} 2>&1
+        """
+
+
+rule mosdepth:
+    input:
+        bam="data/mapped/{path}.bam",
+    output:
+        depth="data/bamstats/{path}/cov.mosdepth.summary.txt",
+        dist="data/bamstats/{path}/cov.mosdepth.global.dist.txt",
+    threads: 4
+    conda:
+        "../env/mosdepth.yml"
+    log:
+        "logs/modepth_{path}.log",
+    shell:
+        """
+        mosdepth \
+            -n --fast-mode --by 500 \
+            -t {threads}\
+
+            {input.bam} \
             >{log} 2>&1
         """
 

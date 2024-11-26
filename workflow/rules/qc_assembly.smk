@@ -169,7 +169,6 @@ rule dotplot:
 #            {input.gfa} {input.ref} \
 #            >{output} 2>{log}
 #        """
-
 # rule qc_meryl:
 #    input:
 #
