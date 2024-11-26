@@ -29,6 +29,15 @@ for dataset in datasets:
         if filetype != "POREC":
             bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt")
 
+
+# Custom QC (Run stats)
+fq_qc += [
+    "assembly/input_qc/published/published.UL/read_stats.txt",
+    "assembly/input_qc/published/published.HQ_herro/read_stats.txt",
+    "assembly/input_qc/run_04399/run_04399.UL/read_stats.txt",
+    "assembly/input_qc/run_04400/run_04400.UL/read_stats.txt"
+]
+
 rule all:
     input:
         fq_files,
