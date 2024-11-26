@@ -11,15 +11,12 @@ def get_assembly_input(wc):
     s_re = asm[wc.asm].get("region", "")
     if s_re != "":
         s_re = s_re + "."
-
-
-#    print(s_d, s_ul, s_hq, s_re)
-files = {
-    "ul": f"assembly/input/{s_d}/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
-    "hq": f"assembly/input/{s_d}/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
-    "porec": f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz",
-}
-return files
+    files = {
+        "ul": f"assembly/input/{s_d}/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
+        "hq": f"assembly/input/{s_d}/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
+        "porec": f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz",
+    }
+    return files
 
 
 rule verkko:
