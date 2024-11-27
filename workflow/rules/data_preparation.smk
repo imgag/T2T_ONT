@@ -180,11 +180,10 @@ rule mosdepth:
         mosdepth \
             -n --fast-mode --by 500 \
             -t {threads}\
-
+            $(dirname {output.depth})/cov \
             {input.bam} \
             >{log} 2>&1
         """
-
 
 rule sample_to_target_cov:
     input:

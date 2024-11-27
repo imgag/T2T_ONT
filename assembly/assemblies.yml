@@ -8,9 +8,17 @@
 
 # LR↓/UL→ |     50x      |      70x     |     90x      |
 #         +--------------+--------------+--------------+
+#     25x |     duplex   |       --     |      --      |
 #     35x | duplex/herro | duplex/herro | duplex/herro |
 #     60x |     herro    |     herro    |    herro     |
 #    120x |     herro    |     herro    |    herro     |
+
+published_chr19_duplex25x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+  cov_HQ: 25
 
 published_chr19_herro:
   dataset: published
@@ -109,3 +117,10 @@ published_duplex:
 #  dataset:  published
 #  HQ_method: herro
 #  cov_UL: 70
+
+# Using our dataset
+
+TUE_01:
+  dataset: TUE_01
+  HQ_method: duplex
+  cov_UL: 50
