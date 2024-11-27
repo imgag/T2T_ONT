@@ -52,7 +52,7 @@ rule verkko_scaffold:
         unpack(get_assembly_input),
     output:
         gfa=temp("/tmp/verrko_{asm}/8-hicPipeline/unitigs.hpc.noseq.gfa"), # Dummy output to rerun the copy rule in hiC that also produces haplotypes
-        gaf=temp("/tmp/verrko_{asm}/8-hicPipeline/rukki.paths.gaf")
+        gaf=temp("/tmp/verrko_{asm}/8-hicPipeline/rukki.paths.gaf"),
         hp1=temp("/tmp/verrko_{asm}/assembly.haplotype1.fasta"),
         hp2=temp("/tmp/verrko_{asm}/assembly.haplotype2.fasta"),
         colors=temp("/tmp/verrko_{asm}/assembly.colors.csv"),

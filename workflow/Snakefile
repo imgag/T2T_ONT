@@ -30,16 +30,24 @@ fq_qc = [
     x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
     for x in fq_files
 ]
+
+print(fq_files)
+
 # Create QC for all input BAM files
+## Before downsampling
 bam_qc = []
 for dataset in datasets:
     for filetype in datasets[dataset]:
         if filetype != "POREC":
-            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt")
-            bam_qc.append(
-                f"data/bamstats/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
-            )
+            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt")             # ONT bamstats
+            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt") # Coverage
+            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz")             # Alfred Bamqc
 
+## Include downsampled files
+#bam_qc += [
+#    x.replace("/input/", "data/bamstats").replace(".fastq.gz", "/read_stats.txt")
+#    for x in fq_files
+#]
 
 # Custom QC (Run stats)
 fq_qc += [

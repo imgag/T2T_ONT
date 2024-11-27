@@ -21,6 +21,11 @@ def find_input_datasets(wc):
     return files
 
 
+def input_isbam(wc):
+    files = find_input_datasets(wc)
+    return all(f.endswith(".bam") for f in files)
+
+
 rule merge_copy_rename_fastq:
     input:
         find_input_datasets,
@@ -30,9 +35,11 @@ rule merge_copy_rename_fastq:
         "../env/minimap2.yml"
     log:
         "logs/merge_copy_rename_fastq.{dataset}.{type}.log",
+    params:
+        samtools=lambda wc: "samtools" if input_isbam(wc) else "",
     shell:
         """
-        samtools fastq <(cat {input}) 2>{log}\
+        samtools fastq <({params.samtools} cat {input}) 2>{log}\
         | gzip -c >{output} 2>>{log}
         """
 
@@ -184,6 +191,7 @@ rule mosdepth:
             {input.bam} \
             >{log} 2>&1
         """
+
 
 rule sample_to_target_cov:
     input:
