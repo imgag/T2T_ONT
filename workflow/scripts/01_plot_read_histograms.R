@@ -30,12 +30,26 @@ plot_read_histograms <- function(length_files, qual_files, out_prefix) {
   q <- bind_rows(quals)
 
   # Calculate N50 and total yield
-  summary <- l %>%
-    group_by(filename) %>%
-    mutate(cumsum = cumsum(count * lower_length)) %>%
-    mutate(N50_reached = cumsum > max(cumsum) / 2) %>%
-    filter(N50_reached) %>%
-    summarise(yield = max(cumsum), N50 = first(lower_length))
+  summary <- bind_cols(
+    l %>%
+      group_by(filename) %>%
+      mutate(cumsum = cumsum(count * lower_length)) %>%
+      mutate(N50_reached = cumsum > max(cumsum) / 2) %>%
+      filter(N50_reached) %>%
+      summarise(yield = max(cumsum),N50 = first(lower_length))
+    ,
+    l %>% 
+      group_by(filename) %>%
+      mutate(bases = count * lower_length) %>%
+      summarise(
+        longest_read = max(lower_length),
+        bases_longer_1e5 = sum(bases[lower_length >= 1e5]),
+        bases_longer_2e5 = sum(bases[lower_length >= 2e5]),
+        reads_longer_1e6 = length(filename[lower_length >= 1e6]),
+        ) %>%
+      select(-filename)
+  )
+  
   write_tsv(summary, paste0("doc/tables/", out_prefix, ".summary.tsv"))
 
   # Plot length histogram bases_sequenced = count * length
@@ -116,13 +130,13 @@ plot_read_histograms(
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro/length.hist",
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.120x/length.hist",
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.60x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/length.hist",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/length.hist"
   ),
   qual_files = c(
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro/quality.hist",
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.120x/quality.hist",
     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.60x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/quality.hist",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/quality.hist"
   ),
   out_prefix = "HQ_herro_published_subsampling"
 )

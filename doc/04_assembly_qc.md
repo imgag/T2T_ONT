@@ -1,5 +1,5 @@
 # Assembly QC
-
+Documentation of used QC parameters. Comparison of different assembly and scaffolding methods.
 
 ## Collapsed misassemblies
 
