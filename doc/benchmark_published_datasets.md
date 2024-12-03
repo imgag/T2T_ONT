@@ -28,3 +28,9 @@ Use benchmark data to compare approaches with different HQ datasets:
 
 - Does coverage fit the expected?
 - How does N50 and QScore distribution improve with subsampling?
+
+
+### ONT T2T-Sequencing Kit
+
+ONT has published a protocol for T2T assembly on their protocols page [here](https://nanoporetech.com/document/telomere-to-telomere-sequencing). However this does not include detailed analyses steps, they mention a complete workflow will be published soon.
+

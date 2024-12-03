@@ -1,6 +1,9 @@
 # T2T ONT
 
-Project repository
+
+> Evaluating sequence assemblies For an assembly to be truly T2T, it must both cover the whole of each chromosome without gaps and be free from large-scale assembly errors. It is critical to rigorously assess the quality of the assembly before concluding it is T2T.
+
+Li, Heng, and Richard Durbin. “Genome Assembly in the Telomere-to-Telomere Era.” Nature Reviews Genetics 25, no. 9 (September 2024): 658–70. https://doi.org/10.1038/s41576-024-00718-w.
 
 ## Part1: Test pipeline with published datasets
 

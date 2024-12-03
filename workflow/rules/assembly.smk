@@ -23,8 +23,10 @@ rule verkko:
     input:
         unpack(get_assembly_input),
     output:
-        gfa=temp("/tmp/verrko_{asm}/assembly.homopolymer-compressed.noseq.gfa"),
-        fa=temp("/tmp/verrko_{asm}/assembly.fasta"),
+        gfa_noseq="assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        gfa="assembly/output/{asm}/assembly.homopolymer-compressed.gfa",
+        fa="assembly/output/{asm}/assembly.fasta",
+        scfmap = "assembly/output/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
     conda:
         "../env/verkko.yml"
     group:
@@ -45,17 +47,13 @@ rule verkko:
             >{log} 2>{log}
         """
 
-
-# Second rule for scaffolding is needed because not all required outputs are well defined in verrko. This workaround helps recreate all required output files if they are deleted.
 rule verkko_scaffold:
     input:
         unpack(get_assembly_input),
     output:
-        gfa=temp("/tmp/verrko_{asm}/8-hicPipeline/unitigs.hpc.noseq.gfa"), # Dummy output to rerun the copy rule in hiC that also produces haplotypes
-        gaf=temp("/tmp/verrko_{asm}/8-hicPipeline/rukki.paths.gaf"),
-        hp1=temp("/tmp/verrko_{asm}/assembly.haplotype1.fasta"),
-        hp2=temp("/tmp/verrko_{asm}/assembly.haplotype2.fasta"),
-        colors=temp("/tmp/verrko_{asm}/assembly.colors.csv"),
+        hp1="assembly/output/{asm}/assembly.haplotype1.fasta",
+        hp2="assembly/output/{asm}/assembly.haplotype2.fasta",
+        colors="assembly/output/{asm}/assembly.colors.csv",
     conda:
         "../env/verkko.yml"
     group:
@@ -77,26 +75,122 @@ rule verkko_scaffold:
             >{log} 2>{log}
         """
 
-
-rule verkko_copy_results:
+rule scaffold_create_rename_map:
     input:
-        gfa="/tmp/verrko_{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        fa="/tmp/verrko_{asm}/assembly.fasta",
-        hp1="/tmp/verrko_{asm}/assembly.haplotype1.fasta",
-        hp2="/tmp/verrko_{asm}/assembly.haplotype2.fasta",
-        colors="/tmp/verrko_{asm}/assembly.colors.csv",
+        scfmap = rules.verkko.output.scfmap
     output:
-        gfa="assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        fa="assembly/output/{asm}/assembly.fasta",
-        hp1="assembly/output/{asm}/assembly.haplotype1.fasta",
-        hp2="assembly/output/{asm}/assembly.haplotype2.fasta",
-        colors="assembly/output/{asm}/assembly.colors.csv",
+        "assembly/scaffold/{asm}/contigs.rename.map"
     log:
-        "logs/verkko_copy_results_{asm}.log",
+        "logs/create_rename_map_{asm}.log"
     group:
         "verrko"
+    threads:
+        1
     shell:
         """
-        cp -v /tmp/verrko_{wildcards.asm}/assembly.* assembly/output/{wildcards.asm}/  >{log} 2>{log}
-        rm -rf /tmp/verrko_{wildcards.asm}
+        cat {input.scfmap} \
+        | grep utig4 \
+        | awk '{{print $2"\t"$NF}}' \
+        > {output} 2>{log}
+        """
+
+rule scaffold_rename_fasta:
+    input:
+        map = "assembly/scaffold/{asm}/contigs.rename.map",
+        fa = "assembly/output/{asm}/assembly.fasta"
+    output:
+        fa = "assembly/scaffold/{asm}/assembly.fasta"
+    conda:
+        "../env/verkko.yml"
+    group:
+        "verrko"
+    log:
+        "logs/scaffold_rename_fasta_{asm}.log"
+    threads:
+        1
+    shell:
+        """
+        $CONDA_PREFIX/lib/verkko/scripts/fasta_combine.py rename\
+            {output.fa} \
+            {input.map} \
+            {input.fa} \
+            >{log} 2>&1
+        """
+
+rule scaffold_uncompress_gfa:
+    input:
+        gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.gfa",
+        fa = "assembly/scaffold/{asm}/assembly.fasta"
+    output:
+        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa"
+    conda:
+        "../env/verkko.yml"
+    group:
+        "verrko"
+    log:
+        "logs/scaffold_uncompress_gfa_{asm}.log"
+    threads:
+        4
+    shell:
+        """
+        $CONDA_PREFIX/lib/verkko/bin/alignGFA \
+            -V -e 0.30 \
+            -gfa \
+            -i {input.gfa} \
+            -T {input.fa} 0 \
+            -t {threads} \
+            -o {output.gfa} \
+            >{log} 2>&1
+        """
+
+rule scaffold_map_porec:
+    input:
+        unpack(get_assembly_input),
+        asm = "assembly/scaffold/{asm}/assembly.fasta"
+    output:
+        bam = "assembly/scaffold/{asm}/asm_porec.bam"
+    conda:
+        "../env/minimap2.yml"
+    log:
+        "logs/scaffold_map_porec_{asm}.log"
+    threads:
+        60
+    shell:
+        """
+        minimap2 \
+            -a \
+            -x map-ont \
+            -k 17 \
+            -t 56 \
+            -K 10g \
+            -I 8g \
+            {input.asm} \
+            {input.porec} \
+            2>{log} \
+        | samtools view -bh -@ 8 -q 1 - \
+            > {output} 2>>{log}
+        """
+
+rule scaffold_gfase:
+    input:
+        bam_porec = "assembly/scaffold/{asm}/asm_porec.bam",
+        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa"
+    output:
+        directory("assembly/scaffold/{asm}/gfase")
+    params:
+        gfase = "bin/GFAse/build/phase_contacts_with_monte_carlo"
+    log:
+        "logs/scaffold_gfase_{asm}.log"
+    threads:
+        62
+    shell:
+        """
+        {params.gfase} \
+            -i {input.bam_porec} \
+            -g {input.gfa} \
+            -o {output} \
+            --use_homology \
+            --skip_unzip \
+            -m 3 \
+            -t {threads} >{log} 2>&1
         """

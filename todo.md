@@ -24,6 +24,8 @@
     - [X] Normal/no duplex reads
 - [ ]  Compare assembly results with publication
 
+- [ ] Generate PoreC statistics with the “evaluate_contacts” executable provided in the GFAse package
+- [ ] Telomere detection (seqtk telo ?, take from verrko results, )
 
 Six sentence abstract
 Meeting in Bremen
