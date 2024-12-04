@@ -54,20 +54,13 @@ plot_read_stats(
   out_prefix = "UL_full_context"
 )
 
-# plot_read_stats(
-#   stats_files = c(
-    
-#   ),
-#   out_prefix = "UL_comparison_filtered"
-# )
-
-# # Plot read length and qual densities for downsamples UL flowcells (published)
-# plot_read_stats(
-#   stats_files = c(
-#     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/read_stats.txt",
-#     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL50x/read_stats.txt",
-#     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL70x/read_stats.txt",
-#     "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL90x/read_stats.txt",
-#     ),
-#   out_prefix = "UL_subsampling"
-# )
+# Plot read length and qual densities for downsamples UL flowcells (published)
+plot_read_stats(
+  stats_files = c(
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/read_stats.txt",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL50x/read_stats.txt",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL70x/read_stats.txt",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL90x/read_stats.txt",
+    ),
+  out_prefix = "UL_subsampling"
+)

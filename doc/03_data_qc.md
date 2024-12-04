@@ -15,10 +15,10 @@ Overview of the first two flowcells we sequenced. This is unprocessed reads for 
 
 
 | filename     | yield        | N50   | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
-| :----------- | :----------- | :---- | :----------- | :---------- | :---------- | :---------- |
-| published.UL | 496106934638 | 81748 | 1.9 Mb       | 190 Gb      | 31 Gb       | 45          |
-| run_04399.UL | 113914796731 | 67652 | 1.7 Mb       | 38 Gb       | 10 Gb       | 29          |
-| run_04400.UL | 107609849976 | 77925 | 2.0 Mb       | 40 Gb       | 9 Gb        | 54          |
+| :----------- | :----------- | :---- | :---------- | :---------- | :---------- | :---------- |
+| published.UL | 496106934638 | 81748 | 1.9 Mb      | 190 Gb      | 31 Gb       | 45          |
+| run_04399.UL | 113914796731 | 67652 | 1.7 Mb      | 38 Gb       | 10 Gb       | 29          |
+| run_04400.UL | 107609849976 | 77925 | 2.0 Mb      | 40 Gb       | 9 Gb        | 54          |
 
 
 ### Evaluation first UL sequencing runs.
@@ -44,10 +44,10 @@ There is no clear difference in read or quality length distribution between our 
 
 We need at least 50x long read coverage, equal to 160Gb, of UL reads.  Our testing grid in [Assembly QC](04_assembly_qc.md) showed that 50x shows similar performance to 70x recommended in published studies. 
 
-| filename     | yield        | N50   | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
-| :--------------- | :----------- | :----- | :----------- | :--------------- | :--------------- | :--------------- |
-| TUE_01.UL.50x    | 160GB | 97739  | 2037kb      | 78GB      | 18GB      | 50               |
-| published.UL.50x | 160GB | 129072 | 1511kb      | 121GB     | 22GB      | 39               |
+| filename         | yield | N50    | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
+| :--------------- | :---- | :----- | :---------- | :---------- | :---------- | :---------- |
+| TUE_01.UL.50x    | 160GB | 97739  | 2037kb      | 78GB        | 18GB        | 50          |
+| published.UL.50x | 160GB | 129072 | 1511kb      | 121GB       | 22GB        | 39          |
 
 After filtering our N50 and number of reads > 100kb is substantially worse then the published dataset.
 
