@@ -30,14 +30,32 @@ Our sequencing yield is good, we can assume that it is higher then the published
 
 ### Read length and quality distribution
 
-Before filtering:
-![Read quality and length density](img/UL_comparison.readstats_density.png)
 
-After filtering to 50x coverage (#todo):
+#### Not filtered:
+![Read quality and length density](img/UL_comparison.readstats_density.png)
 
 Mean read quality is substantially better with the new R10 pores, the variance is broader with some low quality reads. This observations could stem from some pre filtering of the published dataset. 
 Read length distribution of our UL reads is shifted slightly to slightly lower reads, reflected by 
 
 There is no clear difference in read or quality length distribution between our two runs, the extraction methods seem to perform very similar. 
 
+#### After filtering to 50x coverage: 
+![Read quality and length density, filtered](img/UL_comparison_filtered50x.readstats_density.png)
+
+We need at least 50x long read coverage, equal to 160Gb, of UL reads.  Our testing grid in [Assembly QC](04_assembly_qc.md) showed that 50x shows similar performance to 70x recommended in published studies. 
+
+| filename     | yield        | N50   | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
+| :--------------- | :----------- | :----- | :----------- | :--------------- | :--------------- | :--------------- |
+| TUE_01.UL.50x    | 160GB | 97739  | 2037kb      | 78GB      | 18GB      | 50               |
+| published.UL.50x | 160GB | 129072 | 1511kb      | 121GB     | 22GB      | 39               |
+
+After filtering our N50 and number of reads > 100kb is substantially worse then the published dataset.
+
 ### Estimation of flowcells needed per sample for T2T-Assembly
+
+We need either 2 or 3 good performing UL Flowcells. Influenced by these factors:
+
+- When the good performance of pilot flowcells is consistent and we could push our output to 200GB with 2 flowcells, sequencing two flowcells should be enough.
+- For fluctiations in flowcell performance we should reserve additionals flowcells for a third FC per sample.
+- It is possible that we will observe a need for a third flowcell (target yield 250GB) UL reads to close gaps in more difficult centromeric/telomeric regions. 
+- It is likely that we can use long simplex >100kb reads from the Duplex/Herro sequencing to add some data to our coverage. However this will not provide the required Ultralong reads. 

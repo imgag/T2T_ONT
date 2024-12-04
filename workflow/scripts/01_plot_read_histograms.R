@@ -124,6 +124,20 @@ plot_read_histograms(
   out_prefix = "UL_published_subsampling"
 )
 
+
+# Processeds UL datasets, merged two runs, downsampled to 50x
+plot_read_histograms(
+  length_files = c(
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/TUE_01/TUE_01.UL.50x/length.hist",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/length.hist"
+  ),
+  qual_files = c(
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/TUE_01/TUE_01.UL.50x/quality.hist",
+    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/quality.hist"
+  ),
+  out_prefix = "UL_comparison_50x"
+)
+
 # Compare subsampling of HERRO
 plot_read_histograms(
   length_files = c(
