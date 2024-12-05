@@ -19,6 +19,8 @@
     - Coloured GFAse assembly plot output
     - Karyotype plots with annotation of telomeres, centromeres, phasing blocks, synteny
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
+- [ ] Check if we used the same data for HERRO as in the paper. Data depended errors in the model? Can we achieve results from HERRO publication?
+- [ ] Is our sample TUE_01 the same HG002 from published dataset?
 
 - [X] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
 - [X] Investigate if what is inside the [T2T bundle[(https://labs.epi2me.io/lc2024_t2 )] from ONT. Maybe includes pipeline?
