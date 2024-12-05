@@ -1,5 +1,10 @@
 # Tasks
 
+- [ ] Duplex rates: All from same individual
+    - UL 24070 samples 2 analysed flowcells #04399 #04400
+    - 24070 samples 4 new flowcells (MINVERVA)
+    - MYGENOME #03877 #03878 --> Raw data is deleted and not archived!
+
 - [ ] Check how a combination of Duplex and HERRO reads performs?
     - [ ] Is the coverage evenly distributed?
     - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling

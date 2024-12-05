@@ -15,7 +15,14 @@ def update_herro_paths(f, dataset):
 
 
 def find_input_datasets(wc):
-    files = datasets[wc.dataset][wc.type]
+    if wc.type.startswith("HQ_combined") :
+        (cov_duplex,cov_herro) = str(wc.type).replace("HQ_combined.", "").split('_')
+        files = [
+            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
+            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz"
+        ]
+    else:
+        files = datasets[wc.dataset][wc.type]
     if wc.type == "HQ_herro":
         files = [update_herro_paths(f, wc.dataset) for f in files]
     return files
@@ -233,3 +240,5 @@ rule extract_location_data:
         | samtools fastq 2>>{log} \
         | gzip -c > {output.fq} 2>>{log}
         """
+
+ruleorder: extract_location_data > merge_copy_rename_fastq

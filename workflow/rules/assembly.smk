@@ -3,11 +3,17 @@ def get_assembly_input(wc):
     s_hq = asm[wc.asm]["HQ_method"]
     s_hq = "HQ_" + s_hq
     s_cov_ul = asm[wc.asm].get("cov_UL", "")
+    s_cov_hq = asm[wc.asm].get("cov_HQ", "")
+    #print(wc.asm, s_cov_ul, s_cov_hq, s_hq)
     if s_cov_ul != "":
         s_cov_ul = str(s_cov_ul) + "x."
-    s_cov_hq = asm[wc.asm].get("cov_HQ", "")
-    if s_cov_hq != "":
+    if s_cov_hq != "":  
         s_cov_hq = str(s_cov_hq) + "x."
+    if s_hq == "HQ_combined": 
+        s_cov_duplex = asm[wc.asm].get("cov_DUPLEX", "")
+        s_cov_herro = asm[wc.asm].get("cov_HERRO", "")
+        s_cov_hq = f"{s_cov_duplex}x_{s_cov_herro}x." 
+        #print("Combined dataset: ", s_cov_duplex, s_cov_herro)
     s_re = asm[wc.asm].get("region", "")
     if s_re != "":
         s_re = s_re + "."

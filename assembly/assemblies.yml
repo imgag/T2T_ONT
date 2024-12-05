@@ -1,51 +1,56 @@
-# Define available datasets in `data/datasets.yml`
 # Required parameters:
-#   - dataset
-#   - HQ_method
+#   - dataset: name of dataset defined in `data/datasets.yml`
+#   - HQ_method: Select one of:
+#        - duplex: Looks for duplex files defined in dataset
+#        - herro: Looks for herro files and creates them from simplex data if necessary
+#        - combined: 
 
 
-# Analysis matrix for testset chr19
+# Analysis matrix for testset chr19: 
 
-# LR↓/UL→ |     50x      |      70x     |     90x      |
-#         +--------------+--------------+--------------+
-#     15x |     duplex   |       --     |      --      |
-#     20x |     duplex   |       --     |      --      |
-#     25x |     duplex   |       --     |      --      |
-#     35x | 15x duplex + 20x herro  |   duplex/herro | duplex/herro |
-#     35x | duplex/herro | duplex/herro | duplex/herro |
-#     60x |     herro    |     herro    |    herro     |
-#    120x |     herro    |     herro    |    herro     |
+# LR↓/UL→ |         50x         |      70x     |     90x      |
+#         +---------------------+--------------+--------------+
+#     15x |     duplex          |       --     |      --      |
+#     20x |     duplex          |       --     |      --      |
+#     25x |     duplex          |       --     |      --      |
+#     35x | 15x DU + 20x herro  | duplex/herro | duplex/herro |
+#     35x | duplex/herro        | duplex/herro | duplex/herro |
+#     60x |     herro           |     herro    |    herro     |
+#    120x |     herro           |     herro    |    herro     |
 
-published_chr19_duplex25x:
-  dataset: published
-  HQ_method: duplex
-  region: chr19
-  cov_UL: 50
-  cov_HQ: 15
+#published_chr19_duplex15x:
+#  dataset: published
+#  HQ_method: duplex
+#  region: chr19
+#  cov_UL: 50
+#  cov_HQ: 15
 
-published_chr19_duplex25x:
-  dataset: published
-  HQ_method: duplex
-  region: chr19
-  cov_UL: 50
-  cov_HQ: 20
+#published_chr19_duplex20x:
+#  dataset: published
+#  HQ_method: duplex
+#  region: chr19
+#  cov_UL: 50
+#  cov_HQ: 20
 
-published_chr19_duplex25x:
-  dataset: published
-  HQ_method: duplex
-  region: chr19
-  cov_UL: 50
-  cov_HQ: 25
-
-#todo implement combined datasets
 #published_chr19_duplex25x:
 #  dataset: published
-#  HQ_method: combined
+#  HQ_method: duplex
 #  region: chr19
-#  cov_HERRO: 20
-#  cov_DUPLEX: 15x
-#  cov_UL: 35
+#  cov_UL: 50
 #  cov_HQ: 25
+
+#todo implement combined datasets
+published_chr19_combined35x:
+  dataset: published
+  HQ_method: combined
+  region: chr19
+  cov_UL: 50
+  #cov_HQ: 35   # Currently makes no impact if this line exists or not. Maybe add warning if it deviates from sum of herro and duplex
+  cov_HERRO: 20
+  cov_DUPLEX: 15
+
+# When only combined is given we should include maximum DUPLEX reads and fill up with HERRO
+# Needs to be implemented 
 
 published_chr19_duplex_UL50x:
   dataset: published
