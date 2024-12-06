@@ -1,3 +1,33 @@
+def get_ref_genome(wc):
+    import re
+    ref = config['ref']
+    print(ref)
+    match = re.search(r'chr\d+', str(wc.asm))
+    print(match)
+    if match:
+        print(match)
+        prefix =config['ref'].replace("fasta", "")
+        ref = f"{prefix}{match.group(0)}.fasta"
+    return ref
+
+rule subsample_ref_genome:
+    input:
+        fa = "data/ref/{ref}.fasta"
+    output:
+        fa = "data/ref/{ref}.{roi,chr.*}.fasta"
+    conda:
+        "../env/minimap2.yml"
+    log:
+        "logs/subsample_ref_genome_{ref}_{roi}.log"
+    threads:
+        1
+    shell:
+        """
+        samtools faidx {input.fa} 2>{log}
+        samtools faidx {input.fa} {wildcards.roi} > {output} 2>>{log}
+        samtools faidx {output.fa} 2>>{log}
+        """
+
 rule bandage:
     input:
         gfa=rules.verkko.output.gfa,
@@ -20,7 +50,7 @@ rule bandage:
 rule map_asm_to_ref:
     input:
         fa="assembly/output/{asm}/assembly.{hp}.fasta",
-        ref=config["ref"],
+        ref=get_ref_genome,
     output:
         paf="assembly/qc/{asm}/{hp}.mapped_T2T.paf",
     conda:
@@ -61,7 +91,7 @@ rule map_cdna_to_asm:
 rule qc_paftools_stat:
     input:
         paf=rules.map_asm_to_ref.output.paf,
-        ref=config["ref"],
+        ref=get_ref_genome,
     output:
         "assembly/qc/{asm}/qc_paftools_stat.{hp}.txt",
     conda:
@@ -80,7 +110,7 @@ rule qc_paftools_stat:
 rule qc_paftools_asmstat:
     input:
         paf=rules.map_asm_to_ref.output.paf,
-        ref=config["ref"],
+        ref=get_ref_genome,
     output:
         "assembly/qc/{asm}/qc_paftools_asmstat.{hp}.txt",
     conda:
@@ -118,7 +148,7 @@ rule qc_paftools_asmgene:
 rule scaffold_lengths:
     input:
         fa="assembly/output/{asm}/assembly.{hp}.fasta",
-        ref=config["ref"],
+        ref=get_ref_genome,
     output:
         txt="assembly/qc/{asm}/scaffold_lengths.{hp}.txt",
     conda:

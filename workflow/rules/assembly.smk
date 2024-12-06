@@ -41,7 +41,7 @@ rule verkko:
         "logs/verkko_{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko.txt"
-    threads: 320
+    threads: 60
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
     shell:
@@ -69,7 +69,7 @@ rule verkko_scaffold:
         "logs/verkko_scaffold_{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
-    threads: 120
+    threads: 60
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
     shell:
@@ -190,7 +190,7 @@ rule scaffold_gfase:
     log:
         "logs/scaffold_gfase_{asm}.log"
     threads:
-        62
+        12
     shell:
         """
         {params.gfase} \
