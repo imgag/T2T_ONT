@@ -56,6 +56,7 @@ rule verkko:
 rule verkko_scaffold:
     input:
         unpack(get_assembly_input),
+        done = "assembly/scaffold/{asm}/use_verkko_files.done"
     output:
         hp1="assembly/output/{asm}/assembly.haplotype1.fasta",
         hp2="assembly/output/{asm}/assembly.haplotype2.fasta",
@@ -128,7 +129,8 @@ rule scaffold_uncompress_gfa:
         gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.gfa",
         fa = "assembly/scaffold/{asm}/assembly.fasta"
     output:
-        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa"
+        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa",
+        done = "assembly/scaffold/{asm}/use_verkko_files.done"
     conda:
         "../env/verkko.yml"
     group:
