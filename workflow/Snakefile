@@ -39,11 +39,11 @@ for dataset in datasets:
 
 ## Include downsampled files
 bam_qc += [
-    x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/bamstats.txt")
+    re.sub(".chr\d+.", "/", x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/bamstats.txt"))
     for x in fq_files if "POREC" not in x
 ]
 bam_qc += [
-    x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/cov.mosdepth.summary.txt")
+    re.sub(".chr\d+.", "/", x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/cov.mosdepth.summary.txt"))
     for x in fq_files if "POREC" not in x
 ]
 
@@ -52,7 +52,7 @@ rule all:
         #fq_files,
         #fq_qc,
         "assembly/scaffold/published_chr19_herro_35x_UL70x/gfase",
-        #bam_qc,
+        bam_qc,
         expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
         expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm.keys()),
         expand(
