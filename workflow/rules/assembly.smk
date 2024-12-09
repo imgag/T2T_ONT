@@ -104,7 +104,7 @@ rule scaffold_create_rename_map:
 rule scaffold_rename_fasta:
     input:
         map = "assembly/scaffold/{asm}/contigs.rename.map",
-        fa = "assembly/output/{asm}/assembly.fasta"
+        fa = ancient("assembly/output/{asm}/assembly.fasta")
     output:
         fa = "assembly/scaffold/{asm}/assembly.fasta"
     conda:
@@ -126,7 +126,7 @@ rule scaffold_rename_fasta:
 
 rule scaffold_uncompress_gfa:
     input:
-        gfa = "assembly/output/{asm}/assembly.homopolymer-compressed.gfa",
+        gfa = ancient("assembly/output/{asm}/assembly.homopolymer-compressed.gfa"),
         fa = "assembly/scaffold/{asm}/assembly.fasta"
     output:
         gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa",
@@ -149,6 +149,8 @@ rule scaffold_uncompress_gfa:
             -t {threads} \
             -o {output.gfa} \
             >{log} 2>&1
+        
+        touch {output.done}
         """
 
 rule scaffold_map_porec:
