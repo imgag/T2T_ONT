@@ -1,11 +1,11 @@
 def get_ref_genome(wc):
     import re
     ref = config['ref']
-    print(ref)
+    #print(ref)
     match = re.search(r'chr\d+', str(wc.asm))
-    print(match)
+    #print(match)
     if match:
-        print(match)
+        #print(match)
         prefix =config['ref'].replace("fasta", "")
         ref = f"{prefix}{match.group(0)}.fasta"
     return ref
@@ -67,6 +67,25 @@ rule map_asm_to_ref:
             > {output.paf} 2> {log}
         """
 
+rule map_cdna_to_ref:
+    input:
+        genome=get_ref_genome,
+        cdna=config["ref_cdna"],
+    output:
+        paf="data/ref/{asm}.cdna.paf",
+    conda:
+        "../env/minimap2.yml"
+    threads: 20
+    log:
+        "logs/map_cdna_to_ref_{asm}.log",
+    shell:
+        """
+        minimap2 -cxsplice -C5\
+            -t {threads} \
+            {input.genome} {input.cdna} \
+            >{output.paf} 2>{log}
+        """
+
 
 rule map_cdna_to_asm:
     input:
@@ -125,11 +144,22 @@ rule qc_paftools_asmstat:
             > {output} 2>{log}
         """
 
+def get_ref_cdna_paf(wc):
+    import re
+    ref = config['ref'].replace(".fasta", ".cdna.paf")
+    #print(ref)
+    match = re.search(r'chr\d+', str(wc.asm))
+    #print(match)
+    if match:
+        #print(match)
+        prefix =config['ref'].replace("fasta", "")
+        ref = f"{prefix}{match.group(0)}.cdna.paf"
+    return ref
 
 rule qc_paftools_asmgene:
     input:
         paf_asm=rules.map_cdna_to_asm.output.paf,
-        paf_ref=config["ref_cdna_paf"],
+        paf_ref=get_ref_cdna_paf,
     output:
         "assembly/qc/{asm}/qc_paftools_asmgene.{hp}.txt",
     conda:
