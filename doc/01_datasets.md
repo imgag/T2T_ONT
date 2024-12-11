@@ -38,7 +38,7 @@ Mc Cartney et al. Nature Methods (June 2022): 687–95. https://doi.org/10.1038/
 There is a draft version of a GIAB benchmarkset using T2TQ100 (HG002) called against CHM13v2.0 here:
 https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/analysis/NIST_HG002_DraftBenchmark_defrabbV0.018-20240716/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
 
-We use this file to compare our phasing
+We use this file to analyse our phasing performance.
 
 
 # Haploid reference genome (CHM13-T2T)

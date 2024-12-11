@@ -137,12 +137,12 @@ rule filter_shared_variants:
         temp_ref=$(mktemp)
         temp_asm=$(mktemp)
 
-        bcftools view {input.ref} | \
+        bcftools view -t ^chrX,^chrY {input.ref} | \
         bcftools reheader --samples <(echo "SAMPLE") | \
         bgzip > "$temp_ref" && \
         bcftools index "$temp_ref"
 
-        bcftools view {input.vcf} | \
+        bcftools view -t ^chrX,^chrY {input.vcf} | \
         bcftools reheader --samples <(echo "SAMPLE") | \
         bgzip > "$temp_asm" && \
         bcftools index "$temp_asm"
@@ -181,6 +181,6 @@ rule whatshap_compare:
             --tsv-pairwise {output.tsv} \
             {input.ref} \
             {input.vcf} \
-            >{output.stats} 2>&1
+            >{output.stats} 2>{log}
         """
 
