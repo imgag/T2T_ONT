@@ -35,6 +35,11 @@ Current version is hg002v1.1 (July, 2024)
 Methods used to polish and correct errors are described in this paper:
 Mc Cartney et al. Nature Methods (June 2022): 687–95. https://doi.org/10.1038/s41592-022-01440-3.
 
+There is a draft version of a GIAB benchmarkset using T2TQ100 (HG002) called against CHM13v2.0 here:
+https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/analysis/NIST_HG002_DraftBenchmark_defrabbV0.018-20240716/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
+
+We use this file to compare our phasing
+
 
 # Haploid reference genome (CHM13-T2T)
 

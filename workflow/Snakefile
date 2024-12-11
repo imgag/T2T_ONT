@@ -15,6 +15,7 @@ include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
+include: "rules/call_variants.smk"
 
 # Create QC for all input FASTQ files
 fq_files = [
@@ -51,7 +52,11 @@ rule all:
     input:
         #fq_files,
         #fq_qc,
-        "assembly/scaffold/published_chr19_herro_35x_UL70x/gfase",
+        #expand("assembly/scaffold/{dataset}/gfase", dataset=asm.keys()),
+        expand("assembly/variants/{asm}/small_variants.dip.vcf.gz", asm = asm.keys()),
+        expand("assembly/variants/{asm}/hapdiff_phased.vcf.gz", asm = asm.keys()),
+        expand("assembly/qc/{asm}/whatshap_compare.tsv", asm = asm.keys()),
+        expand("assembly/qc/{asm}/whatshap_stats.tsv", asm = asm.keys()),
         bam_qc,
         expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
         expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm.keys()),
