@@ -2,7 +2,7 @@ library(tidyverse)
 
 ### Comparison Mapping stats of selected datasets in a single plot 
 
-f1 <- "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex/bamstats.txtt"
+f1 <- "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex/bamstats.txt"
 f2 <- "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_herro/bamstats.txt"
 f3 <- "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.UL/bamstats.txt"
 f4 <- "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/run_04399/run_04399.UL/bamstats.txt"
