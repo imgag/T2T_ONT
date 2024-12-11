@@ -3,8 +3,7 @@
 - [ ] Duplex rates: All from same individual
     - UL 24070 samples 2 analysed flowcells #04399 #04400
     - 24070 samples 4 new flowcells (MINVERVA)
-    - MYGENOME #03877 #03878 --> Raw data is deleted and not archived!
-
+    - MYGENOME #03877 #03878 --> Duplex calling currently is running
 - [ ] Check how a combination of Duplex and HERRO reads performs?
     - [ ] Is the coverage evenly distributed?
     - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
@@ -25,7 +24,8 @@
     - Karyotype plots with annotation of telomeres, centromeres, phasing blocks, synteny
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
 - [ ] Check if we used the same data for HERRO as in the paper. Data depended errors in the model? Can we achieve results from HERRO publication?
-- [ ] Is our sample TUE_01 the same HG002 from published dataset?
+- [ ] Check if filtlong subsampling with length preference is a problem for subsampling HERRO and DUPLEX reads in the benchmark
+- [X] Is our sample TUE_01 the same HG002 from published dataset? No its a personal genome from Germany
 
 - [X] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
 - [X] Investigate if what is inside the [T2T bundle[(https://labs.epi2me.io/lc2024_t2 )] from ONT. Maybe includes pipeline?
