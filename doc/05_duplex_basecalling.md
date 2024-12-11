@@ -1,3 +1,18 @@
+## Duplex basecalling
+
+Observations, Rates, Sample overview
+
+## Pipeline
+
+After much work and bugfixing, [duplex pipeline](https://github.com/imgag/NCCT_scripts/duplex) now runs relatively stable on SRV025. 
+Not fully implemented in T2T_ONT project yet, is running in separate folder `/mnt/storage3b/projects/no_ngsd/ahgrosc1_duplex_rates`
+
+
+## Duplex rates
+
+We want to find out the duplex rates, here is a list of "normal" WGS Samples, to analyse:
+
+```
 23038LRa533_01
 23038LRa534_01
 23038LRa535_01
@@ -18,3 +33,6 @@
 21073LRa256L2_01
 21073LRa258L2_01
 21073LRa259L2_01
+```
+
+At the same time we
