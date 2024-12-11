@@ -59,3 +59,15 @@ We need either 2 or 3 good performing UL Flowcells. Influenced by these factors:
 - For fluctiations in flowcell performance we should reserve additionals flowcells for a third FC per sample.
 - It is possible that we will observe a need for a third flowcell (target yield 250GB) UL reads to close gaps in more difficult centromeric/telomeric regions. 
 - It is likely that we can use long simplex >100kb reads from the Duplex/Herro sequencing to add some data to our coverage. However this will not provide the required Ultralong reads. 
+
+## Published dataset
+
+
+### Downsampling strategy
+
+To benchmark required read depths to generate T2T assemblies we downsampled the published dataset from Koren et al. To do this we used a random subsampling process using `filtlong`. We then mapped the assembly input files and calculat the mapping coverages to check if the subsampling was successful:
+
+![Mapping coverages for benchmark assembly input](img/subsampling_coverages.cov_boxplot.png)
+
+Plotting the mapping coverages confirms that we reach the target coverages for all input datasets.
+
