@@ -15,27 +15,56 @@ def update_herro_paths(f, dataset):
 
 
 def find_input_datasets(wc):
-    if wc.type.startswith("HQ_combined") :
-        (cov_duplex,cov_herro) = str(wc.type).replace("HQ_combined.", "").split('_')
-        files = [
-            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
-            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz"
-        ]
-    else:
-        files = datasets[wc.dataset][wc.type]
-    if wc.type == "HQ_herro":
-        files = [update_herro_paths(f, wc.dataset) for f in files]
-    return files
+    # Input is a raw data folder, run basecalling depending on type
+    #print(datasets[wc.dataset][wc.type])
+    files = []
+    folders = []
+    
+    elements = datasets[wc.dataset][wc.type] if isinstance(datasets[wc.dataset][wc.type], list) else [datasets[wc.dataset][wc.type]]
+    for element in elements:
+        # Is a folder
+        if os.path.isdir(element):
+            if wc.type == "UL":
+                folders.append(f"data/basecalled/SUP/{os.path.basename(element)}")
+                files.append(f"data/basecalled/SUP/{os.path.basename(element)}/{os.path.basename(element)}.sup.unmapped.bam")
+            if wc.type == "HQ_duplex":
+                folders.append(f"data/basecalled/Duplex/{os.path.basename(element)}")
+                files.append(f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplex.unmapped.bam")
+        # Is a file
+        else:
+            match wc.type:
+                case "HQ_combined":
+                    (cov_duplex, cov_herro) = str(wc.type).replace("HQ_combined.", "").split('_')
+                    files.extend([
+                        f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
+                        f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz"
+                    ])
+                case "HQ_herro":
+                    files.extend([update_herro_paths(f, wc.dataset) for f in files])
+                case "HQ_duplex":
+                    files.append(element)
+                case "UL":
+                    files.append(element)
+                case "POREC":
+                    files.append(element)
+                case _:
+                    print(f"Unrecognized dataset type for {element}")
+                    files.append(element)
+
+    return {
+        "files": files,
+        "folders": folders,
+    }
 
 
 def input_isbam(wc):
-    files = find_input_datasets(wc)
+    files = find_input_datasets(wc)['files']
     return all(f.endswith(".bam") for f in files)
 
 
 rule merge_copy_rename_fastq:
     input:
-        find_input_datasets,
+        unpack(find_input_datasets),
     output:
         "assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
     conda:
@@ -46,7 +75,7 @@ rule merge_copy_rename_fastq:
         samtools=lambda wc: "samtools" if input_isbam(wc) else "",
     shell:
         """
-        samtools fastq <({params.samtools} cat {input}) 2>{log}\
+        samtools fastq <({params.samtools} cat {input.files}) 2>{log}\
         | gzip -c >{output} 2>>{log}
         """
 

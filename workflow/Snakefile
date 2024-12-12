@@ -11,6 +11,7 @@ with open("data/datasets.yml") as f:
 with open("assembly/assemblies.yml") as f:
     asm = yaml.safe_load(f)
 
+include: "rules/basecalling.smk"
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
