@@ -268,6 +268,8 @@ rule extract_duplex:
         stats = "data/basecalled/Duplex/{dataset}/{dataset}.duplex.stat.txt",
     output:
         bam="data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam"
+    conda:
+        "../env/samtools.yml"
     log:
         "logs/extract_duplex_{dataset}.log"
     shell:
