@@ -1,13 +1,28 @@
+# Reference datasets
 ref: data/ref/T2T-CHM13.v2.fasta
 ref_cdna: data/ref/Homo_sapiens.GRCh38.cdna.all.fa.gz
 ref_cdna_paf: data/ref/T2T-CHM13.cdna.paf
 ref_giab_vcf: data/ref/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
-verkko_dryrun : False
+
+# DORADO settings
 dorado : bin/dorado-0.8.1-linux-x64/bin/dorado
+model_auto: "sup,5mCG_5hmCG"
+model_auto_duplex: "sup"
+models_directory: "dorado_models"
+split_number: 100
+process_subset_chunks: 3
+
 herro_model : bin/herro-v1
+
+# Preprocessing settings
 min_length : 10000
 min_mean_q : 7
 genome_length : 3200000000
+
+# Assembly settings
+verkko_dryrun : False
+
+# Variant calling settings
 X_PAR_file: bin/dipcall.kit/hs38.PAR.bed
 run-dipcall: bin/dipcall.kit/run-dipcall
 hapdiff: bin/hapdiff/hapdiff.py

@@ -25,6 +25,7 @@
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
 - [ ] Check if we used the same data for HERRO as in the paper. Data depended errors in the model? Can we achieve results from HERRO publication?
 - [ ] Check if filtlong subsampling with length preference is a problem for subsampling HERRO and DUPLEX reads in the benchmark
+- [ ] Make PORCE optional, dont run scaffolding without it
 - [X] Is our sample TUE_01 the same HG002 from published dataset? No its a personal genome from Germany
 
 - [X] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
