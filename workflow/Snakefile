@@ -78,16 +78,14 @@ asm_without_porec = [
     x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]
 ]
 
-
 rule all:
     input:
         # QC Files
-        #fq_files, 
-        #fq_qc,
-        #expand("assembly/scaffold/{dataset}/gfase", dataset=asm.keys()),
+        fq_qc,
         bam_qc,
         # Assembly Files
         expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
+        #expand("assembly/scaffold/{dataset}/gfase", dataset=asm.keys())
         # Assembly QC Files (Unphased, no POREC)
         expand("assembly/qc/{dataset}/bandage_graph.no_colors.png", dataset=asm_without_porec),
         # Assembly QC Files (Phased)
