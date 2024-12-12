@@ -43,7 +43,7 @@ rule dorado_sup:
     log:
         "logs/dorado_duplex_{dataset}.log",
     resources:
-        queue="gpu_srv010,gpu_srv019",
+        queue="gpu_srv010,gpu_srv019,gpu_srv025",
         gpus=2,
     threads: 32
     priority: 3
@@ -52,7 +52,7 @@ rule dorado_sup:
         model=config["model_auto"],
     shell:
         """
-        {params.dorado} basecall \
+        {params.dorado} basecaller \
             {params.model} \
             {input.pod5} \
             --models-directory dorado_models \
@@ -72,7 +72,7 @@ rule rename_dorado_output:
         "logs/rename_dorado_output_{dataset}.log",
     shell:
         """
-        mv -v $(find {input.folder} -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
+        mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
         > {log} 2>&1
         """
 
@@ -198,14 +198,14 @@ rule dorado_duplex:
             shell(
                 "CUDA_LAUNCH_BLOCKING=1 \
                 {params.dorado} duplex \
-                {params.model} \
-                {input.pod5} \
-                --models-directory dorado_models \
-                --device '{params.cuda_device}' \
-                --chunksize 9996 \
-                --batchsize 500 \
-                > {output.bam} \
-                2> {log} \
+                    {params.model} \
+                    {input.pod5} \
+                    --models-directory dorado_models \
+                    --device '{params.cuda_device}' \
+                    --chunksize 9996 \
+                    --batchsize 500 \
+                    > {output.bam} \
+                    2> {log} \
             "
             )
 
