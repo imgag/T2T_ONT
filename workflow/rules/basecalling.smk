@@ -32,14 +32,14 @@ def get_path_for_dataset_folder(wc):
             # Print warning if multiple paths are found
             if len(matching_paths) > 1:
                 print(f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}")
-    print(matching_paths)                
+    #print(matching_paths)                
     return matching_paths
 
 rule dorado_sup:
     input:
         pod5=get_path_for_dataset_folder,
     output:
-        directory("data/basecalled/SUP/{dataset}")
+        done = "data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done"
     log:
         "logs/dorado_duplex_{dataset}.log",
     resources:
@@ -58,21 +58,25 @@ rule dorado_sup:
             --models-directory dorado_models \
             --recursive \
             --trim all \
-            --output-dir {output} \
-            2> {log} \
+            --output-dir $(dirname {output.done}) \
+            2> {log} 2>&1
+        touch {output.done}
          """
 
 rule rename_dorado_output:
     input:
-        folder="data/basecalled/SUP/{dataset}",
+        folder="data/basecalled/SUP/{dataset}/dorado_sup.done",
     output:
-        bam="data/basecalled/SUP/{dataset}.sup.unmapped.bam",
+        bam="data/basecalled/SUP/{dataset}/{dataset}.sup.unmapped.bam",
+    log:
+        "logs/rename_dorado_output_{dataset}.log",
     shell:
         """
-        mv {input.folder}/*.bam {output.bam}.bam
+        mv -v $(find {input.folder} -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
+        > {log} 2>&1
         """
 
-ruleorder: rename_dorado_output > dorado_sup
+
 
 rule dorado_summary:
     input:
@@ -247,7 +251,7 @@ rule report_duplex_statistics:
     log:
         "logs/report_duplex_statistics_{dataset}.log",
     conda:
-        "../envs/samtools.yaml"
+        "../env/samtools.yml"
     threads: 1
     params:
         script=workflow.source_path("../scripts/bam-duplex-rate.awk"),
@@ -256,4 +260,17 @@ rule report_duplex_statistics:
         """
         samtools view {input.bam} 2> {log} | \
             awk -f {params.script} >> {output.statistics} 2>> {log}
+        """
+
+rule extract_duplex:
+    input:
+        bam="data/basecalled/Duplex/{dataset}/{dataset}.duplex.unmapped.bam",
+        stats = "data/basecalled/Duplex/{dataset}/{dataset}.duplex.stat.txt",
+    output:
+        bam="data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam"
+    log:
+        "logs/extract_duplex_{dataset}.log"
+    shell:
+        """
+        samtools view -b -h -d dx:1 {input.bam} > {output.bam} 2> {log}
         """

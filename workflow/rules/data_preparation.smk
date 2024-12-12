@@ -25,11 +25,9 @@ def find_input_datasets(wc):
         # Is a folder
         if os.path.isdir(element):
             if wc.type == "UL":
-                folders.append(f"data/basecalled/SUP/{os.path.basename(element)}")
                 files.append(f"data/basecalled/SUP/{os.path.basename(element)}/{os.path.basename(element)}.sup.unmapped.bam")
             if wc.type == "HQ_duplex":
-                folders.append(f"data/basecalled/Duplex/{os.path.basename(element)}")
-                files.append(f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplex.unmapped.bam")
+                files.append(f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplexonly.unmapped.bam")
         # Is a file
         else:
             match wc.type:
