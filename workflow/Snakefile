@@ -3,7 +3,9 @@ import yaml
 import re
 from types import SimpleNamespace
 
+
 configfile: os.path.join(workflow.basedir, "config.yml")
+
 
 with open("data/datasets.yml") as f:
     datasets = yaml.safe_load(f)
@@ -11,12 +13,14 @@ with open("data/datasets.yml") as f:
 with open("assembly/assemblies.yml") as f:
     asm = yaml.safe_load(f)
 
+
 include: "rules/basecalling.smk"
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
+
 
 # Create QC for all input FASTQ files
 fq_files = [
@@ -35,40 +39,71 @@ bam_qc = []
 for dataset in datasets:
     for filetype in datasets[dataset]:
         if filetype != "POREC":
-            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt")             # ONT bamstats
-            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt") # Coverage
-            bam_qc.append(f"data/bamstats/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz")             # Alfred Bamqc
+            bam_qc.append(
+                f"data/bamstats/{dataset}/{dataset}.{filetype}/bamstats.txt"
+            )  # ONT bamstats
+            bam_qc.append(
+                f"data/bamstats/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
+            )  # Coverage
+            bam_qc.append(
+                f"data/bamstats/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
+            )  # Alfred Bamqc
 
 ## Include downsampled files
 bam_qc += [
-    re.sub(".chr\d+.", "/", x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/bamstats.txt"))
-    for x in fq_files if "POREC" not in x
+    re.sub(
+        ".chr\d+.",
+        "/",
+        x.replace("assembly/input/", "data/bamstats/").replace(
+            ".fastq.gz", "/bamstats.txt"
+        ),
+    )
+    for x in fq_files
+    if "POREC" not in x
 ]
 bam_qc += [
-    re.sub(".chr\d+.", "/", x.replace("assembly/input/", "data/bamstats/").replace(".fastq.gz", "/cov.mosdepth.summary.txt"))
-    for x in fq_files if "POREC" not in x
+    re.sub(
+        ".chr\d+.",
+        "/",
+        x.replace("assembly/input/", "data/bamstats/").replace(
+            ".fastq.gz", "/cov.mosdepth.summary.txt"
+        ),
+    )
+    for x in fq_files
+    if "POREC" not in x
 ]
+
+asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]]]
+asm_without_porec = [
+    x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]
+]
+
 
 rule all:
     input:
-        #fq_files,
+        # QC Files
+        #fq_files, 
         #fq_qc,
         #expand("assembly/scaffold/{dataset}/gfase", dataset=asm.keys()),
-        expand("assembly/variants/{asm}/small_variants.dip.vcf.gz", asm = asm.keys()),
-        expand("assembly/variants/{asm}/hapdiff_phased.vcf.gz", asm = asm.keys()),
-        expand("assembly/qc/{asm}/whatshap_compare.txt", asm = asm.keys()),
-        expand("assembly/qc/{asm}/whatshap_stats.txt", asm = asm.keys()),
         bam_qc,
+        # Assembly Files
         expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),
-        expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm.keys()),
+        # Assembly QC Files (Unphased, no POREC)
+        expand("assembly/qc/{dataset}/bandage_graph.no_colors.png", dataset=asm_without_porec),
+        # Assembly QC Files (Phased)
         expand(
             "assembly/qc/{dataset}/qc_paftools_{module}.{hp}.txt",
-            dataset=asm.keys(),
+            dataset=asm_with_porec,
             module=["stat", "asmstat", "asmgene"],
             hp=["haplotype1", "haplotype2"],
         ),
         expand(
             "assembly/qc/{dataset}/dotplot.{hp}.pdf",
-            dataset=asm.keys(),
+            dataset=asm_with_porec,
             hp=["haplotype1", "haplotype2"],
         ),
+        expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm_with_porec),
+        expand("assembly/variants/{asm}/small_variants.dip.vcf.gz", asm=asm_with_porec),
+        expand("assembly/variants/{asm}/hapdiff_phased.vcf.gz", asm=asm_with_porec),
+        expand("assembly/qc/{asm}/whatshap_compare.txt", asm=asm_with_porec),
+        expand("assembly/qc/{asm}/whatshap_stats.txt", asm=asm_with_porec),

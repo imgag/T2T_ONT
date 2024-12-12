@@ -28,6 +28,22 @@ rule subsample_ref_genome:
         samtools faidx {output.fa} 2>>{log}
         """
 
+rule bandage_without_colors:
+    input:
+        gfa=rules.verkko.output.gfa,
+    output:
+        svg="assembly/qc/{asm}/bandage_graph.no_colors.svg",
+        png="assembly/qc/{asm}/bandage_graph.no_colors.png",
+    conda:
+        "../env/bandage.yml"
+    log:
+        "logs/bandage_{asm}.log",
+    threads: 1
+    shell:
+        """
+        Bandage image {input.gfa} {output.svg}
+        """
+
 rule bandage:
     input:
         gfa=rules.verkko.output.gfa,
