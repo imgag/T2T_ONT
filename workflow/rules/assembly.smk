@@ -1,10 +1,12 @@
 def get_assembly_input(wc):
+    # Get the dataset, HQ method, and coverage from the assembly config
     s_d = asm[wc.asm]["dataset"]
     s_hq = asm[wc.asm]["HQ_method"]
     s_hq = "HQ_" + s_hq
     s_cov_ul = asm[wc.asm].get("cov_UL", "")
     s_cov_hq = asm[wc.asm].get("cov_HQ", "")
     #print(wc.asm, s_cov_ul, s_cov_hq, s_hq)
+    # Handle coverage and use full dataset if no coverage is specified
     if s_cov_ul != "":
         s_cov_ul = str(s_cov_ul) + "x."
     if s_cov_hq != "":  
@@ -20,8 +22,10 @@ def get_assembly_input(wc):
     files = {
         "ul": f"assembly/input/{s_d}/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
         "hq": f"assembly/input/{s_d}/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
-        "porec": f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz",
     }
+    # Add POREC only if it exists
+    if "POREC" in datasets[s_d]:
+        files["porec"] = f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz"
     return files
 
 
