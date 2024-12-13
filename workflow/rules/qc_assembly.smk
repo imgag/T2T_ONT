@@ -245,25 +245,41 @@ rule dotplot:
 #            {input.gfa} {input.ref} \
 #            >{output} 2>{log}
 #        """
-# rule qc_meryl:
-#    input:
-#
-#    output:
-#        "assembly_qc/{asm}/kmers.{hp}.meryl"
-# rule qc_merqury:
-#    input:
-#        meryl = expand("assembly_qc/{asm}/kmers.{hp}.meryl", hp = ["haplotype1", "haplotype2"]),
-#        fa1 = rules.verkko.output.hp1,
-#        fa2 = rules.verkko.output.hp2,
-#    output:
-#        directory("assembly_qc/{asm}/merqury")
-#    conda:
-#        "../env/merqury.yml"
-#    threads: 1
-#    shell:
-#    """
-#    merqury.sh \
-#        {input.meryl} \
-#        {input. fa1} {input.fa2} \
-#        {output} &> {log}
-#    """
+
+rule qc_meryl:
+    input:
+        ref_q100 = config["ref_hg002_q100"]
+    output:
+        f"data/ref/hg002_q100_k_{config["K-mer"]}.meryl"
+    params:
+        k = config["K-mer"]
+    conda:
+        "../env/merqury.yml"
+    shell:
+        """
+        meryl count k={params.k} {input.ref_q100} output {output}
+        """
+
+
+rule qc_merqury:
+    input:
+        meryl = f"data/ref/hg002_q100_k_{config["K-mer"]}.meryl",
+        pat_fa="assembly/output/{asm}/assembly.haplotype1.fasta",
+        mat_fa="assembly/output/{asm}/assembly.haplotype2.fasta",
+    output:
+        out_final ="assembly/qc/{asm}/QV_score.qv"
+        hap_meryl="assembly/qc/{asm}/QV_score.assembly.{hp}.qv"
+    params:
+        prefix = "assembly/qc/{asm}/QV_score"
+    conda:
+        "../env/merqury.yml"
+    threads: 1
+    shell:
+        """
+        export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
+        qv.sh {input.meryl} {input.pat_fa} {input.mat_fa} {params.prefix}
+        rm -r *.meryl
+        """
+#temporary meryl files are created during qv.sh process so i put the rm
+#export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
+#because the qv script 
