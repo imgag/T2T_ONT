@@ -250,7 +250,7 @@ rule qc_meryl:
     input:
         ref_q100 = config["ref_hg002_q100"]
     output:
-        f"data/ref/hg002_q100_k_{config["K-mer"]}.meryl"
+        expand("data/ref/hg002_q100_k_{k_val}.meryl", k_val=config["K-mer"])
     params:
         k = config["K-mer"]
     conda:
@@ -263,12 +263,13 @@ rule qc_meryl:
 
 rule qc_merqury:
     input:
-        meryl = f"data/ref/hg002_q100_k_{config["K-mer"]}.meryl",
+        meryl = expand("data/ref/hg002_q100_k_{k_value}.meryl", k_value=config["K-mer"]),
         pat_fa="assembly/output/{asm}/assembly.haplotype1.fasta",
         mat_fa="assembly/output/{asm}/assembly.haplotype2.fasta",
     output:
-        out_final ="assembly/qc/{asm}/QV_score.qv"
-        hap_meryl="assembly/qc/{asm}/QV_score.assembly.{hp}.qv"
+        out_final ="assembly/qc/{asm}/QV_score.qv",
+        hap_pat_meryl="assembly/qc/{asm}/QV_score.assembly.haplotype1.qv",
+        hap_mat_meryl="assembly/qc/{asm}/QV_score.assembly.haplotype2.qv",
     params:
         prefix = "assembly/qc/{asm}/QV_score"
     conda:
@@ -276,7 +277,7 @@ rule qc_merqury:
     threads: 1
     shell:
         """
-        export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
+        export PATH=$PATH:"$CONDA_PREFIX"/share/merqury/eval
         qv.sh {input.meryl} {input.pat_fa} {input.mat_fa} {params.prefix}
         rm -r *.meryl
         """
