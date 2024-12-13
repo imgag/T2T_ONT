@@ -32,6 +32,8 @@ def get_path_for_dataset_folder(wc):
             # Print warning if multiple paths are found
             if len(matching_paths) > 1:
                 print(f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}")
+                print(f"Selecting first: {matching_paths[0]}")
+                matching_paths = matching_paths[0]
     #print(matching_paths)                
     return matching_paths
 
@@ -41,25 +43,26 @@ rule dorado_sup:
     output:
         done = "data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done"
     log:
-        "logs/dorado_duplex_{dataset}.log",
+        "logs/dorado_sup_{dataset}.log",
     resources:
         queue="gpu_srv010,gpu_srv019,gpu_srv025",
         gpus=2,
-    threads: 32
+    threads: 4
     priority: 3
     params:
         dorado=config["dorado"],
         model=config["model_auto"],
+        models_directory=config["models_directory"]
     shell:
         """
         {params.dorado} basecaller \
             {params.model} \
             {input.pod5} \
-            --models-directory dorado_models \
+            --models-directory {params.models_directory} \
             --recursive \
             --trim all \
             --output-dir $(dirname {output.done}) \
-            2> {log} 2>&1
+            > {log} 2>&1
         touch {output.done}
          """
 
@@ -75,8 +78,6 @@ rule rename_dorado_output:
         mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
         > {log} 2>&1
         """
-
-
 
 rule dorado_summary:
     input:
@@ -192,6 +193,7 @@ rule dorado_duplex:
     params:
         dorado=config["dorado"],
         model=config["model_auto_duplex"],
+        models_directory=config["models_directory"]
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"
@@ -200,7 +202,7 @@ rule dorado_duplex:
                 {params.dorado} duplex \
                     {params.model} \
                     {input.pod5} \
-                    --models-directory dorado_models \
+                    --models-directory {params.models_directory} \
                     --device '{params.cuda_device}' \
                     --chunksize 9996 \
                     --batchsize 500 \
