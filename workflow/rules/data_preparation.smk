@@ -90,30 +90,6 @@ rule merge_copy_rename_fastq:
         """
 
 
-rule fastcat_qc_only:
-    input:
-        fq="assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
-    output:
-        hist_l="assembly/input_qc/{dataset}/{dataset}.{type}/length.hist",
-        hist_q="assembly/input_qc/{dataset}/{dataset}.{type}/quality.hist",
-        stat_reads="assembly/input_qc/{dataset}/{dataset}.{type}/read_stats.txt",
-    conda:
-        "../env/fastcat.yml"
-    log:
-        "logs/fastcat_qc_only.{dataset}.{type}.log",
-    shell:
-        """
-        tmp=$(mktemp -u)
-        fastcat \
-            --histograms=$tmp\
-            --read=$tmp/$(basename {output.stat_reads}) \
-            --sample={wildcards.dataset}_{wildcards.type} \
-            {input} >/dev/null 2>{log}
-        cp -r $tmp/* $(dirname {output.stat_reads})
-        rm -rf $tmp
-        """
-
-
 rule map_unaligned_bam:
     input:
         bam="data/{path}.bam",
@@ -139,40 +115,6 @@ rule map_unaligned_bam:
         """
 
 
-rule bamstats:
-    input:
-        bam=lambda wc: "data/basecalled/{path}.bam"
-        if wc.source == "basecalled"
-        else "data/mapped/{path}.bam",
-        #bam="data/basecalled/{path}.bam",
-    output:
-        hist_l="data/bamstats/{source,(mapped|basecalled)}/{path}/length.hist",
-        hist_q="data/bamstats/{source,(mapped|basecalled)}/{path}/quality.hist",
-        hist_a="data/bamstats/{source,(mapped|basecalled)}/{path}/accuracy.hist",
-        hist_c="data/bamstats/{source,(mapped|basecalled)}/{path}/coverage.hist",
-        bamstats="data/bamstats/{source,(mapped|basecalled)}/{path}/bamstats.txt",
-        flagstats="data/bamstats/{source,(mapped|basecalled)}/{path}/flagstats.txt",
-        basecallers="data/bamstats/{source,(mapped|basecalled)}/{path}/basecallers.txt",
-    conda:
-        "../env/fastcat.yml"
-    log:
-        "logs/bamstats.{source}.{path}.log",
-    threads: 4
-    shell:
-        """
-        tmp=$(mktemp -u)
-        bamstats \
-            --histograms=$tmp \
-            --flagstats=$tmp/$(basename {output.flagstats}) \
-            --basecallers=$tmp/$(basename {output.basecallers}) \
-            --sample={wildcards.path}\
-            --threads {threads} \
-            {input.bam} >{output.bamstats} 2>{log}
-        cp -r $tmp/* $(dirname {output.bamstats})
-        rm -rf $tmp
-        """
-
-
 rule map_fq:
     input:
         fq="assembly/input/{file}.fastq.gz",
@@ -194,51 +136,6 @@ rule map_fq:
         | samtools sort -m 4G -@ 4 -o {output.bam} -O BAM - >>{log} 2>&1
 
         samtools index {output.bam}
-        """
-
-
-rule bam_qc:
-    input:
-        bam="data/mapped/{path}.bam",
-        ref=config["ref"],
-    output:
-        tsv="data/bamstats/{path}/bamqc.tsv.gz",
-        json="data/bamstats/{path}/bamqc.json.gz",
-    log:
-        "logs/bam_qc_{path}.log",
-    threads: 1
-    params:
-        alfred="bin/alfred",
-    shell:
-        """
-        {params.alfred} qc \
-            -r {input.ref} \
-            -o {output.tsv} \
-            -j {output.json} \
-            -i {input.bam} \
-            >{log} 2>&1
-        """
-
-
-rule mosdepth:
-    input:
-        bam="data/mapped/{path}.bam",
-    output:
-        depth="data/bamstats/{path}/cov.mosdepth.summary.txt",
-        dist="data/bamstats/{path}/cov.mosdepth.global.dist.txt",
-    threads: 4
-    conda:
-        "../env/mosdepth.yml"
-    log:
-        "logs/modepth_{path}.log",
-    shell:
-        """
-        mosdepth \
-            -n --fast-mode --by 500 \
-            -t {threads}\
-            $(dirname {output.depth})/cov \
-            {input.bam} \
-            >{log} 2>&1
         """
 
 

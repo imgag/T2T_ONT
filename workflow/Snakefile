@@ -17,6 +17,7 @@ with open("assembly/assemblies.yml") as f:
 include: "rules/basecalling.smk"
 include: "rules/data_preparation.smk"
 include: "rules/error_correction.smk"
+include: "rules/qc_input.smk"
 include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
@@ -76,7 +77,7 @@ bam_qc += [
     if "POREC" not in x
 ]
 
-## Create QC for basecalled unmapped bams
+## Create Dorado summary files for basecalled unmapped bams
 for dataset in datasets:
     for entry in datasets[dataset]:
         files = (
@@ -88,14 +89,14 @@ for dataset in datasets:
             if os.path.isdir(e):
                 if entry == "UL":
                     bam_qc.append(
-                        f"data/bamstats/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped/bamstats.txt"
+                        f"data/bamstats/basecalled/SUP/{os.path.basename(e)}/sequencing_summary.processed.txt"
                     )
                 elif entry == "HQ_duplex":
                     bam_qc.append(
-                        f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplexonly.unmapped/bamstats.txt"
+                        f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/sequencing_summary.processed.txt"
                     )
             else:
-                print("WARNING: invalid dataset entry", entry)
+                print("WARNING: Not adding this file to BAM QC:", e)
 
 
 # Make different sets for assembly with and without POREC
@@ -103,9 +104,6 @@ asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]
 asm_without_porec = [
     x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]
 ]
-
-print("BAM QC", bam_qc)
-
 
 rule all:
     input:
@@ -187,6 +185,17 @@ rule collect_qc:
             "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
+        ),
+        merqury_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/QV_score.qv",
+            asm=asm_with_porec,
+            tool=["gfase", "verkko"],
+        ),
+        merqury_hap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/QV_score.assembly.{hp}.qv",
+            asm=asm_with_porec,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"],
         )
     output:
         "assembly/qc/qc_full.tsv",
