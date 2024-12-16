@@ -1,7 +1,13 @@
 # Determine sample sex using XY coverage ratio
 rule determine_sex:
     input:
-        bam=lambda wc: re.sub(".chr\d+", "", get_assembly_input(wc)["hq"].replace("assembly/input/", "data/mapped/").replace(".fastq.gz", ".bam")),
+        bam=lambda wc: re.sub(
+            ".chr\d+",
+            "",
+            get_assembly_input(wc)["hq"]
+            .replace("assembly/input/", "data/mapped/")
+            .replace(".fastq.gz", ".bam"),
+        ),
     output:
         sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
     log:
@@ -37,18 +43,27 @@ rule determine_sex:
         rm $(dirname {output.sex})/$(basename {output.sex}.tmp)*
         """
 
+
 def get_sex_file(wildcards):
-    return "-x "+ config['X_PAR_file'] if open(f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt").read().strip() == "male" else ""
+    return (
+        "-x " + config["X_PAR_file"]
+        if open(f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt")
+        .read()
+        .strip()
+        == "male"
+        else ""
+    )
+
 
 # Small Variants and Indels with dipcall
 rule dipcall:
     input:
-        pat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
         ref_fa=get_ref_genome,
         sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
     output:
-        makefile = "assembly/variants/{asm}/phased_{tool}/small_variants.dip.mak",
+        makefile="assembly/variants/{asm}/phased_{tool}/small_variants.dip.mak",
         vcf="assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
     params:
         sex=get_sex_file,
@@ -73,8 +88,8 @@ rule dipcall:
 rule hapdiff:
     input:
         ref_fa=get_ref_genome,
-        pat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
     output:
         vcf="assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
     log:
@@ -119,16 +134,17 @@ rule whatshap_stats:
             >{output.stats} 2>&1
         """
 
+
 # Filter VCFs to only include variants present in both samples
 rule filter_shared_variants:
     input:
         ref=config["ref_giab_vcf"],
-        vcf=rules.dipcall.output.vcf
+        vcf=rules.dipcall.output.vcf,
     output:
         ref_filtered="assembly/qc/phased_{tool}/{asm}/giab.filtered.vcf.gz",
-        asm_filtered="assembly/qc/phased_{tool}/{asm}/assembly.filtered.vcf.gz"
+        asm_filtered="assembly/qc/phased_{tool}/{asm}/assembly.filtered.vcf.gz",
     log:
-        "logs/filter_shared_variants_{tool}_{asm}.log"
+        "logs/filter_shared_variants_{tool}_{asm}.log",
     conda:
         "../env/bcftools.yml"
     shell:
@@ -162,6 +178,7 @@ rule filter_shared_variants:
         bcftools index {output.asm_filtered}
         """
 
+
 # whatshap compare for phasing accuracy
 rule whatshap_compare:
     input:
@@ -169,7 +186,7 @@ rule whatshap_compare:
         vcf=rules.filter_shared_variants.output.asm_filtered,
     output:
         stats="assembly/qc/phased_{tool}/{asm}/whatshap_compare.txt",
-        tsv="assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv"
+        tsv="assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
     log:
         "logs/whatshap_compare_{tool}_{asm}.log",
     conda:
@@ -183,4 +200,3 @@ rule whatshap_compare:
             {input.vcf} \
             >{output.stats} 2>{log}
         """
-

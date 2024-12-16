@@ -13,33 +13,33 @@ def get_ref_genome(wc):
 
 
 def get_phased_assembly_output(wc):
-    if wc['tool'] == "verkko":
-        if not wc['hp']:
+    if wc["tool"] == "verkko":
+        if not wc["hp"]:
             return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
-        elif wc['hp'] == "haplotype1":
+        elif wc["hp"] == "haplotype1":
             return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
-        elif wc['hp'] == "haplotype2":
+        elif wc["hp"] == "haplotype2":
             return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
-    elif wc['tool'] == "gfase":
-        if wc['hp'] == "haplotype1":
+    elif wc["tool"] == "gfase":
+        if wc["hp"] == "haplotype1":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
-        elif wc['hp'] == "haplotype2":
+        elif wc["hp"] == "haplotype2":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
     else:
         raise ValueError(f"Invalid tool: {wc['tool']}")
 
 
 def get_assembly_graph_output(wc):
-    if wc['tool'] == "verkko":
+    if wc["tool"] == "verkko":
         return f"assembly/output/verkko/{wc['asm']}/assembly.homopolymer-compressed.noseq.gfa"
-    elif wc['tool'] == "gfase":
+    elif wc["tool"] == "gfase":
         return f"assembly/output/gfase/{wc['asm']}/gfase/chained.gfa"
 
 
 def get_assembly_graph_colors(wc):
-    if wc['tool'] == "verkko":
+    if wc["tool"] == "verkko":
         return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
-    elif wc['tool'] == "gfase":
+    elif wc["tool"] == "gfase":
         return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
 
 
@@ -64,7 +64,7 @@ rule subsample_ref_genome:
 rule bandage_without_colors:
     input:
         #gfa=lambda wc: get_assembly_graph_output({**wc, "tool": "verkko"}),
-        gfa = "assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
     output:
         svg="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.svg",
         png="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.png",
@@ -75,7 +75,7 @@ rule bandage_without_colors:
     threads: 1
     shell:
         """
-        Bandage image {input.gfa} {output.svg}
+        Bandage image {input.gfa} {output.svg} > {log} 2>&1
         """
 
 
@@ -93,8 +93,8 @@ rule bandage:
     threads: 1
     shell:
         """
-        Bandage image {input.gfa} {output.svg} --colors {input.color}
-        Bandage image {input.gfa} {output.png} --colors {input.color}
+        Bandage image {input.gfa} {output.svg} --colors {input.color} > {log} 2>&1
+        Bandage image {input.gfa} {output.png} --colors {input.color} > {log} 2>&1
         """
 
 
