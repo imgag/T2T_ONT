@@ -84,24 +84,28 @@ rule all:
         fq_qc,
         bam_qc,
         # Assembly Files
-        expand("assembly/output/{dataset}/assembly.fasta", dataset=asm.keys()),         
-        expand("assembly/scaffold/{dataset}/gfase", dataset=asm_with_porec),
+        expand("assembly/output/verkko/{dataset}/assembly.fasta", dataset=asm.keys()),         
+        expand("assembly/output/gfase/{dataset}/gfase/chained.gfa", dataset=asm_with_porec),
         # Assembly QC Files (Unphased, no POREC)
-        expand("assembly/qc/{dataset}/bandage_graph.no_colors.png", dataset=asm_without_porec),
+        expand("assembly/qc/unphased_verkko/{dataset}/bandage_graph.no_colors.png", dataset=asm_without_porec),
         # Assembly QC Files (Phased)
         expand(
-            "assembly/qc/{dataset}/qc_paftools_{module}.{hp}.txt",
+            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
             dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
             module=["stat", "asmstat", "asmgene"],
             hp=["haplotype1", "haplotype2"],
         ),
         expand(
-            "assembly/qc/{dataset}/dotplot.{hp}.pdf",
+            "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
             dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"],
         ),
-        expand("assembly/qc/{dataset}/bandage_graph.png", dataset=asm_with_porec),
-        expand("assembly/variants/{asm}/small_variants.dip.vcf.gz", asm=asm_with_porec),
-        expand("assembly/variants/{asm}/hapdiff_phased.vcf.gz", asm=asm_with_porec),
-        expand("assembly/qc/{asm}/whatshap_compare.txt", asm=asm_with_porec),
-        expand("assembly/qc/{asm}/whatshap_stats.txt", asm=asm_with_porec),
+        expand("assembly/qc/phased_{tool}/{dataset}/bandage_graph.png", dataset=asm_with_porec, tool=["gfase", "verkko"]),
+        expand("assembly/qc/phased_{tool}/{asm}/whatshap_compare.txt", asm=asm_with_porec, tool=["gfase", "verkko"]),
+        expand("assembly/qc/phased_{tool}/{asm}/whatshap_stats.txt", asm=asm_with_porec, tool=["gfase", "verkko"]),
+        expand("assembly/qc/phased_{tool}/{asm}/whatshap_stats.txt", asm=asm_with_porec, tool=["gfase", "verkko"]),
+        # Variant Calling
+        expand("assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz", asm=asm_with_porec, tool=["gfase", "verkko"]),
+        expand("assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz", asm=asm_with_porec, tool=["gfase", "verkko"]),
