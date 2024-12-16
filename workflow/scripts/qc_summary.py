@@ -68,7 +68,29 @@ def get_var(f, lineage):
     #             qv = line.split("\t")[3]
     #             qv= round(float(qv), 3)
 
-                    
+    #getting whatshap comparision stats
+    with open(os.path.join(f, "whatshap_compare.tsv"), "r") as file:
+        line_count = sum(1 for line in file)
+    with open(os.path.join(f, "whatshap_compare.tsv"), "r") as file:
+        hamming_error_rate = None
+        switch_error_rate = None
+        #line_count = sum(1 for line in file)
+        if line_count == 2:
+            for line in file:
+                if line.startswith("SAMPLE"):
+                    hamming_error_rate = float(line.split("\t")[14])
+                    switch_error_rate = float(line.split("\t")[10])
+                    print(hamming_error_rate)
+                    print(switch_error_rate)
+        if line_count > 2:
+            hamms = []
+            switchs = []
+            for line in file:
+                if line.startswith("SAMPLE"):
+                    hamms.append(float(line.split("\t")[14]))
+                    switchs.append(float(line.split("\t")[10]))    
+            hamming_error_rate = sum(hamms) / len(hamms)
+            switch_error_rate = sum(switchs) / len(switchs)    
 
     all_stat["Run"] = run_name
     all_stat["Phase"] = lineage            
