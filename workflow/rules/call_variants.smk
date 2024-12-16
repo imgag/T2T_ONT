@@ -34,9 +34,9 @@ rule determine_sex:
         # Ratio > 0.5 indicates male, < 0.2 indicates female
         ratio=$(echo "scale=3; $Y_cov/$X_cov" | bc)
         if (( $(echo "$ratio > 0.5" | bc -l) )); then
-            echo "male" > {output.sex}
+            echo "male\t${{ratio}}" > {output.sex}
         else
-            echo "female" > {output.sex}
+            echo "female\t${{ratio}}" > {output.sex}
         fi
 
         # Cleanup temp files

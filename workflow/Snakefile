@@ -126,13 +126,6 @@ rule all:
         ),
         # Assembly QC Files (Phased)
         expand(
-            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
-            dataset=asm_with_porec,
-            tool=["gfase", "verkko"],
-            module=["stat", "asmstat", "asmgene"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        expand(
             "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
             dataset=asm_with_porec,
             tool=["gfase", "verkko"],
@@ -143,21 +136,7 @@ rule all:
             dataset=asm_with_porec,
             tool=["gfase", "verkko"],
         ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.txt",
-            asm=asm_with_porec,
-            tool=["gfase", "verkko"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.txt",
-            asm=asm_with_porec,
-            tool=["gfase", "verkko"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.txt",
-            asm=asm_with_porec,
-            tool=["gfase", "verkko"],
-        ),
+        "assembly/qc/qc_full.tsv",
         # Variant Calling
         expand(
             "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
@@ -169,3 +148,51 @@ rule all:
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
         ),
+
+
+rule collect_qc:
+    input:
+        paf_stat = expand(
+            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
+            dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
+            module="stat",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmstat = expand(
+            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
+            dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
+            module="asmstat",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmgene = expand(
+            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
+            dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
+            module="asmgene",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        sex = expand(
+            "assembly/qc/phased_{tool}/{dataset}/sample_sex.txt",
+            dataset=asm_with_porec,
+            tool=["gfase", "verkko"],
+        ),
+        whatshap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
+            asm=asm_with_porec,
+            tool=["gfase", "verkko"],
+        ),
+        whatshap_compare = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
+            asm=asm_with_porec,
+            tool=["gfase", "verkko"],
+        )
+    output:
+        "assembly/qc/qc_full.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc.log"
+    script:
+        "scripts/06_collect_qc.R"
