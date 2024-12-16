@@ -4,8 +4,7 @@ Observations, Rates, Sample overview
 
 ## Pipeline
 
-After much work and bugfixing, [duplex pipeline](https://github.com/imgag/NCCT_scripts/duplex) now runs relatively stable on SRV025. 
-Not fully implemented in T2T_ONT project yet, is running in separate folder `/mnt/storage3b/projects/no_ngsd/ahgrosc1_duplex_rates`
+After much work and bugfixing, [duplex pipeline](https://github.com/imgag/NCCT_scripts/duplex) now runs relatively stable on SRV025. It is now fully included into the T2T-Pipeline
 
 
 ## Duplex rates

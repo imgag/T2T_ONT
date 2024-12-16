@@ -46,3 +46,13 @@ We use this file to analyse our phasing performance.
 The latest release (T2T-CHMv2.0) includes a Y chromosome.
 
 Haploid cellline from a hydatidiform mole. This occurs when a sperm fertilizes an egg that lost its DNA. After mitosis the genotype is 46,XX but the genome consists only of a duplicated set of haploid chromosomes.
+
+
+# Publications:
+
+ONT Official Blogpost: 
+ 45X UL -> Herro
+ 35X PoreC 
+ 35X 6B4 Polishing
+
+ 
