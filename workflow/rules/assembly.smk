@@ -33,10 +33,10 @@ rule verkko:
     input:
         unpack(get_assembly_input),
     output:
-        gfa_noseq="assembly/output/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        gfa="assembly/output/{asm}/assembly.homopolymer-compressed.gfa",
-        fa="assembly/output/{asm}/assembly.fasta",
-        scfmap = "assembly/output/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
+        gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
+        fa="assembly/output/verkko/{asm}/assembly.fasta",
+        scfmap = "assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
     conda:
         "../env/verkko.yml"
     group:
@@ -60,11 +60,11 @@ rule verkko:
 rule verkko_scaffold:
     input:
         unpack(get_assembly_input),
-        done = "assembly/scaffold/{asm}/use_verkko_files.done"
+        done = "assembly/output/gfase/{asm}/use_verkko_files.done"
     output:
-        hp1="assembly/output/{asm}/assembly.haplotype1.fasta",
-        hp2="assembly/output/{asm}/assembly.haplotype2.fasta",
-        colors="assembly/output/{asm}/assembly.colors.csv",
+        hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
+        hp2="assembly/output/verkko/{asm}/assembly.haplotype2.fasta",
+        colors="assembly/output/verkko/{asm}/assembly.colors.csv",
     conda:
         "../env/verkko.yml"
     group:
@@ -90,7 +90,7 @@ rule scaffold_create_rename_map:
     input:
         scfmap = rules.verkko.output.scfmap
     output:
-        "assembly/scaffold/{asm}/contigs.rename.map"
+        "assembly/output/gfase/{asm}/contigs.rename.map"
     log:
         "logs/create_rename_map_{asm}.log"
     group:
@@ -107,10 +107,10 @@ rule scaffold_create_rename_map:
 
 rule scaffold_rename_fasta:
     input:
-        map = "assembly/scaffold/{asm}/contigs.rename.map",
-        fa = ancient("assembly/output/{asm}/assembly.fasta")
+        map = "assembly/output/gfase/{asm}/contigs.rename.map",
+        fa = ancient("assembly/output/verkko/{asm}/assembly.fasta")
     output:
-        fa = "assembly/scaffold/{asm}/assembly.fasta"
+        fa = "assembly/output/gfase/{asm}/assembly.fasta"
     conda:
         "../env/verkko.yml"
     group:
@@ -130,11 +130,11 @@ rule scaffold_rename_fasta:
 
 rule scaffold_uncompress_gfa:
     input:
-        gfa = ancient("assembly/output/{asm}/assembly.homopolymer-compressed.gfa"),
-        fa = "assembly/scaffold/{asm}/assembly.fasta"
+        gfa = ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa"),
+        fa = "assembly/output/gfase/{asm}/assembly.fasta"
     output:
-        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa",
-        done = "assembly/scaffold/{asm}/use_verkko_files.done"
+        gfa = "assembly/output/gfase/{asm}/assembly.uncompressed.gfa",
+        done = "assembly/output/gfase/{asm}/use_verkko_files.done"
     conda:
         "../env/verkko.yml"
     group:
@@ -160,9 +160,9 @@ rule scaffold_uncompress_gfa:
 rule scaffold_map_porec:
     input:
         unpack(get_assembly_input),
-        asm = "assembly/scaffold/{asm}/assembly.fasta"
+        asm = "assembly/output/gfase/{asm}/assembly.fasta"
     output:
-        bam = "assembly/scaffold/{asm}/asm_porec.bam"
+        bam = "assembly/output/gfase/{asm}/asm_porec.bam"
     conda:
         "../env/minimap2.yml"
     log:
@@ -187,10 +187,12 @@ rule scaffold_map_porec:
 
 rule scaffold_gfase:
     input:
-        bam_porec = "assembly/scaffold/{asm}/asm_porec.bam",
-        gfa = "assembly/scaffold/{asm}/assembly.uncompressed.gfa"
+        bam_porec = "assembly/output/gfase/{asm}/asm_porec.bam",
+        gfa = "assembly/output/gfase/{asm}/assembly.uncompressed.gfa"
     output:
-        directory("assembly/scaffold/{asm}/gfase")
+        asm_hp1 = "assembly/output/gfase/{asm}/gfase/phase_0.fasta",
+        asm_hp2 = "assembly/output/gfase/{asm}/gfase/phase_1.fasta",
+        gfa = "assembly/output/gfase/{asm}/gfase/chained.gfa"
     params:
         gfase = "bin/GFAse/build/phase_contacts_with_monte_carlo"
     log:

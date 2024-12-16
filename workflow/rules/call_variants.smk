@@ -3,9 +3,9 @@ rule determine_sex:
     input:
         bam=lambda wc: re.sub(".chr\d+", "", get_assembly_input(wc)["hq"].replace("assembly/input/", "data/mapped/").replace(".fastq.gz", ".bam")),
     output:
-        sex="assembly/qc/{asm}/sample_sex.txt",
+        sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
     log:
-        "logs/determine_sex_{asm}.log",
+        "logs/determine_sex_{tool}_{asm}.log",
     conda:
         "../env/mosdepth.yml"
     shell:
@@ -38,23 +38,23 @@ rule determine_sex:
         """
 
 def get_sex_file(wildcards):
-    return "-x "+ config['X_PAR_file'] if open(f"assembly/qc/{wildcards.asm}/sample_sex.txt").read().strip() == "male" else ""
+    return "-x "+ config['X_PAR_file'] if open(f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt").read().strip() == "male" else ""
 
 # Small Variants and Indels with dipcall
 rule dipcall:
     input:
-        pat_fa="assembly/output/{asm}/assembly.haplotype1.fasta",
-        mat_fa="assembly/output/{asm}/assembly.haplotype2.fasta",
+        pat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
         ref_fa=get_ref_genome,
-        sex="assembly/qc/{asm}/sample_sex.txt",
+        sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
     output:
-        makefile = "assembly/variants/{asm}/small_variants.dip.mak",
-        vcf="assembly/variants/{asm}/small_variants.dip.vcf.gz",
+        makefile = "assembly/variants/{asm}/phased_{tool}/small_variants.dip.mak",
+        vcf="assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
     params:
         sex=get_sex_file,
         run_dipcall=config["run-dipcall"],
     log:
-        "logs/dipcall_{asm}.log",
+        "logs/dipcall_{tool}_{asm}.log",
     threads: 8
     shell:
         """
@@ -73,12 +73,12 @@ rule dipcall:
 rule hapdiff:
     input:
         ref_fa=get_ref_genome,
-        hap1_fa="assembly/output/{asm}/assembly.haplotype1.fasta",
-        hap2_fa="assembly/output/{asm}/assembly.haplotype2.fasta",
+        pat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa= lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
     output:
-        vcf="assembly/variants/{asm}/hapdiff_phased.vcf.gz",
+        vcf="assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
     log:
-        "logs/hapdiff_{asm}.log",
+        "logs/hapdiff_{tool}_{asm}.log",
     conda:
         "../env/hapdiff.yml"
     threads: 20
@@ -88,8 +88,8 @@ rule hapdiff:
         """
         {params.hapdiff} \
             --reference {input.ref_fa} \
-            --pat {input.hap1_fa} \
-            --mat {input.hap2_fa} \
+            --pat {input.pat_fa} \
+            --mat {input.mat_fa} \
             --out-dir $(dirname {output.vcf}) \
             -t {threads} \
             >{log} 2>&1
@@ -101,12 +101,12 @@ rule whatshap_stats:
     input:
         vcf=rules.dipcall.output.vcf,
     output:
-        stats="assembly/qc/{asm}/whatshap_stats.txt",
-        tsv="assembly/qc/{asm}/whatshap_stats.tsv",
-        blocks="assembly/qc/{asm}/whatshap_blocks.tsv",
-        gtf="assembly/qc/{asm}/whatshap_blocks.gtf",
+        stats="assembly/qc/phased_{tool}/{asm}/whatshap_stats.txt",
+        tsv="assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
+        blocks="assembly/qc/phased_{tool}/{asm}/whatshap_blocks.tsv",
+        gtf="assembly/qc/phased_{tool}/{asm}/whatshap_blocks.gtf",
     log:
-        "logs/whatshap_stats_{asm}.log",
+        "logs/whatshap_stats_{tool}_{asm}.log",
     conda:
         "../env/whatshap.yml"
     shell:
@@ -125,10 +125,10 @@ rule filter_shared_variants:
         ref=config["ref_giab_vcf"],
         vcf=rules.dipcall.output.vcf
     output:
-        ref_filtered="assembly/qc/{asm}/giab.filtered.vcf.gz",
-        asm_filtered="assembly/qc/{asm}/assembly.filtered.vcf.gz"
+        ref_filtered="assembly/qc/phased_{tool}/{asm}/giab.filtered.vcf.gz",
+        asm_filtered="assembly/qc/phased_{tool}/{asm}/assembly.filtered.vcf.gz"
     log:
-        "logs/filter_shared_variants_{asm}.log"
+        "logs/filter_shared_variants_{tool}_{asm}.log"
     conda:
         "../env/bcftools.yml"
     shell:
@@ -168,10 +168,10 @@ rule whatshap_compare:
         ref=rules.filter_shared_variants.output.ref_filtered,
         vcf=rules.filter_shared_variants.output.asm_filtered,
     output:
-        stats="assembly/qc/{asm}/whatshap_compare.txt",
-        tsv="assembly/qc/{asm}/whatshap_compare.tsv"
+        stats="assembly/qc/phased_{tool}/{asm}/whatshap_compare.txt",
+        tsv="assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv"
     log:
-        "logs/whatshap_compare_{asm}.log",
+        "logs/whatshap_compare_{tool}_{asm}.log",
     conda:
         "../env/whatshap.yml"
     shell:

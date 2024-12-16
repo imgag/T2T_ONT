@@ -1,26 +1,58 @@
 def get_ref_genome(wc):
     import re
-    ref = config['ref']
-    #print(ref)
-    match = re.search(r'chr\d+', str(wc.asm))
-    #print(match)
+
+    ref = config["ref"]
+    # print(ref)
+    match = re.search(r"chr\d+", str(wc.asm))
+    # print(match)
     if match:
-        #print(match)
-        prefix =config['ref'].replace("fasta", "")
+        # print(match)
+        prefix = config["ref"].replace("fasta", "")
         ref = f"{prefix}{match.group(0)}.fasta"
     return ref
 
+
+def get_phased_assembly_output(wc):
+    if wc['tool'] == "verkko":
+        if not wc['hp']:
+            return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
+        elif wc['hp'] == "haplotype1":
+            return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
+        elif wc['hp'] == "haplotype2":
+            return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
+    elif wc['tool'] == "gfase":
+        if wc['hp'] == "haplotype1":
+            return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
+        elif wc['hp'] == "haplotype2":
+            return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
+    else:
+        raise ValueError(f"Invalid tool: {wc['tool']}")
+
+
+def get_assembly_graph_output(wc):
+    if wc['tool'] == "verkko":
+        return f"assembly/output/verkko/{wc['asm']}/assembly.homopolymer-compressed.noseq.gfa"
+    elif wc['tool'] == "gfase":
+        return f"assembly/output/gfase/{wc['asm']}/gfase/chained.gfa"
+
+
+def get_assembly_graph_colors(wc):
+    if wc['tool'] == "verkko":
+        return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
+    elif wc['tool'] == "gfase":
+        return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
+
+
 rule subsample_ref_genome:
     input:
-        fa = "data/ref/{ref}.fasta"
+        fa="data/ref/{ref}.fasta",
     output:
-        fa = "data/ref/{ref}.{roi,chr.*}.fasta"
+        fa="data/ref/{ref}.{roi,chr.*}.fasta",
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/subsample_ref_genome_{ref}_{roi}.log"
-    threads:
-        1
+        "logs/subsample_ref_genome_{ref}_{roi}.log",
+    threads: 1
     shell:
         """
         samtools faidx {input.fa} 2>{log}
@@ -28,33 +60,36 @@ rule subsample_ref_genome:
         samtools faidx {output.fa} 2>>{log}
         """
 
+
 rule bandage_without_colors:
     input:
-        gfa=rules.verkko.output.gfa,
+        #gfa=lambda wc: get_assembly_graph_output({**wc, "tool": "verkko"}),
+        gfa = "assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
     output:
-        svg="assembly/qc/{asm}/bandage_graph.no_colors.svg",
-        png="assembly/qc/{asm}/bandage_graph.no_colors.png",
+        svg="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.svg",
+        png="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.png",
     conda:
         "../env/bandage.yml"
     log:
-        "logs/bandage_{asm}.log",
+        "logs/bandage_unpased_verkko_{asm}.log",
     threads: 1
     shell:
         """
         Bandage image {input.gfa} {output.svg}
         """
 
+
 rule bandage:
     input:
-        gfa=rules.verkko.output.gfa,
+        gfa=get_assembly_graph_output,
         color=rules.verkko_scaffold.output.colors,
     output:
-        svg="assembly/qc/{asm}/bandage_graph.svg",
-        png="assembly/qc/{asm}/bandage_graph.png",
+        svg="assembly/qc/phased_{tool}/{asm}/bandage_graph.svg",
+        png="assembly/qc/phased_{tool}/{asm}/bandage_graph.png",
     conda:
         "../env/bandage.yml"
     log:
-        "logs/bandage_{asm}.log",
+        "logs/bandage_{tool}_{asm}.log",
     threads: 1
     shell:
         """
@@ -65,14 +100,14 @@ rule bandage:
 
 rule map_asm_to_ref:
     input:
-        fa="assembly/output/{asm}/assembly.{hp}.fasta",
+        fa=get_phased_assembly_output,
         ref=get_ref_genome,
     output:
-        paf="assembly/qc/{asm}/{hp}.mapped_T2T.paf",
+        paf="assembly/qc/phased_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_asm_to_ref.{asm}_{hp}.log",
+        "logs/map_asm_to_ref.{tool}_{asm}_{hp}.log",
     threads: 4
     shell:
         """
@@ -82,6 +117,7 @@ rule map_asm_to_ref:
             {input.ref} {input.fa} \
             > {output.paf} 2> {log}
         """
+
 
 rule map_cdna_to_ref:
     input:
@@ -105,15 +141,15 @@ rule map_cdna_to_ref:
 
 rule map_cdna_to_asm:
     input:
-        asm="assembly/output/{asm}/assembly.{hp}.fasta",
+        asm=get_phased_assembly_output,
         ref=config["ref_cdna"],
     output:
-        paf="assembly/qc/{asm}/cdna_aln.{hp}.paf",
+        paf="assembly/qc/phased_{tool}/{asm}/cdna_aln.{hp}.paf",
     conda:
         "../env/minimap2.yml"
     threads: 20
     log:
-        "logs/qc_asmgene_map_{asm}_{hp}.log",
+        "logs/qc_asmgene_map_{tool}_{asm}_{hp}.log",
     shell:
         """
         minimap2 -cxsplice -C5\
@@ -128,12 +164,12 @@ rule qc_paftools_stat:
         paf=rules.map_asm_to_ref.output.paf,
         ref=get_ref_genome,
     output:
-        "assembly/qc/{asm}/qc_paftools_stat.{hp}.txt",
+        "assembly/qc/phased_{tool}/{asm}/qc_paftools_stat.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_stat_{asm}_{hp}.log",
+        "logs/paftools_stat_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js stat\
@@ -147,12 +183,12 @@ rule qc_paftools_asmstat:
         paf=rules.map_asm_to_ref.output.paf,
         ref=get_ref_genome,
     output:
-        "assembly/qc/{asm}/qc_paftools_asmstat.{hp}.txt",
+        "assembly/qc/phased_{tool}/{asm}/qc_paftools_asmstat.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmstat_{asm}_{hp}.log",
+        "logs/paftools_asmstat_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmstat\
@@ -160,29 +196,32 @@ rule qc_paftools_asmstat:
             > {output} 2>{log}
         """
 
+
 def get_ref_cdna_paf(wc):
     import re
-    ref = config['ref'].replace(".fasta", ".cdna.paf")
-    #print(ref)
-    match = re.search(r'chr\d+', str(wc.asm))
-    #print(match)
+
+    ref = config["ref"].replace(".fasta", ".cdna.paf")
+    # print(ref)
+    match = re.search(r"chr\d+", str(wc.asm))
+    # print(match)
     if match:
-        #print(match)
-        prefix =config['ref'].replace("fasta", "")
+        # print(match)
+        prefix = config["ref"].replace("fasta", "")
         ref = f"{prefix}{match.group(0)}.cdna.paf"
     return ref
+
 
 rule qc_paftools_asmgene:
     input:
         paf_asm=rules.map_cdna_to_asm.output.paf,
         paf_ref=get_ref_cdna_paf,
     output:
-        "assembly/qc/{asm}/qc_paftools_asmgene.{hp}.txt",
+        "assembly/qc/phased_{tool}/{asm}/qc_paftools_asmgene.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmgene_{asm}_{hp}.log",
+        "logs/paftools_asmgene_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmgene \
@@ -193,15 +232,15 @@ rule qc_paftools_asmgene:
 
 rule scaffold_lengths:
     input:
-        fa="assembly/output/{asm}/assembly.{hp}.fasta",
+        fa=get_phased_assembly_output,
         ref=get_ref_genome,
     output:
-        txt="assembly/qc/{asm}/scaffold_lengths.{hp}.txt",
+        txt="assembly/qc/phased_{tool}/{asm}/scaffold_lengths.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/scaffold_lengths.{asm}_{hp}.txt",
+        "logs/scaffold_lengths.{tool}_{asm}_{hp}.txt",
     shell:
         """
         samtools faidx {input.fa}
@@ -213,15 +252,15 @@ rule scaffold_lengths:
 
 rule dotplot:
     input:
-        len="assembly/qc/{asm}/scaffold_lengths.{hp}.txt",
+        len="assembly/qc/phased_{tool}/{asm}/scaffold_lengths.{hp}.txt",
         paf=rules.map_asm_to_ref.output.paf,
     output:
-        "assembly/qc/{asm}/dotplot.{hp}.pdf",
+        "assembly/qc/phased_{tool}/{asm}/dotplot.{hp}.pdf",
     conda:
         "../env/R.yml"
     threads: 1
     log:
-        "logs/dotplot.{asm}_{hp}.log",
+        "logs/dotplot.{tool}_{asm}_{hp}.log",
     shell:
         """
         Rscript workflow/scripts/minidot.R \
@@ -246,13 +285,14 @@ rule dotplot:
 #            >{output} 2>{log}
 #        """
 
+
 rule qc_meryl:
     input:
-        ref_q100 = config["ref_hg002_q100"]
+        ref_q100=config["ref_hg002_q100"],
     output:
-        expand("data/ref/hg002_q100_k_{k_val}.meryl", k_val=config["K-mer"])
+        expand("data/ref/hg002_q100_k_{k_val}.meryl", k_val=config["K-mer"]),
     params:
-        k = config["K-mer"]
+        k=config["K-mer"],
     conda:
         "../env/merqury.yml"
     shell:
@@ -263,15 +303,15 @@ rule qc_meryl:
 
 rule qc_merqury:
     input:
-        meryl = expand("data/ref/hg002_q100_k_{k_value}.meryl", k_value=config["K-mer"]),
-        pat_fa="assembly/output/{asm}/assembly.haplotype1.fasta",
-        mat_fa="assembly/output/{asm}/assembly.haplotype2.fasta",
+        meryl=expand("data/ref/hg002_q100_k_{k_value}.meryl", k_value=config["K-mer"]),
+        pat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
     output:
-        out_final ="assembly/qc/{asm}/QV_score.qv",
-        hap_pat_meryl="assembly/qc/{asm}/QV_score.assembly.haplotype1.qv",
-        hap_mat_meryl="assembly/qc/{asm}/QV_score.assembly.haplotype2.qv",
+        out_final="assembly/qc/phased_{tool}/{asm}/QV_score.qv",
+        hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/QV_score.assembly.haplotype1.qv",
+        hap_mat_meryl="assembly/qc/phased_{tool}/{asm}/QV_score.assembly.haplotype2.qv",
     params:
-        prefix = "assembly/qc/{asm}/QV_score"
+        prefix="assembly/qc/phased_{tool}/{asm}/QV_score",
     conda:
         "../env/merqury.yml"
     threads: 1
@@ -281,6 +321,8 @@ rule qc_merqury:
         qv.sh {input.meryl} {input.pat_fa} {input.mat_fa} {params.prefix}
         rm -r *.meryl
         """
-#temporary meryl files are created during qv.sh process so i put the rm
-#export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
-#because the qv script 
+
+
+# temporary meryl files are created during qv.sh process so i put the rm
+# export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
+# because the qv script
