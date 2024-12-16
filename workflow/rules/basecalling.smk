@@ -1,22 +1,24 @@
 from pathlib import Path
 import math
 
+
 def get_bams_from_pod5_split(wildcards):
-    wildcards_clean = {'dataset': wildcards.dataset.replace(".subset", "")}
-    dataset_split = checkpoints.pod5_split.get(**wildcards_clean).output["dataset_split"]
+    wildcards_clean = {"dataset": wildcards.dataset.replace(".subset", "")}
+    dataset_split = checkpoints.pod5_split.get(**wildcards_clean).output[
+        "dataset_split"
+    ]
     bamfiles = [str(x.with_suffix(".bam")) for x in Path(dataset_split).glob("*.pod5")]
     if ".subset" in wildcards.dataset:
-        middle = math.floor(len(bamfiles)/2)
-        bamfiles = bamfiles[middle:middle+config['process_subset_chunks']]
-        bamfiles = [x.replace('.subset', "") for x in bamfiles]
+        middle = math.floor(len(bamfiles) / 2)
+        bamfiles = bamfiles[middle : middle + config["process_subset_chunks"]]
+        bamfiles = [x.replace(".subset", "") for x in bamfiles]
     return bamfiles
 
 
 def get_path_for_dataset_folder(wc):
-    
     # Get basename of folder
     folder_base = wc.dataset
-    
+
     # Search through datasets dictionary for matching folder paths
     matching_paths = []
     for dataset_name, dataset_types in datasets.items():
@@ -24,24 +26,27 @@ def get_path_for_dataset_folder(wc):
             # Handle both single path and list of paths
             if isinstance(paths, str):
                 paths = [paths]
-            
+
             for path in paths:
                 if os.path.isdir(path) and folder_base in path:
                     matching_paths.append(path)
-            
+
             # Print warning if multiple paths are found
             if len(matching_paths) > 1:
-                print(f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}")
+                print(
+                    f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}"
+                )
                 print(f"Selecting first: {matching_paths[0]}")
                 matching_paths = matching_paths[0]
-    #print(matching_paths)                
+    # print(matching_paths)
     return matching_paths
+
 
 rule dorado_sup:
     input:
         pod5=get_path_for_dataset_folder,
     output:
-        done = "data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done"
+        done="data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done",
     log:
         "logs/dorado_sup_{dataset}.log",
     resources:
@@ -52,7 +57,7 @@ rule dorado_sup:
     params:
         dorado=config["dorado"],
         model=config["model_auto"],
-        models_directory=config["models_directory"]
+        models_directory=config["models_directory"],
     shell:
         """
         {params.dorado} basecaller \
@@ -66,6 +71,7 @@ rule dorado_sup:
         touch {output.done}
          """
 
+
 rule rename_dorado_output:
     input:
         folder="data/basecalled/SUP/{dataset}/dorado_sup.done",
@@ -78,6 +84,7 @@ rule rename_dorado_output:
         mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
         > {log} 2>&1
         """
+
 
 rule dorado_summary:
     input:
@@ -96,10 +103,12 @@ rule dorado_summary:
             2> {log}
         """
 
+
 """
 Rules using pod5 to preprocess the raw data (extract channel
 information, split into channel-specific POD5 files).
 """
+
 
 rule pod5_view:
     input:
@@ -124,6 +133,7 @@ rule pod5_view:
             > {log} 2>&1
         """
 
+
 rule process_summary:
     input:
         summary="{dataset}.summary.tsv",
@@ -136,6 +146,7 @@ rule process_summary:
     priority: 1
     run:
         import pandas as pd
+
         df = pd.read_csv(input["summary"], sep="\t")
         df["channel_mod"] = df["channel"].mod(params["split_number"])
         df.to_csv(output["summary"], sep="\t", index=False)
@@ -168,7 +179,6 @@ checkpoint pod5_split:
         """
 
 
-
 """
 Rules using dorado to basecall POD5 data.
 """
@@ -177,6 +187,7 @@ Rules using dorado to basecall POD5 data.
 # https://github.com/nanoporetech/dorado/issues/850
 # https://github.com/nanoporetech/dorado/issues/842
 # https://github.com/nanoporetech/dorado/issues/1098
+
 
 rule dorado_duplex:
     input:
@@ -193,7 +204,7 @@ rule dorado_duplex:
     params:
         dorado=config["dorado"],
         model=config["model_auto_duplex"],
-        models_directory=config["models_directory"]
+        models_directory=config["models_directory"],
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"
@@ -245,6 +256,7 @@ rule concat_bam:
             > {log} 2>&1
         """
 
+
 rule report_duplex_statistics:
     input:
         bam="{dataset}.duplex.unmapped.bam",
@@ -264,16 +276,17 @@ rule report_duplex_statistics:
             awk -f {params.script} >> {output.statistics} 2>> {log}
         """
 
+
 rule extract_duplex:
     input:
         bam="data/basecalled/Duplex/{dataset}/{dataset}.duplex.unmapped.bam",
-        stats = "data/basecalled/Duplex/{dataset}/{dataset}.duplex.stat.txt",
+        stats="data/basecalled/Duplex/{dataset}/{dataset}.duplex.stat.txt",
     output:
-        bam="data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam"
+        bam="data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam",
     conda:
         "../env/samtools.yml"
     log:
-        "logs/extract_duplex_{dataset}.log"
+        "logs/extract_duplex_{dataset}.log",
     shell:
         """
         samtools view -b -h -d dx:1 {input.bam} > {output.bam} 2> {log}

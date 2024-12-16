@@ -16,27 +16,39 @@ def update_herro_paths(f, dataset):
 
 def find_input_datasets(wc):
     # Input is a raw data folder, run basecalling depending on type
-    #print(datasets[wc.dataset][wc.type])
+    # print(datasets[wc.dataset][wc.type])
     files = []
     folders = []
-    
-    elements = datasets[wc.dataset][wc.type] if isinstance(datasets[wc.dataset][wc.type], list) else [datasets[wc.dataset][wc.type]]
+
+    elements = (
+        datasets[wc.dataset][wc.type]
+        if isinstance(datasets[wc.dataset][wc.type], list)
+        else [datasets[wc.dataset][wc.type]]
+    )
     for element in elements:
         # Is a folder
         if os.path.isdir(element):
             if wc.type == "UL":
-                files.append(f"data/basecalled/SUP/{os.path.basename(element)}/{os.path.basename(element)}.sup.unmapped.bam")
+                files.append(
+                    f"data/basecalled/SUP/{os.path.basename(element)}/{os.path.basename(element)}.sup.unmapped.bam"
+                )
             if wc.type == "HQ_duplex":
-                files.append(f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplexonly.unmapped.bam")
+                files.append(
+                    f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplexonly.unmapped.bam"
+                )
         # Is a file
         else:
             match wc.type:
                 case "HQ_combined":
-                    (cov_duplex, cov_herro) = str(wc.type).replace("HQ_combined.", "").split('_')
-                    files.extend([
-                        f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
-                        f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz"
-                    ])
+                    (cov_duplex, cov_herro) = (
+                        str(wc.type).replace("HQ_combined.", "").split("_")
+                    )
+                    files.extend(
+                        [
+                            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
+                            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz",
+                        ]
+                    )
                 case "HQ_herro":
                     files.extend([update_herro_paths(f, wc.dataset) for f in files])
                 case "HQ_duplex":
@@ -56,7 +68,7 @@ def find_input_datasets(wc):
 
 
 def input_isbam(wc):
-    files = find_input_datasets(wc)['files']
+    files = find_input_datasets(wc)["files"]
     return all(f.endswith(".bam") for f in files)
 
 
@@ -129,19 +141,22 @@ rule map_unaligned_bam:
 
 rule bamstats:
     input:
-        bam="data/mapped/{path}.bam",
+        bam=lambda wc: "data/basecalled/{path}.bam"
+        if wc.source == "basecalled"
+        else "data/mapped/{path}.bam",
+        #bam="data/basecalled/{path}.bam",
     output:
-        hist_l="data/bamstats/{path}/length.hist",
-        hist_q="data/bamstats/{path}/quality.hist",
-        hist_a="data/bamstats/{path}/accuracy.hist",
-        hist_c="data/bamstats/{path}/coverage.hist",
-        bamstats="data/bamstats/{path}/bamstats.txt",
-        flagstats="data/bamstats/{path}/flagstats.txt",
-        basecallers="data/bamstats/{path}/basecallers.txt",
+        hist_l="data/bamstats/{source,(mapped|basecalled)}/{path}/length.hist",
+        hist_q="data/bamstats/{source,(mapped|basecalled)}/{path}/quality.hist",
+        hist_a="data/bamstats/{source,(mapped|basecalled)}/{path}/accuracy.hist",
+        hist_c="data/bamstats/{source,(mapped|basecalled)}/{path}/coverage.hist",
+        bamstats="data/bamstats/{source,(mapped|basecalled)}/{path}/bamstats.txt",
+        flagstats="data/bamstats/{source,(mapped|basecalled)}/{path}/flagstats.txt",
+        basecallers="data/bamstats/{source,(mapped|basecalled)}/{path}/basecallers.txt",
     conda:
         "../env/fastcat.yml"
     log:
-        "logs/bamstats.{path}.log",
+        "logs/bamstats.{source}.{path}.log",
     threads: 4
     shell:
         """
@@ -267,5 +282,6 @@ rule extract_location_data:
         | samtools fastq 2>>{log} \
         | gzip -c > {output.fq} 2>>{log}
         """
+
 
 ruleorder: extract_location_data > merge_copy_rename_fastq
