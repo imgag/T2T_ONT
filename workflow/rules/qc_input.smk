@@ -100,10 +100,14 @@ rule fastcat_qc_only:
 
 rule process_dorado_summary:
     input:
-        summary="data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
+        "data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
     output:
-        summary="data/bamstats/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.processed.txt",
-    shell:
+        "data/bamstats/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.processed.txt",
+    conda:
+        "../env/R.yml"
+    log:
+        "logs/process_dorado_summary.{dataset}_{model}_{type}.txt"
+    script:
         """
-        cp {input.summary} > {output.summary}
+        ../scripts/07_dorado_summary_stats.R {input} > {output.summary}
         """
