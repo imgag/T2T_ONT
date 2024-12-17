@@ -77,26 +77,26 @@ bam_qc += [
     if "POREC" not in x
 ]
 
-## Create Dorado summary files for basecalled unmapped bams
-# for dataset in datasets:
-#     for entry in datasets[dataset]:
-#         files = (
-#             datasets[dataset].get(entry, [])
-#             if isinstance(datasets[dataset].get(entry), list)
-#             else [datasets[dataset].get(entry)]
-#         )
-#         for e in files:
-#             if os.path.isdir(e):
-#                 if entry == "UL":
-#                     bam_qc.append(
-#                         f"data/bamstats/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
-#                     )
-#                 elif entry == "HQ_duplex":
-#                     bam_qc.append(
-#                         f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplex.sequencing_summary.processed.txt"
-#                     )
-#             else:
-#                 print("WARNING: Not adding this file to BAM QC:", e)
+# Create Dorado summary files for basecalled unmapped bams
+for dataset in datasets:
+    for entry in datasets[dataset]:
+        files = (
+            datasets[dataset].get(entry, [])
+            if isinstance(datasets[dataset].get(entry), list)
+            else [datasets[dataset].get(entry)]
+        )
+        for e in files:
+            if os.path.isdir(e):
+                if entry == "UL":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
+                    )
+                elif entry == "HQ_duplex":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplex.sequencing_summary.processed.txt"
+                    )
+            else:
+                print("WARNING: Not adding this file to BAM QC:", e)
 
 
 # Make different sets for assembly with and without POREC
@@ -126,6 +126,10 @@ rule all:
             "assembly/qc/unphased_verkko/{asm}/merqury.qv",
             asm=asm_without_porec,
         ),
+        expand(
+            "assembly/qc/unphased_verkko/{asm}/find_T2T/T2T_contigs.seqinfo.txt",
+            asm=asm_without_porec,
+        ),
         # Assembly QC Files (Phased)
         expand(
             "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
@@ -143,10 +147,6 @@ rule all:
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"],
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/find_T2T/T2T_contigs.seqinfo.txt",
-            asm=asm_without_porec,
         ),
         "assembly/qc/qc_full.tsv",
         # Variant Calling
