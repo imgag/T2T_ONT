@@ -26,7 +26,7 @@ Caspar and Prithivi
 - **Duplex**: Simplex reads, but with duplex chemistry (R10.3)
 - **Herro**: Simplex or UL reads, corrected with ML algorithm (R10.3)
 - **UL**: Special Library Prep, focus on max read length (R10.4)
-- **PoreC**: 
+- **PoreC**: Chromatin association
 - **Polishing Kit**: Simplex reads, but with Polishing Kit chemistry 
 
 --- 
@@ -47,11 +47,7 @@ Giab Sample **HG002** From Koren et al (2024):
 - Verkko with Duplex (Koren et al. 2024)
 
 --- 
-
-- Datasets
-    - Published
-    - First Seqs
---- 
+ 
 
 ### Benchmarking with published data
 
@@ -64,7 +60,7 @@ Run on reduced dataset: Filtered on chr19
 
 --- 
 
-### Comparison table
+### Benchmark Comparison Matrix
 ```
  LR↓/UL→ |         50x         |      70x     |     90x      |
          +---------------------+--------------+--------------+
@@ -86,20 +82,36 @@ Run on reduced dataset: Filtered on chr19
 
 ---
  
-## Impact UL Coverage
 
-
----
-
-## Impact HQ Coverage
-
+![bg contain](../img/assembly_qc_table.png)
 
 ---
 
-35x Herro 50x UL chr19 <-----------------> 35x Duplex 50x UL chr19
+Left Duplex 15x, Right Duplex 20x, chr19
+
+![bg h:450](../../assembly/qc/phased_verkko/published_chr19_duplex15x/bandage_graph.png)
+![bg h:450](../../assembly/qc/phased_verkko/published_chr19_duplex20x/bandage_graph.png)
+
+---
+
+### Key points:
+
+- High coverages do not increase quality
+- 35x HQ and 50x UL is optimal
+- Low cov Duplex still ok
+
+---
+
+herro vs duplex
 
 ![bg h:550](../../assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x/bandage_graph.png)
 ![bg h:550](../../assembly/qc/phased_verkko/published_chr19_duplex_UL50x/bandage_graph.png)
+
+---
+
+duplex, verkko, full
+
+![bg contain](../../assembly/qc/phased_verkko/published_duplex/bandage_graph.png)
 
 ---
 
@@ -114,31 +126,101 @@ Duplex, UL70x, Gfase
 Haplotype1: **8** chromosomes T2T
 Haplotype2: **0** chromosomes T2T
 
---- 
-
-### HQ Read comparison
-    - Scaffolder comparison
-
-
---- 
+---  
 
 Our data: UL
 
 ![bg h:680](../img/UL_comparison_50x.read_stats.png)
 
 ---
-### Our data: Duplex
+### Our Data: Ultra-Long
 
+<style scoped>
+table {
+  font-size: 24px;
+}
+</style>
+
+Overview of the first two flowcells we sequenced. 
+Our data is unprocessed, published data "as downloaded" 
+
+
+
+| filename     | yield        | N50   | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
+| :----------- | :----------- | :---- | :---------- | :---------- | :---------- | :---------- |
+| published.UL | 496Gb | 81748 | 1.9 Mb      | 190 Gb      | 31 Gb       | 45          |
+| run_04399.UL | 114Gb | 67652 | 1.7 Mb      | 38 Gb       | 10 Gb       | 29          |
+| run_04400.UL | 108Gb | 77925 | 2.0 Mb      | 40 Gb       | 9 Gb        | 54          |
+
+Published data from 8 FC
+
+---
+
+Unfiltered 
+![bg h:660](../img/UL_comparison.readstats_density.png)
+Filtered to 50x coverage
+![bg h:660](../img/UL_comparison_filtered50x.readstats_density.png)
 
 
 ---
-## 5. Discussions
-    - T2T requirement discussions
-        - Genome completeness
-        - Planned number of Flowcells 
-    - Lab Establishment Priorities
-        - UL
-        - Duplex
-        - PoreC
-        - Polishing Kit
-    - Bioinformatics Implementations
+<style scoped>
+table {
+  font-size: 24px;
+}
+</style>
+
+### After filtering:
+
+| filename         | yield | N50    | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
+| :--------------- | :---- | :----- | :---------- | :---------- | :---------- | :---------- |
+| TUE_01.UL.50x    | 160GB | 97739  | 2037kb      | 78GB        | 18GB        | 50          |
+| published.UL.50x | 160GB | 129072 | 1511kb      | 121GB       | 22GB        | 39          |
+
+
+Target coverage can be reached with 2 good FC.
+Additional reads for better read filtering are preferred.
+
+4 additional FC with similar performance in analysis.
+
+---
+
+## Our data: Duplex
+
+| Sample      | Project  | Type   | Duplex Rate | Duplex Yield |
+| :---------- | :------- | :----- | :---------- | :----------- |
+| 23074LRa001 | MYGENOME | LSK114 | 0.27        | 10Gb         |
+| 23074LRa003 | MYGENOME | LSK114 | 0.26        | 10Gb         |
+| 24070LRa003 | UL test  | ULK114 | 0.01        | 0.6Gb        |
+| 24070LRa010 | UL test  | ULK114 | 0.02        | 0.9Gb        |
+
+Without Duplex optimizing. Published data reached ~15Gb / FC
+
+---
+
+## Combine Herro and Duplex.
+
+Inital results look good for 15x Duplex + 20x Herro
+
+![bg contain](../../assembly/qc/phased_verkko/published_chr19_combined35x/bandage_graph.png)
+
+---
+## Discussion points
+T2T requirement discussions:
+- Genome completeness
+    - How many T2T chromsomes do we need? 
+- Planned number of Flowcells 
+    - 2 or 3 UL ?
+    - At least 45 GB Duplex (15x) --> 4 - 5 FC
+    - 1  PoreC
+    - 1 Polishing?
+
+--- 
+## Discussion points
+- Lab Establishment Priorities
+    - UL  : finished?
+    - Duplex : required?
+    - PoreC 
+    - Polishing Kit
+- Bioinformatics Implementations
+    - Downstream analysis of Genomes
+    - Sequence HG002 for Benchmark?
