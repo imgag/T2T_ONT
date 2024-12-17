@@ -43,9 +43,8 @@ Giab Sample **HG002** From Koren et al (2024):
 
 ### Published Pipelines
 - ONT Recommended (Verkko with Herro)
-![height:400px](../img/asm-workflow-ont-blog.png)
+![bg right:60% h:500](../img/asm-workflow-ont-blog.png)
 - Verkko with Duplex (Koren et al. 2024)
-![height:400px](../img/asm-workflow-verkko-duplex.png)
 
 --- 
 
@@ -79,26 +78,60 @@ Run on reduced dataset: Filtered on chr19
 ```
 ---
 
-### Test downsampling setup
+
 1. Filtering on fastq. Do we reach target coverage? 
-![height:400px](../img/subsampling_coverages.cov_boxplot.png)
+
+![bg contain](../img/subsampling_coverages.cov_boxplot.png)
+
+
+---
+ 
+## Impact UL Coverage
+
 
 ---
 
+## Impact HQ Coverage
 
-2. How does the coverage look like?
-![Test downsampling setup](../img/subsampling_coverages.cov_boxplot.png)
 
 ---
 
+35x Herro 50x UL chr19 <-----------------> 35x Duplex 50x UL chr19
+
+![bg h:550](../../assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x/bandage_graph.png)
+![bg h:550](../../assembly/qc/phased_verkko/published_chr19_duplex_UL50x/bandage_graph.png)
+
+---
+
+### Completed T2T ?
+no postprocessing, T2T detection with script, looking for TTAGGG
+
+Duplex, UL70x, Verkko
+Haplotype1: **16** chromosomes T2T
+Haplotype2: **14** chromosomes T2T
+
+Duplex, UL70x, Gfase
+Haplotype1: **8** chromosomes T2T
+Haplotype2: **0** chromosomes T2T
+
+--- 
 
 ### HQ Read comparison
     - Scaffolder comparison
 
-## 4. First look in our data
-    - UL Performance
-    - Duplex rates
 
+--- 
+
+Our data: UL
+
+![bg h:680](../img/UL_comparison_50x.read_stats.png)
+
+---
+### Our data: Duplex
+
+
+
+---
 ## 5. Discussions
     - T2T requirement discussions
         - Genome completeness
