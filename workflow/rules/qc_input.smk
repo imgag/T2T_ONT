@@ -19,6 +19,7 @@ rule mosdepth:
             >{log} 2>&1
         """
 
+
 rule bam_qc:
     input:
         bam="data/mapped/{path}.bam",
@@ -41,9 +42,10 @@ rule bam_qc:
             >{log} 2>&1
         """
 
+
 rule bamstats:
     input:
-        bam = "data/mapped/{path}.bam",
+        bam="data/mapped/{path}.bam",
     output:
         hist_l="data/bamstats/mapped/{path}/length.hist",
         hist_q="data/bamstats/mapped/{path}/quality.hist",
@@ -71,6 +73,7 @@ rule bamstats:
         rm -rf $tmp
         """
 
+
 rule fastcat_qc_only:
     input:
         fq="assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
@@ -97,9 +100,9 @@ rule fastcat_qc_only:
 
 rule process_dorado_summary:
     input:
-        summary="data/basecalled/{path}/sequencing_summary.txt",
+        summary="data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
     output:
-        summary="data/bamstats/basecalled/{path}/sequencing_summary.processed.txt",
+        summary="data/bamstats/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.processed.txt",
     shell:
         """
         cp {input.summary} > {output.summary}

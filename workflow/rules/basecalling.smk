@@ -88,13 +88,13 @@ rule rename_dorado_output:
 
 rule dorado_summary:
     input:
-        folder="data/basecalled/{path}",
+        folder="data/basecalled/{type}/{dataset}/{dataset}.{model}.unmapped.bam",
     output:
-        summary="data/basecalled/{path}/sequencing_summary.txt",
+        summary="data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
     params:
         dorado=config["dorado"],
     log:
-        "logs/dorado_summary_{path}.log",
+        "logs/dorado_summary_{dataset}_{model}_{type}.log",
     shell:
         """
         {params.dorado} summary \
