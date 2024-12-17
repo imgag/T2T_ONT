@@ -285,44 +285,133 @@ rule dotplot:
 #            >{output} 2>{log}
 #        """
 
-
 rule qc_meryl:
     input:
         ref_q100=config["ref_hg002_q100"],
     output:
-        expand("data/ref/hg002_q100_k_{k_val}.meryl", k_val=config["K-mer"]),
+        meryl=directory("data/ref/hg002_q100_meryl/hg002_q100_k_{k_val}.meryl"),
     params:
         k=config["K-mer"],
     conda:
         "../env/merqury.yml"
+    log:
+        "logs/meryl_count_ref_q100_{k_val}.log",
     shell:
         """
-        meryl count k={params.k} {input.ref_q100} output {output}
+        meryl count k={params.k} {input.ref_q100} output {output.meryl} > {log} 2>&1
         """
 
 
-rule qc_merqury:
+rule qc_merqury_verkko:
     input:
-        meryl=expand("data/ref/hg002_q100_k_{k_value}.meryl", k_value=config["K-mer"]),
+        meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
         pat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
         mat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
     output:
-        out_final="assembly/qc/phased_{tool}/{asm}/QV_score.qv",
-        hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/QV_score.assembly.haplotype1.qv",
-        hap_mat_meryl="assembly/qc/phased_{tool}/{asm}/QV_score.assembly.haplotype2.qv",
-    params:
-        prefix="assembly/qc/phased_{tool}/{asm}/QV_score",
+        out = "assembly/qc/phased_{tool}/{asm}/merqury.qv",
+        hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype1.qv",
+        hap_mat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype2.qv",
     conda:
         "../env/merqury.yml"
-    threads: 1
+    log:
+        "logs/merqury_{tool}_{asm}.log",
+    threads: 40
     shell:
         """
+        INPUT_MERYL=$(realpath {input.meryl})
+        INPUT_PAT_FA=$(realpath {input.pat_fa})
+        INPUT_MAT_FA=$(realpath {input.mat_fa})
+        OUTPUT_PREFIX=$(dirname $(realpath {output.out}))/merqury
+        LOG_FILE=$(realpath {log})
+        pushd $(dirname $OUTPUT_PREFIX) >$LOG_FILE 2>&1
+        cp $INPUT_PAT_FA haplotype1.fa
+        cp $INPUT_MAT_FA haplotype2.fa
         export PATH=$PATH:"$CONDA_PREFIX"/share/merqury/eval
-        qv.sh {input.meryl} {input.pat_fa} {input.mat_fa} {params.prefix}
-        rm -r *.meryl
+        qv.sh \
+            $INPUT_MERYL \
+            haplotype1.fa \
+            haplotype2.fa \
+            $OUTPUT_PREFIX \
+         >> $LOG_FILE 2>&1
+        rm -r *.meryl >> $LOG_FILE 2>&1
+        popd >> $LOG_FILE 2>&1
         """
 
+
+rule qc_merqury_unphased:
+    input:
+        meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
+        fa="assembly/output/gfase/{asm}/assembly.fasta",
+    output:
+        out="assembly/qc/unphased_verkko/{asm}/merqury.qv",
+    conda:
+        "../env/merqury.yml"
+    log:
+        "logs/merqury_unphased_{asm}.log",
+    threads: 40
+    shell:
+        """
+        INPUT_MERYL=$(realpath {input.meryl})
+        INPUT_PAT_FA=$(realpath {input.fa})
+        OUTPUT_PREFIX=$(dirname $(realpath {output.out}))/merqury
+        LOG_FILE=$(realpath {log})
+        pushd $(dirname $OUTPUT_PREFIX) >$LOG_FILE 2>&1
+        export PATH=$PATH:"$CONDA_PREFIX"/share/merqury/eval
+        qv.sh \
+            $INPUT_MERYL \
+            $INPUT_PAT_FA \
+            $OUTPUT_PREFIX \
+         >> $LOG_FILE 2>&1
+        rm -r *.meryl >> $LOG_FILE 2>&1
+        popd >> $LOG_FILE 2>&1
+        """
 
 # temporary meryl files are created during qv.sh process so i put the rm
 # export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
 # because the qv script
+
+rule find_T2T_contigs:
+    input:
+        asm = get_phased_assembly_output,
+        ref = get_ref_genome,
+    output:
+        "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}.seqinfo.txt",
+    log:
+        "logs/find_T2T_contigs_{tool}_{asm}_{hp}.log",
+    threads: 6 
+    params:
+        T2T_chromosomes = config["T2T_chromosomes"]
+    shell:
+        """
+        export PATH=$PATH:$(dirname {params.T2T_chromosomes})
+        {params.T2T_chromosomes} \
+            -a {input.asm} \
+            -r {input.ref} \
+            -o "$(dirname {output})/T2T_contigs.{wildcards.hp}" \
+            -m TTAGGG \
+            -t {threads} \
+            > {log} 2>&1
+        """
+
+rule find_T2T_contigs_unphased:
+    input:
+        asm = "assembly/output/gfase/{asm}/assembly.fasta",
+        ref = get_ref_genome,
+    output:
+        "assembly/qc/unphased_verkko/{asm}/find_T2T/T2T_contigs.seqinfo.txt",
+    log:
+        "logs/find_T2T_contigs_unphased_{asm}.log",
+    threads: 6
+    params:
+        T2T_chromosomes = config["T2T_chromosomes"]
+    shell:
+        """
+        export PATH=$PATH:$(dirname {params.T2T_chromosomes})
+        {params.T2T_chromosomes} \
+            -a {input.asm} \
+            -r {input.ref} \
+            -o {output} \
+            -m TTAGGG \
+            -t {threads} \
+            > {log} 2>&1
+        """
