@@ -45,7 +45,7 @@ rule verkko:
         "logs/verkko_{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko.txt"
-    threads: 60
+    threads: 30
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
     shell:
@@ -74,7 +74,7 @@ rule verkko_scaffold:
         "logs/verkko_scaffold_{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
-    threads: 60
+    threads: 30
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
     shell:
@@ -169,7 +169,7 @@ rule scaffold_map_porec:
         "../env/minimap2.yml"
     log:
         "logs/scaffold_map_porec_{asm}.log",
-    threads: 60
+    threads: 40
     shell:
         """
         minimap2 \
@@ -202,10 +202,12 @@ rule scaffold_gfase:
     threads: 12
     shell:
         """
+        outdir=$(dirname {output.gfa})
+        rm -rf $outdir
         {params.gfase} \
             -i {input.bam_porec} \
             -g {input.gfa} \
-            -o {output} \
+            -o  $outdir \
             --use_homology \
             --skip_unzip \
             -m 3 \

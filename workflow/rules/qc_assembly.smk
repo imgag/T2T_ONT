@@ -376,6 +376,8 @@ rule find_T2T_contigs:
         ref = get_ref_genome,
     output:
         "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}.seqinfo.txt",
+        "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}_alignment_T2T.txt",
+        "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}_motif_T2T.txt"
     log:
         "logs/find_T2T_contigs_{tool}_{asm}_{hp}.log",
     threads: 6 
