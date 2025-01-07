@@ -1,0 +1,127 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/gfase/published_chr19_herro_35x_UL70x/gfase/phase_1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2.seqinfo.txt assembly/output/gfase/published_chr19_herro_35x_UL70x/gfase/phase_1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/gfase/published_chr19_herro_35x_UL70x/gfase/phase_1.fasta >assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2.teloinput.fa
+
+
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome utig4-47_Start processed
+[+]	Chromosome utig4-5_Start processed
+[+]	Chromosome utig4-268_Start processed
+[+]	Chromosome utig4-189_Start processed
+[+]	Chromosome utig4-245_Start processed
+[+]	Chromosome utig4-226_Start processed
+[+]	Chromosome utig4-11_Start processed
+[+]	Chromosome utig4-65_Start processed
+[+]	Chromosome utig4-208_Start processed
+[+]	Chromosome utig4-122_Start processed
+[+]	Chromosome utig4-204_Start processed
+[+]	Chromosome utig4-179_Start processed
+[+]	Chromosome utig4-258_Start processed
+[+]	Chromosome utig4-278_Start processed
+[+]	Chromosome utig4-9_Start processed
+[+]	Chromosome utig4-39_Start processed
+[+]	Chromosome utig4-190_Start processed
+[+]	Chromosome utig4-8_Start processed
+[+]	Chromosome utig4-213_Start processed
+[+]	Chromosome utig4-33_Start processed
+[+]	Chromosome utig4-53_Start processed
+[+]	Chromosome utig4-188_Start processed
+[+]	Chromosome utig4-200_Start processed
+[+]	Chromosome utig4-222_Start processed
+[+]	Chromosome utig4-243_Start processed
+[+]	Chromosome utig4-153_Start processed
+[+]	Chromosome utig4-95_Start processed
+[+]	Chromosome utig4-260_Start processed
+[+]	Chromosome utig4-164_Start processed
+[+]	Chromosome utig4-192_Start processed
+[+]	Chromosome utig4-37_Start processed
+[+]	Chromosome utig4-161_Start processed
+[+]	Chromosome utig4-64_Start processed
+[+]	Chromosome utig4-212_Start processed
+[+]	Chromosome utig4-177_Start processed
+[+]	Chromosome utig4-94_Start processed
+[+]	Chromosome utig4-111_Start processed
+[+]	Chromosome utig4-60_Start processed
+[+]	Chromosome utig4-267_Start processed
+[+]	Chromosome utig4-283_Start processed
+[+]	Chromosome utig4-270_Start processed
+[+]	Chromosome utig4-151_Start processed
+[+]	Chromosome utig4-257_Start processed
+[+]	Chromosome utig4-47_End processed
+[+]	Chromosome utig4-5_End processed
+[+]	Chromosome utig4-268_End processed
+[+]	Chromosome utig4-189_End processed
+[+]	Chromosome utig4-245_End processed
+[+]	Chromosome utig4-226_End processed
+[+]	Chromosome utig4-11_End processed
+[+]	Chromosome utig4-65_End processed
+[+]	Chromosome utig4-208_End processed
+[+]	Chromosome utig4-122_End processed
+[+]	Chromosome utig4-204_End processed
+[+]	Chromosome utig4-179_End processed
+[+]	Chromosome utig4-258_End processed
+[+]	Chromosome utig4-278_End processed
+[+]	Chromosome utig4-9_End processed
+[+]	Chromosome utig4-39_End processed
+[+]	Chromosome utig4-190_End processed
+[+]	Chromosome utig4-8_End processed
+[+]	Chromosome utig4-213_End processed
+[+]	Chromosome utig4-33_End processed
+[+]	Chromosome utig4-53_End processed
+[+]	Chromosome utig4-188_End processed
+[+]	Chromosome utig4-200_End processed
+[+]	Chromosome utig4-222_End processed
+[+]	Chromosome utig4-243_End processed
+[+]	Chromosome utig4-153_End processed
+[+]	Chromosome utig4-95_End processed
+[+]	Chromosome utig4-260_End processed
+[+]	Chromosome utig4-164_End processed
+[+]	Chromosome utig4-192_End processed
+[+]	Chromosome utig4-37_End processed
+[+]	Chromosome utig4-161_End processed
+[+]	Chromosome utig4-64_End processed
+[+]	Chromosome utig4-212_End processed
+[+]	Chromosome utig4-177_End processed
+[+]	Chromosome utig4-94_End processed
+[+]	Chromosome utig4-111_End processed
+[+]	Chromosome utig4-60_End processed
+[+]	Chromosome utig4-267_End processed
+[+]	Chromosome utig4-283_End processed
+[+]	Chromosome utig4-270_End processed
+[+]	Chromosome utig4-151_End processed
+[+]	Chromosome utig4-257_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::0.085*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.chr19.fasta"
+[M::mg_index::1.132*1.56] indexed the graph
+[M::mg_opt_update::1.237*1.51] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::16.047*3.46] mapped 43 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/gfase/published_chr19_herro_35x_UL70x/gfase/phase_1.fasta
+[M::main] Real time: 16.094 sec; CPU: 55.567 sec; Peak RSS: 2.398 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_gfase/published_chr19_herro_35x_UL70x/find_T2T/T2T_contigs.haplotype2_alignment_T2T.txt
+

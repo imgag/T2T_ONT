@@ -1,0 +1,302 @@
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opLessThan
+    hg002_q100_k_37.meryl
+    print to (stdout)
+Detected k-mer size 37
+Found asm2: haplotype2.fa
+# Generate meryl db for haplotype1
+
+Found 1 command tree.
+
+Counting 57 (estimated) million canonical 37-mers from 1 input file:
+    sequence-file: haplotype1.fa
+
+
+SIMPLE MODE
+-----------
+
+  Not possible.
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P   531 kB    14 MM    32 kS  8192  B   262 MB   263 MB
+     2     4  P   529 kB  7355 kM    16 kS    16 kB   258 MB   259 MB
+     3     8  P   535 kB  3677 kM  8170  S    32 kB   255 MB   255 MB
+     4    16  P   553 kB  1838 kM  4024  S    64 kB   251 MB   252 MB
+     5    32  P   597 kB   919 kM  1987  S   128 kB   248 MB   248 MB
+     6    64  P   691 kB   459 kM   979  S   256 kB   244 MB   245 MB
+     7   128  P   886 kB   229 kM   482  S   512 kB   241 MB   241 MB
+     8   256  P  1284 kB   114 kM   238  S  1024 kB   238 MB   239 MB
+     9   512  P  2084 kB    57 kM   117  S  2048 kB   234 MB   236 MB
+    10  1024  P  3696 kB    28 kM    58  S  4096 kB   232 MB   235 MB  Best Value!
+    11  2048  P  6928 kB    14 kM    29  S  8192 kB   232 MB   238 MB
+    12  4096  P    13 MB  7356  M    14  S    16 MB   224 MB   237 MB
+    13  8192  P    25 MB  3678  M     7  S    32 MB   224 MB   249 MB
+    14    16 kP    51 MB  1839  M     4  S    64 MB   256 MB   307 MB
+    15    32 kP   101 MB   920  M     2  S   128 MB   256 MB   357 MB
+    16    64 kP   202 MB   460  M     1  S   256 MB   256 MB   458 MB
+    17   128 kP   405 MB   230  M     1  S   512 MB   512 MB   917 MB
+    18   256 kP   810 MB   115  M     1  S  1024 MB  1024 MB  1834 MB
+    19   512 kP  1620 MB    58  M     1  S  2048 MB  2048 MB  3668 MB
+    20  1024 kP  3240 MB    29  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB    15  M     1  S  8192 MB  8192 MB    14 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 464 MB memory out of 1511 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 0.453 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.279 GB / 1511.264 GB to store      2097114 kmers; need 0.013 GB to sort        22319 kmers
+Used 0.357 GB / 1511.264 GB to store     12482648 kmers; need 0.090 GB to sort       150663 kmers
+Used 0.405 GB / 1511.264 GB to store     18758918 kmers; need 0.257 GB to sort       430843 kmers
+Used 0.484 GB / 1511.264 GB to store     29244488 kmers; need 0.306 GB to sort       512951 kmers
+Used 0.548 GB / 1511.264 GB to store     37625371 kmers; need 0.376 GB to sort       631656 kmers
+Used 0.612 GB / 1511.264 GB to store     46013827 kmers; need 0.451 GB to sort       757347 kmers
+Used 0.691 GB / 1511.264 GB to store     56499397 kmers; need 0.508 GB to sort       851627 kmers
+
+Input complete.  Writing results to 'haplotype1.meryl', using 40 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opDifference
+    haplotype1.meryl
+    hg002_q100_k_37.meryl
+    output to haplotype1.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for haplotype1
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+--
+-- Estimating memory usage for 'haplotype1.0.meryl/'.
+--
+
+ p       prefixes             bits gigabytes (allowed: 1511 GB)
+-- -------------- ---------------- ---------
+ 8            256          9982624     0.001
+ 9            512          9860588     0.001
+10           1024          9754936     0.001
+11           2048          9682052     0.001
+12           4096          9674704     0.001 (smallest)
+13           8192          9798428     0.001
+14          16384         10184296     0.001
+15          32768         11094452     0.001 (faster)
+16          65536         13053184     0.002
+17         131072         17109068     0.002
+18         262144         25359256     0.003
+19         524288         41998052     0.005
+-- -------------- ---------------- ---------
+           138420 total kmers
+
+--
+-- Minimal memory needed: 0.001 GB
+-- Optimal memory needed: 0.001 GB  enabled
+-- Memory limit           1511.576 GB
+--
+--
+-- Loading kmers from 'haplotype1.0.meryl/' into lookup table.
+--
+
+For 138420 distinct 37-mers (with 15 bits used for indexing and 59 bits for tags):
+    0.000 GB memory for kmer indices -        32768 elements 64 bits wide)
+    0.001 GB memory for kmer tags    -       138420 elements 59 bits wide)
+    0.000 GB memory for kmer values  -       138420 elements  6 bits wide)
+    0.001 GB memory
+
+Will load 138420 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+Allocating space for 154548 suffixes of 59 bits each -> 9118332 bits (0.001 GB) in blocks of 32.000 MB
+                     154548 values   of 6 bits each -> 927288 bits (0.000 GB) in blocks of 32.000 MB
+Loaded 138420 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+-- Opening input sequences 'haplotype1.fa'.
+-- Opening output file '-'.
+Bye!
+# Generate meryl db for haplotype2
+
+Found 1 command tree.
+
+Counting 57 (estimated) million canonical 37-mers from 1 input file:
+    sequence-file: haplotype2.fa
+
+
+SIMPLE MODE
+-----------
+
+  Not possible.
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P   536 kB    14 MM    33 kS  8192  B   265 MB   265 MB
+     2     4  P   534 kB  7423 kM    16 kS    16 kB   261 MB   261 MB
+     3     8  P   540 kB  3711 kM  8245  S    32 kB   257 MB   258 MB
+     4    16  P   558 kB  1855 kM  4061  S    64 kB   253 MB   254 MB
+     5    32  P   602 kB   927 kM  2005  S   128 kB   250 MB   251 MB
+     6    64  P   696 kB   463 kM   988  S   256 kB   247 MB   247 MB
+     7   128  P   890 kB   231 kM   486  S   512 kB   243 MB   243 MB
+     8   256  P  1288 kB   115 kM   240  S  1024 kB   240 MB   241 MB
+     9   512  P  2088 kB    57 kM   118  S  2048 kB   236 MB   238 MB
+    10  1024  P  3696 kB    28 kM    58  S  4096 kB   232 MB   235 MB  Best Value!
+    11  2048  P  6928 kB    14 kM    29  S  8192 kB   232 MB   238 MB
+    12  4096  P    13 MB  7424  M    15  S    16 MB   240 MB   253 MB
+    13  8192  P    25 MB  3712  M     7  S    32 MB   224 MB   249 MB
+    14    16 kP    51 MB  1856  M     4  S    64 MB   256 MB   307 MB
+    15    32 kP   101 MB   928  M     2  S   128 MB   256 MB   357 MB
+    16    64 kP   202 MB   464  M     1  S   256 MB   256 MB   458 MB
+    17   128 kP   405 MB   232  M     1  S   512 MB   512 MB   917 MB
+    18   256 kP   810 MB   116  M     1  S  1024 MB  1024 MB  1834 MB
+    19   512 kP  1620 MB    58  M     1  S  2048 MB  2048 MB  3668 MB
+    20  1024 kP  3240 MB    29  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB    15  M     1  S  8192 MB  8192 MB    14 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 468 MB memory out of 1511 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 0.457 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.279 GB / 1511.264 GB to store      2097114 kmers; need 0.418 GB to sort       701568 kmers
+Used 0.391 GB / 1511.264 GB to store     16776912 kmers; need 0.436 GB to sort       730722 kmers
+Used 0.469 GB / 1511.264 GB to store     27214554 kmers; need 0.497 GB to sort       833296 kmers
+Used 0.596 GB / 1511.264 GB to store     43991429 kmers; need 0.498 GB to sort       835320 kmers
+Used 0.708 GB / 1511.264 GB to store     58671227 kmers; need 0.513 GB to sort       860040 kmers
+
+Input complete.  Writing results to 'haplotype2.meryl', using 40 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opDifference
+    haplotype2.meryl
+    hg002_q100_k_37.meryl
+    output to haplotype2.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for haplotype2
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+--
+-- Estimating memory usage for 'haplotype2.0.meryl/'.
+--
+
+ p       prefixes             bits gigabytes (allowed: 1511 GB)
+-- -------------- ---------------- ---------
+ 7            128          8878304     0.001
+ 8            256          8763300     0.001
+ 9            512          8656488     0.001
+10           1024          8566060     0.001
+11           2048          8508400     0.001 (smallest)
+12           4096          8516276     0.001
+13           8192          8655224     0.001
+14          16384          9056316     0.001 (faster)
+15          32768          9981696     0.001
+16          65536         11955652     0.001
+17         131072         16026760     0.002
+18         262144         24292172     0.003
+-- -------------- ---------------- ---------
+           123196 total kmers
+
+--
+-- Minimal memory needed: 0.001 GB
+-- Optimal memory needed: 0.001 GB  enabled
+-- Memory limit           1511.576 GB
+--
+--
+-- Loading kmers from 'haplotype2.0.meryl/' into lookup table.
+--
+
+For 123196 distinct 37-mers (with 14 bits used for indexing and 60 bits for tags):
+    0.000 GB memory for kmer indices -        16384 elements 64 bits wide)
+    0.001 GB memory for kmer tags    -       123196 elements 60 bits wide)
+    0.000 GB memory for kmer values  -       123196 elements  5 bits wide)
+    0.001 GB memory
+
+Will load 123196 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+Allocating space for 139324 suffixes of 60 bits each -> 8359440 bits (0.001 GB) in blocks of 32.000 MB
+                     139324 values   of 5 bits each -> 696620 bits (0.000 GB) in blocks of 32.000 MB
+Loaded 123196 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+-- Opening input sequences 'haplotype2.fa'.
+-- Opening output file '-'.
+Bye!
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opUnionSum
+    haplotype1.meryl
+    haplotype2.meryl
+    output to both.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opUnionSum
+    haplotype1.0.meryl
+    haplotype2.0.meryl
+    output to both.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for both
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Done!
+Remove intermediate files:
+rm -r haplotype1.0.meryl haplotype2.0.meryl both.0.meryl
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT
