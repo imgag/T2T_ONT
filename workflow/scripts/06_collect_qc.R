@@ -23,6 +23,9 @@ if (test_mode) {
   input_sex <- list("test_data/phased_verkko/published_chr19_duplex15x/sample_sex.txt")
   input_whatshap_stats <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_stats.tsv")
   input_whatshap_compare <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_compare.tsv")
+  input_merqury <- list("test_data/phased_verkko/published_chr19_duplex15x/merqury.qv")
+  input_findt2t_alignment <- list("")
+  input_findt2t_motif <- list("") 
   output_qc_full <- "test_output/qc_full.tsv"
 } else {
   # Access Snakemake input and output
@@ -32,6 +35,9 @@ if (test_mode) {
   input_sex <- snakemake@input[["sex"]]
   input_whatshap_stats <- snakemake@input[["whatshap_stats"]]
   input_whatshap_compare <- snakemake@input[["whatshap_compare"]]
+  input_merqury <- snakemake@input[["merqury_stats"]]
+  input_findt2t_alignment <- snakemake@input[["findt2t_alignment"]]
+  input_findt2t_motif <- snakemake@input[["findt2t_motif"]]
   output_qc_full <- snakemake@output[["qc_full"]]
 }
 

@@ -107,7 +107,7 @@ rule process_dorado_summary:
         "../env/R.yml"
     log:
         "logs/process_dorado_summary.{dataset}_{model}_{type}.txt"
-    script:
+    shell:
         """
-        ../scripts/07_dorado_summary_stats.R {input} > {output.summary}
+        Rscript workflow/scripts/07_dorado_summary_stats.R {input} {output} > {log} 2>&1
         """
