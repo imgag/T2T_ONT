@@ -1,0 +1,61 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/verkko/published_chr19_herro_60x_UL90x/assembly.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1.seqinfo.txt assembly/output/verkko/published_chr19_herro_60x_UL90x/assembly.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/published_chr19_herro_60x_UL90x/assembly.haplotype1.fasta >assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1.teloinput.fa
+
+
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome haplotype1-0000001_Start processed
+[+]	Chromosome haplotype1-0000002_Start processed
+[+]	Chromosome haplotype1-0000003_Start processed
+[+]	Chromosome haplotype1-0000004_Start processed
+[+]	Chromosome haplotype1-0000005_Start processed
+[+]	Chromosome haplotype1-0000006_Start processed
+[+]	Chromosome haplotype1-0000007_Start processed
+[+]	Chromosome haplotype1-0000008_Start processed
+[+]	Chromosome haplotype1-0000009_Start processed
+[+]	Chromosome haplotype1-0000010_Start processed
+[+]	Chromosome haplotype1-0000001_End processed
+[+]	Chromosome haplotype1-0000002_End processed
+[+]	Chromosome haplotype1-0000003_End processed
+[+]	Chromosome haplotype1-0000004_End processed
+[+]	Chromosome haplotype1-0000005_End processed
+[+]	Chromosome haplotype1-0000006_End processed
+[+]	Chromosome haplotype1-0000007_End processed
+[+]	Chromosome haplotype1-0000008_End processed
+[+]	Chromosome haplotype1-0000009_End processed
+[+]	Chromosome haplotype1-0000010_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::0.105*1.01] loaded the graph from "data/ref/T2T-CHM13.v2.chr19.fasta"
+[M::mg_index::1.404*1.56] indexed the graph
+[M::mg_opt_update::1.536*1.51] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::52.208*1.92] mapped 10 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_herro_60x_UL90x/assembly.haplotype1.fasta
+[M::main] Real time: 52.249 sec; CPU: 100.174 sec; Peak RSS: 2.944 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_verkko/published_chr19_herro_60x_UL90x/find_T2T/T2T_contigs.haplotype1_alignment_T2T.txt
+
