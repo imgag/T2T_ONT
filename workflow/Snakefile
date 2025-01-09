@@ -127,7 +127,7 @@ rule all:
             asm=asm_without_porec,
         ),
         expand(
-            "assembly/qc/unphased_verkko/{asm}/find_T2T/T2T_contigs.seqinfo.txt",
+            "assembly/qc/unphased_verkko/{asm}/T2T_contigs.seqinfo.txt",
             asm=asm_without_porec,
         ),
         # Assembly QC Files (Phased)
@@ -143,7 +143,7 @@ rule all:
             tool=["gfase", "verkko"],
         ),
         expand(
-            "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}.seqinfo.txt",
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"],
@@ -212,19 +212,19 @@ rule collect_qc:
             hp=["haplotype1", "haplotype2"],
         ),
         findt2t_alignment = expand(
-            "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}_alignment_T2T.txt",
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"]
         ),
         findt2t_motif = expand(
-            "assembly/qc/phased_{tool}/{asm}/find_T2T/T2T_contigs.{hp}_alignment_T2T.txt",
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"]
         )
     output:
-        "assembly/qc/qc_full.tsv",
+        tsv = "assembly/qc/qc_full.tsv",
     conda:
         "env/R.yml"
     log:

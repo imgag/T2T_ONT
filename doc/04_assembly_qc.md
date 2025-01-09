@@ -43,4 +43,10 @@ Questions do we want to sequence one reference sample (HG002?) to estimate the b
 
 We use the https://github.com/prasad693/Tel_Sequences repo to identify complete T2T chromosomes. 
 
-It searches for motif using `tidk` and writes the output to:  
+Steps: 
+1) Extract sequence information with seqkit. File: '$output.seqinfo.txt'. 3 Column tsv with: `ID \t seq_length \t 0`
+2) Take 1000 bases from start and end with `seqkit subseq` and write into `$output.teloinput.fa`. Append _Start and _End to fasta header.
+3) Search telmere motif with tidk. Output file: '$output.haplotype1_telomeric_repeat_windows.csv' Columns: `id,window,forward_repeat_number,reverse_repeat_number,telomeric_repeat`
+4) Reformat tidk output to `$output_motif_T2T.txt`. It's filtering for regions with sufficient telomere occurences (≥15 in columns 3 and 4), extracting contig information, and identifying sequences that appear exactly twice in the dataset (found on both ends). Columns: `id \t len`
+5) Use minigraph to map ref to assembly and use cov_cal -T to detect T2T contigs. Not additional where this tools comes from. Output: `$output_alignment.txt` 
+6) Convert output to new file with the follwing format: 
