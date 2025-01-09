@@ -1,19 +1,15 @@
+# Check if running in test mode
+test_mode <- FALSE
+
+# Define log file path and setup logging
+if (!test_mode) {
+  log_file <- file(snakemake@log[[1]], open = "wt")  # Open connection in text write mode
+  sink(log_file, type = "output")
+  sink(log_file, type = "message")
+}
+
 # Load necessary libraries
 library(tidyverse)
-
-# Check if running in test mode
-test_mode <- TRUE
-
-# Define log file path
-if (!test_mode) {
-  log_file <- snakemake@log[[1]]
-}
-
-# Redirect stdout and stderr to the log file
-if (!test_mode) {
-  sink(log_file, append = TRUE, type = "output")
-  sink(log_file, append = TRUE, type = "message")
-}
 
 # Define test dataset values
 if (test_mode) {
@@ -24,8 +20,8 @@ if (test_mode) {
   input_whatshap_stats <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_stats.tsv")
   input_whatshap_compare <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_compare.tsv")
   input_merqury <- list("test_data/phased_verkko/published_chr19_duplex15x/merqury.qv")
-  input_findt2t_alignment <- list("")
-  input_findt2t_motif <- list("") 
+  input_findt2t_alignment <- list("test_data/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1_alignment_T2T.txt")
+  input_findt2t_motif <- list("test_data/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1_motif_T2T.txt") 
   output_qc_full <- "test_output/qc_full.tsv"
 } else {
   # Access Snakemake input and output
@@ -38,50 +34,53 @@ if (test_mode) {
   input_merqury <- snakemake@input[["merqury_stats"]]
   input_findt2t_alignment <- snakemake@input[["findt2t_alignment"]]
   input_findt2t_motif <- snakemake@input[["findt2t_motif"]]
-  output_qc_full <- snakemake@output[["qc_full"]]
+  output_qc_full <- snakemake@output[["tsv"]]
 }
 
+# Helper function to extract common metadata from file path
+get_file_metadata <- function(file) {
+  list(
+    haplotype = str_extract(basename(file), "haplotype\\d"),  # Extract haplotype from filename
+    asm_method = str_extract(file, "([^/]+)(?=/[^/]+/[^/]+$)"),  # Extract assembly method from path
+    asm_name = str_extract(file, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
+  )
+}
 
+# Example of simplified parsing function
 parse_paf_stat <- function(paf_stats) {
-  # Use lapply to read each file and convert it into a tibble
-  results <- lapply(paf_stats, function(paf_stat) {
-    haplotype <- str_extract(basename(paf_stat), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(paf_stat, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(paf_stat, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
-    read_lines(paf_stat) %>%
+  results <- lapply(paf_stats, function(file) {
+    metadata <- get_file_metadata(file)
+    
+    read_lines(file) %>%
       enframe(name = NULL, value = "line") %>%
       separate(line, into = c("metric", "value"), sep = ": ", convert = TRUE) %>%
       mutate(metric = str_trim(metric),
              value = as.numeric(value),
-             haplotype = haplotype,
-             asm_method = asm_method,
-             asm_name = asm_name,
+             haplotype = metadata$haplotype,
+             asm_method = metadata$asm_method,
+             asm_name = metadata$asm_name,
              source = "stat")
   })
-  
-  # Set names for the results list based on the input filenames
   names(results) <- paf_stats
   return(results)
 }
 
-
 parse_paf_asmstat <- function(paf_stats) {
+  print(paste("Parse paf_asmstat from ", paf_stats))
   # Use lapply to read each file and convert it into a tibble
   results <- lapply(paf_stats, function(paf_stat) {
-    haplotype <- str_extract(basename(paf_stat), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(paf_stat, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(paf_stat, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
+    metadata <- get_file_metadata(paf_stat)
     
     # Read the file as a table
-    read_tsv(paf_stat, col_names = c("metric", "value"), skip = 1) %>%
+    read_tsv(paf_stat, col_names = c("metric", "value"), skip = 1, show_col_types = FALSE) %>%
       mutate(metric = str_trim(metric), 
              value = case_when(         
                grepl("%$", value) ~ as.numeric(sub("%", "", value)) / 100,
                TRUE ~ suppressWarnings(as.numeric(value))
              ),
-             haplotype = haplotype,
-             asm_method = asm_method,
-             asm_name = asm_name,
+             haplotype = metadata$haplotype,
+             asm_method = metadata$asm_method,
+             asm_name = metadata$asm_name,
              source = "asmstat")
   })
   
@@ -91,14 +90,13 @@ parse_paf_asmstat <- function(paf_stats) {
 }
 
 parse_paf_asmgene <- function(paf_stats) {
+  print(paste("Parse paf_asmgene from ", paf_stats))
   # Use lapply to read each file and convert it into a tibble
   results <- lapply(paf_stats, function(paf_stat) {
-    haplotype <- str_extract(basename(paf_stat), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(paf_stat, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(paf_stat, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
+    metadata <- get_file_metadata(paf_stat)
     
     # Read the file as a table and transform to long format
-    read_tsv(paf_stat, col_names = c("col_type", "metric", "ref", "asm"), skip = 1) %>%
+    read_tsv(paf_stat, col_names = c("col_type", "metric", "ref", "asm"), skip = 1, show_col_types = FALSE) %>%
       select(-col_type) %>%
       pivot_longer(cols = c(ref, asm), names_to = "col", values_to = "value") %>%
       mutate(metric = str_c(col, ".", str_trim(metric)),  # Add prefix to metric
@@ -106,9 +104,9 @@ parse_paf_asmgene <- function(paf_stats) {
                grepl("%$", value) ~ as.numeric(sub("%", "", value)) / 100,
                TRUE ~ suppressWarnings(as.numeric(value))
              ),
-             haplotype = haplotype,
-             asm_method = asm_method,
-             asm_name = asm_name,
+             haplotype = metadata$haplotype,
+             asm_method = metadata$asm_method,
+             asm_name = metadata$asm_name,
              source = "asmgene") %>%
       select(-col)
   })
@@ -118,37 +116,46 @@ parse_paf_asmgene <- function(paf_stats) {
   return(results)
 }
 
-parse_sex <- function(file) {
-  results <- lapply(file, function(file) {
-    haplotype <- str_extract(basename(file), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(file, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(file, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
+parse_sex <- function(files) {
+  print(paste("Parse sex from ", files))
+  results <- lapply(files, function(file) {
+    metadata <- get_file_metadata(file)
     
-    read_tsv(file, col_names = c("metric", "value")) %>%
-      mutate(metric = metric,
-             value = as.numeric(value),
-             haplotype = "both",
-             asm_method = asm_method,
-             asm_name = asm_name,
-             source = "sex_determination")
+    # Read single value from file
+    sex_value <- read_lines(file, n_max = 1)
+    
+    # Convert to numeric (0 = female, 1 = male)
+    numeric_value <- case_when(
+      sex_value == "female" ~ 0,
+      sex_value == "male" ~ 1,
+      TRUE ~ NA_real_  # For "unknown" or any other value
+    )
+    
+    tibble(
+      metric = "n_y_chrom",
+      value = numeric_value,
+      haplotype = "both",
+      asm_method = metadata$asm_method,
+      asm_name = metadata$asm_name,
+      source = "sex_determination"
+    )
   })
-  names(results) <- file
+  names(results) <- files
   return(results)
 }
 
 parse_whatshap_stats <- function(file) {
+  print(paste("Parse whatshap_stats from ", file))
   results <- lapply(file, function(file) {
-    haplotype <- str_extract(basename(file), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(file, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(file, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
-    read_tsv(file, col_names = TRUE) %>%
+    metadata <- get_file_metadata(file)
+    read_tsv(file, col_names = TRUE, show_col_types = FALSE) %>%
       select(c(-`#sample`, -file_name)) %>%
       pivot_longer(cols = c(-chromosome), names_to = "metric", values_to = "value") %>%
       mutate(metric = metric,
              value = as.numeric(value),
              haplotype = "both",
-             asm_method = asm_method,
-             asm_name = asm_name,
+             asm_method = metadata$asm_method,
+             asm_name = metadata$asm_name,
              source = "whatshap_stats")
   })
   names(results) <- file
@@ -156,40 +163,108 @@ parse_whatshap_stats <- function(file) {
 }
 
 parse_whatshap_compare <- function(file) {
+  print(paste("Parse whatshap_compare from ", file))
   results <- lapply(file, function(file) {
-    haplotype <- str_extract(basename(file), "haplotype\\d")  # Extract haplotype from filename
-    asm_method <- str_extract(file, "([^/]+)(?=/[^/]+/[^/]+$)")  # Extract assembly method from path
-    asm_name <- str_extract(file, "([^/]+)(?=/[^/]+$)")  # Extract assembly name from path
-    read_tsv(file, col_names = TRUE) %>%
+    metadata <- get_file_metadata(file)
+    read_tsv(file, col_names = TRUE, show_col_types = FALSE) %>%
       select(c(-`#sample`, -dataset_name0, -dataset_name1, -file_name0, -file_name1, -all_switchflips, -largestblock_switchflips)) %>%
       pivot_longer(cols = c(-chromosome), names_to = "metric", values_to = "value") %>%
       mutate(metric = metric,
              value = as.numeric(value),
              haplotype = "both",
-             asm_method = asm_method,
-             asm_name = asm_name,
+             asm_method = metadata$asm_method,
+             asm_name = metadata$asm_name,
              source = "whatshap_compare")
   })
   names(results) <- file
   return(results)
 }
 
-if (test_mode) {
-  View(bind_rows(parse_paf_stat(input_paf_stat)))
-  View(bind_rows(parse_paf_asmstat(input_paf_asmstat)))
-  View(bind_rows(parse_paf_asmgene(input_paf_asmgene)))
-  View(bind_rows(parse_sex(input_sex)))
-  View(bind_rows(parse_whatshap_stats(input_whatshap_stats)))
-  View(bind_rows(parse_whatshap_compare(input_whatshap_compare)))
+parse_merqury <- function(files) {
+  print(paste("Parse merqury from ", files))
+  results <- lapply(files, function(file) {
+    metadata <- get_file_metadata(file)
+    
+    read_tsv(file, col_names = c("haplotype_name", "unique_kmers", "total_kmers", "qv", "error_rate"), show_col_types = FALSE) %>%
+      pivot_longer(cols = c("unique_kmers", "total_kmers", "qv", "error_rate"), 
+                  names_to = "metric", 
+                  values_to = "value") %>%
+      mutate(
+        metric = str_c(metric),
+        haplotype = haplotype_name,  # Use the actual haplotype from the file
+        asm_method = metadata$asm_method,
+        asm_name = metadata$asm_name,
+        source = "merqury"
+      ) %>%
+      select(-haplotype_name)  # Remove the temporary column
+  })
+  names(results) <- files
+  return(results)
 }
 
-bind_rows(
+parse_findt2t_alignment <- function(files) {
+  print(paste("Parse findt2t_alignment from ", files))
+  results <- lapply(files, function(file) {
+    metadata <- get_file_metadata(file)
+    
+    # Count number of lines (alignments)
+    n_t2t <- nrow(read_tsv(file, show_col_types = FALSE))
+    
+    # New metric: Count number of T2T chromosomes
+    tibble(
+      metric = "n_T2T",
+      value = n_t2t,
+      haplotype = metadata$haplotype,
+      asm_method = metadata$asm_method,
+      asm_name = metadata$asm_name,
+      source = "t2t_alignment"
+    )
+  })
+  names(results) <- files
+  return(results)
+}
+
+parse_findt2t_motif <- function(files) {
+  print(paste("Parse findt2t_motif from ", files))
+  results <- lapply(files, function(file) {
+    metadata <- get_file_metadata(file)
+    
+    # Count number of lines (motifs)
+    n_motif <- nrow(read_tsv(file, show_col_types = FALSE))
+    
+    tibble(
+      metric = "n_T2T",
+      value = n_motif,
+      haplotype = metadata$haplotype,
+      asm_method = metadata$asm_method,
+      asm_name = metadata$asm_name,
+      source = "t2t_motif"
+    )
+  })
+  names(results) <- files
+  return(results)
+}
+
+full_table <- bind_rows(
   bind_rows(parse_paf_stat(input_paf_stat)),
   bind_rows(parse_paf_asmstat(input_paf_asmstat)),
   bind_rows(parse_paf_asmgene(input_paf_asmgene)),
-  bind_rows(parse_sex(input_sex)),
   bind_rows(parse_whatshap_stats(input_whatshap_stats)),
-  bind_rows(parse_whatshap_compare(input_whatshap_compare))
-) %>%
+  bind_rows(parse_whatshap_compare(input_whatshap_compare)),
+  bind_rows(parse_merqury(input_merqury)),
+  bind_rows(parse_findt2t_alignment(input_findt2t_alignment)),
+  bind_rows(parse_findt2t_motif(input_findt2t_motif)),
+  bind_rows(parse_sex(input_sex))  
+) 
+
+full_table %>%
   write_tsv(output_qc_full)
+
+# Close the log file connection at the end
+if (!test_mode) {
+  sink(type = "output")
+  sink(type = "message")
+  close(log_file)
+}
+
 
