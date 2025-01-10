@@ -19,47 +19,62 @@ def find_input_datasets(wc):
     # print(datasets[wc.dataset][wc.type])
     files = []
     folders = []
+    elements = ()
 
-    elements = (
-        datasets[wc.dataset][wc.type]
-        if isinstance(datasets[wc.dataset][wc.type], list)
-        else [datasets[wc.dataset][wc.type]]
-    )
-    for element in elements:
-        # Is a folder
-        if os.path.isdir(element):
-            if wc.type == "UL":
-                files.append(
-                    f"data/basecalled/SUP/{os.path.basename(element)}/{os.path.basename(element)}.sup.unmapped.bam"
-                )
-            if wc.type == "HQ_duplex":
-                files.append(
-                    f"data/basecalled/Duplex/{os.path.basename(element)}/{os.path.basename(element)}.duplexonly.unmapped.bam"
-                )
-        # Is a file
+    # Handle combined datasets differently
+    if str(wc.type).startswith("HQ_combined"):
+        (cov_duplex, cov_herro) = str(wc.type).replace("HQ_combined.", "").split("_")
+        wc_type = "HQ_combined"
+        # Take all duplex reads if called max
+        if cov_duplex == "maxx":
+            files.extend([f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.fastq.gz"])
         else:
-            match wc.type:
-                case "HQ_combined":
-                    (cov_duplex, cov_herro) = (
-                        str(wc.type).replace("HQ_combined.", "").split("_")
+            files.extend([f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz"])
+
+        if cov_herro == "maxx":
+            files.extend([f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.fastq.gz"])
+        else:
+            files.extend([f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz"])
+
+        elements = {
+            "HQ_herro" : datasets[wc.dataset]["HQ_herro"] if isinstance(datasets[wc.dataset]["HQ_herro"], list)else [datasets[wc.dataset]["HQ_herro"]],
+            "HQ_duplex" : datasets[wc.dataset]["HQ_duplex"] if isinstance(datasets[wc.dataset]["HQ_duplex"], list)else [datasets[wc.dataset]["HQ_duplex"]]
+         }
+    else:
+        elements =  {wc.type : datasets[wc.dataset][wc.type] if isinstance(datasets[wc.dataset][wc.type], list)else [datasets[wc.dataset][wc.type]]}
+
+
+    for wc_type, elements in elements.items():
+        print(wc_type, elements)
+        for e in elements:
+            # Is a folder
+            if os.path.isdir(e):
+                if wc_type == "UL":
+                    files.append(
+                        f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
                     )
-                    files.extend(
-                        [
-                            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_duplex.{cov_duplex}.fastq.gz",
-                            f"assembly/input/{wc.dataset}/{wc.dataset}.HQ_herro.{cov_herro}.fastq.gz",
-                        ]
+                if wc_type == "HQ_duplex":
+                    files.append(
+                        f"data/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplexonly.unmapped.bam"
                     )
-                case "HQ_herro":
-                    files.extend([update_herro_paths(f, wc.dataset) for f in files])
-                case "HQ_duplex":
-                    files.append(element)
-                case "UL":
-                    files.append(element)
-                case "POREC":
-                    files.append(element)
-                case _:
-                    print(f"Unrecognized dataset type for {element}")
-                    files.append(element)
+                if wc_type == "HQ_herro":
+                    files.append(
+                        f"data/corrected/{wc.dataset}/{os.path.basename(e)}.corrected.fasta"
+                    )
+            # Is a file
+            else:
+                match wc_type:
+                    case "HQ_herro":
+                        files.extend([update_herro_paths(f, wc.dataset) for f in files])
+                    case "HQ_duplex":
+                        files.append(e)
+                    case "UL":
+                        files.append(e)
+                    case "POREC":
+                        files.append(e)
+                    case _:
+                        print(f"Unrecognized dataset type {wc.type} for {e}")
+                        files.append(e)
 
     return {
         "files": files,

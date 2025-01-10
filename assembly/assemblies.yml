@@ -144,15 +144,17 @@ published_duplex:
 #  cov_UL: 70
 #  cov_HQ: 35
 
-
-# Test 01: Using our UL data with published duplex and PorecData
+# Test 01: Using our UL data with published duplex and PorecData. Makes not really sense since its different subjects
 TUE_01:
   dataset: TUE_01
   HQ_method: duplex
   cov_UL: 50
 
-# Test 02: Using our UL data with basecalled duplex data from 2 FC
-#TUE_02:
-#  dataset: TUE_02
-#  HQ_method: duplex
-# cov_UL: 70
+# Test 02: Using our UL data combined with duplex data from 2 FC, topping off with 20x HERRO reads
+TUE_02:
+  dataset: TUE_02
+  HQ_method: combined
+  cov_UL: 50
+  cov_HERRO: 20
+  cov_DUPLEX: max
+
