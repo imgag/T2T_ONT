@@ -1,6 +1,14 @@
+def get_dorado_trim_input(wc):
+    """ Retuns fastq if from published dataset, else SUP basecalled """
+    if [wc.dataset] == "published":
+        hts_file = datasets[wc.dataset].get("HQ_herro", "")
+    else:
+        hts_file = f"data/basecalled/SUP/{wc.file}/{wc.file}.sup.unmapped.bam"
+    return(hts_file)
+
 rule dorado_trim:
     input:
-        fastq=lambda wc: datasets[wc.dataset].get("HQ_herro", ""),
+        get_dorado_trim_input
     output:
         fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
     params:
@@ -15,7 +23,7 @@ rule dorado_trim:
         {params.dorado} trim \
             --threads {threads} \
             --emit-fastq \
-            {input.fastq} > {output.fastq} \
+            {input} > {output.fastq} \
             2> {log}
         """
 

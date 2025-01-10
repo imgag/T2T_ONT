@@ -400,7 +400,7 @@ rule find_T2T_contigs_unphased:
         asm = "assembly/output/gfase/{asm}/assembly.fasta",
         ref = get_ref_genome,
     output:
-        "assembly/qc/unphased_verkko/{asm}/find_T2T/T2T_contigs.seqinfo.txt",
+        "assembly/qc/unphased_verkko/{asm}/T2T_contigs.seqinfo.txt",
     log:
         "logs/find_T2T_contigs_unphased_{asm}.log",
     threads: 6
