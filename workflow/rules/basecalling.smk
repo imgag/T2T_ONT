@@ -2,6 +2,7 @@ from pathlib import Path
 import math
 
 
+
 def get_bams_from_pod5_split(wildcards):
     wildcards_clean = {"dataset": wildcards.dataset.replace(".subset", "")}
     dataset_split = checkpoints.pod5_split.get(**wildcards_clean).output[
@@ -50,7 +51,7 @@ rule dorado_sup:
     log:
         "logs/dorado_sup_{dataset}.log",
     resources:
-        queue="gpu_srv010,gpu_srv019,gpu_srv025",
+        queue=config['gpu_queues'],
         gpus=2,
     threads: 4
     priority: 3
@@ -197,7 +198,7 @@ rule dorado_duplex:
     log:
         "logs/dorado_duplex_{dataset}_{channel}.log",
     resources:
-        queue="gpu_srv010,gpu_srv019",
+        queue=config['gpu_queues'],
         gpus=1,
     threads: 32
     priority: 3

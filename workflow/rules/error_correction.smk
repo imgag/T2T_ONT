@@ -62,20 +62,24 @@ rule dorado_correct_inference:
     params:
         dorado=config["dorado"],
         herro_model=config["herro_model"],
-    threads: 6
+    threads: 12
     benchmark:
         "runtimes/dorado_correct_inference_{dataset}_{file}.txt"
     log:
         "logs/dorado_correct_inference_{dataset}_{file}.log",
     resources:
-        gpu=2,
-    shell:
-        """
-        {params.dorado} correct \
-            --from-paf {input.paf} \
-            --threads {threads} \
-            --model-path {params.herro_model} \
-            --device 'cuda:all' \
-            {input.fastq} > {output.fa} \
-            2> {log}
-       """
+        gpu=1,
+        queue=config['gpu_queues']
+    run:
+        with get_gpu_id() as gid:  # Check for unused GPU
+            params.cuda_device = f"cuda:{gid}"
+            shell(
+            "{params.dorado} correct \
+                --from-paf {input.paf} \
+                --threads {threads} \
+                --model-path {params.herro_model} \
+                --device '{params.cuda_device}' \
+                --index-size 4G \
+                {input.fastq} > {output.fa} \
+                2> {log} \
+            ")
