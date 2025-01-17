@@ -13,20 +13,33 @@ def get_ref_genome(wc):
 
 
 def get_phased_assembly_output(wc):
-    if wc["tool"] == "verkko":
-        if not wc["hp"]:
-            return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
-        elif wc["hp"] == "haplotype1":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
-        elif wc["hp"] == "haplotype2":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
-    elif wc["tool"] == "gfase":
-        if wc["hp"] == "haplotype1":
-            return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
-        elif wc["hp"] == "haplotype2":
-            return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
-    else:
-        raise ValueError(f"Invalid tool: {wc['tool']}")
+    # Treat undefined isphased as "phased"
+    isphased = wc.get("isphased", "phased")
+
+    # Not defined for variant calling
+
+    if isphased == "unphased":
+        if wc["tool"] == "verkko":
+            return f"assembly/output/verkko/{wc['asm']}/assembly.fasta" # Todo Change to saved unphased copy!!
+        else:
+            raise ValueError(f"Invalid tool for unphased assembly: {wc['tool']}")
+
+    elif isphased == "phased":
+        if wc["tool"] == "verkko":
+            if not wc["hp"]:
+                return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
+            elif wc["hp"] == "haplotype1":
+                return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
+            elif wc["hp"] == "haplotype2":
+                return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
+        elif wc["tool"] == "gfase":
+            if wc["hp"] == "haplotype1":
+                return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
+            elif wc["hp"] == "haplotype2":
+                return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
+        else:
+            raise ValueError(f"Invalid tool: {wc['tool']}")
+
 
 
 def get_assembly_graph_output(wc):
@@ -63,7 +76,6 @@ rule subsample_ref_genome:
 
 rule bandage_without_colors:
     input:
-        #gfa=lambda wc: get_assembly_graph_output({**wc, "tool": "verkko"}),
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
     output:
         svg="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.svg",
@@ -76,6 +88,7 @@ rule bandage_without_colors:
     shell:
         """
         Bandage image {input.gfa} {output.svg} > {log} 2>&1
+        Bandage image {input.gfa} {output.png} >> {log} 2>&1
         """
 
 
@@ -103,11 +116,11 @@ rule map_asm_to_ref:
         fa=get_phased_assembly_output,
         ref=get_ref_genome,
     output:
-        paf="assembly/qc/phased_{tool}/{asm}/{hp}.mapped_T2T.paf",
+        paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_asm_to_ref.{tool}_{asm}_{hp}.log",
+        "logs/map_asm_to_ref.{isphased}_{tool}_{asm}_{hp}.log",
     threads: 4
     shell:
         """
@@ -144,12 +157,12 @@ rule map_cdna_to_asm:
         asm=get_phased_assembly_output,
         ref=config["ref_cdna"],
     output:
-        paf="assembly/qc/phased_{tool}/{asm}/cdna_aln.{hp}.paf",
+        paf="assembly/qc/{isphased}_{tool}/{asm}/cdna_aln.{hp}.paf",
     conda:
         "../env/minimap2.yml"
     threads: 20
     log:
-        "logs/qc_asmgene_map_{tool}_{asm}_{hp}.log",
+        "logs/qc_asmgene_map_{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         minimap2 -cxsplice -C5\
@@ -164,12 +177,12 @@ rule qc_paftools_stat:
         paf=rules.map_asm_to_ref.output.paf,
         ref=get_ref_genome,
     output:
-        "assembly/qc/phased_{tool}/{asm}/qc_paftools_stat.{hp}.txt",
+        "assembly/qc/{isphased}_{tool}/{asm}/qc_paftools_stat.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_stat_{tool}_{asm}_{hp}.log",
+        "logs/paftools_stat_{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js stat\
@@ -183,12 +196,12 @@ rule qc_paftools_asmstat:
         paf=rules.map_asm_to_ref.output.paf,
         ref=get_ref_genome,
     output:
-        "assembly/qc/phased_{tool}/{asm}/qc_paftools_asmstat.{hp}.txt",
+        "assembly/qc/{isphased}_{tool}/{asm}/qc_paftools_asmstat.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmstat_{tool}_{asm}_{hp}.log",
+        "logs/paftools_asmstat_{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmstat\
@@ -216,12 +229,12 @@ rule qc_paftools_asmgene:
         paf_asm=rules.map_cdna_to_asm.output.paf,
         paf_ref=get_ref_cdna_paf,
     output:
-        "assembly/qc/phased_{tool}/{asm}/qc_paftools_asmgene.{hp}.txt",
+        "assembly/qc/{isphased}_{tool}/{asm}/qc_paftools_asmgene.{hp}.txt",
     conda:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmgene_{tool}_{asm}_{hp}.log",
+        "logs/paftools_asmgene_{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmgene \
@@ -252,15 +265,15 @@ rule scaffold_lengths:
 
 rule dotplot:
     input:
-        len="assembly/qc/phased_{tool}/{asm}/scaffold_lengths.{hp}.txt",
+        len="assembly/qc/{isphased}_{tool}/{asm}/scaffold_lengths.{hp}.txt",
         paf=rules.map_asm_to_ref.output.paf,
     output:
-        "assembly/qc/phased_{tool}/{asm}/dotplot.{hp}.pdf",
+        "assembly/qc/{isphased}_{tool}/{asm}/dotplot.{hp}.pdf",
     conda:
         "../env/R.yml"
     threads: 1
     log:
-        "logs/dotplot.{tool}_{asm}_{hp}.log",
+        "logs/dotplot.{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         Rscript workflow/scripts/minidot.R \
@@ -375,11 +388,11 @@ rule find_T2T_contigs:
         asm = get_phased_assembly_output,
         ref = get_ref_genome,
     output:
-        "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
-        "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-        "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_motif_T2T.txt"
+        seqinfo = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
+        alignment = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+        motif = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_motif_T2T.txt"
     log:
-        "logs/find_T2T_contigs_{tool}_{asm}_{hp}.log",
+        "logs/find_T2T_contigs_{isphased}_{tool}_{asm}_{hp}.log",
     threads: 6 
     params:
         T2T_chromosomes = config["T2T_chromosomes"]
@@ -389,30 +402,7 @@ rule find_T2T_contigs:
         {params.T2T_chromosomes} \
             -a {input.asm} \
             -r {input.ref} \
-            -o "$(dirname {output})/T2T_contigs.{wildcards.hp}" \
-            -m TTAGGG \
-            -t {threads} \
-            > {log} 2>&1
-        """
-
-rule find_T2T_contigs_unphased:
-    input:
-        asm = "assembly/output/gfase/{asm}/assembly.fasta",
-        ref = get_ref_genome,
-    output:
-        "assembly/qc/unphased_verkko/{asm}/T2T_contigs.seqinfo.txt",
-    log:
-        "logs/find_T2T_contigs_unphased_{asm}.log",
-    threads: 6
-    params:
-        T2T_chromosomes = config["T2T_chromosomes"]
-    shell:
-        """
-        export PATH=$PATH:$(dirname {params.T2T_chromosomes})
-        {params.T2T_chromosomes} \
-            -a {input.asm} \
-            -r {input.ref} \
-            -o {output} \
+            -o "$(dirname {output.seqinfo})/T2T_contigs.{wildcards.hp}" \
             -m TTAGGG \
             -t {threads} \
             > {log} 2>&1

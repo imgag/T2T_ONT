@@ -40,7 +40,7 @@ rule verkko:
     conda:
         "../env/verkko.yml"
     group:
-        "verrko"
+        "verkko"
     log:
         "logs/verkko_{asm}.log",
     benchmark:
@@ -58,6 +58,9 @@ rule verkko:
         """
 
 
+#rule copy_verrko_unphased:
+#    input: 
+
 rule verkko_scaffold:
     input:
         unpack(get_assembly_input),
@@ -69,7 +72,7 @@ rule verkko_scaffold:
     conda:
         "../env/verkko.yml"
     group:
-        "verrko"
+        "verkko"
     log:
         "logs/verkko_scaffold_{asm}.log",
     benchmark:
@@ -96,7 +99,7 @@ rule scaffold_create_rename_map:
     log:
         "logs/create_rename_map_{asm}.log",
     group:
-        "verrko"
+        "verkko"
     threads: 1
     shell:
         """
@@ -116,7 +119,7 @@ rule scaffold_rename_fasta:
     conda:
         "../env/verkko.yml"
     group:
-        "verrko"
+        "verkko"
     log:
         "logs/scaffold_rename_fasta_{asm}.log",
     threads: 1
@@ -140,7 +143,7 @@ rule scaffold_uncompress_gfa:
     conda:
         "../env/verkko.yml"
     group:
-        "verrko"
+        "verkko"
     log:
         "logs/scaffold_uncompress_gfa_{asm}.log",
     threads: 4
