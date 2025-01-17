@@ -37,6 +37,8 @@ rule verkko:
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
         fa="assembly/output/verkko/{asm}/assembly.fasta",
         scfmap="assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap",
+        ont_cov = "assembly/output/verkko/{asm}/assembly.ont_coverage.csv",
+        hifi_cov = "assembly/output/verkko/{asm}/assembly.hifi_coverage.csv",
     conda:
         "../env/verkko.yml"
     group:
@@ -58,13 +60,37 @@ rule verkko:
         """
 
 
-#rule copy_verrko_unphased:
-#    input: 
+rule copy_verkko_unphased:
+    input:
+        fa="assembly/output/verkko/{asm}/assembly.fasta",
+        gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
+        gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        ont_cov = "assembly/output/verkko/{asm}/assembly.ont_coverage.csv",
+        hifi_cov = "assembly/output/verkko/{asm}/assembly.hifi_coverage.csv",
+        scfmap="assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
+    output:
+        fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
+        gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
+        gfa_noseq="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        ont_cov = "assembly/output/verkko_unphased/{asm}/assembly.ont_coverage.csv",
+        hifi_cov = "assembly/output/verkko_unphased/{asm}/assembly.hifi_coverage.csv",
+        scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
+        done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done"
+    log:
+        "logs/copy_verkko_unphased_{asm}.log"
+    shell:
+        """
+        cp {input.fa} {output.fa} 2>{log}
+        cp {input.gfa} {output.gfa} 2>>{log}
+        cp {input.scfmap} {output.scfmap} 2>>{log}
+        touch {output.done}
+        """
 
-rule verkko_scaffold:
+
+rule verkko_scaffold:       
     input:
         unpack(get_assembly_input),
-        done="assembly/output/gfase/{asm}/use_verkko_files.done",
+        done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     output:
         hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
         hp2="assembly/output/verkko/{asm}/assembly.haplotype2.fasta",
@@ -93,9 +119,9 @@ rule verkko_scaffold:
 
 rule scaffold_create_rename_map:
     input:
-        scfmap=rules.verkko.output.scfmap,
+        scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
     output:
-        "assembly/output/gfase/{asm}/contigs.rename.map",
+        map="assembly/output/gfase/{asm}/contigs.rename.map",
     log:
         "logs/create_rename_map_{asm}.log",
     group:
@@ -106,14 +132,14 @@ rule scaffold_create_rename_map:
         cat {input.scfmap} \
         | grep utig4 \
         | awk '{{print $2"\t"$NF}}' \
-        > {output} 2>{log}
+        > {output.map} 2>{log}
         """
 
 
 rule scaffold_rename_fasta:
     input:
         map="assembly/output/gfase/{asm}/contigs.rename.map",
-        fa=ancient("assembly/output/verkko/{asm}/assembly.fasta"),
+        fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
     output:
         fa="assembly/output/gfase/{asm}/assembly.fasta",
     conda:
@@ -135,7 +161,7 @@ rule scaffold_rename_fasta:
 
 rule scaffold_uncompress_gfa:
     input:
-        gfa=ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa"),
+        gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
         fa="assembly/output/gfase/{asm}/assembly.fasta",
     output:
         gfa="assembly/output/gfase/{asm}/assembly.uncompressed.gfa",
@@ -165,7 +191,7 @@ rule scaffold_uncompress_gfa:
 rule scaffold_map_porec:
     input:
         unpack(get_assembly_input),
-        asm="assembly/output/gfase/{asm}/assembly.fasta",
+        asm="assembly/output/verkko_unphased/{asm}/assembly.fasta",
     output:
         bam="assembly/output/gfase/{asm}/asm_porec.bam",
     conda:
