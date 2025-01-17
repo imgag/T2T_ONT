@@ -9,9 +9,9 @@ rule determine_sex:
             .replace(".fastq.gz", ".bam"),
         ),
     output:
-        sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
+        sex="assembly/qc/{isphased}_{tool}/{asm}/sample_sex.txt",
     log:
-        "logs/determine_sex_{tool}_{asm}.log",
+        "logs/determine_sex_{isphased}_{tool}_{asm}.log",
     conda:
         "../env/mosdepth.yml"
     shell:
@@ -45,12 +45,11 @@ rule determine_sex:
 
 
 def get_sex_file(wildcards):
+    # Always use "phased" since dipcall is only used for phased assemblies
+    sex_file = f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt"
     return (
         "-x " + config["X_PAR_file"]
-        if open(f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt")
-        .read()
-        .strip()
-        == "male"
+        if open(sex_file).read().strip() == "male"
         else ""
     )
 

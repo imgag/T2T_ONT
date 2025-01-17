@@ -19,9 +19,12 @@
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
 - [ ] Check if we used the same data for HERRO as in the paper. Data depended errors in the model? Can we achieve results from HERRO publication?
 - [ ] Check if filtlong subsampling with length preference is a problem for subsampling HERRO and DUPLEX reads in the benchmark
+- [ ] Store unphased verkko output in a separate folder
+- [ ] Run Verkko with the "NoPolishing" option.
+- [ ] Check if Performance is better.
 
 - [X] Make PORCE optional, dont run scaffolding without it
-- [X] Telomere detection (seqtk telo ?, take from verrko results, )
+- [X] Telomere detection (seqtk telo ?, take from verkko results, )
 - [X] Is our sample TUE_01 the same HG002 from published dataset? No its a personal genome from Germany
 
 - [X] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
@@ -32,7 +35,7 @@
 - [X] Prepare published test datasets:
     - [X] Download datasets (see Readme)
     - [X] Merge bamfiles
-    - [X] Convert to suitable input for Verrko (.fastq.gz)
+    - [X] Convert to suitable input for Verkko (.fastq.gz)
 - [X] Create subsampled testdataset:
     - [X] Map UL and Duplex against T2T assembly
     - [X] Extract all reads matching chr19 (small, short telomeres and centromeres).
@@ -40,8 +43,8 @@
 - [X] Setup HERRO pipeline
     - [X] Process SIMPLEX reads with HERRO
     - [X] Compare alignment QC with Duplex
-- [X] Setup VERRKO pipeline
-- [X] Run VERRKO assembly
+- [X] Setup VERKKO pipeline
+- [X] Run VERKKO assembly
     - [X] Duplex reads
     - [X] HERRO corrected reads
     - [X] Normal/no duplex reads

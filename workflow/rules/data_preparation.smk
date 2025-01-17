@@ -43,38 +43,37 @@ def find_input_datasets(wc):
     else:
         elements =  {wc.type : datasets[wc.dataset][wc.type] if isinstance(datasets[wc.dataset][wc.type], list)else [datasets[wc.dataset][wc.type]]}
 
-
-    for wc_type, elements in elements.items():
-        print(wc_type, elements)
-        for e in elements:
-            # Is a folder
-            if os.path.isdir(e):
-                if wc_type == "UL":
-                    files.append(
-                        f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
-                    )
-                if wc_type == "HQ_duplex":
-                    files.append(
-                        f"data/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplexonly.unmapped.bam"
-                    )
-                if wc_type == "HQ_herro":
-                    files.append(
-                        f"data/corrected/{wc.dataset}/{os.path.basename(e)}.corrected.fasta"
-                    )
-            # Is a file
-            else:
-                match wc_type:
-                    case "HQ_herro":
-                        files.extend([update_herro_paths(f, wc.dataset) for f in files])
-                    case "HQ_duplex":
-                        files.append(e)
-                    case "UL":
-                        files.append(e)
-                    case "POREC":
-                        files.append(e)
-                    case _:
-                        print(f"Unrecognized dataset type {wc.type} for {e}")
-                        files.append(e)
+        for wc_type, elements in elements.items():
+            print(wc_type, elements)
+            for e in elements:
+                # Is a folder
+                if os.path.isdir(e):
+                    if wc_type == "UL":
+                        files.append(
+                            f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
+                        )
+                    if wc_type == "HQ_duplex":
+                        files.append(
+                            f"data/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplexonly.unmapped.bam"
+                        )
+                    if wc_type == "HQ_herro":
+                        files.append(
+                            f"data/corrected/{wc.dataset}/{os.path.basename(e)}.corrected.fasta"
+                        )
+                # Is a file
+                else:
+                    match wc_type:
+                        case "HQ_herro":
+                            files.extend([update_herro_paths(f, wc.dataset) for f in files])
+                        case "HQ_duplex":
+                            files.append(e)
+                        case "UL":
+                            files.append(e)
+                        case "POREC":
+                            files.append(e)
+                        case _:
+                            print(f"Unrecognized dataset type {wc.type} for {e}")
+                            files.append(e)
 
     return {
         "files": files,

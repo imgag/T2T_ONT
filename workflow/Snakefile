@@ -127,8 +127,13 @@ rule all:
             asm=asm_without_porec,
         ),
         expand(
-            "assembly/qc/unphased_verkko/{asm}/T2T_contigs.seqinfo.txt",
+            "assembly/qc/unphased_verkko/{asm}/T2T_contigs.unphased.seqinfo.txt",
             asm=asm_without_porec,
+        ),         
+        expand(
+            "assembly/qc/unphased_verkko/{asm}/qc_paftools_{module}.unphased.txt",
+            asm=asm_without_porec,
+            module=["asmgene", "asmstat", "stat"]
         ),
         # Assembly QC Files (Phased)
         expand(
@@ -148,7 +153,6 @@ rule all:
             tool=["gfase", "verkko"],
             hp=["haplotype1", "haplotype2"],
         ),
-        "assembly/qc/qc_full.tsv",
         # Variant Calling
         expand(
             "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
@@ -160,6 +164,9 @@ rule all:
             asm=asm_with_porec,
             tool=["gfase", "verkko"],
         ),
+
+        # Merged QC:
+        "assembly/qc/qc_full.tsv"
 
 
 rule collect_qc:
