@@ -12,7 +12,7 @@ def get_ref_genome(wc):
     return ref
 
 
-def get_phased_assembly_output(wc):
+def get_assembly_output(wc):
     # Treat undefined isphased as "phased"
     isphased = wc.get("isphased", "phased")
 
@@ -20,7 +20,7 @@ def get_phased_assembly_output(wc):
 
     if isphased == "unphased":
         if wc["tool"] == "verkko":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.fasta" # Todo Change to saved unphased copy!!
+            return f"assembly/output/verkko_unphased/{wc['asm']}/assembly.fasta"
         else:
             raise ValueError(f"Invalid tool for unphased assembly: {wc['tool']}")
 
@@ -74,9 +74,9 @@ rule subsample_ref_genome:
         """
 
 
-rule bandage_without_colors:
+rule bandage_unphased:
     input:
-        gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
+        gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.noseq.gfa",
     output:
         svg="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.svg",
         png="assembly/qc/unphased_verkko/{asm}/bandage_graph.no_colors.png",
@@ -113,7 +113,7 @@ rule bandage:
 
 rule map_asm_to_ref:
     input:
-        fa=get_phased_assembly_output,
+        fa=get_assembly_output,
         ref=get_ref_genome,
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
@@ -154,7 +154,7 @@ rule map_cdna_to_ref:
 
 rule map_cdna_to_asm:
     input:
-        asm=get_phased_assembly_output,
+        asm=get_assembly_output,
         ref=config["ref_cdna"],
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/cdna_aln.{hp}.paf",
@@ -245,7 +245,7 @@ rule qc_paftools_asmgene:
 
 rule scaffold_lengths:
     input:
-        fa=get_phased_assembly_output,
+        fa=get_assembly_output,
         ref=get_ref_genome,
     output:
         txt="assembly/qc/phased_{tool}/{asm}/scaffold_lengths.{hp}.txt",
@@ -318,8 +318,8 @@ rule qc_meryl:
 rule qc_merqury_verkko:
     input:
         meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
-        pat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa=lambda wc: get_phased_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
+        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
     output:
         out = "assembly/qc/phased_{tool}/{asm}/merqury.qv",
         hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype1.qv",
@@ -385,7 +385,7 @@ rule qc_merqury_unphased:
 
 rule find_T2T_contigs:
     input:
-        asm = get_phased_assembly_output,
+        asm = get_assembly_output,
         ref = get_ref_genome,
     output:
         seqinfo = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
