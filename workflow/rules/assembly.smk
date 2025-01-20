@@ -37,8 +37,6 @@ rule verkko:
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
         fa="assembly/output/verkko/{asm}/assembly.fasta",
         scfmap="assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap",
-        ont_cov = "assembly/output/verkko/{asm}/assembly.ont_coverage.csv",
-        hifi_cov = "assembly/output/verkko/{asm}/assembly.hifi_coverage.csv",
     conda:
         "../env/verkko.yml"
     group:
@@ -65,24 +63,21 @@ rule copy_verkko_unphased:
         fa="assembly/output/verkko/{asm}/assembly.fasta",
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
         gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        ont_cov = "assembly/output/verkko/{asm}/assembly.ont_coverage.csv",
-        hifi_cov = "assembly/output/verkko/{asm}/assembly.hifi_coverage.csv",
         scfmap="assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
     output:
         fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
         gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
         gfa_noseq="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        ont_cov = "assembly/output/verkko_unphased/{asm}/assembly.ont_coverage.csv",
-        hifi_cov = "assembly/output/verkko_unphased/{asm}/assembly.hifi_coverage.csv",
         scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done"
     log:
         "logs/copy_verkko_unphased_{asm}.log"
     shell:
         """
-        cp {input.fa} {output.fa} 2>{log}
-        cp {input.gfa} {output.gfa} 2>>{log}
-        cp {input.scfmap} {output.scfmap} 2>>{log}
+        cp -v {input.fa} {output.fa} > {log} 2>&1
+        cp -v {input.gfa} {output.gfa} >> {log} 2>&1
+        cp -v {input.gfa_noseq} {output.gfa_noseq} >> {log} 2>&1
+        cp -v {input.scfmap} {output.scfmap} >> {log} 2>&1
         touch {output.done}
         """
 
