@@ -96,7 +96,7 @@ for dataset in datasets:
                         f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplex.sequencing_summary.processed.txt"
                     )
             else:
-                print("WARNING: Not adding this file to BAM QC:", e)
+                print("Not included in BAM QC:", e)
 
 
 # Make different sets for assembly with and without POREC
@@ -171,6 +171,10 @@ rule all:
 rule all_unphased:
     input:
         expand("assembly/output/verkko_unphased/{asm}/use_verkko_files.done", asm=asm)
+
+rule all_verkko_phased:
+    input:
+        expand("assembly/output/verkko/{asm}/assembly.colors.csv", asm=asm_with_porec)
 
 rule collect_qc:
     input:
