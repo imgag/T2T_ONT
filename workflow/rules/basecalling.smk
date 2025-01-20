@@ -32,8 +32,8 @@ def get_path_for_dataset_folder(wc):
                 if os.path.isdir(path) and folder_base in path:
                     matching_paths.append(path)
 
-            # Print warning if multiple paths are found
-            if len(matching_paths) > 1:
+            # Print warning only if there are multiple matching paths and they are different from each other
+            if len(matching_paths) > 1 and len(set(matching_paths)) > 1:
                 print(
                     f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}"
                 )
