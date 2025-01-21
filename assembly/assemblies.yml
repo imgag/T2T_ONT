@@ -12,8 +12,8 @@
 #     15x |     duplex          |       --     |      --      |
 #     20x |     duplex          |       --     |      --      |
 #     25x |     duplex          |       --     |      --      |
-#     35x | 15x DU + 20x herro  | duplex/herro | duplex/herro |
-#     35x | duplex/herro        | duplex/herro | duplex/herro |
+#     35x | 15x DU + 20x herro  |       --     |      --      |  BOTH WITH AND WITHOUT POLISH
+#     35x | duplex/herro        | duplex/herro | duplex/herro |  BITH WITH AND WITHOUT VERRKO POLISH
 #     60x |     herro           |     herro    |    herro     |
 #    120x |     herro           |     herro    |    herro     |
 
@@ -47,11 +47,28 @@ published_chr19_combined35x:
   cov_HERRO: 20
   cov_DUPLEX: 15
 
+published_chr19_combined35x_nopolish:
+  dataset: published
+  skip_polish: true
+  HQ_method: combined
+  region: chr19
+  cov_UL: 50
+  #cov_HQ: 35   # Currently makes no impact if this line exists or not. Maybe add warning if it deviates from sum of herro and duplex
+  cov_HERRO: 20
+  cov_DUPLEX: 15
+
 # When only combined is given we should include maximum DUPLEX reads and fill up with HERRO
 # Needs to be implemented 
 
 published_chr19_duplex_UL50x:
   dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+
+published_chr19_duplex_UL50x_nopolish:
+  dataset: published
+  skip_polish: true
   HQ_method: duplex
   region: chr19
   cov_UL: 50
@@ -68,8 +85,9 @@ published_chr19_duplex_UL90x:
   region: chr19
   cov_UL: 90
 
-published_chr19_herro_35x_UL50x:
+published_chr19_herro_35x_UL50x_nopolish:
   dataset: published
+  skip_polish: true
   HQ_method: herro
   cov_UL: 50
   cov_HQ: 35
