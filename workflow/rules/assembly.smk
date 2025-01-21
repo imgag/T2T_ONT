@@ -101,9 +101,11 @@ rule verkko_scaffold:
     threads: 30
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
+        skip_polish= lambda wc: "--no-correction" if asm[wc.asm].get("skip_polish", False) else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
+            {params.skip_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \
