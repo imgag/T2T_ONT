@@ -161,8 +161,7 @@ rule scaffold_uncompress_gfa:
         gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
         fa="assembly/output/gfase/{asm}/assembly.fasta",
     output:
-        gfa="assembly/output/gfase/{asm}/assembly.uncompressed.gfa",
-        done="assembly/output/gfase/{asm}/use_verkko_files.done",
+        gfa="assembly/output/gfase/{asm}/assembly.uncompressed.gfa"
     conda:
         "../env/verkko.yml"
     group:
@@ -180,15 +179,13 @@ rule scaffold_uncompress_gfa:
             -t {threads} \
             -o {output.gfa} \
             >{log} 2>&1
-        
-        touch {output.done}
         """
 
 
 rule scaffold_map_porec:
     input:
         unpack(get_assembly_input),
-        asm="assembly/output/verkko_unphased/{asm}/assembly.fasta",
+        asm="assembly/output/gfase/{asm}/assembly.fasta",
     output:
         bam="assembly/output/gfase/{asm}/asm_porec.bam",
     conda:
