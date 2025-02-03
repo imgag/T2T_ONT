@@ -1,0 +1,47 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/verkko/published_chr19_duplex_UL50x_nopolish/assembly.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1.seqinfo.txt assembly/output/verkko/published_chr19_duplex_UL50x_nopolish/assembly.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/published_chr19_duplex_UL50x_nopolish/assembly.haplotype1.fasta >assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/verkko/published_chr19_duplex_UL50x_nopolish/assembly.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome haplotype1-0000001_Start processed
+[+]	Chromosome haplotype1-0000002_Start processed
+[+]	Chromosome haplotype1-0000003_Start processed
+[+]	Chromosome haplotype1-0000004_Start processed
+[+]	Chromosome haplotype1-0000005_Start processed
+[+]	Chromosome haplotype1-0000006_Start processed
+[+]	Chromosome haplotype1-0000001_End processed
+[+]	Chromosome haplotype1-0000002_End processed
+[+]	Chromosome haplotype1-0000003_End processed
+[+]	Chromosome haplotype1-0000004_End processed
+[+]	Chromosome haplotype1-0000005_End processed
+[+]	Chromosome haplotype1-0000006_End processed
+[+]	Finished searching genome.
+
+
+Existing paf file found. Skipping alingment step
+
+[M::load_paf::] ==> Loaded assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_verkko/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype1_alignment_T2T.txt
+

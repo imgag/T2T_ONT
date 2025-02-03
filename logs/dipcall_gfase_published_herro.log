@@ -10,6 +10,6 @@ bin/dipcall.kit/k8 bin/dipcall.kit/dipcall-aux.js samflt assembly/variants/publi
 [bam_sort_core] merging from 0 files and 4 in-memory blocks...
 gzip -dc assembly/variants/published_herro/phased_gfase/small_variants.hap1.var.gz | grep ^R | cut -f2- > assembly/variants/published_herro/phased_gfase/small_variants.hap1.bed
 gzip -dc assembly/variants/published_herro/phased_gfase/small_variants.hap2.var.gz | grep ^R | cut -f2- > assembly/variants/published_herro/phased_gfase/small_variants.hap2.bed
-bin/dipcall.kit/bedtk isec -m assembly/variants/published_herro/phased_gfase/small_variants.hap1.bed assembly/variants/published_herro/phased_gfase/small_variants.hap2.bed > assembly/variants/published_herro/phased_gfase/small_variants.dip.bed
 bin/dipcall.kit/htsbox pileup -q5 -evcf data/ref/T2T-CHM13.v2.fasta assembly/variants/published_herro/phased_gfase/small_variants.hap1.bam assembly/variants/published_herro/phased_gfase/small_variants.hap2.bam | bin/dipcall.kit/htsbox bgzip > assembly/variants/published_herro/phased_gfase/small_variants.pair.vcf.gz
+bin/dipcall.kit/bedtk isec -m assembly/variants/published_herro/phased_gfase/small_variants.hap1.bed assembly/variants/published_herro/phased_gfase/small_variants.hap2.bed > assembly/variants/published_herro/phased_gfase/small_variants.dip.bed
 bin/dipcall.kit/k8 bin/dipcall.kit/dipcall-aux.js vcfpair  assembly/variants/published_herro/phased_gfase/small_variants.pair.vcf.gz | bin/dipcall.kit/htsbox bgzip > assembly/variants/published_herro/phased_gfase/small_variants.dip.vcf.gz
