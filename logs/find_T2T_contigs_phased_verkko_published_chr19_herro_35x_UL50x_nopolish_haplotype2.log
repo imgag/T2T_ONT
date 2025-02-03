@@ -1,0 +1,79 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/verkko/published_chr19_herro_35x_UL50x_nopolish/assembly.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2.seqinfo.txt assembly/output/verkko/published_chr19_herro_35x_UL50x_nopolish/assembly.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/published_chr19_herro_35x_UL50x_nopolish/assembly.haplotype2.fasta >assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/verkko/published_chr19_herro_35x_UL50x_nopolish/assembly.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome haplotype2-0000017_Start processed
+[+]	Chromosome haplotype2-0000018_Start processed
+[+]	Chromosome haplotype2-0000019_Start processed
+[+]	Chromosome haplotype2-0000020_Start processed
+[+]	Chromosome haplotype2-0000021_Start processed
+[+]	Chromosome haplotype2-0000022_Start processed
+[+]	Chromosome haplotype2-0000023_Start processed
+[+]	Chromosome haplotype2-0000024_Start processed
+[+]	Chromosome haplotype2-0000025_Start processed
+[+]	Chromosome haplotype2-0000026_Start processed
+[+]	Chromosome haplotype2-0000027_Start processed
+[+]	Chromosome haplotype2-0000028_Start processed
+[+]	Chromosome haplotype2-0000029_Start processed
+[+]	Chromosome haplotype2-0000030_Start processed
+[+]	Chromosome haplotype2-0000031_Start processed
+[+]	Chromosome haplotype2-0000032_Start processed
+[+]	Chromosome haplotype2-0000033_Start processed
+[+]	Chromosome haplotype2-0000034_Start processed
+[+]	Chromosome haplotype2-0000035_Start processed
+[+]	Chromosome haplotype2-0000036_Start processed
+[+]	Chromosome haplotype2-0000037_Start processed
+[+]	Chromosome haplotype2-0000038_Start processed
+[+]	Chromosome haplotype2-0000017_End processed
+[+]	Chromosome haplotype2-0000018_End processed
+[+]	Chromosome haplotype2-0000019_End processed
+[+]	Chromosome haplotype2-0000020_End processed
+[+]	Chromosome haplotype2-0000021_End processed
+[+]	Chromosome haplotype2-0000022_End processed
+[+]	Chromosome haplotype2-0000023_End processed
+[+]	Chromosome haplotype2-0000024_End processed
+[+]	Chromosome haplotype2-0000025_End processed
+[+]	Chromosome haplotype2-0000026_End processed
+[+]	Chromosome haplotype2-0000027_End processed
+[+]	Chromosome haplotype2-0000028_End processed
+[+]	Chromosome haplotype2-0000029_End processed
+[+]	Chromosome haplotype2-0000030_End processed
+[+]	Chromosome haplotype2-0000031_End processed
+[+]	Chromosome haplotype2-0000032_End processed
+[+]	Chromosome haplotype2-0000033_End processed
+[+]	Chromosome haplotype2-0000034_End processed
+[+]	Chromosome haplotype2-0000035_End processed
+[+]	Chromosome haplotype2-0000036_End processed
+[+]	Chromosome haplotype2-0000037_End processed
+[+]	Chromosome haplotype2-0000038_End processed
+[+]	Finished searching genome.
+
+
+Existing paf file found. Skipping alingment step
+
+[M::load_paf::] ==> Loaded assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_verkko/published_chr19_herro_35x_UL50x_nopolish/T2T_contigs.haplotype2_alignment_T2T.txt
+

@@ -1,0 +1,54 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/gfase/published_chr19_duplex_UL50x_nopolish/gfase/phase_1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2.seqinfo.txt assembly/output/gfase/published_chr19_duplex_UL50x_nopolish/gfase/phase_1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/gfase/published_chr19_duplex_UL50x_nopolish/gfase/phase_1.fasta >assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/gfase/published_chr19_duplex_UL50x_nopolish/gfase/phase_1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome utig4-15_Start processed
+[+]	Chromosome utig4-22_Start processed
+[+]	Chromosome utig4-40_Start processed
+[+]	Chromosome utig4-17_Start processed
+[+]	Chromosome utig4-3_Start processed
+[+]	Chromosome utig4-20_Start processed
+[+]	Chromosome utig4-15_End processed
+[+]	Chromosome utig4-22_End processed
+[+]	Chromosome utig4-40_End processed
+[+]	Chromosome utig4-17_End processed
+[+]	Chromosome utig4-3_End processed
+[+]	Chromosome utig4-20_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::0.109*1.01] loaded the graph from "data/ref/T2T-CHM13.v2.chr19.fasta"
+[M::mg_index::1.288*1.54] indexed the graph
+[M::mg_opt_update::1.401*1.49] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::24.596*2.53] mapped 6 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/gfase/published_chr19_duplex_UL50x_nopolish/gfase/phase_1.fasta
+[M::main] Real time: 24.661 sec; CPU: 62.175 sec; Peak RSS: 2.834 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_gfase/published_chr19_duplex_UL50x_nopolish/T2T_contigs.haplotype2_alignment_T2T.txt
+
