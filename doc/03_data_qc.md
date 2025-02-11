@@ -3,6 +3,42 @@ Comparison of our seq data to public datasets. Validation of correct data prepro
 
 ## Ultra Long ONT Reads
 
+### UL Read QC
+
+To copy run reports:
+```
+find /mnt/storage3/raw_data/MINERVA/25006 -name "report_*.html" -exec cp {} /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/doc/run_reports/ \;
+```
+
+Merge reports:
+```
+Rscript workflow/scripts/09_parse_minknow_reports.R doc/run_reports/
+```
+
+Create plots:
+```
+
+
+### UL Sequencing
+
+#### Batch 01:
+2 Samples
+24070_1422_ultra-long
+2024-11-11
+
+#### Batch 02:
+4 Samples
+24070_1422_ultra-long
+2024-12-04
+
+#### Batch 03:
+6 Samples
+25006_1422_BEGIN_T2T_GoE
+2025-01-27
+
+
+
+
 In this document we compare our first UL libraries with published UL dataset
 
 ### Characteristics of the UL dataset from Koren et al (2024)
