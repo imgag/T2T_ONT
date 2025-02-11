@@ -1,19 +1,50 @@
 library(tidyverse)
 library(lubridate)
-library(patchwork)
 library(scales)
 
 #' Read and process MinKNOW report data
 #' @param csv_path Path to the CSV file containing parsed reports
+#' @param bio_sample_path Path to the biological sample TSV file
 #' @return Processed tibble with merged flowcell data
-process_report_data <- function(csv_path) {
+process_report_data <- function(csv_path, bio_sample_path) {
+  # Read biological sample information
+  bio_samples <- read_tsv(bio_sample_path) %>%
+    select(name_external, run_flowcell_id)
+  
   # Read CSV and convert times to datetime
   data <- read_csv(csv_path) %>%
+    # Group by flowcell_id and merge metrics
+    group_by(flow_cell_id, kit_type) %>%
+    summarise(
+      run_start_time = min(run_start_time),  # Use earliest start time
+      run_end_time = max(run_end_time),      # Use latest end time
+      estimated_n50 = weighted.mean(estimated_n50, reads_called_pass),  # Weight N50 by number of reads
+      bases_called_pass = sum(bases_called_pass),
+      reads_called_pass = sum(reads_called_pass),
+      elapsed_time_seconds = sum(elapsed_time_seconds),
+      .groups = "drop"
+    ) %>%
+    # Join with biological sample information
+    left_join(bio_samples, by = c("flow_cell_id" = "run_flowcell_id")) %>%
     mutate(
       run_start_time = as_datetime(run_start_time),
       run_end_time = as_datetime(run_end_time),
-      # Convert elapsed time to hours for plotting
-      run_time_hours = elapsed_time_seconds / 3600
+      run_time_hours = elapsed_time_seconds / 3600,
+      # Set default name for any unmatched flowcells
+      name_external = if_else(is.na(name_external), "Unknown", name_external)
+    ) %>%
+    # Create long format data for faceting
+    pivot_longer(
+      cols = c(estimated_n50, bases_called_pass, reads_called_pass, run_time_hours),
+      names_to = "metric",
+      values_to = "value"
+    ) %>%
+    # Add nice labels for facets
+    mutate(
+      metric = factor(metric,
+        levels = c("estimated_n50", "bases_called_pass", "reads_called_pass", "run_time_hours"),
+        labels = c("N50", "Bases Called (Pass)", "Reads Called (Pass)", "Run Time (hours)")
+      )
     )
   
   return(data)
@@ -23,66 +54,55 @@ process_report_data <- function(csv_path) {
 #' @param data Processed report data
 #' @param output_dir Directory to save plots
 create_plots <- function(data, output_dir) {
-  # Common theme elements
-  theme_custom <- theme_minimal() +
+  # Create faceted plot
+  p <- ggplot(data, aes(x = run_start_time, y = value, 
+                        color = name_external, 
+                        shape = kit_type)) +
+    geom_point(alpha = 0.7, size = 3) +
+    facet_wrap(~metric, scales = "free_y", ncol = 2) +
+    # Add both month and week ticks
+    scale_x_datetime(
+      # Major breaks for months with labels
+      date_breaks = "1 month",
+      date_labels = "%b %Y",
+      # Minor breaks for weeks (ticks only)
+      minor_breaks = "1 week",
+      expand = expansion(mult = c(0.05, 0.05))
+    ) +
+    scale_y_continuous(labels = comma) +
+    labs(
+      x = "Run Start Time",
+      y = NULL,
+      color = "Sample",
+      shape = "Kit Type",
+      title = "MinKNOW Sequencing Run Metrics",
+      subtitle = paste("Data from", format(min(data$run_start_time), "%b %Y"),
+                      "to", format(max(data$run_start_time), "%b %Y"))
+    ) +
+    theme_classic() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
       legend.position = "right",
-      panel.grid.minor = element_blank()
-    )
-  
-  # Base plot function
-  create_metric_plot <- function(data, metric, ylabel, scale = "continuous") {
-    p <- ggplot(data, aes(x = run_start_time, y = !!sym(metric), 
-                         color = kit_type)) +
-      geom_point(alpha = 0.7, size = 3) +
-      scale_x_datetime(
-        date_breaks = "1 month", 
-        date_labels = "%b %Y",
-        expand = expansion(mult = c(0.05, 0.05))  # Add small padding
-      ) +
-      labs(
-        x = "Run Start Time",
-        y = ylabel,
-        color = "Kit Type"
-      ) +
-      theme_custom
-    
-    if (scale == "log10") {
-      p <- p + scale_y_log10(labels = comma)
-    } else {
-      p <- p + scale_y_continuous(labels = comma)
-    }
-    
-    return(p)
-  }
-  
-  # Create individual plots
-  p1 <- create_metric_plot(data, "estimated_n50", "N50", "log10")
-  p2 <- create_metric_plot(data, "bases_called_pass", "Bases Called (Pass)", "log10")
-  p3 <- create_metric_plot(data, "reads_called_pass", "Reads Called (Pass)", "log10")
-  p4 <- create_metric_plot(data, "run_time_hours", "Run Time (hours)")
-  
-  # Combine plots
-  combined_plot <- (p1 + p2) / (p3 + p4) +
-    plot_annotation(
-      title = "MinKNOW Sequencing Run Metrics",
-      subtitle = paste("Data from", format(min(data$run_start_time), "%b %Y"), 
-                      "to", format(max(data$run_start_time), "%b %Y")),
-      theme = theme(plot.title = element_text(size = 16, face = "bold"))
+      # Remove all gridlines
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      # Show axis ticks for weeks
+      axis.ticks.x.minor = element_line(size = 0.25),
+      strip.text = element_text(size = 12, face = "bold"),
+      plot.title = element_text(size = 16, face = "bold")
     )
   
   # Save plots
   ggsave(
     file.path(output_dir, "minknow_metrics.pdf"),
-    combined_plot,
+    p,
     width = 15,
     height = 12
   )
   
   ggsave(
     file.path(output_dir, "minknow_metrics.png"),
-    combined_plot,
+    p,
     width = 15,
     height = 12,
     dpi = 300
@@ -91,28 +111,31 @@ create_plots <- function(data, output_dir) {
 
 # Main execution
 if (sys.nframe() == 0) {
+  # Get command line arguments
   args <- commandArgs(trailingOnly = TRUE)
   
-  if (length(args) < 2) {
-    cat("Usage: Rscript plot_minknow_reports.R <csv_file> <output_dir>
+  if (length(args) != 3) {
+    cat("Usage: Rscript plot_minknow_reports.R <csv_file> <bio_sample_file> <output_dir>
     
 Description:
   Create plots from MinKNOW report data
   
 Arguments:
-  csv_file    Path to the CSV file containing parsed report data
-  output_dir  Directory to save the output plots\n")
+  csv_file         Path to the CSV file containing parsed report data
+  bio_sample_file  Path to the TSV file containing biological sample information
+  output_dir       Directory to save the output plots\n")
     quit(status = 1)
   }
   
   csv_path <- args[1]
-  output_dir <- args[2]
+  bio_sample_path <- args[2]
+  output_dir <- args[3]
   
   # Create output directory if it doesn't exist
-  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
   
   # Process data and create plots
-  data <- process_report_data(csv_path)
+  data <- process_report_data(csv_path, bio_sample_path)
   create_plots(data, output_dir)
   
   cat("Created plots in", output_dir, "\n")

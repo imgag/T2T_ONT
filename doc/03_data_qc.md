@@ -1,7 +1,53 @@
 # Data QC
-Comparison of our seq data to public datasets. Validation of correct data preprocessing. Sequencing recommendations.
+
+Collection of ReadQC, helping the establishment of UL, Duplex and PoreC. Also contains comparison of our seq data to public with public datasets.
 
 ## Ultra Long ONT Reads
+
+New protocol and kit. 
+
+### UL Sequencing
+
+#### Batch 01:
+2 Samples
+24070_1422_ultra-long
+2024-11-11
+
+
+#### Batch 02:
+1 Sample (4 replicate)
+NGSD Project: 24070_1422_ultra-long
+2024-12-04
+
+#### Batch 03:
+6 Flowcells
+3 Samples (2 replicates)
+NGSD Project: 25006_1422_BEGIN_T2T_GoE
+2025-01-27
+
+- N50 has approximately doubled (Good!)
+- Output has halved and increased in variance
+- One FC still performed well, 3 others poor
+
+
+![UL overview](img/minknow_metrics_B3.png)
+
+Lets compare Pore Occupancy for the best (80GB) and a bad (16GB) flowcell: 
+![Pores PBC48743](img/pores_PBC48743.png)
+![Pores PBC38194](img/pores_PBC38194.png)
+
+Already from the start, only 1/3 of pores are available. The number of blocked/saturated pores is high and also increases fast. 
+
+Possible reasons for this. 
+
+We can rule out:
+- Low pore occupancy due to insufficient DNA
+- 
+- Could be overloaded
+    Comment from Forum:
+    https://community.nanoporetech.com/posts/improving-sequencing-yield
+- Contaminants (rather unlikely), occurs more often in plants with secondary metabolites, polysaccharids and so pn
+
 
 ### UL Read QC
 
@@ -17,27 +63,10 @@ Rscript workflow/scripts/09_parse_minknow_reports.R doc/run_reports/
 
 Create plots:
 ```
+Rscript workflow/scripts/10_plot_minknow_reports.R doc/run_reports/run_summary.csv doc/tables/flowcell_biological_sample.tsv doc/img/
+```
 
-
-### UL Sequencing
-
-#### Batch 01:
-2 Samples
-24070_1422_ultra-long
-2024-11-11
-
-#### Batch 02:
-4 Samples
-24070_1422_ultra-long
-2024-12-04
-
-#### Batch 03:
-6 Samples
-25006_1422_BEGIN_T2T_GoE
-2025-01-27
-
-
-
+## Comparison with Public Data (UL)
 
 In this document we compare our first UL libraries with published UL dataset
 
@@ -95,9 +124,6 @@ We need either 2 or 3 good performing UL Flowcells. Influenced by these factors:
 - For fluctiations in flowcell performance we should reserve additionals flowcells for a third FC per sample.
 - It is possible that we will observe a need for a third flowcell (target yield 250GB) UL reads to close gaps in more difficult centromeric/telomeric regions. 
 - It is likely that we can use long simplex >100kb reads from the Duplex/Herro sequencing to add some data to our coverage. However this will not provide the required Ultralong reads. 
-
-## Published dataset
-
 
 ### Downsampling strategy
 
