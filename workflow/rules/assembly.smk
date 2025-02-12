@@ -59,11 +59,12 @@ rule verkko:
 
 
 rule copy_verkko_unphased:
+    # Input is marked ancient to avoid re-running the rule when verkko scaffolding has finished
     input:
-        fa="assembly/output/verkko/{asm}/assembly.fasta",
-        gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
-        gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
-        scfmap="assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
+        fa=ancient("assembly/output/verkko/{asm}/assembly.fasta"),
+        gfa=ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa"),
+        gfa_noseq=ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa"),
+        scfmap=ancient("assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap")
     output:
         fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
         gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
