@@ -27,7 +27,7 @@ NGSD Project: 25006_1422_BEGIN_T2T_GoE
 
 - N50 has approximately doubled (Good!)
 - Output has halved and increased in variance
-- One FC still performed well, 3 others poor
+- 3 Flowcells have very low output, the other 3 are moderate.
 
 
 ![UL overview](img/minknow_metrics_B3.png)
@@ -40,13 +40,14 @@ Already from the start, only 1/3 of pores are available. The number of blocked/s
 
 Possible reasons for this. 
 
+- Could be overloaded. Saturation is high, together with extremely long fragmenmts could lead to blocked pores. Related forum post: https://community.nanoporetech.com/posts/improving-sequencing-yield
+- Contamination is also a possibility, especially because one sample performs poorly. 
+
+- Defective flowcells are unlikely.
+
 We can rule out:
-- Low pore occupancy due to insufficient DNA
-- 
-- Could be overloaded
-    Comment from Forum:
-    https://community.nanoporetech.com/posts/improving-sequencing-yield
-- Contaminants (rather unlikely), occurs more often in plants with secondary metabolites, polysaccharids and so pn
+- Low pore occupancy due to insufficient DNA (underloading)
+- Mechanical loading problems (Bubbles) are unlikely since 
 
 
 ### UL Read QC
