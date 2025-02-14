@@ -9,7 +9,6 @@ title: 2024-02-15 IMAGAG longread meeting
 
 17.12.2024
 2nd status update T2T
-Caspar and Prithivi
 
 ---
 
@@ -34,17 +33,37 @@ Pores getting blocked very quickly (grey)
 
 The three low performing samples were isolated on the same day. 
 
+---
+Herro vs published
+
+![bg h:700](../img/herro_vs_duplex_published.png)
+
 --- 
 
-Olafs Genome
+### Our first genome
 
+![bg left:60% h:600](../../assembly/qc/unphased_verkko/TUE_02/bandage_graph.no_colors.png)
 
+- 50x UL
+- ~20x Duplex + 20x Herro
+- Error rate 0.05%
+- NG50: 27Mb
+- Rcov: 96.18%
+- Rdup: 91.58%
+- #breaks: 24924
+- T2T haplotypes: 0
 
 ---
 
-## Other tests: Use verkko polishing?
+## Other tests: Use verkko polishing step?
 
+- No impact
 
 --- 
 
-## Other tests: 
+## Next steps:
+
+- Annotate assembly graph
+- Add methylation
+- Further try out assembly with herro reads (Filter length)
+- Try novel assembly approach (A. DiGenova)

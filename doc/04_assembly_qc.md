@@ -1,7 +1,78 @@
 # Assembly QC
 Documentation of used QC parameters. Comparison of different assembly and scaffolding methods.
 
-## Collapsed misassemblies
+## Basic Assembly QC 
+
+We can use these values without reference genome:
+
+3. **#breaks**: Number of breaks in the assembly. (_asmstat_)
+5. **Length**: Total length of the assembly.
+6. **NG50**: Length of the shortest contig at 50% of the total genome length.
+7. **NG75**: Length of the shortest contig at 75% of the total genome length.
+10. **Rcov**: Percentage of Reference genome (T2T) covered by assembly.
+9. **Qcov**: Percentage of Query (De novo Assembly) covered by reference .
+10. **l_cov**: ??
+11. **Rdup**: Percentage of reference genome duplicates in assembly.
+19. **n_y_chrom**: Number of Y chromosome sequences.
+
+## QC with ref genome:
+
+### Asm gene
+1. **MMC**: Missing Multi-Copy genes fraction, calculated as 1 - |{MCinASM} ∩ {MCinREF}| / |{MCinREF}|.
+2. **genome_completeness**: Percentage of single-copy genes present in the assembly compared to the reference.
+
+### Asmstat
+4. **AUNGA**: Average Ungapped Alignment length.
+1. **l_cov**: ??
+2. **error_rate**: Error rate in the assembly.
+3. **qv**: Quality value score.
+8. **NGA50**: Length of the shortest aligned contig at 50% of the total genome length.
+
+### Whatshap
+
+1. **block_n50**: The N50 of phased blocks. This is the length of the shortest phased block at 50% of the total phased block length. It provides an indication of the contiguity of the phased blocks.
+
+2. **blocks**: The total number of phased blocks. A phased block is a contiguous segment of the genome where the phase (the arrangement of alleles) is known.
+
+3. **bp_per_block_avg**: The average number of base pairs per phased block. This metric gives an idea of the typical size of phased blocks.
+
+4. **bp_per_block_max**: The maximum number of base pairs in a single phased block. This indicates the size of the largest phased block.
+
+5. **bp_per_block_median**: The median number of base pairs per phased block. This is the middle value of the block sizes when they are sorted in ascending order.
+
+6. **bp_per_block_min**: The minimum number of base pairs in a single phased block. This indicates the size of the smallest phased block.
+
+7. **bp_per_block_sum**: The total number of base pairs across all phased blocks. This gives the overall length of the genome that has been phased.
+
+8. **heterozygous_snvs**: The number of heterozygous single nucleotide variants (SNVs). These are positions in the genome where there are two different alleles present in the individual.
+
+9. **heterozygous_variants**: The total number of heterozygous variants, including SNVs and other types of variants such as insertions and deletions.
+
+10. **phased**: The number of variants that have been phased. Phasing determines which variants are on the same chromosome and which are on the homologous chromosome.
+
+11. **phased_fraction**: The fraction of heterozygous variants that have been phased. This is calculated as the number of phased variants divided by the total number of heterozygous variants.
+
+12. **phased_snvs**: The number of heterozygous SNVs that have been phased.
+
+13. **phased_snvs_fraction**: The fraction of heterozygous SNVs that have been phased. This is calculated as the number of phased SNVs divided by the total number of heterozygous SNVs.
+
+14. **singletons**: The number of singleton variants. These are variants that appear only once in the dataset.
+
+15. **unphased**: The number of heterozygous variants that have not been phased.
+
+16. **variant_per_block_avg**: The average number of variants per phased block. This gives an idea of the density of variants within phased blocks.
+
+17. **variant_per_block_max**: The maximum number of variants in a single phased block.
+
+18. **variant_per_block_median**: The median number of variants per phased block.
+
+19. **variant_per_block_min**: The minimum number of variants in a single phased block.
+
+20. **variant_per_block_sum**: The total number of variants across all phased blocks.
+
+21. **variants**: Number of biallelic variants in the input VCF excluding duplicate positions 
+
+## Collapsed misassemblies 
 
 Implemented in this pipeline: paftools asmgene. 
 Output described in a [blog post](https://lh3.github.io/2020/12/25/evaluating-assembly-quality-with-asmgene) by Heng Li
