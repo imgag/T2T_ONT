@@ -4,7 +4,7 @@
     - [ ] Is the coverage evenly distributed?
     - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
     - [ ] What is the max benefitial addition of HERRO reads?
-- [ ] Fix the basecalling to include methylation (!) in the real samples. Only needed for Ultra-Long. 
+
 - [ ] Compare assembly results with publication
 - [ ] Generate PoreC statistics with the “evaluate_contacts” executable provided in the GFAse package
 - [ ] Generate Read and Mapping stats for PoreC
@@ -16,17 +16,19 @@
     - Stained Glass [Link](https://resgen.io/paper-data/T2T/views/MtjcVgrlQmymnHIvdck5-g)
     - Coloured GFAse assembly plot output
     - Karyotype plots with annotation of telomeres, centromeres, phasing blocks, synteny
+- [ ] Why is sample sex determinatio not working for published_herro?
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
 - [ ] Check if we used the same data for HERRO as in the paper. Data depended errors in the model? Can we achieve results from HERRO publication?
 - [ ] Check if filtlong subsampling with length preference is a problem for subsampling HERRO and DUPLEX reads in the benchmark
-- [ ] Store unphased verkko output in a separate folder
-- [ ] Run Verkko with the "NoPolishing" option.
-- [ ] Check if Performance is better.
-
+- [X] Store unphased verkko output in a separate folder
+- [X] Run Verkko with the "NoPolishing" option.
+- [ ] Check if NoPolishing Performance is better.
+- [ ] Create improvement plot with additional Flowcells (UL)
+- [ ] Find 2 missing UL Flowcells
 - [X] Make PORCE optional, dont run scaffolding without it
 - [X] Telomere detection (seqtk telo ?, take from verkko results, )
 - [X] Is our sample TUE_01 the same HG002 from published dataset? No its a personal genome from Germany
-
+- [X] Fix the basecalling to include methylation (!) in the real samples. Only needed for Ultra-Long. 
 - [X] Use [Fastcat](https://github.com/epi2me-labs/fastcat) bamqc for bamstats
 - [X] Investigate if what is inside the [T2T bundle[(https://labs.epi2me.io/lc2024_t2 )] from ONT. Maybe includes pipeline?
 - [X] Include [asmgene](https://github.com/lh3/minimap2/issues/355) QC for gene completenes stats
