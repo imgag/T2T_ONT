@@ -59,7 +59,7 @@ find /mnt/storage3/raw_data/MINERVA/25006 -name "report_*.html" -exec cp {} /mnt
 
 Merge reports:
 ```
-Rscript workflow/scripts/09_parse_minknow_reports.R doc/run_reports/
+python workflow/scripts/09_parse_minknow_reports.py doc/run_reports/
 ```
 
 Create plots:
