@@ -80,6 +80,12 @@ create_plots <- function(data, output_dir) {
                       "to", format(max(data$run_start_time), "%b %Y"))
     ) +
     theme_classic() +
+    scale_color_manual(values = c(
+      "#E69F00", "#56B4E9", "#009E73", 
+      "#F0E442", "#0072B2", "#D55E00", 
+      "#CC79A7", "#999999"
+    )) +
+    theme_classic() +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
       legend.position = "right",
