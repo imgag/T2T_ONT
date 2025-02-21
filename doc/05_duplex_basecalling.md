@@ -31,7 +31,6 @@ We want to find out the duplex rates, here is a list of "normal" WGS Samples, to
 21073LRa245L2_01
 21073LRa256L2_01
 21073LRa258L2_01
-21073LRa259L2_01
+21073LRa259L2_01At the same time we
 ```
 
-At the same time we
