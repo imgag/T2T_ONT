@@ -1,0 +1,84 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 30
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineOverlaps                    1
+combineOverlapsConfigure           1
+combineTipsONT                     1
+configureFindErrors                1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+prepareOverlaps                    1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             22
+
+Select jobs to execute...
+
+[Fri Feb 21 14:10:10 2025]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 16
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Fri Feb 21 14:10:10 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.UL.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 13
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Fri Feb 21 14:10:10 2025]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Fri Feb 21 14:10:10 2025]
+Finished job 16.
+1 of 22 steps (5%) done
+[Fri Feb 21 15:04:16 2025]
+Finished job 7.
+2 of 22 steps (9%) done
+Select jobs to execute...
+
+[Fri Feb 21 15:04:16 2025]
+checkpoint prepareOverlaps:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.fastq.gz, 0-correction/hifi.seqStore
+    output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
+    log: 0-correction/matchchains-index.err
+    jobid: 10
+    reason: Missing output files: 0-correction/matchchains.metadata, 0-correction/matchchains.positions; Input files updated by another job: 0-correction/hifi.seqStore
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=16, time_h=24
+DAG of jobs will be updated after completion.
+
+[Fri Feb 21 15:51:38 2025]
+Finished job 13.
+3 of 22 steps (14%) done

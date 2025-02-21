@@ -1,35 +1,29 @@
 # Assembly QC
 Documentation of used QC parameters. Comparison of different assembly and scaffolding methods.
 
-## Basic Assembly QC 
+## QC Values Overview
 
-We can use these values without reference genome:
+### When the sample is not a reference genome:
 
 3. **#breaks**: Number of breaks in the assembly. (_asmstat_)
 5. **Length**: Total length of the assembly.
 6. **NG50**: Length of the shortest contig at 50% of the total genome length.
 7. **NG75**: Length of the shortest contig at 75% of the total genome length.
+8. **NGA50**: Length of the shortest aligned contig at 50% of the total genome length.
 10. **Rcov**: Percentage of Reference genome (T2T) covered by assembly.
 9. **Qcov**: Percentage of Query (De novo Assembly) covered by reference .
 10. **l_cov**: ??
 11. **Rdup**: Percentage of reference genome duplicates in assembly.
 19. **n_y_chrom**: Number of Y chromosome sequences.
-
-## QC with ref genome:
-
-### Asm gene
 1. **MMC**: Missing Multi-Copy genes fraction, calculated as 1 - |{MCinASM} ∩ {MCinREF}| / |{MCinREF}|.
 2. **genome_completeness**: Percentage of single-copy genes present in the assembly compared to the reference.
 
-### Asmstat
-4. **AUNGA**: Average Ungapped Alignment length.
-1. **l_cov**: ??
-2. **error_rate**: Error rate in the assembly.
-3. **qv**: Quality value score.
-8. **NGA50**: Length of the shortest aligned contig at 50% of the total genome length.
+### When sample is HG002:
 
-### Whatshap
+2. **error_rate**: Error rate in the assembly. Calculated with kmers in _Merqury_
+3. **qv**: Quality value score. 10^(-error_rate)
 
+### whatshap
 1. **block_n50**: The N50 of phased blocks. This is the length of the shortest phased block at 50% of the total phased block length. It provides an indication of the contiguity of the phased blocks.
 
 2. **blocks**: The total number of phased blocks. A phased block is a contiguous segment of the genome where the phase (the arrangement of alleles) is known.
@@ -72,22 +66,17 @@ We can use these values without reference genome:
 
 21. **variants**: Number of biallelic variants in the input VCF excluding duplicate positions 
 
-## Collapsed misassemblies 
+
+## QC Value detailed description
+
+Explanation of some key metrics, as used in similar publications. 
+
+### Collapsed misassemblies (MMC)
 
 Implemented in this pipeline: paftools asmgene. 
 Output described in a [blog post](https://lh3.github.io/2020/12/25/evaluating-assembly-quality-with-asmgene) by Heng Li
 
 MMC = Missing multi copy genes
-
-## Pipeline description Nanopore ONT
-
-![Nanopore T2T Pipeline](img/assm-workflow-1.png)
-
-
-## Strategies described for assembly polishing:
-
-https://github.com/arangrhie/T2T-Polish/tree/master
-
 
 ## Source 
 
@@ -98,19 +87,12 @@ Homopolymer compressed graph needs to be decompressed.
 
 We still need to compare the performance of GFAse scaffolding compared to verkko only. 
 
-## Assembly Metrics
-
-### Missassemblies/Collapsed regions
-asmgene
-
-### 
-
 ### Base quality
 Questions do we want to sequence one reference sample (HG002?) to estimate the base error rate?
 
 > Base quality was estimated using yak41, based on the k-mer content of Illumina short reads. Each phased assembly was evaluated separately. K-mer in the short reads were counted using “yak count -b 37”, and quality values (QV) were estimated using “yak qv -K 3.2g -l 100k”. For HG002, we used the 30x Illumina Novaseq PCR-free read set publically available at the Google bucket gs://deepvariant/benchmarking/fastq/wgs_pcr_free/30x/. For the 4 samples from the HPRC (HG01993, HG02132, HG02647, and HG03669), we used 30x Illumina short-reads from the high coverage readset of the 1000 Genomes Project samples (Lorig-Roach et al. 2023)
 
-### Identify T2T contigs
+### Identification of complete T2T contigs
 
 We use the https://github.com/prasad693/Tel_Sequences repo to identify complete T2T chromosomes. 
 

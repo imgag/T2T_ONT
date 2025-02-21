@@ -4,22 +4,19 @@ Collection of ReadQC, helping the establishment of UL, Duplex and PoreC. Also co
 
 ## Ultra Long ONT Reads
 
-New protocol and kit. 
+Collection of observations for our sequencing batches.
 
-### UL Sequencing
-
-#### Batch 01:
-2 Samples
+### Batch 01:
+2 Flowcells (1 sample). Different isolations
 24070_1422_ultra-long
 2024-11-11
 
-
-#### Batch 02:
-1 Sample (4 replicate)
+### Batch 02:
+4 Flowcells (1 sample), Different isolations.
 NGSD Project: 24070_1422_ultra-long
 2024-12-04
 
-#### Batch 03:
+### Batch 03:
 6 Flowcells
 3 Samples (2 replicates)
 NGSD Project: 25006_1422_BEGIN_T2T_GoE
@@ -29,7 +26,6 @@ NGSD Project: 25006_1422_BEGIN_T2T_GoE
 - Output has halved and increased in variance
 - 3 Flowcells have very low output, the other 3 are moderate.
 
-
 ![UL overview](img/minknow_metrics_B3.png)
 
 Lets compare Pore Occupancy for the best (80GB) and a bad (16GB) flowcell: 
@@ -38,11 +34,10 @@ Lets compare Pore Occupancy for the best (80GB) and a bad (16GB) flowcell:
 
 Already from the start, only 1/3 of pores are available. The number of blocked/saturated pores is high and also increases fast. 
 
-Possible reasons for this. 
+Possible reasons for this:
 
 - Could be overloaded. Saturation is high, together with extremely long fragmenmts could lead to blocked pores. Related forum post: https://community.nanoporetech.com/posts/improving-sequencing-yield
 - Contamination is also a possibility, especially because one sample performs poorly. 
-
 - Defective flowcells are unlikely.
 
 We can rule out:
@@ -128,7 +123,7 @@ We need either 2 or 3 good performing UL Flowcells. Influenced by these factors:
 
 ### Downsampling strategy
 
-To benchmark required read depths to generate T2T assemblies we downsampled the published dataset from Koren et al. To do this we used a random subsampling process using `filtlong`. We then mapped the assembly input files and calculat the mapping coverages to check if the subsampling was successful:
+To benchmark required read depths to generate T2T assemblies we downsampled the published dataset from Koren et al. To do this we used a subsampling process using `filtlong`, preferring high quality and longer reads. We then mapped the assembly input files and calculat the mapping coverages to check if the subsampling was successful:
 
 ![Mapping coverages for benchmark assembly input](img/subsampling_coverages.cov_boxplot.png)
 
