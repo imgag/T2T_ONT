@@ -117,10 +117,12 @@ rule merge_copy_rename_fastq:
         "logs/merge_copy_rename_fastq.{dataset}.{type}.log",
     params:
         samtools=lambda wc: "samtools" if input_isbam(wc) else "",
+    threads:
+        6
     shell:
         """
         samtools fastq <({params.samtools} cat {input.files}) 2>{log}\
-        | gzip -c >{output} 2>>{log}
+        | pigz -p {threads} -c >{output} 2>>{log}
         """
 
 
