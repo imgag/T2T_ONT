@@ -44,6 +44,8 @@ We can rule out:
 - Low pore occupancy due to insufficient DNA (underloading)
 - Mechanical loading problems (Bubbles) are unlikely since 
 
+### Batch 04:
+6 Flowcells 
 
 ### UL Read QC
 
@@ -56,6 +58,8 @@ Merge reports:
 ```
 python workflow/scripts/09_parse_minknow_reports.py doc/run_reports/
 ```
+
+Add external names from GSVAR to  `doc/flowcell_biological_sample.tsv` table
 
 Create plots:
 ```
