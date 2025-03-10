@@ -1,34 +1,3 @@
-chromosome_colors = {
-    # Main chromosomes - using colorblind-friendly base colors with light/dark variants
-    'chr1':  {'haplotype1': '#E69F00', 'haplotype2': '#FFB319'},
-    'chr2':  {'haplotype1': '#56B4E9', 'haplotype2': '#7BC6EE'},
-    'chr3':  {'haplotype1': '#009E73', 'haplotype2': '#00BF8C'},
-    'chr4':  {'haplotype1': '#CC79A7', 'haplotype2': '#D694B8'},
-    'chr5':  {'haplotype1': '#0072B2', 'haplotype2': '#0089D9'},
-    'chr6':  {'haplotype1': '#D55E00', 'haplotype2': '#FF7400'},
-    'chr7':  {'haplotype1': '#666666', 'haplotype2': '#999999'},
-    
-    # Recycling colors with different shades
-    'chr8':  {'haplotype1': '#E6AB23', 'haplotype2': '#FFCD66'},
-    'chr9':  {'haplotype1': '#5699E9', 'haplotype2': '#89B9F0'},
-    'chr10': {'haplotype1': '#00A880', 'haplotype2': '#33BF99'},
-    'chr11': {'haplotype1': '#CC8DB3', 'haplotype2': '#D6A8C4'},
-    'chr12': {'haplotype1': '#1A7FBA', 'haplotype2': '#4D9ECC'},
-    'chr13': {'haplotype1': '#D57533', 'haplotype2': '#FF9B66'},
-    'chr14': {'haplotype1': '#737373', 'haplotype2': '#A6A6A6'},
-    'chr15': {'haplotype1': '#E6B847', 'haplotype2': '#FFD480'},
-    'chr16': {'haplotype1': '#567DE9', 'haplotype2': '#89A3F0'},
-    'chr17': {'haplotype1': '#00B28C', 'haplotype2': '#33C6A6'},
-    'chr18': {'haplotype1': '#CCA0BF', 'haplotype2': '#D6BBD0'},
-    'chr19': {'haplotype1': '#338CC2', 'haplotype2': '#66ACD9'},
-    'chr20': {'haplotype1': '#D58C66', 'haplotype2': '#FFB499'},
-    'chr21': {'haplotype1': '#808080', 'haplotype2': '#B3B3B3'},
-    
-    # Sex chromosomes
-    'chrX':  {'haplotype1': '#9467BD', 'haplotype2': '#B189D6'},
-    'chrY':  {'haplotype1': '#8C564B', 'haplotype2': '#A67C73'}
-}
-
 def get_ref_genome(wc):
     import re
 
@@ -87,7 +56,7 @@ def get_assembly_colors(wc):
         if wc["tool"] == "gfase":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
     elif wc["isphased"] == "unphased":
-        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.csv"
+        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.unphased.csv"
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
@@ -111,23 +80,19 @@ rule subsample_ref_genome:
 
 rule create_colors:
     input:
-        paf="assembly/qc/{isphased}_{tool}/{asm}/{isphased}.mapped_T2T.paf"
+        paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf"
     output: 
-        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.csv"
-    run:
-        contig_colors = []
-        hp = "haplotype1"
-        with open(input.paf, "r") as f:
-            for line in f:
-                fields = line.strip().split("\t")
-                contig_id = fields[0]
-                chrom = fields[5]
-                color = chromosome_colors[contig_id][hp]
-                new_line = f"{contig_id}\t{color}"
-                contig_colors.append(new_line)
-        with open(output.csv, "w") as f:
-            f.write("contig\tcolor\n")
-            f.write("\n".join(contig_colors))
+        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.{hp}.csv"
+    log:
+        "logs/create_colors_{isphased}_{tool}_{asm}_{hp}.log"
+    shell:
+        """
+        python workflow/scripts/11_extract_colors.py \
+            -i {input.paf} \
+            -o {output.csv} \
+            -p {wildcards.hp} \
+            >{log} 2>&1
+        """ 
 
 rule bandage:
     input:

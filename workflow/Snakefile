@@ -135,6 +135,10 @@ rule all:
             asm=asm_without_porec,
             module=["asmgene", "asmstat", "stat"]
         ),
+        expand(
+            "assembly/qc/unphased_verkko/{asm}/colors.unphased.csv",
+            asm=asm_without_porec,
+        ),
         # Assembly QC Files (Phased)
         expand(
             "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",

@@ -5,6 +5,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Extract colors from PAF file')
     parser.add_argument('-i', '--input', required=True, help='Input PAF file')
     parser.add_argument('-o', '--output', required=True, help='Output CSV file')
+    parser.add_argument('-p', '--haplotype', default="haplotype1", 
+                        choices=["haplotype1", "haplotype2", "unphased"],
+                        help='Haplotype to use for coloring (default: haplotype1)')
     return parser.parse_args()
 
 
@@ -46,18 +49,39 @@ chromosome_colors = {
 def main():
     args = parse_args()
     
-    contig_colors = []
-    hp = "haplotype1"
+    # Dictionary to store best match for each contig
+    contig_best_matches = {}
+    
+    # Set haplotype - treat "unphased" as "haplotype1"
+    hp = args.haplotype
+    if hp == "unphased":
+        hp = "haplotype1"
     
     with open(args.input, "r") as f:
         for line in f:
             fields = line.strip().split("\t")
             contig_id = fields[0]
             chrom = fields[5]
-            color = chromosome_colors[chrom][hp]
-            new_line = f"{contig_id}\t{color}"
-            contig_colors.append(new_line)
+            match_q = int(fields[10])  # Match length
+            match_l = int(fields[11])  # Match quality
             
+            # If this is the first time we see this contig or if this match is better
+            if contig_id not in contig_best_matches or \
+               (match_q >= contig_best_matches[contig_id]['match_q'] and 
+                match_l >= contig_best_matches[contig_id]['match_l']):
+                contig_best_matches[contig_id] = {
+                    'chrom': chrom,
+                    'match_q': match_q,
+                    'match_l': match_l
+                }
+    
+    # Generate the output lines
+    contig_colors = []
+    for contig_id, match_info in contig_best_matches.items():
+        chrom = match_info['chrom']
+        color = chromosome_colors[chrom][hp]
+        contig_colors.append(f"{contig_id}\t{color}")
+    
     with open(args.output, "w") as f:
         f.write("contig\tcolor\n")
         f.write("\n".join(contig_colors))
