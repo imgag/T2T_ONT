@@ -56,7 +56,7 @@ process_report_data <- function(csv_path, bio_sample_path) {
 create_plots <- function(data, output_dir) {
   # Create faceted plot
   p <- ggplot(data, aes(x = run_start_time, y = value, 
-                        color = name_external, 
+                        fill = name_external, 
                         shape = kit_type)) +
     geom_point(alpha = 0.7, size = 3) +
     facet_wrap(~metric, scales = "free_y", ncol = 2) +
@@ -73,19 +73,27 @@ create_plots <- function(data, output_dir) {
     labs(
       x = "Run Start Time",
       y = NULL,
-      color = "Sample",
+      fill = "Sample",
       shape = "Kit Type",
       title = "MinKNOW Sequencing Run Metrics",
       subtitle = paste("Data from", format(min(data$run_start_time), "%b %Y"),
                       "to", format(max(data$run_start_time), "%b %Y"))
     ) +
     theme_classic() +
-    scale_color_manual(values = c(
+    scale_fill_manual("Sample", values = c(
       "#E69F00", "#56B4E9", "#009E73", 
       "#F0E442", "#0072B2", "#D55E00", 
       "#CC79A7", "#999999"
     )) +
+    scale_shape_manual(values = c(
+      "SQK-ULK114" = 21,  # Filled circle
+      "SQK-LSK114" = 22,  # Filled triangle
+      "SQK-LSK114-XL" = 23,  # Filled square 
+      "SQK-APK114" = 24   # Filled diamond
+    )) +
+    guides(fill = guide_legend("Sample", override.aes = list(shape = 21)))
     theme_classic() +
+
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
       legend.position = "right",
@@ -137,6 +145,11 @@ Arguments:
   bio_sample_path <- args[2]
   output_dir <- args[3]
   
+  # Add test_Data
+  csv_path <- "doc/run_reports/run_summary.csv"
+  bio_sample_path <- "doc/tables/flowcell_biological_sample.tsv"
+  output_dir <- "doc/img"
+
   # Create output directory if it doesn't exist
   dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
   
