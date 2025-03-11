@@ -4,7 +4,10 @@
     - [ ] Is the coverage evenly distributed?
     - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
     - [ ] What is the max benefitial addition of HERRO reads?
-
+- [ ] Include APK Polishing
+    - [ ] Add polishing tool to pipeline
+    - [ ] Create new QC folder for polished assembly
+    - [ ] Benchmark improvementss
 - [ ] Compare assembly results with publication
 - [ ] Generate PoreC statistics with the “evaluate_contacts” executable provided in the GFAse package
 - [ ] Generate Read and Mapping stats for PoreC
@@ -24,7 +27,7 @@
 - [X] Run Verkko with the "NoPolishing" option.
 - [ ] Check if NoPolishing Performance is better.
 - [ ] Create improvement plot with additional Flowcells (UL)
-- [ ] Find 2 missing UL Flowcells
+- [X] Find 2 missing UL Flowcells
 - [X] Make PORCE optional, dont run scaffolding without it
 - [X] Telomere detection (seqtk telo ?, take from verkko results, )
 - [X] Is our sample TUE_01 the same HG002 from published dataset? No its a personal genome from Germany
