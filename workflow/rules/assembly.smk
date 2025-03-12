@@ -23,9 +23,15 @@ def get_assembly_input(wc):
         "ul": f"assembly/input/{s_d}/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
         "hq": f"assembly/input/{s_d}/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
     }
+    
     # Add POREC only if it exists
     if "POREC" in datasets[s_d]:
         files["porec"] = f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz"
+
+    # Add ULK only if it exists
+    if "APK" in datasets[s_d]:
+        files["apk"] = f"assembly/input/{s_d}/{s_d}.APK.fastq.gz"
+    
     return files
 
 
