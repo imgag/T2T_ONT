@@ -136,7 +136,11 @@ rule all:
             module=["asmgene", "asmstat", "stat"]
         ),
         expand(
-            "assembly/qc/unphased_verkko/{asm}/colors.unphased.csv",
+            "assembly/qc/unphased_verkko/{asm}/colors.tsv",
+            asm=asm_without_porec,
+        ),
+        expand(
+            "assembly/qc/unphased_verkko/{asm}/assembly_graph.gfa",
             asm=asm_without_porec,
         ),
         # Assembly QC Files (Phased)

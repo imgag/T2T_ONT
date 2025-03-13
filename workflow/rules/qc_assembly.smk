@@ -55,7 +55,7 @@ def get_assembly_colors(wc):
         if wc["tool"] == "gfase":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
     elif wc["isphased"] == "unphased":
-        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.unphased.csv"
+        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.tsv"
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
@@ -91,7 +91,7 @@ rule create_colors:
     input:
         paf="assembly/qc/{isphased}_{tool}/{asm}/both.mapped_T2T.paf",
     output: 
-        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.csv"
+        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
     log:
         "logs/create_colors_{isphased}_{tool}_{asm}.log"
     shell:
@@ -99,7 +99,6 @@ rule create_colors:
         python workflow/scripts/11_extract_colors.py \
             -i {input.paf} \
             -o {output.csv} \
-            -p {wildcards.hp} \
             >{log} 2>&1
         """ 
 

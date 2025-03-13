@@ -48,8 +48,7 @@ def load_colors(colors_file):
             contig_id = parts[0]
             color = parts[1]
             chr = parts[2]
-            hap = parts[3]
-            contig_colors[contig_id] = (color, chr, hap)
+            contig_colors[contig_id] = (color, chr)
                 
     return contig_colors
 
@@ -69,10 +68,9 @@ def process_gfa(gfa_file, scfmap, colors, output_file):
                     
                     # Add color tag if available
                     if contig_name in colors:
-                        (color, chr, hap) = colors[contig_name]
+                        (color, chr) = colors[contig_name]
                         parts.append(f"CB:Z:{color}")
                         parts.append(f"CH:Z:{chr}")
-                        parts.append(f"HP:Z:{hap}")
                 
                 # Write modified line
                 outfile.write('\t'.join(parts) + '\n')
