@@ -26,7 +26,7 @@ def get_assembly_output(wc):
 
     elif isphased == "phased":
         if wc["tool"] == "verkko":
-            if not wc["hp"]:
+            if not wc["hp"] or wc["hp"] == "both":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
             elif wc["hp"] == "haplotype1":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
@@ -41,7 +41,6 @@ def get_assembly_output(wc):
             raise ValueError(f"Invalid tool: {wc['tool']}")
 
 
-
 def get_assembly_graph_output(wc):
     if wc["tool"] == "verkko":
         return f"assembly/output/verkko/{wc['asm']}/assembly.homopolymer-compressed.noseq.gfa"
@@ -52,7 +51,7 @@ def get_assembly_graph_output(wc):
 def get_assembly_colors(wc):
     if wc["isphased"] == "phased":
         if wc["tool"] == "verkko":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
+            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.tsv"
         if wc["tool"] == "gfase":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
     elif wc["isphased"] == "unphased":
@@ -60,6 +59,16 @@ def get_assembly_colors(wc):
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
+def get_assembly_scfmap(wc):
+    if wc["isphased"] == "phased":
+        if wc["tool"] == "verkko":
+            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
+        if wc["tool"] == "gfase":
+            return None
+    elif wc["isphased"] == "unphased":
+        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.unphased.csv"
+    else:
+        raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
 rule subsample_ref_genome:
     input:
@@ -80,11 +89,11 @@ rule subsample_ref_genome:
 
 rule create_colors:
     input:
-        paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf"
+        paf="assembly/qc/{isphased}_{tool}/{asm}/both.mapped_T2T.paf",
     output: 
-        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.{hp}.csv"
+        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.csv"
     log:
-        "logs/create_colors_{isphased}_{tool}_{asm}_{hp}.log"
+        "logs/create_colors_{isphased}_{tool}_{asm}.log"
     shell:
         """
         python workflow/scripts/11_extract_colors.py \
@@ -94,9 +103,28 @@ rule create_colors:
             >{log} 2>&1
         """ 
 
+rule process_graph:
+    input:
+        gfa = get_assembly_graph_output,
+        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap",
+        color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
+    output:
+        gfa = "assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa"
+    log:
+        "logs/process_graph_{isphased}_{tool}_{asm}.log"
+    shell:
+        """
+        python workflow/scripts/12_process_gfa.py \
+            --gfa {input.gfa} \
+            --scfmap {input.scfmap} \
+            --colors {input.color} \
+            --output {output.gfa} \
+            > {log} 2>&1
+        """
+
 rule bandage:
     input:
-        gfa=get_assembly_graph_output,
+        gfa="assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa",
         color=get_assembly_colors,
     output:
         svg="assembly/qc/{isphased}_{tool}/{asm}/bandage_graph.svg",
