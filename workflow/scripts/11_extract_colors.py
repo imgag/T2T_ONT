@@ -121,13 +121,6 @@ def main():
     # Dictionary to store best match for each contig
     contig_best_matches = {}
     
-    # Set haplotype - treat "unphased" as "haplotype1"
-    hp = args.haplotype
-    if hp == "unphased":
-        hp_colours = "haplotype1"
-    else:
-        hp_colours = hp
-    
     with open(args.input, "r") as f:
         for line in f:
             fields = line.strip().split("\t")
@@ -151,8 +144,8 @@ def main():
     contig_colors = []
     for contig_id, match_info in contig_best_matches.items():
         chrom = match_info['chrom']
-        color = chromosome_colors[chrom][hp_colours]
-        contig_colors.append(f"{contig_id}\t{color}\t{chrom}\t{hp}")
+        color = chromosome_colors[chrom]['haplotype1']
+        contig_colors.append(f"{contig_id}\t{color}\t{chrom}")
     
     with open(args.output, "w") as f:
         f.write("contig\tcolor\n")
