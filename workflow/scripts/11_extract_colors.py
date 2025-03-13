@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 import argparse
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Extract colors from PAF file')
     parser.add_argument('-i', '--input', required=True, help='Input PAF file')
-    parser.add_argument('-o', '--output', required=True, help='Output CSV file')
-    parser.add_argument('-p', '--haplotype', default="haplotype1", 
-                        choices=["haplotype1", "haplotype2", "unphased"],
-                        help='Haplotype to use for coloring (default: haplotype1)')
+    parser.add_argument('-o', '--output', required=True, help='Output TSV file')
+    parser.add_argument('-l', '--legend', action='store_true', help='Generate color legend')
     return parser.parse_args()
 
 
@@ -46,6 +45,76 @@ chromosome_colors = {
     'chrM': {'haplotype1': '#17BECF', 'haplotype2': '#4DD8E6'}
 }
 
+def plot_color_legend(chromosome_colors, output_file):
+    """
+    Generate a color legend visualization for chromosome colors in a single column.
+    """
+    import matplotlib.pyplot as plt
+    import matplotlib.patches as mpatches  
+    import numpy as np
+    
+    # Sort chromosomes for better display
+    sorted_chromosomes = sorted(chromosome_colors.keys(), 
+                               key=lambda x: int(x[3:]) if x[3:].isdigit() else 
+                                            (100 if x == 'chrX' else 
+                                             101 if x == 'chrY' else 
+                                             102 if x == 'chrM' else 999))
+    
+    # Set up the figure with appropriate size for a single column
+    num_chromosomes = len(sorted_chromosomes)
+    fig_height = max(10, num_chromosomes * 0.4)  # Adjust height based on number of chromosomes
+    fig, ax = plt.subplots(figsize=(8, fig_height))
+    
+    # Remove axes
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+    
+    # Calculate spacing
+    row_height = 0.9 / num_chromosomes
+    start_y = 0.95
+    
+    # Add legend items
+    for i, chrom in enumerate(sorted_chromosomes):
+        y_pos = start_y - i * row_height
+        
+        # Add chromosome name
+        ax.text(0.05, y_pos, chrom, fontsize=12, fontweight='bold')
+        
+        # Add color patches for haplotypes
+        hap1_color = chromosome_colors[chrom]['haplotype1']
+        hap2_color = chromosome_colors[chrom]['haplotype2']
+        
+        # Haplotype 1 patch - smaller bar
+        bar_height = row_height * 0.4
+        bar_width = 0.2
+        
+        # Haplotype 1 patch
+        hap1_patch = mpatches.Rectangle((0.3, y_pos - bar_height/2), bar_width, bar_height, 
+                                        facecolor=hap1_color, edgecolor='black')
+        ax.add_patch(hap1_patch)
+        ax.text(0.3 + bar_width + 0.02, y_pos, 'Hap 1', fontsize=10, va='center')
+        
+        # Haplotype 2 patch
+        hap2_patch = mpatches.Rectangle((0.65, y_pos - bar_height/2), bar_width, bar_height, 
+                                        facecolor=hap2_color, edgecolor='black')
+        ax.add_patch(hap2_patch)
+        ax.text(0.65 + bar_width + 0.02, y_pos, 'Hap 2', fontsize=10, va='center')
+    
+    # Add title
+    plt.suptitle('Chromosome Color Legend', fontsize=16, y=0.98)
+    
+    # Add subtitle explaining the color scheme
+    plt.figtext(0.5, 0.01, 
+                'Color scheme: Colorblind-friendly palette with light/dark variants for haplotypes', 
+                ha='center', fontsize=10)
+    
+    # Save the figure
+    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print(f"Color legend saved to {output_file}")
+
 def main():
     args = parse_args()
     
@@ -55,7 +124,9 @@ def main():
     # Set haplotype - treat "unphased" as "haplotype1"
     hp = args.haplotype
     if hp == "unphased":
-        hp = "haplotype1"
+        hp_colours = "haplotype1"
+    else:
+        hp_colours = hp
     
     with open(args.input, "r") as f:
         for line in f:
@@ -65,6 +136,7 @@ def main():
             match_q = int(fields[10])  # Match length
             match_l = int(fields[11])  # Match quality
             
+
             # If this is the first time we see this contig or if this match is better
             if contig_id not in contig_best_matches or \
                (match_q >= contig_best_matches[contig_id]['match_q'] and 
@@ -79,12 +151,15 @@ def main():
     contig_colors = []
     for contig_id, match_info in contig_best_matches.items():
         chrom = match_info['chrom']
-        color = chromosome_colors[chrom][hp]
-        contig_colors.append(f"{contig_id}\t{color}")
+        color = chromosome_colors[chrom][hp_colours]
+        contig_colors.append(f"{contig_id}\t{color}\t{chrom}\t{hp}")
     
     with open(args.output, "w") as f:
         f.write("contig\tcolor\n")
         f.write("\n".join(contig_colors))
+
+    if args.legend:
+        plot_color_legend(chromosome_colors, os.path.join(os.path.dirname(args.output), 'chromosome_color_legend.png'))
 
 if __name__ == "__main__":
     main()
