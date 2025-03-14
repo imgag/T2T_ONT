@@ -105,7 +105,7 @@ rule create_colors:
 rule process_graph:
     input:
         gfa = get_assembly_graph_output,
-        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap",
+        scfmap = "assembly/output/verkko_unphased/{asm}/assembly.scfmap",
         color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
     output:
         gfa = "assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa"
@@ -376,23 +376,29 @@ rule qc_merqury_verkko:
         popd >> $LOG_FILE 2>&1
         """
 
+def get_merqury_input(wc):
+    if wc["isphased"] == "unphased":
+        return f"assembly/output/verkko_unphased/{wc['asm']}/assembly{wc['polished']}.fasta"
+    elif wc["isphased"] == "phased":
+        return f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta"
 
 rule qc_merqury_unphased:
     input:
         meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
-        fa="assembly/output/gfase/{asm}/assembly.fasta",
+        fa=get_merqury_input
     output:
-        out="assembly/qc/unphased_verkko/{asm}/merqury.qv",
+        out="assembly/qc/{isphased}_verkko/{asm}/merqury{polished}.qv",
+    wildcard_constraints: polished=".*"    
     conda:
         "../env/merqury.yml"
     log:
-        "logs/merqury_unphased_{asm}.log",
+        "logs/merqury_{isphased}_verkko_{asm}{polished}.log",
     threads: 40
     shell:
         """
         INPUT_MERYL=$(realpath {input.meryl})
         INPUT_PAT_FA=$(realpath {input.fa})
-        OUTPUT_PREFIX=$(dirname $(realpath {output.out}))/merqury
+        OUTPUT_PREFIX=$(dirname $(realpath {output.out}))/merqury{wildcards.polished}
         LOG_FILE=$(realpath {log})
         pushd $(dirname $OUTPUT_PREFIX) >$LOG_FILE 2>&1
         export PATH=$PATH:"$CONDA_PREFIX"/share/merqury/eval

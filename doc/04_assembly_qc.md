@@ -92,6 +92,12 @@ Questions do we want to sequence one reference sample (HG002?) to estimate the b
 
 > Base quality was estimated using yak41, based on the k-mer content of Illumina short reads. Each phased assembly was evaluated separately. K-mer in the short reads were counted using “yak count -b 37”, and quality values (QV) were estimated using “yak qv -K 3.2g -l 100k”. For HG002, we used the 30x Illumina Novaseq PCR-free read set publically available at the Google bucket gs://deepvariant/benchmarking/fastq/wgs_pcr_free/30x/. For the 4 samples from the HPRC (HG01993, HG02132, HG02647, and HG03669), we used 30x Illumina short-reads from the high coverage readset of the 1000 Genomes Project samples (Lorig-Roach et al. 2023)
 
+### Merqury
+
+Column headers:
+
+
+
 ### Identification of complete T2T contigs
 
 We use the https://github.com/prasad693/Tel_Sequences repo to identify complete T2T chromosomes. 
