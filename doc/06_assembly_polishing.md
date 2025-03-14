@@ -14,3 +14,10 @@ medaka_consensus_joint \
     -d /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/output/verkko/TUE_02/assembly.fasta \
     -m r1041_e82_260bps_joint_apk_ulk_v5.0.0 
 ```
+
+Calculate 
+
+## Runtimes
+
+Started: Wednesday 12.03 ~12:00 (30 Threads)
+Ended: Friday 14.03 ~17:30 

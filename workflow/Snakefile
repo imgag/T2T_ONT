@@ -105,6 +105,28 @@ asm_without_porec = [
     x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]
 ]
 
+# Create subset of assemblies for reduced flowcell number
+asm_flowcells = [ 
+    "TUE_02_01UL",
+    "TUE_02_02UL",
+    "TUE_02_03UL",
+    "TUE_02_04UL",
+    "TUE_02_05UL",
+    "TUE_02_06UL"
+#   "TUE_02_01UL_01DX",
+#   "TUE_02_02UL_01DX",
+#   "TUE_02_03UL_01DX",
+#   "TUE_02_04UL_01DX",
+#   "TUE_02_05UL_01DX",
+#   "TUE_02_01UL_02DX",
+#   "TUE_02_02UL_02DX",
+#   "TUE_02_03UL_02DX",
+#   "TUE_02_04UL_02DX",
+#   "TUE_02_05UL_02DX",
+#   "TUE_02_06UL_02DX",
+]
+
+
 rule all:
     input:
         # QC Files
@@ -251,5 +273,49 @@ rule collect_qc:
         "env/R.yml"
     log:
         "logs/collect_qc.log"
+    script:
+        "scripts/06_collect_qc.R"
+
+
+rule test_polish_qc:
+    input:
+        merqury_stats = expand(
+            "assembly/qc/unphased_verkko/{asm}/merqury{polished}.qv",
+            asm="TUE_02",
+            polished=["", "_polished"]
+        ),
+
+rule collect_qc_flowcells:
+    input:
+        paf_stat = expand(
+            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_stat.unphased.txt",
+            dataset=asm_flowcells,
+        ),
+        paf_asmstat = expand(
+            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_asmstat.unphased.txt",
+            dataset=asm_flowcells,
+        ),
+        paf_asmgene = expand(
+            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_asmgene.unphased.txt",
+            dataset=asm_flowcells,
+        ),
+        merqury_stats = expand(
+            "assembly/qc/unphased_verkko/{dataset}/merqury.qv",
+            dataset=asm_flowcells,
+        ),
+        findt2t_alignment = expand(
+            "assembly/qc/unphased_verkko/{dataset}/T2T_contigs.unphased_alignment_T2T.txt",
+            dataset=asm_flowcells,
+        ),
+        findt2t_motif = expand(
+            "assembly/qc/unphased_verkko/{dataset}/T2T_contigs.unphased_motif_T2T.txt",
+            dataset=asm_flowcells,
+        )
+    output:
+        tsv = "assembly/qc/qc_flowcells.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_flowcells.log"
     script:
         "scripts/06_collect_qc.R"

@@ -5,7 +5,7 @@ rule medaka_polishing:
         apk = lambda wc: get_assembly_input(wc).get('apk')
         asm = "assembly/output/verkko/{asm}/assembly.fasta"
     output:
-        "assembly/output/verkko/{asm}/assembly.polished.fasta"
+        "assembly/output/verkko/{asm}/assembly_polished.fasta"
     log:
         "logs/medaka_polishing_{asm}.log"
     benchmark:
@@ -20,6 +20,8 @@ rule medaka_polishing:
             -d {input.asm} \
             -t {threads}
             -m r1041_e82_260bps_joint_apk_ulk_v5.0.0 \
-            -o $(dirname {output}) \
+            -o $(dirname {output})/polishing \
             >{log} 2>&1
-        """"
+        mv $(dirname {output})/polishing/consensus.fasta {output}
+        rm -rf $(dirname {output})/polishing
+        """
