@@ -1,0 +1,3915 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 30
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineOverlaps                    1
+combineOverlapsConfigure           1
+combineTipsONT                     1
+configureFindErrors                1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+prepareOverlaps                    1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             22
+
+Select jobs to execute...
+
+[Thu Mar 13 21:44:08 2025]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 16
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Thu Mar 13 21:44:08 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_06UL/TUE_02_06UL.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 13
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Thu Mar 13 21:44:08 2025]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_combined.maxx_maxx.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Thu Mar 13 21:44:08 2025]
+Finished job 16.
+1 of 22 steps (5%) done
+[Thu Mar 13 23:50:29 2025]
+Finished job 13.
+2 of 22 steps (9%) done
+[Fri Mar 14 00:52:45 2025]
+Finished job 7.
+3 of 98 steps (3%) done
+Select jobs to execute...
+
+[Fri Mar 14 00:52:45 2025]
+checkpoint prepareOverlaps:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_combined.maxx_maxx.fastq.gz, 0-correction/hifi.seqStore
+    output: 0-correction/matchchains.metadata, 0-correction/matchchains.positions
+    log: 0-correction/matchchains-index.err
+    jobid: 10
+    reason: Missing output files: 0-correction/matchchains.positions, 0-correction/matchchains.metadata; Input files updated by another job: 0-correction/hifi.seqStore
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=64, time_h=24
+DAG of jobs will be updated after completion.
+
+[Sat Mar 15 00:46:48 2025]
+Finished job 10.
+4 of 98 steps (4%) done
+Select jobs to execute...
+
+[Sat Mar 15 00:46:48 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/024.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/024.ovb
+    log: 0-correction/overlap-jobs/024.err
+    jobid: 126
+    reason: Missing output files: 0-correction/overlap-jobs/024.ovb
+    wildcards: nnnn=024
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 15 11:23:49 2025]
+Finished job 126.
+5 of 130 steps (4%) done
+Select jobs to execute...
+
+[Sat Mar 15 11:23:49 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/004.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/004.ovb
+    log: 0-correction/overlap-jobs/004.err
+    jobid: 106
+    reason: Missing output files: 0-correction/overlap-jobs/004.ovb
+    wildcards: nnnn=004
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 15 15:47:47 2025]
+Finished job 106.
+6 of 130 steps (5%) done
+Select jobs to execute...
+
+[Sat Mar 15 15:47:47 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/018.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/018.ovb
+    log: 0-correction/overlap-jobs/018.err
+    jobid: 120
+    reason: Missing output files: 0-correction/overlap-jobs/018.ovb
+    wildcards: nnnn=018
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 15 22:19:06 2025]
+Finished job 120.
+7 of 130 steps (5%) done
+Select jobs to execute...
+
+[Sat Mar 15 22:19:06 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/011.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/011.ovb
+    log: 0-correction/overlap-jobs/011.err
+    jobid: 113
+    reason: Missing output files: 0-correction/overlap-jobs/011.ovb
+    wildcards: nnnn=011
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 16 04:08:15 2025]
+Finished job 113.
+8 of 130 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 16 04:08:15 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/025.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/025.ovb
+    log: 0-correction/overlap-jobs/025.err
+    jobid: 127
+    reason: Missing output files: 0-correction/overlap-jobs/025.ovb
+    wildcards: nnnn=025
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 16 14:58:07 2025]
+Finished job 127.
+9 of 130 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 16 14:58:07 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/005.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/005.ovb
+    log: 0-correction/overlap-jobs/005.err
+    jobid: 107
+    reason: Missing output files: 0-correction/overlap-jobs/005.ovb
+    wildcards: nnnn=005
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 16 20:03:11 2025]
+Finished job 107.
+10 of 130 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 16 20:03:11 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/019.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/019.ovb
+    log: 0-correction/overlap-jobs/019.err
+    jobid: 121
+    reason: Missing output files: 0-correction/overlap-jobs/019.ovb
+    wildcards: nnnn=019
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Mon Mar 17 04:17:16 2025]
+Finished job 121.
+11 of 130 steps (8%) done
+Select jobs to execute...
+
+[Mon Mar 17 04:17:16 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/031.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/031.ovb
+    log: 0-correction/overlap-jobs/031.err
+    jobid: 133
+    reason: Missing output files: 0-correction/overlap-jobs/031.ovb
+    wildcards: nnnn=031
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Mon Mar 17 13:33:36 2025]
+Finished job 133.
+12 of 130 steps (9%) done
+Select jobs to execute...
+
+[Mon Mar 17 13:33:36 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/026.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/026.ovb
+    log: 0-correction/overlap-jobs/026.err
+    jobid: 128
+    reason: Missing output files: 0-correction/overlap-jobs/026.ovb
+    wildcards: nnnn=026
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Mon Mar 17 23:22:28 2025]
+Finished job 128.
+13 of 130 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 17 23:22:29 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/012.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/012.ovb
+    log: 0-correction/overlap-jobs/012.err
+    jobid: 114
+    reason: Missing output files: 0-correction/overlap-jobs/012.ovb
+    wildcards: nnnn=012
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Tue Mar 18 07:39:19 2025]
+Finished job 114.
+14 of 130 steps (11%) done
+Select jobs to execute...
+
+[Tue Mar 18 07:39:19 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/020.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/020.ovb
+    log: 0-correction/overlap-jobs/020.err
+    jobid: 122
+    reason: Missing output files: 0-correction/overlap-jobs/020.ovb
+    wildcards: nnnn=020
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Tue Mar 18 14:36:27 2025]
+Finished job 122.
+15 of 130 steps (12%) done
+Select jobs to execute...
+
+[Tue Mar 18 14:36:29 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/006.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/006.ovb
+    log: 0-correction/overlap-jobs/006.err
+    jobid: 108
+    reason: Missing output files: 0-correction/overlap-jobs/006.ovb
+    wildcards: nnnn=006
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Tue Mar 18 18:44:45 2025]
+Finished job 108.
+16 of 130 steps (12%) done
+Select jobs to execute...
+
+[Tue Mar 18 18:44:45 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/017.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/017.ovb
+    log: 0-correction/overlap-jobs/017.err
+    jobid: 119
+    reason: Missing output files: 0-correction/overlap-jobs/017.ovb
+    wildcards: nnnn=017
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Wed Mar 19 00:19:05 2025]
+Finished job 119.
+17 of 130 steps (13%) done
+Select jobs to execute...
+
+[Wed Mar 19 00:19:06 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/027.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/027.ovb
+    log: 0-correction/overlap-jobs/027.err
+    jobid: 129
+    reason: Missing output files: 0-correction/overlap-jobs/027.ovb
+    wildcards: nnnn=027
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Wed Mar 19 07:50:39 2025]
+Finished job 129.
+18 of 130 steps (14%) done
+Select jobs to execute...
+
+[Wed Mar 19 07:50:39 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/023.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/023.ovb
+    log: 0-correction/overlap-jobs/023.err
+    jobid: 125
+    reason: Missing output files: 0-correction/overlap-jobs/023.ovb
+    wildcards: nnnn=023
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Wed Mar 19 15:12:12 2025]
+Finished job 125.
+19 of 130 steps (15%) done
+Select jobs to execute...
+
+[Wed Mar 19 15:12:12 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/010.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/010.ovb
+    log: 0-correction/overlap-jobs/010.err
+    jobid: 112
+    reason: Missing output files: 0-correction/overlap-jobs/010.ovb
+    wildcards: nnnn=010
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Wed Mar 19 20:36:35 2025]
+Finished job 112.
+20 of 130 steps (15%) done
+Select jobs to execute...
+
+[Wed Mar 19 20:36:35 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/008.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/008.ovb
+    log: 0-correction/overlap-jobs/008.err
+    jobid: 110
+    reason: Missing output files: 0-correction/overlap-jobs/008.ovb
+    wildcards: nnnn=008
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Thu Mar 20 01:01:35 2025]
+Finished job 110.
+21 of 130 steps (16%) done
+Select jobs to execute...
+
+[Thu Mar 20 01:01:40 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/022.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/022.ovb
+    log: 0-correction/overlap-jobs/022.err
+    jobid: 124
+    reason: Missing output files: 0-correction/overlap-jobs/022.ovb
+    wildcards: nnnn=022
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Thu Mar 20 08:15:56 2025]
+Finished job 124.
+22 of 130 steps (17%) done
+Select jobs to execute...
+
+[Thu Mar 20 08:15:56 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/013.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/013.ovb
+    log: 0-correction/overlap-jobs/013.err
+    jobid: 115
+    reason: Missing output files: 0-correction/overlap-jobs/013.ovb
+    wildcards: nnnn=013
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Thu Mar 20 14:10:25 2025]
+Finished job 115.
+23 of 130 steps (18%) done
+Select jobs to execute...
+
+[Thu Mar 20 14:10:25 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/029.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/029.ovb
+    log: 0-correction/overlap-jobs/029.err
+    jobid: 131
+    reason: Missing output files: 0-correction/overlap-jobs/029.ovb
+    wildcards: nnnn=029
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Thu Mar 20 22:18:21 2025]
+Finished job 131.
+24 of 130 steps (18%) done
+Select jobs to execute...
+
+[Thu Mar 20 22:18:21 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/015.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/015.ovb
+    log: 0-correction/overlap-jobs/015.err
+    jobid: 117
+    reason: Missing output files: 0-correction/overlap-jobs/015.ovb
+    wildcards: nnnn=015
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Fri Mar 21 03:20:26 2025]
+Finished job 117.
+25 of 130 steps (19%) done
+Select jobs to execute...
+
+[Fri Mar 21 03:20:26 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/003.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/003.ovb
+    log: 0-correction/overlap-jobs/003.err
+    jobid: 105
+    reason: Missing output files: 0-correction/overlap-jobs/003.ovb
+    wildcards: nnnn=003
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Fri Mar 21 08:31:54 2025]
+Finished job 105.
+26 of 130 steps (20%) done
+Select jobs to execute...
+
+[Fri Mar 21 08:31:54 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/021.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/021.ovb
+    log: 0-correction/overlap-jobs/021.err
+    jobid: 123
+    reason: Missing output files: 0-correction/overlap-jobs/021.ovb
+    wildcards: nnnn=021
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Fri Mar 21 15:47:24 2025]
+Finished job 123.
+27 of 130 steps (21%) done
+Select jobs to execute...
+
+[Fri Mar 21 15:47:24 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/007.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/007.ovb
+    log: 0-correction/overlap-jobs/007.err
+    jobid: 109
+    reason: Missing output files: 0-correction/overlap-jobs/007.ovb
+    wildcards: nnnn=007
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Fri Mar 21 19:53:13 2025]
+Finished job 109.
+28 of 130 steps (22%) done
+Select jobs to execute...
+
+[Fri Mar 21 19:53:13 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/001.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/001.ovb
+    log: 0-correction/overlap-jobs/001.err
+    jobid: 103
+    reason: Missing output files: 0-correction/overlap-jobs/001.ovb
+    wildcards: nnnn=001
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Fri Mar 21 22:43:06 2025]
+Finished job 103.
+29 of 130 steps (22%) done
+Select jobs to execute...
+
+[Fri Mar 21 22:43:07 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/030.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/030.ovb
+    log: 0-correction/overlap-jobs/030.err
+    jobid: 132
+    reason: Missing output files: 0-correction/overlap-jobs/030.ovb
+    wildcards: nnnn=030
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 22 06:54:30 2025]
+Finished job 132.
+30 of 130 steps (23%) done
+Select jobs to execute...
+
+[Sat Mar 22 06:54:30 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/016.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/016.ovb
+    log: 0-correction/overlap-jobs/016.err
+    jobid: 118
+    reason: Missing output files: 0-correction/overlap-jobs/016.ovb
+    wildcards: nnnn=016
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 22 12:16:47 2025]
+Finished job 118.
+31 of 130 steps (24%) done
+Select jobs to execute...
+
+[Sat Mar 22 12:16:48 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/014.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/014.ovb
+    log: 0-correction/overlap-jobs/014.err
+    jobid: 116
+    reason: Missing output files: 0-correction/overlap-jobs/014.ovb
+    wildcards: nnnn=014
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sat Mar 22 17:15:27 2025]
+Finished job 116.
+32 of 130 steps (25%) done
+Select jobs to execute...
+
+[Sat Mar 22 17:15:27 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/028.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/028.ovb
+    log: 0-correction/overlap-jobs/028.err
+    jobid: 130
+    reason: Missing output files: 0-correction/overlap-jobs/028.ovb
+    wildcards: nnnn=028
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 23 00:07:56 2025]
+Finished job 130.
+33 of 130 steps (25%) done
+Select jobs to execute...
+
+[Sun Mar 23 00:07:56 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/002.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/002.ovb
+    log: 0-correction/overlap-jobs/002.err
+    jobid: 104
+    reason: Missing output files: 0-correction/overlap-jobs/002.ovb
+    wildcards: nnnn=002
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 23 03:22:26 2025]
+Finished job 104.
+34 of 130 steps (26%) done
+Select jobs to execute...
+
+[Sun Mar 23 03:22:27 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/000.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/000.ovb
+    log: 0-correction/overlap-jobs/000.err
+    jobid: 102
+    reason: Missing output files: 0-correction/overlap-jobs/000.ovb
+    wildcards: nnnn=000
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 23 06:05:48 2025]
+Finished job 102.
+35 of 130 steps (27%) done
+Select jobs to execute...
+
+[Sun Mar 23 06:05:48 2025]
+rule computeOverlaps:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/overlap-jobs/009.id, 0-correction/hifi.seqStore
+    output: 0-correction/overlap-jobs/009.ovb
+    log: 0-correction/overlap-jobs/009.err
+    jobid: 111
+    reason: Missing output files: 0-correction/overlap-jobs/009.ovb
+    wildcards: nnnn=009
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Mar 23 10:21:27 2025]
+Finished job 111.
+36 of 130 steps (28%) done
+Select jobs to execute...
+
+[Sun Mar 23 10:21:27 2025]
+rule combineOverlapsConfigure:
+    input: 0-correction/matchchains.metadata, 0-correction/matchchains.positions, 0-correction/hifi.seqStore, 0-correction/overlap-jobs/000.ovb, 0-correction/overlap-jobs/001.ovb, 0-correction/overlap-jobs/002.ovb, 0-correction/overlap-jobs/003.ovb, 0-correction/overlap-jobs/004.ovb, 0-correction/overlap-jobs/005.ovb, 0-correction/overlap-jobs/006.ovb, 0-correction/overlap-jobs/007.ovb, 0-correction/overlap-jobs/008.ovb, 0-correction/overlap-jobs/009.ovb, 0-correction/overlap-jobs/010.ovb, 0-correction/overlap-jobs/011.ovb, 0-correction/overlap-jobs/012.ovb, 0-correction/overlap-jobs/013.ovb, 0-correction/overlap-jobs/014.ovb, 0-correction/overlap-jobs/015.ovb, 0-correction/overlap-jobs/016.ovb, 0-correction/overlap-jobs/017.ovb, 0-correction/overlap-jobs/018.ovb, 0-correction/overlap-jobs/019.ovb, 0-correction/overlap-jobs/020.ovb, 0-correction/overlap-jobs/021.ovb, 0-correction/overlap-jobs/022.ovb, 0-correction/overlap-jobs/023.ovb, 0-correction/overlap-jobs/024.ovb, 0-correction/overlap-jobs/025.ovb, 0-correction/overlap-jobs/026.ovb, 0-correction/overlap-jobs/027.ovb, 0-correction/overlap-jobs/028.ovb, 0-correction/overlap-jobs/029.ovb, 0-correction/overlap-jobs/030.ovb, 0-correction/overlap-jobs/031.ovb
+    output: 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request
+    log: 0-correction/combineOverlapsConfigure.err
+    jobid: 9
+    reason: Missing output files: 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request; Input files updated by another job: 0-correction/overlap-jobs/026.ovb, 0-correction/overlap-jobs/018.ovb, 0-correction/overlap-jobs/013.ovb, 0-correction/overlap-jobs/031.ovb, 0-correction/overlap-jobs/011.ovb, 0-correction/overlap-jobs/024.ovb, 0-correction/overlap-jobs/015.ovb, 0-correction/overlap-jobs/023.ovb, 0-correction/overlap-jobs/009.ovb, 0-correction/overlap-jobs/001.ovb, 0-correction/overlap-jobs/027.ovb, 0-correction/overlap-jobs/014.ovb, 0-correction/overlap-jobs/012.ovb, 0-correction/overlap-jobs/019.ovb, 0-correction/overlap-jobs/021.ovb, 0-correction/overlap-jobs/006.ovb, 0-correction/overlap-jobs/025.ovb, 0-correction/overlap-jobs/002.ovb, 0-correction/overlap-jobs/008.ovb, 0-correction/overlap-jobs/028.ovb, 0-correction/overlap-jobs/030.ovb, 0-correction/overlap-jobs/010.ovb, 0-correction/overlap-jobs/005.ovb, 0-correction/overlap-jobs/003.ovb, 0-correction/overlap-jobs/016.ovb, 0-correction/overlap-jobs/020.ovb, 0-correction/overlap-jobs/022.ovb, 0-correction/overlap-jobs/004.ovb, 0-correction/overlap-jobs/007.ovb, 0-correction/overlap-jobs/029.ovb, 0-correction/overlap-jobs/000.ovb, 0-correction/overlap-jobs/017.ovb
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=12
+
+[Sun Mar 23 10:21:47 2025]
+Finished job 9.
+37 of 130 steps (28%) done
+Select jobs to execute...
+
+[Sun Mar 23 10:21:47 2025]
+rule combineOverlaps:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request
+    output: 0-correction/hifi.ovlStore
+    log: 0-correction/combineOverlaps.err
+    jobid: 8
+    reason: Missing output files: 0-correction/hifi.ovlStore; Input files updated by another job: 0-correction/hifi.ovlStore.config, 0-correction/hifi.ovlStore.config.memory-request, 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=12
+
+[Sun Mar 23 11:19:34 2025]
+Finished job 8.
+38 of 130 steps (29%) done
+Select jobs to execute...
+
+[Sun Mar 23 11:19:34 2025]
+localcheckpoint configureFindErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore
+    output: 0-correction/configureFindErrors.finished
+    log: 0-correction/configureFindErrors.err
+    jobid: 11
+    reason: Missing output files: 0-correction/configureFindErrors.finished; Input files updated by another job: 0-correction/hifi.ovlStore, 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=1, time_h=1
+DAG of jobs will be updated after completion.
+
+[Sun Mar 23 11:19:59 2025]
+Finished job 11.
+39 of 130 steps (30%) done
+Select jobs to execute...
+
+[Sun Mar 23 11:20:03 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0157.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0157.red
+    log: 0-correction/find-errors-jobs/0157.err
+    jobid: 291
+    reason: Missing output files: 0-correction/find-errors-jobs/0157.red
+    wildcards: nnnn=0157
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+
+[Sun Mar 23 11:20:03 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0509.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0509.red
+    log: 0-correction/find-errors-jobs/0509.err
+    jobid: 643
+    reason: Missing output files: 0-correction/find-errors-jobs/0509.red
+    wildcards: nnnn=0509
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 11:51:37 2025]
+Finished job 643.
+40 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 11:51:38 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0436.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0436.red
+    log: 0-correction/find-errors-jobs/0436.err
+    jobid: 570
+    reason: Missing output files: 0-correction/find-errors-jobs/0436.red
+    wildcards: nnnn=0436
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 11:51:38 2025]
+Finished job 291.
+41 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 11:51:38 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0562.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0562.red
+    log: 0-correction/find-errors-jobs/0562.err
+    jobid: 696
+    reason: Missing output files: 0-correction/find-errors-jobs/0562.red
+    wildcards: nnnn=0562
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:03:43 2025]
+Finished job 570.
+42 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:03:43 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0926.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0926.red
+    log: 0-correction/find-errors-jobs/0926.err
+    jobid: 1060
+    reason: Missing output files: 0-correction/find-errors-jobs/0926.red
+    wildcards: nnnn=0926
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:04:33 2025]
+Finished job 696.
+43 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:04:33 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0200.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0200.red
+    log: 0-correction/find-errors-jobs/0200.err
+    jobid: 334
+    reason: Missing output files: 0-correction/find-errors-jobs/0200.red
+    wildcards: nnnn=0200
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:16:52 2025]
+Finished job 1060.
+44 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:16:52 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0563.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0563.red
+    log: 0-correction/find-errors-jobs/0563.err
+    jobid: 697
+    reason: Missing output files: 0-correction/find-errors-jobs/0563.red
+    wildcards: nnnn=0563
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:19:50 2025]
+Finished job 334.
+45 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:19:50 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0801.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0801.red
+    log: 0-correction/find-errors-jobs/0801.err
+    jobid: 935
+    reason: Missing output files: 0-correction/find-errors-jobs/0801.red
+    wildcards: nnnn=0801
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:29:34 2025]
+Finished job 697.
+46 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:29:35 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0090.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0090.red
+    log: 0-correction/find-errors-jobs/0090.err
+    jobid: 224
+    reason: Missing output files: 0-correction/find-errors-jobs/0090.red
+    wildcards: nnnn=0090
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:32:31 2025]
+Finished job 935.
+47 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:32:31 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1166.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1166.red
+    log: 0-correction/find-errors-jobs/1166.err
+    jobid: 1300
+    reason: Missing output files: 0-correction/find-errors-jobs/1166.red
+    wildcards: nnnn=1166
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:44:21 2025]
+Finished job 1300.
+48 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:44:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0569.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0569.red
+    log: 0-correction/find-errors-jobs/0569.err
+    jobid: 703
+    reason: Missing output files: 0-correction/find-errors-jobs/0569.red
+    wildcards: nnnn=0569
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:44:27 2025]
+Finished job 224.
+49 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:44:27 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0667.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0667.red
+    log: 0-correction/find-errors-jobs/0667.err
+    jobid: 801
+    reason: Missing output files: 0-correction/find-errors-jobs/0667.red
+    wildcards: nnnn=0667
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:57:29 2025]
+Finished job 703.
+50 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:57:29 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0092.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0092.red
+    log: 0-correction/find-errors-jobs/0092.err
+    jobid: 226
+    reason: Missing output files: 0-correction/find-errors-jobs/0092.red
+    wildcards: nnnn=0092
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 12:57:39 2025]
+Finished job 801.
+51 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 12:57:39 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1168.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1168.red
+    log: 0-correction/find-errors-jobs/1168.err
+    jobid: 1302
+    reason: Missing output files: 0-correction/find-errors-jobs/1168.red
+    wildcards: nnnn=1168
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:10:08 2025]
+Finished job 1302.
+52 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:10:08 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1043.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1043.red
+    log: 0-correction/find-errors-jobs/1043.err
+    jobid: 1177
+    reason: Missing output files: 0-correction/find-errors-jobs/1043.red
+    wildcards: nnnn=1043
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:12:24 2025]
+Finished job 226.
+53 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:12:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1169.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1169.red
+    log: 0-correction/find-errors-jobs/1169.err
+    jobid: 1303
+    reason: Missing output files: 0-correction/find-errors-jobs/1169.red
+    wildcards: nnnn=1169
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:22:40 2025]
+Finished job 1177.
+54 of 1546 steps (3%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:22:40 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1044.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1044.red
+    log: 0-correction/find-errors-jobs/1044.err
+    jobid: 1178
+    reason: Missing output files: 0-correction/find-errors-jobs/1044.red
+    wildcards: nnnn=1044
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:24:35 2025]
+Finished job 1303.
+55 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:24:35 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1170.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1170.red
+    log: 0-correction/find-errors-jobs/1170.err
+    jobid: 1304
+    reason: Missing output files: 0-correction/find-errors-jobs/1170.red
+    wildcards: nnnn=1170
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:35:51 2025]
+Finished job 1178.
+56 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:35:51 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1045.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1045.red
+    log: 0-correction/find-errors-jobs/1045.err
+    jobid: 1179
+    reason: Missing output files: 0-correction/find-errors-jobs/1045.red
+    wildcards: nnnn=1045
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:37:35 2025]
+Finished job 1304.
+57 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:37:35 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1171.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1171.red
+    log: 0-correction/find-errors-jobs/1171.err
+    jobid: 1305
+    reason: Missing output files: 0-correction/find-errors-jobs/1171.red
+    wildcards: nnnn=1171
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:47:56 2025]
+Finished job 1179.
+58 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:47:56 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1046.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1046.red
+    log: 0-correction/find-errors-jobs/1046.err
+    jobid: 1180
+    reason: Missing output files: 0-correction/find-errors-jobs/1046.red
+    wildcards: nnnn=1046
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 13:50:19 2025]
+Finished job 1305.
+59 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 13:50:19 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0097.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0097.red
+    log: 0-correction/find-errors-jobs/0097.err
+    jobid: 231
+    reason: Missing output files: 0-correction/find-errors-jobs/0097.red
+    wildcards: nnnn=0097
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:00:24 2025]
+Finished job 1180.
+60 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:00:25 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1173.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1173.red
+    log: 0-correction/find-errors-jobs/1173.err
+    jobid: 1307
+    reason: Missing output files: 0-correction/find-errors-jobs/1173.red
+    wildcards: nnnn=1173
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:05:29 2025]
+Finished job 231.
+61 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:05:29 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0098.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0098.red
+    log: 0-correction/find-errors-jobs/0098.err
+    jobid: 232
+    reason: Missing output files: 0-correction/find-errors-jobs/0098.red
+    wildcards: nnnn=0098
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:12:45 2025]
+Finished job 1307.
+62 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:12:45 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1174.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1174.red
+    log: 0-correction/find-errors-jobs/1174.err
+    jobid: 1308
+    reason: Missing output files: 0-correction/find-errors-jobs/1174.red
+    wildcards: nnnn=1174
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:20:30 2025]
+Finished job 232.
+63 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:20:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1049.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1049.red
+    log: 0-correction/find-errors-jobs/1049.err
+    jobid: 1183
+    reason: Missing output files: 0-correction/find-errors-jobs/1049.red
+    wildcards: nnnn=1049
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:25:39 2025]
+Finished job 1308.
+64 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:25:39 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0570.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0570.red
+    log: 0-correction/find-errors-jobs/0570.err
+    jobid: 704
+    reason: Missing output files: 0-correction/find-errors-jobs/0570.red
+    wildcards: nnnn=0570
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:32:33 2025]
+Finished job 1183.
+65 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:32:33 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0668.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0668.red
+    log: 0-correction/find-errors-jobs/0668.err
+    jobid: 802
+    reason: Missing output files: 0-correction/find-errors-jobs/0668.red
+    wildcards: nnnn=0668
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:38:47 2025]
+Finished job 704.
+66 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:38:47 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1176.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1176.red
+    log: 0-correction/find-errors-jobs/1176.err
+    jobid: 1310
+    reason: Missing output files: 0-correction/find-errors-jobs/1176.red
+    wildcards: nnnn=1176
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:45:45 2025]
+Finished job 802.
+67 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:45:45 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1051.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1051.red
+    log: 0-correction/find-errors-jobs/1051.err
+    jobid: 1185
+    reason: Missing output files: 0-correction/find-errors-jobs/1051.red
+    wildcards: nnnn=1051
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:52:29 2025]
+Finished job 1310.
+68 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:52:29 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0102.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0102.red
+    log: 0-correction/find-errors-jobs/0102.err
+    jobid: 236
+    reason: Missing output files: 0-correction/find-errors-jobs/0102.red
+    wildcards: nnnn=0102
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 14:58:03 2025]
+Finished job 1185.
+69 of 1546 steps (4%) done
+Select jobs to execute...
+
+[Sun Mar 23 14:58:03 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1052.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1052.red
+    log: 0-correction/find-errors-jobs/1052.err
+    jobid: 1186
+    reason: Missing output files: 0-correction/find-errors-jobs/1052.red
+    wildcards: nnnn=1052
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:07:16 2025]
+Finished job 236.
+70 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:07:16 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0103.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0103.red
+    log: 0-correction/find-errors-jobs/0103.err
+    jobid: 237
+    reason: Missing output files: 0-correction/find-errors-jobs/0103.red
+    wildcards: nnnn=0103
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:10:43 2025]
+Finished job 1186.
+71 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:10:43 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1053.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1053.red
+    log: 0-correction/find-errors-jobs/1053.err
+    jobid: 1187
+    reason: Missing output files: 0-correction/find-errors-jobs/1053.red
+    wildcards: nnnn=1053
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:22:26 2025]
+Finished job 1187.
+72 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:22:26 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0648.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0648.red
+    log: 0-correction/find-errors-jobs/0648.err
+    jobid: 782
+    reason: Missing output files: 0-correction/find-errors-jobs/0648.red
+    wildcards: nnnn=0648
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:23:23 2025]
+Finished job 237.
+73 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:23:23 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1292.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1292.red
+    log: 0-correction/find-errors-jobs/1292.err
+    jobid: 1426
+    reason: Missing output files: 0-correction/find-errors-jobs/1292.red
+    wildcards: nnnn=1292
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:35:47 2025]
+Finished job 782.
+74 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:35:47 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1293.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1293.red
+    log: 0-correction/find-errors-jobs/1293.err
+    jobid: 1427
+    reason: Missing output files: 0-correction/find-errors-jobs/1293.red
+    wildcards: nnnn=1293
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:36:04 2025]
+Finished job 1426.
+75 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:36:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1294.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1294.red
+    log: 0-correction/find-errors-jobs/1294.err
+    jobid: 1428
+    reason: Missing output files: 0-correction/find-errors-jobs/1294.red
+    wildcards: nnnn=1294
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:49:03 2025]
+Finished job 1427.
+76 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:49:03 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1295.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1295.red
+    log: 0-correction/find-errors-jobs/1295.err
+    jobid: 1429
+    reason: Missing output files: 0-correction/find-errors-jobs/1295.red
+    wildcards: nnnn=1295
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 15:49:16 2025]
+Finished job 1428.
+77 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 15:49:16 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0652.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0652.red
+    log: 0-correction/find-errors-jobs/0652.err
+    jobid: 786
+    reason: Missing output files: 0-correction/find-errors-jobs/0652.red
+    wildcards: nnnn=0652
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:02:12 2025]
+Finished job 1429.
+78 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:02:13 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0653.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0653.red
+    log: 0-correction/find-errors-jobs/0653.err
+    jobid: 787
+    reason: Missing output files: 0-correction/find-errors-jobs/0653.red
+    wildcards: nnnn=0653
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:02:39 2025]
+Finished job 786.
+79 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:02:39 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1297.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1297.red
+    log: 0-correction/find-errors-jobs/1297.err
+    jobid: 1431
+    reason: Missing output files: 0-correction/find-errors-jobs/1297.red
+    wildcards: nnnn=1297
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:15:41 2025]
+Finished job 1431.
+80 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:15:42 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1298.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1298.red
+    log: 0-correction/find-errors-jobs/1298.err
+    jobid: 1432
+    reason: Missing output files: 0-correction/find-errors-jobs/1298.red
+    wildcards: nnnn=1298
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:15:44 2025]
+Finished job 787.
+81 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:15:44 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0655.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0655.red
+    log: 0-correction/find-errors-jobs/0655.err
+    jobid: 789
+    reason: Missing output files: 0-correction/find-errors-jobs/0655.red
+    wildcards: nnnn=0655
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:28:43 2025]
+Finished job 1432.
+82 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:28:43 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0669.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0669.red
+    log: 0-correction/find-errors-jobs/0669.err
+    jobid: 803
+    reason: Missing output files: 0-correction/find-errors-jobs/0669.red
+    wildcards: nnnn=0669
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:29:11 2025]
+Finished job 789.
+83 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:29:11 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1300.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1300.red
+    log: 0-correction/find-errors-jobs/1300.err
+    jobid: 1434
+    reason: Missing output files: 0-correction/find-errors-jobs/1300.red
+    wildcards: nnnn=1300
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:42:03 2025]
+Finished job 1434.
+84 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:42:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1301.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1301.red
+    log: 0-correction/find-errors-jobs/1301.err
+    jobid: 1435
+    reason: Missing output files: 0-correction/find-errors-jobs/1301.red
+    wildcards: nnnn=1301
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:42:10 2025]
+Finished job 803.
+85 of 1546 steps (5%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:42:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0658.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0658.red
+    log: 0-correction/find-errors-jobs/0658.err
+    jobid: 792
+    reason: Missing output files: 0-correction/find-errors-jobs/0658.red
+    wildcards: nnnn=0658
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:54:47 2025]
+Finished job 1435.
+86 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:54:47 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0659.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0659.red
+    log: 0-correction/find-errors-jobs/0659.err
+    jobid: 793
+    reason: Missing output files: 0-correction/find-errors-jobs/0659.red
+    wildcards: nnnn=0659
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 16:54:53 2025]
+Finished job 792.
+87 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 16:54:53 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1303.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1303.red
+    log: 0-correction/find-errors-jobs/1303.err
+    jobid: 1437
+    reason: Missing output files: 0-correction/find-errors-jobs/1303.red
+    wildcards: nnnn=1303
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:07:45 2025]
+Finished job 793.
+88 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:07:45 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1304.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1304.red
+    log: 0-correction/find-errors-jobs/1304.err
+    jobid: 1438
+    reason: Missing output files: 0-correction/find-errors-jobs/1304.red
+    wildcards: nnnn=1304
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:08:05 2025]
+Finished job 1437.
+89 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:08:05 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0661.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0661.red
+    log: 0-correction/find-errors-jobs/0661.err
+    jobid: 795
+    reason: Missing output files: 0-correction/find-errors-jobs/0661.red
+    wildcards: nnnn=0661
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:21:30 2025]
+Finished job 795.
+90 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:21:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0284.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0284.red
+    log: 0-correction/find-errors-jobs/0284.err
+    jobid: 418
+    reason: Missing output files: 0-correction/find-errors-jobs/0284.red
+    wildcards: nnnn=0284
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:21:57 2025]
+Finished job 1438.
+91 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:21:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0536.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0536.red
+    log: 0-correction/find-errors-jobs/0536.err
+    jobid: 670
+    reason: Missing output files: 0-correction/find-errors-jobs/0536.red
+    wildcards: nnnn=0536
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:34:05 2025]
+Finished job 418.
+92 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:34:05 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0285.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0285.red
+    log: 0-correction/find-errors-jobs/0285.err
+    jobid: 419
+    reason: Missing output files: 0-correction/find-errors-jobs/0285.red
+    wildcards: nnnn=0285
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:35:24 2025]
+Finished job 670.
+93 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:35:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0411.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0411.red
+    log: 0-correction/find-errors-jobs/0411.err
+    jobid: 545
+    reason: Missing output files: 0-correction/find-errors-jobs/0411.red
+    wildcards: nnnn=0411
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:47:19 2025]
+Finished job 419.
+94 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:47:20 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0775.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0775.red
+    log: 0-correction/find-errors-jobs/0775.err
+    jobid: 909
+    reason: Missing output files: 0-correction/find-errors-jobs/0775.red
+    wildcards: nnnn=0775
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 17:47:53 2025]
+Finished job 545.
+95 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 17:47:53 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0412.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0412.red
+    log: 0-correction/find-errors-jobs/0412.err
+    jobid: 546
+    reason: Missing output files: 0-correction/find-errors-jobs/0412.red
+    wildcards: nnnn=0412
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:00:04 2025]
+Finished job 546.
+96 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:00:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0776.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0776.red
+    log: 0-correction/find-errors-jobs/0776.err
+    jobid: 910
+    reason: Missing output files: 0-correction/find-errors-jobs/0776.red
+    wildcards: nnnn=0776
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:00:37 2025]
+Finished job 909.
+97 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:00:38 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0287.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0287.red
+    log: 0-correction/find-errors-jobs/0287.err
+    jobid: 421
+    reason: Missing output files: 0-correction/find-errors-jobs/0287.red
+    wildcards: nnnn=0287
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:12:17 2025]
+Finished job 910.
+98 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:12:17 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0571.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0571.red
+    log: 0-correction/find-errors-jobs/0571.err
+    jobid: 705
+    reason: Missing output files: 0-correction/find-errors-jobs/0571.red
+    wildcards: nnnn=0571
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:14:17 2025]
+Finished job 421.
+99 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:14:18 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0777.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0777.red
+    log: 0-correction/find-errors-jobs/0777.err
+    jobid: 911
+    reason: Missing output files: 0-correction/find-errors-jobs/0777.red
+    wildcards: nnnn=0777
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:25:05 2025]
+Finished job 705.
+100 of 1546 steps (6%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:25:06 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0414.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0414.red
+    log: 0-correction/find-errors-jobs/0414.err
+    jobid: 548
+    reason: Missing output files: 0-correction/find-errors-jobs/0414.red
+    wildcards: nnnn=0414
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:26:37 2025]
+Finished job 911.
+101 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:26:37 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0540.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0540.red
+    log: 0-correction/find-errors-jobs/0540.err
+    jobid: 674
+    reason: Missing output files: 0-correction/find-errors-jobs/0540.red
+    wildcards: nnnn=0540
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:38:24 2025]
+Finished job 548.
+102 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:38:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0289.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0289.red
+    log: 0-correction/find-errors-jobs/0289.err
+    jobid: 423
+    reason: Missing output files: 0-correction/find-errors-jobs/0289.red
+    wildcards: nnnn=0289
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:39:37 2025]
+Finished job 674.
+103 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:39:37 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0415.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0415.red
+    log: 0-correction/find-errors-jobs/0415.err
+    jobid: 549
+    reason: Missing output files: 0-correction/find-errors-jobs/0415.red
+    wildcards: nnnn=0415
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:50:36 2025]
+Finished job 423.
+104 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:50:36 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0779.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0779.red
+    log: 0-correction/find-errors-jobs/0779.err
+    jobid: 913
+    reason: Missing output files: 0-correction/find-errors-jobs/0779.red
+    wildcards: nnnn=0779
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 18:52:15 2025]
+Finished job 549.
+105 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 18:52:15 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0780.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0780.red
+    log: 0-correction/find-errors-jobs/0780.err
+    jobid: 914
+    reason: Missing output files: 0-correction/find-errors-jobs/0780.red
+    wildcards: nnnn=0780
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:03:17 2025]
+Finished job 913.
+106 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:03:18 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0416.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0416.red
+    log: 0-correction/find-errors-jobs/0416.err
+    jobid: 550
+    reason: Missing output files: 0-correction/find-errors-jobs/0416.red
+    wildcards: nnnn=0416
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:05:10 2025]
+Finished job 914.
+107 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:05:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0291.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0291.red
+    log: 0-correction/find-errors-jobs/0291.err
+    jobid: 425
+    reason: Missing output files: 0-correction/find-errors-jobs/0291.red
+    wildcards: nnnn=0291
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:16:33 2025]
+Finished job 550.
+108 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:16:33 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0543.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0543.red
+    log: 0-correction/find-errors-jobs/0543.err
+    jobid: 677
+    reason: Missing output files: 0-correction/find-errors-jobs/0543.red
+    wildcards: nnnn=0543
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:17:24 2025]
+Finished job 425.
+109 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:17:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0781.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0781.red
+    log: 0-correction/find-errors-jobs/0781.err
+    jobid: 915
+    reason: Missing output files: 0-correction/find-errors-jobs/0781.red
+    wildcards: nnnn=0781
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:30:22 2025]
+Finished job 677.
+110 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:30:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0418.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0418.red
+    log: 0-correction/find-errors-jobs/0418.err
+    jobid: 552
+    reason: Missing output files: 0-correction/find-errors-jobs/0418.red
+    wildcards: nnnn=0418
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:30:57 2025]
+Finished job 915.
+111 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:30:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0782.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0782.red
+    log: 0-correction/find-errors-jobs/0782.err
+    jobid: 916
+    reason: Missing output files: 0-correction/find-errors-jobs/0782.red
+    wildcards: nnnn=0782
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:44:13 2025]
+Finished job 552.
+112 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:44:13 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0419.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0419.red
+    log: 0-correction/find-errors-jobs/0419.err
+    jobid: 553
+    reason: Missing output files: 0-correction/find-errors-jobs/0419.red
+    wildcards: nnnn=0419
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:44:14 2025]
+Finished job 916.
+113 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:44:14 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0545.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0545.red
+    log: 0-correction/find-errors-jobs/0545.err
+    jobid: 679
+    reason: Missing output files: 0-correction/find-errors-jobs/0545.red
+    wildcards: nnnn=0545
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:56:25 2025]
+Finished job 553.
+114 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:56:25 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0670.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0670.red
+    log: 0-correction/find-errors-jobs/0670.err
+    jobid: 804
+    reason: Missing output files: 0-correction/find-errors-jobs/0670.red
+    wildcards: nnnn=0670
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 19:57:22 2025]
+Finished job 679.
+115 of 1546 steps (7%) done
+Select jobs to execute...
+
+[Sun Mar 23 19:57:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0420.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0420.red
+    log: 0-correction/find-errors-jobs/0420.err
+    jobid: 554
+    reason: Missing output files: 0-correction/find-errors-jobs/0420.red
+    wildcards: nnnn=0420
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:09:49 2025]
+Finished job 804.
+116 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:09:50 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0784.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0784.red
+    log: 0-correction/find-errors-jobs/0784.err
+    jobid: 918
+    reason: Missing output files: 0-correction/find-errors-jobs/0784.red
+    wildcards: nnnn=0784
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:09:55 2025]
+Finished job 554.
+117 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:09:55 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0295.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0295.red
+    log: 0-correction/find-errors-jobs/0295.err
+    jobid: 429
+    reason: Missing output files: 0-correction/find-errors-jobs/0295.red
+    wildcards: nnnn=0295
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:22:02 2025]
+Finished job 429.
+118 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:22:02 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0547.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0547.red
+    log: 0-correction/find-errors-jobs/0547.err
+    jobid: 681
+    reason: Missing output files: 0-correction/find-errors-jobs/0547.red
+    wildcards: nnnn=0547
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:22:15 2025]
+Finished job 918.
+119 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:22:15 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0785.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0785.red
+    log: 0-correction/find-errors-jobs/0785.err
+    jobid: 919
+    reason: Missing output files: 0-correction/find-errors-jobs/0785.red
+    wildcards: nnnn=0785
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:34:33 2025]
+Finished job 681.
+120 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:34:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0296.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0296.red
+    log: 0-correction/find-errors-jobs/0296.err
+    jobid: 430
+    reason: Missing output files: 0-correction/find-errors-jobs/0296.red
+    wildcards: nnnn=0296
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:35:04 2025]
+Finished job 919.
+121 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:35:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0422.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0422.red
+    log: 0-correction/find-errors-jobs/0422.err
+    jobid: 556
+    reason: Missing output files: 0-correction/find-errors-jobs/0422.red
+    wildcards: nnnn=0422
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:47:24 2025]
+Finished job 430.
+122 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:47:25 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0297.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0297.red
+    log: 0-correction/find-errors-jobs/0297.err
+    jobid: 431
+    reason: Missing output files: 0-correction/find-errors-jobs/0297.red
+    wildcards: nnnn=0297
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:47:26 2025]
+Finished job 556.
+123 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:47:27 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0549.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0549.red
+    log: 0-correction/find-errors-jobs/0549.err
+    jobid: 683
+    reason: Missing output files: 0-correction/find-errors-jobs/0549.red
+    wildcards: nnnn=0549
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 20:59:44 2025]
+Finished job 431.
+124 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 20:59:44 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0900.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0900.red
+    log: 0-correction/find-errors-jobs/0900.err
+    jobid: 1034
+    reason: Missing output files: 0-correction/find-errors-jobs/0900.red
+    wildcards: nnnn=0900
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:00:40 2025]
+Finished job 683.
+125 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:00:40 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0173.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0173.red
+    log: 0-correction/find-errors-jobs/0173.err
+    jobid: 307
+    reason: Missing output files: 0-correction/find-errors-jobs/0173.red
+    wildcards: nnnn=0173
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:12:55 2025]
+Finished job 1034.
+126 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:12:55 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0901.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0901.red
+    log: 0-correction/find-errors-jobs/0901.err
+    jobid: 1035
+    reason: Missing output files: 0-correction/find-errors-jobs/0901.red
+    wildcards: nnnn=0901
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:15:56 2025]
+Finished job 307.
+127 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:15:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1027.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1027.red
+    log: 0-correction/find-errors-jobs/1027.err
+    jobid: 1161
+    reason: Missing output files: 0-correction/find-errors-jobs/1027.red
+    wildcards: nnnn=1027
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:25:57 2025]
+Finished job 1035.
+128 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:25:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0175.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0175.red
+    log: 0-correction/find-errors-jobs/0175.err
+    jobid: 309
+    reason: Missing output files: 0-correction/find-errors-jobs/0175.red
+    wildcards: nnnn=0175
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:28:48 2025]
+Finished job 1161.
+129 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:28:48 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1028.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1028.red
+    log: 0-correction/find-errors-jobs/1028.err
+    jobid: 1162
+    reason: Missing output files: 0-correction/find-errors-jobs/1028.red
+    wildcards: nnnn=1028
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:40:20 2025]
+Finished job 309.
+130 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:40:20 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0564.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0564.red
+    log: 0-correction/find-errors-jobs/0564.err
+    jobid: 698
+    reason: Missing output files: 0-correction/find-errors-jobs/0564.red
+    wildcards: nnnn=0564
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:41:15 2025]
+Finished job 1162.
+131 of 1546 steps (8%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:41:15 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0671.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0671.red
+    log: 0-correction/find-errors-jobs/0671.err
+    jobid: 805
+    reason: Missing output files: 0-correction/find-errors-jobs/0671.red
+    wildcards: nnnn=0671
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:53:10 2025]
+Finished job 698.
+132 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:53:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1030.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1030.red
+    log: 0-correction/find-errors-jobs/1030.err
+    jobid: 1164
+    reason: Missing output files: 0-correction/find-errors-jobs/1030.red
+    wildcards: nnnn=1030
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 21:54:22 2025]
+Finished job 805.
+133 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 21:54:23 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0177.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0177.red
+    log: 0-correction/find-errors-jobs/0177.err
+    jobid: 311
+    reason: Missing output files: 0-correction/find-errors-jobs/0177.red
+    wildcards: nnnn=0177
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:05:22 2025]
+Finished job 1164.
+134 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:05:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0905.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0905.red
+    log: 0-correction/find-errors-jobs/0905.err
+    jobid: 1039
+    reason: Missing output files: 0-correction/find-errors-jobs/0905.red
+    wildcards: nnnn=0905
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:09:09 2025]
+Finished job 311.
+135 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:09:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1031.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1031.red
+    log: 0-correction/find-errors-jobs/1031.err
+    jobid: 1165
+    reason: Missing output files: 0-correction/find-errors-jobs/1031.red
+    wildcards: nnnn=1031
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:18:34 2025]
+Finished job 1039.
+136 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:18:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0179.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0179.red
+    log: 0-correction/find-errors-jobs/0179.err
+    jobid: 313
+    reason: Missing output files: 0-correction/find-errors-jobs/0179.red
+    wildcards: nnnn=0179
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:21:15 2025]
+Finished job 1165.
+137 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:21:15 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0906.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0906.red
+    log: 0-correction/find-errors-jobs/0906.err
+    jobid: 1040
+    reason: Missing output files: 0-correction/find-errors-jobs/0906.red
+    wildcards: nnnn=0906
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:33:58 2025]
+Finished job 1040.
+138 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:33:59 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0907.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0907.red
+    log: 0-correction/find-errors-jobs/0907.err
+    jobid: 1041
+    reason: Missing output files: 0-correction/find-errors-jobs/0907.red
+    wildcards: nnnn=0907
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:34:56 2025]
+Finished job 313.
+139 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:34:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1033.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1033.red
+    log: 0-correction/find-errors-jobs/1033.err
+    jobid: 1167
+    reason: Missing output files: 0-correction/find-errors-jobs/1033.red
+    wildcards: nnnn=1033
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:46:34 2025]
+Finished job 1041.
+140 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:46:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0908.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0908.red
+    log: 0-correction/find-errors-jobs/0908.err
+    jobid: 1042
+    reason: Missing output files: 0-correction/find-errors-jobs/0908.red
+    wildcards: nnnn=0908
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:47:07 2025]
+Finished job 1167.
+141 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:47:07 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1034.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1034.red
+    log: 0-correction/find-errors-jobs/1034.err
+    jobid: 1168
+    reason: Missing output files: 0-correction/find-errors-jobs/1034.red
+    wildcards: nnnn=1034
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:59:08 2025]
+Finished job 1042.
+142 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:59:08 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0909.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0909.red
+    log: 0-correction/find-errors-jobs/0909.err
+    jobid: 1043
+    reason: Missing output files: 0-correction/find-errors-jobs/0909.red
+    wildcards: nnnn=0909
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 22:59:16 2025]
+Finished job 1168.
+143 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 22:59:16 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1035.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1035.red
+    log: 0-correction/find-errors-jobs/1035.err
+    jobid: 1169
+    reason: Missing output files: 0-correction/find-errors-jobs/1035.red
+    wildcards: nnnn=1035
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:12:05 2025]
+Finished job 1169.
+144 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:12:05 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0183.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0183.red
+    log: 0-correction/find-errors-jobs/0183.err
+    jobid: 317
+    reason: Missing output files: 0-correction/find-errors-jobs/0183.red
+    wildcards: nnnn=0183
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:12:07 2025]
+Finished job 1043.
+145 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:12:07 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0910.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0910.red
+    log: 0-correction/find-errors-jobs/0910.err
+    jobid: 1044
+    reason: Missing output files: 0-correction/find-errors-jobs/0910.red
+    wildcards: nnnn=0910
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:25:30 2025]
+Finished job 1044.
+146 of 1546 steps (9%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:25:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0002.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0002.red
+    log: 0-correction/find-errors-jobs/0002.err
+    jobid: 136
+    reason: Missing output files: 0-correction/find-errors-jobs/0002.red
+    wildcards: nnnn=0002
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:26:41 2025]
+Finished job 317.
+147 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:26:41 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0003.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0003.red
+    log: 0-correction/find-errors-jobs/0003.err
+    jobid: 137
+    reason: Missing output files: 0-correction/find-errors-jobs/0003.red
+    wildcards: nnnn=0003
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:44:11 2025]
+Finished job 136.
+148 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:44:12 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0574.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0574.red
+    log: 0-correction/find-errors-jobs/0574.err
+    jobid: 708
+    reason: Missing output files: 0-correction/find-errors-jobs/0574.red
+    wildcards: nnnn=0574
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:45:11 2025]
+Finished job 137.
+149 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:45:11 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0672.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0672.red
+    log: 0-correction/find-errors-jobs/0672.err
+    jobid: 806
+    reason: Missing output files: 0-correction/find-errors-jobs/0672.red
+    wildcards: nnnn=0672
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:57:36 2025]
+Finished job 708.
+150 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:57:36 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0004.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0004.red
+    log: 0-correction/find-errors-jobs/0004.err
+    jobid: 138
+    reason: Missing output files: 0-correction/find-errors-jobs/0004.red
+    wildcards: nnnn=0004
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Sun Mar 23 23:58:22 2025]
+Finished job 806.
+151 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Sun Mar 23 23:58:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0185.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0185.red
+    log: 0-correction/find-errors-jobs/0185.err
+    jobid: 319
+    reason: Missing output files: 0-correction/find-errors-jobs/0185.red
+    wildcards: nnnn=0185
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:13:23 2025]
+Finished job 319.
+152 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:13:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1039.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1039.red
+    log: 0-correction/find-errors-jobs/1039.err
+    jobid: 1173
+    reason: Missing output files: 0-correction/find-errors-jobs/1039.red
+    wildcards: nnnn=1039
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:16:14 2025]
+Finished job 138.
+153 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:16:14 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0005.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0005.red
+    log: 0-correction/find-errors-jobs/0005.err
+    jobid: 139
+    reason: Missing output files: 0-correction/find-errors-jobs/0005.red
+    wildcards: nnnn=0005
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:25:42 2025]
+Finished job 1173.
+154 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:25:44 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0913.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0913.red
+    log: 0-correction/find-errors-jobs/0913.err
+    jobid: 1047
+    reason: Missing output files: 0-correction/find-errors-jobs/0913.red
+    wildcards: nnnn=0913
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:34:50 2025]
+Finished job 139.
+155 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:34:51 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1152.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1152.red
+    log: 0-correction/find-errors-jobs/1152.err
+    jobid: 1286
+    reason: Missing output files: 0-correction/find-errors-jobs/1152.red
+    wildcards: nnnn=1152
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:38:24 2025]
+Finished job 1047.
+156 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:38:24 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1404.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1404.red
+    log: 0-correction/find-errors-jobs/1404.err
+    jobid: 1538
+    reason: Missing output files: 0-correction/find-errors-jobs/1404.red
+    wildcards: nnnn=1404
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:46:39 2025]
+Finished job 1286.
+157 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:46:40 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0635.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0635.red
+    log: 0-correction/find-errors-jobs/0635.err
+    jobid: 769
+    reason: Missing output files: 0-correction/find-errors-jobs/0635.red
+    wildcards: nnnn=0635
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:51:04 2025]
+Finished job 1538.
+158 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:51:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1279.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1279.red
+    log: 0-correction/find-errors-jobs/1279.err
+    jobid: 1413
+    reason: Missing output files: 0-correction/find-errors-jobs/1279.red
+    wildcards: nnnn=1279
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 00:59:43 2025]
+Finished job 769.
+159 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 00:59:44 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1406.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1406.red
+    log: 0-correction/find-errors-jobs/1406.err
+    jobid: 1540
+    reason: Missing output files: 0-correction/find-errors-jobs/1406.red
+    wildcards: nnnn=1406
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:04:01 2025]
+Finished job 1413.
+160 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:04:01 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1154.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1154.red
+    log: 0-correction/find-errors-jobs/1154.err
+    jobid: 1288
+    reason: Missing output files: 0-correction/find-errors-jobs/1154.red
+    wildcards: nnnn=1154
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:12:22 2025]
+Finished job 1540.
+161 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:12:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1280.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1280.red
+    log: 0-correction/find-errors-jobs/1280.err
+    jobid: 1414
+    reason: Missing output files: 0-correction/find-errors-jobs/1280.red
+    wildcards: nnnn=1280
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:15:28 2025]
+Finished job 1288.
+162 of 1546 steps (10%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:15:29 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1155.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1155.red
+    log: 0-correction/find-errors-jobs/1155.err
+    jobid: 1289
+    reason: Missing output files: 0-correction/find-errors-jobs/1155.red
+    wildcards: nnnn=1155
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:25:10 2025]
+Finished job 1414.
+163 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:25:11 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1407.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1407.red
+    log: 0-correction/find-errors-jobs/1407.err
+    jobid: 1541
+    reason: Missing output files: 0-correction/find-errors-jobs/1407.red
+    wildcards: nnnn=1407
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:27:05 2025]
+Finished job 1289.
+164 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:27:05 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0575.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0575.red
+    log: 0-correction/find-errors-jobs/0575.err
+    jobid: 709
+    reason: Missing output files: 0-correction/find-errors-jobs/0575.red
+    wildcards: nnnn=0575
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:38:04 2025]
+Finished job 1541.
+165 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:38:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0673.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0673.red
+    log: 0-correction/find-errors-jobs/0673.err
+    jobid: 807
+    reason: Missing output files: 0-correction/find-errors-jobs/0673.red
+    wildcards: nnnn=0673
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:40:13 2025]
+Finished job 709.
+166 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:40:13 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1408.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1408.red
+    log: 0-correction/find-errors-jobs/1408.err
+    jobid: 1542
+    reason: Missing output files: 0-correction/find-errors-jobs/1408.red
+    wildcards: nnnn=1408
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:50:52 2025]
+Finished job 807.
+167 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:50:53 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0639.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0639.red
+    log: 0-correction/find-errors-jobs/0639.err
+    jobid: 773
+    reason: Missing output files: 0-correction/find-errors-jobs/0639.red
+    wildcards: nnnn=0639
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 01:52:55 2025]
+Finished job 1542.
+168 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 01:52:55 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1283.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1283.red
+    log: 0-correction/find-errors-jobs/1283.err
+    jobid: 1417
+    reason: Missing output files: 0-correction/find-errors-jobs/1283.red
+    wildcards: nnnn=1283
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:04:28 2025]
+Finished job 773.
+169 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:04:28 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1409.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1409.red
+    log: 0-correction/find-errors-jobs/1409.err
+    jobid: 1543
+    reason: Missing output files: 0-correction/find-errors-jobs/1409.red
+    wildcards: nnnn=1409
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:05:21 2025]
+Finished job 1417.
+170 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:05:21 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1158.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1158.red
+    log: 0-correction/find-errors-jobs/1158.err
+    jobid: 1292
+    reason: Missing output files: 0-correction/find-errors-jobs/1158.red
+    wildcards: nnnn=1158
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:17:13 2025]
+Finished job 1543.
+171 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:17:13 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1410.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1410.red
+    log: 0-correction/find-errors-jobs/1410.err
+    jobid: 1544
+    reason: Missing output files: 0-correction/find-errors-jobs/1410.red
+    wildcards: nnnn=1410
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:17:21 2025]
+Finished job 1292.
+172 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:17:21 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1159.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1159.red
+    log: 0-correction/find-errors-jobs/1159.err
+    jobid: 1293
+    reason: Missing output files: 0-correction/find-errors-jobs/1159.red
+    wildcards: nnnn=1159
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:29:50 2025]
+Finished job 1544.
+173 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:29:51 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1285.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1285.red
+    log: 0-correction/find-errors-jobs/1285.err
+    jobid: 1419
+    reason: Missing output files: 0-correction/find-errors-jobs/1285.red
+    wildcards: nnnn=1285
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:30:32 2025]
+Finished job 1293.
+174 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:30:32 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0642.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0642.red
+    log: 0-correction/find-errors-jobs/0642.err
+    jobid: 776
+    reason: Missing output files: 0-correction/find-errors-jobs/0642.red
+    wildcards: nnnn=0642
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:42:02 2025]
+Finished job 1419.
+175 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:42:03 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1286.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1286.red
+    log: 0-correction/find-errors-jobs/1286.err
+    jobid: 1420
+    reason: Missing output files: 0-correction/find-errors-jobs/1286.red
+    wildcards: nnnn=1286
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:43:36 2025]
+Finished job 776.
+176 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:43:36 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1413.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1413.red
+    log: 0-correction/find-errors-jobs/1413.err
+    jobid: 1547
+    reason: Missing output files: 0-correction/find-errors-jobs/1413.red
+    wildcards: nnnn=1413
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:54:29 2025]
+Finished job 1420.
+177 of 1546 steps (11%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:54:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0643.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0643.red
+    log: 0-correction/find-errors-jobs/0643.err
+    jobid: 777
+    reason: Missing output files: 0-correction/find-errors-jobs/0643.red
+    wildcards: nnnn=0643
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 02:55:50 2025]
+Finished job 1547.
+178 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 02:55:50 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1287.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1287.red
+    log: 0-correction/find-errors-jobs/1287.err
+    jobid: 1421
+    reason: Missing output files: 0-correction/find-errors-jobs/1287.red
+    wildcards: nnnn=1287
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:07:21 2025]
+Finished job 777.
+179 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:07:21 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1162.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1162.red
+    log: 0-correction/find-errors-jobs/1162.err
+    jobid: 1296
+    reason: Missing output files: 0-correction/find-errors-jobs/1162.red
+    wildcards: nnnn=1162
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:08:47 2025]
+Finished job 1421.
+180 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:08:48 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0576.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0576.red
+    log: 0-correction/find-errors-jobs/0576.err
+    jobid: 710
+    reason: Missing output files: 0-correction/find-errors-jobs/0576.red
+    wildcards: nnnn=0576
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:20:09 2025]
+Finished job 1296.
+181 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:20:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0674.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0674.red
+    log: 0-correction/find-errors-jobs/0674.err
+    jobid: 808
+    reason: Missing output files: 0-correction/find-errors-jobs/0674.red
+    wildcards: nnnn=0674
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:21:58 2025]
+Finished job 710.
+182 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:21:58 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1163.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1163.red
+    log: 0-correction/find-errors-jobs/1163.err
+    jobid: 1297
+    reason: Missing output files: 0-correction/find-errors-jobs/1163.red
+    wildcards: nnnn=1163
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:32:52 2025]
+Finished job 808.
+183 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:32:52 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1289.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1289.red
+    log: 0-correction/find-errors-jobs/1289.err
+    jobid: 1423
+    reason: Missing output files: 0-correction/find-errors-jobs/1289.red
+    wildcards: nnnn=1289
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:34:11 2025]
+Finished job 1297.
+184 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:34:11 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0646.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0646.red
+    log: 0-correction/find-errors-jobs/0646.err
+    jobid: 780
+    reason: Missing output files: 0-correction/find-errors-jobs/0646.red
+    wildcards: nnnn=0646
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:46:31 2025]
+Finished job 1423.
+185 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:46:31 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1164.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1164.red
+    log: 0-correction/find-errors-jobs/1164.err
+    jobid: 1298
+    reason: Missing output files: 0-correction/find-errors-jobs/1164.red
+    wildcards: nnnn=1164
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:47:56 2025]
+Finished job 780.
+186 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:47:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1416.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1416.red
+    log: 0-correction/find-errors-jobs/1416.err
+    jobid: 1550
+    reason: Missing output files: 0-correction/find-errors-jobs/1416.red
+    wildcards: nnnn=1416
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:54:18 2025]
+Finished job 1550.
+187 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:54:18 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1165.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1165.red
+    log: 0-correction/find-errors-jobs/1165.err
+    jobid: 1299
+    reason: Missing output files: 0-correction/find-errors-jobs/1165.red
+    wildcards: nnnn=1165
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 03:58:46 2025]
+Finished job 1298.
+188 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 03:58:46 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0159.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0159.red
+    log: 0-correction/find-errors-jobs/0159.err
+    jobid: 293
+    reason: Missing output files: 0-correction/find-errors-jobs/0159.red
+    wildcards: nnnn=0159
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:08:01 2025]
+Finished job 1299.
+189 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:08:01 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0522.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0522.red
+    log: 0-correction/find-errors-jobs/0522.err
+    jobid: 656
+    reason: Missing output files: 0-correction/find-errors-jobs/0522.red
+    wildcards: nnnn=0522
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:13:46 2025]
+Finished job 293.
+190 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:13:46 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0523.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0523.red
+    log: 0-correction/find-errors-jobs/0523.err
+    jobid: 657
+    reason: Missing output files: 0-correction/find-errors-jobs/0523.red
+    wildcards: nnnn=0523
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:21:00 2025]
+Finished job 656.
+191 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:21:01 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0161.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0161.red
+    log: 0-correction/find-errors-jobs/0161.err
+    jobid: 295
+    reason: Missing output files: 0-correction/find-errors-jobs/0161.red
+    wildcards: nnnn=0161
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:27:08 2025]
+Finished job 657.
+192 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:27:08 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0162.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0162.red
+    log: 0-correction/find-errors-jobs/0162.err
+    jobid: 296
+    reason: Missing output files: 0-correction/find-errors-jobs/0162.red
+    wildcards: nnnn=0162
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:35:34 2025]
+Finished job 295.
+193 of 1546 steps (12%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:35:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0526.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0526.red
+    log: 0-correction/find-errors-jobs/0526.err
+    jobid: 660
+    reason: Missing output files: 0-correction/find-errors-jobs/0526.red
+    wildcards: nnnn=0526
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:41:56 2025]
+Finished job 296.
+194 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:41:56 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0164.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0164.red
+    log: 0-correction/find-errors-jobs/0164.err
+    jobid: 298
+    reason: Missing output files: 0-correction/find-errors-jobs/0164.red
+    wildcards: nnnn=0164
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:49:06 2025]
+Finished job 660.
+195 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:49:06 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0528.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0528.red
+    log: 0-correction/find-errors-jobs/0528.err
+    jobid: 662
+    reason: Missing output files: 0-correction/find-errors-jobs/0528.red
+    wildcards: nnnn=0528
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 04:58:19 2025]
+Finished job 298.
+196 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 04:58:19 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0577.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0577.red
+    log: 0-correction/find-errors-jobs/0577.err
+    jobid: 711
+    reason: Missing output files: 0-correction/find-errors-jobs/0577.red
+    wildcards: nnnn=0577
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:02:13 2025]
+Finished job 662.
+197 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:02:14 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0675.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0675.red
+    log: 0-correction/find-errors-jobs/0675.err
+    jobid: 809
+    reason: Missing output files: 0-correction/find-errors-jobs/0675.red
+    wildcards: nnnn=0675
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:11:32 2025]
+Finished job 711.
+198 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:11:32 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0530.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0530.red
+    log: 0-correction/find-errors-jobs/0530.err
+    jobid: 664
+    reason: Missing output files: 0-correction/find-errors-jobs/0530.red
+    wildcards: nnnn=0530
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:15:04 2025]
+Finished job 809.
+199 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:15:04 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0167.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0167.red
+    log: 0-correction/find-errors-jobs/0167.err
+    jobid: 301
+    reason: Missing output files: 0-correction/find-errors-jobs/0167.red
+    wildcards: nnnn=0167
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:24:26 2025]
+Finished job 664.
+200 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:24:26 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0168.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0168.red
+    log: 0-correction/find-errors-jobs/0168.err
+    jobid: 302
+    reason: Missing output files: 0-correction/find-errors-jobs/0168.red
+    wildcards: nnnn=0168
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:29:55 2025]
+Finished job 301.
+201 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:29:57 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0532.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0532.red
+    log: 0-correction/find-errors-jobs/0532.err
+    jobid: 666
+    reason: Missing output files: 0-correction/find-errors-jobs/0532.red
+    wildcards: nnnn=0532
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:39:19 2025]
+Finished job 302.
+202 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:39:19 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0170.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0170.red
+    log: 0-correction/find-errors-jobs/0170.err
+    jobid: 304
+    reason: Missing output files: 0-correction/find-errors-jobs/0170.red
+    wildcards: nnnn=0170
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:42:48 2025]
+Finished job 666.
+203 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:42:48 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0171.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0171.red
+    log: 0-correction/find-errors-jobs/0171.err
+    jobid: 305
+    reason: Missing output files: 0-correction/find-errors-jobs/0171.red
+    wildcards: nnnn=0171
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:54:37 2025]
+Finished job 304.
+204 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:54:37 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0172.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0172.red
+    log: 0-correction/find-errors-jobs/0172.err
+    jobid: 306
+    reason: Missing output files: 0-correction/find-errors-jobs/0172.red
+    wildcards: nnnn=0172
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 05:57:58 2025]
+Finished job 305.
+205 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 05:57:58 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0535.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0535.red
+    log: 0-correction/find-errors-jobs/0535.err
+    jobid: 669
+    reason: Missing output files: 0-correction/find-errors-jobs/0535.red
+    wildcards: nnnn=0535
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:09:52 2025]
+Finished job 306.
+206 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:09:53 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0396.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0396.red
+    log: 0-correction/find-errors-jobs/0396.err
+    jobid: 530
+    reason: Missing output files: 0-correction/find-errors-jobs/0396.red
+    wildcards: nnnn=0396
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:12:51 2025]
+Finished job 669.
+207 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:12:51 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0760.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0760.red
+    log: 0-correction/find-errors-jobs/0760.err
+    jobid: 894
+    reason: Missing output files: 0-correction/find-errors-jobs/0760.red
+    wildcards: nnnn=0760
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:23:14 2025]
+Finished job 530.
+208 of 1546 steps (13%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:23:14 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0077.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0077.red
+    log: 0-correction/find-errors-jobs/0077.err
+    jobid: 211
+    reason: Missing output files: 0-correction/find-errors-jobs/0077.red
+    wildcards: nnnn=0077
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:27:08 2025]
+Finished job 894.
+209 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:27:08 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0761.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0761.red
+    log: 0-correction/find-errors-jobs/0761.err
+    jobid: 895
+    reason: Missing output files: 0-correction/find-errors-jobs/0761.red
+    wildcards: nnnn=0761
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:38:30 2025]
+Finished job 211.
+210 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:38:32 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0887.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0887.red
+    log: 0-correction/find-errors-jobs/0887.err
+    jobid: 1021
+    reason: Missing output files: 0-correction/find-errors-jobs/0887.red
+    wildcards: nnnn=0887
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:39:29 2025]
+Finished job 895.
+211 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:39:29 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0078.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0078.red
+    log: 0-correction/find-errors-jobs/0078.err
+    jobid: 212
+    reason: Missing output files: 0-correction/find-errors-jobs/0078.red
+    wildcards: nnnn=0078
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:51:28 2025]
+Finished job 1021.
+212 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:51:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0762.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0762.red
+    log: 0-correction/find-errors-jobs/0762.err
+    jobid: 896
+    reason: Missing output files: 0-correction/find-errors-jobs/0762.red
+    wildcards: nnnn=0762
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 06:54:15 2025]
+Finished job 212.
+213 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 06:54:15 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0079.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0079.red
+    log: 0-correction/find-errors-jobs/0079.err
+    jobid: 213
+    reason: Missing output files: 0-correction/find-errors-jobs/0079.red
+    wildcards: nnnn=0079
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:03:51 2025]
+Finished job 896.
+214 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:03:51 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1306.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1306.red
+    log: 0-correction/find-errors-jobs/1306.err
+    jobid: 1440
+    reason: Missing output files: 0-correction/find-errors-jobs/1306.red
+    wildcards: nnnn=1306
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:09:26 2025]
+Finished job 213.
+215 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:09:26 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1307.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1307.red
+    log: 0-correction/find-errors-jobs/1307.err
+    jobid: 1441
+    reason: Missing output files: 0-correction/find-errors-jobs/1307.red
+    wildcards: nnnn=1307
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:16:49 2025]
+Finished job 1440.
+216 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:16:49 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0400.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0400.red
+    log: 0-correction/find-errors-jobs/0400.err
+    jobid: 534
+    reason: Missing output files: 0-correction/find-errors-jobs/0400.red
+    wildcards: nnnn=0400
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:22:25 2025]
+Finished job 1441.
+217 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:22:27 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0890.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0890.red
+    log: 0-correction/find-errors-jobs/0890.err
+    jobid: 1024
+    reason: Missing output files: 0-correction/find-errors-jobs/0890.red
+    wildcards: nnnn=0890
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:30:21 2025]
+Finished job 534.
+218 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:30:21 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0764.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0764.red
+    log: 0-correction/find-errors-jobs/0764.err
+    jobid: 898
+    reason: Missing output files: 0-correction/find-errors-jobs/0764.red
+    wildcards: nnnn=0764
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:34:42 2025]
+Finished job 1024.
+219 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:34:43 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0401.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0401.red
+    log: 0-correction/find-errors-jobs/0401.err
+    jobid: 535
+    reason: Missing output files: 0-correction/find-errors-jobs/0401.red
+    wildcards: nnnn=0401
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:43:23 2025]
+Finished job 898.
+220 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:43:25 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0891.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0891.red
+    log: 0-correction/find-errors-jobs/0891.err
+    jobid: 1025
+    reason: Missing output files: 0-correction/find-errors-jobs/0891.red
+    wildcards: nnnn=0891
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:48:34 2025]
+Finished job 535.
+221 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:48:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0766.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0766.red
+    log: 0-correction/find-errors-jobs/0766.err
+    jobid: 900
+    reason: Missing output files: 0-correction/find-errors-jobs/0766.red
+    wildcards: nnnn=0766
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 07:56:09 2025]
+Finished job 1025.
+222 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 07:56:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0402.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0402.red
+    log: 0-correction/find-errors-jobs/0402.err
+    jobid: 536
+    reason: Missing output files: 0-correction/find-errors-jobs/0402.red
+    wildcards: nnnn=0402
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:01:10 2025]
+Finished job 900.
+223 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:01:10 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0083.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0083.red
+    log: 0-correction/find-errors-jobs/0083.err
+    jobid: 217
+    reason: Missing output files: 0-correction/find-errors-jobs/0083.red
+    wildcards: nnnn=0083
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:08:50 2025]
+Finished job 536.
+224 of 1546 steps (14%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:08:52 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0767.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0767.red
+    log: 0-correction/find-errors-jobs/0767.err
+    jobid: 901
+    reason: Missing output files: 0-correction/find-errors-jobs/0767.red
+    wildcards: nnnn=0767
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:16:12 2025]
+Finished job 217.
+225 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:16:14 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0893.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0893.red
+    log: 0-correction/find-errors-jobs/0893.err
+    jobid: 1027
+    reason: Missing output files: 0-correction/find-errors-jobs/0893.red
+    wildcards: nnnn=0893
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:21:26 2025]
+Finished job 901.
+226 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:21:27 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0169.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0169.red
+    log: 0-correction/find-errors-jobs/0169.err
+    jobid: 303
+    reason: Missing output files: 0-correction/find-errors-jobs/0169.red
+    wildcards: nnnn=0169
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:29:29 2025]
+Finished job 1027.
+227 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:29:30 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0504.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0504.red
+    log: 0-correction/find-errors-jobs/0504.err
+    jobid: 638
+    reason: Missing output files: 0-correction/find-errors-jobs/0504.red
+    wildcards: nnnn=0504
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:36:22 2025]
+Finished job 303.
+228 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:36:22 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0994.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0994.red
+    log: 0-correction/find-errors-jobs/0994.err
+    jobid: 1128
+    reason: Missing output files: 0-correction/find-errors-jobs/0994.red
+    wildcards: nnnn=0994
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:42:59 2025]
+Finished job 638.
+229 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:43:01 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0476.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0476.red
+    log: 0-correction/find-errors-jobs/0476.err
+    jobid: 610
+    reason: Missing output files: 0-correction/find-errors-jobs/0476.red
+    wildcards: nnnn=0476
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:48:56 2025]
+Finished job 1128.
+230 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:48:56 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0734.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0734.red
+    log: 0-correction/find-errors-jobs/0734.err
+    jobid: 868
+    reason: Missing output files: 0-correction/find-errors-jobs/0734.red
+    wildcards: nnnn=0734
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 08:55:23 2025]
+Finished job 610.
+231 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 08:55:23 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1378.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1378.red
+    log: 0-correction/find-errors-jobs/1378.err
+    jobid: 1512
+    reason: Missing output files: 0-correction/find-errors-jobs/1378.red
+    wildcards: nnnn=1378
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:01:43 2025]
+Finished job 868.
+232 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:01:44 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0840.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0840.red
+    log: 0-correction/find-errors-jobs/0840.err
+    jobid: 974
+    reason: Missing output files: 0-correction/find-errors-jobs/0840.red
+    wildcards: nnnn=0840
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:08:19 2025]
+Finished job 1512.
+233 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:08:19 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0807.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0807.red
+    log: 0-correction/find-errors-jobs/0807.err
+    jobid: 941
+    reason: Missing output files: 0-correction/find-errors-jobs/0807.red
+    wildcards: nnnn=0807
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:14:53 2025]
+Finished job 974.
+234 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:14:53 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1323.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1323.red
+    log: 0-correction/find-errors-jobs/1323.err
+    jobid: 1457
+    reason: Missing output files: 0-correction/find-errors-jobs/1323.red
+    wildcards: nnnn=1323
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:21:41 2025]
+Finished job 941.
+235 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:21:41 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1317.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1317.red
+    log: 0-correction/find-errors-jobs/1317.err
+    jobid: 1451
+    reason: Missing output files: 0-correction/find-errors-jobs/1317.red
+    wildcards: nnnn=1317
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:28:07 2025]
+Finished job 1457.
+236 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:28:08 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0505.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0505.red
+    log: 0-correction/find-errors-jobs/0505.err
+    jobid: 639
+    reason: Missing output files: 0-correction/find-errors-jobs/0505.red
+    wildcards: nnnn=0505
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:34:46 2025]
+Finished job 1451.
+237 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:34:46 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0869.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0869.red
+    log: 0-correction/find-errors-jobs/0869.err
+    jobid: 1003
+    reason: Missing output files: 0-correction/find-errors-jobs/0869.red
+    wildcards: nnnn=0869
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:41:38 2025]
+Finished job 639.
+238 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:41:39 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0477.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0477.red
+    log: 0-correction/find-errors-jobs/0477.err
+    jobid: 611
+    reason: Missing output files: 0-correction/find-errors-jobs/0477.red
+    wildcards: nnnn=0477
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:48:31 2025]
+Finished job 1003.
+239 of 1546 steps (15%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:48:34 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0715.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0715.red
+    log: 0-correction/find-errors-jobs/0715.err
+    jobid: 849
+    reason: Missing output files: 0-correction/find-errors-jobs/0715.red
+    wildcards: nnnn=0715
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 09:54:00 2025]
+Finished job 611.
+240 of 1546 steps (16%) done
+Select jobs to execute...
+
+[Mon Mar 24 09:54:00 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0841.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0841.red
+    log: 0-correction/find-errors-jobs/0841.err
+    jobid: 975
+    reason: Missing output files: 0-correction/find-errors-jobs/0841.red
+    wildcards: nnnn=0841
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 10:01:41 2025]
+Finished job 849.
+241 of 1546 steps (16%) done
+Select jobs to execute...
+
+[Mon Mar 24 10:01:42 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/1318.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/1318.red
+    log: 0-correction/find-errors-jobs/1318.err
+    jobid: 1452
+    reason: Missing output files: 0-correction/find-errors-jobs/1318.red
+    wildcards: nnnn=1318
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 10:06:36 2025]
+Finished job 975.
+242 of 1546 steps (16%) done
+Select jobs to execute...
+
+[Mon Mar 24 10:06:37 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0269.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0269.red
+    log: 0-correction/find-errors-jobs/0269.err
+    jobid: 403
+    reason: Missing output files: 0-correction/find-errors-jobs/0269.red
+    wildcards: nnnn=0269
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 10:14:21 2025]
+Finished job 1452.
+243 of 1546 steps (16%) done
+Select jobs to execute...
+
+[Mon Mar 24 10:14:21 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0870.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0870.red
+    log: 0-correction/find-errors-jobs/0870.err
+    jobid: 1004
+    reason: Missing output files: 0-correction/find-errors-jobs/0870.red
+    wildcards: nnnn=0870
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+
+[Mon Mar 24 10:20:12 2025]
+Finished job 403.
+244 of 1546 steps (16%) done
+Select jobs to execute...
+
+[Mon Mar 24 10:20:12 2025]
+rule computeErrors:
+    input: 0-correction/hifi.seqStore, 0-correction/hifi.ovlStore, 0-correction/find-errors-jobs/0478.range, 0-correction/configureFindErrors.finished
+    output: 0-correction/find-errors-jobs/0478.red
+    log: 0-correction/find-errors-jobs/0478.err
+    jobid: 612
+    reason: Missing output files: 0-correction/find-errors-jobs/0478.red
+    wildcards: nnnn=0478
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=32, time_h=4
+

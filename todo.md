@@ -4,6 +4,7 @@
     - [ ] Is the coverage evenly distributed?
     - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
     - [ ] What is the max benefitial addition of HERRO reads?
+    - [ ] Create improvement plot with additional Flowcells (UL)
 - [ ] Include APK Polishing
     - [ ] Add polishing tool to pipeline
     - [ ] Create new QC folder for polished assembly
@@ -15,9 +16,10 @@
     - [ ] Generate UL Read QC presentation
     - [ ] Write methods section for assembly approach
     - [ ] Write overview for used published datasets
+- [ ] Check merqury input/output. Was taken from GFASe folder. Is this wrong?
 - [ ] Create Beautiful figures for publication or print
     - Stained Glass [Link](https://resgen.io/paper-data/T2T/views/MtjcVgrlQmymnHIvdck5-g)
-    - Coloured GFAse assembly plot output
+    - [X] Coloured GFAse assembly plot output
     - Karyotype plots with annotation of telomeres, centromeres, phasing blocks, synteny
 - [ ] Why is sample sex determinatio not working for published_herro?
 - [ ] Investigate whats going on with HERRO read lenghts and how it is affectign subsampling. This plot looks strange: `doc/img/HQ_herro_published_subsampling.read_stats.png`
@@ -26,7 +28,6 @@
 - [X] Store unphased verkko output in a separate folder
 - [X] Run Verkko with the "NoPolishing" option.
 - [ ] Check if NoPolishing Performance is better.
-- [ ] Create improvement plot with additional Flowcells (UL)
 - [X] Find 2 missing UL Flowcells
 - [X] Make PORCE optional, dont run scaffolding without it
 - [X] Telomere detection (seqtk telo ?, take from verkko results, )
