@@ -1,8 +1,14 @@
-# Published datasets used in this study
+# Datasets used in this study
 
-In the first part of the analysis we setup the pipeline and did some initial testing using the published sequencing data. Although we want to strictly generate de novo assemblies without help of a reference genome we are using reference genomes to assess the quality of the assembles genomes. 
+## Trio datasets
+
+Father: GE-MED-T2T07
+Mother: GE-MED-T2T08
+Child: 2410869
 
 ## Published sequencing data
+
+In the first part of the analysis we setup the pipeline and did some initial testing using the published sequencing data. Although we want to strictly generate de novo assemblies without help of a reference genome we are using reference genomes to assess the quality of the assembles genomes. 
 
 From Koren et al 2024:
 - UL:  https://s3-us-west-2.amazonaws.com/humanpangenomics/index.html?prefix=NHGRI_UCSC_panel/HG002/nanopore/ultra-long/
@@ -53,5 +59,7 @@ ONT Official Blogpost:
  45X UL -> Herro
  35X PoreC 
  35X 6B4 Polishing
+
+
 
  
