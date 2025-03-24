@@ -35,6 +35,28 @@ def get_assembly_input(wc):
     return files
 
 
+rule hifiasm:
+    input:
+        ul="assembly/input/{asm}/{asm}.UL.fastq.gz",
+        hq="assembly/input/{asm}/{asm}.HQ.fastq.gz"
+    output:
+        r_utg="assembly/output/hifiasm/{asm}/{asm}.r_utg.gfa",
+        p_utg="assembly/output/hifiasm/{asm}/{asm}.p_utg.gfa",
+        p_ctg="assembly/output/hifiasm/{asm}/{asm}.p_ctg.gfa",
+        a_ctg="assembly/output/hifiasm/{asm}/{asm}.a_ctg.gfa"
+    conda:
+        "../env/hifiasm.yml"
+    log:
+        "logs/hifiasm_{asm}.log"
+    benchmark:
+        "runtimes/{asm}.hifiasm.txt"
+    threads: 30
+    shell:
+        """
+        hifiasm -l0 -t {threads} -o assembly/output/hifiasm/{wildcards.asm}/{wildcards.asm} \
+            {input.ul} {input.hq} > {log} 2>&1
+        """
+
 rule verkko:
     input:
         unpack(get_assembly_input),
