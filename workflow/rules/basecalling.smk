@@ -113,13 +113,13 @@ information, split into channel-specific POD5 files).
 
 rule pod5_view:
     input:
-        dataset="{dataset}",
+        dataset=get_path_for_dataset_folder,
     output:
-        summary=temp("{dataset}.summary.tsv"),
+        summary=temp("{dataset,[^.]+(?!\.bam$)}.summary.tsv"),
     log:
         "logs/{dataset}_pod5_view.log",
     conda:
-        "../envs/pod5.yaml"
+        "../env/pod5.yml"
     priority: 1
     threads: 4
     shell:
@@ -155,14 +155,14 @@ rule process_summary:
 
 checkpoint pod5_split:
     input:
-        dataset="{dataset}",
-        summary="{dataset}.summary.proc.tsv",
+        dataset=get_path_for_dataset_folder,
+        summary="{dataset,[^.]+(?!\.bam$)}.summary.proc.tsv",
     output:
         dataset_split=directory(temp("{dataset}_split_by_channel")),
     log:
         "logs/{dataset}_pod5_split.log",
     conda:
-        "../envs/pod5.yaml"
+        "../env/pod5.yml"
     threads: 20
     priority: 2
     shell:
@@ -244,7 +244,7 @@ rule concat_bam:
     log:
         "logs/concat_bam_{dataset}.log",
     conda:
-        "../envs/samtools.yaml"
+        "../env/samtools.yml"
     priority: 4
     threads: 4
     shell:
