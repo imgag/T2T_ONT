@@ -131,9 +131,9 @@ asm_flowcells = [
 
 # Initialize dictionaries with sets
 unique_datasets = {
-    'sup': set(),
-    'herro': set(),
-    'duplex': set()
+    'sup': {},
+    'herro': {},
+    'duplex': {},
 }
 
 for dataset_set in datasets.keys():
@@ -145,11 +145,12 @@ for dataset_set in datasets.keys():
                 leaf_folder = os.path.basename(run_folder)
                 
                 if data_type == "UL":
-                    unique_datasets['sup'].add(leaf_folder)
-                elif data_type == "HQ_herro":
-                    unique_datasets['herro'].add(leaf_folder)
+                    unique_datasets['sup'][leaf_folder] = run_folder
+                elif data_type == "HQ_herro":  # Herro needs to be SUP basecalled first
+                    unique_datasets['sup'][leaf_folder] = run_folder
+                    unique_datasets['herro'][leaf_folder] = run_folder
                 elif data_type == "HQ_duplex":
-                    unique_datasets['duplex'].add(leaf_folder)
+                    unique_datasets['duplex'][leaf_folder] = run_folder
 
 print(unique_datasets)
 

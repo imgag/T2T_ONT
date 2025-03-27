@@ -2,7 +2,6 @@ from pathlib import Path
 import math
 
 
-
 def get_bams_from_pod5_split(wildcards):
     wildcards_clean = {"dataset": wildcards.dataset.replace(".subset", "")}
     dataset_split = checkpoints.pod5_split.get(**wildcards_clean).output[
@@ -15,43 +14,15 @@ def get_bams_from_pod5_split(wildcards):
         bamfiles = [x.replace(".subset", "") for x in bamfiles]
     return bamfiles
 
-
-def get_path_for_dataset_folder(wc):
-    # Get basename of folder
-    folder_base = wc.dataset
-
-    # Search through datasets dictionary for matching folder paths
-    matching_paths = []
-    for dataset_name, dataset_types in datasets.items():
-        for data_type, paths in dataset_types.items():
-            # Handle both single path and list of paths
-            if isinstance(paths, str):
-                paths = [paths]
-
-            for path in paths:
-                if os.path.isdir(path) and folder_base in path:
-                    matching_paths.append(path)
-
-            # Print warning only if there are multiple matching paths and they are different from each other
-            if len(matching_paths) > 1 and len(set(matching_paths)) > 1:
-                print(
-                    f"Warning: Multiple paths found for dataset {dataset_name} and type {data_type}: {matching_paths}"
-                )
-                print(f"Selecting first: {matching_paths[0]}")
-                matching_paths = matching_paths[0]
-    # print(matching_paths)
-    return matching_paths
-
-
 rule dorado_sup:
     input:
-        pod5=get_path_for_dataset_folder,
+        pod5=lambda wc: unique_datasets["sup"][os.path.basename(wc.dataset)]
     output:
         done="data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done",
     log:
         "logs/dorado_sup_{dataset}.log",
     resources:
-        queue=config['gpu_queues'],
+        queue=config["gpu_queues"],
         gpus=2,
     threads: 4
     priority: 3
@@ -113,7 +84,7 @@ information, split into channel-specific POD5 files).
 
 rule pod5_view:
     input:
-        dataset=get_path_for_dataset_folder,
+        pod5=lambda wc: unique_datasets["duplex"][os.path.basename(wc.dataset)],
     output:
         summary=temp("{dataset,[^.]+(?!\.bam$)}.summary.tsv"),
     log:
@@ -130,7 +101,7 @@ rule pod5_view:
             --threads {threads} \
             --include "read_id,channel" \
             --output {output.summary} \
-            {input.dataset} \
+            {input.pod5} \
             > {log} 2>&1
         """
 
@@ -155,7 +126,7 @@ rule process_summary:
 
 checkpoint pod5_split:
     input:
-        dataset=get_path_for_dataset_folder,
+        dataset=lambda wc: unique_datasets["duplex"][os.path.basename(wc.dataset)],
         summary="{dataset,[^.]+(?!\.bam$)}.summary.proc.tsv",
     output:
         dataset_split=directory(temp("{dataset}_split_by_channel")),
@@ -198,7 +169,7 @@ rule dorado_duplex:
     log:
         "logs/dorado_duplex_{dataset}_{channel}.log",
     resources:
-        queue=config['gpu_queues'],
+        queue=config["gpu_queues"],
         gpus=1,
     threads: 32
     priority: 3
