@@ -127,6 +127,32 @@ asm_flowcells = [
 ]
 
 
+# # Create new all rule for doing basecalling only
+
+# Initialize dictionaries with sets
+unique_datasets = {
+    'sup': set(),
+    'herro': set(),
+    'duplex': set()
+}
+
+for dataset_set in datasets.keys():
+    for data_type in datasets[dataset_set]:
+        for run_folder in datasets[dataset_set][data_type]:
+            # Check if path exists and starts with correct prefix
+            if os.path.isdir(run_folder) and run_folder.startswith("data/raw"):
+                # Get the leaf folder name
+                leaf_folder = os.path.basename(run_folder)
+                
+                if data_type == "UL":
+                    unique_datasets['sup'].add(leaf_folder)
+                elif data_type == "HQ_herro":
+                    unique_datasets['herro'].add(leaf_folder)
+                elif data_type == "HQ_duplex":
+                    unique_datasets['duplex'].add(leaf_folder)
+
+print(unique_datasets)
+
 rule all:
     input:
         # QC Files
@@ -205,6 +231,12 @@ rule all_unphased:
 rule all_verkko_phased:
     input:
         expand("assembly/output/verkko/{asm}/assembly.colors.csv", asm=asm_with_porec)
+
+rule all_basecalling:
+    input:
+        expand("data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam", dataset = unique_datasets['duplex']),
+        expand("data/basecalled/SUP/{dataset}/{dataset}.sup.sequencing_summary.txt", dataset = unique_datasets['sup']),
+        expand("data/corrected/{dataset}/{dataset}.corrected.fasta", dataset = unique_datasets['herro'])
 
 rule collect_qc:
     input:
