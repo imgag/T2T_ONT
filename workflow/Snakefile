@@ -3,9 +3,7 @@ import yaml
 import re
 from types import SimpleNamespace
 
-
 configfile: os.path.join(workflow.basedir, "config.yml")
-
 
 with open("data/datasets.yml") as f:
     datasets = yaml.safe_load(f)
@@ -22,9 +20,49 @@ include: "rules/assembly.smk"
 include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
 
+# Data subgroups
 
-# Create subset of datasets for benchmarking
+## Create subset of datasets for benchmarking, published dataset only
+
 datasets_benchmark = {key: datasets[key] for key in ["published"]}
+asm_benchmark = {k: v for k,v in asm.items() if v['dataset'] == "published"}
+
+## Create subset of assemblies for reduced flowcell number
+asm_flowcells = [ 
+    "TUE_02_01UL",
+    "TUE_02_02UL",
+    "TUE_02_03UL",
+    "TUE_02_04UL",
+    "TUE_02_05UL",
+    "TUE_02_06UL",
+    "TUE_02_01UL_01DX",
+    "TUE_02_02UL_01DX",
+    "TUE_02_03UL_01DX",
+    "TUE_02_04UL_01DX",
+    "TUE_02_05UL_01DX",
+    "TUE_02_06UL_01DX"
+    "TUE_02_01UL_02DX",
+    "TUE_02_02UL_02DX",
+    "TUE_02_03UL_02DX",
+    "TUE_02_04UL_02DX",
+    "TUE_02_05UL_02DX",
+    "TUE_02_06UL_02DX",
+]
+
+asm_flowcells = {k: v for k,v in asm.items() if k in asm_flowcells}
+
+## All other assemblies are "real" samples
+asm_samples = {k: v for k,v in asm.items() if k not in (asm_flowcells.keys() | asm_benchmark.keys())} 
+
+print ("Benchmark assemblies:")
+print(asm_benchmark)
+
+print("Flowcell number assemblies:")
+print(asm_flowcells)
+
+print("Real sample assemblies:")
+print(asm_samples)
+
 
 # Create QC for all input FASTQ files
 fq_files = [
@@ -36,7 +74,6 @@ fq_qc = [
     x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
     for x in fq_files
 ]
-
 
 # Create BAMS and mapping QC for all input files
 bam_qc = []
@@ -52,7 +89,8 @@ for dataset in datasets_benchmark:
             bam_qc.append(
                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
             )  # Alfred Bamqc
-# ## Include downsampled files for benchmarking
+
+# Include downsampled files for benchmarking
 bam_qc += [
     re.sub(
         ".chr\d+.",
@@ -105,37 +143,15 @@ asm_without_porec = [
     x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]
 ]
 
-# Create subset of assemblies for reduced flowcell number
-asm_flowcells = [ 
-    "TUE_02_01UL",
-    "TUE_02_02UL",
-    "TUE_02_03UL",
-    "TUE_02_04UL",
-    "TUE_02_05UL",
-    "TUE_02_06UL"
-#   "TUE_02_01UL_01DX",
-#   "TUE_02_02UL_01DX",
-#   "TUE_02_03UL_01DX",
-#   "TUE_02_04UL_01DX",
-#   "TUE_02_05UL_01DX",
-#   "TUE_02_01UL_02DX",
-#   "TUE_02_02UL_02DX",
-#   "TUE_02_03UL_02DX",
-#   "TUE_02_04UL_02DX",
-#   "TUE_02_05UL_02DX",
-#   "TUE_02_06UL_02DX",
-]
-
-
-# # Create new all rule for doing basecalling only
-
 # Initialize dictionaries with sets
 unique_datasets = {
     'sup': {},
     'herro': {},
     'duplex': {},
+    'porec' : {}
 }
 
+# Create dict with unique datasets for run folder lookup
 for dataset_set in datasets.keys():
     for data_type in datasets[dataset_set]:
         for run_folder in datasets[dataset_set][data_type]:
@@ -151,21 +167,20 @@ for dataset_set in datasets.keys():
                     unique_datasets['herro'][leaf_folder] = run_folder
                 elif data_type == "HQ_duplex":
                     unique_datasets['duplex'][leaf_folder] = run_folder
+                elif data_type == "POREC":
+                    unique_datasets['sup'][leaf_folder] = run_folder
 
 print(unique_datasets)
 
 rule all:
     input:
         # QC Files
-        fq_qc,
-        bam_qc,
+        #fq_qc,
+        #bam_qc,
         # Assembly Files
         expand(
             "assembly/output/verkko/{dataset}/assembly.fasta", dataset=asm.keys()
         ),         
-        expand(
-            "assembly/output/gfase/{dataset}/gfase/chained.gfa", dataset=asm_with_porec
-        ),
         # Assembly QC Files (Unphased, no POREC)
         expand(
             "assembly/qc/unphased_verkko/{dataset}/bandage_graph.png",
@@ -196,34 +211,79 @@ rule all:
         expand(
             "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
             dataset=asm_with_porec,
-            tool=["gfase", "verkko"],
+            tool=["verkko"],
             hp=["haplotype1", "haplotype2"],
         ),
         expand(
             "assembly/qc/phased_{tool}/{dataset}/bandage_graph.png",
             dataset=asm_with_porec,
-            tool=["gfase", "verkko"],
+            tool=["verkko"],
         ),
         expand(
             "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
             asm=asm_with_porec,
-            tool=["gfase", "verkko"],
+            tool=["verkko"],
             hp=["haplotype1", "haplotype2"],
         ),
         # Variant Calling
         expand(
             "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
             asm=asm_with_porec,
-            tool=["gfase", "verkko"],
+            tool=["verkko"],
         ),
         expand(
             "assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
             asm=asm_with_porec,
+            tool=["verkko"],
+        ),
+
+        # Merged QC:
+        "assembly/qc/qc_samples.tsv"
+
+rule all_benchmark:
+    input:
+        # QC Files
+        fq_qc,
+        bam_qc,
+        # Assembly Files
+        expand(
+            "assembly/output/verkko/{asm}/assembly.fasta", asm=asm_benchmark
+        ),         
+        expand(
+            "assembly/output/gfase/{asm}/gfase/chained.gfa", asm=asm_benchmark
+        ),
+        # Assembly QC Files (Phased)
+        expand(
+            "assembly/qc/phased_{tool}/{asm}/dotplot.{hp}.pdf",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        expand(
+            "assembly/qc/phased_{tool}/{asm}/bandage_graph.png",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        expand(
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        # Variant Calling
+        expand(
+            "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        expand(
+            "assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
+            asm=asm_benchmark,
             tool=["gfase", "verkko"],
         ),
 
         # Merged QC:
-        "assembly/qc/qc_full.tsv"
+        "assembly/qc/qc_benchmark.tsv" 
 
 rule all_unphased:
     input:
@@ -239,7 +299,77 @@ rule all_basecalling:
         expand("data/basecalled/SUP/{dataset}/{dataset}.sup.sequencing_summary.txt", dataset = unique_datasets['sup']),
         expand("data/corrected/{dataset}/{dataset}.corrected.fasta", dataset = unique_datasets['herro'])
 
-rule collect_qc:
+rule collect_qc_benchmark:
+    input:
+        paf_stat = expand(
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            module="stat",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmstat = expand(
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            module="asmstat",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmgene = expand(
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            module="asmgene",
+            hp=["haplotype1", "haplotype2"],
+        ),
+        sex = expand(
+            "assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        whatshap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        whatshap_compare = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        merqury_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/merqury.qv",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+        ),
+        merqury_hap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/merqury.{hp}.qv",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        findt2t_alignment = expand(
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"]
+        ),
+        findt2t_motif = expand(
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+            asm=asm_benchmark,
+            tool=["gfase", "verkko"],
+            hp=["haplotype1", "haplotype2"]
+        )
+    output:
+        tsv = "assembly/qc/qc_benchmark.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc.log"
+    script:
+        "scripts/06_collect_qc.R"
+
+rule collect_qc_samples:
     input:
         paf_stat = expand(
             "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
@@ -301,22 +431,13 @@ rule collect_qc:
             hp=["haplotype1", "haplotype2"]
         )
     output:
-        tsv = "assembly/qc/qc_full.tsv",
+        tsv = "assembly/qc/qc_samples.tsv",
     conda:
         "env/R.yml"
     log:
         "logs/collect_qc.log"
     script:
         "scripts/06_collect_qc.R"
-
-
-rule test_polish_qc:
-    input:
-        merqury_stats = expand(
-            "assembly/qc/unphased_verkko/{asm}/merqury{polished}.qv",
-            asm="TUE_02",
-            polished=["", "_polished"]
-        ),
 
 rule collect_qc_flowcells:
     input:
@@ -352,3 +473,13 @@ rule collect_qc_flowcells:
         "logs/collect_qc_flowcells.log"
     script:
         "scripts/06_collect_qc.R"
+
+
+rule test_polish_qc:
+    input:
+        merqury_stats = expand(
+            "assembly/qc/unphased_verkko/{asm}/merqury{polished}.qv",
+            asm="TUE_02",
+            polished=["", "_polished"]
+        ),
+

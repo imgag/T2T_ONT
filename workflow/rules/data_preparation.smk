@@ -66,6 +66,10 @@ def find_input_datasets(wc, print_debug=True):
                         files.append(
                             f"data/corrected/{os.path.basename(e)}/{os.path.basename(e)}.corrected.fasta"
                         )
+                    if wc_type == "POREC":
+                        files.append(
+                            f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
+                        )
                 # Is a file
                 else:
                     match wc_type:
