@@ -1,4 +1,7 @@
 def get_ref_genome(wc):
+    
+    return "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/ref/T2T-CHM13.v2.fasta"
+
     import re
 
     ref = config["ref"]
@@ -13,6 +16,8 @@ def get_ref_genome(wc):
 
 
 def get_assembly_output(wc):
+
+    return "assembly/output/verkko_unphased/TUE_02/assembly.fasta"
     # Treat undefined isphased as "phased"
     isphased = wc.get("isphased", "phased")
 
@@ -51,22 +56,11 @@ def get_assembly_graph_output(wc):
 def get_assembly_colors(wc):
     if wc["isphased"] == "phased":
         if wc["tool"] == "verkko":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.tsv"
+            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
         if wc["tool"] == "gfase":
             return f"assembly/output/gfase/{wc['asm']}/gfase/phases.csv"
     elif wc["isphased"] == "unphased":
         return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.tsv"
-    else:
-        raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
-
-def get_assembly_scfmap(wc):
-    if wc["isphased"] == "phased":
-        if wc["tool"] == "verkko":
-            return f"assembly/output/verkko/{wc['asm']}/assembly.colors.csv"
-        if wc["tool"] == "gfase":
-            return None
-    elif wc["isphased"] == "unphased":
-        return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.unphased.csv"
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
@@ -341,7 +335,7 @@ rule qc_meryl:
         """
 
 
-rule qc_merqury_verkko:
+rule qc_merqury_phased:
     input:
         meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
         pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
@@ -411,6 +405,7 @@ rule qc_merqury_unphased:
         popd >> $LOG_FILE 2>&1
         """
 
+ruleorder: qc_merqury_phased > qc_merqury_unphased
 # temporary meryl files are created during qv.sh process so i put the rm
 # export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
 # because the qv script

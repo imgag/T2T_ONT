@@ -34,7 +34,6 @@ def get_assembly_input(wc):
     
     return files
 
-
 rule hifiasm:
     input:
         ul="assembly/input/{asm}/{asm}.UL.fastq.gz",
@@ -59,7 +58,8 @@ rule hifiasm:
 
 rule verkko:
     input:
-        unpack(get_assembly_input),
+        ul = lambda wc: get_assembly_input(wc).get('ul'),
+        hq = lambda wc: get_assembly_input(wc).get('hq')
     output:
         gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
@@ -113,7 +113,9 @@ rule copy_verkko_unphased:
 
 rule verkko_scaffold:       
     input:
-        unpack(get_assembly_input),
+        ul = lambda wc: get_assembly_input(wc).get('ul'),
+        hq = lambda wc: get_assembly_input(wc).get('hq'),
+        porec = lambda wc: get_assembly_input(wc).get('porec'),
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     output:
         hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
