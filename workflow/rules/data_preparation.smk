@@ -122,7 +122,7 @@ rule merge_copy_rename_fastq:
     params:
         samtools=lambda wc: "samtools" if input_isbam(wc) else "",
     threads:
-        6
+        12
     shell:
         """
         samtools fastq <({params.samtools} cat {input.files}) 2>{log}\
