@@ -129,7 +129,7 @@ rule verkko_scaffold:
         "logs/verkko_scaffold_{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
-    threads: 30
+    threads: 180
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
         skip_polish= lambda wc: "--no-correction" if asm[wc.asm].get("skip_polish", False) else "",

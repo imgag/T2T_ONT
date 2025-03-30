@@ -1,7 +1,4 @@
 def get_ref_genome(wc):
-    
-    return "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/ref/T2T-CHM13.v2.fasta"
-
     import re
 
     ref = config["ref"]
@@ -16,8 +13,6 @@ def get_ref_genome(wc):
 
 
 def get_assembly_output(wc):
-
-    return "assembly/output/verkko_unphased/TUE_02/assembly.fasta"
     # Treat undefined isphased as "phased"
     isphased = wc.get("isphased", "phased")
 
