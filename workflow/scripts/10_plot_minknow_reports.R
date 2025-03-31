@@ -83,7 +83,10 @@ create_plots <- function(data, output_dir) {
     scale_fill_manual("Sample", values = c(
       "#E69F00", "#56B4E9", "#009E73", 
       "#F0E442", "#0072B2", "#D55E00", 
-      "#CC79A7", "#999999"
+      "#CC79A7", "#999999",
+      "#882255", "#44AA99", "#117733",
+      "#332288", "#88CCEE", "#DDCC77",
+      "#AA4499", "#6699CC"
     )) +
     scale_shape_manual(values = c(
       "SQK-ULK114" = 21,  # Filled circle
@@ -91,9 +94,7 @@ create_plots <- function(data, output_dir) {
       "SQK-LSK114-XL" = 23,  # Filled square 
       "SQK-APK114" = 24   # Filled diamond
     )) +
-    guides(fill = guide_legend("Sample", override.aes = list(shape = 21)))
-    theme_classic() +
-
+    guides(fill = guide_legend("Sample", override.aes = list(shape = 21))) +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1),
       legend.position = "right",
@@ -110,8 +111,8 @@ create_plots <- function(data, output_dir) {
   ggsave(
     file.path(output_dir, "minknow_metrics.pdf"),
     p,
-    width = 15,
-    height = 12
+    width = 12,
+    height = 8
   )
   
   ggsave(
