@@ -22,10 +22,28 @@ Prithivi and Caspar
 
 ---
 
-# APK Improvement 
+# APK Polishing 
 
-Base on Illumina data now
+Based on Illumina data now
 
+| sample | errors | length | QV | Error rate |
+| :---------------- | :------ | :--------- | :------ | :---------- |
+| TUE_02          | 312523  | 6102544217 | 56. 1 | 2.4e-06 |
+| TUE_02_polished | 1126433 | 6068379671 | 50.5 | 8.8e-06 |
+
+according to this it got worse.
+Need to talk to ONT about this
+
+---
+
+# PoreC
+
+![bg right:60% h:700](../img/all_chr_vs_chr_matrix.png)
 
 --- 
+
+Phased genome
+Draft vesion
+
+![bg w:1000](../img/TUE_02.graph.draft.png)
 

@@ -222,7 +222,6 @@ rule concat_bam:
         """
         samtools \
             cat \
-            --threads {threads} \
             -o {output.bam} \
             -b {input.dataset_split_bams} \
             > {log} 2>&1
