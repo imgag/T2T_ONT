@@ -47,7 +47,6 @@ def get_assembly_graph_output(wc):
     elif wc["tool"] == "gfase":
         return f"assembly/output/gfase/{wc['asm']}/gfase/chained.gfa"
 
-
 def get_assembly_colors(wc):
     if wc["isphased"] == "phased":
         if wc["tool"] == "verkko":
@@ -130,8 +129,9 @@ rule bandage:
 
 rule map_asm_to_ref:
     input:
-        fa=get_assembly_output,
+        fa=ancient(get_assembly_output),
         ref=get_ref_genome,
+        phased_out = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else ""
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
@@ -329,10 +329,20 @@ rule qc_meryl:
         meryl count k={params.k} {input.ref_q100} output {output.meryl} > {log} 2>&1
         """
 
+# Select correct Meryl ref for sample. Two options:
+# 1) HG002 for published set, fallback 2) Illumina shortread data for TUE_02 sample 
+def get_meryl_ref(wc):
+    if "published" in wc.asm:
+        return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
+    elif "TUE_02" in wc.asm:
+        return("analysis_other/merqury_shortread/DX203429_02.meryl")
+    else:
+        print(f"Unknown Meryl Ref for {asm}, using HG002")
+        return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
 
 rule qc_merqury_phased:
     input:
-        meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
+        meryl=get_meryl_ref,
         pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
         mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
     output:
@@ -373,7 +383,7 @@ def get_merqury_input(wc):
 
 rule qc_merqury_unphased:
     input:
-        meryl=f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl',
+        meryl=get_meryl_ref,
         fa=get_merqury_input
     output:
         out="assembly/qc/{isphased}_verkko/{asm}/merqury{polished}.qv",
