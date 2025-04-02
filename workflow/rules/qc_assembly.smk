@@ -131,7 +131,7 @@ rule map_asm_to_ref:
     input:
         fa=ancient(get_assembly_output),
         ref=get_ref_genome,
-        phased_out = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else ""
+        phased_out = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else []
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
@@ -332,12 +332,12 @@ rule qc_meryl:
 # Select correct Meryl ref for sample. Two options:
 # 1) HG002 for published set, fallback 2) Illumina shortread data for TUE_02 sample 
 def get_meryl_ref(wc):
-    if "published" in wc.asm:
+    if "published" in str(wc.asm):
         return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
-    elif "TUE_02" in wc.asm:
+    elif "TUE_02" in str(wc.asm):
         return("analysis_other/merqury_shortread/DX203429_02.meryl")
     else:
-        print(f"Unknown Meryl Ref for {asm}, using HG002")
+        print(f"WARNING: Unknown Meryl Ref for {wc.asm}, using HG002")
         return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
 
 rule qc_merqury_phased:

@@ -123,7 +123,7 @@ parse_sex <- function(files) {
     
     # Read single value from file
     sex_value <- read_lines(file, n_max = 1)
-    
+    sex_value <- str_split_1(sex_value, "\t")[1]
     # Convert to numeric (0 = female, 1 = male)
     numeric_value <- case_when(
       sex_value == "female" ~ 0,
@@ -208,7 +208,9 @@ parse_findt2t_alignment <- function(files) {
     metadata <- get_file_metadata(file)
     
     # Count number of lines (alignments)
-    n_t2t <- nrow(read_tsv(file, show_col_types = FALSE))
+    n_t2t <- nrow(read_tsv(
+      file, show_col_types = FALSE,
+      col_names = FALSE))
     
     # New metric: Count number of T2T chromosomes
     tibble(
