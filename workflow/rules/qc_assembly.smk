@@ -78,14 +78,17 @@ rule subsample_ref_genome:
 rule create_colors:
     input:
         paf="assembly/qc/{isphased}_{tool}/{asm}/both.mapped_T2T.paf",
+        colors_phasing = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else [] 
     output: 
         csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
     log:
         "logs/create_colors_{isphased}_{tool}_{asm}.log"
+    params:
+        colours_phasing = lambda wc: f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else ""
     shell:
         """
         python workflow/scripts/11_extract_colors.py \
-            -i {input.paf} \
+            -i {input.paf} {params.colours_phasing} \
             -o {output.csv} \
             >{log} 2>&1
         """ 
@@ -93,7 +96,7 @@ rule create_colors:
 rule process_graph:
     input:
         gfa = get_assembly_graph_output,
-        scfmap = "assembly/output/verkko_unphased/{asm}/assembly.scfmap",
+        scfmap = "assembly/output/verkko_{isphased}/{asm}/assembly.scfmap",
         color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
     output:
         gfa = "assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa"
@@ -108,6 +111,12 @@ rule process_graph:
             --output {output.gfa} \
             > {log} 2>&1
         """
+
+rule process_graph_phased:
+    input:
+        gfa = get_assembly_graph_output,
+        scfmap = "assembly/output/verkko_unphased/{asm}/assembly.scfmap",
+        color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
 
 rule bandage:
     input:
