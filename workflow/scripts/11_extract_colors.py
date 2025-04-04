@@ -5,6 +5,7 @@ import os
 def parse_args():
     parser = argparse.ArgumentParser(description='Extract colors from PAF file')
     parser.add_argument('-i', '--input', required=True, help='Input PAF file')
+    parser.add_argument('-c', '--colours', required=False, help='Input colours from Phasing (Optional)')
     parser.add_argument('-o', '--output', required=True, help='Output TSV file')
     parser.add_argument('-l', '--legend', action='store_true', help='Generate color legend')
     return parser.parse_args()
