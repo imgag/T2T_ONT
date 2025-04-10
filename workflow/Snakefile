@@ -517,8 +517,27 @@ rule collect_qc_flowcells:
             "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
             asm=asm_flowcells,
             tool=["verkko"],
-            module=["stat", "asmstat", "asmgene"],
+            module=["stat"],
             hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmstat = expand(
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            module=["asmstat"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        paf_asmgene = expand(
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            module=["asmgene"],
+            hp=["haplotype1", "haplotype2"],
+        ),
+        sex = expand(
+            "assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
         ),
         whatshap_stats = expand(
             "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
