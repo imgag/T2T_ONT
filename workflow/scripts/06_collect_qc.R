@@ -259,8 +259,10 @@ full_table <- bind_rows(
   bind_rows(parse_sex(input_sex))  
 ) 
 
+# Write_output
+
 full_table %>%
-  write_tsv(output_qc_full)
+  write_tsv(output_qc_full, col_names = TRUE)
 
 # Close the log file connection at the end
 if (!test_mode) {

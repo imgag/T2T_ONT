@@ -9,7 +9,7 @@ process_qc_table <- function(dt){
         values_from = value,
         values_fill = list(value = 0)
     ) %>%
-    group_by(asm_name, haplotype, source, asm_method) %>%
+    group_by(asm_name, haplotype, source, asm_method, n_UL, n_DX, sample) %>%
     summarise(
         ref_mc = sum(ref.dup_cnt),
         asm_mc = sum(asm.dup_cnt),
@@ -24,7 +24,7 @@ process_qc_table <- function(dt){
     # Calculate genome completeness
     dt_completeness <- dt %>%
     filter(source == "asmgene") %>%
-    group_by(asm_name, haplotype, source, asm_method) %>%
+    group_by(asm_name, haplotype, source, asm_method, n_UL, n_DX, sample) %>%
     summarise(
         complete = sum(value[metric == "asm.full_sgl"]),
         total = sum(value[metric == "ref.full_sgl"]),
