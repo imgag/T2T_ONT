@@ -127,7 +127,7 @@ rule process_summary:
 checkpoint pod5_split:
     input:
         dataset=lambda wc: unique_datasets["duplex"][os.path.basename(wc.dataset)],
-        summary="{dataset,[^.]+(?!\.bam$)}.summary.proc.tsv",
+        summary="{dataset}.summary.proc.tsv",
     output:
         dataset_split=directory(temp("{dataset}_split_by_channel")),
     log:

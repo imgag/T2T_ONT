@@ -260,3 +260,92 @@ Used 18.369 GB / 1511.088 GB to store   5750278176 kmers; need 8.459 GB to sort 
 Used 18.456 GB / 1511.088 GB to store   5779637807 kmers; need 8.502 GB to sort     14264556 kmers
 Used 18.530 GB / 1511.088 GB to store   5804802926 kmers; need 8.554 GB to sort     14351134 kmers
 Used 18.610 GB / 1511.088 GB to store   5832065616 kmers; need 8.605 GB to sort     14436459 kmers
+Used 18.691 GB / 1511.088 GB to store   5859328306 kmers; need 8.663 GB to sort     14534070 kmers
+Used 18.754 GB / 1511.088 GB to store   5880299585 kmers; need 8.728 GB to sort     14642836 kmers
+Used 18.853 GB / 1511.088 GB to store   5913853665 kmers; need 8.762 GB to sort     14700229 kmers
+Used 18.952 GB / 1511.088 GB to store   5947407094 kmers; need 8.788 GB to sort     14743375 kmers
+Used 19.033 GB / 1511.088 GB to store   5974669595 kmers; need 8.838 GB to sort     14827836 kmers
+Used 19.139 GB / 1511.088 GB to store   6010318936 kmers; need 8.862 GB to sort     14867716 kmers
+Used 19.220 GB / 1511.088 GB to store   6037581332 kmers; need 8.906 GB to sort     14942011 kmers
+Used 19.294 GB / 1511.088 GB to store   6062746892 kmers; need 8.960 GB to sort     15033189 kmers
+Used 19.374 GB / 1511.088 GB to store   6090009561 kmers; need 9.009 GB to sort     15114883 kmers
+Used 19.493 GB / 1511.088 GB to store   6129854989 kmers; need 9.018 GB to sort     15130484 kmers
+Used 19.586 GB / 1511.088 GB to store   6161311666 kmers; need 9.059 GB to sort     15198139 kmers
+Used 19.680 GB / 1511.088 GB to store   6192768595 kmers; need 9.096 GB to sort     15260906 kmers
+Used 19.803 GB / 1511.088 GB to store   6234710796 kmers; need 9.099 GB to sort     15265520 kmers
+
+Input complete.  Writing results to 'assembly.meryl', using 40 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opDifference
+    assembly.meryl
+    DX203429_02.meryl
+    output to assembly.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for assembly
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+--
+-- Estimating memory usage for 'assembly.0.meryl/'.
+--
+
+ p       prefixes             bits gigabytes (allowed: 1511 GB)
+-- -------------- ---------------- ---------
+ 8            256         10298236     0.001
+ 9            512         10069814     0.001
+10           1024          9857776     0.001
+11           2048          9678506     0.001
+12           4096          9564772     0.001 (smallest)
+13           8192          9582110     0.001
+14          16384          9861592     0.001
+15          32768         10665362     0.001 (faster)
+16          65536         12517708     0.001
+17         131072         16467206     0.002
+18         262144         24611008     0.003
+19         524288         41143418     0.005
+-- -------------- ---------------- ---------
+           244806 total kmers
+
+--
+-- Minimal memory needed: 0.001 GB
+-- Optimal memory needed: 0.001 GB  enabled
+-- Memory limit           1511.401 GB
+--
+--
+-- Loading kmers from 'assembly.0.meryl/' into lookup table.
+--
+
+For 244806 distinct 21-mers (with 15 bits used for indexing and 27 bits for tags):
+    0.000 GB memory for kmer indices -        32768 elements 64 bits wide)
+    0.001 GB memory for kmer tags    -       244806 elements 27 bits wide)
+    0.000 GB memory for kmer values  -       244806 elements  8 bits wide)
+    0.001 GB memory
+
+Will load 244806 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+Allocating space for 260934 suffixes of 27 bits each -> 7045218 bits (0.001 GB) in blocks of 32.000 MB
+                     260934 values   of 8 bits each -> 2087472 bits (0.000 GB) in blocks of 32.000 MB
+Loaded 244806 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+-- Opening input sequences 'assembly.fasta'.
+-- Opening output file '-'.
+Bye!
+No asm2 found.
+Done!
+Remove intermediate files:
+rm -r assembly.0.meryl
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT

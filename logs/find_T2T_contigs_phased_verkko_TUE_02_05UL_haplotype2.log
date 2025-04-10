@@ -1,0 +1,111 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/verkko/TUE_02_05UL/assembly.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2.seqinfo.txt assembly/output/verkko/TUE_02_05UL/assembly.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/TUE_02_05UL/assembly.haplotype2.fasta >assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/verkko/TUE_02_05UL/assembly.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome haplotype2-0000044_Start processed
+[+]	Chromosome haplotype2-0000045_Start processed
+[+]	Chromosome haplotype2-0000046_Start processed
+[+]	Chromosome haplotype2-0000047_Start processed
+[+]	Chromosome haplotype2-0000048_Start processed
+[+]	Chromosome haplotype2-0000049_Start processed
+[+]	Chromosome haplotype2-0000050_Start processed
+[+]	Chromosome haplotype2-0000051_Start processed
+[+]	Chromosome haplotype2-0000052_Start processed
+[+]	Chromosome haplotype2-0000053_Start processed
+[+]	Chromosome haplotype2-0000054_Start processed
+[+]	Chromosome haplotype2-0000055_Start processed
+[+]	Chromosome haplotype2-0000056_Start processed
+[+]	Chromosome haplotype2-0000057_Start processed
+[+]	Chromosome haplotype2-0000058_Start processed
+[+]	Chromosome haplotype2-0000059_Start processed
+[+]	Chromosome haplotype2-0000060_Start processed
+[+]	Chromosome haplotype2-0000061_Start processed
+[+]	Chromosome haplotype2-0000062_Start processed
+[+]	Chromosome haplotype2-0000063_Start processed
+[+]	Chromosome haplotype2-0000064_Start processed
+[+]	Chromosome haplotype2-0000065_Start processed
+[+]	Chromosome haplotype2-0000066_Start processed
+[+]	Chromosome haplotype2-0000067_Start processed
+[+]	Chromosome haplotype2-0000068_Start processed
+[+]	Chromosome haplotype2-0000069_Start processed
+[+]	Chromosome haplotype2-0000070_Start processed
+[+]	Chromosome haplotype2-0000071_Start processed
+[+]	Chromosome haplotype2-0000072_Start processed
+[+]	Chromosome haplotype2-0000073_Start processed
+[+]	Chromosome haplotype2-0000074_Start processed
+[+]	Chromosome haplotype2-0000075_Start processed
+[+]	Chromosome haplotype2-0000076_Start processed
+[+]	Chromosome haplotype2-0000077_Start processed
+[+]	Chromosome haplotype2-0000044_End processed
+[+]	Chromosome haplotype2-0000045_End processed
+[+]	Chromosome haplotype2-0000046_End processed
+[+]	Chromosome haplotype2-0000047_End processed
+[+]	Chromosome haplotype2-0000048_End processed
+[+]	Chromosome haplotype2-0000049_End processed
+[+]	Chromosome haplotype2-0000050_End processed
+[+]	Chromosome haplotype2-0000051_End processed
+[+]	Chromosome haplotype2-0000052_End processed
+[+]	Chromosome haplotype2-0000053_End processed
+[+]	Chromosome haplotype2-0000054_End processed
+[+]	Chromosome haplotype2-0000055_End processed
+[+]	Chromosome haplotype2-0000056_End processed
+[+]	Chromosome haplotype2-0000057_End processed
+[+]	Chromosome haplotype2-0000058_End processed
+[+]	Chromosome haplotype2-0000059_End processed
+[+]	Chromosome haplotype2-0000060_End processed
+[+]	Chromosome haplotype2-0000061_End processed
+[+]	Chromosome haplotype2-0000062_End processed
+[+]	Chromosome haplotype2-0000063_End processed
+[+]	Chromosome haplotype2-0000064_End processed
+[+]	Chromosome haplotype2-0000065_End processed
+[+]	Chromosome haplotype2-0000066_End processed
+[+]	Chromosome haplotype2-0000067_End processed
+[+]	Chromosome haplotype2-0000068_End processed
+[+]	Chromosome haplotype2-0000069_End processed
+[+]	Chromosome haplotype2-0000070_End processed
+[+]	Chromosome haplotype2-0000071_End processed
+[+]	Chromosome haplotype2-0000072_End processed
+[+]	Chromosome haplotype2-0000073_End processed
+[+]	Chromosome haplotype2-0000074_End processed
+[+]	Chromosome haplotype2-0000075_End processed
+[+]	Chromosome haplotype2-0000076_End processed
+[+]	Chromosome haplotype2-0000077_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.603*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::60.450*1.45] indexed the graph
+[M::mg_opt_update::64.877*1.42] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::314.697*4.04] mapped 16 sequences
+[M::worker_pipeline::480.723*4.03] mapped 18 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/verkko/TUE_02_05UL/assembly.haplotype2.fasta
+[M::main] Real time: 481.250 sec; CPU: 1939.972 sec; Peak RSS: 44.585 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_verkko/TUE_02_05UL/T2T_contigs.haplotype2_alignment_T2T.txt
+
