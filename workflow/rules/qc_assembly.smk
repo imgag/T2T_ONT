@@ -96,7 +96,7 @@ rule create_colors:
 rule process_graph:
     input:
         gfa = get_assembly_graph_output,
-        scfmap = "assembly/output/verkko_{isphased}/{asm}/assembly.scfmap",
+        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap",
         color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
     output:
         gfa = "assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa"

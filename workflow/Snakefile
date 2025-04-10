@@ -514,28 +514,39 @@ rule collect_qc_samples:
 rule collect_qc_flowcells:
     input:
         paf_stat = expand(
-            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_stat.unphased.txt",
-            dataset=asm_flowcells,
+            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            module=["stat", "asmstat", "asmgene"],
+            hp=["haplotype1", "haplotype2"],
         ),
-        paf_asmstat = expand(
-            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_asmstat.unphased.txt",
-            dataset=asm_flowcells,
+        whatshap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
+            asm=asm_flowcells,
+            tool=["verkko"],
         ),
-        paf_asmgene = expand(
-            "assembly/qc/unphased_verkko/{dataset}/qc_paftools_asmgene.unphased.txt",
-            dataset=asm_flowcells,
+        whatshap_compare = expand(
+            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
+            asm=asm_flowcells,
+            tool=["verkko"],
         ),
-        merqury_stats = expand(
-            "assembly/qc/unphased_verkko/{dataset}/merqury.qv",
-            dataset=asm_flowcells,
+        merqury_hap_stats = expand(
+            "assembly/qc/phased_{tool}/{asm}/merqury.{hp}.qv",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            hp=["haplotype1", "haplotype2"],
         ),
         findt2t_alignment = expand(
-            "assembly/qc/unphased_verkko/{dataset}/T2T_contigs.unphased_alignment_T2T.txt",
-            dataset=asm_flowcells,
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            hp=["haplotype1", "haplotype2"]
         ),
         findt2t_motif = expand(
-            "assembly/qc/unphased_verkko/{dataset}/T2T_contigs.unphased_motif_T2T.txt",
-            dataset=asm_flowcells,
+            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+            asm=asm_flowcells,
+            tool=["verkko"],
+            hp=["haplotype1", "haplotype2"]
         )
     output:
         tsv = "assembly/qc/qc_flowcells.tsv",

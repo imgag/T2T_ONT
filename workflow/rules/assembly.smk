@@ -121,6 +121,7 @@ rule verkko_scaffold:
         hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
         hp2="assembly/output/verkko/{asm}/assembly.haplotype2.fasta",
         colors="assembly/output/verkko/{asm}/assembly.colors.csv",
+        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap"
     conda:
         "../env/verkko.yml"
     group:
