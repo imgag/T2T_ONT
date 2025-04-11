@@ -8,72 +8,6 @@ PROCESSING TREE #1 using 40 threads.
     print to (stdout)
 Detected k-mer size 37
 Found asm2: haplotype2.fa
-# Generate meryl db for haplotype1
-
-Found 1 command tree.
-
-Counting 39 (estimated) million canonical 37-mers from 1 input file:
-    sequence-file: haplotype1.fa
-
-
-SIMPLE MODE
------------
-
-  Not possible.
-
-
-COMPLEX MODE
-------------
-
-prefix     # of   struct   kmers/    segs/      min     data    total
-  bits   prefix   memory   prefix   prefix   memory   memory   memory
-------  -------  -------  -------  -------  -------  -------  -------
-     1     2  P   370 kB     9 MM    22 kS  8192  B   182 MB   182 MB
-     2     4  P   371 kB  5104 kM    11 kS    16 kB   179 MB   179 MB
-     3     8  P   379 kB  2552 kM  5669  S    32 kB   177 MB   177 MB
-     4    16  P   399 kB  1276 kM  2793  S    64 kB   174 MB   174 MB
-     5    32  P   445 kB   638 kM  1379  S   128 kB   172 MB   172 MB
-     6    64  P   542 kB   319 kM   680  S   256 kB   170 MB   170 MB
-     7   128  P   739 kB   159 kM   335  S   512 kB   167 MB   168 MB
-     8   256  P  1138 kB    79 kM   165  S  1024 kB   165 MB   166 MB
-     9   512  P  1944 kB    39 kM    82  S  2048 kB   164 MB   165 MB
-    10  1024  P  3552 kB    19 kM    40  S  4096 kB   160 MB   163 MB  Best Value!
-    11  2048  P  6784 kB     9 kM    20  S  8192 kB   160 MB   166 MB
-    12  4096  P    12 MB  5105  M    10  S    16 MB   160 MB   172 MB
-    13  8192  P    25 MB  2553  M     5  S    32 MB   160 MB   185 MB
-    14    16 kP    50 MB  1277  M     3  S    64 MB   192 MB   242 MB
-    15    32 kP   101 MB   639  M     2  S   128 MB   256 MB   357 MB
-    16    64 kP   202 MB   320  M     1  S   256 MB   256 MB   458 MB
-    17   128 kP   405 MB   160  M     1  S   512 MB   512 MB   917 MB
-    18   256 kP   810 MB    80  M     1  S  1024 MB  1024 MB  1834 MB
-    19   512 kP  1620 MB    40  M     1  S  2048 MB  2048 MB  3668 MB
-    20  1024 kP  3240 MB    20  M     1  S  4096 MB  4096 MB  7336 MB
-
-
-FINAL CONFIGURATION
--------------------
-
-Estimated to require 323 MB memory out of 1511 GB allowed.
-Estimated to require 2 batches.
-
-Configured complex mode for 0.316 GB memory per batch, and up to 2 batches.
-
-Start counting with THREADED method.
-Used 0.276 GB / 1511.088 GB to store      2097114 kmers; need 0.018 GB to sort        30124 kmers
-Used 0.308 GB / 1511.088 GB to store      6282270 kmers; need 0.132 GB to sort       221050 kmers
-Used 0.354 GB / 1511.088 GB to store     12350932 kmers; need 0.257 GB to sort       431154 kmers
-Used 0.449 GB / 1511.088 GB to store     24735746 kmers; need 0.293 GB to sort       492073 kmers
-Used 0.540 GB / 1511.088 GB to store     36807642 kmers; need 0.328 GB to sort       549726 kmers
-
-Input complete.  Writing results to 'haplotype1.meryl', using 40 threads.
-finishIteration()--
-
-Finished counting.
-
-Cleaning up.
-
-Bye.
-
 
 Found 1 command tree.
 
@@ -135,165 +69,546 @@ Loaded 67202 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
 -- Opening input sequences 'haplotype1.fa'.
 -- Opening output file '-'.
 Bye!
-# Generate meryl db for haplotype2
+usage: meryl ...
 
-Found 1 command tree.
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
 
-Counting 63 (estimated) million canonical 37-mers from 1 input file:
-    sequence-file: haplotype2.fa
+  COMMANDS:
 
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
 
-SIMPLE MODE
------------
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
 
-  Not possible.
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
 
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
 
-COMPLEX MODE
-------------
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
 
-prefix     # of   struct   kmers/    segs/      min     data    total
-  bits   prefix   memory   prefix   prefix   memory   memory   memory
-------  -------  -------  -------  -------  -------  -------  -------
-     1     2  P   590 kB    15 MM    36 kS  8192  B   292 MB   292 MB
-     2     4  P   588 kB  8182 kM    17 kS    16 kB   287 MB   288 MB
-     3     8  P   593 kB  4091 kM  9088  S    32 kB   284 MB   284 MB
-     4    16  P   610 kB  2045 kM  4476  S    64 kB   279 MB   280 MB
-     5    32  P   653 kB  1022 kM  2210  S   128 kB   276 MB   276 MB
-     6    64  P   746 kB   511 kM  1089  S   256 kB   272 MB   272 MB
-     7   128  P   940 kB   255 kM   536  S   512 kB   268 MB   268 MB
-     8   256  P  1336 kB   127 kM   264  S  1024 kB   264 MB   265 MB
-     9   512  P  2136 kB    63 kM   130  S  2048 kB   260 MB   262 MB
-    10  1024  P  3744 kB    31 kM    64  S  4096 kB   256 MB   259 MB  Best Value!
-    11  2048  P  6976 kB    15 kM    32  S  8192 kB   256 MB   262 MB
-    12  4096  P    13 MB  8183  M    16  S    16 MB   256 MB   269 MB
-    13  8192  P    25 MB  4092  M     8  S    32 MB   256 MB   281 MB
-    14    16 kP    51 MB  2046  M     4  S    64 MB   256 MB   307 MB
-    15    32 kP   101 MB  1023  M     2  S   128 MB   256 MB   357 MB
-    16    64 kP   202 MB   512  M     1  S   256 MB   256 MB   458 MB
-    17   128 kP   405 MB   256  M     1  S   512 MB   512 MB   917 MB
-    18   256 kP   810 MB   128  M     1  S  1024 MB  1024 MB  1834 MB
-    19   512 kP  1620 MB    64  M     1  S  2048 MB  2048 MB  3668 MB
-    20  1024 kP  3240 MB    32  M     1  S  4096 MB  4096 MB  7336 MB
-    21  2048 kP  6480 MB    16  M     1  S  8192 MB  8192 MB    14 GB
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
 
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
 
-FINAL CONFIGURATION
--------------------
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
 
-Estimated to require 516 MB memory out of 1511 GB allowed.
-Estimated to require 2 batches.
+  MODIFIERS:
 
-Configured complex mode for 0.504 GB memory per batch, and up to 2 batches.
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
 
-Start counting with THREADED method.
-Used 0.276 GB / 1511.088 GB to store      2097114 kmers; need 0.024 GB to sort        39731 kmers
-Used 0.323 GB / 1511.088 GB to store      8357075 kmers; need 0.132 GB to sort       220650 kmers
-Used 0.401 GB / 1511.088 GB to store     18616423 kmers; need 0.185 GB to sort       309918 kmers
-Used 0.480 GB / 1511.088 GB to store     28997349 kmers; need 0.257 GB to sort       431419 kmers
-Used 0.528 GB / 1511.088 GB to store     35288691 kmers; need 0.342 GB to sort       573468 kmers
-Used 0.607 GB / 1511.088 GB to store     45704418 kmers; need 0.507 GB to sort       851226 kmers
-Used 0.703 GB / 1511.088 GB to store     58285437 kmers; need 0.550 GB to sort       922888 kmers
+  EXAMPLES:
 
-Input complete.  Writing results to 'haplotype2.meryl', using 40 threads.
-finishIteration()--
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
 
-Finished counting.
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
 
-Cleaning up.
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
 
-Bye.
+            meryl intersect-max input1 input2 output maxCount
 
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
 
-Found 1 command tree.
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
 
-PROCESSING TREE #1 using 40 threads.
-  opDifference
-    haplotype2.meryl
-    hg002_q100_k_37.meryl
-    output to haplotype2.0.meryl
-
-Cleaning up.
-
-Bye.
+Can't interpret 'haplotype2.meryl': not a meryl command, option, or recognized input file.
 # QV statistics for haplotype2
+usage: meryl ...
 
-Found 1 command tree.
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
 
-Found 1 command tree.
+  COMMANDS:
 
---
--- Estimating memory usage for 'haplotype2.0.meryl/'.
---
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
 
- p       prefixes             bits gigabytes (allowed: 1511 GB)
--- -------------- ---------------- ---------
- 7            128          9101648     0.001
- 8            256          8983542     0.001
- 9            512          8873628     0.001
-10           1024          8780098     0.001
-11           2048          8719336     0.001 (smallest)
-12           4096          8724110     0.001
-13           8192          8859956     0.001
-14          16384          9257946     0.001 (faster)
-15          32768         10180224     0.001
-16          65536         12151078     0.001
-17         131072         16219084     0.002
-18         262144         24481394     0.003
--- -------------- ---------------- ---------
-           126298 total kmers
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
 
---
--- Minimal memory needed: 0.001 GB
--- Optimal memory needed: 0.001 GB  enabled
--- Memory limit           1511.401 GB
---
---
--- Loading kmers from 'haplotype2.0.meryl/' into lookup table.
---
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
 
-For 126298 distinct 37-mers (with 14 bits used for indexing and 60 bits for tags):
-    0.000 GB memory for kmer indices -        16384 elements 64 bits wide)
-    0.001 GB memory for kmer tags    -       126298 elements 60 bits wide)
-    0.000 GB memory for kmer values  -       126298 elements  5 bits wide)
-    0.001 GB memory
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
 
-Will load 126298 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
-Allocating space for 142426 suffixes of 60 bits each -> 8545560 bits (0.001 GB) in blocks of 32.000 MB
-                     142426 values   of 5 bits each -> 712130 bits (0.000 GB) in blocks of 32.000 MB
-Loaded 126298 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
--- Opening input sequences 'haplotype2.fa'.
--- Opening output file '-'.
-Bye!
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
 
-Found 1 command tree.
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
 
-PROCESSING TREE #1 using 40 threads.
-  opUnionSum
-    haplotype1.meryl
-    haplotype2.meryl
-    output to both.meryl
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
 
-Cleaning up.
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
 
-Bye.
+  MODIFIERS:
 
-Found 1 command tree.
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
 
-PROCESSING TREE #1 using 40 threads.
-  opUnionSum
-    haplotype1.0.meryl
-    haplotype2.0.meryl
-    output to both.0.meryl
+  EXAMPLES:
 
-Cleaning up.
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
 
-Bye.
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'haplotype2.0.meryl': not a meryl command, option, or recognized input file.
+usage: meryl ...
+
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
+
+  COMMANDS:
+
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
+
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
+
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
+
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
+
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
+
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
+
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
+
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
+
+  MODIFIERS:
+
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
+
+  EXAMPLES:
+
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
+
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'haplotype2.meryl': not a meryl command, option, or recognized input file.
+awk: cmd. line:1: (FILENAME=- FNR=1) fatal: division by zero attempted
+awk: cmd. line:1: (FILENAME=- FNR=1) fatal: division by zero attempted
+
+ERROR: 'haplotype2.0.meryl/' doesn't appear to be a meryl input; file 'haplotype2.0.meryl//merylIndex' doesn't exist.
+usage: meryl ...
+
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
+
+  COMMANDS:
+
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
+
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
+
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
+
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
+
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
+
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
+
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
+
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
+
+  MODIFIERS:
+
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
+
+  EXAMPLES:
+
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
+
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'haplotype2.meryl': not a meryl command, option, or recognized input file.
+usage: meryl ...
+
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
+
+  COMMANDS:
+
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
+
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
+
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
+
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
+
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
+
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
+
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
+
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
+
+  MODIFIERS:
+
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
+
+  EXAMPLES:
+
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
+
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'haplotype2.0.meryl': not a meryl command, option, or recognized input file.
 # QV statistics for both
+usage: meryl ...
 
-Found 1 command tree.
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
 
-Found 1 command tree.
+  COMMANDS:
+
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
+
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
+
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
+
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
+
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
+
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
+
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
+
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
+
+  MODIFIERS:
+
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
+
+  EXAMPLES:
+
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
+
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'both.0.meryl': not a meryl command, option, or recognized input file.
+usage: meryl ...
+
+  A meryl command line is formed as a series of commands and files, possibly
+  grouped using square brackets.  Each command operates on the file(s) that
+  are listed after it.
+
+  COMMANDS:
+
+    statistics           display total, unique, distnict, present number of the kmers on the screen.  accepts exactly one input.
+    histogram            display kmer frequency on the screen as 'frequency<tab>count'.  accepts exactly one input.
+    print                display kmers on the screen as 'kmer<tab>count'.  accepts exactly one input.
+
+    count                Count the occurrences of canonical kmers in the input.  must have 'output' specified.
+    count-forward        Count the occurrences of forward kmers in the input.  must have 'output' specified.
+    count-reverse        Count the occurrences of reverse kmers in the input.  must have 'output' specified.
+      k=<K>              create mers of size K bases (mandatory).
+      n=<N>              expect N mers in the input (optional; for precise memory sizing).
+      memory=M           use no more than (about) M GB memory.
+      threads=T          use no more than T threads.
+      compress           compress homopolymer runs to a single letter.
+
+    less-than N          return kmers that occur fewer than N times in the input.  accepts exactly one input.
+    greater-than N       return kmers that occur more than N times in the input.  accepts exactly one input.
+    equal-to N           return kmers that occur exactly N times in the input.  accepts exactly one input.
+    not-equal-to N       return kmers that do not occur exactly N times in the input.  accepts exactly one input.
+
+    increase X           add X to the count of each kmer.
+    decrease X           subtract X from the count of each kmer.
+    multiply X           multiply the count of each kmer by X.
+    divide X             divide the count of each kmer by X.
+    divide-round X       divide the count of each kmer by X and round results. count < X will become 1.
+    modulo X             set the count of each kmer to the remainder of the count divided by X.
+
+    union                return kmers that occur in any input, set the count to the number of inputs with this kmer.
+    union-min            return kmers that occur in any input, set the count to the minimum count
+    union-max            return kmers that occur in any input, set the count to the maximum count
+    union-sum            return kmers that occur in any input, set the count to the sum of the counts
+
+    intersect            return kmers that occur in all inputs, set the count to the count in the first input.
+    intersect-min        return kmers that occur in all inputs, set the count to the minimum count.
+    intersect-max        return kmers that occur in all inputs, set the count to the maximum count.
+    intersect-sum        return kmers that occur in all inputs, set the count to the sum of the counts.
+
+    subtract             return kmers that occur in the first input, subtracting counts from the other inputs
+
+    difference           return kmers that occur in the first input, but none of the other inputs
+    symmetric-difference return kmers that occur in exactly one input
+
+  MODIFIERS:
+
+    output O             write kmers generated by the present command to an output  meryl database O
+                         mandatory for count operations.
+
+  EXAMPLES:
+
+  Example:  Report 22-mers present in at least one of input1.fasta and input2.fasta.
+            Kmers from each input are saved in meryl databases 'input1' and 'input2',
+            but the kmers in the union are only reported to the screen.
+
+            meryl print \
+                    union \
+                      [count k=22 input1.fasta output input1] \
+                      [count k=22 input2.fasta output input2]
+
+  Example:  Find the highest count of each kmer present in both files, save the kmers to
+            database 'maxCount'.
+
+            meryl intersect-max input1 input2 output maxCount
+
+  Example:  Find unique kmers common to both files.  Brackets are necessary
+            on the first 'equal-to' command to prevent the second 'equal-to' from
+            being used as an input to the first 'equal-to'.
+
+            meryl intersect [equal-to 1 input1] equal-to 1 input2
+
+Can't interpret 'both.meryl': not a meryl command, option, or recognized input file.
+awk: cmd. line:1: (FILENAME=- FNR=1) fatal: division by zero attempted
+awk: cmd. line:1: (FILENAME=- FNR=1) fatal: division by zero attempted
 
 Done!
 Remove intermediate files:
