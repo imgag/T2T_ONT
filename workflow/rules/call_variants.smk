@@ -48,9 +48,7 @@ def get_sex_file(wildcards):
     # Always use "phased" since dipcall is only used for phased assemblies
     sex_file = f"assembly/qc/phased_{wildcards.tool}/{wildcards.asm}/sample_sex.txt"
     return (
-        "-x " + config["X_PAR_file"]
-        if open(sex_file).read().strip() == "male"
-        else ""
+        "-x " + config["X_PAR_file"] if open(sex_file).read().strip() == "male" else ""
     )
 
 

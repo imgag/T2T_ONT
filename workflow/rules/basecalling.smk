@@ -14,9 +14,10 @@ def get_bams_from_pod5_split(wildcards):
         bamfiles = [x.replace(".subset", "") for x in bamfiles]
     return bamfiles
 
+
 rule dorado_sup:
     input:
-        pod5=lambda wc: unique_datasets["sup"][os.path.basename(wc.dataset)]
+        pod5=lambda wc: unique_datasets["sup"][os.path.basename(wc.dataset)],
     output:
         done="data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done",
     log:
