@@ -1,14 +1,15 @@
 def get_dorado_trim_input(wc):
-    """ Retuns fastq if from published dataset, else SUP basecalled """
+    """Retuns fastq if from published dataset, else SUP basecalled"""
     if [wc.dataset] == "published":
         hts_file = datasets[wc.dataset].get("HQ_herro", "")
     else:
         hts_file = f"data/basecalled/SUP/{wc.file}/{wc.file}.sup.unmapped.bam"
-    return(hts_file)
+    return hts_file
+
 
 rule dorado_trim:
     input:
-        get_dorado_trim_input
+        get_dorado_trim_input,
     output:
         fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
     params:
@@ -69,12 +70,12 @@ rule dorado_correct_inference:
         "logs/dorado_correct_inference_{dataset}_{file}.log",
     resources:
         gpu=1,
-        queue=config['gpu_queues']
+        queue=config["gpu_queues"],
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"
             shell(
-            "{params.dorado} correct \
+                "{params.dorado} correct \
                 --from-paf {input.paf} \
                 --threads {threads} \
                 --model-path {params.herro_model} \
@@ -82,4 +83,5 @@ rule dorado_correct_inference:
                 --index-size 4G \
                 {input.fastq} > {output.fa} \
                 2> {log} \
-            ")
+            "
+            )

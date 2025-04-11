@@ -47,6 +47,7 @@ def get_assembly_graph_output(wc):
     elif wc["tool"] == "gfase":
         return f"assembly/output/gfase/{wc['asm']}/gfase/chained.gfa"
 
+
 def get_assembly_colors(wc):
     if wc["isphased"] == "phased":
         if wc["tool"] == "verkko":
@@ -57,6 +58,7 @@ def get_assembly_colors(wc):
         return f"assembly/qc/unphased_{wc['tool']}/{wc['asm']}/colors.tsv"
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
+
 
 rule subsample_ref_genome:
     input:
@@ -75,33 +77,39 @@ rule subsample_ref_genome:
         samtools faidx {output.fa} 2>>{log}
         """
 
+
 rule create_colors:
     input:
         paf="assembly/qc/{isphased}_{tool}/{asm}/both.mapped_T2T.paf",
-        colors_phasing = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else [] 
-    output: 
-        csv = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
+        colors_phasing=lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+        if wc.isphased == "phased" and wc.tool == "verkko"
+        else [],
+    output:
+        csv="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
     log:
-        "logs/create_colors_{isphased}_{tool}_{asm}.log"
+        "logs/create_colors_{isphased}_{tool}_{asm}.log",
     params:
-        colours_phasing = lambda wc: f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else ""
+        colours_phasing=lambda wc: f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+        if wc.isphased == "phased" and wc.tool == "verkko"
+        else "",
     shell:
         """
         python workflow/scripts/11_extract_colors.py \
             -i {input.paf} {params.colours_phasing} \
             -o {output.csv} \
             >{log} 2>&1
-        """ 
+        """
+
 
 rule process_graph:
     input:
-        gfa = get_assembly_graph_output,
-        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap",
-        color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
+        gfa=get_assembly_graph_output,
+        scfmap="assembly/output/verkko/{asm}/assembly.scfmap",
+        color="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
     output:
-        gfa = "assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa"
+        gfa="assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa",
     log:
-        "logs/process_graph_{isphased}_{tool}_{asm}.log"
+        "logs/process_graph_{isphased}_{tool}_{asm}.log",
     shell:
         """
         python workflow/scripts/12_process_gfa.py \
@@ -112,11 +120,13 @@ rule process_graph:
             > {log} 2>&1
         """
 
+
 rule process_graph_phased:
     input:
-        gfa = get_assembly_graph_output,
-        scfmap = "assembly/output/verkko_unphased/{asm}/assembly.scfmap",
-        color = "assembly/qc/{isphased}_{tool}/{asm}/colors.tsv"
+        gfa=get_assembly_graph_output,
+        scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
+        color="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
+
 
 rule bandage:
     input:
@@ -136,11 +146,14 @@ rule bandage:
         Bandage image {input.gfa} {output.png} --colors {input.color} > {log} 2>&1
         """
 
+
 rule map_asm_to_ref:
     input:
         fa=ancient(get_assembly_output),
         ref=get_ref_genome,
-        phased_out = lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv" if wc.isphased == "phased" and wc.tool == "verkko" else []
+        phased_out=lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+        if wc.isphased == "phased" and wc.tool == "verkko"
+        else [],
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
@@ -156,6 +169,7 @@ rule map_asm_to_ref:
             {input.ref} {input.fa} \
             > {output.paf} 2> {log}
         """
+
 
 rule map_cdna_to_ref:
     input:
@@ -175,6 +189,7 @@ rule map_cdna_to_ref:
             {input.genome} {input.cdna} \
             >{output.paf} 2>{log}
         """
+
 
 rule map_cdna_to_asm:
     input:
@@ -232,7 +247,7 @@ rule qc_paftools_asmstat:
             {input.ref}.fai {input.paf} \
             > {output} 2>{log}
         """
-        
+
 
 def get_ref_cdna_paf(wc):
     import re
@@ -322,6 +337,7 @@ rule dotplot:
 #            >{output} 2>{log}
 #        """
 
+
 rule qc_meryl:
     input:
         ref_q100=config["ref_hg002_q100"],
@@ -338,16 +354,18 @@ rule qc_meryl:
         meryl count k={params.k} {input.ref_q100} output {output.meryl} > {log} 2>&1
         """
 
+
 # Select correct Meryl ref for sample. Two options:
-# 1) HG002 for published set, fallback 2) Illumina shortread data for TUE_02 sample 
+# 1) HG002 for published set, fallback 2) Illumina shortread data for TUE_02 sample
 def get_meryl_ref(wc):
     if "published" in str(wc.asm):
-        return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
+        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
     elif "TUE_02" in str(wc.asm):
-        return("analysis_other/merqury_shortread/DX203429_02.meryl")
+        return "analysis_other/merqury_shortread/DX203429_02.meryl"
     else:
         print(f"WARNING: Unknown Meryl Ref for {wc.asm}, using HG002")
-        return(f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl')
+        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
+
 
 rule qc_merqury_phased:
     input:
@@ -355,7 +373,7 @@ rule qc_merqury_phased:
         pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
         mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
     output:
-        out = "assembly/qc/phased_{tool}/{asm}/merqury.qv",
+        out="assembly/qc/phased_{tool}/{asm}/merqury.qv",
         hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype1.qv",
         hap_mat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype2.qv",
     conda:
@@ -384,19 +402,22 @@ rule qc_merqury_phased:
         popd >> $LOG_FILE 2>&1
         """
 
+
 def get_merqury_input(wc):
     if wc["isphased"] == "unphased":
         return f"assembly/output/verkko_unphased/{wc['asm']}/assembly{wc['polished']}.fasta"
     elif wc["isphased"] == "phased":
         return f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta"
 
+
 rule qc_merqury_unphased:
     input:
         meryl=get_meryl_ref,
-        fa=get_merqury_input
+        fa=get_merqury_input,
     output:
         out="assembly/qc/{isphased}_verkko/{asm}/merqury{polished}.qv",
-    wildcard_constraints: polished=".*"    
+    wildcard_constraints:
+        polished=".*",
     conda:
         "../env/merqury.yml"
     log:
@@ -419,24 +440,28 @@ rule qc_merqury_unphased:
         popd >> $LOG_FILE 2>&1
         """
 
+
 ruleorder: qc_merqury_phased > qc_merqury_unphased
+
+
 # temporary meryl files are created during qv.sh process so i put the rm
 # export PATH=$PATH:"$CONDA_FREFIX"/share/merqury/eval
 # because the qv script
 
+
 rule find_T2T_contigs:
     input:
-        asm = get_assembly_output,
-        ref = get_ref_genome,
+        asm=get_assembly_output,
+        ref=get_ref_genome,
     output:
-        seqinfo = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
-        alignment = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-        motif = "assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_motif_T2T.txt"
+        seqinfo="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
+        alignment="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+        motif="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_motif_T2T.txt",
     log:
         "logs/find_T2T_contigs_{isphased}_{tool}_{asm}_{hp}.log",
-    threads: 6 
+    threads: 6
     params:
-        T2T_chromosomes = config["T2T_chromosomes"]
+        T2T_chromosomes=config["T2T_chromosomes"],
     shell:
         """
         export PATH=$PATH:$(dirname {params.T2T_chromosomes})

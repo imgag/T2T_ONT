@@ -106,7 +106,7 @@ rule process_dorado_summary:
     conda:
         "../env/R.yml"
     log:
-        "logs/process_dorado_summary.{dataset}_{model}_{type}.txt"
+        "logs/process_dorado_summary.{dataset}_{model}_{type}.txt",
     shell:
         """
         Rscript workflow/scripts/07_dorado_summary_stats.R {input} {output} > {log} 2>&1

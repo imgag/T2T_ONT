@@ -23,7 +23,7 @@ def get_assembly_input(wc):
         "ul": f"assembly/input/{s_d}/{s_d}.UL.{s_cov_ul}{s_re}fastq.gz",
         "hq": f"assembly/input/{s_d}/{s_d}.{s_hq}.{s_cov_hq}{s_re}fastq.gz",
     }
-    
+
     # Add POREC only if it exists
     if "POREC" in datasets[s_d]:
         files["porec"] = f"assembly/input/{s_d}/{s_d}.POREC.fastq.gz"
@@ -31,22 +31,23 @@ def get_assembly_input(wc):
     # Add ULK only if it exists
     if "APK" in datasets[s_d]:
         files["apk"] = f"assembly/input/{s_d}/{s_d}.APK.fastq.gz"
-    
+
     return files
+
 
 rule hifiasm:
     input:
         ul="assembly/input/{asm}/{asm}.UL.fastq.gz",
-        hq="assembly/input/{asm}/{asm}.HQ.fastq.gz"
+        hq="assembly/input/{asm}/{asm}.HQ.fastq.gz",
     output:
         r_utg="assembly/output/hifiasm/{asm}/{asm}.r_utg.gfa",
         p_utg="assembly/output/hifiasm/{asm}/{asm}.p_utg.gfa",
         p_ctg="assembly/output/hifiasm/{asm}/{asm}.p_ctg.gfa",
-        a_ctg="assembly/output/hifiasm/{asm}/{asm}.a_ctg.gfa"
+        a_ctg="assembly/output/hifiasm/{asm}/{asm}.a_ctg.gfa",
     conda:
         "../env/hifiasm.yml"
     log:
-        "logs/hifiasm_{asm}.log"
+        "logs/hifiasm_{asm}.log",
     benchmark:
         "runtimes/{asm}.hifiasm.txt"
     threads: 30
@@ -56,10 +57,11 @@ rule hifiasm:
             {input.ul} {input.hq} > {log} 2>&1
         """
 
+
 rule verkko:
     input:
-        ul = lambda wc: get_assembly_input(wc).get('ul'),
-        hq = lambda wc: get_assembly_input(wc).get('hq')
+        ul=lambda wc: get_assembly_input(wc).get("ul"),
+        hq=lambda wc: get_assembly_input(wc).get("hq")
     output:
         gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
@@ -91,16 +93,20 @@ rule copy_verkko_unphased:
     input:
         fa=ancient("assembly/output/verkko/{asm}/assembly.fasta"),
         gfa=ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa"),
-        gfa_noseq=ancient("assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa"),
-        scfmap=ancient("assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap")
+        gfa_noseq=ancient(
+            "assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa"
+        ),
+        scfmap=ancient(
+            "assembly/output/verkko/{asm}/6-layoutContigs/unitig-popped.layout.scfmap"
+        ),
     output:
         fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
         gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
         gfa_noseq="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
-        done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done"
+        done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     log:
-        "logs/copy_verkko_unphased_{asm}.log"
+        "logs/copy_verkko_unphased_{asm}.log",
     shell:
         """
         cp -v {input.fa} {output.fa} > {log} 2>&1
@@ -111,17 +117,17 @@ rule copy_verkko_unphased:
         """
 
 
-rule verkko_scaffold:       
+rule verkko_scaffold:
     input:
-        ul = lambda wc: get_assembly_input(wc).get('ul'),
-        hq = lambda wc: get_assembly_input(wc).get('hq'),
-        porec = lambda wc: get_assembly_input(wc).get('porec'),
+        ul=lambda wc: get_assembly_input(wc).get("ul"),
+        hq=lambda wc: get_assembly_input(wc).get("hq"),
+        porec=lambda wc: get_assembly_input(wc).get("porec"),
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     output:
         hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
         hp2="assembly/output/verkko/{asm}/assembly.haplotype2.fasta",
         colors="assembly/output/verkko/{asm}/assembly.colors.csv",
-        scfmap = "assembly/output/verkko/{asm}/assembly.scfmap"
+        scfmap="assembly/output/verkko/{asm}/assembly.scfmap",
     conda:
         "../env/verkko.yml"
     group:
@@ -133,7 +139,9 @@ rule verkko_scaffold:
     threads: 92
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
-        skip_polish= lambda wc: "--no-correction" if asm[wc.asm].get("skip_polish", False) else "",
+        skip_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_polish", False)
+        else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
@@ -195,7 +203,7 @@ rule scaffold_uncompress_gfa:
         gfa="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.gfa",
         fa="assembly/output/gfase/{asm}/assembly.fasta",
     output:
-        gfa="assembly/output/gfase/{asm}/assembly.uncompressed.gfa"
+        gfa="assembly/output/gfase/{asm}/assembly.uncompressed.gfa",
     conda:
         "../env/verkko.yml"
     group:
