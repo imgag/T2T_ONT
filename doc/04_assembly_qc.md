@@ -109,3 +109,7 @@ Steps:
 4) Reformat tidk output to `$output_motif_T2T.txt`. It's filtering for regions with sufficient telomere occurences (≥15 in columns 3 and 4), extracting contig information, and identifying sequences that appear exactly twice in the dataset (found on both ends). Columns: `id \t len`
 5) Use minigraph to map ref to assembly and use cov_cal -T to detect T2T contigs. Not additional where this tools comes from. Output: `$output_alignment.txt` 
 6) Convert output to new file with the follwing format: 
+
+
+### Comparison of flowcell impact
+
