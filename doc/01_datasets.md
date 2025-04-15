@@ -60,6 +60,11 @@ ONT Official Blogpost:
  35X PoreC 
  35X 6B4 Polishing
 
+## Repeat Masker database
+
+DFAM for mammal/human in H5 Format. Downlaoded from https://www.dfam.org/releases/current/families/FamDB/
+
+
 
 
  
