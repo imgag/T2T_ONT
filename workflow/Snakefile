@@ -55,70 +55,84 @@ asm_flowcells = [
 
 asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcells}
 
+asm_trio = {k: v for k, v in asm.items() if v.get("Trio_phasing", False)}
+
 ## All other assemblies are "real" samples
 asm_samples = {
-    k: v for k, v in asm.items() if k not in (asm_flowcells.keys() | asm_benchmark.keys())
+    k: v
+    for k, v in asm.items()
+    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys())
 }
 
-
 print("Benchmark assemblies:")
-print(asm_benchmark)
+for key, value in asm_benchmark.items():
+    print(f"  {key}: {value}")
 
-print("Flowcell number assemblies:")
-print(asm_flowcells)
+print("\nFlowcell number assemblies:")
+for key, value in asm_flowcells.items():
+    print(f"  {key}: {value}")
 
-print("Real sample assemblies:")
-print(asm_samples)
+print("\nReal sample assemblies:")
+for key, value in asm_samples.items():
+    print(f"  {key}: {value}")
+
+print("\nTrio assemblies:")
+for key, value in asm_trio.items():
+    print(f"  {key}: {value}")
+
 print("----------------------------------------------------------")
 
 # Create QC for all input FASTQ files
-fq_files = [
-    item for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values()
-]
-fq_qc = [
-    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
-    for x in fq_files
-]
 
-# Create BAMS and mapping QC for all input files
+fq_qc = []
+
+#fq_files = [
+#    item for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values()
+#]
+#fq_qc = [
+#    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
+#    for x in fq_files
+#]
+
+# # Create BAMS and mapping QC for all input files
 bam_qc = []
-for dataset in datasets_benchmark:
-    for filetype in datasets_benchmark[dataset]:
-        if filetype != "POREC":
-            bam_qc.append(
-                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamstats.txt"
-            )  # ONT bamstats
-            bam_qc.append(
-                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
-            )  # Coverage
-            bam_qc.append(
-                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
-            )  # Alfred Bamqc
+# for dataset in datasets_benchmark:
+#     for filetype in datasets_benchmark[dataset]:
+#         if filetype != "POREC":
+#             bam_qc.append(
+#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamstats.txt"
+#             )  # ONT bamstats
+#             bam_qc.append(
+#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
+#             )  # Coverage
+#             bam_qc.append(
+#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
+#             )  # Alfred Bamqc
 
-# Include downsampled files for benchmarking
-bam_qc += [
-    re.sub(
-        ".chr\d+.",
-        "/",
-        x.replace("assembly/input/", "data/bamstats/mapped/").replace(
-            ".fastq.gz", "/bamstats.txt"
-        ),
-    )
-    for x in fq_files
-    if "POREC" not in x
-]
+# # Include downsampled files for benchmarking
+# bam_qc += [
+#     re.sub(
+#         ".chr\d+.",
+#         "/",
+#         x.replace("assembly/input/", "data/bamstats/mapped/").replace(
+#             ".fastq.gz", "/bamstats.txt"
+#         ),
+#     )
+#     for x in fq_files
+#     if "POREC" not in x and "Trio" not in x
+# ]
 
-bam_qc += [
-    re.sub(
-        ".chr\d+.",
-        "/",
-        x.replace("assembly/input/", "data/bamstats/mapped/").replace(
-            ".fastq.gz", "/cov.mosdepth.summary.txt"
-        ),
-    )
-    for x in fq_files
-    if "POREC" not in x
-]
+# bam_qc += [
+#     re.sub(
+#         ".chr\d+.",
+#         "/",
+#         x.replace("assembly/input/", "data/bamstats/mapped/").replace(
+#             ".fastq.gz", "/cov.mosdepth.summary.txt"
+#         ),
+#     )
+#     for x in fq_files
+#     if "POREC" not in x and "Trio" not in x
+# ]
 
 # Create Dorado summary files for basecalled unmapped bams
 for dataset in datasets:
@@ -364,6 +378,12 @@ rule all_verkko_phased:
     input:
         expand("assembly/output/verkko/{asm}/assembly.colors.csv", asm=asm_with_porec),
 
+
+        expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
+
+rule all_verkko_trio:
+    input:
+        expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
 
 rule all_basecalling:
     input:

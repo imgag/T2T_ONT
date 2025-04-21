@@ -32,6 +32,12 @@ def get_assembly_input(wc):
     if "APK" in datasets[s_d]:
         files["apk"] = f"assembly/input/{s_d}/{s_d}.APK.fastq.gz"
 
+    if "Paternal" in datasets[s_d] and "Maternal" in datasets[s_d]:
+        files["trio_kmers"] = expand(
+            "assembly/input/{dataset}/{ped}_compress.k30.hapmer.meryl",
+            dataset=s_d,
+            ped=["maternal", "paternal", "child"],
+        )
     return files
 
 
@@ -61,7 +67,7 @@ rule hifiasm:
 rule verkko:
     input:
         ul=lambda wc: get_assembly_input(wc).get("ul"),
-        hq=lambda wc: get_assembly_input(wc).get("hq")
+        hq=lambda wc: get_assembly_input(wc).get("hq"),
     output:
         gfa_noseq="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         gfa="assembly/output/verkko/{asm}/assembly.homopolymer-compressed.gfa",
@@ -277,4 +283,102 @@ rule scaffold_gfase:
             --skip_unzip \
             -m 3 \
             -t {threads} >{log} 2>&1
+        """
+
+
+## Trio phasing
+rule build_trio_meryldb:
+    input:
+        hq="assembly/input/{dataset}/{dataset}.HQ_herro.fastq.gz",
+    output:
+        meryl=directory("assembly/input/{dataset}/{ped}_compress.k30.meryl"),
+    params:
+        k=config["K-mer_phasing"],
+    conda:
+        "../env/merqury.yml"
+    log:
+        "logs/meryl_builddb_{dataset}_{ped}.log",
+    threads: 30
+    shell:
+        """
+        meryl count compress\
+            k={params.k} \
+            threads={threads} \
+            {input.hq} \
+            output {output.meryl} \
+            > {log} 2>&1
+        """
+
+
+rule build_trio_hapmers:
+    input:
+        expand(
+            "assembly/input/{{dataset}}/{ped}_compress.k30.meryl",
+            ped=["maternal", "paternal", "child"],
+        ),
+    output:
+        expand(
+            "assembly/input/{{dataset}}/{ped}_compress.k30.hapmer.meryl",
+            ped=["maternal", "paternal", "child"],
+        ),
+    log:
+        "logs/build_trio_hapmers_{dataset}.log",
+    threads: 30
+    conda:
+        "../env/merqury.yml"
+    shell:
+        """
+            $MERQURY/trio/hapmers.sh \
+                {input} \
+                > {log} 2>&1
+            """
+
+
+rule verkko_copy_folder:
+    input:
+        done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
+    output:
+        done="assembly/output/verkko_trio/{asm}/use_verkko_files.done",
+    log:
+        "logs/verkko_copy_folder_{asm}.log",
+    shell:
+        """
+        cp -r $(dirname {input.done}) $(dirname {output.done}) > {log} 2>&1
+        """
+
+
+rule verkko_scaffold_trio:
+    input:
+        ul=lambda wc: get_assembly_input(wc).get("ul"),
+        hq=lambda wc: get_assembly_input(wc).get("hq"),
+        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers"),
+        done="assembly/output/verkko_trio/{asm}/use_verkko_files.done",
+    output:
+        hp1="assembly/output/verkko_trio/{asm}/assembly.haplotype1.fasta",
+        hp2="assembly/output/verkko_trio/{asm}/assembly.haplotype2.fasta",
+        colors="assembly/output/verkko_trio/{asm}/assembly.colors.csv",
+        scfmap="assembly/output/verkko_trio/{asm}/assembly.scfmap",
+    conda:
+        "../env/verkko.yml"
+    group:
+        "verkko"
+    log:
+        "logs/verkko_scaffold_{asm}.log",
+    benchmark:
+        "runtimes/{asm}.verkko_scaffold.txt"
+    threads: 92
+    params:
+        dryrun="--dryrun" if config["verkko_dryrun"] else "",
+        skip_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_polish", False)
+        else "",
+    shell:
+        """
+        verkko -d $(dirname {output.hp1}) \
+            {params.skip_polish} \
+            --hifi {input.hq} \
+            --nano {input.ul} \
+            --hap-kmers {input.kmers} \
+            --snakeopts "--cores {threads} {params.dryrun}" \
+            >{log} 2>{log}
         """
