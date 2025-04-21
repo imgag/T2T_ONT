@@ -42,3 +42,14 @@ bin/dorado-0.8.3-linux-x64/bin/dorado basecaller \
     --trim all \
     --output-dir data/basecalled/24070LRa010_04400 
 ```
+#### Scaffolding
+
+https://github.com/zengxiaofei/HapHiC
+
+
+#### RepeatMasker
+
+Download DFAM database and put into the environment folder `/mnt/storage2/users/ahgrosc1/environments/envs/snakemake/envs/repeatmasker/share/RepeatMasker/Libraries/famdb$`
+
+Configure RepeatMasker (Use HMMER3.1 & DFAM as search engine):
+
