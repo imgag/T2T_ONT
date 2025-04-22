@@ -34,7 +34,7 @@ def get_assembly_input(wc):
 
     if "Paternal" in datasets[s_d] and "Maternal" in datasets[s_d]:
         files["trio_kmers"] = expand(
-            "assembly/input/{dataset}/{ped}_compress.k30.hapmer.meryl",
+            "assembly/input/{dataset}/meryl/{ped}_compress.k30.hapmer.meryl",
             dataset=s_d,
             ped=["maternal", "paternal", "child"],
         )
@@ -291,7 +291,7 @@ rule build_trio_meryldb:
     input:
         hq="assembly/input/{dataset}/{dataset}.HQ_herro.fastq.gz",
     output:
-        meryl=directory("assembly/input/{dataset}/{ped}_compress.k30.meryl"),
+        meryl=directory("assembly/input/{dataset}/meryl/{ped}_compress.k30.meryl"),
     params:
         k=config["K-mer_phasing"],
     conda:
@@ -313,12 +313,12 @@ rule build_trio_meryldb:
 rule build_trio_hapmers:
     input:
         expand(
-            "assembly/input/{{dataset}}/{ped}_compress.k30.meryl",
+            "assembly/input/{{dataset}}/meryl/{ped}_compress.k30.meryl",
             ped=["maternal", "paternal", "child"],
         ),
     output:
         expand(
-            "assembly/input/{{dataset}}/{ped}_compress.k30.hapmer.meryl",
+            "assembly/input/{{dataset}}/meryl/{ped}_compress.k30.hapmer.meryl",
             ped=["maternal", "paternal", "child"],
         ),
     log:
@@ -328,10 +328,24 @@ rule build_trio_hapmers:
         "../env/merqury.yml"
     shell:
         """
-            $MERQURY/trio/hapmers.sh \
-                {input} \
-                > {log} 2>&1
-            """
+        # Create an array of input file paths with realpath
+        declare -a meryl_dbs=()
+        for db in {input}; do
+            meryl_dbs+=($(realpath $db))
+        done
+        
+        log=$(realpath {log})
+
+        # Change to output directory
+        pushd $(dirname {output[0]})
+        
+        # Run hapmers script with all input databases
+        $MERQURY/trio/hapmers.sh \
+            "${{meryl_dbs[@]}}" \
+            > $log 2>&1
+        
+        popd
+        """
 
 
 rule verkko_copy_folder:
