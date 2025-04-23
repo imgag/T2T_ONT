@@ -32,7 +32,8 @@ def get_assembly_input(wc):
     if "APK" in datasets[s_d]:
         files["apk"] = f"assembly/input/{s_d}/{s_d}.APK.fastq.gz"
 
-    if "Paternal" in datasets[s_d] and "Maternal" in datasets[s_d]:
+    # Add Trio hapmers if both maternal and paternal are present
+    if "HQ_paternal" in datasets[s_d] and "HQ_maternal" in datasets[s_d]:
         files["trio_kmers"] = expand(
             "assembly/input/{dataset}/meryl/{ped}_compress.k30.hapmer.meryl",
             dataset=s_d,
@@ -285,11 +286,25 @@ rule scaffold_gfase:
             -t {threads} >{log} 2>&1
         """
 
+##################
+## Trio phasing ##
+##################
 
-## Trio phasing
+# Select correct input reads for kmer counting
+def get_trio_input(wc):
+    s_d = asm[wc.dataset]["dataset"]
+    if wc.ped == "child":
+        s_hq = "HQ_herro"
+    elif wc.ped == "paternal":
+        s_hq = "HQ_paternal"
+    elif wc.ped == "maternal":
+        s_hq = "HQ_maternal"
+    return f"assembly/input/{s_d}/{s_d}.{s_hq}.fastq.gz",
+
+# Count homopolymer compressed kmers using meryl on herro corrected reads
 rule build_trio_meryldb:
     input:
-        hq="assembly/input/{dataset}/{dataset}.HQ_herro.fastq.gz",
+        get_trio_input
     output:
         meryl=directory("assembly/input/{dataset}/meryl/{ped}_compress.k30.meryl"),
     params:
@@ -304,7 +319,7 @@ rule build_trio_meryldb:
         meryl count compress\
             k={params.k} \
             threads={threads} \
-            {input.hq} \
+            {input} \
             output {output.meryl} \
             > {log} 2>&1
         """
