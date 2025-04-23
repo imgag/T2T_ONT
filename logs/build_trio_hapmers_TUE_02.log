@@ -1,0 +1,92 @@
+# Maternal specific k-mers
+*** Found hap1.only.meryl. ***
+
+# Paternal specific k-mers
+*** Found hap2.only.meryl. ***
+
+# Shared k-mers
+*** Found shrd.meryl. ***
+
+# maternal_compress.k30 hap-mers
+ln: failed to create symbolic link 'maternal_compress.k30.inherited.meryl/child_compress.k30_and_maternal_compress.k30.only.meryl': File exists
+Generate maternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar maternal_compress.k30.inherited.hist
+
+Processing file maternal_compress.k30.inherited.hist
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	0
+
+Filter out kmers <= 0
+
+meryl greater-than 0 output maternal_compress.k30.inherited.gt0.meryl maternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=0
+    maternal_compress.k30.inherited.meryl
+    output to maternal_compress.k30.inherited.gt0.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final maternal_compress.k30.inherited.gt0.meryl to maternal_compress.k30.hapmer.meryl
+
+# paternal_compress.k30 hap-mers
+ln: failed to create symbolic link 'paternal_compress.k30.inherited.meryl/child_compress.k30_and_paternal_compress.k30.only.meryl': File exists
+Generate paternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar paternal_compress.k30.inherited.hist
+
+Processing file paternal_compress.k30.inherited.hist
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	0
+
+Filter out kmers <= 0
+
+meryl greater-than 0 output paternal_compress.k30.inherited.gt0.meryl paternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=0
+    paternal_compress.k30.inherited.meryl
+    output to paternal_compress.k30.inherited.gt0.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final paternal_compress.k30.inherited.gt0.meryl to paternal_compress.k30.hapmer.meryl
+
+# Shared k-mers
+*** Found shrd.inherited.meryl. ***
+
+# Read only
+*** Found read.only.meryl ***
+
+# Get histogram
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Done!

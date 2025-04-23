@@ -36,7 +36,7 @@ def get_assembly_input(wc):
         files["trio_kmers"] = expand(
             "assembly/input/{dataset}/meryl/{ped}_compress.k30.hapmer.meryl",
             dataset=s_d,
-            ped=["maternal", "paternal", "child"],
+            ped=["maternal", "paternal"],
         )
     return files
 
@@ -317,10 +317,8 @@ rule build_trio_hapmers:
             ped=["maternal", "paternal", "child"],
         ),
     output:
-        expand(
-            "assembly/input/{{dataset}}/meryl/{ped}_compress.k30.hapmer.meryl",
-            ped=["maternal", "paternal", "child"],
-        ),
+        pat = directory("assembly/input/{dataset}/meryl/paternal_compress.k30.hapmer.meryl"),
+        mat = directory("assembly/input/{dataset}/meryl/maternal_compress.k30.hapmer.meryl")
     log:
         "logs/build_trio_hapmers_{dataset}.log",
     threads: 30
