@@ -133,3 +133,12 @@ To benchmark required read depths to generate T2T assemblies we downsampled the 
 
 Plotting the mapping coverages confirms that we reach the target coverages for all input datasets.
 
+### Assembler comparison
+
+The best tradeoff betwenn flowcells and assembly quality currently is `TUE_02_03UL` Therefore we use this dataset to do the following additional analyses:
+
+- Rfhap
+- hifiasm
+- Repeatmasker
+
+

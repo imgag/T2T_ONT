@@ -65,9 +65,9 @@ def find_input_datasets(wc, print_debug=True):
         }
     else:
         elements = {
-            wc.type: datasets[wc.dataset][wc.type]
-            if isinstance(datasets[wc.dataset][wc.type], list)
-            else [datasets[wc.dataset][wc.type]]
+            wc.type: datasets[wc.dataset].get(wc.type, "")
+            if isinstance(datasets[wc.dataset].get(wc.type, ""), list)
+            else [datasets[wc.dataset].get(wc.type, "")]
         }
 
         for wc_type, elements in elements.items():
@@ -91,6 +91,14 @@ def find_input_datasets(wc, print_debug=True):
                         files.append(
                             f"data/corrected/{os.path.basename(e)}/{os.path.basename(e)}.corrected.fasta"
                         )
+                    if wc_type == "HQ_paternal":
+                        files.append(
+                            f"data/corrected/{os.path.basename(e)}/{os.path.basename(e)}.corrected.fasta"
+                        )
+                    if wc_type == "HQ_maternal":
+                        files.append(
+                            f"data/corrected/{os.path.basename(e)}/{os.path.basename(e)}.corrected.fasta"
+                        )
                     if wc_type == "POREC":
                         files.append(
                             f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
@@ -102,6 +110,16 @@ def find_input_datasets(wc, print_debug=True):
                             f = update_herro_paths(e, wc.dataset)
                             if print_debug:
                                 print(f"--> transform herro path: {e}")
+                            files.append(f)
+                        case "HQ_paternal":
+                            f = update_herro_paths(e, wc.dataset)
+                            if print_debug:
+                                print(f"--> transform paternal reads path: {e}")
+                            files.append(f)
+                        case "HQ_maternal":
+                            f = update_herro_paths(e, wc.dataset)
+                            if print_debug:
+                                print(f"--> transform maternal reads path: {e}")
                             files.append(f)
                         case "HQ_duplex":
                             files.append(e)

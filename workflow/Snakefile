@@ -55,7 +55,7 @@ asm_flowcells = [
 
 asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcells}
 
-asm_trio = {k: v for k, v in asm.items() if v.get("Trio_phasing", False)}
+asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
 
 ## All other assemblies are "real" samples
 asm_samples = {
