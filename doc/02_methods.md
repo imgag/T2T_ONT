@@ -53,3 +53,65 @@ Download DFAM database and put into the environment folder `/mnt/storage2/users/
 
 Configure RepeatMasker (Use HMMER3.1 & DFAM as search engine):
 
+#### RFHAP
+
+Manual Execution on TUE02_03UL dataset
+
+##### 01_3UL_childherro: Child reads HQ herro corrected
+
+```
+(rfhap) ahgrosc1@SRV026:/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT$ bash analysis_other/rfhap/rfhap.sh 
+
+ N E X T F L O W   ~  version 24.10.5
+
+Launching `bin/rfhap-1.0/rfhap.nf` [loving_brahmagupta] DSL2 - revision: 5445b850d9
+
+executor >  local (69)
+[aa/b4c9c0] create_kmers_database (4) [100%] 4 of 4 ✔
+[2f/7abcc0] print_paths (4)           [100%] 4 of 4 ✔
+[a9/9fe7e6] sort_kmer_db (1)          [100%] 1 of 1 ✔
+[1e/f085f3] FastKM (1)                [100%] 1 of 1 ✔
+[3a/de5571] trainRF (1)               [100%] 1 of 1 ✔
+[b9/d7715d] predictRF (28)            [100%] 54 of 54 ✔
+[b5/d8a2a0] setHaplotypes (1)         [100%] 1 of 1 ✔
+[14/ecea86] seqtk (1)                 [100%] 3 of 3 ✔
+Completed at: 24-Apr-2025 09:59:59
+Duration    : 12h 25m 44s
+CPU hours   : 543.5
+Succeeded   : 69
+```
+Output file sizes: 
+
+```  
+ 39G Apr 24 09:59 TUE_02_03UL.HQ_herro.fastq_fastkm_matrix.hapA.fq.gz
+ 38G Apr 24 09:59 TUE_02_03UL.HQ_herro.fastq_fastkm_matrix.hapB.fq.gz
+2.9G Apr 24 09:45 TUE_02_03UL.HQ_herro.fastq_fastkm_matrix.hapU.fq.gz
+```
+
+Very good separation of haplotypes, also with Herro corrected reads
+
+##### 02_3UL: Child reads UL
+
+As they should be
+
+##### 03_3UL_mod: Separate UL bam with methylation into haplotypes
+
+Use assembled haplotypes (.fasta) as input for kmer database. 
+.. running
+
+##### 04_3UL_trio: Assign correct haplotypes to assembled genomes
+
+Idea:
+- Create kmer database from haplotypes
+- A) Assign origin for assembled contigs (should be fast)
+- B) Generate chunks of assembled contigs and assign haplotype individually
+
+
+#### Hifiasm
+
+Compare following options:
+
+1) *hifiasm_rfhap*: Run hifiasm individually on the separated haplotype reads
+2) *hifiasm_porec*: Include poreC scaffolding for the hifiasm
+3) *hifiasm_trio*: Use trio binning (kmers) integrated into hifiasm
+
