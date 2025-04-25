@@ -26,7 +26,7 @@ def get_assembly_output(wc):
 
     elif isphased == "phased":
         if wc["tool"] == "verkko":
-            if not wc["hp"] or wc["hp"] == "both":
+            if not wc["hp"] or wc["hp"] == "unphased":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
             elif wc["hp"] == "haplotype1":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
