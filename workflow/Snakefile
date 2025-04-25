@@ -86,13 +86,13 @@ print("----------------------------------------------------------")
 
 fq_qc = []
 
-#fq_files = [
+# fq_files = [
 #    item for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values()
-#]
-#fq_qc = [
+# ]
+# fq_qc = [
 #    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
 #    for x in fq_files
-#]
+# ]
 
 # # Create BAMS and mapping QC for all input files
 bam_qc = []
@@ -193,6 +193,153 @@ print("Unique datasets:")
 print(unique_datasets)
 
 
+### Create collections of QC files. Specify assemblies and assembly methods that should be included.
+def qc_collection(
+    asm, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"]
+):
+    results_unphased = {}
+    results_phased = {}
+    results = {}
+    results_stats = {}
+
+    if methods_unphased:
+        results_unphased = {
+                # QV for diploid assembly (merqury)
+                "merqury_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.qv",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                # Number of detected T2T contigs, unphased assembly
+                "findt2t_alignment": expand(
+                    "assembly/qc/{method}/{asm}/T2T_contigs.unphased_alignment_T2T.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "findt2t_motif": expand(
+                    "assembly/qc/{method}/{asm}/T2T_contigs.unphased_alignment_T2T.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                # PAF stats
+                "paf_stat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_stat.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "paf_asmstat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmstat.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "paf_asmgene": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "sex": expand(
+                    "assembly/qc/{method}/{asm}/sample_sex.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+            }
+
+
+    # Count number of files in each category
+    for key, files in results_unphased.items():
+        if isinstance(files, list):
+            if "unphased" not in results_stats:
+                results_stats["unphased"] = {}
+            results_stats["unphased"][key] = len(files)
+
+        if key not in results:
+            results[key] = files
+        else:
+            # Assuming the values are lists, concatenate them
+            if isinstance(results[key], list) and isinstance(files, list):
+                results[key].extend(files)
+            else:
+                print(f"Warning: Unexpected value type for {key} in QC collection")
+
+    if methods_phased:
+        results_phased = {
+            "paf_stat": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=["haplotype1", "haplotype2"],
+                ),
+                "paf_asmstat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmstat.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+                "paf_asmgene": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+                "whatshap_stats": expand(
+                    "assembly/qc/{method}/{asm}/whatshap_stats.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+                "whatshap_compare": expand(
+                    "assembly/qc/{method}/{asm}/whatshap_compare.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+                "merqury_hap_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.{hp}.qv",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+                "findt2t_alignment": expand(
+                    "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+                "findt2t_motif": expand(
+                    "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+            }
+
+    for key, files in results_phased.items():
+        if isinstance(files, list):
+            if "phased" not in results_stats:
+                results_stats["phased"] = {}
+            results_stats["phased"][key] = len(files)
+
+        if key not in results:
+            results[key] = files
+        else:
+            # Assuming the values are lists, concatenate them
+            if isinstance(results[key], list) and isinstance(files, list):
+                results[key].extend(files)
+            else:
+                print(f"Warning: Unexpected value type for {key} in QC collection")
+
+    # Print summary of QC files being collected
+    for key, files in results.items():
+        if isinstance(files, list):
+            if "total" not in results_stats:
+                results_stats["total"] = {}
+            results_stats["total"][key] = len(files)
+
+    print(f"\nAssembly QC Collection for samples: {', '.join(asm)}")
+    for key, files in results_stats.items():
+        print(f"{key}:")
+        print(f"    {files}")
+    return results
+
+
 rule all:
     input:
         # QC Files
@@ -204,45 +351,6 @@ rule all:
         expand(
             "assembly/qc/unphased_verkko/{dataset}/bandage_graph.png",
             dataset=asm_without_porec,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/merqury.qv",
-            asm=asm_without_porec,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/T2T_contigs.unphased.seqinfo.txt",
-            asm=asm_without_porec,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/qc_paftools_{module}.unphased.txt",
-            asm=asm_without_porec,
-            module=["asmgene", "asmstat", "stat"],
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/colors.tsv",
-            asm=asm_without_porec,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/assembly_graph.gfa",
-            asm=asm_without_porec,
-        ),
-        # Assembly QC Files (Phased)
-        expand(
-            "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
-            dataset=asm_with_porec,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{dataset}/bandage_graph.png",
-            dataset=asm_with_porec,
-            tool=["verkko"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
-            asm=asm_with_porec,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
         ),
         # Variant Calling
         expand(
@@ -264,108 +372,19 @@ rule all_samples:
         # QC Files
         #fq_qc,
         #bam_qc,
-        # Assembly Files
-        expand(
-            "assembly/output/verkko/{dataset}/assembly.fasta",
-            dataset=asm_samples.keys(),
-        ),
-        # Assembly QC Files (Unphased, no POREC)
-        expand(
-            "assembly/qc/unphased_verkko/{dataset}/bandage_graph.png",
-            dataset=asm_samples_unphased,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/merqury.qv",
-            asm=asm_samples_unphased,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/T2T_contigs.unphased.seqinfo.txt",
-            asm=asm_samples_unphased,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/qc_paftools_{module}.unphased.txt",
-            asm=asm_samples_unphased,
-            module=["asmgene", "asmstat", "stat"],
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/colors.tsv",
-            asm=asm_samples_unphased,
-        ),
-        expand(
-            "assembly/qc/unphased_verkko/{asm}/assembly_graph.gfa",
-            asm=asm_samples_unphased,
-        ),
-        # Assembly QC Files (Phased)
-        expand(
-            "assembly/qc/phased_{tool}/{dataset}/dotplot.{hp}.pdf",
-            dataset=asm_samples_phased,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{dataset}/bandage_graph.png",
-            dataset=asm_samples_phased,
-            tool=["verkko"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        # Variant Calling
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-        ),
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-        ),
-        # Merged QC:
+        # Assembz QC:
         "assembly/qc/qc_samples.tsv",
 
 
 rule all_benchmark:
     input:
-        # QC Files
+        # Read QC Files
         fq_qc,
         bam_qc,
         # Assembly Files
         expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_benchmark),
         expand("assembly/output/gfase/{asm}/gfase/chained.gfa", asm=asm_benchmark),
-        # Assembly QC Files (Phased)
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/dotplot.{hp}.pdf",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/bandage_graph.png",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        # Variant Calling
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        # Merged QC:
+        # Assembly QC
         "assembly/qc/qc_benchmark.tsv",
 
 
@@ -377,13 +396,13 @@ rule all_unphased:
 rule all_verkko_phased:
     input:
         expand("assembly/output/verkko/{asm}/assembly.colors.csv", asm=asm_with_porec),
-
-
         expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
+
 
 rule all_verkko_trio:
     input:
         expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
+
 
 rule all_basecalling:
     input:
@@ -403,64 +422,10 @@ rule all_basecalling:
 
 rule collect_qc_benchmark:
     input:
-        paf_stat=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            module="stat",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmstat=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            module="asmstat",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmgene=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            module="asmgene",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        sex=expand(
-            "assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        whatshap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        whatshap_compare=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        merqury_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/merqury.qv",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-        ),
-        merqury_hap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/merqury.{hp}.qv",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_alignment=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_motif=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_benchmark,
-            tool=["gfase", "verkko"],
-            hp=["haplotype1", "haplotype2"],
+        **qc_collection(
+            asm_benchmark,
+            methods_unphased=["unphased_verkko", "phased_verkko"],
+            methods_phased=["phased_verkko", "phased_gfase"],
         ),
     output:
         tsv="assembly/qc/qc_benchmark.tsv",
@@ -474,65 +439,7 @@ rule collect_qc_benchmark:
 
 rule collect_qc_samples:
     input:
-        paf_stat=expand(
-            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
-            dataset=asm_samples_phased,
-            tool=["verkko"],
-            module="stat",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmstat=expand(
-            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
-            dataset=asm_samples_phased,
-            tool=["verkko"],
-            module="asmstat",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmgene=expand(
-            "assembly/qc/phased_{tool}/{dataset}/qc_paftools_{module}.{hp}.txt",
-            dataset=asm_samples_phased,
-            tool=["verkko"],
-            module="asmgene",
-            hp=["haplotype1", "haplotype2"],
-        ),
-        sex=expand(
-            "assembly/qc/phased_{tool}/{dataset}/sample_sex.txt",
-            dataset=asm_samples,
-            tool=["verkko"],
-        ),
-        whatshap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
-            asm=asm_samples,
-            tool=["verkko"],
-        ),
-        whatshap_compare=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
-            asm=asm_samples,
-            tool=["verkko"],
-        ),
-        merqury_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/merqury.qv",
-            asm=asm_samples,
-            tool=["verkko"],
-        ),
-        merqury_hap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/merqury.{hp}.qv",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_alignment=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_motif=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_samples_phased,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
+        **qc_collection(asm_samples_unphased, methods_unphased=["unphased_verkko"]),
     output:
         tsv="assembly/qc/qc_samples.tsv",
     conda:
@@ -545,59 +452,10 @@ rule collect_qc_samples:
 
 rule collect_qc_flowcells:
     input:
-        paf_stat=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            module=["stat"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmstat=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            module=["asmstat"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        paf_asmgene=expand(
-            "assembly/qc/phased_{tool}/{asm}/qc_paftools_{module}.{hp}.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            module=["asmgene"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        sex=expand(
-            "assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-        ),
-        whatshap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_stats.tsv",
-            asm=asm_flowcells,
-            tool=["verkko"],
-        ),
-        whatshap_compare=expand(
-            "assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
-            asm=asm_flowcells,
-            tool=["verkko"],
-        ),
-        merqury_hap_stats=expand(
-            "assembly/qc/phased_{tool}/{asm}/merqury.{hp}.qv",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_alignment=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
-        ),
-        findt2t_motif=expand(
-            "assembly/qc/phased_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-            asm=asm_flowcells,
-            tool=["verkko"],
-            hp=["haplotype1", "haplotype2"],
+        **qc_collection(
+            asm_flowcells,
+            methods_unphased=["unphased_verkko", "phased_verkko"],
+            methods_phased=["phased_verkko"],
         ),
     output:
         tsv="assembly/qc/qc_flowcells.tsv",
