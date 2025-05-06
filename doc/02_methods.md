@@ -97,7 +97,7 @@ As they should be
 ##### 03_3UL_mod: Separate UL bam with methylation into haplotypes
 
 Use assembled haplotypes (.fasta) as input for kmer database. 
-.. running
+Seems to have worked
 
 ##### 04_3UL_trio: Assign correct haplotypes to assembled genomes
 
@@ -105,7 +105,6 @@ Idea:
 - Create kmer database from haplotypes
 - A) Assign origin for assembled contigs (should be fast)
 - B) Generate chunks of assembled contigs and assign haplotype individually
-
 
 #### Hifiasm
 
