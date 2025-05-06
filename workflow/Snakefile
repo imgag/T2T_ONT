@@ -146,7 +146,7 @@ for dataset in datasets:
             if os.path.isdir(e):
                 if entry == "UL":
                     bam_qc.append(
-                        f"data/bamstats/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
+                        f"data/bamstats/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
                     )
                 elif entry == "HQ_duplex":
                     bam_qc.append(
@@ -157,7 +157,7 @@ for dataset in datasets:
 
 
 # Make different sets for assembly with and without POREC
-asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]]]
+asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]].keys()]
 asm_without_porec = [x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]]
 asm_samples_phased = [
     x for x in asm_samples.keys() if "POREC" in datasets[asm[x]["dataset"]]
@@ -166,8 +166,21 @@ asm_samples_unphased = [
     x for x in asm_samples.keys() if "POREC" not in datasets[asm[x]["dataset"]]
 ]
 
+print("----------------------------------------------------------")
+print("Assemblies overview:")
+print("with POREC:")
+print(asm_with_porec)
+print("without POREC:")
+print(asm_without_porec)
+print("phased:")
+print(asm_samples_phased)
+print("unphased:")
+print(asm_samples_unphased)
+print("----------------------------------------------------------")
+
+
 # Initialize dictionaries with sets
-unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}}
+unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}
 
 # Create dict with unique datasets for run folder lookup
 for dataset_set in datasets.keys():
@@ -177,16 +190,22 @@ for dataset_set in datasets.keys():
             if os.path.isdir(run_folder) and run_folder.startswith("data/raw"):
                 # Get the leaf folder name
                 leaf_folder = os.path.basename(run_folder)
-
+                # Skip empty folder names
+                if leaf_folder == "":
+                    print(f"Warning: Empty folder name found in {run_folder}, skipping")
+                    continue
                 if data_type == "UL":
                     unique_datasets["sup"][leaf_folder] = run_folder
-                elif data_type == "HQ_herro":  # Herro needs to be SUP basecalled first
+                elif data_type == "HQ_herro":  # Herro needs to be sup basecalled first
                     unique_datasets["sup"][leaf_folder] = run_folder
                     unique_datasets["herro"][leaf_folder] = run_folder
                 elif data_type == "HQ_duplex":
                     unique_datasets["duplex"][leaf_folder] = run_folder
                 elif data_type == "POREC":
                     unique_datasets["sup"][leaf_folder] = run_folder
+                    unique_datasets["porec"][leaf_folder] = run_folder
+                elif data_type == "APK":
+                    unique_datasets["apk"][leaf_folder] = run_folder
 
 print("-----------")
 print("Unique datasets:")
@@ -340,6 +359,7 @@ def qc_collection(
     return results
 
 
+
 rule all:
     input:
         # QC Files
@@ -388,6 +408,16 @@ rule all_benchmark:
         "assembly/qc/qc_benchmark.tsv",
 
 
+rule all_input_qc:
+# Creates wf-pore-c reports for all datasets with POREC
+# TODO Creates BAMQC for all assembly inputs
+# TODO Creates FQ QC for all raw datasets
+    input:
+        # fq_qc,
+        # bam_qc,
+        expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
+
+
 rule all_unphased:
     input:
         expand("assembly/output/verkko_unphased/{asm}/use_verkko_files.done", asm=asm),
@@ -405,19 +435,24 @@ rule all_verkko_trio:
 
 
 rule all_basecalling:
+# This rule just makes the basecalling for raw datasets, no QC, no downstream processing
     input:
         expand(
             "data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam",
             dataset=unique_datasets["duplex"],
         ),
         expand(
-            "data/basecalled/SUP/{dataset}/{dataset}.sup.sequencing_summary.txt",
+            "data/basecalled/sup/{dataset}/{dataset}.sup.sequencing_summary.txt",
             dataset=unique_datasets["sup"],
         ),
         expand(
             "data/corrected/{dataset}/{dataset}.corrected.fasta",
             dataset=unique_datasets["herro"],
         ),
+        expand(
+            "data/basecalled/apk/{dataset}/{dataset}.apk.unmapped.bam",
+            dataset=unique_datasets["apk"],
+        )
 
 
 rule collect_qc_benchmark:

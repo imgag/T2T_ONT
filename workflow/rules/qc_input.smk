@@ -111,3 +111,31 @@ rule process_dorado_summary:
         """
         Rscript workflow/scripts/07_dorado_summary_stats.R {input} {output} > {log} 2>&1
         """
+
+rule porec_qc:
+    input:
+        bam="data/basecalled/SUP/{dataset}/{dataset}.sup.unmapped.bam",
+    output:
+        "analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html",
+    threads: 36
+    benchmark:
+        "runtimes/{dataset}.porec_qc.txt"
+    log:
+        "logs/porec_qc.{dataset}.log",
+    params:
+        ref=config["ref"],
+    shell:
+        """
+        bin/nextflow run bin/wf-pore-c/main.nf \
+            --bam {input.bam} \
+            --ref {params.ref} \
+            --out_dir analysis_other/wf-pore-c/{wildcards.dataset} \
+            --hi_c True \
+            --bed True \
+            --threads {threads} \
+            -profile singularity \
+            --coverage True \
+            --chromunity True \
+            --pairs True \
+            --mcool True > {log} 2>&1
+        """
