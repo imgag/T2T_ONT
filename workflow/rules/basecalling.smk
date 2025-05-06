@@ -15,13 +15,13 @@ def get_bams_from_pod5_split(wildcards):
     return bamfiles
 
 
-rule dorado_sup:
+rule dorado:
     input:
-        pod5=lambda wc: unique_datasets["sup"][os.path.basename(wc.dataset)],
+        pod5=lambda wc: unique_datasets[wc.type][os.path.basename(wc.dataset)],
     output:
-        done="data/basecalled/SUP/{dataset,[^.]+(?!\.bam$)}/dorado_sup.done",
+        done="data/basecalled/{type}/{dataset,[^.]+(?!\.bam$)}/dorado_{type}.done",
     log:
-        "logs/dorado_sup_{dataset}.log",
+        "logs/dorado_{type}_{dataset}.log",
     resources:
         queue=config["gpu_queues"],
         gpus=2,
@@ -29,7 +29,7 @@ rule dorado_sup:
     priority: 3
     params:
         dorado=config["dorado"],
-        model=config["model_auto"],
+        model=lambda wc: config["dorado_model"][wc.type],
         models_directory=config["models_directory"],
     shell:
         """
@@ -42,16 +42,15 @@ rule dorado_sup:
             --output-dir $(dirname {output.done}) \
             > {log} 2>&1
         touch {output.done}
-         """
-
+        """
 
 rule rename_dorado_output:
     input:
-        folder="data/basecalled/SUP/{dataset}/dorado_sup.done",
+        folder="data/basecalled/{type}/{dataset}/dorado_{type}.done",
     output:
-        bam="data/basecalled/SUP/{dataset}/{dataset}.sup.unmapped.bam",
+        bam="data/basecalled/{type}/{dataset}/{dataset}.{type}.unmapped.bam",
     log:
-        "logs/rename_dorado_output_{dataset}.log",
+        "logs/rename_dorado_output_{dataset}_{type}.log",
     shell:
         """
         mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
@@ -176,7 +175,7 @@ rule dorado_duplex:
     priority: 3
     params:
         dorado=config["dorado"],
-        model=config["model_auto_duplex"],
+        model=lambda wc: config["dorado_model"]["duplex"],
         models_directory=config["models_directory"],
     run:
         with get_gpu_id() as gid:  # Check for unused GPU

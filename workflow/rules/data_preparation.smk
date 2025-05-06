@@ -81,7 +81,7 @@ def find_input_datasets(wc, print_debug=True):
 
                     if wc_type == "UL":
                         files.append(
-                            f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
+                            f"data/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
                         )
                     if wc_type == "HQ_duplex":
                         files.append(
@@ -101,7 +101,7 @@ def find_input_datasets(wc, print_debug=True):
                         )
                     if wc_type == "POREC":
                         files.append(
-                            f"data/basecalled/SUP/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
+                            f"data/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
                         )
                 # Is a file
                 else:

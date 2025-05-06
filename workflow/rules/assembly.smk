@@ -344,13 +344,14 @@ rule build_trio_hapmers:
 rule verkko_copy_folder:
     input:
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
+        fasta="assembly/output/verkko/{asm}/assembly.fasta",
     output:
         done="assembly/output/verkko_trio/{asm}/use_verkko_files.done",
     log:
         "logs/verkko_copy_folder_{asm}.log",
     shell:
         """
-        cp -r $(dirname {input.done}) $(dirname {output.done}) > {log} 2>&1
+        rsync -avh $(dirname {input.fasta})/ $(dirname {output.done}) > {log} 2>&1
         """
 
 
