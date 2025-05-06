@@ -36,9 +36,52 @@ process_qc_table <- function(dt){
 
     #head(dt_completeness)
 
-    # add MMC and completeness to original table
+    # Aggregate whatshap_compare metrics across chromosomes
+    dt_whatshap_agg <- dt %>%
+    filter(source == "whatshap_compare") %>%
+    group_by(asm_name, haplotype, asm_method, n_UL, n_DX, sample) %>%
+    summarise(
+        # Calculate total covered variants
+        total_covered_variants = sum(value[metric == "covered_variants"], na.rm = TRUE),
+        
+        # Calculate weighted switch rate
+        weighted_switch_rate = sum(
+            value[metric == "covered_variants"] * value[metric == "all_switch_rate"] / 100, 
+            na.rm = TRUE
+        ),
+        
+        # Calculate weighted switch flip rate
+        weighted_switch_flip_rate = sum(
+            value[metric == "covered_variants"] * value[metric == "all_switchflip_rate"] / 100, 
+            na.rm = TRUE
+        ),
+        .groups = 'drop'
+    ) %>%
+    # Calculate the overall rates based on weightings
+    mutate(
+        overall_switch_rate = weighted_switch_rate / total_covered_variants * 100,
+        overall_switch_flip_rate = weighted_switch_flip_rate / total_covered_variants * 100
+    ) %>%
+    select(-weighted_switch_rate, -weighted_switch_flip_rate) %>%
+    # Reshape to long format
+    pivot_longer(
+        cols = c(total_covered_variants, overall_switch_rate, overall_switch_flip_rate),
+        names_to = "metric",
+        values_to = "value"
+    ) %>%
+    mutate(
+        metric = case_when(
+            metric == "total_covered_variants" ~ "Covered Variants (Total)",
+            metric == "overall_switch_rate" ~ "Overall Switch Rate (%)",
+            metric == "overall_switch_flip_rate" ~ "Overall Switch Flip Rate (%)",
+            TRUE ~ metric
+        ),
+        source = "whatshap_compare_aggregated",
+        chromosome = "ALL"  # Marking as aggregated across all chromosomes
+    )
 
-    dt <- bind_rows(dt, dt_completeness, dt_mmc)
+    # add MMC, completeness, and whatshap_agg to original table
+    dt <- bind_rows(dt, dt_completeness, dt_mmc, dt_whatshap_agg)
 
     # Remove  values from dataset
     dt_reduced <- dt %>%
@@ -86,20 +129,14 @@ process_qc_table <- function(dt){
         )
 
 
-    # Remove chromosomes from whatshap stats
-    # dt_reduced <- dt_reduced %>% 
-    #     filter(!(str_detect(source, "whatshap_stats") & chromosome != "ALL")) %>%
-    #     group_by(seq_type, metric, haplotype,source, asm_name) %>%
-    #     reframe(
-    #         value = case_when(
-    #             str_detect(metric, "Rate|rate") ~ mean(value, na.rm = TRUE),
-    #             metric == "Variants" ~ sum(value, na.rm = TRUE),
-    #             TRUE ~ sum(value, na.rm = TRUE)
-    #         ),
-    #         .groups = 'drop'
-    #     )
+    # Keep only ALL chromosome rows from whatshap_stats, remove per-chromosome stats
+    dt_reduced <- dt_reduced %>%
+        filter(!(source == "whatshap_stats" & chromosome != "ALL")) %>%
+        filter(!(source == "whatshap_compare")) %>%
+        filter(!(source == "whatshap_compare_aggregated" & chromosome != "ALL"))
 
-        return(dt_reduced)
+    return(dt_reduced)
 }
+
 
 
