@@ -121,41 +121,7 @@ total                      12
 
 Execute 5 jobs...
 
-[Tue May  6 17:44:30 2025]
-localrule dorado:
-    input: data/raw/24070LRa002_04850
-    output: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
-    log: logs/dorado_apk_24070LRa002_04850.log
-    jobid: 125
-    reason: Missing output files: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
-    wildcards: type=apk, dataset=24070LRa002_04850
-    priority: 3
-    threads: 4
-    resources: tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
-
-
-        bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             dna_r10.4.1_e8.2_apk_sup@v5.0.0             data/raw/24070LRa002_04850             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/apk/24070LRa002_04850/dorado_apk.done)             > logs/dorado_apk_24070LRa002_04850.log 2>&1
-        touch data/basecalled/apk/24070LRa002_04850/dorado_apk.done
-        
-
-[Tue May  6 17:44:30 2025]
-localrule dorado:
-    input: data/raw/25006LRa014_05173
-    output: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
-    log: logs/dorado_apk_25006LRa014_05173.log
-    jobid: 127
-    reason: Missing output files: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
-    wildcards: type=apk, dataset=25006LRa014_05173
-    priority: 3
-    threads: 4
-    resources: tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
-
-
-        bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             dna_r10.4.1_e8.2_apk_sup@v5.0.0             data/raw/25006LRa014_05173             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/apk/25006LRa014_05173/dorado_apk.done)             > logs/dorado_apk_25006LRa014_05173.log 2>&1
-        touch data/basecalled/apk/25006LRa014_05173/dorado_apk.done
-        
-
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule dorado:
     input: data/raw/25006LRa037_T2T04_PoreC_05170
     output: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
@@ -165,14 +131,48 @@ localrule dorado:
     wildcards: type=sup, dataset=25006LRa037_T2T04_PoreC_05170
     priority: 3
     threads: 4
-    resources: tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
 
 
         bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             sup,5mCG_5hmCG             data/raw/25006LRa037_T2T04_PoreC_05170             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done)             > logs/dorado_sup_25006LRa037_T2T04_PoreC_05170.log 2>&1
         touch data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
         
 
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
+localrule dorado:
+    input: data/raw/24070LRa002_04850
+    output: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
+    log: logs/dorado_apk_24070LRa002_04850.log
+    jobid: 125
+    reason: Missing output files: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
+    wildcards: type=apk, dataset=24070LRa002_04850
+    priority: 3
+    threads: 4
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
+
+
+        bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             dna_r10.4.1_e8.2_apk_sup@v5.0.0             data/raw/24070LRa002_04850             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/apk/24070LRa002_04850/dorado_apk.done)             > logs/dorado_apk_24070LRa002_04850.log 2>&1
+        touch data/basecalled/apk/24070LRa002_04850/dorado_apk.done
+        
+
+[Tue May  6 17:53:09 2025]
+localrule dorado:
+    input: data/raw/25006LRa014_05173
+    output: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
+    log: logs/dorado_apk_25006LRa014_05173.log
+    jobid: 127
+    reason: Missing output files: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
+    wildcards: type=apk, dataset=25006LRa014_05173
+    priority: 3
+    threads: 4
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
+
+
+        bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             dna_r10.4.1_e8.2_apk_sup@v5.0.0             data/raw/25006LRa014_05173             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/apk/25006LRa014_05173/dorado_apk.done)             > logs/dorado_apk_25006LRa014_05173.log 2>&1
+        touch data/basecalled/apk/25006LRa014_05173/dorado_apk.done
+        
+
+[Tue May  6 17:53:09 2025]
 localrule dorado:
     input: data/raw/25006LRa014_05011
     output: data/basecalled/sup/25006LRa014_05011/dorado_sup.done
@@ -182,14 +182,14 @@ localrule dorado:
     wildcards: type=sup, dataset=25006LRa014_05011
     priority: 3
     threads: 4
-    resources: tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=gpu_srv010,gpu_srv019, gpus=2
 
 
         bin/dorado-0.8.1-linux-x64/bin/dorado basecaller             sup,5mCG_5hmCG             data/raw/25006LRa014_05011             --models-directory data/dorado_models             --recursive             --trim all             --output-dir $(dirname data/basecalled/sup/25006LRa014_05011/dorado_sup.done)             > logs/dorado_sup_25006LRa014_05011.log 2>&1
         touch data/basecalled/sup/25006LRa014_05011/dorado_sup.done
         
 
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule dorado_summary:
     input: data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam
     output: data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt
@@ -197,56 +197,14 @@ localrule dorado_summary:
     jobid: 53
     reason: Missing output files: data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt
     wildcards: type=sup, dataset=24070LRa_PoreC_04921, model=sup
-    resources: tmpdir=<TBD>
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
 
 
         bin/dorado-0.8.1-linux-x64/bin/dorado summary             data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam             > data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt             2> logs/dorado_summary_24070LRa_PoreC_04921_sup_sup.log
         
 Execute 4 jobs...
 
-[Tue May  6 17:44:30 2025]
-localrule rename_dorado_output:
-    input: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
-    output: data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam
-    log: logs/rename_dorado_output_25006LRa014_05173_apk.log
-    jobid: 126
-    reason: Missing output files: data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam; Input files updated by another job: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
-    wildcards: type=apk, dataset=25006LRa014_05173
-    resources: tmpdir=<TBD>
-
-
-        mv -v $(find $(dirname data/basecalled/apk/25006LRa014_05173/dorado_apk.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam         > logs/rename_dorado_output_25006LRa014_05173_apk.log 2>&1
-        
-
-[Tue May  6 17:44:30 2025]
-localrule rename_dorado_output:
-    input: data/basecalled/sup/25006LRa014_05011/dorado_sup.done
-    output: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam
-    log: logs/rename_dorado_output_25006LRa014_05011_sup.log
-    jobid: 81
-    reason: Missing output files: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam; Input files updated by another job: data/basecalled/sup/25006LRa014_05011/dorado_sup.done
-    wildcards: type=sup, dataset=25006LRa014_05011
-    resources: tmpdir=<TBD>
-
-
-        mv -v $(find $(dirname data/basecalled/sup/25006LRa014_05011/dorado_sup.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam         > logs/rename_dorado_output_25006LRa014_05011_sup.log 2>&1
-        
-
-[Tue May  6 17:44:30 2025]
-localrule rename_dorado_output:
-    input: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
-    output: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam
-    log: logs/rename_dorado_output_25006LRa037_T2T04_PoreC_05170_sup.log
-    jobid: 84
-    reason: Missing output files: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam; Input files updated by another job: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
-    wildcards: type=sup, dataset=25006LRa037_T2T04_PoreC_05170
-    resources: tmpdir=<TBD>
-
-
-        mv -v $(find $(dirname data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam         > logs/rename_dorado_output_25006LRa037_T2T04_PoreC_05170_sup.log 2>&1
-        
-
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule rename_dorado_output:
     input: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
     output: data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam
@@ -254,14 +212,56 @@ localrule rename_dorado_output:
     jobid: 124
     reason: Missing output files: data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam; Input files updated by another job: data/basecalled/apk/24070LRa002_04850/dorado_apk.done
     wildcards: type=apk, dataset=24070LRa002_04850
-    resources: tmpdir=<TBD>
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
 
 
         mv -v $(find $(dirname data/basecalled/apk/24070LRa002_04850/dorado_apk.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam         > logs/rename_dorado_output_24070LRa002_04850_apk.log 2>&1
         
+
+[Tue May  6 17:53:09 2025]
+localrule rename_dorado_output:
+    input: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
+    output: data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam
+    log: logs/rename_dorado_output_25006LRa014_05173_apk.log
+    jobid: 126
+    reason: Missing output files: data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam; Input files updated by another job: data/basecalled/apk/25006LRa014_05173/dorado_apk.done
+    wildcards: type=apk, dataset=25006LRa014_05173
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
+
+
+        mv -v $(find $(dirname data/basecalled/apk/25006LRa014_05173/dorado_apk.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam         > logs/rename_dorado_output_25006LRa014_05173_apk.log 2>&1
+        
+
+[Tue May  6 17:53:09 2025]
+localrule rename_dorado_output:
+    input: data/basecalled/sup/25006LRa014_05011/dorado_sup.done
+    output: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam
+    log: logs/rename_dorado_output_25006LRa014_05011_sup.log
+    jobid: 81
+    reason: Missing output files: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam; Input files updated by another job: data/basecalled/sup/25006LRa014_05011/dorado_sup.done
+    wildcards: type=sup, dataset=25006LRa014_05011
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
+
+
+        mv -v $(find $(dirname data/basecalled/sup/25006LRa014_05011/dorado_sup.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam         > logs/rename_dorado_output_25006LRa014_05011_sup.log 2>&1
+        
+
+[Tue May  6 17:53:09 2025]
+localrule rename_dorado_output:
+    input: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
+    output: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam
+    log: logs/rename_dorado_output_25006LRa037_T2T04_PoreC_05170_sup.log
+    jobid: 84
+    reason: Missing output files: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam; Input files updated by another job: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done
+    wildcards: type=sup, dataset=25006LRa037_T2T04_PoreC_05170
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
+
+
+        mv -v $(find $(dirname data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/dorado_sup.done) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam         > logs/rename_dorado_output_25006LRa037_T2T04_PoreC_05170_sup.log 2>&1
+        
 Execute 2 jobs...
 
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule dorado_summary:
     input: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam
     output: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt
@@ -269,13 +269,13 @@ localrule dorado_summary:
     jobid: 80
     reason: Missing output files: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt; Input files updated by another job: data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam
     wildcards: type=sup, dataset=25006LRa014_05011, model=sup
-    resources: tmpdir=<TBD>
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
 
 
         bin/dorado-0.8.1-linux-x64/bin/dorado summary             data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam             > data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt             2> logs/dorado_summary_25006LRa014_05011_sup_sup.log
         
 
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule dorado_summary:
     input: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam
     output: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt
@@ -283,19 +283,19 @@ localrule dorado_summary:
     jobid: 83
     reason: Missing output files: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt; Input files updated by another job: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam
     wildcards: type=sup, dataset=25006LRa037_T2T04_PoreC_05170, model=sup
-    resources: tmpdir=<TBD>
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
 
 
         bin/dorado-0.8.1-linux-x64/bin/dorado summary             data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam             > data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt             2> logs/dorado_summary_25006LRa037_T2T04_PoreC_05170_sup_sup.log
         
 Execute 1 jobs...
 
-[Tue May  6 17:44:30 2025]
+[Tue May  6 17:53:09 2025]
 localrule all_basecalling:
     input: data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam, data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam, data/basecalled/Duplex/25006LRa025_04901/25006LRa025_04901.duplexonly.unmapped.bam, data/basecalled/Duplex/25006LRa029_04900/25006LRa029_04900.duplexonly.unmapped.bam, data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa009_04505/24070LRa009_04505.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa010_04400/24070LRa010_04400.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa013_04506/24070LRa013_04506.sup.sequencing_summary.txt, data/basecalled/sup/23074LRa001_03877/23074LRa001_03877.sup.sequencing_summary.txt, data/basecalled/sup/23074LRa003_03878/23074LRa003_03878.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa001_04696/25006LRa001_04696.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa002_04697/25006LRa002_04697.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa005_04698/25006LRa005_04698.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa007_04699/25006LRa007_04699.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa009_04700/25006LRa009_04700.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa011_04701/25006LRa011_04701.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa015_04767/25006LRa015_04767.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa016_04768/25006LRa016_04768.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa018_04769/25006LRa018_04769.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa019_04770/25006LRa019_04770.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa021_04771/25006LRa021_04771.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa022_04772/25006LRa022_04772.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa025_04901/25006LRa025_04901.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa029_04900/25006LRa029_04900.sup.sequencing_summary.txt, data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta, data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta, data/corrected/23074LRa001_03877/23074LRa001_03877.corrected.fasta, data/corrected/23074LRa003_03878/23074LRa003_03878.corrected.fasta, data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta, data/corrected/24070LRa009_04505/24070LRa009_04505.corrected.fasta, data/corrected/24070LRa010_04400/24070LRa010_04400.corrected.fasta, data/corrected/24070LRa013_04506/24070LRa013_04506.corrected.fasta, data/corrected/25006LRa025_04901/25006LRa025_04901.corrected.fasta, data/corrected/25006LRa029_04900/25006LRa029_04900.corrected.fasta, data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam, data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam
     jobid: 0
-    reason: Input files updated by another job: data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt, data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam, data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam, data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt, data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt
-    resources: tmpdir=<TBD>
+    reason: Input files updated by another job: data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.sequencing_summary.txt, data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam, data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam, data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.sequencing_summary.txt, data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.sequencing_summary.txt
+    resources: mem_mb=<TBD>, disk_mb=<TBD>, tmpdir=<TBD>, queue=<TBD>
 
 Job stats:
 job                     count

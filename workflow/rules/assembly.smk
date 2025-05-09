@@ -346,12 +346,14 @@ rule verkko_copy_folder:
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
         fasta="assembly/output/verkko/{asm}/assembly.fasta",
     output:
-        done="assembly/output/verkko_trio/{asm}/use_verkko_files.done",
+        fasta="assembly/output/verkko_trio/{asm}/assembly.fasta",
+        done="assembly/output/verkko_trio/{asm}/copy_verkko_files.done",
     log:
         "logs/verkko_copy_folder_{asm}.log",
     shell:
         """
-        rsync -avh $(dirname {input.fasta})/ $(dirname {output.done}) > {log} 2>&1
+        rsync -avh $(dirname {input.fasta})/ $(dirname {output.fasta}) > {log} 2>&1
+        touch {output.done}
         """
 
 
@@ -360,7 +362,7 @@ rule verkko_scaffold_trio:
         ul=lambda wc: get_assembly_input(wc).get("ul"),
         hq=lambda wc: get_assembly_input(wc).get("hq"),
         kmers=lambda wc: get_assembly_input(wc).get("trio_kmers"),
-        done="assembly/output/verkko_trio/{asm}/use_verkko_files.done",
+        done="assembly/output/verkko_trio/{asm}/copy_verkko_files.done",
     output:
         hp1="assembly/output/verkko_trio/{asm}/assembly.haplotype1.fasta",
         hp2="assembly/output/verkko_trio/{asm}/assembly.haplotype2.fasta",
@@ -386,7 +388,7 @@ rule verkko_scaffold_trio:
             {params.skip_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
-            --hap-kmers {input.kmers} \
+            --hap-kmers {input.kmers} trio \
             --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
