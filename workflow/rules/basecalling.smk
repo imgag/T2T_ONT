@@ -21,11 +21,11 @@ rule dorado:
     output:
         done="data/basecalled/{type}/{dataset,[^.]+(?!\.bam$)}/dorado_{type}.done",
     log:
-        "logs/dorado_{type}_{dataset}.log",
+        "logs/dorado_{type}_{dataset}.log"
     resources:
-        queue=config["gpu_queues"],
-        gpus=2,
-    threads: 4
+        queue="gpu_srv010,gpu_srv019", 
+        gpus=2
+    threads: 2
     priority: 3
     params:
         dorado=config["dorado"],
@@ -40,7 +40,7 @@ rule dorado:
             --recursive \
             --trim all \
             --output-dir $(dirname {output.done}) \
-            > {log} 2>&1
+            >{log} 2>&1
         touch {output.done}
         """
 
@@ -112,7 +112,7 @@ rule process_summary:
     output:
         summary=temp("{dataset}.summary.proc.tsv"),
     log:
-        "logs/{dataset}_process_summary.log",
+        "logs/{dataset}_process_summary.log"
     params:
         split_number=config["split_number"],
     priority: 1
@@ -131,7 +131,7 @@ checkpoint pod5_split:
     output:
         dataset_split=directory(temp("{dataset}_split_by_channel")),
     log:
-        "logs/{dataset}_pod5_split.log",
+        "logs/{dataset}_pod5_split.log"
     conda:
         "../env/pod5.yml"
     threads: 20
@@ -167,10 +167,10 @@ rule dorado_duplex:
     output:
         bam=temp("{dataset}_split_by_channel/channel-{channel}.bam"),
     log:
-        "logs/dorado_duplex_{dataset}_{channel}.log",
+        "logs/dorado_duplex_{dataset}_{channel}.log"
     resources:
         queue=config["gpu_queues"],
-        gpus=1,
+        gpus=1
     threads: 32
     priority: 3
     params:

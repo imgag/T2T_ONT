@@ -114,3 +114,4 @@ Compare following options:
 2) *hifiasm_porec*: Include poreC scaffolding for the hifiasm
 3) *hifiasm_trio*: Use trio binning (kmers) integrated into hifiasm
 
+

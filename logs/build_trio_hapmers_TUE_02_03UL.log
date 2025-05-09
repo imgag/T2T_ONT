@@ -1,0 +1,1659 @@
+# Maternal specific k-mers
+	meryl difference output maternal_compress.k30_not_paternal_compress.k30.meryl maternal_compress.k30.meryl paternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    maternal_compress.k30.meryl
+    paternal_compress.k30.meryl
+    output to maternal_compress.k30_not_paternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+  bash /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/build/filt.sh maternal_compress.k30_not_paternal_compress.k30.meryl maternal_compress.k30.only
+Generate maternal_compress.k30_not_paternal_compress.k30.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar maternal_compress.k30_not_paternal_compress.k30.hist
+
+Processing file maternal_compress.k30_not_paternal_compress.k30.hist
+Start sampling here: 4, 76389.0
+Estimated haploid peak here: 14, 3018951.0
+Next max here: 16, 3289352.0
+Kick out local maxima: 14, 3018951.0
+Stop sampling here: 48, 59984.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	4
+1	16	48
+
+Filter out kmers <= 4
+
+meryl greater-than 4 output maternal_compress.k30_not_paternal_compress.k30.gt4.meryl maternal_compress.k30_not_paternal_compress.k30.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=4
+    maternal_compress.k30_not_paternal_compress.k30.meryl
+    output to maternal_compress.k30_not_paternal_compress.k30.gt4.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final maternal_compress.k30_not_paternal_compress.k30.gt4.meryl to maternal_compress.k30.only.meryl
+
+# Paternal specific k-mers
+	meryl difference output paternal_compress.k30_not_maternal_compress.k30.meryl paternal_compress.k30.meryl maternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    paternal_compress.k30.meryl
+    maternal_compress.k30.meryl
+    output to paternal_compress.k30_not_maternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+  bash /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/build/filt.sh paternal_compress.k30_not_maternal_compress.k30.meryl paternal_compress.k30.only
+Generate paternal_compress.k30_not_maternal_compress.k30.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar paternal_compress.k30_not_maternal_compress.k30.hist
+
+Processing file paternal_compress.k30_not_maternal_compress.k30.hist
+Start sampling here: 3, 314430.0
+Estimated haploid peak here: 13, 3138807.0
+Next max here: 16, 3477902.0
+Kick out local maxima: 13, 3138807.0
+Next min here: 29, 686870.0
+Next max here: 30, 694140.0
+Next min here: 31, 678565.0
+Next max here: 32, 681878.0
+Stop sampling here: 41, 308474.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	3
+1	16	29
+2	30	31
+
+Filter out kmers <= 3
+
+meryl greater-than 3 output paternal_compress.k30_not_maternal_compress.k30.gt3.meryl paternal_compress.k30_not_maternal_compress.k30.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=3
+    paternal_compress.k30_not_maternal_compress.k30.meryl
+    output to paternal_compress.k30_not_maternal_compress.k30.gt3.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final paternal_compress.k30_not_maternal_compress.k30.gt3.meryl to paternal_compress.k30.only.meryl
+
+# Shared k-mers
+	meryl intersect output maternal_compress.k30_and_paternal_compress.k30.meryl maternal_compress.k30.meryl paternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    maternal_compress.k30.meryl
+    paternal_compress.k30.meryl
+    output to maternal_compress.k30_and_paternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+
+# maternal_compress.k30 hap-mers
+	meryl intersect output child_compress.k30_and_maternal_compress.k30.only.meryl child_compress.k30.meryl maternal_compress.k30.only.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    maternal_compress.k30.only.meryl
+    output to child_compress.k30_and_maternal_compress.k30.only.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate maternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar maternal_compress.k30.inherited.hist
+
+Processing file maternal_compress.k30.inherited.hist
+Start sampling here: 11, 124.0
+Next max here: 12, 324.0
+Next min here: 14, 195.0
+Next max here: 15, 348.0
+Kick out local maxima: 12, 324.0
+Next min here: 16, 342.0
+Next max here: 17, 735.0
+Kick out local maxima: 15, 348.0
+Next min here: 18, 703.0
+Next max here: 51, 1218429.0
+Next min here: 81, 19004.0
+Next max here: 82, 21510.0
+Next min here: 83, 18805.0
+Next max here: 84, 19545.0
+Next min here: 85, 17622.0
+Next max here: 86, 17754.0
+Next min here: 88, 15944.0
+Next max here: 91, 16929.0
+Next min here: 95, 14183.0
+Next max here: 98, 15191.0
+Next min here: 103, 10483.0
+Next max here: 104, 11681.0
+Next min here: 114, 4191.0
+Next max here: 115, 4579.0
+Next min here: 116, 3457.0
+Next max here: 118, 4080.0
+Next min here: 119, 3567.0
+Next max here: 121, 4010.0
+Next min here: 122, 3283.0
+Next max here: 123, 3666.0
+Next min here: 125, 2845.0
+Next max here: 126, 3694.0
+Next min here: 127, 2840.0
+Next max here: 128, 3514.0
+Next min here: 134, 1988.0
+Next max here: 138, 3007.0
+Next min here: 142, 1805.0
+Next max here: 144, 2270.0
+Next min here: 145, 2045.0
+Next max here: 146, 2342.0
+Kick out local maxima: 144, 2270.0
+Next min here: 147, 2202.0
+Next max here: 149, 2644.0
+Kick out local maxima: 146, 2342.0
+Next min here: 152, 2331.0
+Next max here: 153, 2731.0
+Next min here: 156, 2221.0
+Next max here: 157, 2355.0
+Next min here: 160, 2245.0
+Next max here: 161, 2337.0
+Next min here: 163, 1900.0
+Next max here: 164, 2313.0
+Next min here: 165, 2277.0
+Next max here: 166, 2496.0
+Next min here: 167, 2300.0
+Next max here: 169, 2467.0
+Next min here: 170, 1712.0
+Next max here: 171, 2411.0
+Next min here: 172, 2247.0
+Next max here: 173, 2343.0
+Next min here: 175, 1977.0
+Next max here: 178, 2513.0
+Next min here: 179, 2377.0
+Next max here: 180, 2591.0
+Kick out local maxima: 178, 2513.0
+Next min here: 181, 2212.0
+Next max here: 182, 2598.0
+Kick out local maxima: 180, 2591.0
+Next min here: 186, 1757.0
+Next max here: 187, 2240.0
+Next min here: 188, 1635.0
+Next max here: 189, 2013.0
+Next min here: 190, 1512.0
+Next max here: 192, 1951.0
+Next min here: 194, 1586.0
+Next max here: 195, 1663.0
+Next min here: 196, 1629.0
+Next max here: 197, 1636.0
+Next min here: 203, 972.0
+Next max here: 204, 1280.0
+Next min here: 206, 1077.0
+Next max here: 207, 1350.0
+Kick out local maxima: 204, 1280.0
+Next min here: 212, 739.0
+Next max here: 213, 1101.0
+Next min here: 214, 815.0
+Next max here: 215, 848.0
+Next min here: 218, 642.0
+Next max here: 219, 895.0
+Next min here: 222, 644.0
+Next max here: 223, 1043.0
+Next min here: 224, 875.0
+Next max here: 225, 1069.0
+Kick out local maxima: 223, 1043.0
+Next min here: 228, 830.0
+Next max here: 229, 944.0
+Next min here: 231, 806.0
+Next max here: 232, 995.0
+Kick out local maxima: 229, 944.0
+Next min here: 233, 641.0
+Next max here: 235, 847.0
+Next min here: 236, 638.0
+Next max here: 237, 672.0
+Next min here: 238, 659.0
+Next max here: 239, 675.0
+Kick out local maxima: 237, 672.0
+Next min here: 240, 584.0
+Next max here: 241, 627.0
+Next min here: 242, 600.0
+Next max here: 244, 687.0
+Next min here: 246, 597.0
+Next max here: 249, 791.0
+Next min here: 251, 652.0
+Next max here: 252, 709.0
+Next min here: 254, 675.0
+Next max here: 255, 826.0
+Next min here: 256, 567.0
+Next max here: 257, 777.0
+Next min here: 258, 686.0
+Next max here: 260, 829.0
+Next min here: 263, 442.0
+Next max here: 264, 719.0
+Next min here: 266, 583.0
+Next max here: 267, 757.0
+Kick out local maxima: 264, 719.0
+Next min here: 269, 583.0
+Next max here: 270, 941.0
+Kick out local maxima: 267, 757.0
+Next min here: 271, 598.0
+Next max here: 273, 724.0
+Next min here: 274, 567.0
+Next max here: 275, 725.0
+Next min here: 276, 611.0
+Next max here: 277, 623.0
+Next min here: 279, 475.0
+Next max here: 281, 642.0
+Next min here: 284, 505.0
+Next max here: 286, 663.0
+Next min here: 288, 488.0
+Next max here: 290, 787.0
+Next min here: 291, 515.0
+Next max here: 294, 712.0
+Next min here: 297, 377.0
+Next max here: 298, 526.0
+Next min here: 299, 415.0
+Next max here: 302, 536.0
+Next min here: 304, 318.0
+Next max here: 305, 474.0
+Next min here: 307, 291.0
+Next max here: 310, 403.0
+Next min here: 311, 287.0
+Next max here: 313, 493.0
+Kick out local maxima: 310, 403.0
+Next min here: 314, 279.0
+Next max here: 316, 381.0
+Next min here: 318, 269.0
+Next max here: 320, 473.0
+Next min here: 322, 399.0
+Next max here: 323, 429.0
+Next min here: 324, 274.0
+Next max here: 326, 380.0
+Next min here: 327, 331.0
+Next max here: 328, 504.0
+Kick out local maxima: 326, 380.0
+Next min here: 330, 377.0
+Next max here: 331, 422.0
+Next min here: 332, 252.0
+Next max here: 333, 334.0
+Next min here: 334, 293.0
+Next max here: 335, 334.0
+Next min here: 336, 236.0
+Next max here: 337, 468.0
+Next min here: 339, 388.0
+Next max here: 341, 488.0
+Next min here: 343, 268.0
+Next max here: 345, 470.0
+Next min here: 346, 353.0
+Next max here: 347, 376.0
+Next min here: 348, 312.0
+Next max here: 351, 528.0
+Next min here: 352, 410.0
+Next max here: 353, 493.0
+Next min here: 354, 363.0
+Next max here: 355, 513.0
+Next min here: 358, 315.0
+Next max here: 359, 599.0
+Next min here: 363, 357.0
+Next max here: 364, 396.0
+Next min here: 366, 267.0
+Next max here: 367, 327.0
+Next min here: 368, 260.0
+Next max here: 369, 301.0
+Next min here: 370, 296.0
+Next max here: 372, 453.0
+Kick out local maxima: 369, 301.0
+Next min here: 377, 177.0
+Next max here: 379, 322.0
+Next min here: 380, 297.0
+Next max here: 381, 360.0
+Kick out local maxima: 379, 322.0
+Next min here: 382, 276.0
+Next max here: 383, 336.0
+Next min here: 385, 196.0
+Next max here: 387, 341.0
+Next min here: 390, 203.0
+Next max here: 391, 223.0
+Next min here: 392, 170.0
+Next max here: 393, 242.0
+Kick out local maxima: 391, 223.0
+Next min here: 394, 224.0
+Next max here: 395, 256.0
+Kick out local maxima: 393, 242.0
+Next min here: 396, 241.0
+Next max here: 397, 249.0
+Next min here: 398, 224.0
+Next max here: 400, 327.0
+Next min here: 401, 147.0
+Next max here: 403, 278.0
+Next min here: 404, 259.0
+Next max here: 406, 273.0
+Next min here: 407, 240.0
+Next max here: 408, 260.0
+Next min here: 411, 140.0
+Next max here: 412, 236.0
+Stop sampling here: 414, 110.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	11
+1	17	18
+2	51	81
+3	82	83
+4	86	85
+5	91	88
+6	98	95
+7	104	103
+8	115	114
+9	121	116
+10	126	119
+11	138	122
+12	149	125
+13	153	127
+14	157	134
+15	161	142
+16	166	152
+17	171	156
+18	182	160
+19	187	163
+20	192	165
+21	197	167
+22	207	170
+23	213	172
+24	219	175
+25	225	186
+26	232	188
+27	239	190
+28	244	194
+29	249	196
+30	255	203
+31	260	212
+32	270	214
+33	275	218
+34	281	222
+35	286	228
+36	290	233
+37	294	236
+38	298	240
+39	302	242
+40	313	246
+41	320	251
+42	328	254
+43	333	256
+44	337	258
+45	341	263
+46	345	271
+47	351	274
+48	355	276
+49	359	279
+50	364	284
+51	372	288
+52	381	291
+53	387	297
+54	395	299
+55	400	304
+56	406	307
+57	412	314
+
+Filter out kmers <= 11
+
+meryl greater-than 11 output maternal_compress.k30.inherited.gt11.meryl maternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=11
+    maternal_compress.k30.inherited.meryl
+    output to maternal_compress.k30.inherited.gt11.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final maternal_compress.k30.inherited.gt11.meryl to maternal_compress.k30.hapmer.meryl
+
+# paternal_compress.k30 hap-mers
+	meryl intersect output child_compress.k30_and_paternal_compress.k30.only.meryl child_compress.k30.meryl paternal_compress.k30.only.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    paternal_compress.k30.only.meryl
+    output to child_compress.k30_and_paternal_compress.k30.only.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate paternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar paternal_compress.k30.inherited.hist
+
+Processing file paternal_compress.k30.inherited.hist
+Start sampling here: 7, 793.0
+Next max here: 8, 796.0
+Stop sampling here: 9, 505.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	7
+1	8	9
+
+Filter out kmers <= 7
+
+meryl greater-than 7 output paternal_compress.k30.inherited.gt7.meryl paternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=7
+    paternal_compress.k30.inherited.meryl
+    output to paternal_compress.k30.inherited.gt7.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final paternal_compress.k30.inherited.gt7.meryl to paternal_compress.k30.hapmer.meryl
+
+# Shared k-mers
+	meryl intersect output child_compress.k30_and_shrd.meryl child_compress.k30.meryl shrd.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    shrd.meryl
+    output to child_compress.k30_and_shrd.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate shrd.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar shrd.inherited.hist
+
+Processing file shrd.inherited.hist
+Start sampling here: 16, 1791.0
+Next max here: 17, 2935.0
+Next min here: 18, 2931.0
+Next max here: 50, 5979312.0
+Next min here: 51, 5965555.0
+Next max here: 52, 6011807.0
+Kick out local maxima: 50, 5979312.0
+Next min here: 63, 4670775.0
+Next max here: 99, 3.9500488E7
+Next min here: 157, 277000.0
+Next max here: 158, 280182.0
+Next min here: 162, 268873.0
+Next max here: 164, 280356.0
+Next min here: 165, 279594.0
+Next max here: 183, 388819.0
+Next min here: 185, 376853.0
+Next max here: 188, 398482.0
+Next min here: 189, 397320.0
+Next max here: 192, 414744.0
+Next min here: 193, 410562.0
+Next max here: 195, 418996.0
+Kick out local maxima: 192, 414744.0
+Next min here: 196, 417777.0
+Next max here: 197, 418830.0
+Next min here: 198, 418391.0
+Next max here: 199, 420857.0
+Next min here: 201, 409324.0
+Next max here: 202, 411272.0
+Next min here: 203, 407996.0
+Next max here: 204, 409223.0
+Next min here: 250, 104957.0
+Next max here: 252, 106997.0
+Next min here: 254, 102985.0
+Next max here: 255, 106285.0
+Next min here: 257, 101225.0
+Next max here: 258, 102898.0
+Next min here: 261, 99448.0
+Next max here: 262, 101416.0
+Next min here: 264, 99962.0
+Next max here: 265, 100627.0
+Next min here: 268, 97674.0
+Next max here: 269, 100551.0
+Next min here: 270, 97108.0
+Next max here: 272, 99187.0
+Next min here: 273, 96674.0
+Next max here: 274, 99906.0
+Next min here: 275, 96780.0
+Next max here: 279, 104811.0
+Next min here: 280, 102724.0
+Next max here: 282, 104516.0
+Next min here: 283, 102387.0
+Next max here: 284, 104301.0
+Next min here: 285, 103741.0
+Next max here: 286, 107015.0
+Kick out local maxima: 284, 104301.0
+Next min here: 290, 102146.0
+Next max here: 291, 102851.0
+Next min here: 293, 101270.0
+Next max here: 295, 103168.0
+Next min here: 296, 103065.0
+Next max here: 298, 106298.0
+Kick out local maxima: 295, 103168.0
+Next min here: 300, 104313.0
+Next max here: 302, 105347.0
+Next min here: 303, 101537.0
+Next max here: 304, 103339.0
+Next min here: 308, 101117.0
+Next max here: 309, 102475.0
+Next min here: 311, 97718.0
+Next max here: 312, 98772.0
+Next min here: 313, 95483.0
+Next max here: 314, 95704.0
+Next min here: 317, 87597.0
+Next max here: 318, 89194.0
+Next min here: 324, 77753.0
+Next max here: 325, 79011.0
+Next min here: 326, 78621.0
+Next max here: 327, 78950.0
+Next min here: 340, 60086.0
+Next max here: 341, 61365.0
+Next min here: 344, 59467.0
+Next max here: 345, 59932.0
+Next min here: 348, 54273.0
+Next max here: 349, 55421.0
+Next min here: 351, 53077.0
+Next max here: 353, 53878.0
+Next min here: 354, 51805.0
+Next max here: 355, 51953.0
+Next min here: 358, 50792.0
+Next max here: 360, 52146.0
+Next min here: 362, 49224.0
+Next max here: 363, 49629.0
+Next min here: 365, 47062.0
+Next max here: 368, 48701.0
+Next min here: 369, 47434.0
+Next max here: 370, 47781.0
+Next min here: 371, 46336.0
+Next max here: 373, 48491.0
+Next min here: 376, 46979.0
+Next max here: 377, 48010.0
+Next min here: 378, 47805.0
+Next max here: 380, 49246.0
+Kick out local maxima: 377, 48010.0
+Next min here: 383, 47958.0
+Next max here: 384, 50567.0
+Next min here: 385, 49322.0
+Next max here: 386, 49432.0
+Next min here: 387, 48623.0
+Next max here: 388, 49795.0
+Next min here: 389, 48653.0
+Next max here: 391, 51507.0
+Kick out local maxima: 388, 49795.0
+Next min here: 393, 49680.0
+Next max here: 394, 50876.0
+Next min here: 395, 49738.0
+Next max here: 396, 50432.0
+Next min here: 398, 47960.0
+Next max here: 399, 48804.0
+Next min here: 400, 45814.0
+Next max here: 401, 47453.0
+Next min here: 403, 47063.0
+Next max here: 405, 47529.0
+Next min here: 406, 46422.0
+Next max here: 410, 48516.0
+Next min here: 413, 47984.0
+Next max here: 414, 48835.0
+Next min here: 415, 48805.0
+Next max here: 416, 49165.0
+Kick out local maxima: 414, 48835.0
+Next min here: 417, 48343.0
+Next max here: 418, 49175.0
+Kick out local maxima: 416, 49165.0
+Next min here: 422, 45524.0
+Next max here: 424, 46636.0
+Next min here: 425, 43686.0
+Next max here: 426, 44278.0
+Next min here: 428, 43336.0
+Next max here: 429, 44097.0
+Next min here: 431, 40348.0
+Next max here: 432, 41580.0
+Next min here: 433, 38964.0
+Next max here: 434, 40557.0
+Next min here: 436, 39971.0
+Next max here: 437, 40835.0
+Kick out local maxima: 434, 40557.0
+Next min here: 439, 38745.0
+Next max here: 440, 39614.0
+Next min here: 443, 36152.0
+Next max here: 444, 36465.0
+Next min here: 445, 36046.0
+Next max here: 446, 37365.0
+Kick out local maxima: 444, 36465.0
+Next min here: 450, 34772.0
+Next max here: 452, 35618.0
+Next min here: 454, 33733.0
+Next max here: 458, 34310.0
+Next min here: 461, 30104.0
+Next max here: 462, 30502.0
+Next min here: 463, 30142.0
+Next max here: 465, 30296.0
+Next min here: 467, 30113.0
+Next max here: 468, 31869.0
+Next min here: 469, 30197.0
+Next max here: 471, 31574.0
+Next min here: 476, 29278.0
+Next max here: 477, 29586.0
+Next min here: 478, 29100.0
+Next max here: 479, 30330.0
+Kick out local maxima: 477, 29586.0
+Next min here: 481, 28333.0
+Next max here: 483, 30333.0
+Next min here: 486, 28898.0
+Next max here: 487, 30153.0
+Next min here: 493, 26426.0
+Next max here: 494, 26989.0
+Next min here: 495, 26473.0
+Next max here: 497, 27615.0
+Kick out local maxima: 494, 26989.0
+Next min here: 499, 25680.0
+Next max here: 501, 27301.0
+Next min here: 502, 26765.0
+Next max here: 503, 26889.0
+Next min here: 505, 26289.0
+Next max here: 508, 26676.0
+Next min here: 514, 24854.0
+Next max here: 515, 25650.0
+Next min here: 516, 24363.0
+Next max here: 517, 24978.0
+Next min here: 519, 23945.0
+Next max here: 521, 25588.0
+Next min here: 522, 24994.0
+Next max here: 523, 25436.0
+Next min here: 524, 25265.0
+Next max here: 525, 25293.0
+Next min here: 527, 22871.0
+Next max here: 530, 24105.0
+Next min here: 535, 21372.0
+Next max here: 536, 21905.0
+Next min here: 537, 21679.0
+Next max here: 538, 22422.0
+Kick out local maxima: 536, 21905.0
+Next min here: 542, 20761.0
+Next max here: 543, 20868.0
+Next min here: 544, 20718.0
+Next max here: 545, 20958.0
+Kick out local maxima: 543, 20868.0
+Next min here: 548, 20172.0
+Next max here: 549, 20515.0
+Next min here: 550, 20088.0
+Next max here: 551, 20307.0
+Next min here: 552, 19656.0
+Next max here: 554, 20290.0
+Next min here: 556, 19684.0
+Next max here: 557, 19719.0
+Next min here: 559, 19216.0
+Next max here: 560, 19935.0
+Next min here: 563, 18934.0
+Next max here: 564, 19032.0
+Next min here: 565, 18298.0
+Next max here: 566, 19060.0
+Kick out local maxima: 564, 19032.0
+Next min here: 568, 17794.0
+Next max here: 570, 17902.0
+Next min here: 571, 17882.0
+Next max here: 573, 18737.0
+Kick out local maxima: 570, 17902.0
+Next min here: 574, 18217.0
+Next max here: 575, 18370.0
+Next min here: 576, 17797.0
+Next max here: 577, 18238.0
+Next min here: 579, 17332.0
+Next max here: 580, 17449.0
+Next min here: 582, 16928.0
+Next max here: 584, 17082.0
+Next min here: 586, 16087.0
+Next max here: 587, 16347.0
+Next min here: 588, 16294.0
+Next max here: 592, 17645.0
+Next min here: 593, 16901.0
+Next max here: 594, 17358.0
+Next min here: 595, 16762.0
+Next max here: 597, 17174.0
+Next min here: 598, 16891.0
+Next max here: 599, 16986.0
+Next min here: 601, 16299.0
+Next max here: 603, 16886.0
+Next min here: 605, 15698.0
+Next max here: 606, 16197.0
+Next min here: 607, 16003.0
+Next max here: 610, 16628.0
+Next min here: 613, 16237.0
+Next max here: 614, 16538.0
+Next min here: 615, 15854.0
+Next max here: 616, 16392.0
+Next min here: 617, 15644.0
+Next max here: 618, 16162.0
+Next min here: 619, 15518.0
+Next max here: 620, 15885.0
+Next min here: 621, 15495.0
+Next max here: 622, 15956.0
+Next min here: 624, 15396.0
+Next max here: 625, 15846.0
+Next min here: 627, 15061.0
+Next max here: 629, 15610.0
+Next min here: 634, 14585.0
+Next max here: 636, 15173.0
+Next min here: 639, 14314.0
+Next max here: 640, 15160.0
+Next min here: 641, 14844.0
+Next max here: 642, 15110.0
+Next min here: 643, 14360.0
+Next max here: 644, 14867.0
+Next min here: 645, 14829.0
+Next max here: 646, 15463.0
+Kick out local maxima: 644, 14867.0
+Next min here: 650, 14536.0
+Next max here: 651, 14872.0
+Next min here: 654, 13755.0
+Next max here: 655, 14041.0
+Next min here: 656, 13587.0
+Next max here: 659, 13786.0
+Next min here: 660, 13705.0
+Next max here: 661, 14029.0
+Kick out local maxima: 659, 13786.0
+Next min here: 662, 13604.0
+Next max here: 663, 13989.0
+Next min here: 664, 13090.0
+Next max here: 665, 13229.0
+Next min here: 669, 12462.0
+Next max here: 671, 13036.0
+Next min here: 673, 12390.0
+Next max here: 674, 12718.0
+Next min here: 678, 11501.0
+Next max here: 680, 12083.0
+Next min here: 681, 11406.0
+Next max here: 682, 11942.0
+Next min here: 683, 11680.0
+Next max here: 684, 11908.0
+Next min here: 686, 11524.0
+Next max here: 687, 11896.0
+Next min here: 688, 11867.0
+Next max here: 690, 12294.0
+Next min here: 692, 12107.0
+Next max here: 693, 12295.0
+Kick out local maxima: 690, 12294.0
+Next min here: 694, 11826.0
+Next max here: 695, 12639.0
+Kick out local maxima: 693, 12295.0
+Next min here: 697, 11830.0
+Next max here: 698, 12497.0
+Next min here: 701, 11567.0
+Next max here: 702, 11995.0
+Next min here: 703, 11822.0
+Next max here: 704, 11969.0
+Next min here: 709, 10942.0
+Next max here: 710, 11631.0
+Next min here: 712, 11182.0
+Next max here: 713, 11504.0
+Next min here: 714, 11008.0
+Next max here: 716, 11104.0
+Next min here: 718, 10982.0
+Next max here: 719, 11220.0
+Kick out local maxima: 716, 11104.0
+Next min here: 720, 10854.0
+Next max here: 722, 11479.0
+Kick out local maxima: 719, 11220.0
+Next min here: 724, 10768.0
+Next max here: 726, 11249.0
+Next min here: 727, 10688.0
+Next max here: 729, 11021.0
+Next min here: 731, 10757.0
+Next max here: 732, 11178.0
+Next min here: 733, 10160.0
+Next max here: 734, 10161.0
+Next min here: 735, 9828.0
+Next max here: 736, 10330.0
+Next min here: 738, 10048.0
+Next max here: 739, 10078.0
+Next min here: 741, 9504.0
+Next max here: 742, 9664.0
+Next min here: 745, 9391.0
+Next max here: 749, 10143.0
+Next min here: 751, 9578.0
+Next max here: 753, 10086.0
+Next min here: 754, 9971.0
+Next max here: 755, 10114.0
+Kick out local maxima: 753, 10086.0
+Next min here: 756, 10039.0
+Next max here: 757, 10528.0
+Kick out local maxima: 755, 10114.0
+Next min here: 758, 10172.0
+Next max here: 760, 10247.0
+Next min here: 762, 9478.0
+Next max here: 765, 9783.0
+Next min here: 766, 9633.0
+Next max here: 767, 9900.0
+Kick out local maxima: 765, 9783.0
+Next min here: 768, 9564.0
+Next max here: 769, 9813.0
+Next min here: 771, 9092.0
+Next max here: 772, 9523.0
+Next min here: 773, 9266.0
+Next max here: 775, 9604.0
+Kick out local maxima: 772, 9523.0
+Next min here: 777, 9219.0
+Next max here: 778, 9314.0
+Next min here: 779, 9200.0
+Next max here: 780, 9390.0
+Next min here: 782, 9002.0
+Next max here: 784, 9392.0
+Next min here: 785, 8897.0
+Next max here: 787, 9188.0
+Next min here: 789, 8632.0
+Next max here: 793, 9305.0
+Next min here: 795, 8678.0
+Next max here: 796, 8982.0
+Next min here: 797, 8504.0
+Next max here: 798, 8820.0
+Next min here: 799, 8189.0
+Next max here: 800, 8252.0
+Next min here: 802, 8086.0
+Next max here: 803, 8088.0
+Next min here: 804, 8018.0
+Next max here: 806, 8349.0
+Kick out local maxima: 803, 8088.0
+Next min here: 807, 8264.0
+Next max here: 808, 8547.0
+Kick out local maxima: 806, 8349.0
+Next min here: 810, 8224.0
+Next max here: 811, 8644.0
+Kick out local maxima: 808, 8547.0
+Next min here: 813, 8388.0
+Next max here: 815, 8927.0
+Next min here: 817, 8266.0
+Next max here: 819, 8427.0
+Next min here: 820, 8267.0
+Next max here: 821, 8547.0
+Kick out local maxima: 819, 8427.0
+Next min here: 825, 8117.0
+Next max here: 826, 8264.0
+Next min here: 827, 8002.0
+Next max here: 828, 8282.0
+Kick out local maxima: 826, 8264.0
+Next min here: 829, 7926.0
+Next max here: 831, 8108.0
+Next min here: 832, 7820.0
+Next max here: 833, 7889.0
+Next min here: 834, 7651.0
+Next max here: 835, 7748.0
+Next min here: 836, 7545.0
+Next max here: 838, 7745.0
+Next min here: 840, 7259.0
+Next max here: 842, 7529.0
+Next min here: 843, 7502.0
+Next max here: 845, 7777.0
+Kick out local maxima: 842, 7529.0
+Next min here: 848, 7164.0
+Next max here: 851, 7396.0
+Next min here: 853, 7228.0
+Next max here: 854, 7258.0
+Next min here: 855, 7242.0
+Next max here: 857, 7575.0
+Next min here: 859, 7147.0
+Next max here: 861, 7260.0
+Next min here: 862, 7144.0
+Next max here: 863, 7164.0
+Next min here: 864, 6720.0
+Next max here: 865, 6969.0
+Next min here: 866, 6781.0
+Next max here: 869, 7092.0
+Next min here: 870, 6982.0
+Next max here: 871, 7118.0
+Kick out local maxima: 869, 7092.0
+Next min here: 874, 6587.0
+Next max here: 876, 6695.0
+Next min here: 877, 6386.0
+Next max here: 878, 6613.0
+Next min here: 879, 6429.0
+Next max here: 882, 6548.0
+Next min here: 888, 5909.0
+Next max here: 889, 6463.0
+Next min here: 893, 5996.0
+Next max here: 895, 6325.0
+Next min here: 898, 6045.0
+Next max here: 899, 6275.0
+Next min here: 901, 5836.0
+Next max here: 902, 5934.0
+Next min here: 903, 5864.0
+Next max here: 905, 6219.0
+Next min here: 906, 6031.0
+Next max here: 908, 6340.0
+Kick out local maxima: 905, 6219.0
+Next min here: 910, 5779.0
+Next max here: 911, 6306.0
+Next min here: 915, 5889.0
+Next max here: 918, 6142.0
+Next min here: 922, 5232.0
+Next max here: 923, 5830.0
+Next min here: 924, 5738.0
+Next max here: 925, 5770.0
+Next min here: 926, 5565.0
+Next max here: 927, 5838.0
+Next min here: 928, 5610.0
+Next max here: 929, 5930.0
+Kick out local maxima: 927, 5838.0
+Next min here: 931, 5565.0
+Next max here: 932, 5770.0
+Next min here: 934, 5653.0
+Next max here: 935, 5879.0
+Next min here: 936, 5490.0
+Next max here: 937, 5707.0
+Next min here: 938, 5683.0
+Next max here: 939, 5800.0
+Next min here: 940, 5610.0
+Next max here: 941, 5786.0
+Next min here: 942, 5504.0
+Next max here: 944, 5631.0
+Next min here: 945, 5606.0
+Next max here: 946, 5759.0
+Kick out local maxima: 944, 5631.0
+Next min here: 947, 5457.0
+Next max here: 948, 5667.0
+Next min here: 949, 5274.0
+Next max here: 950, 5510.0
+Next min here: 951, 5432.0
+Next max here: 952, 5628.0
+Kick out local maxima: 950, 5510.0
+Next min here: 953, 5441.0
+Next max here: 954, 5748.0
+Kick out local maxima: 952, 5628.0
+Next min here: 957, 5171.0
+Next max here: 959, 5532.0
+Next min here: 961, 5299.0
+Next max here: 962, 5405.0
+Next min here: 963, 5326.0
+Next max here: 964, 5414.0
+Next min here: 965, 5293.0
+Next max here: 966, 5367.0
+Next min here: 968, 5069.0
+Next max here: 969, 5284.0
+Next min here: 971, 4998.0
+Next max here: 972, 5350.0
+Kick out local maxima: 969, 5284.0
+Next min here: 974, 5203.0
+Next max here: 977, 5443.0
+Next min here: 978, 5233.0
+Next max here: 979, 5272.0
+Next min here: 983, 4749.0
+Next max here: 985, 4908.0
+Next min here: 986, 4788.0
+Next max here: 987, 4882.0
+Next min here: 989, 4716.0
+Next max here: 990, 4995.0
+Next min here: 992, 4685.0
+Next max here: 994, 4866.0
+Next min here: 995, 4745.0
+Next max here: 997, 4952.0
+Kick out local maxima: 994, 4866.0
+Next min here: 999, 4699.0
+Next max here: 1001, 4778.0
+Next min here: 1003, 4427.0
+Next max here: 1004, 4918.0
+Kick out local maxima: 1001, 4778.0
+Next min here: 1006, 4613.0
+Next max here: 1008, 4865.0
+Next min here: 1009, 4505.0
+Next max here: 1011, 4794.0
+Next min here: 1015, 4358.0
+Next max here: 1016, 4580.0
+Next min here: 1017, 4447.0
+Next max here: 1018, 4689.0
+Kick out local maxima: 1016, 4580.0
+Next min here: 1021, 4408.0
+Next max here: 1023, 4644.0
+Next min here: 1025, 4292.0
+Next max here: 1026, 4507.0
+Next min here: 1027, 4345.0
+Next max here: 1029, 4476.0
+Next min here: 1030, 4386.0
+Next max here: 1031, 4457.0
+Next min here: 1032, 4428.0
+Next max here: 1033, 4704.0
+Next min here: 1035, 4308.0
+Next max here: 1037, 4444.0
+Next min here: 1038, 4243.0
+Next max here: 1041, 4383.0
+Next min here: 1042, 4202.0
+Next max here: 1044, 4405.0
+Kick out local maxima: 1041, 4383.0
+Next min here: 1045, 4236.0
+Next max here: 1048, 4394.0
+Next min here: 1051, 4014.0
+Next max here: 1052, 4185.0
+Next min here: 1053, 4023.0
+Next max here: 1054, 4187.0
+Kick out local maxima: 1052, 4185.0
+Next min here: 1057, 3992.0
+Next max here: 1058, 4047.0
+Next min here: 1061, 3844.0
+Next max here: 1063, 4061.0
+Next min here: 1064, 3980.0
+Next max here: 1065, 4001.0
+Next min here: 1067, 3877.0
+Next max here: 1068, 3960.0
+Next min here: 1070, 3767.0
+Next max here: 1073, 4005.0
+Next min here: 1076, 3651.0
+Next max here: 1078, 4106.0
+Next min here: 1080, 3738.0
+Next max here: 1081, 3754.0
+Next min here: 1082, 3746.0
+Next max here: 1083, 3940.0
+Next min here: 1085, 3696.0
+Next max here: 1087, 3999.0
+Next min here: 1090, 3535.0
+Next max here: 1091, 3893.0
+Next min here: 1092, 3791.0
+Next max here: 1094, 3982.0
+Kick out local maxima: 1091, 3893.0
+Next min here: 1095, 3711.0
+Next max here: 1096, 3807.0
+Next min here: 1097, 3806.0
+Next max here: 1098, 3816.0
+Next min here: 1099, 3717.0
+Next max here: 1101, 3926.0
+Kick out local maxima: 1098, 3816.0
+Next min here: 1102, 3571.0
+Next max here: 1103, 3858.0
+Next min here: 1105, 3580.0
+Next max here: 1109, 3952.0
+Next min here: 1110, 3691.0
+Next max here: 1111, 3889.0
+Next min here: 1114, 3587.0
+Next max here: 1115, 3680.0
+Next min here: 1116, 3565.0
+Next max here: 1117, 3845.0
+Kick out local maxima: 1115, 3680.0
+Next min here: 1119, 3468.0
+Next max here: 1120, 3642.0
+Next min here: 1121, 3520.0
+Next max here: 1122, 3825.0
+Next min here: 1123, 3675.0
+Next max here: 1125, 3719.0
+Next min here: 1128, 3383.0
+Next max here: 1130, 3597.0
+Next min here: 1132, 3462.0
+Next max here: 1133, 3674.0
+Kick out local maxima: 1130, 3597.0
+Next min here: 1134, 3428.0
+Next max here: 1137, 3547.0
+Next min here: 1139, 3447.0
+Next max here: 1140, 3546.0
+Next min here: 1141, 3426.0
+Next max here: 1142, 3605.0
+Next min here: 1145, 3311.0
+Next max here: 1146, 3478.0
+Next min here: 1147, 3401.0
+Next max here: 1149, 3648.0
+Kick out local maxima: 1146, 3478.0
+Next min here: 1150, 3374.0
+Next max here: 1152, 3461.0
+Next min here: 1154, 3332.0
+Next max here: 1155, 3687.0
+Next min here: 1156, 3454.0
+Next max here: 1157, 3521.0
+Next min here: 1159, 3253.0
+Next max here: 1161, 3399.0
+Next min here: 1163, 3150.0
+Next max here: 1165, 3321.0
+Next min here: 1166, 3271.0
+Next max here: 1167, 3337.0
+Kick out local maxima: 1165, 3321.0
+Next min here: 1170, 3133.0
+Next max here: 1172, 3368.0
+Next min here: 1174, 3254.0
+Next max here: 1175, 3284.0
+Next min here: 1176, 3129.0
+Next max here: 1177, 3197.0
+Next min here: 1178, 3114.0
+Next max here: 1180, 3324.0
+Kick out local maxima: 1177, 3197.0
+Next min here: 1182, 3129.0
+Next max here: 1183, 3277.0
+Next min here: 1184, 3199.0
+Next max here: 1185, 3337.0
+Next min here: 1187, 3184.0
+Next max here: 1188, 3204.0
+Next min here: 1189, 3099.0
+Next max here: 1190, 3186.0
+Next min here: 1192, 2998.0
+Next max here: 1193, 3201.0
+Kick out local maxima: 1190, 3186.0
+Next min here: 1194, 3081.0
+Next max here: 1195, 3311.0
+Kick out local maxima: 1193, 3201.0
+Next min here: 1196, 3120.0
+Next max here: 1197, 3136.0
+Next min here: 1199, 2904.0
+Next max here: 1201, 3209.0
+Next min here: 1204, 2976.0
+Next max here: 1205, 3103.0
+Next min here: 1206, 3058.0
+Next max here: 1207, 3059.0
+Next min here: 1208, 3024.0
+Next max here: 1209, 3273.0
+Next min here: 1211, 2930.0
+Next max here: 1212, 3071.0
+Next min here: 1214, 2897.0
+Next max here: 1216, 3004.0
+Next min here: 1218, 2810.0
+Next max here: 1221, 3089.0
+Next min here: 1222, 2923.0
+Next max here: 1223, 2995.0
+Next min here: 1224, 2881.0
+Next max here: 1225, 2972.0
+Next min here: 1226, 2847.0
+Next max here: 1227, 2968.0
+Next min here: 1228, 2909.0
+Next max here: 1229, 2947.0
+Next min here: 1230, 2918.0
+Next max here: 1231, 2980.0
+Kick out local maxima: 1229, 2947.0
+Next min here: 1233, 2792.0
+Next max here: 1235, 2853.0
+Next min here: 1236, 2687.0
+Next max here: 1238, 2868.0
+Kick out local maxima: 1235, 2853.0
+Next min here: 1239, 2865.0
+Next max here: 1240, 3052.0
+Kick out local maxima: 1238, 2868.0
+Next min here: 1243, 2836.0
+Next max here: 1244, 3036.0
+Next min here: 1246, 2947.0
+Next max here: 1248, 3008.0
+Next min here: 1251, 2714.0
+Next max here: 1253, 2976.0
+Next min here: 1255, 2687.0
+Next max here: 1256, 2729.0
+Next min here: 1258, 2650.0
+Next max here: 1260, 2866.0
+Next min here: 1261, 2689.0
+Next max here: 1263, 2726.0
+Next min here: 1264, 2675.0
+Next max here: 1265, 2709.0
+Next min here: 1266, 2594.0
+Next max here: 1268, 2807.0
+Kick out local maxima: 1265, 2709.0
+Next min here: 1270, 2602.0
+Next max here: 1275, 2760.0
+Next min here: 1277, 2585.0
+Next max here: 1278, 2604.0
+Next min here: 1279, 2413.0
+Next max here: 1281, 2725.0
+Next min here: 1282, 2533.0
+Next max here: 1283, 2689.0
+Next min here: 1284, 2483.0
+Next max here: 1285, 2705.0
+Next min here: 1287, 2502.0
+Next max here: 1288, 2629.0
+Next min here: 1291, 2497.0
+Next max here: 1292, 2667.0
+Next min here: 1294, 2499.0
+Next max here: 1296, 2695.0
+Next min here: 1297, 2570.0
+Next max here: 1298, 2670.0
+Next min here: 1301, 2440.0
+Next max here: 1304, 2737.0
+Next min here: 1306, 2337.0
+Next max here: 1307, 2552.0
+Next min here: 1308, 2492.0
+Next max here: 1309, 2512.0
+Next min here: 1311, 2438.0
+Next max here: 1313, 2523.0
+Next min here: 1314, 2502.0
+Next max here: 1315, 2516.0
+Next min here: 1316, 2506.0
+Next max here: 1318, 2572.0
+Next min here: 1320, 2369.0
+Next max here: 1326, 2640.0
+Next min here: 1327, 2445.0
+Next max here: 1328, 2470.0
+Next min here: 1329, 2457.0
+Next max here: 1331, 2531.0
+Next min here: 1333, 2474.0
+Next max here: 1334, 2493.0
+Next min here: 1336, 2314.0
+Next max here: 1337, 2375.0
+Next min here: 1339, 2219.0
+Next max here: 1342, 2451.0
+Next min here: 1343, 2383.0
+Next max here: 1344, 2384.0
+Next min here: 1347, 2324.0
+Next max here: 1348, 2453.0
+Next min here: 1349, 2310.0
+Next max here: 1350, 2434.0
+Next min here: 1351, 2414.0
+Next max here: 1352, 2422.0
+Next min here: 1353, 2278.0
+Next max here: 1356, 2368.0
+Next min here: 1358, 2328.0
+Next max here: 1359, 2475.0
+Kick out local maxima: 1356, 2368.0
+Next min here: 1360, 2254.0
+Next max here: 1362, 2329.0
+Next min here: 1363, 2240.0
+Next max here: 1364, 2271.0
+Next min here: 1365, 2155.0
+Next max here: 1366, 2277.0
+Kick out local maxima: 1364, 2271.0
+Next min here: 1367, 2178.0
+Next max here: 1368, 2381.0
+Kick out local maxima: 1366, 2277.0
+Next min here: 1369, 2164.0
+Next max here: 1370, 2223.0
+Next min here: 1371, 2173.0
+Next max here: 1376, 2437.0
+Next min here: 1378, 2320.0
+Next max here: 1379, 2354.0
+Next min here: 1380, 2205.0
+Next max here: 1382, 2415.0
+Next min here: 1384, 2162.0
+Next max here: 1386, 2258.0
+Next min here: 1387, 2172.0
+Next max here: 1390, 2344.0
+Next min here: 1391, 2059.0
+Next max here: 1392, 2259.0
+Next min here: 1393, 2164.0
+Next max here: 1394, 2270.0
+Next min here: 1396, 2203.0
+Next max here: 1398, 2329.0
+Next min here: 1402, 2000.0
+Next max here: 1404, 2178.0
+Next min here: 1406, 2151.0
+Next max here: 1407, 2248.0
+Kick out local maxima: 1404, 2178.0
+Next min here: 1408, 2079.0
+Next max here: 1410, 2162.0
+Next min here: 1411, 2072.0
+Next max here: 1413, 2199.0
+Next min here: 1415, 2067.0
+Next max here: 1416, 2287.0
+Kick out local maxima: 1413, 2199.0
+Next min here: 1417, 2214.0
+Next max here: 1419, 2355.0
+Kick out local maxima: 1416, 2287.0
+Next min here: 1422, 2143.0
+Next max here: 1423, 2168.0
+Next min here: 1425, 2030.0
+Next max here: 1428, 2326.0
+Next min here: 1431, 2080.0
+Next max here: 1432, 2088.0
+Next min here: 1433, 1992.0
+Next max here: 1434, 2151.0
+Kick out local maxima: 1432, 2088.0
+Next min here: 1436, 2011.0
+Next max here: 1440, 2199.0
+Next min here: 1441, 2024.0
+Next max here: 1442, 2112.0
+Next min here: 1444, 1967.0
+Next max here: 1446, 2086.0
+Next min here: 1449, 1892.0
+Next max here: 1450, 2064.0
+Next min here: 1452, 2021.0
+Next max here: 1453, 2022.0
+Next min here: 1455, 1860.0
+Next max here: 1456, 2116.0
+Next min here: 1457, 1869.0
+Next max here: 1460, 2129.0
+Next min here: 1463, 1831.0
+Next max here: 1464, 2034.0
+Next min here: 1466, 1974.0
+Next max here: 1467, 1987.0
+Next min here: 1470, 1930.0
+Next max here: 1471, 2052.0
+Next min here: 1473, 1994.0
+Next max here: 1474, 2029.0
+Next min here: 1476, 1993.0
+Next max here: 1477, 1996.0
+Next min here: 1478, 1891.0
+Next max here: 1480, 1978.0
+Next min here: 1481, 1906.0
+Next max here: 1482, 2003.0
+Next min here: 1483, 1934.0
+Next max here: 1484, 1992.0
+Next min here: 1485, 1899.0
+Next min here: 1488, 1942.0
+Next max here: 1490, 1987.0
+Next min here: 1492, 1840.0
+Next max here: 1494, 1887.0
+Next min here: 1496, 1792.0
+Next max here: 1498, 1955.0
+Stop sampling here: 1500, 1773.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	16
+1	17	18
+2	52	63
+3	99	157
+4	158	162
+5	164	165
+6	183	185
+7	188	189
+8	195	196
+9	199	198
+10	204	201
+11	252	203
+12	258	250
+13	262	254
+14	269	257
+15	274	261
+16	279	264
+17	286	268
+18	291	270
+19	298	273
+20	302	275
+21	309	280
+22	314	283
+23	318	290
+24	325	293
+25	341	300
+26	345	303
+27	349	308
+28	353	311
+29	360	313
+30	368	317
+31	373	324
+32	380	326
+33	384	340
+34	391	344
+35	396	348
+36	401	351
+37	405	354
+38	410	358
+39	418	362
+40	424	365
+41	429	369
+42	437	371
+43	446	376
+44	452	383
+45	458	385
+46	462	387
+47	468	393
+48	479	395
+49	483	398
+50	487	400
+51	497	403
+52	501	406
+53	508	413
+54	515	422
+55	521	425
+56	525	428
+57	530	431
+58	538	433
+59	545	439
+60	549	443
+61	554	450
+62	560	454
+63	566	461
+64	573	463
+65	577	467
+66	584	469
+67	592	476
+68	597	481
+69	603	486
+70	610	493
+71	614	499
+72	618	502
+73	622	505
+74	629	514
+75	636	516
+76	640	519
+77	646	522
+78	651	524
+79	655	527
+80	661	535
+81	665	542
+82	671	548
+83	680	550
+84	684	552
+85	695	556
+86	702	559
+87	710	563
+88	722	568
+89	726	574
+90	732	576
+91	736	579
+92	742	582
+93	749	586
+94	757	588
+95	767	593
+96	775	595
+97	780	598
+98	784	601
+99	793	605
+100	798	607
+101	811	613
+102	815	615
+103	821	617
+104	828	619
+105	833	621
+106	838	624
+107	845	627
+108	851	634
+109	857	639
+110	861	641
+111	865	643
+112	871	650
+113	876	654
+114	882	656
+115	889	662
+116	895	664
+117	899	669
+118	908	673
+119	918	678
+120	923	681
+121	929	683
+122	935	686
+123	939	688
+124	946	697
+125	954	701
+126	959	703
+127	964	709
+128	972	712
+129	977	714
+130	985	724
+131	990	727
+132	997	731
+133	1004	733
+134	1008	735
+135	1018	738
+136	1023	741
+137	1029	745
+138	1033	751
+139	1037	758
+140	1044	762
+141	1048	768
+142	1054	771
+143	1058	777
+144	1063	779
+145	1068	782
+146	1073	785
+147	1078	789
+148	1083	795
+149	1087	797
+150	1094	799
+151	1101	802
+152	1109	813
+153	1117	817
+154	1122	825
+155	1133	829
+156	1137	832
+157	1142	834
+158	1149	836
+159	1155	840
+160	1161	848
+161	1167	853
+162	1172	855
+163	1180	859
+164	1185	862
+165	1195	864
+166	1201	866
+167	1205	874
+168	1209	877
+169	1216	879
+170	1221	888
+171	1225	893
+172	1231	898
+173	1240	901
+174	1244	903
+175	1248	910
+176	1253	915
+177	1260	922
+178	1268	924
+179	1275	926
+180	1281	931
+181	1285	934
+182	1292	936
+183	1296	938
+184	1304	940
+185	1309	942
+186	1313	947
+187	1318	949
+188	1326	957
+189	1331	961
+190	1337	963
+191	1342	965
+192	1348	968
+193	1352	974
+194	1359	978
+195	1368	983
+196	1376	986
+197	1382	989
+198	1386	992
+199	1390	999
+200	1394	1006
+201	1398	1009
+202	1407	1015
+203	1419	1021
+204	1423	1025
+205	1428	1027
+206	1434	1030
+207	1440	1032
+208	1446	1035
+209	1450	1038
+210	1456	1045
+211	1460	1051
+212	1464	1057
+213	1471	1061
+214	1477	1064
+215	1482	1067
+216	1490	1070
+217	1494	1076
+218	1498	1080
+
+Filter out kmers <= 16
+
+meryl greater-than 16 output shrd.inherited.gt16.meryl shrd.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=16
+    shrd.inherited.meryl
+    output to shrd.inherited.gt16.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final shrd.inherited.gt16.meryl to shrd.filt.meryl
+
+# Read only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opUnionSum
+    maternal_compress.k30.inherited.meryl
+    paternal_compress.k30.inherited.meryl
+    shrd.inherited.meryl
+    output to child_compress.k30.inherited.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    child_compress.k30.meryl
+    child_compress.k30.inherited.meryl
+    output to read.only.meryl
+
+Cleaning up.
+
+Bye.
+
+# Get histogram
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Done!

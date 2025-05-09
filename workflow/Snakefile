@@ -32,7 +32,8 @@ datasets_benchmark = {key: datasets[key] for key in ["published"]}
 asm_benchmark = {k: v for k, v in asm.items() if v["dataset"] == "published"}
 
 ## Create subset of assemblies for reduced flowcell number
-asm_flowcells = [
+asm_flowcell_ids = [
+    "TUE_02",
     "TUE_02_01UL",
     "TUE_02_02UL",
     "TUE_02_03UL",
@@ -53,7 +54,7 @@ asm_flowcells = [
     "TUE_02_06UL_02DX",
 ]
 
-asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcells}
+asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcell_ids}
 
 asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
 
