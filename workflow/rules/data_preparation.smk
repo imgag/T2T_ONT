@@ -103,6 +103,10 @@ def find_input_datasets(wc, print_debug=True):
                         files.append(
                             f"data/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
                         )
+                    if wc_type == "APK":
+                        files.append(
+                            f"data/basecalled/apk/{os.path.basename(e)}/{os.path.basename(e)}.apk.unmapped.bam"
+                        )
                 # Is a file
                 else:
                     match wc_type:
@@ -126,6 +130,8 @@ def find_input_datasets(wc, print_debug=True):
                         case "UL":
                             files.append(e)
                         case "POREC":
+                            files.append(e)
+                        case "APK":
                             files.append(e)
                         case _:
                             if print_debug:
