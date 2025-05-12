@@ -1,8 +1,8 @@
 # This path is for polishing the final assembly using APK and UL data
 rule medaka_polishing:
     input:
-        ul = lambda wc: get_assembly_input(wc).get('ul')
-        apk = lambda wc: get_assembly_input(wc).get('apk')
+        ul = lambda wc: get_assembly_input(wc).get('ul'),
+        apk = lambda wc: get_assembly_input(wc).get('apk'),
         asm = "assembly/output/verkko/{asm}/assembly.fasta"
     output:
         "assembly/output/verkko/{asm}/assembly_polished.fasta"
@@ -10,6 +10,7 @@ rule medaka_polishing:
         "logs/medaka_polishing_{asm}.log"
     benchmark:
         "runtimes/{asm}.medaka_polishing.txt"
+    threads: 60
     conda:
         "../env/medaka.yml"
     shell:

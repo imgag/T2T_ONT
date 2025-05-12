@@ -25,6 +25,8 @@ rule dorado:
     resources:
         queue="gpu_srv010,gpu_srv019", 
         gpus=2
+    benchmark:
+        "runtimes/{dataset}.dorado.{type}.txt"
     threads: 2
     priority: 3
     params:
@@ -40,7 +42,7 @@ rule dorado:
             --recursive \
             --trim all \
             --output-dir $(dirname {output.done}) \
-            >{log} 2>&1
+            2> {log}
         touch {output.done}
         """
 
@@ -65,6 +67,8 @@ rule dorado_summary:
         summary="data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
     params:
         dorado=config["dorado"],
+    benchmark:
+        "runtimes/{dataset}.dorado_summary.{type}.txt"
     log:
         "logs/dorado_summary/{dataset}_{model}_{type}.log",
     shell:
