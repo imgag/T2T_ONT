@@ -5,6 +5,9 @@
 #        - herro: Looks for herro files and creates them from simplex data if necessary
 #        - combined: 
 
+## Defaults if not specified:
+#   
+
 # Analysis matrix for testset chr19: 
 
 # LR↓/UL→ |         50x         |      70x     |     90x      |
@@ -23,6 +26,7 @@ published_chr19_duplex15x:
   region: chr19
   cov_UL: 50
   cov_HQ: 15
+  skip_verrko_polish: false
 
 published_chr19_duplex20x:
   dataset: published
@@ -30,6 +34,7 @@ published_chr19_duplex20x:
   region: chr19
   cov_UL: 50
   cov_HQ: 20
+  skip_verrko_polish: false
 
 published_chr19_duplex25x:
   dataset: published
@@ -37,38 +42,36 @@ published_chr19_duplex25x:
   region: chr19
   cov_UL: 50
   cov_HQ: 25
+  skip_verrko_polish: false
 
 published_chr19_combined35x:
   dataset: published
   HQ_method: combined
   region: chr19
   cov_UL: 50
-  #cov_HQ: 35   # Currently makes no impact if this line exists or not. Maybe add warning if it deviates from sum of herro and duplex
   cov_HERRO: 20
   cov_DUPLEX: 15
+  skip_verrko_polish: false
 
 published_chr19_combined35x_nopolish:
   dataset: published
-  skip_polish: true
+  
   HQ_method: combined
   region: chr19
   cov_UL: 50
-  #cov_HQ: 35   # Currently makes no impact if this line exists or not. Maybe add warning if it deviates from sum of herro and duplex
   cov_HERRO: 20
   cov_DUPLEX: 15
-
-# When only combined is given we should include maximum DUPLEX reads and fill up with HERRO
-# Needs to be implemented 
+  skip_verrko_polish: false
 
 published_chr19_duplex_UL50x:
   dataset: published
   HQ_method: duplex
   region: chr19
   cov_UL: 50
+  skip_verrko_polish: false
 
 published_chr19_duplex_UL50x_nopolish:
   dataset: published
-  skip_polish: true
   HQ_method: duplex
   region: chr19
   cov_UL: 50
@@ -78,16 +81,17 @@ published_chr19_duplex_UL70x:
   HQ_method: duplex
   region: chr19
   cov_UL: 70
+  skip_verrko_polish: false
 
 published_chr19_duplex_UL90x:
   dataset: published
   HQ_method: duplex
   region: chr19
   cov_UL: 90
+  skip_verrko_polish: false
 
 published_chr19_herro_35x_UL50x_nopolish:
   dataset: published
-  skip_polish: true
   HQ_method: herro
   cov_UL: 50
   cov_HQ: 35
@@ -99,6 +103,7 @@ published_chr19_herro_35x_UL70x:
   cov_UL: 70
   cov_HQ: 35
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_35x_UL90x:
   dataset: published
@@ -106,6 +111,7 @@ published_chr19_herro_35x_UL90x:
   cov_UL: 90
   cov_HQ: 35
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_60x_UL50x:
   dataset: published
@@ -113,6 +119,7 @@ published_chr19_herro_60x_UL50x:
   cov_UL: 50
   cov_HQ: 60
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_60x_UL70x:
   dataset: published
@@ -120,6 +127,7 @@ published_chr19_herro_60x_UL70x:
   cov_UL: 70
   cov_HQ: 60
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_60x_UL90x:
   dataset: published
@@ -127,6 +135,7 @@ published_chr19_herro_60x_UL90x:
   cov_UL: 90
   cov_HQ: 60
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_120x_UL50x:
   dataset: published
@@ -134,6 +143,7 @@ published_chr19_herro_120x_UL50x:
   cov_UL: 50
   cov_HQ: 120
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_120x_UL70x:
   dataset: published
@@ -141,6 +151,7 @@ published_chr19_herro_120x_UL70x:
   cov_UL: 70
   cov_HQ: 120
   region: chr19
+  skip_verrko_polish: false
 
 published_chr19_herro_120x_UL90x:
   dataset: published
@@ -148,6 +159,7 @@ published_chr19_herro_120x_UL90x:
   cov_UL: 90
   cov_HQ: 120
   region: chr19
+  skip_verrko_polish: false
 
 # Full genome published datasets:
 
@@ -155,12 +167,14 @@ published_duplex:
   dataset: published
   HQ_method: duplex
   cov_UL: 70
+  skip_verrko_polish: false
 
 published_herro:
   dataset:  published
   HQ_method: herro
   cov_UL: 70
   cov_HQ: 35
+  skip_verrko_polish: false
 
 ##################################################
 # Benchmarking TUE_02: 
@@ -169,33 +183,39 @@ published_herro:
 
 TUE_02_01UL:
   dataset: TUE_02_01UL
-  HQ_method: herro
+  HQ_method: herros
+  skip_verrko_polish: false
 
 TUE_02_02UL:
   dataset: TUE_02_02UL
   HQ_method: herro
+  skip_verrko_polish: false
 
 TUE_02_03UL:
   dataset: TUE_02_03UL
   HQ_method: herro
   cov_HQ: 50
+  skip_verrko_polish: false
 
 TUE_02_04UL:
   dataset: TUE_02_04UL
   HQ_method: herro
   cov_HQ: 50
+  skip_verrko_polish: false
 
 TUE_02_05UL:
   dataset: TUE_02_05UL
   HQ_method: herro
   cov_HQ: 50
   cov_UL: 70
+  skip_verrko_polish: false
 
 TUE_02_06UL:
   dataset: TUE_02_06UL
   HQ_method: herro
   cov_HQ: 50
   cov_UL: 70
+  skip_verrko_polish: false
 
 ## 1 Duplex!
 
@@ -204,28 +224,24 @@ TUE_02_01UL_01DX:
   HQ_method: combined
   cov_HERRO: max
   cov_DUPLEX: 10
-  skip_polish: true
 
 TUE_02_02UL_01DX:
   dataset: TUE_02_02UL
   HQ_method: combined
   cov_HERRO: max
   cov_DUPLEX: 10
-  skip_polish: true
 
 TUE_02_03UL_01DX:
   dataset: TUE_02_03UL
   HQ_method: combined
   cov_HERRO: 30
   cov_DUPLEX: 10
-  skip_polish: true
 
 TUE_02_04UL_01DX:
   dataset: TUE_02_04UL
   HQ_method: combined
   cov_HERRO: 40
   cov_DUPLEX: 10
-  skip_polish: true
 
 TUE_02_05UL_01DX:
   dataset: TUE_02_05UL
@@ -233,7 +249,6 @@ TUE_02_05UL_01DX:
   cov_HERRO: 30
   cov_DUPLEX: 10
   cov_UL: 70
-  skip_polish: true
 
 TUE_02_06UL_01DX:
   dataset: TUE_02_06UL
@@ -241,7 +256,6 @@ TUE_02_06UL_01DX:
   cov_HERRO: 40
   cov_DUPLEX: 10
   cov_UL: 70
-  skip_polish: true
 
 ## 2 Duplex!
 
@@ -250,14 +264,12 @@ TUE_02_01UL_02DX:
   HQ_method: combined
   cov_HERRO: max
   cov_DUPLEX: max
-  skip_polish: true
 
 TUE_02_02UL_02DX:
   dataset: TUE_02_02UL
   HQ_method: combined
   cov_HERRO: max
   cov_DUPLEX: max
-  skip_polish: true
 
 TUE_02_03UL_02DX:
   dataset: TUE_02_03UL
@@ -265,7 +277,6 @@ TUE_02_03UL_02DX:
   cov_HQ: 50
   cov_HERRO: max
   cov_DUPLEX: max
-  skip_polish: true
 
 TUE_02_04UL_02DX:
   dataset: TUE_02_04UL
@@ -273,7 +284,6 @@ TUE_02_04UL_02DX:
   cov_HQ: 50
   cov_HERRO: max
   cov_DUPLEX: max
-  skip_polish: true
 
 TUE_02_05UL_02DX:
   dataset: TUE_02_05UL
@@ -282,7 +292,6 @@ TUE_02_05UL_02DX:
   cov_HERRO: max
   cov_DUPLEX: max
   cov_UL: 70
-  skip_polish: true
 
 TUE_02_06UL_02DX:
   dataset: TUE_02_06UL
@@ -291,8 +300,7 @@ TUE_02_06UL_02DX:
   cov_HERRO: max
   cov_DUPLEX: max
   cov_UL: 70
-  skip_polish: true
-
+  
 ##################################################
 # Trio Phasing
 # use Trio data for calling the haplotypes
@@ -301,7 +309,6 @@ TUE_02_trio:
   dataset: TUE_02_03UL
   HQ_method: herro
   cov_HQ: 50
-  skip_polish: true
   trio_phasing: true
 
 ########################################################
@@ -312,3 +319,5 @@ GE-MED-T2T00:
   dataset: GE-MED-T2T00
   HQ_method: herro
   cov_HQ: 50
+  
+  apk_polishing: true
