@@ -41,13 +41,15 @@ def get_assembly_input(wc):
                 ped=["maternal", "paternal"],
             )
         elif wc.asm in asm_hifiasm.keys():
-            files["trio_kmers"] = expand(
-                "assembly/input/{dataset}/{ped}.yak",
-                dataset=s_d,
-                ped=["maternal", "paternal"],
-            )
+            if asm[wc.asm].get("hifiasm", "") == "ont_trio":
+                files["trio_kmers"] = expand(
+                    "assembly/input/{dataset}/{ped}.yak",
+                    dataset=s_d,
+                    ped=["maternal", "paternal"],
+                )
         else:
             raise ValueError(f"Assembly method {asm} not supported for trio phasing")
+    else: files["trio_kmers"] = []
     return files
 
 
@@ -415,11 +417,28 @@ rule yak_count:
         > {output} 2>&1
         """
 
+def get_hifiasm_opts(wildcards, input):
+    import traceback
+    opts = config["hifiasm_opts"][asm[wildcards.asm].get("hifiasm", "")]
+    try:
+        opts = opts.format(
+            ul = input.ul,
+            hq=input.hq,
+            maternal = input.kmers[0],
+            paternal = input.kmers[1])
+    except:
+        opts = opts.format(
+            ul = input.ul,
+            hq=input.hq)
+    return opts
+
+
 rule hifiasm:
     input:
-        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers"),
-        ul=lambda wc: get_assembly_input(wc).get("ul"),
-        hq=lambda wc: get_assembly_input(wc).get("hq"),
+        ul=lambda wc: get_assembly_input(wc).get("ul", []),
+        hq=lambda wc: get_assembly_input(wc).get("hq", []),
+        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers", []),
+
     output:
         primary_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.gfa",
         hap1_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.gfa",
@@ -436,15 +455,15 @@ rule hifiasm:
     threads: 48
     params:
         hifiasm = config["hifiasm"],
-        opts = lambda wc: config["hifiasm_opts"][asm[wc.asm].get("hifiasm", "")]
+        opts = get_hifiasm_opts
     shell:
         """
         {params.hifiasm} \
-            {params.opts} \
             --ul {input.ul} \
             -t {threads} \
             -o $(dirname {output.primary_gfa})/{wildcards.asm} \
-            {input.ul} {input.hq} > {log} 2>&1
+            {params.opts} \
+        > {log} 2>&1
         """
 
 rule hifiasm_to_fasta:
