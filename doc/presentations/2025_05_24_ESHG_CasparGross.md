@@ -15,7 +15,6 @@ Alex DiGenova
 Fubo Cheng
 Elena Buena Atienza
 
-
 --- 
 
 ## Running times

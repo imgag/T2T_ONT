@@ -169,7 +169,7 @@ rule merge_copy_rename_fastq:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/merge_copy_rename_fastq.{dataset}.{type}.log",
+        "logs/merge_copy_rename_fastq/{dataset}.{type}.log",
     params:
         samtools=lambda wc: "samtools" if input_isbam(wc) else "",
     threads: 12
@@ -189,7 +189,7 @@ rule map_unaligned_bam:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_bam_{path}.log",
+        "logs/map_bam/{path}.log",
     threads: 60
     params:
         preset=lambda wc: "lr:hq" if "duplex" in wc.path else "map-ont",
@@ -214,7 +214,7 @@ rule map_fq:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_fq_{file}.log",
+        "logs/map_fq/{file}.log",
     threads: 60
     params:
         preset=lambda wc: "lr:hq" if "duplex" in wc.file else "map-ont",
@@ -237,7 +237,7 @@ rule sample_to_target_cov:
     conda:
         "../env/filtlong.yml"
     log:
-        "logs/filtlong_{file}_{cov}.log",
+        "logs/filtlong/{file}_{cov}.log",
     params:
         min_length=config["min_length"],
         min_mean_q=config["min_mean_q"],
@@ -262,7 +262,7 @@ rule extract_location_data:
     output:
         fq="assembly/input/{file}.{roi,chr.*}.fastq.gz",
     log:
-        "logs/extract_location_data_{file}_{roi}.log",
+        "logs/extract_location_data/{file}_{roi}.log",
     shell:
         """
         samtools view -h {input.bam} {wildcards.roi} 2>>{log} \

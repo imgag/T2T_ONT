@@ -54,8 +54,8 @@ asm_flowcell_ids = [
 ]
 
 asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcell_ids}
-
 asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
+asm_with_apk = {k: v for k, v in asm.items() if v.get("apk_polishing", False)}
 
 ## All other assemblies are "real" samples
 asm_samples = {
@@ -196,7 +196,7 @@ for dataset_set in datasets.keys():
                 elif data_type == "APK":
                     unique_datasets["apk"][leaf_folder] = run_folder
 
-print("-----------")
+
 print("Unique datasets:")
 print(unique_datasets)
 
@@ -348,7 +348,6 @@ def qc_collection(
     return results
 
 
-
 rule all:
     input:
         expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
@@ -363,6 +362,9 @@ rule all_samples:
         fq_qc,
         "assembly/qc/qc_samples.tsv",
 
+rule all_polishing:
+    input:
+        expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_with_apk),
 
 rule all_benchmark:
     input:

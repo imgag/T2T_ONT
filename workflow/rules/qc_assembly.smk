@@ -68,7 +68,7 @@ rule subsample_ref_genome:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/subsample_ref_genome_{ref}_{roi}.log",
+        "logs/subsample_ref_genome/{ref}_{roi}.log",
     threads: 1
     shell:
         """
@@ -87,7 +87,7 @@ rule create_colors:
     output:
         csv="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
     log:
-        "logs/create_colors_{isphased}_{tool}_{asm}.log",
+        "logs/create_colors/{isphased}_{tool}_{asm}.log",
     params:
         colours_phasing=lambda wc: f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv"
         if wc.isphased == "phased" and wc.tool == "verkko"
@@ -109,7 +109,7 @@ rule process_graph:
     output:
         gfa="assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa",
     log:
-        "logs/process_graph_{isphased}_{tool}_{asm}.log",
+        "logs/process_graph/{isphased}_{tool}_{asm}.log",
     shell:
         """
         python workflow/scripts/12_process_gfa.py \
@@ -138,7 +138,7 @@ rule bandage:
     conda:
         "../env/bandage.yml"
     log:
-        "logs/bandage_{isphased}_{tool}_{asm}.log",
+        "logs/bandage/{isphased}_{tool}_{asm}.log",
     threads: 1
     shell:
         """
@@ -159,7 +159,7 @@ rule map_asm_to_ref:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/map_asm_to_ref.{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/map_asm_to_ref/{isphased}_{tool}_{asm}_{hp}.log",
     threads: 4
     shell:
         """
@@ -181,7 +181,7 @@ rule map_cdna_to_ref:
         "../env/minimap2.yml"
     threads: 20
     log:
-        "logs/map_cdna_to_ref_{asm}.log",
+        "logs/map_cdna_to_ref/{asm}.log",
     shell:
         """
         minimap2 -cxsplice -C5\
@@ -201,7 +201,7 @@ rule map_cdna_to_asm:
         "../env/minimap2.yml"
     threads: 20
     log:
-        "logs/qc_asmgene_map_{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/qc_asmgene_map/{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         minimap2 -cxsplice -C5\
@@ -221,7 +221,7 @@ rule qc_paftools_stat:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_stat_{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/paftools_stat/{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js stat\
@@ -240,7 +240,7 @@ rule qc_paftools_asmstat:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmstat_{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/paftools_asmstat/{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmstat\
@@ -273,7 +273,7 @@ rule qc_paftools_asmgene:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/paftools_asmgene_{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/paftools_asmgene/{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         paftools.js asmgene \
@@ -292,7 +292,7 @@ rule scaffold_lengths:
         "../env/minimap2.yml"
     threads: 1
     log:
-        "logs/scaffold_lengths.{tool}_{asm}_{hp}.txt",
+        "logs/scaffold_lengths/{tool}_{asm}_{hp}.txt",
     shell:
         """
         samtools faidx {input.fa}
@@ -312,7 +312,7 @@ rule dotplot:
         "../env/R.yml"
     threads: 1
     log:
-        "logs/dotplot.{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/dotplot/{isphased}_{tool}_{asm}_{hp}.log",
     shell:
         """
         Rscript workflow/scripts/minidot.R \
@@ -348,7 +348,7 @@ rule qc_meryl:
     conda:
         "../env/merqury.yml"
     log:
-        "logs/meryl_count_ref_q100_{k_val}.log",
+        "logs/meryl_count/ref_q100_{k_val}.log",
     shell:
         """
         meryl count k={params.k} {input.ref_q100} output {output.meryl} > {log} 2>&1
@@ -379,7 +379,7 @@ rule qc_merqury_phased:
     conda:
         "../env/merqury.yml"
     log:
-        "logs/merqury_{tool}_{asm}.log",
+        "logs/merqury/{tool}_{asm}.log",
     threads: 40
     shell:
         """
@@ -421,7 +421,7 @@ rule qc_merqury_unphased:
     conda:
         "../env/merqury.yml"
     log:
-        "logs/merqury_{isphased}_verkko_{asm}{polished}.log",
+        "logs/merqury/{isphased}_verkko_{asm}{polished}.log",
     threads: 40
     shell:
         """
@@ -458,7 +458,7 @@ rule find_T2T_contigs:
         alignment="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
         motif="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}_motif_T2T.txt",
     log:
-        "logs/find_T2T_contigs_{isphased}_{tool}_{asm}_{hp}.log",
+        "logs/find_T2T_contigs/{isphased}_{tool}_{asm}_{hp}.log",
     threads: 6
     params:
         T2T_chromosomes=config["T2T_chromosomes"],

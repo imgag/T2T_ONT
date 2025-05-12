@@ -21,7 +21,7 @@ rule dorado:
     output:
         done="data/basecalled/{type}/{dataset,[^.]+(?!\.bam$)}/dorado_{type}.done",
     log:
-        "logs/dorado_{type}_{dataset}.log"
+        "logs/dorado/{type}_{dataset}.log"
     resources:
         queue="gpu_srv010,gpu_srv019", 
         gpus=2
@@ -50,7 +50,7 @@ rule rename_dorado_output:
     output:
         bam="data/basecalled/{type}/{dataset}/{dataset}.{type}.unmapped.bam",
     log:
-        "logs/rename_dorado_output_{dataset}_{type}.log",
+        "logs/rename_dorado_output/{dataset}_{type}.log",
     shell:
         """
         mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
@@ -66,7 +66,7 @@ rule dorado_summary:
     params:
         dorado=config["dorado"],
     log:
-        "logs/dorado_summary_{dataset}_{model}_{type}.log",
+        "logs/dorado_summary/{dataset}_{model}_{type}.log",
     shell:
         """
         {params.dorado} summary \
@@ -88,7 +88,7 @@ rule pod5_view:
     output:
         summary=temp("{dataset,[^.]+(?!\.bam$)}.summary.tsv"),
     log:
-        "logs/{dataset}_pod5_view.log",
+        "logs/pod5_view/{dataset}.log",
     conda:
         "../env/pod5.yml"
     priority: 1
@@ -112,7 +112,7 @@ rule process_summary:
     output:
         summary=temp("{dataset}.summary.proc.tsv"),
     log:
-        "logs/{dataset}_process_summary.log"
+        "logs/process_summary/{dataset}.log"
     params:
         split_number=config["split_number"],
     priority: 1
@@ -131,7 +131,7 @@ checkpoint pod5_split:
     output:
         dataset_split=directory(temp("{dataset}_split_by_channel")),
     log:
-        "logs/{dataset}_pod5_split.log"
+        "logs/pod5_split/{dataset}.log"
     conda:
         "../env/pod5.yml"
     threads: 20
@@ -167,7 +167,7 @@ rule dorado_duplex:
     output:
         bam=temp("{dataset}_split_by_channel/channel-{channel}.bam"),
     log:
-        "logs/dorado_duplex_{dataset}_{channel}.log"
+        "logs/dorado_duplex/{dataset}_{channel}.log"
     resources:
         queue=config["gpu_queues"],
         gpus=1
@@ -213,7 +213,7 @@ rule concat_bam:
     output:
         bam="{dataset}.duplex.unmapped.bam",
     log:
-        "logs/concat_bam_{dataset}.log",
+        "logs/concat_bam/{dataset}.log",
     conda:
         "../env/samtools.yml"
     priority: 4
@@ -234,7 +234,7 @@ rule report_duplex_statistics:
     output:
         statistics="{dataset}.duplex.stat.txt",
     log:
-        "logs/report_duplex_statistics_{dataset}.log",
+        "logs/report_duplex_statistics/{dataset}.log",
     conda:
         "../env/samtools.yml"
     threads: 1
@@ -257,7 +257,7 @@ rule extract_duplex:
     conda:
         "../env/samtools.yml"
     log:
-        "logs/extract_duplex_{dataset}.log",
+        "logs/extract_duplex/{dataset}.log",
     shell:
         """
         samtools view -b -h -d dx:1 {input.bam} > {output.bam} 2> {log}

@@ -8,7 +8,7 @@ rule mosdepth:
     conda:
         "../env/mosdepth.yml"
     log:
-        "logs/modepth_{path}.log",
+        "logs/mosdepth/{path}.log",
     shell:
         """
         mosdepth \
@@ -28,7 +28,7 @@ rule bam_qc:
         tsv="data/bamstats/{path}/bamqc.tsv.gz",
         json="data/bamstats/{path}/bamqc.json.gz",
     log:
-        "logs/bam_qc_{path}.log",
+        "logs/bam_qc/{path}.log",
     threads: 1
     params:
         alfred="bin/alfred",
@@ -57,7 +57,7 @@ rule bamstats:
     conda:
         "../env/fastcat.yml"
     log:
-        "logs/bamstats.{path}.log",
+        "logs/bamstats/{path}.log",
     threads: 4
     shell:
         """
@@ -84,7 +84,7 @@ rule fastcat_qc_only:
     conda:
         "../env/fastcat.yml"
     log:
-        "logs/fastcat_qc_only.{dataset}.{type}.log",
+        "logs/fastcat_qc_only/{dataset}.{type}.log",
     shell:
         """
         tmp=$(mktemp -u)
@@ -106,7 +106,7 @@ rule process_dorado_summary:
     conda:
         "../env/R.yml"
     log:
-        "logs/process_dorado_summary.{dataset}_{model}_{type}.txt",
+        "logs/process_dorado_summary/{dataset}_{model}_{type}.txt",
     shell:
         """
         Rscript workflow/scripts/07_dorado_summary_stats.R {input} {output} > {log} 2>&1
@@ -121,7 +121,7 @@ rule porec_qc:
     benchmark:
         "runtimes/{dataset}.porec_qc.txt"
     log:
-        "logs/porec_qc.{dataset}.log",
+        "logs/porec_qc/{dataset}.log",
     params:
         ref=config["ref"],
     shell:

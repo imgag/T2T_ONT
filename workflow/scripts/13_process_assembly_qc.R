@@ -1,5 +1,14 @@
 process_qc_table <- function(dt){
 
+    # Define the optional grouping columns
+    optional_group_cols <- c("n_UL", "n_DX", "sample")
+    
+    # Get the base grouping columns that are always present
+    base_group_cols <- c("asm_name", "haplotype", "source", "asm_method")
+    
+    # Add optional columns if they exist in the data
+    group_cols <- c(base_group_cols, optional_group_cols[optional_group_cols %in% names(dt)])
+    
     # Calculate MMC
     dt_mmc <- dt %>%
     # First calculate MMC as before
@@ -8,8 +17,8 @@ process_qc_table <- function(dt){
         names_from = metric,
         values_from = value,
         values_fill = list(value = 0)
-    ) %>%
-    group_by(asm_name, haplotype, source, asm_method, n_UL, n_DX, sample) %>%
+        ) %>%
+        group_by(!!!syms(group_cols)) %>%
     summarise(
         ref_mc = sum(ref.dup_cnt),
         asm_mc = sum(asm.dup_cnt),
@@ -24,7 +33,7 @@ process_qc_table <- function(dt){
     # Calculate genome completeness
     dt_completeness <- dt %>%
     filter(source == "asmgene") %>%
-    group_by(asm_name, haplotype, source, asm_method, n_UL, n_DX, sample) %>%
+    group_by(!!!syms(group_cols)) %>%
     summarise(
         complete = sum(value[metric == "asm.full_sgl"]),
         total = sum(value[metric == "ref.full_sgl"]),
@@ -39,7 +48,7 @@ process_qc_table <- function(dt){
     # Aggregate whatshap_compare metrics across chromosomes
     dt_whatshap_agg <- dt %>%
     filter(source == "whatshap_compare") %>%
-    group_by(asm_name, haplotype, asm_method, n_UL, n_DX, sample) %>%
+    group_by(!!!syms(group_cols)) %>%
     summarise(
         # Calculate total covered variants
         total_covered_variants = sum(value[metric == "covered_variants"], na.rm = TRUE),

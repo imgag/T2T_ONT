@@ -56,7 +56,7 @@ rule verkko:
     group:
         "verkko"
     log:
-        "logs/verkko_{asm}.log",
+        "logs/verkko/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko.txt"
     threads: 92
@@ -90,7 +90,7 @@ rule copy_verkko_unphased:
         scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     log:
-        "logs/copy_verkko_unphased_{asm}.log",
+        "logs/copy_verkko_unphased/{asm}.log",
     shell:
         """
         cp -v {input.fa} {output.fa} > {log} 2>&1
@@ -118,19 +118,19 @@ rule verkko_scaffold:
     group:
         "verkko"
     log:
-        "logs/verkko_scaffold_{asm}.log",
+        "logs/verkko_scaffold/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
     threads: 92
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
-        skip_verrko_polish=lambda wc: "--no-correction"
-        if asm[wc.asm].get("skip_verrko_polish", True)
+        skip_verkko_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_verkko_polish", True)
         else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
-            {params.skip_verrko_polish} \
+            {params.skip_verkko_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \
@@ -151,7 +151,7 @@ rule scaffold_create_rename_map:
     output:
         map="assembly/output/gfase/{asm}/contigs.rename.map",
     log:
-        "logs/create_rename_map_{asm}.log",
+        "logs/create_rename_map/{asm}.log",
     group:
         "verkko"
     threads: 1
@@ -175,7 +175,7 @@ rule scaffold_rename_fasta:
     group:
         "verkko"
     log:
-        "logs/scaffold_rename_fasta_{asm}.log",
+        "logs/scaffold_rename_fasta/{asm}.log",
     threads: 1
     shell:
         """
@@ -198,7 +198,7 @@ rule scaffold_uncompress_gfa:
     group:
         "verkko"
     log:
-        "logs/scaffold_uncompress_gfa_{asm}.log",
+        "logs/scaffold_uncompress_gfa/{asm}.log",
     threads: 4
     shell:
         """
@@ -222,7 +222,7 @@ rule scaffold_map_porec:
     conda:
         "../env/minimap2.yml"
     log:
-        "logs/scaffold_map_porec_{asm}.log",
+        "logs/scaffold_map_porec/{asm}.log",
     threads: 40
     shell:
         """
@@ -252,7 +252,7 @@ rule scaffold_gfase:
     params:
         gfase="bin/GFAse/build/phase_contacts_with_monte_carlo",
     log:
-        "logs/scaffold_gfase_{asm}.log",
+        "logs/scaffold_gfase/{asm}.log",
     threads: 12
     shell:
         """
@@ -294,7 +294,7 @@ rule build_trio_meryldb:
     conda:
         "../env/merqury.yml"
     log:
-        "logs/meryl_builddb_{dataset}_{ped}.log",
+        "logs/meryl_builddb/{dataset}_{ped}.log",
     threads: 30
     shell:
         """
@@ -317,7 +317,7 @@ rule build_trio_hapmers:
         pat = directory("assembly/input/{dataset}/meryl/paternal_compress.k30.hapmer.meryl"),
         mat = directory("assembly/input/{dataset}/meryl/maternal_compress.k30.hapmer.meryl")
     log:
-        "logs/build_trio_hapmers_{dataset}.log",
+        "logs/build_trio_hapmers/{dataset}.log",
     threads: 30
     conda:
         "../env/merqury.yml"
@@ -359,19 +359,19 @@ rule verkko_scaffold_trio:
     group:
         "verkko"
     log:
-        "logs/verkko_scaffold_{asm}.log",
+        "logs/verkko_scaffold_trio/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
     threads: 92
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
-        skip_verrko_polish=lambda wc: "--no-correction"
-        if asm[wc.asm].get("skip_verrko_polish", False)
+        skip_verkko_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_verkko_polish", False)
         else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
-            {params.skip_verrko_polish} \
+            {params.skip_verkko_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --hap-kmers {input.kmers} trio \
@@ -397,7 +397,7 @@ rule hifiasm:
     conda:
         "../env/hifiasm.yml"
     log:
-        "logs/hifiasm_{asm}.log",
+        "logs/hifiasm/{asm}.log",
     benchmark:
         "runtimes/{asm}.hifiasm.txt"
     threads: 30
