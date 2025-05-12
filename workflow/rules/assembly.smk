@@ -124,13 +124,13 @@ rule verkko_scaffold:
     threads: 92
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
-        skip_polish=lambda wc: "--no-correction"
-        if asm[wc.asm].get("skip_polish", False)
+        skip_verrko_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_verrko_polish", True)
         else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
-            {params.skip_polish} \
+            {params.skip_verrko_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \
@@ -365,13 +365,13 @@ rule verkko_scaffold_trio:
     threads: 92
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
-        skip_polish=lambda wc: "--no-correction"
-        if asm[wc.asm].get("skip_polish", False)
+        skip_verrko_polish=lambda wc: "--no-correction"
+        if asm[wc.asm].get("skip_verrko_polish", False)
         else "",
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
-            {params.skip_polish} \
+            {params.skip_verrko_polish} \
             --hifi {input.hq} \
             --nano {input.ul} \
             --hap-kmers {input.kmers} trio \
