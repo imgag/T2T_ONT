@@ -27,6 +27,14 @@ genome_length : 3200000000
 # Assembly settings
 verkko_dryrun : False
 
+# Hifiasm settings:
+hifiasm : bin/hifiasm-0.25.0/hifiasm
+hifiasm_opts:
+  ont:   "--telo-m CCCTTA --dual-scaff --primary --ul-cut 7000000 -l1 --ont {input.ul}"
+  herro: "--telo-m CCCTTA --dual-scaff --primary --ul-cut 7000000 -l1 --hifi {input.hq}"
+  ont_trio: "--telo-m CCCTTA --dual-scaff --primary --ul-cut 7000000 -l0 --trio-dual --ont {input.ul} -1 {input.yak_mat} -2 {input.yak_pat}"
+  rfhap: "--telo-m CCCTTA --dual-scaff --primary --ul-cut 7000000 -l2 --n-hap 1 --ont {input.ul} --ul {input.ul}"
+
 # Variant calling settings
 X_PAR_file: bin/dipcall.kit/hs38.PAR.bed
 run-dipcall: bin/dipcall.kit/run-dipcall
