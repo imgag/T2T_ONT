@@ -34,11 +34,20 @@ def get_assembly_input(wc):
 
     # Add Trio hapmers if both maternal and paternal are present
     if "HQ_paternal" in datasets[s_d] and "HQ_maternal" in datasets[s_d]:
-        files["trio_kmers"] = expand(
-            "assembly/input/{dataset}/meryl/{ped}_compress.k30.hapmer.meryl",
-            dataset=s_d,
-            ped=["maternal", "paternal"],
-        )
+        if wc.asm in asm_trio.keys():
+            files["trio_kmers"] = expand(
+                "assembly/input/{dataset}/meryl/{ped}_compress.k30.hapmer.meryl",
+                dataset=s_d,
+                ped=["maternal", "paternal"],
+            )
+        elif wc.asm in asm_hifiasm.keys():
+            files["trio_kmers"] = expand(
+                "assembly/input/{dataset}/{ped}.yak",
+                dataset=s_d,
+                ped=["maternal", "paternal"],
+            )
+        else:
+            raise ValueError(f"Assembly method {asm} not supported for trio phasing")
     return files
 
 
@@ -274,7 +283,7 @@ rule scaffold_gfase:
 
 # Select correct input reads for kmer counting
 def get_trio_input(wc):
-    s_d = asm[wc.dataset]["dataset"]
+    s_d = asm[wc.asm]["dataset"]
     if wc.ped == "child":
         s_hq = "HQ_herro"
     elif wc.ped == "paternal":
@@ -288,13 +297,13 @@ rule build_trio_meryldb:
     input:
         get_trio_input
     output:
-        meryl=directory("assembly/input/{dataset}/meryl/{ped}_compress.k30.meryl"),
+        meryl=directory("assembly/input/{asm}/meryl/{ped}_compress.k30.meryl"),
     params:
         k=config["K-mer_phasing"],
     conda:
         "../env/merqury.yml"
     log:
-        "logs/meryl_builddb/{dataset}_{ped}.log",
+        "logs/meryl_builddb/{asm}_{ped}.log",
     threads: 30
     shell:
         """
@@ -384,25 +393,75 @@ ruleorder: verkko_scaffold > verkko_scaffold_trio
 #######################
 ## Hifiasm assembly ##
 ######################
+rule yak_count:
+    input:
+        get_trio_input
+    output:
+        yak="assembly/input/{asm}/{ped}.yak"
+    conda:
+        "../env/yak.yml"
+    threads: 24
+    benchmark:
+        "runtimes/{asm}.yak_count.{ped}.txt"
+    log:
+        "logs/yak_count/{asm}.{ped}.log"
+    shell:
+        """
+        yak count \
+        -t {threads} \
+        -k31 \
+        -b37 \
+        {input} \
+        > {output} 2>&1
+        """
 
 rule hifiasm:
     input:
-        ul="assembly/input/{asm}/{asm}.UL.fastq.gz",
-        hq="assembly/input/{asm}/{asm}.HQ.fastq.gz",
+        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers"),
+        ul=lambda wc: get_assembly_input(wc).get("ul"),
+        hq=lambda wc: get_assembly_input(wc).get("hq"),
     output:
-        r_utg="assembly/output/hifiasm/{asm}/{asm}.r_utg.gfa",
-        p_utg="assembly/output/hifiasm/{asm}/{asm}.p_utg.gfa",
-        p_ctg="assembly/output/hifiasm/{asm}/{asm}.p_ctg.gfa",
-        a_ctg="assembly/output/hifiasm/{asm}/{asm}.a_ctg.gfa",
+        primary_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.gfa",
+        hap1_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.gfa",
+        hap2_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.gfa",
+        primary_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.noseq.gfa",
+        hap1_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.noseq.gfa",
+        hap2_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.noseq.gfa",
     conda:
         "../env/hifiasm.yml"
     log:
         "logs/hifiasm/{asm}.log",
     benchmark:
         "runtimes/{asm}.hifiasm.txt"
-    threads: 30
+    threads: 48
+    params:
+        hifiasm = config["hifiasm"],
+        opts = lambda wc: config["hifiasm_opts"][asm[wc.asm].get("hifiasm", "")]
     shell:
         """
-        hifiasm -l0 -t {threads} -o assembly/output/hifiasm/{wildcards.asm}/{wildcards.asm} \
+        {params.hifiasm} \
+            {params.opts} \
+            --ul {input.ul} \
+            -t {threads} \
+            -o $(dirname {output.primary_gfa})/{wildcards.asm} \
             {input.ul} {input.hq} > {log} 2>&1
+        """
+
+rule hifiasm_to_fasta:
+    input:
+        primary_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.gfa",
+        hap1_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.gfa",
+        hap2_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.gfa",
+    output:
+        fa = "assembly/output/hifiasm/{asm}/assembly.fasta",
+        hap1_fa="assembly/output/hifiasm/{asm}/assembly.haplotype1.fasta",
+        hap2_fa="assembly/output/hifiasm/{asm}/assembly.haplotype2.fasta",
+    log:
+        "logs/hifiasm_to_fasta/{asm}.log",
+    threads: 1
+    shell:
+        """
+        awk '/^S/{{print ">"$2;print $3}}' {input.primary_gfa} > {output.fa} 2> {log}
+        awk '/^S/{{print ">"$2;print $3}}' {input.hap1_gfa} > {output.hap1_fa} 2>> {log}
+        awk '/^S/{{print ">"$2;print $3}}' {input.hap2_gfa} > {output.hap2_fa} 2>> {log}
         """

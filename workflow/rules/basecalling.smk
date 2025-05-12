@@ -68,7 +68,7 @@ rule dorado_summary:
     params:
         dorado=config["dorado"],
     benchmark:
-        "runtimes/{dataset}.dorado_summary.{type}.txt"
+        "runtimes/{dataset}.dorado_summary.{model}.{type}.txt"
     log:
         "logs/dorado_summary/{dataset}_{model}_{type}.log",
     shell:

@@ -57,12 +57,14 @@ asm_flowcell_ids = [
 asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcell_ids}
 asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
 asm_with_apk = {k: v for k, v in asm.items() if v.get("apk_polishing", False)}
+asm_hifiasm = {k: v for k, v in asm.items() if v.get("hifiasm", False)}
+asm_with_porec = {k: v for k, v in asm.items() if "POREC" in datasets[v["dataset"]].keys()}
 
 ## All other assemblies are "real" samples
 asm_samples = {
     k: v
     for k, v in asm.items()
-    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys())
+    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys() | asm_hifiasm.keys() | asm_with_porec.keys())
 }
 
 print("Benchmark assemblies:")
@@ -80,6 +82,14 @@ for key, value in asm_samples.items():
 print("\nTrio assemblies:")
 for key, value in asm_trio.items():
     print(f"  {key}: {value}")
+
+print("\nHifiasm assemblies:")
+for key, value in asm_hifiasm.items():
+    print(f"  {key}: {value}")
+
+#print("\nPOREC assemblies:")
+#for key, value in asm_with_porec.items():
+#    print(f"  {key}: {value}")
 
 print("----------------------------------------------------------")
 
@@ -155,18 +165,6 @@ for dataset in datasets:
                     )
             else:
                 print("Not included in BAM QC:", e)
-
-
-# Make different sets for assembly with and without POREC
-asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]].keys()]
-
-print("----------------------------------------------------------")
-print("Assemblies overview:")
-print("with POREC:")
-print(asm_with_porec)
-print("with Trio:")
-print(asm_trio)
-print("----------------------------------------------------------")
 
 
 # Initialize dictionaries with sets
@@ -366,6 +364,10 @@ rule all_samples:
 rule all_polishing:
     input:
         expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_with_apk),
+
+rule all_hifiasm:
+    input:
+        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
 
 rule all_benchmark:
     input:
