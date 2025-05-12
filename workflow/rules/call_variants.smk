@@ -66,7 +66,7 @@ rule dipcall:
         sex=get_sex_file,
         run_dipcall=config["run-dipcall"],
     log:
-        "logs/dipcall_{tool}_{asm}.log",
+        "logs/dipcall/{tool}_{asm}.log",
     threads: 8
     shell:
         """
@@ -90,7 +90,7 @@ rule hapdiff:
     output:
         vcf="assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
     log:
-        "logs/hapdiff_{tool}_{asm}.log",
+        "logs/hapdiff/{tool}_{asm}.log",
     conda:
         "../env/hapdiff.yml"
     threads: 20
@@ -118,7 +118,7 @@ rule whatshap_stats:
         blocks="assembly/qc/phased_{tool}/{asm}/whatshap_blocks.tsv",
         gtf="assembly/qc/phased_{tool}/{asm}/whatshap_blocks.gtf",
     log:
-        "logs/whatshap_stats_{tool}_{asm}.log",
+        "logs/whatshap_stats/{tool}_{asm}.log",
     conda:
         "../env/whatshap.yml"
     shell:
@@ -141,7 +141,7 @@ rule filter_shared_variants:
         ref_filtered="assembly/qc/phased_{tool}/{asm}/giab.filtered.vcf.gz",
         asm_filtered="assembly/qc/phased_{tool}/{asm}/assembly.filtered.vcf.gz",
     log:
-        "logs/filter_shared_variants_{tool}_{asm}.log",
+        "logs/filter_shared_variants/{tool}_{asm}.log",
     conda:
         "../env/bcftools.yml"
     shell:
@@ -185,7 +185,7 @@ rule whatshap_compare:
         stats="assembly/qc/phased_{tool}/{asm}/whatshap_compare.txt",
         tsv="assembly/qc/phased_{tool}/{asm}/whatshap_compare.tsv",
     log:
-        "logs/whatshap_compare_{tool}_{asm}.log",
+        "logs/whatshap_compare/{tool}_{asm}.log",
     conda:
         "../env/whatshap.yml"
     shell:

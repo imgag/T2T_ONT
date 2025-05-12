@@ -14,7 +14,6 @@ Extracting 1000bps from start and end of sequences for telomere motif identifica
 seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/TUE_02_01UL/assembly.fasta >assembly/qc/phased_verkko/TUE_02_01UL/T2T_contigs.unphased.teloinput.fa
 
 
-[INFO][0m create FASTA index for assembly/output/verkko/TUE_02_01UL/assembly.fasta
 searching telomere motif
 
 tidk search -d . -f assembly/qc/phased_verkko/TUE_02_01UL/T2T_contigs.unphased.teloinput.fa -o assembly/qc/phased_verkko/TUE_02_01UL/T2T_contigs.unphased -s TTAGGG -w 1000
@@ -6112,18 +6111,8 @@ tidk search -d . -f assembly/qc/phased_verkko/TUE_02_01UL/T2T_contigs.unphased.t
 [+]	Finished searching genome.
 
 
-Reference sequence provided, proceeding with mapping based T2T filtering
+Existing paf file found. Skipping alingment step
 
-[M::main::4.212*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
-[M::mg_index::55.292*1.39] indexed the graph
-[M::mg_opt_update::59.057*1.37] occ_max1=100; lc_max_occ=2
-[M::worker_pipeline::270.762*3.84] mapped 38 sequences
-[M::worker_pipeline::465.370*4.37] mapped 517 sequences
-[M::worker_pipeline::649.294*4.62] mapped 45 sequences
-[M::worker_pipeline::683.809*4.67] mapped 2444 sequences
-[M::main] Version: 0.20-r559
-[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/verkko/TUE_02_01UL/assembly.fasta
-[M::main] Real time: 684.449 sec; CPU: 3195.472 sec; Peak RSS: 44.257 GB
 [M::load_paf::] ==> Loaded assembly/qc/phased_verkko/TUE_02_01UL/T2T_contigs.unphased.paf
 
 

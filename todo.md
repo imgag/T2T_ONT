@@ -1,10 +1,4 @@
 # Tasks
-
-- [ ] Check how a combination of Duplex and HERRO reads performs?
-    - [ ] Is the coverage evenly distributed?
-    - [ ] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
-    - [ ] What is the max benefitial addition of HERRO reads?
-    - [ ] Create improvement plot with additional Flowcells (UL)
 - [ ] Include APK Polishing
     - [ ] Add polishing tool to pipeline
     - [ ] Create new QC folder for polished assembly
@@ -27,7 +21,7 @@
 - [ ] Check if filtlong subsampling with length preference is a problem for subsampling HERRO and DUPLEX reads in the benchmark
 - [X] Store unphased verkko output in a separate folder
 - [X] Run Verkko with the "NoPolishing" option.
-- [ ] Check if NoPolishing Performance is better.
+- [-] Check if NoPolishing Performance is better.
 - [X] Find 2 missing UL Flowcells
 - [X] Make PORCE optional, dont run scaffolding without it
 - [X] Telomere detection (seqtk telo ?, take from verkko results, )
@@ -38,6 +32,11 @@
 - [X] Include [asmgene](https://github.com/lh3/minimap2/issues/355) QC for gene completenes stats
 - [X] Generate sequencing stats on raw data files
 - [X] Try different Ultralong coverages
+- [X] Check how a combination of Duplex and HERRO reads performs?
+    - [-] Is the coverage evenly distributed?
+    - [-] Is it possible to exclude reads that were used in Duplex generation from HERRO calling
+    - [-] What is the max benefitial addition of HERRO reads?
+    - [X] Create improvement plot with additional Flowcells (UL)
 - [X] Prepare published test datasets:
     - [X] Download datasets (see Readme)
     - [X] Merge bamfiles
