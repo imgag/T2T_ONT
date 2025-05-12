@@ -33,7 +33,6 @@ asm_benchmark = {k: v for k, v in asm.items() if v["dataset"] == "published"}
 
 ## Create subset of assemblies for reduced flowcell number
 asm_flowcell_ids = [
-    "TUE_02",
     "TUE_02_01UL",
     "TUE_02_02UL",
     "TUE_02_03UL",
@@ -159,24 +158,13 @@ for dataset in datasets:
 
 # Make different sets for assembly with and without POREC
 asm_with_porec = [x for x in asm.keys() if "POREC" in datasets[asm[x]["dataset"]].keys()]
-asm_without_porec = [x for x in asm.keys() if "POREC" not in datasets[asm[x]["dataset"]]]
-asm_samples_phased = [
-    x for x in asm_samples.keys() if "POREC" in datasets[asm[x]["dataset"]]
-]
-asm_samples_unphased = [
-    x for x in asm_samples.keys() if "POREC" not in datasets[asm[x]["dataset"]]
-]
 
 print("----------------------------------------------------------")
 print("Assemblies overview:")
 print("with POREC:")
 print(asm_with_porec)
-print("without POREC:")
-print(asm_without_porec)
-print("phased:")
-print(asm_samples_phased)
-print("unphased:")
-print(asm_samples_unphased)
+print("with Trio:")
+print(asm_trio)
 print("----------------------------------------------------------")
 
 
@@ -363,37 +351,16 @@ def qc_collection(
 
 rule all:
     input:
-        # QC Files
-        #fq_qc,
-        #bam_qc,
-        # Assembly Files
-        expand("assembly/output/verkko/{dataset}/assembly.fasta", dataset=asm.keys()),
-        # Assembly QC Files (Unphased, no POREC)
-        expand(
-            "assembly/qc/unphased_verkko/{dataset}/bandage_graph.png",
-            dataset=asm_without_porec,
-        ),
-        # Variant Calling
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/small_variants.dip.vcf.gz",
-            asm=asm_with_porec,
-            tool=["verkko"],
-        ),
-        expand(
-            "assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
-            asm=asm_with_porec,
-            tool=["verkko"],
-        ),
-        # Merged QC:
+        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
+        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
         "assembly/qc/qc_samples.tsv",
-
+        "assembly/qc/qc_benchmark.tsv",
+        "assembly/qc/qc_flowcells.tsv",
+        "assembly/qc/qc_method_comparison.tsv"
 
 rule all_samples:
-    input:
-        # QC Files
-        #fq_qc,
-        #bam_qc,
-        # Assembz QC:
+    input: 
+        fq_qc,
         "assembly/qc/qc_samples.tsv",
 
 
@@ -426,13 +393,13 @@ rule all_unphased:
 
 rule all_verkko_phased:
     input:
-        expand("assembly/output/verkko/{asm}/assembly.colors.csv", asm=asm_with_porec),
-        expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
+        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
+        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
 
 
 rule all_verkko_trio:
     input:
-        expand("assembly/output/verkko_trio/{asm}/assembly.colors.csv", asm=asm_trio),
+        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
 
 
 rule all_basecalling:
@@ -475,7 +442,7 @@ rule collect_qc_benchmark:
 
 rule collect_qc_samples:
     input:
-        **qc_collection(asm_samples_unphased, methods_unphased=["unphased_verkko"]),
+        **qc_collection(asm_samples, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"]),
     output:
         tsv="assembly/qc/qc_samples.tsv",
     conda:
@@ -499,6 +466,22 @@ rule collect_qc_flowcells:
         "env/R.yml"
     log:
         "logs/collect_qc_flowcells.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+
+rule collect_qc_method_comparison:
+    input:
+        **qc_collection(
+            ["TUE_02_trio", "TUE_02_03UL"],
+            methods_phased=["phased_verkko"],
+            methods_unphased=["unphased_verkko"]),
+    output:
+        tsv="assembly/qc/qc_method_comparison.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_method_comparison.log",
     script:
         "scripts/06_collect_qc.R"
 
