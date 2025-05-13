@@ -446,8 +446,6 @@ rule hifiasm:
         primary_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.noseq.gfa",
         hap1_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.noseq.gfa",
         hap2_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.noseq.gfa",
-    conda:
-        "../env/hifiasm.yml"
     log:
         "logs/hifiasm/{asm}.log",
     benchmark:

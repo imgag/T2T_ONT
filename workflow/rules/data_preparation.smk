@@ -239,7 +239,7 @@ rule sample_to_target_cov:
     input:
         fq="assembly/input/{file}.fastq.gz",
     output:
-        fq="assembly/input/{file}.{cov,\d+x}.fastq.gz",
+        fq=r"assembly/input/{file}.{cov,\d+x}.fastq.gz",
     conda:
         "../env/filtlong.yml"
     log:

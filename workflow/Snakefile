@@ -64,7 +64,7 @@ asm_with_porec = {k: v for k, v in asm.items() if "POREC" in datasets[v["dataset
 asm_samples = {
     k: v
     for k, v in asm.items()
-    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys() | asm_hifiasm.keys() | asm_with_porec.keys())
+    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys() | asm_hifiasm.keys())
 }
 
 print("Benchmark assemblies:")
@@ -166,6 +166,7 @@ for dataset in datasets:
             else:
                 print("Not included in BAM QC:", e)
 
+print("----------------------------------------------------------")
 
 # Initialize dictionaries with sets
 unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}

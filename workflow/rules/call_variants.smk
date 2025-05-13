@@ -2,7 +2,7 @@
 rule determine_sex:
     input:
         bam=lambda wc: re.sub(
-            ".chr\d+",
+            r".chr\d+",
             "",
             get_assembly_input(wc)["hq"]
             .replace("assembly/input/", "data/mapped/")
