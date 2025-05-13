@@ -19,7 +19,7 @@ rule dorado:
     input:
         pod5=lambda wc: unique_datasets[wc.type][os.path.basename(wc.dataset)],
     output:
-        done="data/basecalled/{type}/{dataset,[^.]+(?!\.bam$)}/dorado_{type}.done",
+        done=r"data/basecalled/{type}/{dataset,[^.]+(?!\.bam$)}/dorado_{type}.done",
     log:
         "logs/dorado/{type}_{dataset}.log"
     resources:
@@ -90,7 +90,7 @@ rule pod5_view:
     input:
         pod5=lambda wc: unique_datasets["duplex"][os.path.basename(wc.dataset)],
     output:
-        summary=temp("{dataset,[^.]+(?!\.bam$)}.summary.tsv"),
+        summary=temp(r"{dataset,[^.]+(?!\.bam$)}.summary.tsv"),
     log:
         "logs/pod5_view/{dataset}.log",
     conda:
@@ -185,7 +185,7 @@ rule dorado_duplex:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"
             shell(
-                "CUDA_LAUNCH_BLOCKING=1 \
+                r"CUDA_LAUNCH_BLOCKING=1 \
                 {params.dorado} duplex \
                     {params.model} \
                     {input.pod5} \
