@@ -345,17 +345,20 @@ def qc_collection(
     for key, files in results_stats.items():
         print(f"{key}:")
         print(f"    {files}")
+    
     return results
+
+
 
 
 rule all:
     input:
-        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
         expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
-        "assembly/qc/qc_samples.tsv",
-        "assembly/qc/qc_benchmark.tsv",
-        "assembly/qc/qc_flowcells.tsv",
-        "assembly/qc/qc_method_comparison.tsv"
+        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_samples),
+        #expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
+        #"assembly/qc/qc_benchmark.tsv",
+        #"assembly/qc/qc_flowcells.tsv",
+        #"assembly/qc/qc_method_comparison.tsv"
 
 rule all_samples:
     input: 
@@ -392,20 +395,20 @@ rule all_input_qc:
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
 
-rule all_unphased:
-    input:
-        expand("assembly/output/verkko_unphased/{asm}/use_verkko_files.done", asm=asm),
+#rule all_unphased:
+#    input:
+#        expand("assembly/output/verkko_unphased/{asm}/use_verkko_files.done", asm=asm),
 
 
-rule all_verkko_phased:
-    input:
-        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
-        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
+#rule all_verkko_phased:
+#    input:
+#        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
+#        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
 
 
-rule all_verkko_trio:
-    input:
-        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
+#rule all_verkko_trio:
+#    input:
+#        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
 
 
 rule all_basecalling:
@@ -490,7 +493,6 @@ rule collect_qc_method_comparison:
         "logs/collect_qc_method_comparison.log",
     script:
         "scripts/06_collect_qc.R"
-
 
 rule test_polish_qc:
     input:

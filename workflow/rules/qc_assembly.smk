@@ -356,12 +356,14 @@ rule qc_meryl:
 
 
 # Select correct Meryl ref for sample. Two options:
-# 1) HG002 for published set, fallback 2) Illumina shortread data for TUE_02 sample
+# 1) HG002 for published set, fallback 2) Illumina shortread data from config file for specified samples
 def get_meryl_ref(wc):
     if "published" in str(wc.asm):
-        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
+        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl' 
+    elif str(wc.asm) in config["kmer_refs"]:
+        return config["kmer_refs"].get(wc.asm, "")
     elif "TUE_02" in str(wc.asm):
-        return "analysis_other/merqury_shortread/DX203429_02.meryl"
+        return "analysis_other/merqury_shortread/DX203429_02.meryl"    
     else:
         print(f"WARNING: Unknown Meryl Ref for {wc.asm}, using HG002")
         return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'

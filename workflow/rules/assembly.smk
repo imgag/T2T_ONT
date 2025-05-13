@@ -1,4 +1,6 @@
 def get_assembly_input(wc):
+    files = {"porec": [], "apk": [], "trio_kmers": [], "ul": [], "hq": []}
+    
     # Get the dataset, HQ method, and coverage from the assembly config
     s_d = asm[wc.asm]["dataset"]
     s_hq = asm[wc.asm]["HQ_method"]
@@ -48,8 +50,7 @@ def get_assembly_input(wc):
                     ped=["maternal", "paternal"],
                 )
         else:
-            raise ValueError(f"Assembly method {asm} not supported for trio phasing")
-    else: files["trio_kmers"] = []
+            print(f"Assembly {asm[wc.asm]} not selected for trio phasing")
     return files
 
 
