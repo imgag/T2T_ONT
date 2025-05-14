@@ -8,4 +8,8 @@ RepeatMasker \
     -html \
     assembly/output/verkko/TUE_02_03UL/assembly.fasta
 
-awk -F'\t' 'BEGIN{OFS="\t"} $1!~/#/ {print $1,$4-1,$5,$3,$7}' analysis_other/repeatmasker/TUE_02_03UL/assembly.fasta.out.gff > analysis_other/repeatmasker/TUE_02_03UL/assembly.fasta.out.bed
+# Run the R script to analyze the RepeatMasker output
+Rscript workflow/scripts/16_analyze_repeatmasker.R \
+    --input analysis_other/repeatmasker/TUE_02_03UL/assembly.fasta.out \
+    --output analysis_other/repeatmasker/rm_summary/TUE_02_03UL 
+
