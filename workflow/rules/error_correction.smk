@@ -3,10 +3,10 @@ def get_dorado_trim_input(wc):
     if [wc.dataset] == "published":
         hts_file = datasets[wc.dataset].get("HQ_herro", "")
     else:
-        hts_file = f"data/basecalled/SUP/{wc.file}/{wc.file}.sup.unmapped.bam"
+        hts_file = f"data/basecalled/sup/{wc.file}/{wc.file}.sup.unmapped.bam"
     return hts_file
 
-
+# We need fastq as input for dorado correct. Might as well trim it during conversion.
 rule dorado_trim:
     input:
         get_dorado_trim_input,
