@@ -16,9 +16,9 @@ rule dorado_trim:
         dorado=config["dorado"],
     threads: 60
     benchmark:
-        "runtimes/dorado_trim_{dataset}_{file}.txt"
+        "runtimes/dorado_trim/{dataset}_{file}.txt"
     log:
-        "logs/dorado_trim_{dataset}_{file}.log",
+        "logs/dorado_trim/{dataset}_{file}.log",
     shell:
         """
         {params.dorado} trim \
@@ -39,9 +39,9 @@ rule dorado_correct_mapping:
         herro_model=config["herro_model"],
     threads: 60
     benchmark:
-        "runtimes/dorado_correct_mapping_{dataset}_{file}.txt"
+        "runtimes/dorado_correct_mapping/{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_mapping_{dataset}_{file}.log",
+        "logs/dorado_correct_mapping/{dataset}_{file}.log",
     shell:
         """
         {params.dorado} correct \
@@ -65,11 +65,11 @@ rule dorado_correct_inference:
         herro_model=config["herro_model"],
     threads: 12
     benchmark:
-        "runtimes/dorado_correct_inference_{dataset}_{file}.txt"
+        "runtimes/dorado_correct_inference/{dataset}_{file}.txt"
     log:
-        "logs/dorado_correct_inference_{dataset}_{file}.log",
+        "logs/dorado_correct_inference/{dataset}_{file}.log",
     resources:
-        gpu=1,
+        gpus=1,
         queue=config["gpu_queues"],
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
