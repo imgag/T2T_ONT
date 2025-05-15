@@ -1,6 +1,13 @@
-awk -F'\t' 'BEGIN{OFS="\t"} $1!~/#/ {print $1,$4-1,$5,$3,$7}' analysis_other/repeatmasker/TUE_02_03UL/assembly.fasta.out.gff > repeatmasker_TUE_02_03UL.bed
+nucflag \
+-i TUE_02_03UL.HQ_herro.50x.bam \
+-d plot \
+--overlay_regions ../repeatmasker/rm_summary/TUE_02_03UL_nucplot.bed \
+--threads 12 \
+--output_status TUE_02_03UL.nucflag_status.bed \
+--output_misasm TUE_02_03UL.nucflag_misasm.bed \
+> nucflag.log 2>&1
 
-nucflag -i TUE_02_03UL.HQ_herro.50x.bam -d plot --overlay_regions ../repeatmasker/TUE_02_03UL/assembly.fasta.out.bed
+
 # Replace colons with underscores in all filenames in current directory
 for file in plot/*; do
     if [[ -f "$file" ]]; then
@@ -10,3 +17,4 @@ for file in plot/*; do
         fi
     fi
 done
+``

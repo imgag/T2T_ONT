@@ -78,6 +78,35 @@ def create_gfa(chunks_positions_hap1, chunks_positions_hap2, output_file):
                 f.write(f"L\t{chunk1_id}\t+\t{chunk2_id}\t+\t0M\n")
 
 
+def create_noseq_gfa(chunks_positions_hap1, chunks_positions_hap2, output_file):
+    """Create a GFA file without sequences where chunks from the same contig are linked"""
+    with open(output_file, 'w') as f:
+        # Write header
+        f.write("H\tVN:Z:1.0\n")
+        
+        # Write nodes (segments) without sequence data
+        all_chunks = chunks_positions_hap1 + chunks_positions_hap2
+        for chunk_id, contig_id, start, end in all_chunks:
+            length = end - start + 1
+            f.write(f"S\t{chunk_id}\t*\tLN:i:{length}\tOR:Z:{contig_id}\tST:i:{start}\tEN:i:{end}\n")
+        
+        # Write edges (links)
+        # Group chunks by contig
+        contigs = {}
+        for chunk_id, contig_id, start, end in all_chunks:
+            if contig_id not in contigs:
+                contigs[contig_id] = []
+            contigs[contig_id].append((chunk_id, start, end))
+        
+        # Sort chunks by position and create links
+        for contig_id, chunks in contigs.items():
+            sorted_chunks = sorted(chunks, key=lambda x: x[1])
+            for i in range(len(sorted_chunks) - 1):
+                chunk1_id = sorted_chunks[i][0]
+                chunk2_id = sorted_chunks[i + 1][0]
+                f.write(f"L\t{chunk1_id}\t+\t{chunk2_id}\t+\t0M\n")
+
+
 def create_chunk_info(chunks_positions_hap1, chunks_positions_hap2, output_file):
     """Create a TSV file with chunk information for traceability"""
     with open(output_file, 'w') as f:
@@ -111,6 +140,10 @@ def main():
     gfa_file = f"{args.output}.gfa"
     create_gfa(chunks_positions_hap1, chunks_positions_hap2, gfa_file)
     
+    # Create GFA without sequences
+    noseq_gfa_file = f"{args.output}.noseq.gfa"
+    create_noseq_gfa(chunks_positions_hap1, chunks_positions_hap2, noseq_gfa_file)
+    
     # Create chunk info file for traceability
     chunk_info = f"{args.output}.chunks.tsv"
     create_chunk_info(chunks_positions_hap1, chunks_positions_hap2, chunk_info)
@@ -119,6 +152,7 @@ def main():
     print(f"Processed {len(chunks_hap2)} chunks from haplotype 2")
     print(f"Merged FASTA written to: {merged_fasta}")
     print(f"GFA written to: {gfa_file}")
+    print(f"GFA without sequences written to: {noseq_gfa_file}")
     print(f"Chunk information written to: {chunk_info}")
 
 

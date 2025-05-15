@@ -114,7 +114,7 @@ rule process_dorado_summary:
 
 rule porec_qc:
     input:
-        bam="data/basecalled/SUP/{dataset}/{dataset}.sup.unmapped.bam",
+        bam="data/basecalled/sup/{dataset}/{dataset}.sup.unmapped.bam",
     output:
         "analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html",
     threads: 36
