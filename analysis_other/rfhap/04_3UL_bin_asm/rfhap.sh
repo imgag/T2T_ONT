@@ -10,3 +10,11 @@ python workflow/scripts/14_rfhap_preprocess_diploid_assembly.py \
     --maternal_reads analysis_other/rfhap/04_3UL_bin_asm/maternal.txt \
     --child_reads analysis_other/rfhap/04_3UL_bin_asm/child.txt \
     --outdir analysis_other/rfhap/04_3UL_bin_asm
+
+python workflow/scripts/15_rfhap_merge_phased_chunks.py \
+  -a analysis_other/rfhap/04_3UL_bin_asm/rf/haplotypes/TUE_02_03UL.fragmented_fastkm_matrix.hapA.txt \
+  -b analysis_other/rfhap/04_3UL_bin_asm/rf/haplotypes/TUE_02_03UL.fragmented_fastkm_matrix.hapB.txt \
+  -u analysis_other/rfhap/04_3UL_bin_asm/rf/haplotypes/TUE_02_03UL.fragmented_fastkm_matrix.hapU.txt \
+  -g analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.gfa \
+  -f analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.fasta \
+  -o analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.merged

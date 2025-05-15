@@ -30,10 +30,10 @@ verkko_dryrun : False
 # Hifiasm settings:
 hifiasm : bin/hifiasm-0.25.0/hifiasm
 hifiasm_opts:
-  ont:   "--telo-m CCCTTA --dual-scaf --primary --ul-cut 7000000 -l1 --ont {ul}"
-  herro: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 7000000 -l1 {hq}"
-  ont_trio: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 7000000 -l0 --trio-dual --ont -1 {maternal} -2 {paternal} {ul}"
-  rfhap: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 7000000 -l2 --n-hap 1 --ont {ul}"
+  ont:   "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 --ont {ul}"
+  herro: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 {hq}"
+  ont_trio: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l0 --trio-dual --ont -1 {maternal} -2 {paternal} {ul}"
+  rfhap: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 70000 -l2 --n-hap 1 --ont {ul}"
 
 # Variant calling settings
 X_PAR_file: bin/dipcall.kit/hs38.PAR.bed

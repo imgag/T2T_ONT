@@ -2,8 +2,10 @@ downloads/
 .*
 bin/
 *.bam
+*.bai
 *.tar
 *.gz
+*.bed
 assembly/qc/**/*.fastq
 assembly/qc/**/*.fa
 assembly/qc/**/*.svg
@@ -30,6 +32,9 @@ test_data
 *.parquet
 *.hic
 *.mcool
+*.d4
+*.gfa
+!*.noseq.gfa
 fragments.bed
 RM*
 work
@@ -38,5 +43,9 @@ analysis_other/rfhap/**/ukmers_per_haplotype
 analysis_other/rfhap/**/fastkm
 analysis_other/rfhap/**/hap_fastq
 analysis_other/rfhap/**/bam_fastq
-analysis_other/rfhap/**/rf
-analysis_other/*
+analysis_other/rfhap/*
+
+analysis_other/hifiasm
+analysis_other/nucflag/plot
+analysis_other/repeatmasker/*/
+!analysis_other/repeatmasker/rm_summary
