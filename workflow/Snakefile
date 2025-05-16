@@ -250,6 +250,11 @@ def qc_collection(
                     asm=asm,
                     method=methods_unphased,
                 ),
+                "gap_stats": expand(
+                    "assembly/qc/{method}/{asm}/gap_stats.unphased.n_stats.tsv",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
             }
 
 
@@ -316,6 +321,12 @@ def qc_collection(
                     asm=asm,
                     method=methods_phased,
                     hp=["haplotype1", "haplotype2"],
+                ),
+                "gap_stats": expand(
+                    "assembly/qc/{method}/{asm}/gap_stats.{hp}.n_stats.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
             }
 

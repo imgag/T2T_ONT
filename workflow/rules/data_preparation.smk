@@ -245,7 +245,7 @@ rule sample_to_target_cov:
     log:
         "logs/filtlong/{file}_{cov}.log",
     params:
-        min_length=config["min_length"],
+        min_length=lambda wc: config["min_length"]["UL"] if (".UL" in str(wc.file)) else config["min_length"]["default"],
         min_mean_q=config["min_mean_q"],
         target_base=lambda wc: str(
             int(wc.cov.replace("x", "")) * config["genome_length"]
