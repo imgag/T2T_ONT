@@ -26,7 +26,7 @@ def get_assembly_output(wc):
 
     elif isphased == "phased":
         if wc["tool"] == "verkko":
-            if not wc["hp"] or wc["hp"] == "unphased":
+            if not wc["hp"] or wc["hp"] == "unphased" or wc["hp"] == "both":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
             elif wc["hp"] == "haplotype1":
                 return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
@@ -301,6 +301,23 @@ rule scaffold_lengths:
         rm {input.fa}.fai
         """
 
+rule gap_stats:
+    input:
+        fa=get_assembly_output,
+    output:
+        bed = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_regions.bed",
+        stats = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_stats.tsv",
+    conda:
+        "../env/hapdiff.yml"
+    log:
+        "logs/gap_stats/{isphased}_{tool}_{asm}_{hp}.log",
+    shell:
+        """
+        workflow/scripts/17_assembly_qc_gaps.py \
+            --input {input.fa} \
+            --output $(dirname {output.bed})/gap_stats.{wildcards.hp} \
+            > {log} 2>&1
+        """
 
 rule dotplot:
     input:
