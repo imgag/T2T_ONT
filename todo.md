@@ -7,6 +7,7 @@
     - [ ] Add polishing tool to pipeline
     - [ ] Create new QC folder for polished assembly
     - [ ] Benchmark improvementss
+- [ ] Automate GSVar export for sequencing stats timeline
 - [ ] Compare assembly results with publication
 - [ ] Generate PoreC statistics with the “evaluate_contacts” executable provided in the GFAse package
 - [ ] Generate Read and Mapping stats for PoreC

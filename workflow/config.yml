@@ -20,8 +20,10 @@ herro_model : bin/herro-v1
 gpu_queues: "gpu_srv010,gpu_srv019"
 
 # Preprocessing settings
-min_length : 10000
-min_mean_q : 7
+min_length : 
+  default: 10000
+  UL: 80000
+min_mean_q : 9
 genome_length : 3200000000
 
 # Assembly settings

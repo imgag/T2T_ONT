@@ -71,7 +71,7 @@ rule verkko:
         "logs/verkko/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko.txt"
-    threads: 92
+    threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
     shell:

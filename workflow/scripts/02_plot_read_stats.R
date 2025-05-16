@@ -33,7 +33,12 @@ calculate_summary_stats <- function(data) {
       total_bases = sum(read_length),
       num_reads = n(),
       mean_read_length = mean(read_length),
-      median_read_length = median(read_length)
+      median_read_length = median(read_length),
+      yield_above_80kb = sum(read_length[read_length > 80000]),
+      yield_above_100kb = sum(read_length[read_length > 100000]),
+      yield_above_200kb = sum(read_length[read_length > 200000]),
+      yield_above_500kb = sum(read_length[read_length > 500000]),
+      reads_above_1MB = n_distinct(read_length[read_length > 1e6])
     )
 }
 
