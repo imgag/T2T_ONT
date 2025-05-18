@@ -408,9 +408,11 @@ rule yak_count:
         "runtimes/{asm}.yak_count.{ped}.txt"
     log:
         "logs/yak_count/{asm}.{ped}.log"
+    params:
+        yak = config['yak']
     shell:
         """
-        yak count \
+        {params.yak} count \
         -t {threads} \
         -k31 \
         -b37 \
@@ -451,7 +453,9 @@ rule hifiasm:
         "logs/hifiasm/{asm}.log",
     benchmark:
         "runtimes/{asm}.hifiasm.txt"
-    threads: 48
+    threads: 72
+    resources:
+        mem_mb = 600000
     params:
         hifiasm = config["hifiasm"],
         opts = get_hifiasm_opts
