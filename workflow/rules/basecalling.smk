@@ -24,7 +24,7 @@ rule dorado:
         "logs/dorado/{type}_{dataset}.log"
     resources:
         queue="gpu_srv010,gpu_srv019", 
-        gpus=2
+        gpu=2
     benchmark:
         "runtimes/{dataset}.dorado.{type}.txt"
     threads: 2
@@ -174,7 +174,7 @@ rule dorado_duplex:
         "logs/dorado_duplex/{dataset}_{channel}.log"
     resources:
         queue=config["gpu_queues"],
-        gpus=1
+        gpu=1
     threads: 32
     priority: 3
     params:
