@@ -96,14 +96,13 @@ print("----------------------------------------------------------")
 # Create QC for all input FASTQ files
 
 fq_qc = []
-
-# fq_files = [
-#    item for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values()
-# ]
-# fq_qc = [
-#    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
-#    for x in fq_files
-# ]
+fq_files = [
+    str(item) for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values() if str(item).endswith(".fastq.gz")
+]
+fq_qc = [
+    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
+    for x in fq_files
+]
 
 # # Create BAMS and mapping QC for all input files
 bam_qc = []
@@ -398,10 +397,10 @@ rule all_benchmark:
 
 rule all_input_qc:
 # Creates wf-pore-c reports for all datasets with POREC
+# Creates QC for all assembly inputs (FastQ)
 # TODO Creates BAMQC for all assembly inputs
-# TODO Creates FQ QC for all raw datasets
     input:
-        # fq_qc,
+        fq_qc,
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
