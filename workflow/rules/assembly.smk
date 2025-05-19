@@ -74,12 +74,15 @@ rule verkko:
     threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
+        skip_verkko_polish=lambda wc: "--no-correction"
+        if (asm[wc.asm].get("skip_verkko_polish", True))
+        else "",
     shell:
         """
         verkko -d $(dirname {output.fa}) \
             --hifi {input.hq} \
             --nano {input.ul} \
-            --snakeopts "--cores {threads} {params.dryrun}" \
+            {params.skip_verkko_polish} --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
 
@@ -133,7 +136,7 @@ rule verkko_scaffold:
         "logs/verkko_scaffold/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
-    threads: 92
+    threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
         skip_verkko_polish=lambda wc: "--no-correction"
@@ -374,7 +377,7 @@ rule verkko_scaffold_trio:
         "logs/verkko_scaffold_trio/{asm}.log",
     benchmark:
         "runtimes/{asm}.verkko_scaffold.txt"
-    threads: 92
+    threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
         skip_verkko_polish=lambda wc: "--no-correction"
