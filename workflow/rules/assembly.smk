@@ -70,7 +70,7 @@ rule verkko:
     log:
         "logs/verkko/{asm}.log",
     benchmark:
-        "runtimes/{asm}.verkko.txt"
+        "runtimes/verkko/{asm}.verkko.txt"
     threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
@@ -135,7 +135,7 @@ rule verkko_scaffold:
     log:
         "logs/verkko_scaffold/{asm}.log",
     benchmark:
-        "runtimes/{asm}.verkko_scaffold.txt"
+        "runtimes/verkko_scaffold/{asm}.verkko_scaffold.txt"
     threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
@@ -376,7 +376,7 @@ rule verkko_scaffold_trio:
     log:
         "logs/verkko_scaffold_trio/{asm}.log",
     benchmark:
-        "runtimes/{asm}.verkko_scaffold.txt"
+        "runtimes/verkko_scaffold/{asm}.verkko_scaffold_trio.txt"
     threads: 48
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
@@ -449,13 +449,10 @@ rule hifiasm:
         primary_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.gfa",
         hap1_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.gfa",
         hap2_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.gfa",
-        primary_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.noseq.gfa",
-        hap1_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.noseq.gfa",
-        hap2_gfa_noseq="assembly/output/hifiasm/{asm}/{asm}.bp.hap2.p_ctg.noseq.gfa",
     log:
         "logs/hifiasm/{asm}.log",
     benchmark:
-        "runtimes/{asm}.hifiasm.txt"
+        "runtimes/hifiasm/{asm}.hifiasm.txt"
     threads: 72
     resources:
         mem_mb = 600000

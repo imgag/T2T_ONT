@@ -26,7 +26,7 @@ rule dorado:
         queue="gpu_srv010,gpu_srv019", 
         gpu=2
     benchmark:
-        "runtimes/{dataset}.dorado.{type}.txt"
+        "runtimes/dorado/{type}/{dataset}.{type}.txt"
     threads: 2
     priority: 3
     params:
@@ -68,7 +68,7 @@ rule dorado_summary:
     params:
         dorado=config["dorado"],
     benchmark:
-        "runtimes/{dataset}.dorado_summary.{model}.{type}.txt"
+        "runtimes/dorado_summary/{dataset}.dorado_summary.{model}.{type}.txt"
     log:
         "logs/dorado_summary/{dataset}_{model}_{type}.log",
     shell:
