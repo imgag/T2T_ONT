@@ -375,6 +375,16 @@ rule all_samples:
         fq_qc,
         "assembly/qc/qc_samples.tsv",
 
+rule all_extended_qc:
+    input:
+        # GQC results
+        expand("analysis_other/GQC/{asm}", asm=asm_samples),
+        # Nucflag results
+        expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=asm_samples),
+        # RepeatMasker results
+        expand("analysis_other/repeatmasker/{asm}/rm_summary.txt", asm=asm_samples)
+
+
 rule all_polishing:
     input:
         expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_with_apk),
