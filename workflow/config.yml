@@ -38,6 +38,7 @@ hifiasm_opts:
   rfhap: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 70000 -l2 --n-hap 1 --ont {ul}"
 
 yak : bin/yak/yak
+mashmap : bin/MashMap/build/bin/mashmap
 
 # Variant calling settings
 X_PAR_file: bin/dipcall.kit/hs38.PAR.bed
@@ -53,3 +54,10 @@ kmer_refs:
 
 # T2T contigs
 T2T_chromosomes: bin/T2T_Sequences/T2T_chromosomes.sh
+
+# GQC
+gqc:
+  venv: bin/GQC/venv
+  config: data/ref/gqc_config.yaml
+  resourcedir: data/ref/gqc_resources
+  fastk_binfolder: bin/FASTK/bin

@@ -82,6 +82,7 @@ rule verkko:
         verkko -d $(dirname {output.fa}) \
             --hifi {input.hq} \
             --nano {input.ul} \
+            --local-memory 300 \
             {params.skip_verkko_polish} --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
@@ -142,6 +143,7 @@ rule verkko_scaffold:
         skip_verkko_polish=lambda wc: "--no-correction"
         if asm[wc.asm].get("skip_verkko_polish", True)
         else "",
+        mashmap = config['mashmap']
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
@@ -149,8 +151,10 @@ rule verkko_scaffold:
             --hifi {input.hq} \
             --nano {input.ul} \
             --porec {input.porec} \
-            --ahc-run 24 128 6 \
-            --fhc-run 24 128 6 \
+            --local-memory 300 \
+            --ahc-run 24 256 6 \
+            --fhc-run 24 256 6 \
+            --mashmap {params.mashmap} \
             --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         touch {output.done}
@@ -383,6 +387,7 @@ rule verkko_scaffold_trio:
         skip_verkko_polish=lambda wc: "--no-correction"
         if asm[wc.asm].get("skip_verkko_polish", False)
         else "",
+        mashmap = config['mashmap']
     shell:
         """
         verkko -d $(dirname {output.hp1}) \
@@ -390,6 +395,7 @@ rule verkko_scaffold_trio:
             --hifi {input.hq} \
             --nano {input.ul} \
             --hap-kmers {input.kmers} trio \
+            --mashmap {params.mashmap} \
             --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}
         """
