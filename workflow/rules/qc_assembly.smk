@@ -37,6 +37,13 @@ def get_assembly_output(wc):
                 return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
             elif wc["hp"] == "haplotype2":
                 return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
+        elif wc["tool"] == "hifiasm":
+            if not wc["hp"] or wc["hp"] == "unphased" or wc["hp"] == "both":
+                return f"assembly/output/hifiasm/{wc['asm']}/assembly.fasta"
+            elif wc["hp"] == "haplotype1":
+                return f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype1.fasta"
+            elif wc["hp"] == "haplotype2":
+                return f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype2.fasta"
         else:
             raise ValueError(f"Invalid tool: {wc['tool']}")
 
@@ -120,12 +127,6 @@ rule process_graph:
             > {log} 2>&1
         """
 
-
-rule process_graph_phased:
-    input:
-        gfa=get_assembly_graph_output,
-        scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
-        color="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
 
 
 rule bandage:
@@ -304,6 +305,9 @@ rule scaffold_lengths:
 rule gap_stats:
     input:
         fa=get_assembly_output,
+        done=lambda wc: f"assembly/output/verkko/{wc.asm}/create_porec_scaffold.done"
+        if wc.isphased == "phased" and wc.tool == "verkko"
+        else [],
     output:
         bed = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_regions.bed",
         stats = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_stats.tsv",

@@ -149,7 +149,7 @@ def main():
         contig_colors.append(f"{contig_id}\t{color}\t{chrom}")
     
     with open(args.output, "w") as f:
-        f.write("contig\tcolor\n")
+        f.write("contig\tcolor\tchromosome\n")
         f.write("\n".join(contig_colors))
 
     if args.legend:

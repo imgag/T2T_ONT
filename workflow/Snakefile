@@ -371,10 +371,11 @@ rule all:
         #"assembly/qc/qc_method_comparison.tsv"
 
 rule all_samples:
-    input: 
+    input:
         fq_qc,
         "assembly/qc/qc_samples.tsv",
-
+        expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples)
+        
 rule all_extended_qc:
     input:
         # GQC results
@@ -384,14 +385,18 @@ rule all_extended_qc:
         # RepeatMasker results
         expand("analysis_other/repeatmasker/{asm}/rm_summary.txt", asm=asm_samples)
 
-
 rule all_polishing:
     input:
-        expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_with_apk),
+        expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_samples),
 
 rule all_hifiasm:
     input:
         expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
+        **qc_collection(
+            asm_hifiasm,
+            methods_phased=["phased_hifiasm"]
+        ),
+        expand("assembly/qc/phased_hifiasm/{asm}/bandage_graph.png", asm=asm_hifiasm),
 
 rule all_benchmark:
     input:

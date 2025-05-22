@@ -180,6 +180,27 @@ calculate_2d_density <- function(plot_data, x_var = "read_length", y_var = "mean
   return(density_2d_data)
 }
 
+calculate_read_length_histogram <- function(data, bin_size = 1000) {
+  # Calculate histogram bins for read lengths
+  max_length <- max(data$read_length)
+  bins <- seq(0, ceiling(max_length/bin_size) * bin_size, by = bin_size)
+  
+  # Calculate histogram counts for each sample
+  hist_data <- data %>%
+    group_by(sample_name) %>%
+    group_map(~ {
+      counts <- hist(.x$read_length, breaks = bins, plot = FALSE)$counts
+      tibble(
+        sample_name = .y$sample_name,
+        bin_start = bins[-length(bins)],
+        bin_end = bins[-1],
+        count = counts
+      )
+    }) %>%
+    bind_rows()
+  
+  return(hist_data)
+}
 
 process_sequencing_file <- function(file_path, output_dir = NULL, n_sample = 1e6) {
   # Create output directory if needed
@@ -202,12 +223,16 @@ process_sequencing_file <- function(file_path, output_dir = NULL, n_sample = 1e6
   print("Calculating 2D density")
   density_2d <- calculate_2d_density(result$plot_data)
   
+  print("Calculating read length histogram")
+  read_length_histogram <- calculate_read_length_histogram(result$full_data)
+  
   # Combine results into a single list
   return(list(
     summary_stats = summary_stats,
     read_length_density = read_length_density,
     quality_density = quality_density,
-    density_2d = density_2d
+    density_2d = density_2d,
+    read_length_histogram = read_length_histogram
   ))
 }
 
@@ -273,6 +298,31 @@ plot_2d_density <- function(density_2d_data, title = "2D Density Plot",
   return(p)
 }
 
+plot_read_length_histogram <- function(hist_data, title = "Read Length Distribution", 
+                                     x_lab = "Read length", y_lab = "Count",
+                                     out_path = NULL) {
+  p <- ggplot(hist_data, aes(x = bin_start, y = count, color = sample_name, fill = sample_name)) +
+    geom_bar(stat = "identity", alpha = 0.4) +
+    labs(
+      title = title,
+      x = x_lab,
+      y = y_lab
+    ) +
+    scale_x_continuous(
+      limits = c(0, 500000),
+      breaks = seq(0, 700000, 100000),
+      labels = str_c(seq(0, 700, 100), "kB")
+    ) +
+    theme_classic() +
+    theme(legend.position = "bottom")
+  
+  if (!is.null(out_path)) {
+    ggsave(out_path, p, width = 7, height = 4)
+  }
+  
+  return(p)
+}
+
 create_all_plots <- function(results, output_dir = NULL) {
   plots <- list()
   
@@ -295,6 +345,12 @@ create_all_plots <- function(results, output_dir = NULL) {
   plots$density_2d <- plot_2d_density(
     results$density_2d,
     out_path = if (!is.null(output_dir)) file.path(output_dir, "density_2d.png") else NULL
+  )
+  
+  # Histogram plot
+  plots$histogram <- plot_read_length_histogram(
+    results$read_length_histogram,
+    out_path = if (!is.null(output_dir)) file.path(output_dir, "read_length_histogram.png") else NULL
   )
   
   # Combined 1D plots
