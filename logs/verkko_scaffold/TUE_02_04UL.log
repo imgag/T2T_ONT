@@ -400,3 +400,98 @@ rule alignBWA:
     threads: 24
     resources: tmpdir=/tmp, job_id=19, n_cpus=24, mem_gb=256, time_h=6
 
+[Fri May 23 00:18:29 2025]
+Finished job 149.
+23 of 46 steps (50%) done
+Select jobs to execute...
+
+[Fri May 23 00:18:29 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1033.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped033.bam
+    log: 8-hicPipeline/align_bwa033.err
+    jobid: 163
+    reason: Missing output files: 8-hicPipeline/mapped033.bam; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=033
+    threads: 24
+    resources: tmpdir=/tmp, job_id=33, n_cpus=24, mem_gb=256, time_h=6
+
+[Fri May 23 00:30:57 2025]
+Finished job 163.
+24 of 46 steps (52%) done
+Select jobs to execute...
+
+[Fri May 23 00:30:57 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1013.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped013.bam
+    log: 8-hicPipeline/align_bwa013.err
+    jobid: 143
+    reason: Missing output files: 8-hicPipeline/mapped013.bam; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=013
+    threads: 24
+    resources: tmpdir=/tmp, job_id=13, n_cpus=24, mem_gb=256, time_h=6
+
+[Fri May 23 00:43:05 2025]
+Finished job 143.
+25 of 46 steps (54%) done
+Select jobs to execute...
+
+[Fri May 23 00:43:05 2025]
+rule run_seqtktelo:
+    input: 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs.telo
+    log: 8-hicPipeline/run_seqtktelo.err
+    jobid: 98
+    reason: Missing output files: 8-hicPipeline/unitigs.telo; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=256, time_h=6
+
+[Fri May 23 00:43:07 2025]
+Finished job 98.
+26 of 46 steps (57%) done
+Select jobs to execute...
+
+[Fri May 23 00:43:07 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1009.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped009.bam
+    log: 8-hicPipeline/align_bwa009.err
+    jobid: 139
+    reason: Missing output files: 8-hicPipeline/mapped009.bam; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=009
+    threads: 24
+    resources: tmpdir=/tmp, job_id=9, n_cpus=24, mem_gb=256, time_h=6
+
+[Fri May 23 00:55:39 2025]
+Finished job 139.
+27 of 46 steps (59%) done
+Select jobs to execute...
+
+[Fri May 23 00:55:39 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1023.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped023.bam
+    log: 8-hicPipeline/align_bwa023.err
+    jobid: 153
+    reason: Missing output files: 8-hicPipeline/mapped023.bam; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=023
+    threads: 24
+    resources: tmpdir=/tmp, job_id=23, n_cpus=24, mem_gb=256, time_h=6
+
+[Fri May 23 01:08:08 2025]
+Finished job 153.
+28 of 46 steps (61%) done
+Select jobs to execute...
+
+[Fri May 23 01:08:08 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1011.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped011.bam
+    log: 8-hicPipeline/align_bwa011.err
+    jobid: 141
+    reason: Missing output files: 8-hicPipeline/mapped011.bam; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=011
+    threads: 24
+    resources: tmpdir=/tmp, job_id=11, n_cpus=24, mem_gb=256, time_h=6
+
