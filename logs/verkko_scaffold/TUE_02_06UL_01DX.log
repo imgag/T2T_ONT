@@ -1,0 +1,715 @@
+Launching release v2.2.1
+Using snakemake 7.32.4.
+6a3f32e8028bc796ac407fffbd24b_/bin/verkko: 21: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 25: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 33: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 37: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 41: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 45: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 49: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 60: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 64: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 73: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 77: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 81: [[: not found
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 48
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=300
+Job stats:
+job                            count
+---------------------------  -------
+HiC_rdnascaff                      1
+alignBWA                          35
+buildPackages                      1
+combineConsensus                   1
+combineONT                         1
+combineTipsONT                     1
+copyFiles                          1
+extractONT                         1
+generateConsensus                 29
+generateLayoutContigsInputs        1
+hicPhasing                         1
+indexBWA                           1
+layoutContigs                      1
+mergeBWA                           1
+prepareScaffolding                 1
+processONT                         1
+runMashMap                         1
+runRukkiHIC                        1
+run_seqtktelo                      1
+splitONT                           1
+splitTipsONT                       1
+transformBWA                       1
+untip                              1
+total                             85
+
+Select jobs to execute...
+
+[Thu May 22 18:13:44 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_06UL/TUE_02_06UL.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 13
+    reason: Updated input files: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_06UL/TUE_02_06UL.UL.70x.fastq.gz
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+[Thu May 22 19:31:01 2025]
+Finished job 13.
+1 of 85 steps (1%) done
+Select jobs to execute...
+
+[Thu May 22 19:31:03 2025]
+rule alignONT:
+    input: 3-align/split/ont071.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned071.gaf
+    log: 3-align/aligned071.err
+    jobid: 85
+    reason: Updated input files: 3-align/split/ont071.fasta.gz
+    wildcards: nnnn=071
+    threads: 24
+    resources: tmpdir=/tmp, job_id=71, n_cpus=24, mem_gb=23, time_h=24
+
+
+[Thu May 22 19:31:03 2025]
+rule alignONT:
+    input: 3-align/split/ont058.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned058.gaf
+    log: 3-align/aligned058.err
+    jobid: 72
+    reason: Updated input files: 3-align/split/ont058.fasta.gz
+    wildcards: nnnn=058
+    threads: 24
+    resources: tmpdir=/tmp, job_id=58, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 19:44:11 2025]
+Finished job 72.
+2 of 159 steps (1%) done
+Select jobs to execute...
+
+[Thu May 22 19:44:11 2025]
+rule alignONT:
+    input: 3-align/split/ont055.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned055.gaf
+    log: 3-align/aligned055.err
+    jobid: 69
+    reason: Updated input files: 3-align/split/ont055.fasta.gz
+    wildcards: nnnn=055
+    threads: 24
+    resources: tmpdir=/tmp, job_id=55, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 19:44:38 2025]
+Finished job 85.
+3 of 159 steps (2%) done
+Select jobs to execute...
+
+[Thu May 22 19:44:38 2025]
+rule alignONT:
+    input: 3-align/split/ont069.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned069.gaf
+    log: 3-align/aligned069.err
+    jobid: 83
+    reason: Updated input files: 3-align/split/ont069.fasta.gz
+    wildcards: nnnn=069
+    threads: 24
+    resources: tmpdir=/tmp, job_id=69, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 19:56:21 2025]
+Finished job 69.
+4 of 159 steps (3%) done
+Select jobs to execute...
+
+[Thu May 22 19:56:22 2025]
+rule alignONT:
+    input: 3-align/split/ont012.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned012.gaf
+    log: 3-align/aligned012.err
+    jobid: 26
+    reason: Updated input files: 3-align/split/ont012.fasta.gz
+    wildcards: nnnn=012
+    threads: 24
+    resources: tmpdir=/tmp, job_id=12, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 19:57:01 2025]
+Finished job 83.
+5 of 159 steps (3%) done
+Select jobs to execute...
+
+[Thu May 22 19:57:01 2025]
+rule alignONT:
+    input: 3-align/split/ont041.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned041.gaf
+    log: 3-align/aligned041.err
+    jobid: 55
+    reason: Updated input files: 3-align/split/ont041.fasta.gz
+    wildcards: nnnn=041
+    threads: 24
+    resources: tmpdir=/tmp, job_id=41, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:09:11 2025]
+Finished job 26.
+6 of 159 steps (4%) done
+Select jobs to execute...
+
+[Thu May 22 20:09:11 2025]
+rule alignONT:
+    input: 3-align/split/ont021.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned021.gaf
+    log: 3-align/aligned021.err
+    jobid: 35
+    reason: Updated input files: 3-align/split/ont021.fasta.gz
+    wildcards: nnnn=021
+    threads: 24
+    resources: tmpdir=/tmp, job_id=21, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:09:36 2025]
+Finished job 55.
+7 of 159 steps (4%) done
+Select jobs to execute...
+
+[Thu May 22 20:09:36 2025]
+rule alignONT:
+    input: 3-align/split/ont050.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned050.gaf
+    log: 3-align/aligned050.err
+    jobid: 64
+    reason: Updated input files: 3-align/split/ont050.fasta.gz
+    wildcards: nnnn=050
+    threads: 24
+    resources: tmpdir=/tmp, job_id=50, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:22:03 2025]
+Finished job 64.
+8 of 159 steps (5%) done
+Select jobs to execute...
+
+[Thu May 22 20:22:03 2025]
+rule alignONT:
+    input: 3-align/split/ont064.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned064.gaf
+    log: 3-align/aligned064.err
+    jobid: 78
+    reason: Updated input files: 3-align/split/ont064.fasta.gz
+    wildcards: nnnn=064
+    threads: 24
+    resources: tmpdir=/tmp, job_id=64, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:23:58 2025]
+Finished job 35.
+9 of 159 steps (6%) done
+Select jobs to execute...
+
+[Thu May 22 20:23:58 2025]
+rule alignONT:
+    input: 3-align/split/ont036.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned036.gaf
+    log: 3-align/aligned036.err
+    jobid: 50
+    reason: Updated input files: 3-align/split/ont036.fasta.gz
+    wildcards: nnnn=036
+    threads: 24
+    resources: tmpdir=/tmp, job_id=36, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:36:04 2025]
+Finished job 78.
+10 of 159 steps (6%) done
+Select jobs to execute...
+
+[Thu May 22 20:36:04 2025]
+rule alignONT:
+    input: 3-align/split/ont060.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned060.gaf
+    log: 3-align/aligned060.err
+    jobid: 74
+    reason: Updated input files: 3-align/split/ont060.fasta.gz
+    wildcards: nnnn=060
+    threads: 24
+    resources: tmpdir=/tmp, job_id=60, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:38:34 2025]
+Finished job 50.
+11 of 159 steps (7%) done
+Select jobs to execute...
+
+[Thu May 22 20:38:35 2025]
+rule alignONT:
+    input: 3-align/split/ont006.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned006.gaf
+    log: 3-align/aligned006.err
+    jobid: 20
+    reason: Updated input files: 3-align/split/ont006.fasta.gz
+    wildcards: nnnn=006
+    threads: 24
+    resources: tmpdir=/tmp, job_id=6, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:49:29 2025]
+Finished job 74.
+12 of 159 steps (8%) done
+Select jobs to execute...
+
+[Thu May 22 20:49:29 2025]
+rule alignONT:
+    input: 3-align/split/ont015.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned015.gaf
+    log: 3-align/aligned015.err
+    jobid: 29
+    reason: Updated input files: 3-align/split/ont015.fasta.gz
+    wildcards: nnnn=015
+    threads: 24
+    resources: tmpdir=/tmp, job_id=15, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 20:51:39 2025]
+Finished job 20.
+13 of 159 steps (8%) done
+Select jobs to execute...
+
+[Thu May 22 20:51:39 2025]
+rule alignONT:
+    input: 3-align/split/ont022.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned022.gaf
+    log: 3-align/aligned022.err
+    jobid: 36
+    reason: Updated input files: 3-align/split/ont022.fasta.gz
+    wildcards: nnnn=022
+    threads: 24
+    resources: tmpdir=/tmp, job_id=22, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:02:34 2025]
+Finished job 29.
+14 of 159 steps (9%) done
+Select jobs to execute...
+
+[Thu May 22 21:02:34 2025]
+rule alignONT:
+    input: 3-align/split/ont029.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned029.gaf
+    log: 3-align/aligned029.err
+    jobid: 43
+    reason: Updated input files: 3-align/split/ont029.fasta.gz
+    wildcards: nnnn=029
+    threads: 24
+    resources: tmpdir=/tmp, job_id=29, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:05:23 2025]
+Finished job 36.
+15 of 159 steps (9%) done
+Select jobs to execute...
+
+[Thu May 22 21:05:24 2025]
+rule alignONT:
+    input: 3-align/split/ont070.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned070.gaf
+    log: 3-align/aligned070.err
+    jobid: 84
+    reason: Updated input files: 3-align/split/ont070.fasta.gz
+    wildcards: nnnn=070
+    threads: 24
+    resources: tmpdir=/tmp, job_id=70, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:16:34 2025]
+Finished job 43.
+16 of 159 steps (10%) done
+Select jobs to execute...
+
+[Thu May 22 21:16:34 2025]
+rule alignONT:
+    input: 3-align/split/ont043.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned043.gaf
+    log: 3-align/aligned043.err
+    jobid: 57
+    reason: Updated input files: 3-align/split/ont043.fasta.gz
+    wildcards: nnnn=043
+    threads: 24
+    resources: tmpdir=/tmp, job_id=43, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:19:26 2025]
+Finished job 84.
+17 of 159 steps (11%) done
+Select jobs to execute...
+
+[Thu May 22 21:19:26 2025]
+rule alignONT:
+    input: 3-align/split/ont056.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned056.gaf
+    log: 3-align/aligned056.err
+    jobid: 70
+    reason: Updated input files: 3-align/split/ont056.fasta.gz
+    wildcards: nnnn=056
+    threads: 24
+    resources: tmpdir=/tmp, job_id=56, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:30:37 2025]
+Finished job 57.
+18 of 159 steps (11%) done
+Select jobs to execute...
+
+[Thu May 22 21:30:37 2025]
+rule alignONT:
+    input: 3-align/split/ont057.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned057.gaf
+    log: 3-align/aligned057.err
+    jobid: 71
+    reason: Updated input files: 3-align/split/ont057.fasta.gz
+    wildcards: nnnn=057
+    threads: 24
+    resources: tmpdir=/tmp, job_id=57, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:33:01 2025]
+Finished job 70.
+19 of 159 steps (12%) done
+Select jobs to execute...
+
+[Thu May 22 21:33:02 2025]
+rule alignONT:
+    input: 3-align/split/ont042.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned042.gaf
+    log: 3-align/aligned042.err
+    jobid: 56
+    reason: Updated input files: 3-align/split/ont042.fasta.gz
+    wildcards: nnnn=042
+    threads: 24
+    resources: tmpdir=/tmp, job_id=42, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:43:30 2025]
+Finished job 71.
+20 of 159 steps (13%) done
+Select jobs to execute...
+
+[Thu May 22 21:43:30 2025]
+rule alignONT:
+    input: 3-align/split/ont023.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned023.gaf
+    log: 3-align/aligned023.err
+    jobid: 37
+    reason: Updated input files: 3-align/split/ont023.fasta.gz
+    wildcards: nnnn=023
+    threads: 24
+    resources: tmpdir=/tmp, job_id=23, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:46:47 2025]
+Finished job 56.
+21 of 159 steps (13%) done
+Select jobs to execute...
+
+[Thu May 22 21:46:47 2025]
+rule alignONT:
+    input: 3-align/split/ont028.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned028.gaf
+    log: 3-align/aligned028.err
+    jobid: 42
+    reason: Updated input files: 3-align/split/ont028.fasta.gz
+    wildcards: nnnn=028
+    threads: 24
+    resources: tmpdir=/tmp, job_id=28, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 21:57:08 2025]
+Finished job 37.
+22 of 159 steps (14%) done
+Select jobs to execute...
+
+[Thu May 22 21:57:09 2025]
+rule alignONT:
+    input: 3-align/split/ont007.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned007.gaf
+    log: 3-align/aligned007.err
+    jobid: 21
+    reason: Updated input files: 3-align/split/ont007.fasta.gz
+    wildcards: nnnn=007
+    threads: 24
+    resources: tmpdir=/tmp, job_id=7, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:00:26 2025]
+Finished job 42.
+23 of 159 steps (14%) done
+Select jobs to execute...
+
+[Thu May 22 22:00:27 2025]
+rule alignONT:
+    input: 3-align/split/ont014.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned014.gaf
+    log: 3-align/aligned014.err
+    jobid: 28
+    reason: Updated input files: 3-align/split/ont014.fasta.gz
+    wildcards: nnnn=014
+    threads: 24
+    resources: tmpdir=/tmp, job_id=14, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:09:55 2025]
+Finished job 21.
+24 of 159 steps (15%) done
+Select jobs to execute...
+
+[Thu May 22 22:09:56 2025]
+rule alignONT:
+    input: 3-align/split/ont037.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned037.gaf
+    log: 3-align/aligned037.err
+    jobid: 51
+    reason: Updated input files: 3-align/split/ont037.fasta.gz
+    wildcards: nnnn=037
+    threads: 24
+    resources: tmpdir=/tmp, job_id=37, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:13:22 2025]
+Finished job 28.
+25 of 159 steps (16%) done
+Select jobs to execute...
+
+[Thu May 22 22:13:22 2025]
+rule alignONT:
+    input: 3-align/split/ont053.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned053.gaf
+    log: 3-align/aligned053.err
+    jobid: 67
+    reason: Updated input files: 3-align/split/ont053.fasta.gz
+    wildcards: nnnn=053
+    threads: 24
+    resources: tmpdir=/tmp, job_id=53, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:24:25 2025]
+Finished job 51.
+26 of 159 steps (16%) done
+Select jobs to execute...
+
+[Thu May 22 22:24:26 2025]
+rule alignONT:
+    input: 3-align/split/ont039.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned039.gaf
+    log: 3-align/aligned039.err
+    jobid: 53
+    reason: Updated input files: 3-align/split/ont039.fasta.gz
+    wildcards: nnnn=039
+    threads: 24
+    resources: tmpdir=/tmp, job_id=39, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:27:30 2025]
+Finished job 67.
+27 of 159 steps (17%) done
+Select jobs to execute...
+
+[Thu May 22 22:27:31 2025]
+rule alignONT:
+    input: 3-align/split/ont065.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned065.gaf
+    log: 3-align/aligned065.err
+    jobid: 79
+    reason: Updated input files: 3-align/split/ont065.fasta.gz
+    wildcards: nnnn=065
+    threads: 24
+    resources: tmpdir=/tmp, job_id=65, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:40:28 2025]
+Finished job 53.
+28 of 159 steps (18%) done
+Select jobs to execute...
+
+[Thu May 22 22:40:28 2025]
+rule alignONT:
+    input: 3-align/split/ont016.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned016.gaf
+    log: 3-align/aligned016.err
+    jobid: 30
+    reason: Updated input files: 3-align/split/ont016.fasta.gz
+    wildcards: nnnn=016
+    threads: 24
+    resources: tmpdir=/tmp, job_id=16, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:43:06 2025]
+Finished job 79.
+29 of 159 steps (18%) done
+Select jobs to execute...
+
+[Thu May 22 22:43:06 2025]
+rule alignONT:
+    input: 3-align/split/ont051.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned051.gaf
+    log: 3-align/aligned051.err
+    jobid: 65
+    reason: Updated input files: 3-align/split/ont051.fasta.gz
+    wildcards: nnnn=051
+    threads: 24
+    resources: tmpdir=/tmp, job_id=51, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:54:04 2025]
+Finished job 30.
+30 of 159 steps (19%) done
+Select jobs to execute...
+
+[Thu May 22 22:54:04 2025]
+rule alignONT:
+    input: 3-align/split/ont030.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned030.gaf
+    log: 3-align/aligned030.err
+    jobid: 44
+    reason: Updated input files: 3-align/split/ont030.fasta.gz
+    wildcards: nnnn=030
+    threads: 24
+    resources: tmpdir=/tmp, job_id=30, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 22:56:57 2025]
+Finished job 65.
+31 of 159 steps (19%) done
+Select jobs to execute...
+
+[Thu May 22 22:56:58 2025]
+rule alignONT:
+    input: 3-align/split/ont002.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned002.gaf
+    log: 3-align/aligned002.err
+    jobid: 16
+    reason: Updated input files: 3-align/split/ont002.fasta.gz
+    wildcards: nnnn=002
+    threads: 24
+    resources: tmpdir=/tmp, job_id=2, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:08:13 2025]
+Finished job 44.
+32 of 159 steps (20%) done
+Select jobs to execute...
+
+[Thu May 22 23:08:14 2025]
+rule alignONT:
+    input: 3-align/split/ont044.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned044.gaf
+    log: 3-align/aligned044.err
+    jobid: 58
+    reason: Updated input files: 3-align/split/ont044.fasta.gz
+    wildcards: nnnn=044
+    threads: 24
+    resources: tmpdir=/tmp, job_id=44, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:12:09 2025]
+Finished job 16.
+33 of 159 steps (21%) done
+Select jobs to execute...
+
+[Thu May 22 23:12:10 2025]
+rule alignONT:
+    input: 3-align/split/ont063.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned063.gaf
+    log: 3-align/aligned063.err
+    jobid: 77
+    reason: Updated input files: 3-align/split/ont063.fasta.gz
+    wildcards: nnnn=063
+    threads: 24
+    resources: tmpdir=/tmp, job_id=63, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:22:12 2025]
+Finished job 58.
+34 of 159 steps (21%) done
+Select jobs to execute...
+
+[Thu May 22 23:22:13 2025]
+rule alignONT:
+    input: 3-align/split/ont072.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned072.gaf
+    log: 3-align/aligned072.err
+    jobid: 86
+    reason: Updated input files: 3-align/split/ont072.fasta.gz
+    wildcards: nnnn=072
+    threads: 24
+    resources: tmpdir=/tmp, job_id=72, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:26:39 2025]
+Finished job 77.
+35 of 159 steps (22%) done
+Select jobs to execute...
+
+[Thu May 22 23:26:40 2025]
+rule alignONT:
+    input: 3-align/split/ont049.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned049.gaf
+    log: 3-align/aligned049.err
+    jobid: 63
+    reason: Updated input files: 3-align/split/ont049.fasta.gz
+    wildcards: nnnn=049
+    threads: 24
+    resources: tmpdir=/tmp, job_id=49, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:37:11 2025]
+Finished job 86.
+36 of 159 steps (23%) done
+Select jobs to execute...
+
+[Thu May 22 23:37:11 2025]
+rule alignONT:
+    input: 3-align/split/ont024.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned024.gaf
+    log: 3-align/aligned024.err
+    jobid: 38
+    reason: Updated input files: 3-align/split/ont024.fasta.gz
+    wildcards: nnnn=024
+    threads: 24
+    resources: tmpdir=/tmp, job_id=24, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:40:30 2025]
+Finished job 63.
+37 of 159 steps (23%) done
+Select jobs to execute...
+
+[Thu May 22 23:40:31 2025]
+rule alignONT:
+    input: 3-align/split/ont035.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned035.gaf
+    log: 3-align/aligned035.err
+    jobid: 49
+    reason: Updated input files: 3-align/split/ont035.fasta.gz
+    wildcards: nnnn=035
+    threads: 24
+    resources: tmpdir=/tmp, job_id=35, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:51:47 2025]
+Finished job 38.
+38 of 159 steps (24%) done
+Select jobs to execute...
+
+[Thu May 22 23:51:47 2025]
+rule alignONT:
+    input: 3-align/split/ont008.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned008.gaf
+    log: 3-align/aligned008.err
+    jobid: 22
+    reason: Updated input files: 3-align/split/ont008.fasta.gz
+    wildcards: nnnn=008
+    threads: 24
+    resources: tmpdir=/tmp, job_id=8, n_cpus=24, mem_gb=23, time_h=24
+
+[Thu May 22 23:55:04 2025]
+Finished job 49.
+39 of 159 steps (25%) done
+Select jobs to execute...
+
+[Thu May 22 23:55:04 2025]
+rule alignONT:
+    input: 3-align/split/ont005.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned005.gaf
+    log: 3-align/aligned005.err
+    jobid: 19
+    reason: Updated input files: 3-align/split/ont005.fasta.gz
+    wildcards: nnnn=005
+    threads: 24
+    resources: tmpdir=/tmp, job_id=5, n_cpus=24, mem_gb=23, time_h=24
+
+[Fri May 23 00:05:19 2025]
+Finished job 22.
+40 of 159 steps (25%) done
+Select jobs to execute...
+
+[Fri May 23 00:05:19 2025]
+rule alignONT:
+    input: 3-align/split/ont038.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned038.gaf
+    log: 3-align/aligned038.err
+    jobid: 52
+    reason: Updated input files: 3-align/split/ont038.fasta.gz
+    wildcards: nnnn=038
+    threads: 24
+    resources: tmpdir=/tmp, job_id=38, n_cpus=24, mem_gb=23, time_h=24
+
