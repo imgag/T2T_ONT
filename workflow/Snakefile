@@ -395,11 +395,13 @@ rule all_polishing:
         ),
 
 rule all_hifiasm:
+# Hifiasm produces always two haplotypes, even when unphased
     input:
         expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
         **qc_collection(
             asm_hifiasm,
-            methods_phased=["phased_hifiasm"]
+            methods_phased=["phased_hifiasm"],
+            methods_unphased=[]
         )
 
 rule all_benchmark:

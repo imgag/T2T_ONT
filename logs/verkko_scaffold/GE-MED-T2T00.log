@@ -1185,3 +1185,35 @@ rule generateConsensus:
     threads: 8
     resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=200, time_h=24
 
+[Fri May 23 11:01:42 2025]
+Finished job 44.
+26 of 30 steps (87%) done
+Select jobs to execute...
+
+[Fri May 23 11:01:43 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part002.fasta
+    log: 7-consensus/packages/part002.err
+    jobid: 32
+    reason: Missing output files: 7-consensus/packages/part002.fasta
+    wildcards: nnnn=002
+    threads: 8
+    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=181, time_h=24
+
+[Fri May 23 13:08:10 2025]
+Finished job 32.
+27 of 30 steps (90%) done
+Select jobs to execute...
+
+[Fri May 23 13:08:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part004.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part004.fasta
+    log: 7-consensus/packages/part004.err
+    jobid: 39
+    reason: Missing output files: 7-consensus/packages/part004.fasta
+    wildcards: nnnn=004
+    threads: 8
+    resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=159, time_h=24
+
