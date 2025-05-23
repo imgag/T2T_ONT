@@ -64,6 +64,10 @@ ONT Official Blogpost:
 
 DFAM for mammal/human in H5 Format. Downlaoded from https://www.dfam.org/releases/current/families/FamDB/
 
+## GQC
+
+Folder with benchmark data for GQC:
+https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/polishing/HG002/v1.1/benchmark/resources/hg002v1.1.resources.tar.gz
 
 
 

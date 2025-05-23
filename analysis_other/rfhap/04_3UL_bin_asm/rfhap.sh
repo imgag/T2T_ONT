@@ -17,4 +17,6 @@ python workflow/scripts/15_rfhap_merge_phased_chunks.py \
   -u analysis_other/rfhap/04_3UL_bin_asm/rf/haplotypes/TUE_02_03UL.fragmented_fastkm_matrix.hapU.txt \
   -g analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.gfa \
   -f analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.fasta \
-  -o analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.merged
+  -o analysis_other/rfhap/04_3UL_bin_asm/TUE_02_03UL.fragmented.merged \
+  --bridge_unassigned \
+  --max_unassigned_bridge 3

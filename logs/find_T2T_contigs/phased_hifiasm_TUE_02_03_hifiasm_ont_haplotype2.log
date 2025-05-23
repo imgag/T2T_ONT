@@ -1,0 +1,109 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/hifiasm/TUE_02_03_hifiasm_ont/assembly.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2.seqinfo.txt assembly/output/hifiasm/TUE_02_03_hifiasm_ont/assembly.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/hifiasm/TUE_02_03_hifiasm_ont/assembly.haplotype2.fasta >assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/hifiasm/TUE_02_03_hifiasm_ont/assembly.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome h2tg000001l_Start processed
+[+]	Chromosome h2tg000002l_Start processed
+[+]	Chromosome h2tg000003l_Start processed
+[+]	Chromosome h2tg000004l_Start processed
+[+]	Chromosome h2tg000005l_Start processed
+[+]	Chromosome h2tg000006l_Start processed
+[+]	Chromosome h2tg000007l_Start processed
+[+]	Chromosome h2tg000008l_Start processed
+[+]	Chromosome h2tg000009l_Start processed
+[+]	Chromosome h2tg000010l_Start processed
+[+]	Chromosome h2tg000011l_Start processed
+[+]	Chromosome h2tg000012l_Start processed
+[+]	Chromosome h2tg000013l_Start processed
+[+]	Chromosome h2tg000014l_Start processed
+[+]	Chromosome h2tg000015l_Start processed
+[+]	Chromosome h2tg000016l_Start processed
+[+]	Chromosome h2tg000017l_Start processed
+[+]	Chromosome h2tg000018l_Start processed
+[+]	Chromosome h2tg000019l_Start processed
+[+]	Chromosome h2tg000020l_Start processed
+[+]	Chromosome h2tg000021l_Start processed
+[+]	Chromosome h2tg000022l_Start processed
+[+]	Chromosome h2tg000023l_Start processed
+[+]	Chromosome h2tg000024l_Start processed
+[+]	Chromosome h2tg000025l_Start processed
+[+]	Chromosome h2tg000026l_Start processed
+[+]	Chromosome h2tg000027l_Start processed
+[+]	Chromosome h2tg000028l_Start processed
+[+]	Chromosome h2tg000029l_Start processed
+[+]	Chromosome h2tg000030l_Start processed
+[+]	Chromosome h2tg000031l_Start processed
+[+]	Chromosome h2tg000032l_Start processed
+[+]	Chromosome h2tg000033l_Start processed
+[+]	Chromosome h2tg000001l_End processed
+[+]	Chromosome h2tg000002l_End processed
+[+]	Chromosome h2tg000003l_End processed
+[+]	Chromosome h2tg000004l_End processed
+[+]	Chromosome h2tg000005l_End processed
+[+]	Chromosome h2tg000006l_End processed
+[+]	Chromosome h2tg000007l_End processed
+[+]	Chromosome h2tg000008l_End processed
+[+]	Chromosome h2tg000009l_End processed
+[+]	Chromosome h2tg000010l_End processed
+[+]	Chromosome h2tg000011l_End processed
+[+]	Chromosome h2tg000012l_End processed
+[+]	Chromosome h2tg000013l_End processed
+[+]	Chromosome h2tg000014l_End processed
+[+]	Chromosome h2tg000015l_End processed
+[+]	Chromosome h2tg000016l_End processed
+[+]	Chromosome h2tg000017l_End processed
+[+]	Chromosome h2tg000018l_End processed
+[+]	Chromosome h2tg000019l_End processed
+[+]	Chromosome h2tg000020l_End processed
+[+]	Chromosome h2tg000021l_End processed
+[+]	Chromosome h2tg000022l_End processed
+[+]	Chromosome h2tg000023l_End processed
+[+]	Chromosome h2tg000024l_End processed
+[+]	Chromosome h2tg000025l_End processed
+[+]	Chromosome h2tg000026l_End processed
+[+]	Chromosome h2tg000027l_End processed
+[+]	Chromosome h2tg000028l_End processed
+[+]	Chromosome h2tg000029l_End processed
+[+]	Chromosome h2tg000030l_End processed
+[+]	Chromosome h2tg000031l_End processed
+[+]	Chromosome h2tg000032l_End processed
+[+]	Chromosome h2tg000033l_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.958*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::63.982*1.44] indexed the graph
+[M::mg_opt_update::69.713*1.40] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::344.271*3.89] mapped 15 sequences
+[M::worker_pipeline::477.099*4.18] mapped 18 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/hifiasm/TUE_02_03_hifiasm_ont/assembly.haplotype2.fasta
+[M::main] Real time: 477.781 sec; CPU: 1995.466 sec; Peak RSS: 44.439 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_ont/T2T_contigs.haplotype2_alignment_T2T.txt
+

@@ -395,8 +395,7 @@ rule all_hifiasm:
         **qc_collection(
             asm_hifiasm,
             methods_phased=["phased_hifiasm"]
-        ),
-        expand("assembly/qc/phased_hifiasm/{asm}/bandage_graph.png", asm=asm_hifiasm),
+        )
 
 rule all_benchmark:
     input:

@@ -7,7 +7,7 @@ rule medaka_polishing:
     output:
         "assembly/output/verkko/{asm}/assembly_polished.fasta"
     log:
-        "logs/medaka_polishing_{asm}.log"
+        "logs/medaka_polishing/{asm}.log"
     benchmark:
         "runtimes/{asm}.medaka_polishing.txt"
     threads: 60
@@ -19,10 +19,10 @@ rule medaka_polishing:
             -i {input.apk} -v apk \
             -i {input.ul} -v ulk \
             -d {input.asm} \
-            -t {threads}
+            -t {threads} \
             -m r1041_e82_260bps_joint_apk_ulk_v5.0.0 \
             -o $(dirname {output})/polishing \
             >{log} 2>&1
-        mv $(dirname {output})/polishing/consensus.fasta {output}
-        rm -rf $(dirname {output})/polishing
+        mv -v $(dirname {output})/polishing/consensus.fasta {output} >> {log} 2>&1
+        rm -rfv $(dirname {output})/polishing >>{log} 2>&1
         """

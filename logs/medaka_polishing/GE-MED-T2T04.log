@@ -1,0 +1,405 @@
+Checking program versions
+This is medaka 2.0.1
+Program    Version    Required   Pass     
+bcftools   1.21       1.11       True     
+bgzip      1.21       1.11       True     
+minimap2   2.28       2.11       True     
+samtools   1.21       1.11       True     
+tabix      1.21       1.11       True     
+Reading expected data types from model
+Data types match
+WARNING: Output assembly/output/verkko/GE-MED-T2T04/polishing already exists, may use old results.
+Tagging and merging basecalls
+[01:19:44 - Tag] Adding tag 'apk' to /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/GE-MED-T2T04/GE-MED-T2T04.APK.fastq.gz
+[01:19:44 - Tag] Adding tag 'ulk' to /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/GE-MED-T2T04/GE-MED-T2T04.UL.70x.fastq.gz
+[01:50:38 - Tag] Merging from 2 temporary files
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT
+Checking program versions
+This is medaka 2.0.1
+Program    Version    Required   Pass     
+bcftools   1.21       1.11       True     
+bgzip      1.21       1.11       True     
+minimap2   2.28       2.11       True     
+samtools   1.21       1.11       True     
+tabix      1.21       1.11       True     
+WARNING: Output assembly/output/verkko/GE-MED-T2T04/polishing already exists, may use old results.
+[02:11:48 - MdlStrTGZ] Successfully removed temporary files from /tmp/tmpi6l26r7h.
+[02:11:50 - MdlStrTGZ] Successfully removed temporary files from /tmp/tmpnec56pys.
+Aligning basecalls to draft
+Creating fai index file /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/output/verkko/GE-MED-T2T04/assembly.fasta.fai
+Creating mmi index file /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/output/verkko/GE-MED-T2T04/assembly.fasta.map-ont.mmi
+[M::mm_idx_gen::69.918*1.50] collected minimizers
+[M::mm_idx_gen::90.451*1.83] sorted minimizers
+[M::main::100.699*1.74] loaded/built the index for 938 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 938
+[M::mm_idx_stat::101.145*1.74] distinct minimizers: 101128498 (3.45% are singletons); average occurrences: 11.260; average spacing: 5.312; total length: 6048398644
+[M::main] Version: 2.28-r1209
+[M::main] CMD: minimap2 -I 16G -x map-ont -d /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/output/verkko/GE-MED-T2T04/assembly.fasta.map-ont.mmi /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/output/verkko/GE-MED-T2T04/assembly.fasta
+[M::main] Real time: 115.291 sec; CPU: 181.087 sec; Peak RSS: 22.101 GB
+Detected bam input, converting to fastq, retaining tags: DT.
+[M::main::19.571*0.71] loaded/built the index for 938 target sequence(s)
+[M::mm_mapopt_update::20.529*0.72] mid_occ = 1760
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 938
+[M::mm_idx_stat::20.880*0.73] distinct minimizers: 101128498 (3.45% are singletons); average occurrences: 11.260; average spacing: 5.312; total length: 6048398644
+[M::worker_pipeline::50.011*29.42] mapped 154292 sequences
+[M::worker_pipeline::71.506*37.85] mapped 96429 sequences
+[M::worker_pipeline::99.865*40.83] mapped 96499 sequences
+[M::worker_pipeline::123.208*44.16] mapped 94779 sequences
+[M::worker_pipeline::147.101*46.07] mapped 92608 sequences
+[M::worker_pipeline::170.386*47.63] mapped 94672 sequences
+[M::worker_pipeline::199.913*47.26] mapped 103260 sequences
+[M::worker_pipeline::222.839*48.23] mapped 137872 sequences
+[M::worker_pipeline::248.413*48.51] mapped 116943 sequences
+[M::worker_pipeline::273.719*48.97] mapped 102947 sequences
+[M::worker_pipeline::299.574*49.21] mapped 99549 sequences
+[M::worker_pipeline::327.434*49.08] mapped 96313 sequences
+[M::worker_pipeline::350.914*49.59] mapped 96123 sequences
+[M::worker_pipeline::375.063*49.90] mapped 138438 sequences
+[M::worker_pipeline::404.954*49.60] mapped 94235 sequences
+[M::worker_pipeline::427.874*50.06] mapped 92313 sequences
+[M::worker_pipeline::456.409*49.86] mapped 152365 sequences
+[M::worker_pipeline::481.758*50.01] mapped 121859 sequences
+[M::worker_pipeline::509.669*49.85] mapped 101157 sequences
+[M::worker_pipeline::532.603*50.17] mapped 97191 sequences
+[M::worker_pipeline::555.390*50.51] mapped 92302 sequences
+[M::worker_pipeline::577.931*50.81] mapped 94473 sequences
+[M::worker_pipeline::600.580*51.04] mapped 147369 sequences
+[M::worker_pipeline::625.024*51.13] mapped 118739 sequences
+[M::worker_pipeline::648.123*51.34] mapped 100721 sequences
+[M::worker_pipeline::679.682*50.93] mapped 94106 sequences
+[M::worker_pipeline::704.650*51.04] mapped 95597 sequences
+[M::worker_pipeline::728.379*51.23] mapped 93091 sequences
+[M::worker_pipeline::752.110*51.33] mapped 127219 sequences
+[M::worker_pipeline::781.927*51.11] mapped 129505 sequences
+[M::worker_pipeline::813.435*50.73] mapped 100986 sequences
+[M::worker_pipeline::839.021*50.77] mapped 94985 sequences
+[M::worker_pipeline::864.410*50.85] mapped 99177 sequences
+[M::worker_pipeline::890.946*50.80] mapped 93784 sequences
+[M::worker_pipeline::914.322*50.95] mapped 153586 sequences
+[M::worker_pipeline::937.406*51.08] mapped 116419 sequences
+[M::worker_pipeline::966.135*50.97] mapped 98085 sequences
+[M::worker_pipeline::988.908*51.12] mapped 95641 sequences
+[M::worker_pipeline::1012.802*51.24] mapped 92142 sequences
+[M::worker_pipeline::1039.403*51.26] mapped 93214 sequences
+[M::worker_pipeline::1063.468*51.32] mapped 135045 sequences
+[M::worker_pipeline::1087.860*51.35] mapped 149277 sequences
+[M::worker_pipeline::1109.814*51.48] mapped 128330 sequences
+[M::worker_pipeline::1134.254*51.58] mapped 97746 sequences
+[M::worker_pipeline::1156.771*51.69] mapped 109751 sequences
+[M::worker_pipeline::1187.507*51.52] mapped 96201 sequences
+[M::worker_pipeline::1209.621*51.65] mapped 154802 sequences
+[M::worker_pipeline::1235.817*51.63] mapped 125454 sequences
+[M::worker_pipeline::1264.098*51.56] mapped 98922 sequences
+[M::worker_pipeline::1286.950*51.67] mapped 98710 sequences
+[M::worker_pipeline::1311.439*51.74] mapped 92642 sequences
+[M::worker_pipeline::1338.908*51.67] mapped 95700 sequences
+[M::worker_pipeline::1362.111*51.74] mapped 169064 sequences
+[M::worker_pipeline::1393.011*51.57] mapped 107608 sequences
+[M::worker_pipeline::1415.918*51.68] mapped 99004 sequences
+[M::worker_pipeline::1441.294*51.72] mapped 94420 sequences
+[M::worker_pipeline::1470.619*51.63] mapped 95070 sequences
+[M::worker_pipeline::1497.744*51.57] mapped 125079 sequences
+[M::worker_pipeline::1520.310*51.65] mapped 147658 sequences
+[M::worker_pipeline::1546.092*51.67] mapped 105117 sequences
+[M::worker_pipeline::1634.341*50.47] mapped 98777 sequences
+[M::worker_pipeline::1636.943*50.44] mapped 95275 sequences
+[M::worker_pipeline::1665.391*50.45] mapped 93799 sequences
+[M::worker_pipeline::1688.546*50.52] mapped 175593 sequences
+[M::worker_pipeline::1711.338*50.60] mapped 121622 sequences
+[M::worker_pipeline::1739.560*50.54] mapped 101689 sequences
+[M::worker_pipeline::1764.260*50.59] mapped 95906 sequences
+[M::worker_pipeline::1789.856*50.64] mapped 94663 sequences
+[M::worker_pipeline::1814.262*50.66] mapped 164614 sequences
+[M::worker_pipeline::1836.379*50.75] mapped 140966 sequences
+[M::worker_pipeline::1859.841*50.82] mapped 113143 sequences
+[M::worker_pipeline::1883.792*50.89] mapped 100055 sequences
+[M::worker_pipeline::1911.423*50.87] mapped 97728 sequences
+[M::worker_pipeline::1935.707*50.95] mapped 95846 sequences
+[M::worker_pipeline::1957.396*51.03] mapped 163257 sequences
+[M::worker_pipeline::1983.350*51.03] mapped 135927 sequences
+[M::worker_pipeline::2008.509*51.05] mapped 102241 sequences
+[M::worker_pipeline::2038.202*50.97] mapped 99374 sequences
+[M::worker_pipeline::2062.181*51.03] mapped 96054 sequences
+[M::worker_pipeline::2084.591*51.10] mapped 156068 sequences
+[M::worker_pipeline::2107.588*51.16] mapped 149287 sequences
+[M::worker_pipeline::2129.944*51.23] mapped 106360 sequences
+[M::worker_pipeline::2153.590*51.29] mapped 98707 sequences
+[M::worker_pipeline::2177.355*51.35] mapped 96752 sequences
+[M::worker_pipeline::2202.701*51.36] mapped 148004 sequences
+[M::worker_pipeline::2225.057*51.43] mapped 171946 sequences
+[M::worker_pipeline::2247.547*51.49] mapped 116942 sequences
+[M::worker_pipeline::2272.155*51.52] mapped 102107 sequences
+[M::worker_pipeline::2297.834*51.51] mapped 98515 sequences
+[M::worker_pipeline::2326.058*51.52] mapped 93973 sequences
+[M::worker_pipeline::2349.747*51.54] mapped 200649 sequences
+[M::worker_pipeline::2373.957*51.57] mapped 126436 sequences
+[M::worker_pipeline::2402.366*51.51] mapped 102852 sequences
+[M::worker_pipeline::2425.582*51.56] mapped 99950 sequences
+[M::worker_pipeline::2451.783*51.55] mapped 98304 sequences
+[M::worker_pipeline::2474.341*51.61] mapped 172192 sequences
+[M::worker_pipeline::2497.592*51.66] mapped 121176 sequences
+[M::worker_pipeline::2522.492*51.68] mapped 99877 sequences
+[M::worker_pipeline::2550.217*51.66] mapped 95215 sequences
+[M::worker_pipeline::2580.605*51.58] mapped 94459 sequences
+[M::worker_pipeline::2625.167*51.23] mapped 197865 sequences
+[M::worker_pipeline::2647.803*51.28] mapped 131549 sequences
+[M::worker_pipeline::2672.565*51.31] mapped 104321 sequences
+[M::worker_pipeline::2695.464*51.36] mapped 128602 sequences
+[M::worker_pipeline::2720.578*51.36] mapped 123982 sequences
+[M::worker_pipeline::2743.893*51.41] mapped 124086 sequences
+[M::worker_pipeline::2769.056*51.43] mapped 104781 sequences
+[M::worker_pipeline::2790.951*51.47] mapped 170984 sequences
+[M::worker_pipeline::2814.499*51.51] mapped 137478 sequences
+[M::worker_pipeline::2839.345*51.53] mapped 116342 sequences
+[M::worker_pipeline::2868.420*51.47] mapped 105260 sequences
+[M::worker_pipeline::2891.709*51.52] mapped 102043 sequences
+[M::worker_pipeline::2916.261*51.53] mapped 119294 sequences
+[M::worker_pipeline::2940.700*51.54] mapped 189197 sequences
+[M::worker_pipeline::2965.029*51.56] mapped 133110 sequences
+[M::worker_pipeline::2989.507*51.58] mapped 125146 sequences
+[M::worker_pipeline::3011.251*51.63] mapped 176114 sequences
+[M::worker_pipeline::3039.931*51.59] mapped 126938 sequences
+[M::worker_pipeline::3062.737*51.63] mapped 156882 sequences
+[M::worker_pipeline::3094.324*51.53] mapped 158342 sequences
+[M::worker_pipeline::3186.004*50.85] mapped 118692 sequences
+[M::worker_pipeline::3188.622*50.83] mapped 103257 sequences
+[M::worker_pipeline::3214.790*50.85] mapped 101947 sequences
+[M::worker_pipeline::3236.646*50.90] mapped 187444 sequences
+[M::worker_pipeline::3259.701*50.94] mapped 135356 sequences
+[M::worker_pipeline::3282.604*50.99] mapped 113814 sequences
+[M::worker_pipeline::3306.936*51.02] mapped 103324 sequences
+[M::worker_pipeline::3334.505*51.01] mapped 124529 sequences
+[M::worker_pipeline::3356.649*51.05] mapped 190739 sequences
+[M::worker_pipeline::3379.801*51.08] mapped 137902 sequences
+[M::worker_pipeline::3403.515*51.12] mapped 106370 sequences
+[M::worker_pipeline::3426.698*51.15] mapped 186405 sequences
+[M::worker_pipeline::3449.217*51.19] mapped 118663 sequences
+[M::worker_pipeline::3472.098*51.23] mapped 160917 sequences
+[M::worker_pipeline::3495.295*51.27] mapped 116514 sequences
+[M::worker_pipeline::3518.973*51.31] mapped 109364 sequences
+[M::worker_pipeline::3542.098*51.35] mapped 101406 sequences
+[M::worker_pipeline::3564.865*51.38] mapped 200605 sequences
+[M::worker_pipeline::3586.479*51.43] mapped 138282 sequences
+[M::worker_pipeline::3610.274*51.45] mapped 113116 sequences
+[M::worker_pipeline::3638.441*51.42] mapped 105465 sequences
+[M::worker_pipeline::3661.720*51.45] mapped 176171 sequences
+[M::worker_pipeline::3687.547*51.43] mapped 180207 sequences
+[M::worker_pipeline::3715.185*51.41] mapped 118739 sequences
+[M::worker_pipeline::3745.956*51.34] mapped 106985 sequences
+[M::worker_pipeline::3772.816*51.32] mapped 144044 sequences
+[M::worker_pipeline::3795.666*51.36] mapped 117827 sequences
+[M::worker_pipeline::3823.532*51.33] mapped 116097 sequences
+[M::worker_pipeline::3853.472*51.29] mapped 111929 sequences
+[M::worker_pipeline::3882.524*51.24] mapped 219355 sequences
+[M::worker_pipeline::3918.521*51.13] mapped 141344 sequences
+[M::worker_pipeline::3944.490*51.11] mapped 142282 sequences
+[M::worker_pipeline::3969.073*51.12] mapped 222503 sequences
+[M::worker_pipeline::3991.036*51.16] mapped 185910 sequences
+[M::worker_pipeline::4017.453*51.15] mapped 124496 sequences
+[M::worker_pipeline::4041.281*51.17] mapped 108672 sequences
+[M::worker_pipeline::4067.007*51.18] mapped 111002 sequences
+[M::worker_pipeline::4090.836*51.21] mapped 132906 sequences
+[M::worker_pipeline::4115.637*51.23] mapped 224040 sequences
+[M::worker_pipeline::4140.966*51.22] mapped 105233 sequences
+[M::worker_pipeline::4165.851*51.23] mapped 224123 sequences
+[M::worker_pipeline::4188.905*51.26] mapped 162410 sequences
+[M::worker_pipeline::4211.832*51.28] mapped 234582 sequences
+[M::worker_pipeline::4234.002*51.32] mapped 202053 sequences
+[M::worker_pipeline::4257.770*51.34] mapped 116051 sequences
+[M::worker_pipeline::4281.082*51.38] mapped 118056 sequences
+[M::worker_pipeline::4304.418*51.41] mapped 108309 sequences
+[M::worker_pipeline::4329.178*51.42] mapped 102473 sequences
+[M::worker_pipeline::4354.278*51.43] mapped 174423 sequences
+[M::worker_pipeline::4380.025*51.42] mapped 180935 sequences
+[M::worker_pipeline::4406.370*51.40] mapped 315321 sequences
+[M::worker_pipeline::4429.482*51.44] mapped 179698 sequences
+[M::worker_pipeline::4451.796*51.46] mapped 137114 sequences
+[M::worker_pipeline::4474.952*51.49] mapped 131319 sequences
+[M::worker_pipeline::4500.709*51.49] mapped 129253 sequences
+[M::worker_pipeline::4524.932*51.51] mapped 118751 sequences
+[M::worker_pipeline::4547.281*51.54] mapped 231334 sequences
+[M::worker_pipeline::4570.561*51.55] mapped 260531 sequences
+[M::worker_pipeline::4592.651*51.57] mapped 230304 sequences
+[M::worker_pipeline::4614.910*51.60] mapped 155253 sequences
+[M::worker_pipeline::4702.483*51.17] mapped 128758 sequences
+[M::worker_pipeline::4705.171*51.15] mapped 140749 sequences
+[M::worker_pipeline::4727.429*51.19] mapped 136856 sequences
+[M::worker_pipeline::4752.044*51.20] mapped 224725 sequences
+[M::worker_pipeline::4774.927*51.22] mapped 284466 sequences
+[M::worker_pipeline::4797.912*51.24] mapped 171924 sequences
+[M::worker_pipeline::4820.949*51.27] mapped 145681 sequences
+[M::worker_pipeline::4848.053*51.25] mapped 181047 sequences
+[M::worker_pipeline::4874.463*51.24] mapped 122954 sequences
+[M::worker_pipeline::4902.612*51.21] mapped 115262 sequences
+[M::worker_pipeline::4925.553*51.23] mapped 123327 sequences
+[M::worker_pipeline::4948.100*51.26] mapped 105197 sequences
+[M::worker_pipeline::4993.071*51.14] mapped 102472 sequences
+[M::worker_pipeline::5042.891*51.04] mapped 117264 sequences
+[M::worker_pipeline::5097.139*50.84] mapped 140486 sequences
+[M::worker_pipeline::5118.086*50.87] mapped 140216 sequences
+[M::worker_pipeline::5145.709*50.86] mapped 123064 sequences
+[M::worker_pipeline::5262.765*50.09] mapped 63862 sequences
+[M::worker_pipeline::5540.564*48.23] mapped 2885 sequences
+[M::worker_pipeline::5763.103*46.96] mapped 2849 sequences
+[W::bam_tag2cigar] c9e94bd2-4617-434e-8bf4-8fc1f964a5bb encodes a CIGAR with 68793 operators at the CG tag
+[M::worker_pipeline::6028.600*45.55] mapped 2810 sequences
+[W::bam_tag2cigar] 0fe84351-0e3a-48ef-84b7-ac8a51f517e8 encodes a CIGAR with 68859 operators at the CG tag
+[M::worker_pipeline::6194.750*44.84] mapped 2853 sequences
+[W::bam_tag2cigar] da97fc12-b6f9-4bef-b118-ccb17be64305 encodes a CIGAR with 69118 operators at the CG tag
+[M::worker_pipeline::6322.326*44.41] mapped 3104 sequences
+[W::bam_tag2cigar] b6e3a774-b00e-4ec4-9479-76d89a636674 encodes a CIGAR with 78365 operators at the CG tag
+[W::bam_tag2cigar] b577894c-7e1d-432e-bb28-429da5c72240 encodes a CIGAR with 66331 operators at the CG tag
+[M::worker_pipeline::6667.185*42.64] mapped 3160 sequences
+[W::bam_tag2cigar] 8206df4d-18d8-4b9f-b307-8f87c0bb31fc encodes a CIGAR with 67972 operators at the CG tag
+[M::worker_pipeline::6891.888*41.77] mapped 2922 sequences
+[W::bam_tag2cigar] 9e3c1135-a20f-484b-94d3-abcd71e6df66 encodes a CIGAR with 71522 operators at the CG tag
+[M::worker_pipeline::7155.185*40.73] mapped 2837 sequences
+[W::bam_tag2cigar] 796f358e-0f6b-44bf-99cc-5b9d2b0cbe96 encodes a CIGAR with 71667 operators at the CG tag
+[M::worker_pipeline::7699.423*38.36] mapped 2906 sequences
+[W::bam_tag2cigar] 7ecf38d6-8cfb-44cb-aa17-54452f842dc4 encodes a CIGAR with 79167 operators at the CG tag
+[M::worker_pipeline::7961.562*37.52] mapped 2960 sequences
+[M::worker_pipeline::8168.569*36.88] mapped 3370 sequences
+[M::worker_pipeline::8358.628*36.40] mapped 3508 sequences
+[M::worker_pipeline::8504.476*36.10] mapped 3194 sequences
+[M::worker_pipeline::8809.970*35.26] mapped 3144 sequences
+[M::worker_pipeline::9219.822*34.07] mapped 2959 sequences
+[W::bam_tag2cigar] e017f531-1a06-4f1a-b61d-cabe4b552490 encodes a CIGAR with 70693 operators at the CG tag
+[W::bam_tag2cigar] 8f69226c-2b45-4efd-bc87-688c67f8d4da encodes a CIGAR with 66807 operators at the CG tag
+[M::worker_pipeline::9581.287*33.16] mapped 3067 sequences
+[W::bam_tag2cigar] 66e951e5-ffaa-43ef-8a39-0d133c73d9ce encodes a CIGAR with 75405 operators at the CG tag
+[W::bam_tag2cigar] 46713c66-081f-48b1-904d-20caef40f8eb encodes a CIGAR with 77572 operators at the CG tag
+[M::worker_pipeline::9736.429*32.95] mapped 2937 sequences
+[M::worker_pipeline::10106.271*32.10] mapped 2917 sequences
+[W::bam_tag2cigar] 523dc118-5445-41d8-8fab-2b2668be2019 encodes a CIGAR with 75085 operators at the CG tag
+[M::worker_pipeline::10418.270*31.54] mapped 2767 sequences
+[W::bam_tag2cigar] 514411c9-17d6-4b8a-8b41-75a0f9941b1a encodes a CIGAR with 91857 operators at the CG tag
+[M::worker_pipeline::10772.209*30.85] mapped 3117 sequences
+[W::bam_tag2cigar] f0aaf237-36e5-4fcd-8a3e-8c0312eb93fb encodes a CIGAR with 82349 operators at the CG tag
+[M::worker_pipeline::10967.651*30.63] mapped 3036 sequences
+[W::bam_tag2cigar] 9a22ba8d-a451-4acf-aea9-16dc13d09c43 encodes a CIGAR with 70637 operators at the CG tag
+[W::bam_tag2cigar] 167405a7-f76c-4e1c-b801-c460e7f948f0 encodes a CIGAR with 67649 operators at the CG tag
+[W::bam_tag2cigar] c0f6aee3-827d-426d-bac7-b3ea0852b749 encodes a CIGAR with 78635 operators at the CG tag
+[W::bam_tag2cigar] d68c79ff-b613-4e97-a201-3611470f2508 encodes a CIGAR with 68285 operators at the CG tag
+[W::bam_tag2cigar] fb076d30-d027-47af-83df-e19f4c1fd7ab encodes a CIGAR with 70245 operators at the CG tag
+[W::bam_tag2cigar] 0a48e944-a4b3-48b0-8155-2b1b3efe4f88 encodes a CIGAR with 68472 operators at the CG tag
+[W::bam_tag2cigar] 781d2e70-d044-45d3-b9f6-3d3df57f45b0 encodes a CIGAR with 67277 operators at the CG tag
+[M::worker_pipeline::11197.395*30.28] mapped 3085 sequences
+[W::bam_tag2cigar] f1704e53-fc57-4641-b8c5-db72512662a3 encodes a CIGAR with 96767 operators at the CG tag
+[M::worker_pipeline::11627.832*29.51] mapped 2953 sequences
+[W::bam_tag2cigar] d9b30527-32f3-42e6-ac30-bc2757ecf82a encodes a CIGAR with 72716 operators at the CG tag
+[M::worker_pipeline::11824.101*29.29] mapped 2819 sequences
+[W::bam_tag2cigar] 8e09dfa1-8f17-4f5e-9c47-fceaf304ddd3 encodes a CIGAR with 84531 operators at the CG tag
+[M::worker_pipeline::12045.227*29.07] mapped 2744 sequences
+[W::bam_tag2cigar] d2540ccc-0110-4741-a472-741b5d7328aa encodes a CIGAR with 79570 operators at the CG tag
+[M::worker_pipeline::12414.964*28.45] mapped 3112 sequences
+[W::bam_tag2cigar] e27ea4d3-7a56-4481-aede-b0102d250628 encodes a CIGAR with 79932 operators at the CG tag
+[M::worker_pipeline::12560.582*28.36] mapped 2947 sequences
+[W::bam_tag2cigar] 7d26e3e2-0392-4f3e-a500-ec6afd60d0d1 encodes a CIGAR with 69563 operators at the CG tag
+[M::worker_pipeline::12706.293*28.30] mapped 3138 sequences
+[M::worker_pipeline::13007.572*27.90] mapped 3125 sequences
+[W::bam_tag2cigar] 901134b5-4f8e-4ca0-bfdf-48e0e037601d encodes a CIGAR with 70834 operators at the CG tag
+[W::bam_tag2cigar] ba102688-1464-4f43-8889-91d009e532e3 encodes a CIGAR with 78050 operators at the CG tag
+[W::bam_tag2cigar] cd30f2c9-dadb-402e-bc5e-cbe06158cb16 encodes a CIGAR with 100585 operators at the CG tag
+[M::worker_pipeline::13109.820*27.89] mapped 2859 sequences
+[W::bam_tag2cigar] 11c0fd0c-4b75-4f6e-8cf2-2fd80d75fbfe encodes a CIGAR with 84888 operators at the CG tag
+[M::worker_pipeline::13285.589*27.72] mapped 3028 sequences
+[W::bam_tag2cigar] cad3f2d5-195e-4ddd-82d2-925fa49436c1 encodes a CIGAR with 66098 operators at the CG tag
+[M::worker_pipeline::13454.161*27.58] mapped 3064 sequences
+[W::bam_tag2cigar] d0ec4f14-63f1-44ec-99a4-9a45ae06b683 encodes a CIGAR with 68723 operators at the CG tag
+[W::bam_tag2cigar] 11fdf317-0b64-436f-8168-f58dde397bf1 encodes a CIGAR with 66455 operators at the CG tag
+[W::bam_tag2cigar] c41aa9a0-03fd-416b-94c9-a827996d5492 encodes a CIGAR with 68688 operators at the CG tag
+[W::bam_tag2cigar] 70e3e1ff-6ff8-4e9a-9ecb-419f54d33f2d encodes a CIGAR with 70010 operators at the CG tag
+[W::bam_tag2cigar] 7fc1d5c5-fcde-4167-b66f-006028a3d6e9 encodes a CIGAR with 80324 operators at the CG tag
+[M::worker_pipeline::13681.703*27.37] mapped 2944 sequences
+[W::bam_tag2cigar] ef7d0819-588a-42f5-8c7e-7a98484d9de2 encodes a CIGAR with 78349 operators at the CG tag
+[W::bam_tag2cigar] 6a1accbc-725e-40a0-befe-315993d079d8 encodes a CIGAR with 76286 operators at the CG tag
+[W::bam_tag2cigar] 1307446e-30ac-4981-b34d-fe535c21a3ac encodes a CIGAR with 65717 operators at the CG tag
+[M::worker_pipeline::13931.686*27.13] mapped 2940 sequences
+[W::bam_tag2cigar] f32f2edd-1154-4be6-a3b9-4ffb605f79cf encodes a CIGAR with 66827 operators at the CG tag
+[W::bam_tag2cigar] fbec5ccd-4d8a-413d-b360-73ae8dab6958 encodes a CIGAR with 67956 operators at the CG tag
+[W::bam_tag2cigar] a1b8c28f-581a-4d3e-9378-377197745ff9 encodes a CIGAR with 66603 operators at the CG tag
+[W::bam_tag2cigar] 46a37f68-cdde-4fae-8e2b-b148c8a4e8be encodes a CIGAR with 72460 operators at the CG tag
+[W::bam_tag2cigar] 43814c2e-0d99-45f5-b561-a31c5b04288c encodes a CIGAR with 71441 operators at the CG tag
+[M::worker_pipeline::14103.406*27.05] mapped 3030 sequences
+[M::worker_pipeline::14384.317*26.74] mapped 2952 sequences
+[W::bam_tag2cigar] 634ee752-1872-4a68-ac15-59771b576db7 encodes a CIGAR with 70383 operators at the CG tag
+[M::worker_pipeline::14654.380*26.44] mapped 3116 sequences
+[W::bam_tag2cigar] d2914665-88bc-4230-84e7-d16f83c22a86 encodes a CIGAR with 76464 operators at the CG tag
+[W::bam_tag2cigar] 0c25f795-5484-4484-8821-5ea92f97ebb4 encodes a CIGAR with 85813 operators at the CG tag
+[W::bam_tag2cigar] 4b1e81a8-0fa0-4edb-847f-531deb3d83d9 encodes a CIGAR with 84804 operators at the CG tag
+[W::bam_tag2cigar] 4ca7fb23-fe4c-4cec-a1a7-70c9b24bd9fc encodes a CIGAR with 109986 operators at the CG tag
+[W::bam_tag2cigar] d7afd8aa-313a-4efd-a069-f6090f3a8f9a encodes a CIGAR with 72785 operators at the CG tag
+[W::bam_tag2cigar] c1216ad4-258e-4d3f-813e-771104726ea9 encodes a CIGAR with 69434 operators at the CG tag
+[M::worker_pipeline::14874.491*26.29] mapped 3033 sequences
+[W::bam_tag2cigar] 6ba4f23b-aa48-43fe-ad36-2f5e0351735b encodes a CIGAR with 78076 operators at the CG tag
+[W::bam_tag2cigar] 1d3dbc90-0412-45c0-9196-00e1cfbd1633 encodes a CIGAR with 89868 operators at the CG tag
+[W::bam_tag2cigar] 411dd6d6-7e5c-4cae-9bda-241fcaf08682 encodes a CIGAR with 72613 operators at the CG tag
+[M::worker_pipeline::15023.999*26.24] mapped 3016 sequences
+[W::bam_tag2cigar] 793f2691-5504-4531-b35e-24d58c8f4ddb encodes a CIGAR with 133322 operators at the CG tag
+[M::worker_pipeline::15198.261*26.15] mapped 3062 sequences
+[W::bam_tag2cigar] 72e0be8e-a0bc-4c06-87b9-9d0fe07e093d encodes a CIGAR with 101184 operators at the CG tag
+[W::bam_tag2cigar] 27c63db0-0e17-4819-8549-868d43586f31 encodes a CIGAR with 65709 operators at the CG tag
+[M::worker_pipeline::15410.335*26.02] mapped 2831 sequences
+[W::bam_tag2cigar] 9159f6bd-b3b3-49bf-83ed-d7a1e52a7a96 encodes a CIGAR with 65729 operators at the CG tag
+[M::worker_pipeline::15659.181*25.82] mapped 3104 sequences
+[M::worker_pipeline::15845.449*25.92] mapped 3414 sequences
+[M::worker_pipeline::16036.091*25.67] mapped 2853 sequences
+[M::worker_pipeline::16161.683*25.66] mapped 2921 sequences
+[M::worker_pipeline::16407.132*25.53] mapped 3140 sequences
+[M::worker_pipeline::16669.938*25.31] mapped 3643 sequences
+[M::worker_pipeline::16975.549*25.11] mapped 3236 sequences
+[M::worker_pipeline::17107.752*25.10] mapped 3342 sequences
+[M::worker_pipeline::17275.485*25.05] mapped 2927 sequences
+[M::worker_pipeline::17398.470*25.04] mapped 2866 sequences
+[W::bam_tag2cigar] 6305b6dc-7390-4a2d-9a44-37f150acddcb encodes a CIGAR with 82790 operators at the CG tag
+[M::worker_pipeline::17623.576*24.93] mapped 2923 sequences
+[M::worker_pipeline::17803.860*24.85] mapped 3100 sequences
+[W::bam_tag2cigar] b9cddaea-b8e6-4f0e-8fe5-1390d70ce9d0 encodes a CIGAR with 65775 operators at the CG tag
+[M::worker_pipeline::18050.902*24.72] mapped 2941 sequences
+[W::bam_tag2cigar] 55d22206-9e80-4f62-983f-a1e9108a1c4a encodes a CIGAR with 67861 operators at the CG tag
+[M::worker_pipeline::18239.947*24.68] mapped 2916 sequences
+[M::worker_pipeline::18862.142*24.10] mapped 3344 sequences
+[M::worker_pipeline::19012.078*24.09] mapped 3137 sequences
+[M::worker_pipeline::19094.316*24.11] mapped 3190 sequences
+[W::bam_tag2cigar] d30a8657-b2f2-4abf-a818-0d02bb2026ce encodes a CIGAR with 96333 operators at the CG tag
+[M::worker_pipeline::19617.569*23.68] mapped 2876 sequences
+[M::worker_pipeline::19822.160*23.62] mapped 3181 sequences
+[M::worker_pipeline::20239.524*23.30] mapped 2929 sequences
+[W::bam_tag2cigar] b447f995-eafe-4ea1-9f0a-2369e284de4e encodes a CIGAR with 66393 operators at the CG tag
+[M::worker_pipeline::20456.401*23.23] mapped 2979 sequences
+[M::worker_pipeline::20666.125*23.16] mapped 2905 sequences
+[M::worker_pipeline::20785.489*23.19] mapped 3017 sequences
+[M::worker_pipeline::20945.354*23.17] mapped 3037 sequences
+[M::worker_pipeline::21180.246*23.09] mapped 2951 sequences
+[W::bam_tag2cigar] b9987794-a36b-4458-95e8-cbd080e15ec4 encodes a CIGAR with 66225 operators at the CG tag
+[W::bam_tag2cigar] 9e54655a-17ed-4cb9-9fcb-668ed00f7ee1 encodes a CIGAR with 84177 operators at the CG tag
+[M::worker_pipeline::21342.650*23.07] mapped 2972 sequences
+[M::worker_pipeline::21756.628*22.81] mapped 2982 sequences
+[W::bam_tag2cigar] fc15a1ba-8c50-477b-9784-32afcd42e9bb encodes a CIGAR with 74432 operators at the CG tag
+[M::worker_pipeline::21844.296*22.86] mapped 3106 sequences
+[M::worker_pipeline::22021.264*22.83] mapped 2891 sequences
+[M::worker_pipeline::22428.980*22.60] mapped 2812 sequences
+[W::bam_tag2cigar] 87f696f7-4591-44ea-8dac-db6369e68bcb encodes a CIGAR with 70502 operators at the CG tag
+[M::worker_pipeline::22629.622*22.58] mapped 2996 sequences
+[M::worker_pipeline::22891.131*22.49] mapped 2944 sequences
+[M::worker_pipeline::23107.781*22.44] mapped 3254 sequences
+[M::worker_pipeline::23228.788*22.46] mapped 2946 sequences
+[W::bam_tag2cigar] 0d7fce04-a37f-4352-880b-7e92d1798500 encodes a CIGAR with 66473 operators at the CG tag
+[M::worker_pipeline::23404.226*22.46] mapped 2984 sequences
+[M::worker_pipeline::23612.608*22.43] mapped 3218 sequences
+[M::worker_pipeline::23847.621*22.35] mapped 3021 sequences
+[W::bam_tag2cigar] f9e6a32d-12ab-458a-9664-b3c4d0d512c8 encodes a CIGAR with 74970 operators at the CG tag
+[M::worker_pipeline::24050.559*22.29] mapped 3002 sequences
+[M::worker_pipeline::24391.766*22.14] mapped 2973 sequences
+[M::worker_pipeline::24542.881*22.13] mapped 2958 sequences
+[M::worker_pipeline::25023.527*21.87] mapped 3064 sequences
+[W::bam_tag2cigar] 8da89015-35aa-4f8e-8b33-82052993e9bd encodes a CIGAR with 80109 operators at the CG tag
+[M::worker_pipeline::25191.925*21.84] mapped 2812 sequences
+[M::worker_pipeline::25509.375*21.74] mapped 2915 sequences
+[W::bam_tag2cigar] adf00591-6bb6-45bb-a0ac-c5503d3eb728 encodes a CIGAR with 68137 operators at the CG tag
+[M::worker_pipeline::25619.799*21.74] mapped 2974 sequences
+[M::worker_pipeline::25824.698*21.68] mapped 3033 sequences
+[M::worker_pipeline::26143.733*21.53] mapped 2925 sequences
+[M::worker_pipeline::26407.750*21.46] mapped 3016 sequences
+[W::bam_tag2cigar] 0c8adbba-c384-41fb-9dc7-bfe93b6c19c3 encodes a CIGAR with 82800 operators at the CG tag
+[M::worker_pipeline::26591.750*21.41] mapped 3002 sequences

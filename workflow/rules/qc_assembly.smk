@@ -143,8 +143,8 @@ rule bandage:
     threads: 1
     shell:
         """
-        Bandage image {input.gfa} {output.svg} --colors {input.color} > {log} 2>&1
-        Bandage image {input.gfa} {output.png} --colors {input.color} > {log} 2>&1
+        BandageNG image {input.gfa} {output.svg} --color {input.color} > {log} 2>&1
+        BandageNG image {input.gfa} {output.png} --color {input.color} > {log} 2>&1
         """
 
 

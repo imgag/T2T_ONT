@@ -113,3 +113,13 @@ Steps:
 
 ### Comparison of flowcell impact
 
+
+### Other validation tools:
+
+- [GAVISUNK](https://github.com/pdishuck/GAVISUNK), 2022 E. Eichler Lab 
+
+ASat Annotation based on RepeatMasker:
+https://github.com/fedorrik/HumAS-HMMER_for_AnVIL
+
+Centromer Plots
+https://github.com/logsdon-lab/CenPlot?tab=readme-ov-file

@@ -1,4 +1,4 @@
-    #!/bin/bash
+#!/bin/bash
 
 # Exit on error
 set -e
@@ -11,11 +11,10 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${LOG_DIR}/map_modbam_${TIMESTAMP}.log"
 
 # Input parameters
-SAMPLE="TUE_02_03UL"
-INPUT_FASTQ_PAT="assembly/input/${SAMPLE}/${SAMPLE}.HQ_herro.50x.fastq.gz"
-INPUT_FASTQ_MAT="assembly/input/${SAMPLE}/${SAMPLE}.HQ_herro.50x.fastq.gz"
+SAMPLE="TUE_02_03UL_old"
+INPUT_BAM="data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam"
 REFERENCE="assembly/output/verkko/${SAMPLE}/assembly.fasta"
-OUTPUT_BAM="${SCRIPT_DIR}/${SAMPLE}.HQ_herro.50x.bam"
+OUTPUT_BAM="${SCRIPT_DIR}/${SAMPLE}.mod.bam"
 THREADS=40
 SORT_THREADS=4
 SORT_MEM="4G"
@@ -49,8 +48,8 @@ source "$(conda info --base)/etc/profile.d/conda.sh" || { log "Failed to source 
 conda activate minimap2 || { log "Failed to activate conda environment"; exit 1; }
 
 # Check if input files exist
-if [ ! -f "${INPUT_FASTQ}" ]; then
-    log "ERROR: Input FASTQ file not found: ${INPUT_FASTQ}"
+if [ ! -f "${INPUT_BAM}" ]; then
+    log "ERROR: Input BAM file not found: ${INPUT_BAM}"
     exit 1
 fi
 
@@ -63,8 +62,9 @@ fi
 log "Starting minimap2 alignment"
 start_time=$(date +%s)
 
-samtools fastq "${INPUT_FASTQ}" \
-| minimap2 --MD -ax lr:hq --eqx \
+# Remove unmapped, non primary, secondary alignments
+samtools fastq -TMM,ML --reference "${REFERENCE}" "${INPUT_BAM}" \
+| minimap2 --MD -ax lr:hq --eqx -y \
     -t "${THREADS}" \
     "${REFERENCE}" - 2>>"${LOG_FILE}" \
 | samtools view -h -F 2308 \
