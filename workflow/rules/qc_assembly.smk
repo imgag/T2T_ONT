@@ -427,10 +427,13 @@ rule qc_merqury_phased:
 
 
 def get_merqury_input(wc):
-    if wc["isphased"] == "unphased":
-        return f"assembly/output/verkko_unphased/{wc['asm']}/assembly{wc['polished']}.fasta"
-    elif wc["isphased"] == "phased":
-        return f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta"
+    if wc["tool"] == "verkko":
+        if wc["isphased"] == "unphased":
+            return f"assembly/output/verkko_unphased/{wc['asm']}/assembly{wc['polished']}.fasta"
+        elif wc["isphased"] == "phased":
+            return f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta"
+    elif wc["tool"] == "hifiasm":
+        return f"assembly/output/hifiasm/{wc['asm']}/assembly{wc['polished']}.fasta"
 
 
 rule qc_merqury_unphased:
@@ -438,13 +441,13 @@ rule qc_merqury_unphased:
         meryl=get_meryl_ref,
         fa=get_merqury_input,
     output:
-        out="assembly/qc/{isphased}_verkko/{asm}/merqury{polished}.qv",
+        out="assembly/qc/{isphased}_{tool}/{asm}/merqury{polished}.qv",
     wildcard_constraints:
         polished=".*",
     conda:
         "../env/merqury.yml"
     log:
-        "logs/merqury/{isphased}_verkko_{asm}{polished}.log",
+        "logs/merqury/{isphased}_{tool}_{asm}{polished}.log",
     threads: 40
     shell:
         """

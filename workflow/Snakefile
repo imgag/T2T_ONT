@@ -388,6 +388,11 @@ rule all_extended_qc:
 rule all_polishing:
     input:
         expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_samples),
+        expand(
+            "assembly/qc/phased_verkko/{asm}/merqury{polished}.qv",
+            asm=asm_samples,
+            polished=["", "_polished"],
+        ),
 
 rule all_hifiasm:
     input:
@@ -520,8 +525,3 @@ rule collect_qc_method_comparison:
 
 rule test_polish_qc:
     input:
-        merqury_stats=expand(
-            "assembly/qc/unphased_verkko/{asm}/merqury{polished}.qv",
-            asm="TUE_02",
-            polished=["", "_polished"],
-        ),
