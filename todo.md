@@ -1,8 +1,8 @@
 # Tasks
 - [ ] Check where the sequences not in haplotype1 and haplotype2 are coming from. 
-- [ ] Create bed file with RepeatMasker categories
-- [ ] Add number of N in final assembly to QC
-- [ ] Add NucFlag to pipeline
+- [X] Create bed file with RepeatMasker categories
+- [X] Add number of N in final assembly to QC
+- [X] Add NucFlag to pipeline
 - [ ] Include APK Polishing
     - [ ] Add polishing tool to pipeline
     - [ ] Create new QC folder for polished assembly
