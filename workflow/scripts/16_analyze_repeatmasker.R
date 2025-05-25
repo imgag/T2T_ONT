@@ -9,7 +9,7 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(ggplot2)
   library(viridis)
-  library(patchwork)
+  #library(patchwork)
   library(optparse)
 })
 
@@ -156,14 +156,14 @@ p1 <- ggplot(class_summary, aes(x = reorder(repeat_class, -total_length), y = to
 # 2. Top 20 repeat families by length
 top_families <- family_summary %>%
   arrange(desc(total_length)) %>%
-  head(20)
+  head(15)
 
 p2 <- ggplot(top_families, aes(x = reorder(paste(repeat_class, repeat_family, sep=":"), -total_length), 
                              y = total_length/1e6, fill = repeat_class)) +
   geom_bar(stat = "identity", color = "grey30") +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "Repeat Family", y = "Total Length (Mb)", title = "Top 20 Repeat Families") +
+  labs(x = "Repeat Family", y = "Total Length (Mb)", title = "Top 15 Repeat Families") +
   scale_fill_viridis(discrete = TRUE)
 
 # 3. Divergence distribution by repeat class
@@ -191,12 +191,6 @@ p5 <- ggplot(filtered_data, aes(x = length, fill = repeat_class)) +
   theme(legend.position = "none") +
   scale_x_log10()
 
-# Combine original plots
-combined_plot <- (p1 + p2) / (p3 + p4)
-
-# Save original combined plots
-ggsave(paste0(opt$output, "_plots.pdf"), combined_plot, width = 14, height = 10, create.dir = TRUE)
-ggsave(paste0(opt$output, "_plots.png"), combined_plot, width = 14, height = 10, dpi = 300)
 
 # Save plots individually
 ggsave(paste0(opt$output, "_class_summary.pdf"), p1, width = 14, height = 10)
@@ -205,13 +199,12 @@ ggsave(paste0(opt$output, "_divergence_distribution.pdf"), p3, width = 14, heigh
 ggsave(paste0(opt$output, "_length_distribution.pdf"), p4, width = 14, height = 10)
 
 ggsave(paste0(opt$output, "_class_summary.png"), p1, width = 14, height = 10, dpi = 300)
-ggsave(paste0(opt$output, "_family_summary.png"), p2, width = 14, height = 10, dpi = 300)
+ggsave(paste0(opt$output, "_family_summary.png"), p2, width = 14, height = 10, dpi = 200)
 ggsave(paste0(opt$output, "_divergence_distribution.png"), p3, width = 14, height = 10, dpi = 300)
 ggsave(paste0(opt$output, "_length_distribution.png"), p4, width = 14, height = 10, dpi = 300)
 
 # Save new plots
 ggsave(paste0(opt$output, "_length_histogram.pdf"), p5, width = 14, height = 10)
-
 ggsave(paste0(opt$output, "_length_histogram.png"), p5, width = 14, height = 10, dpi = 300)
 
 # Write summary tables
@@ -255,6 +248,17 @@ write.table(
   quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE
 )
 
+# Create a simplified bedfile with only Satellites
+satellite_bed <- filtered_data %>%
+  filter(repeat_class == "Satellite") %>%
+  select(sequence, begin, end, repeat_family, repeat_name) %>%
+  arrange(sequence, begin)
+
+write.table(
+  satellite_bed,
+  paste0(opt$output, "_filtered_satellites.bed"),
+  quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE
+)
 # Create a bedfile for nucplot
 message("Creating nucplot BED file...")
 nucplot_bed <- filtered_data %>%

@@ -43,7 +43,7 @@ def get_assembly_input(wc):
                 ped=["maternal", "paternal"],
             )
         elif wc.asm in asm_hifiasm.keys():
-            if asm[wc.asm].get("hifiasm", "") == "ont_trio":
+            if asm[wc.asm].get("hifiasm", "") in ["ont_trio", "herro_trio"]:
                 files["trio_kmers"] = expand(
                     "assembly/input/{dataset}/{ped}.yak",
                     dataset=s_d,
@@ -365,7 +365,7 @@ rule verkko_scaffold_trio:
     input:
         ul=lambda wc: get_assembly_input(wc).get("ul"),
         hq=lambda wc: get_assembly_input(wc).get("hq"),
-        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers"),
+        kmers=lambda wc: get_assembly_input(wc).get("trio_kmers") if asm[wc.asm].get("trio_phasing", False) else [],
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
     output:
         hp1="assembly/output/verkko/{asm}/assembly.haplotype1.fasta",
@@ -450,7 +450,6 @@ rule hifiasm:
         ul=lambda wc: get_assembly_input(wc).get("ul", []),
         hq=lambda wc: get_assembly_input(wc).get("hq", []),
         kmers=lambda wc: get_assembly_input(wc).get("trio_kmers", []),
-
     output:
         primary_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.p_ctg.gfa",
         hap1_gfa="assembly/output/hifiasm/{asm}/{asm}.bp.hap1.p_ctg.gfa",
