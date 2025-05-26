@@ -43,6 +43,7 @@ if (test_mode) {
   input_findt2t_alignment <- snakemake@input[["findt2t_alignment"]]
   input_findt2t_motif <- snakemake@input[["findt2t_motif"]]
   input_gap_stats <- snakemake@input[["gap_stats"]]
+  input_contig_stats <- snakemake@input[["contig_stats"]]
   output_qc_full <- snakemake@output[["tsv"]]
 }
 
@@ -57,7 +58,7 @@ message(paste("- Merqury:", length(input_merqury), "files"))
 message(paste("- FindT2T alignment:", length(input_findt2t_alignment), "files"))
 message(paste("- FindT2T motif:", length(input_findt2t_motif), "files"))
 message(paste("- Gap statistics:", length(input_gap_stats), "files"))
-
+message(paste("- Contig statistics:", length(input_contig_stats), "files"))
 # Helper function to extract common metadata from file path
 get_file_metadata <- function(file) {
   list(
@@ -309,6 +310,23 @@ parse_gap_stats <- function(files) {
   return(results)
 }
 
+parse_contig_stats <- function(files) {
+  print(paste("Parse N statistics from ", files))
+  results <- lapply(files, function(file) {
+    metadata <- get_file_metadata(file)
+    read_tsv(file, col_names = c("metric", "value"), show_col_types = FALSE) %>%
+      mutate(
+        value = as.numeric(value),
+        haplotype = metadata$haplotype,
+        asm_method = metadata$asm_method,
+        asm_name = metadata$asm_name,
+        source = "contig_statistics"
+      )
+  })
+  names(results) <- files
+  return(results)
+}
+
 message("Starting data parsing at:", Sys.time())
 
 # Use the time_execution function for each parsing step
@@ -322,6 +340,7 @@ parsed_findt2t_alignment <- time_execution(parse_findt2t_alignment, input_findt2
 parsed_findt2t_motif <- time_execution(parse_findt2t_motif, input_findt2t_motif, "FindT2T motif parsing")
 parsed_sex <- time_execution(parse_sex, input_sex, "Sex determination parsing")
 parsed_gap_stats <- time_execution(parse_gap_stats, input_gap_stats, "Gap statistics parsing")
+parsed_contig_stats <- time_execution(parse_contig_stats, input_contig_stats, "Contig statistics parsing")
 
 message("Starting data binding at:", Sys.time())
 binding_start <- Sys.time()
@@ -336,7 +355,8 @@ full_table <- bind_rows(
   bind_rows(parsed_findt2t_alignment),
   bind_rows(parsed_findt2t_motif),
   bind_rows(parsed_sex),
-  bind_rows(parsed_gap_stats)  
+  bind_rows(parsed_gap_stats),
+  bind_rows(parsed_contig_stats) 
 ) 
 
 binding_end <- Sys.time()

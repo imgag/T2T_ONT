@@ -1217,3 +1217,35 @@ rule generateConsensus:
     threads: 8
     resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=159, time_h=24
 
+[Fri May 23 15:12:27 2025]
+Finished job 39.
+28 of 30 steps (93%) done
+Select jobs to execute...
+
+[Fri May 23 15:12:27 2025]
+rule combineConsensus:
+    input: 7-consensus/packages/part024.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part023.fasta, 7-consensus/packages/part025.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part022.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part026.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages.tigName_to_ID.map, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/ont.alignments.gaf, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 7-consensus/packages.finished, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa
+    output: 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/combined.fasta
+    log: 7-consensus/combineConsensus.out, 7-consensus/combineConsensus.err
+    jobid: 15
+    reason: Missing output files: 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.unassigned.fasta; Input files updated by another job: 7-consensus/packages/part026.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part024.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part023.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part025.fasta, 7-consensus/packages/part022.fasta
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=12, time_h=4
+
+[Fri May 23 15:15:54 2025]
+Finished job 15.
+29 of 30 steps (97%) done
+Select jobs to execute...
+
+[Fri May 23 15:15:54 2025]
+localrule cnspath:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta
+    output: assembly.homopolymer-compressed.gfa, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.homopolymer-compressed.layout, assembly.fasta, assembly.scfmap
+    jobid: 0
+    reason: Missing output files: assembly.homopolymer-compressed.layout, assembly.homopolymer-compressed.gfa, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.scfmap, assembly.fasta; Input files updated by another job: 7-consensus/unitig-popped.haplotype2.fasta, 6-layoutContigs/unitig-popped.layout, 7-consensus/unitig-popped.haplotype1.fasta, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.unassigned.fasta
+    resources: tmpdir=/tmp
+
+[Fri May 23 15:15:54 2025]
+Finished job 0.
+30 of 30 steps (100%) done
+Complete log: .snakemake/log/2025-05-22T092125.786605.snakemake.log

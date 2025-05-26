@@ -275,23 +275,29 @@ def qc_collection(
 
     if methods_phased:
         results_phased = {
-            "paf_stat": expand(
-                "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
-                asm=asm,
-                method=methods_phased,
-                hp=["haplotype1", "haplotype2"],
+                # QV for diploid assembly (merqury)
+                "merqury_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.qv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+                "paf_stat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
                 "paf_asmstat": expand(
                     "assembly/qc/{method}/{asm}/qc_paftools_asmstat.{hp}.txt",
                     asm=asm,
                     method=methods_phased,
-                    hp=["haplotype1", "haplotype2"],
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
                 "paf_asmgene": expand(
                     "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
                     asm=asm,
                     method=methods_phased,
-                    hp=["haplotype1", "haplotype2"],
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
                 "whatshap_stats": expand(
                     "assembly/qc/{method}/{asm}/whatshap_stats.tsv",
@@ -313,13 +319,13 @@ def qc_collection(
                     "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
                     asm=asm,
                     method=methods_phased,
-                    hp=["haplotype1", "haplotype2"],
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
                 "findt2t_motif": expand(
                     "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
                     asm=asm,
                     method=methods_phased,
-                    hp=["haplotype1", "haplotype2"],
+                    hp=["haplotype1", "haplotype2", "both"],
                 ),
                 "gap_stats": expand(
                     "assembly/qc/{method}/{asm}/gap_stats.{hp}.n_stats.tsv",
@@ -327,6 +333,12 @@ def qc_collection(
                     method=methods_phased,
                     hp=["haplotype1", "haplotype2", "both"],
                 ),
+                "contig_stats": expand(
+                    "assembly/qc/{method}/{asm}/contig_stats.{hp}.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2", "both"]
+                )
             }
 
     for key, files in results_phased.items():
@@ -482,7 +494,7 @@ rule collect_qc_benchmark:
 
 rule collect_qc_samples:
     input:
-        **qc_collection(asm_samples, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"]),
+        **qc_collection(asm_samples, methods_phased=["phased_verkko"], methods_unphased=[]),
     output:
         tsv="assembly/qc/qc_samples.tsv",
     conda:
@@ -491,7 +503,6 @@ rule collect_qc_samples:
         "logs/collect_qc.log",
     script:
         "scripts/06_collect_qc.R"
-
 
 rule collect_qc_flowcells:
     input:

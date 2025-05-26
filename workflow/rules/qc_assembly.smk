@@ -66,6 +66,23 @@ def get_assembly_colors(wc):
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
+rule get_contig_stats:
+    input:
+        fa = get_assembly_output
+    output:
+        "assembly/qc/{isphased}_{tool}/{asm}/contig_stats.{hp}.tsv"
+    log:
+        "logs/get_contig_stats/{isphased}_{tool}_{asm}_{hp}.tsv"
+    conda:
+        "../env/samtools.yml"
+    threads:
+        1
+    shell:
+        """
+        samtools faidx {input}
+        awk 'BEGIN {{ count_total=0; count_gt_10Mb=0; }} {{ current_length=$2+0; count_total++; if (current_length > 10000000) count_gt_10Mb++; }} END {{ printf "n_contigs\\t%d\\n", count_total; printf "n_contigs_over_10mb\\t%d\\n", count_gt_10Mb; }}' \
+        {input.fa}.fai > {output} 2>{log}
+        """
 
 rule subsample_ref_genome:
     input:
