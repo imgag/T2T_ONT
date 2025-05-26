@@ -1,0 +1,201 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/hifiasm/TUE_02_03_hifiasm_herro/assembly.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both.seqinfo.txt assembly/output/hifiasm/TUE_02_03_hifiasm_herro/assembly.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/hifiasm/TUE_02_03_hifiasm_herro/assembly.fasta >assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/hifiasm/TUE_02_03_hifiasm_herro/assembly.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both.teloinput.fa -o assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome ptg000001l_Start processed
+[+]	Chromosome ptg000002l_Start processed
+[+]	Chromosome ptg000003l_Start processed
+[+]	Chromosome ptg000004l_Start processed
+[+]	Chromosome ptg000005l_Start processed
+[+]	Chromosome ptg000006l_Start processed
+[+]	Chromosome ptg000007l_Start processed
+[+]	Chromosome ptg000008l_Start processed
+[+]	Chromosome ptg000009l_Start processed
+[+]	Chromosome ptg000010l_Start processed
+[+]	Chromosome ptg000011l_Start processed
+[+]	Chromosome ptg000012l_Start processed
+[+]	Chromosome ptg000013l_Start processed
+[+]	Chromosome ptg000014l_Start processed
+[+]	Chromosome ptg000015l_Start processed
+[+]	Chromosome ptg000016l_Start processed
+[+]	Chromosome ptg000017l_Start processed
+[+]	Chromosome ptg000018l_Start processed
+[+]	Chromosome ptg000019l_Start processed
+[+]	Chromosome ptg000020l_Start processed
+[+]	Chromosome ptg000021l_Start processed
+[+]	Chromosome ptg000022l_Start processed
+[+]	Chromosome ptg000023l_Start processed
+[+]	Chromosome ptg000024l_Start processed
+[+]	Chromosome ptg000025l_Start processed
+[+]	Chromosome ptg000026l_Start processed
+[+]	Chromosome ptg000027l_Start processed
+[+]	Chromosome ptg000028l_Start processed
+[+]	Chromosome ptg000029l_Start processed
+[+]	Chromosome ptg000030l_Start processed
+[+]	Chromosome ptg000031l_Start processed
+[+]	Chromosome ptg000032l_Start processed
+[+]	Chromosome ptg000033l_Start processed
+[+]	Chromosome ptg000034l_Start processed
+[+]	Chromosome ptg000035l_Start processed
+[+]	Chromosome ptg000036l_Start processed
+[+]	Chromosome ptg000037l_Start processed
+[+]	Chromosome ptg000038l_Start processed
+[+]	Chromosome ptg000039l_Start processed
+[+]	Chromosome ptg000040l_Start processed
+[+]	Chromosome ptg000041l_Start processed
+[+]	Chromosome ptg000042l_Start processed
+[+]	Chromosome ptg000043l_Start processed
+[+]	Chromosome ptg000044l_Start processed
+[+]	Chromosome ptg000045l_Start processed
+[+]	Chromosome ptg000046l_Start processed
+[+]	Chromosome ptg000047l_Start processed
+[+]	Chromosome ptg000048l_Start processed
+[+]	Chromosome ptg000049l_Start processed
+[+]	Chromosome ptg000050l_Start processed
+[+]	Chromosome ptg000051l_Start processed
+[+]	Chromosome ptg000052l_Start processed
+[+]	Chromosome ptg000053l_Start processed
+[+]	Chromosome ptg000054l_Start processed
+[+]	Chromosome ptg000055l_Start processed
+[+]	Chromosome ptg000056l_Start processed
+[+]	Chromosome ptg000057l_Start processed
+[+]	Chromosome ptg000058l_Start processed
+[+]	Chromosome ptg000059l_Start processed
+[+]	Chromosome ptg000060l_Start processed
+[+]	Chromosome ptg000061l_Start processed
+[+]	Chromosome ptg000062l_Start processed
+[+]	Chromosome ptg000063l_Start processed
+[+]	Chromosome ptg000064l_Start processed
+[+]	Chromosome ptg000065l_Start processed
+[+]	Chromosome ptg000066l_Start processed
+[+]	Chromosome ptg000067l_Start processed
+[+]	Chromosome ptg000068l_Start processed
+[+]	Chromosome ptg000069l_Start processed
+[+]	Chromosome ptg000070l_Start processed
+[+]	Chromosome ptg000071l_Start processed
+[+]	Chromosome ptg000072l_Start processed
+[+]	Chromosome ptg000073l_Start processed
+[+]	Chromosome ptg000074l_Start processed
+[+]	Chromosome ptg000075l_Start processed
+[+]	Chromosome ptg000076l_Start processed
+[+]	Chromosome ptg000077l_Start processed
+[+]	Chromosome ptg000078l_Start processed
+[+]	Chromosome ptg000079l_Start processed
+[+]	Chromosome ptg000001l_End processed
+[+]	Chromosome ptg000002l_End processed
+[+]	Chromosome ptg000003l_End processed
+[+]	Chromosome ptg000004l_End processed
+[+]	Chromosome ptg000005l_End processed
+[+]	Chromosome ptg000006l_End processed
+[+]	Chromosome ptg000007l_End processed
+[+]	Chromosome ptg000008l_End processed
+[+]	Chromosome ptg000009l_End processed
+[+]	Chromosome ptg000010l_End processed
+[+]	Chromosome ptg000011l_End processed
+[+]	Chromosome ptg000012l_End processed
+[+]	Chromosome ptg000013l_End processed
+[+]	Chromosome ptg000014l_End processed
+[+]	Chromosome ptg000015l_End processed
+[+]	Chromosome ptg000016l_End processed
+[+]	Chromosome ptg000017l_End processed
+[+]	Chromosome ptg000018l_End processed
+[+]	Chromosome ptg000019l_End processed
+[+]	Chromosome ptg000020l_End processed
+[+]	Chromosome ptg000021l_End processed
+[+]	Chromosome ptg000022l_End processed
+[+]	Chromosome ptg000023l_End processed
+[+]	Chromosome ptg000024l_End processed
+[+]	Chromosome ptg000025l_End processed
+[+]	Chromosome ptg000026l_End processed
+[+]	Chromosome ptg000027l_End processed
+[+]	Chromosome ptg000028l_End processed
+[+]	Chromosome ptg000029l_End processed
+[+]	Chromosome ptg000030l_End processed
+[+]	Chromosome ptg000031l_End processed
+[+]	Chromosome ptg000032l_End processed
+[+]	Chromosome ptg000033l_End processed
+[+]	Chromosome ptg000034l_End processed
+[+]	Chromosome ptg000035l_End processed
+[+]	Chromosome ptg000036l_End processed
+[+]	Chromosome ptg000037l_End processed
+[+]	Chromosome ptg000038l_End processed
+[+]	Chromosome ptg000039l_End processed
+[+]	Chromosome ptg000040l_End processed
+[+]	Chromosome ptg000041l_End processed
+[+]	Chromosome ptg000042l_End processed
+[+]	Chromosome ptg000043l_End processed
+[+]	Chromosome ptg000044l_End processed
+[+]	Chromosome ptg000045l_End processed
+[+]	Chromosome ptg000046l_End processed
+[+]	Chromosome ptg000047l_End processed
+[+]	Chromosome ptg000048l_End processed
+[+]	Chromosome ptg000049l_End processed
+[+]	Chromosome ptg000050l_End processed
+[+]	Chromosome ptg000051l_End processed
+[+]	Chromosome ptg000052l_End processed
+[+]	Chromosome ptg000053l_End processed
+[+]	Chromosome ptg000054l_End processed
+[+]	Chromosome ptg000055l_End processed
+[+]	Chromosome ptg000056l_End processed
+[+]	Chromosome ptg000057l_End processed
+[+]	Chromosome ptg000058l_End processed
+[+]	Chromosome ptg000059l_End processed
+[+]	Chromosome ptg000060l_End processed
+[+]	Chromosome ptg000061l_End processed
+[+]	Chromosome ptg000062l_End processed
+[+]	Chromosome ptg000063l_End processed
+[+]	Chromosome ptg000064l_End processed
+[+]	Chromosome ptg000065l_End processed
+[+]	Chromosome ptg000066l_End processed
+[+]	Chromosome ptg000067l_End processed
+[+]	Chromosome ptg000068l_End processed
+[+]	Chromosome ptg000069l_End processed
+[+]	Chromosome ptg000070l_End processed
+[+]	Chromosome ptg000071l_End processed
+[+]	Chromosome ptg000072l_End processed
+[+]	Chromosome ptg000073l_End processed
+[+]	Chromosome ptg000074l_End processed
+[+]	Chromosome ptg000075l_End processed
+[+]	Chromosome ptg000076l_End processed
+[+]	Chromosome ptg000077l_End processed
+[+]	Chromosome ptg000078l_End processed
+[+]	Chromosome ptg000079l_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.325*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::56.947*1.41] indexed the graph
+[M::mg_opt_update::60.880*1.39] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::280.809*4.38] mapped 21 sequences
+[M::worker_pipeline::434.048*4.86] mapped 58 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/hifiasm/TUE_02_03_hifiasm_herro/assembly.fasta
+[M::main] Real time: 434.592 sec; CPU: 2108.528 sec; Peak RSS: 43.673 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hifiasm/TUE_02_03_hifiasm_herro/T2T_contigs.both_alignment_T2T.txt
+
