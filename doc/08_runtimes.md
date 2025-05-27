@@ -5,6 +5,7 @@
 ### Herro
 
 #### Trim
+
 runtimes/dorado_trim_24070LRa009_04505_24070LRa009_04505.txt
 runtimes/dorado_trim_24070LRa010_04400_24070LRa010_04400.txt
 runtimes/dorado_trim_24070LRa013_04506_24070LRa013_04506.txt
@@ -15,8 +16,8 @@ runtimes/dorado_trim_25006LRa025_04901_25006LRa025_04901.txt
 runtimes/dorado_trim_25006LRa029_04900_25006LRa029_04900.txt
 runtimes/dorado_trim_25006LRa033_05208_25006LRa033_05208.txt
 
-
 #### Mapping
+
 runtimes/dorado_correct_mapping_TUE_02_01UL_24070LRa002_04503.txt
 runtimes/dorado_correct_mapping_TUE_02_03UL_24070LRa002_04503.txt
 runtimes/dorado_correct_mapping_TUE_02_03UL_24070LRa003_04399.txt
@@ -30,6 +31,7 @@ runtimes/dorado_correct_mapping/25006LRa033_05208_25006LRa033_05208.txt
 runtimes/dorado_correct_mapping/25006LRa033_05209_25006LRa033_05209.txt
 
 #### Inference
+
 runtimes/dorado_correct_inference_24070LRa003_04399_24070LRa003_04399.txt
 runtimes/dorado_correct_inference_24070LRa009_04505_24070LRa009_04505.txt
 runtimes/dorado_correct_inference_24070LRa010_04400_24070LRa010_04400.txt
@@ -43,7 +45,6 @@ runtimes/dorado_correct_inference/25006LRa033_05205_25006LRa033_05205.txt
 runtimes/dorado_correct_inference/25006LRa033_05208_25006LRa033_05208.txt
 runtimes/dorado_correct_inference/25006LRa033_05209_25006LRa033_05209.txt
 
-
 ## Hifiasm
 
 -  herro:  28336.5872	7:52:16	157009.80	161568.22	157129.42	157129.50	266336.54	107015.16	3131.29	887302.97
@@ -54,5 +55,3 @@ runtimes/dorado_correct_inference/25006LRa033_05209_25006LRa033_05209.txt
 - rfhap2:
 
 ## Verkko
-
-
