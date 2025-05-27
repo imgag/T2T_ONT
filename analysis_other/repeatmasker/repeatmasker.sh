@@ -1,4 +1,4 @@
-mamba activate activate /mnt/storage2/users/ahgrosc1/environments/envs/snakemake/envs/repeatmasker/
+mamba activate activate /mnt/storage2/users/ahgrosc1/environments/envs/snakemake/envs/repeatmasker/cond
 
 RepeatMasker \
     -species human \

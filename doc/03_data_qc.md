@@ -45,26 +45,7 @@ We can rule out:
 - Mechanical loading problems (Bubbles) are unlikely since 
 
 ### Batch 04:
-6 Flowcells 
-
-### UL Read QC
-
-To copy run reports:
-```
-find /mnt/storage3/raw_data/MINERVA/25006 -name "report_*.html" -exec cp {} /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/doc/run_reports/ \;
-```
-
-Merge reports:
-```
-python workflow/scripts/09_parse_minknow_reports.py doc/run_reports/
-```
-
-Add external names from GSVAR to  `doc/flowcell_biological_sample.tsv` table
-
-Create plots:
-```
-Rscript workflow/scripts/10_plot_minknow_reports.R doc/run_reports/run_summary.csv doc/tables/flowcell_biological_sample.tsv doc/img/
-```
+6 Flowcells
 
 ## Comparison with Public Data (UL)
 
@@ -78,25 +59,23 @@ Sequencing was done in 2022 on R9.41, data comes from 8 separate Flowcells. Look
 
 Overview of the first two flowcells we sequenced. This is unprocessed reads for our two flowcells and data "as downloaded" from Koren et al 2024.
 
-
 | filename     | yield        | N50   | max readlen | yield>100kb | yield>200kb | reads > 1Mb |
 | :----------- | :----------- | :---- | :---------- | :---------- | :---------- | :---------- |
 | published.UL | 496106934638 | 81748 | 1.9 Mb      | 190 Gb      | 31 Gb       | 45          |
 | run_04399.UL | 113914796731 | 67652 | 1.7 Mb      | 38 Gb       | 10 Gb       | 29          |
 | run_04400.UL | 107609849976 | 77925 | 2.0 Mb      | 40 Gb       | 9 Gb        | 54          |
 
-
 ### Evaluation first UL sequencing runs.
 
-Looking at the sequencing performance over time we see a high and steady output over the whole runtime. 
+Looking at the sequencing performance over time we see a high and steady output over the whole runtime.
 ![Sequencing over time for first two UL runs](../doc/img/UL_sequencing_firstruns_yield.PNG)
 
 Our sequencing yield is good, we can assume that it is higher then the published dataset where 8 Flowcells were combined to reach 500Gb after filtering leading to an average of 62.5Gb/Flowcell. We reached 230Gb with two flowcells, however before filtering.
 
 ### Read length and quality distribution
 
-
 #### Not filtered:
+
 ![Read quality and length density](img/UL_comparison.readstats_density.png)
 
 Mean read quality is substantially better with the new R10 pores, the variance is broader with some low quality reads. This observations could stem from some pre filtering of the published dataset. 
@@ -140,5 +119,3 @@ The best tradeoff betwenn flowcells and assembly quality currently is `TUE_02_03
 - Rfhap
 - hifiasm
 - Repeatmasker
-
-

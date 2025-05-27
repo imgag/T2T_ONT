@@ -1,11 +1,5 @@
 # Datasets used in this study
 
-## Trio datasets
-
-Father: GE-MED-T2T07
-Mother: GE-MED-T2T08
-Child: 2410869
-
 ## Published sequencing data
 
 In the first part of the analysis we setup the pipeline and did some initial testing using the published sequencing data. Although we want to strictly generate de novo assemblies without help of a reference genome we are using reference genomes to assess the quality of the assembles genomes. 
@@ -18,12 +12,10 @@ From Koren et al 2024:
 
 ## Reference genomes
 
-Multiple groups are working on a T2T reference genome:
+Multiple consotia are working together on a T2T reference genome:
 - T2T consortium
 - Human Pangenome Reference Consortium (HPRC)
 - Genome In A Bottle (GIAB), NIST
-
-Aim: Q100 (1 error in 10 billion bases)
 
 ### Haploid reference genome (CHM13-T2T)
 
@@ -68,7 +60,3 @@ DFAM for mammal/human in H5 Format. Downlaoded from https://www.dfam.org/release
 
 Folder with benchmark data for GQC:
 https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/polishing/HG002/v1.1/benchmark/resources/hg002v1.1.resources.tar.gz
-
-
-
- 

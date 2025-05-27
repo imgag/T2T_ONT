@@ -12,4 +12,5 @@ Li and  Durbin, 2024. “Genome Assembly in the Telomere-to-Telomere Era.” Nat
 - [**Methods**](doc/02_methods.md): Analysis methods. Collection of informations in instructions for tools used in the pipeline. Comparison and evualuation of different analysis approaches. Small code snippets.
 - [**Data QC**](doc/03_data_qc.md): Comparison of our seq data to public datasets. Validation of correct data preprocessing. Sequencing recommendations.
 - [**Assembly QC**](doc/04_assembly_qc.md): Documentation of used QC parameters. Comparison of different assembly and scaffolding methods. 
-
+- [**Assembly Polishing**](doc/06_assembly_polishing.md): Documentation and QC for assemnly polishing.
+- [**Runtimes**](doc/08_runtimes.md): Analysis of runtimes
