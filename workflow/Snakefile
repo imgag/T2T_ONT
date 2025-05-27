@@ -410,11 +410,8 @@ rule all_hifiasm:
 # Hifiasm produces always two haplotypes, even when unphased
     input:
         expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
-        **qc_collection(
-            asm_hifiasm,
-            methods_phased=["phased_hifiasm"],
-            methods_unphased=[]
-        )
+        "assembly/qc/qc_hifiasm.tsv"
+
 
 rule all_benchmark:
     input:
@@ -488,6 +485,22 @@ rule collect_qc_benchmark:
         "env/R.yml"
     log:
         "logs/collect_qc.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+rule collect_qc_hifiasm:
+    input:
+        **qc_collection(
+            asm_hifiasm,
+            methods_phased=["phased_hifiasm"],
+            methods_unphased=[]
+        )
+    output:
+        tsv="assembly/qc/qc_hifiasm.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_hifiasm.log",
     script:
         "scripts/06_collect_qc.R"
 
