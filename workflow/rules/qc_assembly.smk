@@ -276,9 +276,13 @@ rule qc_paftools_misjoin:
     threads: 1
     log:
         "logs/paftools_misjoin/{isphased}_{tool}_{asm}_{hp}.log",
+    params:
+        centromere_bed=config["ref_centromer_bed"],
     shell:
         """
         paftools.js misjoin\
+            -c {params.centromere_bed} \
+            -e \
             {input.paf} \
             > {output} 2>{log}
         """

@@ -38,12 +38,23 @@ https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/ana
 
 We use this file to analyse our phasing performance.
 
+Browse S3 bucket via Web interface:
+https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=T2T/HG002/assemblies
+
+
 ### Genome annotation
 
 Annotation for checking genome completeness:
 https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/cdna/
 Ensembl cdna dataset. The header is for GRCh38 alignment, i havent found T2T based annotation yet. cDNA should still be valid, so can be used with T2T after new alignment.
 There is also a [comparison](https://ccb.jhu.edu/T2T.shtml) of the RefSeq alignment to both GRCh38 and T2T.
+
+Annotation of Centromeres:
+https://github.com/hloucks/CenSatData
+Downloaded from https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/annotation/centromere/hg002v1.1_v2.0/hg002v1.1.cenSatv2.0.bed
+
+
+
 
 ## Additional datasets:
 

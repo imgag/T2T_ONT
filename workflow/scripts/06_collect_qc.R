@@ -22,6 +22,7 @@ if (test_mode) {
   input_paf_stat <- list("test_data/phased_verkko/published_chr19_duplex15x/qc_paftools_stat.haplotype1.txt")
   input_paf_asmstat <- list("test_data/phased_verkko/published_chr19_duplex15x/qc_paftools_asmstat.haplotype1.txt")
   input_paf_asmgene <- list("test_data/phased_verkko/published_chr19_duplex15x/qc_paftools_asmgene.haplotype1.txt")
+  input_paf_misjoin <- list("test_data/phased_verkko/published_chr19_duplex15x/qc_paftools_misjoin.haplotype1.txt")
   input_sex <- list("test_data/phased_verkko/published_chr19_duplex15x/sample_sex.txt")
   input_whatshap_stats <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_stats.tsv")
   input_whatshap_compare <- list("test_data/phased_verkko/published_chr19_duplex15x/whatshap_compare.tsv")
@@ -36,6 +37,7 @@ if (test_mode) {
   input_paf_stat <- snakemake@input[["paf_stat"]]
   input_paf_asmstat <- snakemake@input[["paf_asmstat"]]
   input_paf_asmgene <- snakemake@input[["paf_asmgene"]]
+  input_paf_misjoin <- snakemake@input[["paf_misjoin"]]
   input_sex <- snakemake@input[["sex"]]
   input_whatshap_stats <- snakemake@input[["whatshap_stats"]]
   input_whatshap_compare <- snakemake@input[["whatshap_compare"]]
@@ -51,6 +53,7 @@ message("Input files loaded:")
 message(paste("- PAF stats:", length(input_paf_stat), "files"))
 message(paste("- PAF asmstat:", length(input_paf_asmstat), "files"))
 message(paste("- PAF asmgene:", length(input_paf_asmgene), "files"))
+message(paste("- PAF misjoin:", length(input_paf_misjoin), "files"))
 message(paste("- Sex determination:", length(input_sex), "files"))
 message(paste("- WhatsHap stats:", length(input_whatshap_stats), "files"))
 message(paste("- WhatsHap compare:", length(input_whatshap_compare), "files"))
@@ -59,6 +62,7 @@ message(paste("- FindT2T alignment:", length(input_findt2t_alignment), "files"))
 message(paste("- FindT2T motif:", length(input_findt2t_motif), "files"))
 message(paste("- Gap statistics:", length(input_gap_stats), "files"))
 message(paste("- Contig statistics:", length(input_contig_stats), "files"))
+
 # Helper function to extract common metadata from file path
 get_file_metadata <- function(file) {
   list(
@@ -145,6 +149,37 @@ parse_paf_asmgene <- function(paf_stats) {
   })
   
   # Set names for the results list based on the input filenames
+  names(results) <- paf_stats
+  return(results)
+}
+
+parse_paf_misjoin <- function(paf_stats) {
+  print(paste("Parse paf_misjoin from ", paf_stats))
+  results <- lapply(paf_stats, function(paf_stat) {
+    metadata <- get_file_metadata(paf_stat)
+    
+    # Read lines and filter for those starting with #
+    read_lines(paf_stat) %>%
+      enframe(name = NULL, value = "line") %>%
+      filter(str_starts(line, "#")) %>%
+      # Remove the # prefix and split on : and ,
+      mutate(
+        line = str_remove(line, "^#\\s*"),
+        parts = str_split(line, "[:,]\\s*")
+      ) %>%
+      # Extract metric and value
+      mutate(
+        metric = map_chr(parts, ~.x[1]),
+        value = map_dbl(parts, ~as.numeric(.x[2])),
+        # We ignore the third column until we know what it is,
+        # Hypoythesis: Misjoins in centromere regions, for all samples so far this has been 0
+        haplotype = metadata$haplotype,
+        asm_method = metadata$asm_method,
+        asm_name = metadata$asm_name,
+        source = "misjoin"
+      ) %>%
+      select(-line, -parts)
+  })
   names(results) <- paf_stats
   return(results)
 }
@@ -333,6 +368,7 @@ message("Starting data parsing at:", Sys.time())
 parsed_paf_stat <- time_execution(parse_paf_stat, input_paf_stat, "PAF stat parsing")
 parsed_paf_asmstat <- time_execution(parse_paf_asmstat, input_paf_asmstat, "PAF asmstat parsing")
 parsed_paf_asmgene <- time_execution(parse_paf_asmgene, input_paf_asmgene, "PAF asmgene parsing")
+parsed_paf_misjoin <- time_execution(parse_paf_misjoin, input_paf_misjoin, "PAF misjoin parsing")
 parsed_whatshap_stats <- time_execution(parse_whatshap_stats, input_whatshap_stats, "WhatsHap stats parsing")
 parsed_whatshap_compare <- time_execution(parse_whatshap_compare, input_whatshap_compare, "WhatsHap compare parsing")
 parsed_merqury <- time_execution(parse_merqury, input_merqury, "Merqury parsing")
@@ -349,7 +385,8 @@ full_table <- bind_rows(
   bind_rows(parsed_paf_stat),
   bind_rows(parsed_paf_asmstat),
   bind_rows(parsed_paf_asmgene),
-  bind_rows(parsed_whatshap_stats),
+  bind_rows(parsed_paf_misjoin),
+  bind_rows(parsed_whatshap_stats),	
   bind_rows(parsed_whatshap_compare),
   bind_rows(parsed_merqury),
   bind_rows(parsed_findt2t_alignment),
