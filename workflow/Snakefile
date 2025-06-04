@@ -386,7 +386,8 @@ rule all_samples:
     input:
         fq_qc,
         "assembly/qc/qc_samples.tsv",
-        expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples)
+        expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples),
+        expand("assembly/variants/{asm}/phased_verkko/hapdiff_phased.vcf.gz", asm=asm_samples)
         
 rule all_extended_qc:
     input:

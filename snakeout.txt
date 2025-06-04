@@ -1,0 +1,734 @@
+Benchmark assemblies:
+  published_chr19_duplex15x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 50, 'cov_HQ': 15, 'skip_verkko_polish': False}
+  published_chr19_duplex20x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 50, 'cov_HQ': 20, 'skip_verkko_polish': False}
+  published_chr19_duplex25x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 50, 'cov_HQ': 25, 'skip_verkko_polish': False}
+  published_chr19_combined35x: {'dataset': 'published', 'HQ_method': 'combined', 'region': 'chr19', 'cov_UL': 50, 'cov_HERRO': 20, 'cov_DUPLEX': 15, 'skip_verkko_polish': False}
+  published_chr19_combined35x_nopolish: {'dataset': 'published', 'HQ_method': 'combined', 'region': 'chr19', 'cov_UL': 50, 'cov_HERRO': 20, 'cov_DUPLEX': 15, 'skip_verkko_polish': False}
+  published_chr19_duplex_UL50x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 50, 'skip_verkko_polish': False}
+  published_chr19_duplex_UL50x_nopolish: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 50}
+  published_chr19_duplex_UL70x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 70, 'skip_verkko_polish': False}
+  published_chr19_duplex_UL90x: {'dataset': 'published', 'HQ_method': 'duplex', 'region': 'chr19', 'cov_UL': 90, 'skip_verkko_polish': False}
+  published_chr19_herro_35x_UL50x_nopolish: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 50, 'cov_HQ': 35, 'region': 'chr19'}
+  published_chr19_herro_35x_UL70x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 70, 'cov_HQ': 35, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_35x_UL90x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 90, 'cov_HQ': 35, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_60x_UL50x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 50, 'cov_HQ': 60, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_60x_UL70x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 70, 'cov_HQ': 60, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_60x_UL90x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 90, 'cov_HQ': 60, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_120x_UL50x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 50, 'cov_HQ': 120, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_120x_UL70x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 70, 'cov_HQ': 120, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_chr19_herro_120x_UL90x: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 90, 'cov_HQ': 120, 'region': 'chr19', 'skip_verkko_polish': False}
+  published_duplex: {'dataset': 'published', 'HQ_method': 'duplex', 'cov_UL': 70, 'skip_verkko_polish': False}
+  published_herro: {'dataset': 'published', 'HQ_method': 'herro', 'cov_UL': 70, 'cov_HQ': 35, 'skip_verkko_polish': False}
+
+Flowcell number assemblies:
+  TUE_02_01UL: {'dataset': 'TUE_02_01UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70}
+  TUE_02_02UL: {'dataset': 'TUE_02_02UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70}
+  TUE_02_03UL: {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70, 'apk_polishing': True}
+  TUE_02_04UL: {'dataset': 'TUE_02_04UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70}
+  TUE_02_01UL_01DX: {'dataset': 'TUE_02_01UL', 'HQ_method': 'combined', 'cov_HERRO': 'max', 'cov_DUPLEX': 10}
+  TUE_02_02UL_01DX: {'dataset': 'TUE_02_02UL', 'HQ_method': 'combined', 'cov_HERRO': 'max', 'cov_DUPLEX': 10}
+  TUE_02_03UL_01DX: {'dataset': 'TUE_02_03UL', 'HQ_method': 'combined', 'cov_HERRO': 30, 'cov_DUPLEX': 10}
+  TUE_02_04UL_01DX: {'dataset': 'TUE_02_04UL', 'HQ_method': 'combined', 'cov_HERRO': 40, 'cov_DUPLEX': 10}
+  TUE_02_05UL_01DX: {'dataset': 'TUE_02_05UL', 'HQ_method': 'combined', 'cov_HERRO': 30, 'cov_DUPLEX': 10, 'cov_UL': 70}
+  TUE_02_06UL_01DX: {'dataset': 'TUE_02_06UL', 'HQ_method': 'combined', 'cov_HERRO': 40, 'cov_DUPLEX': 10, 'cov_UL': 70}
+  TUE_02_01UL_02DX: {'dataset': 'TUE_02_01UL', 'HQ_method': 'combined', 'cov_HERRO': 'max', 'cov_DUPLEX': 'max'}
+  TUE_02_02UL_02DX: {'dataset': 'TUE_02_02UL', 'HQ_method': 'combined', 'cov_HERRO': 'max', 'cov_DUPLEX': 'max'}
+  TUE_02_03UL_02DX: {'dataset': 'TUE_02_03UL', 'HQ_method': 'combined', 'cov_HQ': 50, 'cov_HERRO': 'max', 'cov_DUPLEX': 'max'}
+  TUE_02_04UL_02DX: {'dataset': 'TUE_02_04UL', 'HQ_method': 'combined', 'cov_HQ': 50, 'cov_HERRO': 'max', 'cov_DUPLEX': 'max'}
+  TUE_02_05UL_02DX: {'dataset': 'TUE_02_05UL', 'HQ_method': 'combined', 'cov_HQ': 50, 'cov_HERRO': 'max', 'cov_DUPLEX': 'max', 'cov_UL': 70}
+  TUE_02_06UL_02DX: {'dataset': 'TUE_02_06UL', 'HQ_method': 'combined', 'cov_HQ': 50, 'cov_HERRO': 'max', 'cov_DUPLEX': 'max', 'cov_UL': 70}
+
+Real sample assemblies:
+  GE-MED-T2T00: {'dataset': 'GE-MED-T2T00', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70}
+  GE-MED-T2T04: {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70}
+
+Trio assemblies:
+  TUE_02_trio: {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'trio_phasing': True}
+
+Hifiasm assemblies:
+  TUE_02_03_hifiasm_ont: {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'hifiasm': 'ont'}
+  TUE_02_03_hifiasm_herro: {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'hifiasm': 'herro'}
+  TUE_02_03_hifiasm_trio: {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'hifiasm': 'herro_trio'}
+----------------------------------------------------------
+Assembly {'dataset': 'TUE_02_03UL', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70, 'apk_polishing': True} not selected for trio phasing
+Assembly {'dataset': 'TUE_02_03UL', 'HQ_method': 'combined', 'cov_HERRO': 30, 'cov_DUPLEX': 10} not selected for trio phasing
+Assembly {'dataset': 'TUE_02_03UL', 'HQ_method': 'combined', 'cov_HQ': 50, 'cov_HERRO': 'max', 'cov_DUPLEX': 'max'} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Not included in BAM QC: data/raw/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.bam
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.fastq.gz
+Not included in BAM QC: downloads/simplex/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.fastq.gz
+Not included in BAM QC: data/raw/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.bam
+Not included in BAM QC: data/raw/published/SRR27664048.1.1.fastq.gz
+Not included in BAM QC: data/raw/25006LRa010_04919/25006LRa010_04919
+----------------------------------------------------------
+Unique datasets:
+{'sup': {'24070LRa002_04503': 'data/raw/set1/24070/24070LRa002_04503', '24070LRa003_04399': 'data/raw/set1/24070/24070LRa003_04399', '24070LRa004_04504': 'data/raw/set1/24070/24070LRa004_04504', '24070LRa009_04505': 'data/raw/set1/24070/24070LRa009_04505', '24070LRa010_04400': 'data/raw/set1/24070/24070LRa010_04400', '24070LRa013_04506': 'data/raw/set1/24070/24070LRa013_04506', '23074LRa001_03877': 'data/raw/23074LRa001_03877', '23074LRa003_03878': 'data/raw/23074LRa003_03878', '24070LRa_PoreC_04921': 'data/raw/24070LRa_PoreC_04921', '25006LRa001_04696': 'data/raw/batch3/25006/25006LRa001_04696', '25006LRa002_04697': 'data/raw/batch3/25006/25006LRa002_04697', '25006LRa005_04698': 'data/raw/batch3/25006/25006LRa005_04698', '25006LRa007_04699': 'data/raw/batch3/25006/25006LRa007_04699', '25006LRa009_04700': 'data/raw/batch3/25006/25006LRa009_04700', '25006LRa011_04701': 'data/raw/batch3/25006/25006LRa011_04701', '25006LRa015_04767': 'data/raw/batch3/25006/25006LRa015_04767', '25006LRa016_04768': 'data/raw/batch3/25006/25006LRa016_04768', '25006LRa014_05011': 'data/raw/25006LRa014_05011', '25006LRa033_05208': 'data/raw/25006LRa033_05208', '25006LRa033_05205': 'data/raw/25006LRa033_05205', '25006LRa033_05209': 'data/raw/25006LRa033_05209', '25006LRa037_T2T04_PoreC_05170': 'data/raw/25006LRa037_T2T04_PoreC_05170', '25006LRa018_04769': 'data/raw/batch3/25006/25006LRa018_04769', '25006LRa019_04770': 'data/raw/batch3/25006/25006LRa019_04770', '25006LRa038_05176': 'data/raw/25006LRa038_05176', '25006LRa021_04771': 'data/raw/batch3/25006/25006LRa021_04771', '25006LRa022_04772': 'data/raw/batch3/25006/25006LRa022_04772'}, 'herro': {'24070LRa002_04503': 'data/raw/set1/24070/24070LRa002_04503', '24070LRa003_04399': 'data/raw/set1/24070/24070LRa003_04399', '23074LRa001_03877': 'data/raw/23074LRa001_03877', '23074LRa003_03878': 'data/raw/23074LRa003_03878', '24070LRa004_04504': 'data/raw/set1/24070/24070LRa004_04504', '24070LRa009_04505': 'data/raw/set1/24070/24070LRa009_04505', '24070LRa010_04400': 'data/raw/set1/24070/24070LRa010_04400', '24070LRa013_04506': 'data/raw/set1/24070/24070LRa013_04506', '25006LRa015_04767': 'data/raw/batch3/25006/25006LRa015_04767', '25006LRa016_04768': 'data/raw/batch3/25006/25006LRa016_04768', '25006LRa014_05011': 'data/raw/25006LRa014_05011', '25006LRa033_05208': 'data/raw/25006LRa033_05208', '25006LRa033_05205': 'data/raw/25006LRa033_05205', '25006LRa033_05209': 'data/raw/25006LRa033_05209'}, 'duplex': {'23074LRa001_03877': 'data/raw/23074LRa001_03877', '23074LRa003_03878': 'data/raw/23074LRa003_03878'}, 'porec': {'24070LRa_PoreC_04921': 'data/raw/24070LRa_PoreC_04921', '25006LRa037_T2T04_PoreC_05170': 'data/raw/25006LRa037_T2T04_PoreC_05170'}, 'apk': {'24070LRa002_04850': 'data/raw/24070LRa002_04850', '25006LRa014_05173': 'data/raw/25006LRa014_05173'}}
+
+Assembly QC Collection for samples: published_chr19_duplex15x, published_chr19_duplex20x, published_chr19_duplex25x, published_chr19_combined35x, published_chr19_combined35x_nopolish, published_chr19_duplex_UL50x, published_chr19_duplex_UL50x_nopolish, published_chr19_duplex_UL70x, published_chr19_duplex_UL90x, published_chr19_herro_35x_UL50x_nopolish, published_chr19_herro_35x_UL70x, published_chr19_herro_35x_UL90x, published_chr19_herro_60x_UL50x, published_chr19_herro_60x_UL70x, published_chr19_herro_60x_UL90x, published_chr19_herro_120x_UL50x, published_chr19_herro_120x_UL70x, published_chr19_herro_120x_UL90x, published_duplex, published_herro
+unphased:
+    {'merqury_stats': 40, 'findt2t_alignment': 40, 'findt2t_motif': 40, 'paf_stat': 40, 'paf_asmstat': 40, 'paf_asmgene': 40, 'sex': 40, 'gap_stats': 40}
+phased:
+    {'merqury_stats': 40, 'paf_stat': 120, 'paf_asmstat': 120, 'paf_asmgene': 120, 'whatshap_stats': 40, 'whatshap_compare': 40, 'merqury_hap_stats': 80, 'findt2t_alignment': 120, 'findt2t_motif': 120, 'gap_stats': 120, 'contig_stats': 120}
+total:
+    {'merqury_stats': 80, 'findt2t_alignment': 160, 'findt2t_motif': 160, 'paf_stat': 160, 'paf_asmstat': 160, 'paf_asmgene': 160, 'sex': 40, 'gap_stats': 160, 'whatshap_stats': 40, 'whatshap_compare': 40, 'merqury_hap_stats': 80, 'contig_stats': 120}
+
+Assembly QC Collection for samples: TUE_02_03_hifiasm_ont, TUE_02_03_hifiasm_herro, TUE_02_03_hifiasm_trio
+phased:
+    {'merqury_stats': 3, 'paf_stat': 9, 'paf_asmstat': 9, 'paf_asmgene': 9, 'whatshap_stats': 3, 'whatshap_compare': 3, 'merqury_hap_stats': 6, 'findt2t_alignment': 9, 'findt2t_motif': 9, 'gap_stats': 9, 'contig_stats': 9}
+total:
+    {'merqury_stats': 3, 'paf_stat': 9, 'paf_asmstat': 9, 'paf_asmgene': 9, 'whatshap_stats': 3, 'whatshap_compare': 3, 'merqury_hap_stats': 6, 'findt2t_alignment': 9, 'findt2t_motif': 9, 'gap_stats': 9, 'contig_stats': 9}
+
+Assembly QC Collection for samples: GE-MED-T2T00, GE-MED-T2T04
+phased:
+    {'merqury_stats': 2, 'paf_stat': 6, 'paf_asmstat': 6, 'paf_asmgene': 6, 'whatshap_stats': 2, 'whatshap_compare': 2, 'merqury_hap_stats': 4, 'findt2t_alignment': 6, 'findt2t_motif': 6, 'gap_stats': 6, 'contig_stats': 6}
+total:
+    {'merqury_stats': 2, 'paf_stat': 6, 'paf_asmstat': 6, 'paf_asmgene': 6, 'whatshap_stats': 2, 'whatshap_compare': 2, 'merqury_hap_stats': 4, 'findt2t_alignment': 6, 'findt2t_motif': 6, 'gap_stats': 6, 'contig_stats': 6}
+
+Assembly QC Collection for samples: TUE_02_01UL, TUE_02_02UL, TUE_02_03UL, TUE_02_04UL, TUE_02_01UL_01DX, TUE_02_02UL_01DX, TUE_02_03UL_01DX, TUE_02_04UL_01DX, TUE_02_05UL_01DX, TUE_02_06UL_01DX, TUE_02_01UL_02DX, TUE_02_02UL_02DX, TUE_02_03UL_02DX, TUE_02_04UL_02DX, TUE_02_05UL_02DX, TUE_02_06UL_02DX
+unphased:
+    {'merqury_stats': 32, 'findt2t_alignment': 32, 'findt2t_motif': 32, 'paf_stat': 32, 'paf_asmstat': 32, 'paf_asmgene': 32, 'sex': 32, 'gap_stats': 32}
+phased:
+    {'merqury_stats': 16, 'paf_stat': 48, 'paf_asmstat': 48, 'paf_asmgene': 48, 'whatshap_stats': 16, 'whatshap_compare': 16, 'merqury_hap_stats': 32, 'findt2t_alignment': 48, 'findt2t_motif': 48, 'gap_stats': 48, 'contig_stats': 48}
+total:
+    {'merqury_stats': 48, 'findt2t_alignment': 80, 'findt2t_motif': 80, 'paf_stat': 80, 'paf_asmstat': 80, 'paf_asmgene': 80, 'sex': 32, 'gap_stats': 80, 'whatshap_stats': 16, 'whatshap_compare': 16, 'merqury_hap_stats': 32, 'contig_stats': 48}
+
+Assembly QC Collection for samples: TUE_02_trio, TUE_02_03UL
+unphased:
+    {'merqury_stats': 2, 'findt2t_alignment': 2, 'findt2t_motif': 2, 'paf_stat': 2, 'paf_asmstat': 2, 'paf_asmgene': 2, 'sex': 2, 'gap_stats': 2}
+phased:
+    {'merqury_stats': 2, 'paf_stat': 6, 'paf_asmstat': 6, 'paf_asmgene': 6, 'whatshap_stats': 2, 'whatshap_compare': 2, 'merqury_hap_stats': 4, 'findt2t_alignment': 6, 'findt2t_motif': 6, 'gap_stats': 6, 'contig_stats': 6}
+total:
+    {'merqury_stats': 4, 'findt2t_alignment': 8, 'findt2t_motif': 8, 'paf_stat': 8, 'paf_asmstat': 8, 'paf_asmgene': 8, 'sex': 2, 'gap_stats': 8, 'whatshap_stats': 2, 'whatshap_compare': 2, 'merqury_hap_stats': 4, 'contig_stats': 6}
+published | UL.50x.chr19
+Unrecognized dataset type UL.50x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL.50x
+Unrecognized dataset type UL.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL
+Updated files:
+['data/raw/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.bam']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.15x.chr19
+Unrecognized dataset type HQ_duplex.15x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.15x
+Unrecognized dataset type HQ_duplex.15x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex
+Updated files:
+['data/raw/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.bam']
+----------------------------------------------------------------------------------------------------
+published | POREC
+Updated files:
+['data/raw/published/SRR27664048.1.1.fastq.gz']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.20x.chr19
+Unrecognized dataset type HQ_duplex.20x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.20x
+Unrecognized dataset type HQ_duplex.20x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.25x.chr19
+Unrecognized dataset type HQ_duplex.25x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.25x
+Unrecognized dataset type HQ_duplex.25x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_combined.15x_20x.chr19
+--> split combined dataset
+Updated files:
+['assembly/input/published/published.HQ_duplex.15x.fastq.gz',
+ 'assembly/input/published/published.HQ_herro.20x.chr19.fastq.gz']
+----------------------------------------------------------------------------------------------------
+published | HQ_combined.15x_20x
+--> split combined dataset
+Updated files:
+['assembly/input/published/published.HQ_duplex.15x.fastq.gz',
+ 'assembly/input/published/published.HQ_herro.20x.fastq.gz']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.20x
+Unrecognized dataset type HQ_herro.20x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.fastq.gz
+--> transform herro path: downloads/simplex/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.fastq.gz
+Updated files:
+['data/corrected/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.corrected.fasta',
+ 'data/corrected/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+published | HQ_duplex.chr19
+Unrecognized dataset type HQ_duplex.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL.70x.chr19
+Unrecognized dataset type UL.70x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL.90x.chr19
+Unrecognized dataset type UL.90x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | UL.90x
+Unrecognized dataset type UL.90x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.35x.chr19
+Unrecognized dataset type HQ_herro.35x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.35x
+Unrecognized dataset type HQ_herro.35x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.60x.chr19
+Unrecognized dataset type HQ_herro.60x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.60x
+Unrecognized dataset type HQ_herro.60x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.120x.chr19
+Unrecognized dataset type HQ_herro.120x.chr19 for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+published | HQ_herro.120x
+Unrecognized dataset type HQ_herro.120x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta',
+ 'data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | APK
+--> transform input folder: data/raw/24070LRa002_04850
+Updated files:
+['data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa009_04505/24070LRa009_04505.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta',
+ 'data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta',
+ 'data/corrected/24070LRa009_04505/24070LRa009_04505.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_combined.10x_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_combined.10x_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_02UL/TUE_02_02UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_02UL/TUE_02_02UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_combined.10x_30x
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_03UL/TUE_02_03UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_03UL/TUE_02_03UL.HQ_herro.30x.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_herro.30x
+Unrecognized dataset type HQ_herro.30x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_combined.10x_40x
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_04UL/TUE_02_04UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_04UL/TUE_02_04UL.HQ_herro.40x.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_herro.40x
+Unrecognized dataset type HQ_herro.40x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+--> transform input folder: data/raw/set1/24070/24070LRa010_04400
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa009_04505/24070LRa009_04505.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa010_04400/24070LRa010_04400.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_combined.10x_30x
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_05UL/TUE_02_05UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_05UL/TUE_02_05UL.HQ_herro.30x.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_herro.30x
+Unrecognized dataset type HQ_herro.30x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+--> transform input folder: data/raw/set1/24070/24070LRa010_04400
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta',
+ 'data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta',
+ 'data/corrected/24070LRa009_04505/24070LRa009_04505.corrected.fasta',
+ 'data/corrected/24070LRa010_04400/24070LRa010_04400.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+--> transform input folder: data/raw/set1/24070/24070LRa010_04400
+--> transform input folder: data/raw/set1/24070/24070LRa013_04506
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa009_04505/24070LRa009_04505.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa010_04400/24070LRa010_04400.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa013_04506/24070LRa013_04506.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_combined.10x_40x
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_duplex.10x.fastq.gz',
+ 'assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_herro.40x.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_duplex.10x
+Unrecognized dataset type HQ_duplex.10x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_herro.40x
+Unrecognized dataset type HQ_herro.40x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_duplex
+--> transform input folder: data/raw/23074LRa001_03877
+--> transform input folder: data/raw/23074LRa003_03878
+Updated files:
+['data/basecalled/Duplex/23074LRa001_03877/23074LRa001_03877.duplexonly.unmapped.bam',
+ 'data/basecalled/Duplex/23074LRa003_03878/23074LRa003_03878.duplexonly.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+--> transform input folder: data/raw/set1/24070/24070LRa009_04505
+--> transform input folder: data/raw/set1/24070/24070LRa010_04400
+--> transform input folder: data/raw/set1/24070/24070LRa013_04506
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta',
+ 'data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta',
+ 'data/corrected/24070LRa009_04505/24070LRa009_04505.corrected.fasta',
+ 'data/corrected/24070LRa010_04400/24070LRa010_04400.corrected.fasta',
+ 'data/corrected/24070LRa013_04506/24070LRa013_04506.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+TUE_02_01UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_02UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_02UL/TUE_02_02UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_02UL/TUE_02_02UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_03UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_03UL/TUE_02_03UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_03UL/TUE_02_03UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_04UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_04UL/TUE_02_04UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_04UL/TUE_02_04UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_05UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_05UL/TUE_02_05UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_05UL/TUE_02_05UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+TUE_02_06UL | HQ_combined.maxx_maxx
+--> split combined dataset
+Updated files:
+['assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_duplex.fastq.gz',
+ 'assembly/input/TUE_02_06UL/TUE_02_06UL.HQ_herro.fastq.gz']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | UL
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+Updated files:
+['data/basecalled/sup/24070LRa002_04503/24070LRa002_04503.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa003_04399/24070LRa003_04399.sup.unmapped.bam',
+ 'data/basecalled/sup/24070LRa004_04504/24070LRa004_04504.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | HQ_herro
+--> transform input folder: data/raw/set1/24070/24070LRa002_04503
+--> transform input folder: data/raw/set1/24070/24070LRa003_04399
+--> transform input folder: data/raw/set1/24070/24070LRa004_04504
+Updated files:
+['data/corrected/24070LRa002_04503/24070LRa002_04503.corrected.fasta',
+ 'data/corrected/24070LRa003_04399/24070LRa003_04399.corrected.fasta',
+ 'data/corrected/24070LRa004_04504/24070LRa004_04504.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | POREC
+--> transform input folder: data/raw/24070LRa_PoreC_04921
+Updated files:
+['data/basecalled/sup/24070LRa_PoreC_04921/24070LRa_PoreC_04921.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T00 | APK
+--> transform input folder: data/raw/24070LRa002_04850
+Updated files:
+['data/basecalled/apk/24070LRa002_04850/24070LRa002_04850.apk.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | UL.70x
+Unrecognized dataset type UL.70x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | UL
+--> transform input folder: data/raw/batch3/25006/25006LRa015_04767
+--> transform input folder: data/raw/batch3/25006/25006LRa016_04768
+--> transform input folder: data/raw/25006LRa014_05011
+--> transform input folder: data/raw/25006LRa033_05208
+--> transform input folder: data/raw/25006LRa033_05205
+--> transform input folder: data/raw/25006LRa033_05209
+Updated files:
+['data/basecalled/sup/25006LRa015_04767/25006LRa015_04767.sup.unmapped.bam',
+ 'data/basecalled/sup/25006LRa016_04768/25006LRa016_04768.sup.unmapped.bam',
+ 'data/basecalled/sup/25006LRa014_05011/25006LRa014_05011.sup.unmapped.bam',
+ 'data/basecalled/sup/25006LRa033_05208/25006LRa033_05208.sup.unmapped.bam',
+ 'data/basecalled/sup/25006LRa033_05205/25006LRa033_05205.sup.unmapped.bam',
+ 'data/basecalled/sup/25006LRa033_05209/25006LRa033_05209.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | HQ_herro.50x
+Unrecognized dataset type HQ_herro.50x for 
+Updated files:
+['']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | HQ_herro
+--> transform input folder: data/raw/batch3/25006/25006LRa015_04767
+--> transform input folder: data/raw/batch3/25006/25006LRa016_04768
+--> transform input folder: data/raw/25006LRa014_05011
+--> transform input folder: data/raw/25006LRa033_05208
+--> transform input folder: data/raw/25006LRa033_05205
+--> transform input folder: data/raw/25006LRa033_05209
+Updated files:
+['data/corrected/25006LRa015_04767/25006LRa015_04767.corrected.fasta',
+ 'data/corrected/25006LRa016_04768/25006LRa016_04768.corrected.fasta',
+ 'data/corrected/25006LRa014_05011/25006LRa014_05011.corrected.fasta',
+ 'data/corrected/25006LRa033_05208/25006LRa033_05208.corrected.fasta',
+ 'data/corrected/25006LRa033_05205/25006LRa033_05205.corrected.fasta',
+ 'data/corrected/25006LRa033_05209/25006LRa033_05209.corrected.fasta']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | POREC
+--> transform input folder: data/raw/25006LRa037_T2T04_PoreC_05170
+Updated files:
+['data/basecalled/sup/25006LRa037_T2T04_PoreC_05170/25006LRa037_T2T04_PoreC_05170.sup.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+GE-MED-T2T04 | APK
+--> transform input folder: data/raw/25006LRa014_05173
+Updated files:
+['data/basecalled/apk/25006LRa014_05173/25006LRa014_05173.apk.unmapped.bam']
+----------------------------------------------------------------------------------------------------
+WARNING: Unknown Meryl Ref for GE-MED-T2T04, using HG002
+WARNING: Unknown Meryl Ref for GE-MED-T2T04, using HG002
+WARNING: Unknown Meryl Ref for GE-MED-T2T04, using HG002
+WARNING: Unknown Meryl Ref for GE-MED-T2T04, using HG002
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
+Assembly {'dataset': 'GE-MED-T2T04', 'HQ_method': 'herro', 'cov_HQ': 50, 'cov_UL': 70} not selected for trio phasing
