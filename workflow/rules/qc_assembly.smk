@@ -266,6 +266,23 @@ rule qc_paftools_asmstat:
             > {output} 2>{log}
         """
 
+rule qc_paftools_misjoin:
+    input:
+        paf=rules.map_asm_to_ref.output.paf
+    output:
+        "assembly/qc/{isphased}_{tool}/{asm}/qc_paftools_misjoin.{hp}.txt",
+    conda:
+        "../env/minimap2.yml"
+    threads: 1
+    log:
+        "logs/paftools_misjoin/{isphased}_{tool}_{asm}_{hp}.log",
+    shell:
+        """
+        paftools.js misjoin\
+            {input.paf} \
+            > {output} 2>{log}
+        """
+
 
 def get_ref_cdna_paf(wc):
     import re
@@ -407,7 +424,7 @@ def get_meryl_ref(wc):
         return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
 
 
-rule qc_merqury_phased:
+rule qc_merqury_haplotypes:
     input:
         meryl=get_meryl_ref,
         pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
@@ -438,6 +455,7 @@ rule qc_merqury_phased:
             haplotype2.fa \
             $OUTPUT_PREFIX \
          >> $LOG_FILE 2>&1
+        
         rm -r *.meryl >> $LOG_FILE 2>&1
         popd >> $LOG_FILE 2>&1
         """
@@ -448,12 +466,14 @@ def get_merqury_input(wc):
         if wc["isphased"] == "unphased":
             return f"assembly/output/verkko_unphased/{wc['asm']}/assembly{wc['polished']}.fasta"
         elif wc["isphased"] == "phased":
-            return f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta"
+            return [
+                f"assembly/output/verkko/{wc['asm']}/assembly{wc['polished']}.fasta",
+                f"assembly/output/verkko/{wc['asm']}/create_porec_scaffold.done"
+            ]
     elif wc["tool"] == "hifiasm":
         return f"assembly/output/hifiasm/{wc['asm']}/assembly{wc['polished']}.fasta"
 
-
-rule qc_merqury_unphased:
+rule qc_merqury_both:
     input:
         meryl=get_meryl_ref,
         fa=get_merqury_input,
@@ -484,7 +504,7 @@ rule qc_merqury_unphased:
         """
 
 
-ruleorder: qc_merqury_phased > qc_merqury_unphased
+ruleorder: qc_merqury_haplotypes > qc_merqury_both
 
 
 # temporary meryl files are created during qv.sh process so i put the rm
