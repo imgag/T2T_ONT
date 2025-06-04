@@ -298,6 +298,12 @@ def qc_collection(
                     method=methods_phased,
                     hp=["haplotype1", "haplotype2", "both"],
                 ),
+                "paf_misjoin": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_misjoin.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2", "both"],
+                ),
                 "whatshap_stats": expand(
                     "assembly/qc/{method}/{asm}/whatshap_stats.tsv",
                     asm=asm,

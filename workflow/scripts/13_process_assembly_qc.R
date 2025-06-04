@@ -35,7 +35,10 @@ process_qc_table <- function(dt){
     filter(source == "asmgene") %>%
     group_by(!!!syms(group_cols)) %>%
     summarise(
-        complete = sum(value[metric == "asm.full_sgl"]),
+        complete = sum(
+            value[metric == "asm.full_sgl"],
+            value[metric == "asm.full_dpl"]
+            ),
         total = sum(value[metric == "ref.full_sgl"]),
         value = (complete/total) * 100,
         .groups = 'drop'
@@ -43,6 +46,20 @@ process_qc_table <- function(dt){
     select( -complete, -total) %>%
     mutate(metric = "genome_completeness")
 
+    dt_multiple_genes <- dt %>%
+    filter(source == "asmgene") %>%
+    group_by(!!!syms(group_cols)) %>%
+    summarise(
+        complete = sum(
+            value[metric == "asm.full_sgl"],
+            value[metric == "asm.full_dpl"]
+            ),
+        total = sum(value[metric == "ref.full_sgl"]),
+        value = (complete/total) * 100,
+        .groups = 'drop'
+    ) %>%
+    select( -complete, -total) %>%
+    mutate(metric = "genome_completeness")
     #head(dt_completeness)
 
     # Aggregate whatshap_compare metrics across chromosomes
