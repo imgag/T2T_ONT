@@ -1,30 +1,28 @@
 # Assembly QC
 
-Documentation of used QC parameters. Comparison of different assembly and scaffolding methods.
+Documentation of QC metrics used
 
 ## QC Values Overview
 
-### When the sample is not a reference genome:
+### Paftools.js
 
-3. **#breaks**: Number of breaks in the assembly. (_asmstat_)
 5. **Length**: Total length of the assembly.
 6. **NG50**: Length of the shortest contig at 50% of the total genome length.
 7. **NG75**: Length of the shortest contig at 75% of the total genome length.
 8. **NGA50**: Length of the shortest aligned contig at 50% of the total genome length.
 10. **Rcov**: Percentage of Reference genome (T2T) covered by assembly.
 9. **Qcov**: Percentage of Query (De novo Assembly) covered by reference .
-10. **l_cov**: ??
 11. **Rdup**: Percentage of reference genome duplicates in assembly.
 19. **n_y_chrom**: Number of Y chromosome sequences.
 1. **MMC**: Missing Multi-Copy genes fraction, calculated as 1 - |{MCinASM} ∩ {MCinREF}| / |{MCinREF}|.
 2. **genome_completeness**: Percentage of single-copy genes present in the assembly compared to the reference.
 
-### When sample is HG002:
+### Base error
 
 2. **error_rate**: Error rate in the assembly. Calculated with kmers in _Merqury_
 3. **qv**: Quality value score. 10^(-error_rate)
 
-### whatshap
+### Whatshap
 1. **block_n50**: The N50 of phased blocks. This is the length of the shortest phased block at 50% of the total phased block length. It provides an indication of the contiguity of the phased blocks.
 
 2. **blocks**: The total number of phased blocks. A phased block is a contiguous segment of the genome where the phase (the arrangement of alleles) is known.
@@ -67,10 +65,7 @@ Documentation of used QC parameters. Comparison of different assembly and scaffo
 
 21. **variants**: Number of biallelic variants in the input VCF excluding duplicate positions 
 
-
-## QC Value detailed description
-
-Explanation of some key metrics, as used in similar publications. 
+## Detailed documentation of metrics
 
 ### Collapsed misassemblies (MMC)
 
@@ -79,25 +74,14 @@ Output described in a [blog post](https://lh3.github.io/2020/12/25/evaluating-as
 
 MMC = Missing multi copy genes
 
-## Source 
+MSC = Missing single copy genes
 
-How to use GFAse with Verkko:
 
-Homopolymer compressed graph needs to be decompressed. 
-- `12_uncompress.py`: [GitHub](https://raw.githubusercontent.com/skoren/verkkohic/refs/heads/master/uncompress.sh) S. Koren ([Discussion](https://github.com/marbl/verkko/issues/302#issuecomment-2485843127)) 
-
-We still need to compare the performance of GFAse scaffolding compared to verkko only. 
 
 ### Base quality
 Questions do we want to sequence one reference sample (HG002?) to estimate the base error rate?
 
 > Base quality was estimated using yak41, based on the k-mer content of Illumina short reads. Each phased assembly was evaluated separately. K-mer in the short reads were counted using “yak count -b 37”, and quality values (QV) were estimated using “yak qv -K 3.2g -l 100k”. For HG002, we used the 30x Illumina Novaseq PCR-free read set publically available at the Google bucket gs://deepvariant/benchmarking/fastq/wgs_pcr_free/30x/. For the 4 samples from the HPRC (HG01993, HG02132, HG02647, and HG03669), we used 30x Illumina short-reads from the high coverage readset of the 1000 Genomes Project samples (Lorig-Roach et al. 2023)
-
-### Merqury
-
-Column headers:
-
-
 
 ### `Tel_Sequences`: Identification of complete T2T contigs
 
@@ -109,10 +93,7 @@ Steps:
 3) Search telmere motif with tidk. Output file: '$output.haplotype1_telomeric_repeat_windows.csv' Columns: `id,window,forward_repeat_number,reverse_repeat_number,telomeric_repeat`
 4) Reformat tidk output to `$output_motif_T2T.txt`. It's filtering for regions with sufficient telomere occurences (≥15 in columns 3 and 4), extracting contig information, and identifying sequences that appear exactly twice in the dataset (found on both ends). Columns: `id \t len`
 5) Use minigraph to map ref to assembly and use cov_cal -T to detect T2T contigs. Not additional where this tools comes from. Output: `$output_alignment.txt` 
-6) Convert output to new file with the follwing format: 
-
-
-### Comparison of flowcell impact
+6) Convert output to new file
 
 
 ### Other validation tools:
@@ -122,5 +103,5 @@ Steps:
 ASat Annotation based on RepeatMasker:
 https://github.com/fedorrik/HumAS-HMMER_for_AnVIL
 
-Centromer Plots
+Centromer Plots (implemented)
 https://github.com/logsdon-lab/CenPlot?tab=readme-ov-file
