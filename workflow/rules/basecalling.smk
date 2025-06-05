@@ -51,6 +51,8 @@ rule rename_dorado_output:
         folder="data/basecalled/{type}/{dataset}/dorado_{type}.done",
     output:
         bam="data/basecalled/{type}/{dataset}/{dataset}.{type}.unmapped.bam",
+    localrule:
+        True
     log:
         "logs/rename_dorado_output/{dataset}_{type}.log",
     shell:
@@ -65,6 +67,8 @@ rule dorado_summary:
         folder="data/basecalled/{type}/{dataset}/{dataset}.{model}.unmapped.bam",
     output:
         summary="data/basecalled/{type}/{dataset}/{dataset}.{model}.sequencing_summary.txt",
+    localrule:
+        True
     params:
         dorado=config["dorado"],
     benchmark:
@@ -115,6 +119,8 @@ rule process_summary:
         summary="{dataset}.summary.tsv",
     output:
         summary=temp("{dataset}.summary.proc.tsv"),
+    localrule:
+        True
     log:
         "logs/process_summary/{dataset}.log"
     params:
@@ -204,6 +210,8 @@ rule concat_bam_filelist:
         bams=get_bams_from_pod5_split,
     output:
         dataset_split_bams=temp("{dataset}.bam.fofn"),
+    localrule:
+        True
     run:
         with open(output["dataset_split_bams"], "w") as out:
             for bam in input["bams"]:
@@ -237,6 +245,8 @@ rule report_duplex_statistics:
         bam="{dataset}.duplex.unmapped.bam",
     output:
         statistics="{dataset}.duplex.stat.txt",
+    localrule:
+        True
     log:
         "logs/report_duplex_statistics/{dataset}.log",
     conda:
@@ -256,6 +266,8 @@ rule extract_duplex:
     input:
         bam="data/basecalled/Duplex/{dataset}/{dataset}.duplex.unmapped.bam",
         stats="data/basecalled/Duplex/{dataset}/{dataset}.duplex.stat.txt",
+    localrule:
+        True
     output:
         bam="data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam",
     conda:

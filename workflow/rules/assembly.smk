@@ -105,6 +105,8 @@ rule copy_verkko_unphased:
         gfa_noseq="assembly/output/verkko_unphased/{asm}/assembly.homopolymer-compressed.noseq.gfa",
         scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
         done="assembly/output/verkko_unphased/{asm}/use_verkko_files.done",
+    localrule:
+        True
     log:
         "logs/copy_verkko_unphased/{asm}.log",
     shell:
@@ -169,6 +171,8 @@ rule scaffold_create_rename_map:
         scfmap="assembly/output/verkko_unphased/{asm}/assembly.scfmap",
     output:
         map="assembly/output/gfase/{asm}/contigs.rename.map",
+    localrule:
+        True
     log:
         "logs/create_rename_map/{asm}.log",
     group:
@@ -189,6 +193,8 @@ rule scaffold_rename_fasta:
         fa="assembly/output/verkko_unphased/{asm}/assembly.fasta",
     output:
         fa="assembly/output/gfase/{asm}/assembly.fasta",
+    localrule:
+        True
     conda:
         "../env/verkko.yml"
     group:

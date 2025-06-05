@@ -296,7 +296,7 @@ def qc_collection(
                     "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
                     asm=asm,
                     method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
+                    hp=["haplotype1", "haplotype2"],
                 ),
                 "paf_misjoin": expand(
                     "assembly/qc/{method}/{asm}/qc_paftools_misjoin.{hp}.txt",
@@ -527,7 +527,7 @@ rule collect_qc_flowcells:
     input:
         **qc_collection(
             asm_flowcells,
-            methods_unphased=["unphased_verkko", "phased_verkko"],
+            methods_unphased=["unphased_verkko"],
             methods_phased=["phased_verkko"],
         ),
     output:
