@@ -25,6 +25,12 @@ Prithivi and Caspar
 # Assembly status 
 
 
+--- 
+
+# Two or three UL Flowcells?
+
+Start assembly without them.
+
 ---
 
 # Hifiasm
@@ -33,3 +39,4 @@ Prithivi and Caspar
 
 --- 
 
+Try to map wf-pore-c 
