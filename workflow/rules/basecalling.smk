@@ -181,7 +181,7 @@ rule dorado_duplex:
     resources:
         queue=config["gpu_queues"],
         gpu=1
-    threads: 32
+    threads: 1
     priority: 3
     params:
         dorado=config["dorado"],

@@ -14,7 +14,7 @@ rule dorado_trim:
         fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
     params:
         dorado=config["dorado"],
-    threads: 60
+    threads: 5
     benchmark:
         "runtimes/dorado_trim/{dataset}_{file}.txt"
     log:
@@ -22,7 +22,7 @@ rule dorado_trim:
     shell:
         """
         {params.dorado} trim \
-            --threads {threads} \
+            --threads 20 \
             --emit-fastq \
             {input} > {output.fastq} \
             2> {log}
@@ -37,7 +37,8 @@ rule dorado_correct_mapping:
     params:
         dorado=config["dorado"],
         herro_model=config["herro_model"],
-    threads: 60
+#    threads: 30 get more done
+    threads: 5
     benchmark:
         "runtimes/dorado_correct_mapping/{dataset}_{file}.txt"
     log:
@@ -46,7 +47,7 @@ rule dorado_correct_mapping:
         """
         {params.dorado} correct \
             --to-paf \
-            --threads {threads} \
+            --threads 30 \
             --model-path {params.herro_model} \
             --device 'cpu' \
             {input.fastq} > {output.paf} \
@@ -63,14 +64,14 @@ rule dorado_correct_inference:
     params:
         dorado=config["dorado"],
         herro_model=config["herro_model"],
-    threads: 12
+    threads: 1
     benchmark:
         "runtimes/dorado_correct_inference/{dataset}_{file}.txt"
     log:
         "logs/dorado_correct_inference/{dataset}_{file}.log",
     resources:
+        queue="gpu_srv010,gpu_srv019", 
         gpu=1,
-        queue=config["gpu_queues"],
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"

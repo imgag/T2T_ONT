@@ -1,13 +1,13 @@
 rule gqc:
     input:
         ref=config["ref"],
-        asm=get_assembly_output,
+        asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})
     output:
         directory("analysis_other/GQC/{asm}")
     conda:
         "../env/gqc.yml"
     log:
-        "logs/gqc/{isphased}_{tool}_{asm}.log"
+        "logs/gqc/{asm}_gqc.log"
     threads: 10
     params:
         config = config['gqc']['config'],
@@ -30,25 +30,24 @@ rule gqc:
             > {log} 2>&1
         """
 
-rule map_ul_to_asm:
-    input:
-        fa=get_assembly_output
-    output
-        bam=
-    conda:
-        "../env/minimap2.yml"
-    log:
-        "logs/map_ul_to_asm/{asm}.log"
-    threads: 40
-    shell:
-        """
-        
-        """
-
+#rule map_ul_to_asm:
+#    input:
+#        fa=get_assembly_output
+#    output
+#        bam=
+#    conda:
+#        "../env/minimap2.yml"
+#    log:
+#        "logs/map_ul_to_asm/{asm}.log"
+#    threads: 40
+#    shell:
+#        """
+#        
+#        """
 
 rule repeatmasker:
     input:
-        fa=get_assembly_output
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})
     output:
         out="analysis_other/repeatmasker/{asm}/assembly.fasta.out",
         gff="analysis_other/repeatmasker/{asm}/assembly.fasta.out.gff",
@@ -56,8 +55,10 @@ rule repeatmasker:
     conda:
         "../env/repeatmasker.yml"
     log:
-        "logs/repeatmasker/{isphased}_{tool}_{asm}.log"
+        "logs/repeatmasker/{asm}_repeatmasker.log"
     threads: 64
+    benchmark:
+        "runtimes/repeatmasker/{asm}.repeatmasker.txt"
     shell:
         """
         # Run RepeatMasker
@@ -75,12 +76,12 @@ rule analyze_repeatmasker:
     input:
         rm_out="analysis_other/repeatmasker/{asm}/assembly.fasta.out"
     output:
-        summary="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_symmary.csv",
-        bed = "analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplod.bed"
+        summary="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv",
+        bed = "analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplot.bed"
     conda:
         "../env/R.yml"
     log:
-        "logs/analyze_repeatmasker/{isphased}_{tool}_{asm}.log"
+        "logs/analyze_repeatmasker/{asm}_analyze_repeatmasker.log"
     shell:
         """
         # Run the R script to analyze the RepeatMasker output
@@ -92,8 +93,8 @@ rule analyze_repeatmasker:
 
 rule nucflag:
     input:
-        bam="data/bam/{asm}.HQ_herro.50x.bam",
-        rm_bed="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplod.bed"
+        bam=lambda wc: get_assembly_input(wc).get("ul"),
+        rm_bed="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplot.bed"
     output:
         status="analysis_other/nucflag/{asm}/nucflag_status.bed",
         misasm="analysis_other/nucflag/{asm}/nucflag_misasm.bed",
@@ -101,7 +102,7 @@ rule nucflag:
     conda:
         "../env/nucflag.yml"
     log:
-        "logs/nucflag/{isphased}_{tool}_{asm}.log"
+        "logs/nucflag/{asm}_nucflag.log"
     threads: 12
     shell:
         """
@@ -123,4 +124,27 @@ rule nucflag:
                 fi
             fi
         done
+        """
+
+rule create_plot:
+    input:
+        contig_file="analysis_other/assembly_info/{asm}/contigs.txt",
+        fai_file="analysis_other/assembly_info/{asm}/assembly.fasta.fai",
+        feature_bed="analysis_other/features/{asm}/features.bed"
+    output:
+        plot="analysis_other/plots/{asm}/{asm}_genomic_features.pdf"
+    conda:
+        "../env/R.yml"
+    log:
+        "logs/create_plot/{asm}_create_plot.log"
+    shell:
+        """
+        mkdir -p $(dirname {output.plot})
+        
+        Rscript workflow/scripts/20_plot_genomic_features.R \
+            --contig_file {input.contig_file} \
+            --fai_file {input.fai_file} \
+            --feature_files {input.feature_bed} \
+            --output_prefix analysis_other/plots/{wildcards.asm}/{wildcards.asm} \
+            > {log} 2>&1
         """
