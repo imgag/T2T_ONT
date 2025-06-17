@@ -2,6 +2,17 @@
 
 library(tidyverse)
 library(ggplot2)
+library(optparse)
+
+# Add command line options
+option_list <- list(
+    make_option("--contig_file", type="character", help="Path to contig info file"),
+    make_option("--fai_file", type="character", help="Path to reference FAI file"),
+    make_option("--feature_files", type="character", help="Comma-separated list of feature BED files"),
+    make_option("--output_prefix", type="character", help="Prefix for output files")
+)
+
+opt <- parse_args(OptionParser(option_list=option_list))
 
 read_contig_info <- function(contig_file) {
   read_lines(contig_file) %>%
@@ -55,17 +66,27 @@ create_karyogram <- function(contigs, ref_lengths, features, feature_colors) {
          fill = "Feature")
 }
 
-main <- function(contig_file, fai_file, feature_files, output_file) {
-  contigs <- read_contig_info(contig_file)
-  ref_lengths <- read_reference_lengths(fai_file)
-  features <- lapply(feature_files, read_bed_features)
-  
-  feature_colors <- c(
-    "N_region" = "gray",
-    "telomere" = "blue",
-    "centromere" = "red"
-  )
-  
-  p <- create_karyogram(contigs, ref_lengths, features, feature_colors)
-  ggsave(output_file, p, width = 12, height = 8)
-} 
+# Modify main function to use command line arguments
+main <- function() {
+    # Parse feature files list
+    feature_files <- str_split(opt$feature_files, ",")[[1]]
+    
+    contigs <- read_contig_info(opt$contig_file)
+    ref_lengths <- read_reference_lengths(opt$fai_file)
+    features <- lapply(feature_files, read_bed_features)
+    
+    feature_colors <- c(
+        "N_region" = "gray",
+        "telomere" = "blue",
+        "centromere" = "red"
+    )
+    
+    output_file <- paste0(opt$output_prefix, "_genomic_features.pdf")
+    p <- create_karyogram(contigs, ref_lengths, features, feature_colors)
+    ggsave(output_file, p, width = 12, height = 8)
+}
+
+# Execute main function
+if (!interactive()) {
+    main()
+}

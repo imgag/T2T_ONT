@@ -13,6 +13,8 @@ with open("data/datasets.yml") as f:
 with open("assembly/assemblies.yml") as f:
     asm = yaml.safe_load(f)
 
+with open("data/finished_samples.yml") as f:
+        finished_samples = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 include: "rules/handle_gpu.smk"
 include: "rules/basecalling.smk"
@@ -23,6 +25,7 @@ include: "rules/assembly.smk"
 include: "rules/polishing.smk"
 include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
+include: "rules/qc_extended.smk"
 
 
 # Data subgroups
@@ -376,8 +379,6 @@ def qc_collection(
     return results
 
 
-
-
 rule all:
     input:
         expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
@@ -397,11 +398,11 @@ rule all_samples:
 rule all_extended_qc:
     input:
         # GQC results
-        expand("analysis_other/GQC/{asm}", asm=asm_samples),
+        expand("analysis_other/GQC/{asm}", asm=finished_samples),
         # Nucflag results
-        expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=asm_samples),
+        expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
         # RepeatMasker results
-        expand("analysis_other/repeatmasker/{asm}/rm_summary.txt", asm=asm_samples)
+        expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples)
 
 rule all_polishing:
     input:
@@ -436,7 +437,7 @@ rule all_input_qc:
 # Creates QC for all assembly inputs (FastQ)
 # TODO Creates BAMQC for all assembly inputs
     input:
-        fq_qc,
+        #fq_qc,
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
@@ -554,6 +555,3 @@ rule collect_qc_method_comparison:
         "logs/collect_qc_method_comparison.log",
     script:
         "scripts/06_collect_qc.R"
-
-rule test_polish_qc:
-    input:
