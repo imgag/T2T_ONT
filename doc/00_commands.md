@@ -16,7 +16,11 @@ Merge reports:
 python workflow/scripts/09_parse_minknow_reports.py doc/run_reports/
 ```
 
-Add external names from GSVAR to  `doc/flowcell_biological_sample.tsv` table
+Export external sample names from NGSD
+
+```bash
+python workflow/scripts/19_query_ngsd_for_samplename.py
+```
 
 Create plots:
 
