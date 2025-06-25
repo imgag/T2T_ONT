@@ -1,7 +1,7 @@
 rule gqc:
     input:
-        ref=config["ref"],
-        asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})
+        ref=config["ref_hg002_q100"],
+        query=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"}),
     output:
         directory("analysis_other/GQC/{asm}")
     conda:
@@ -14,14 +14,13 @@ rule gqc:
         resourcedir = config['gqc']['resourcedir'],
         venv = config['gqc']['venv'],
         fastk_binfolder = config['gqc']['fastk_binfolder'],
-        ref = config['ref'],
     shell:
         """
         source {params.venv}/bin/activate
         export PATH=$PATH:{params.fastk_binfolder}
         GQC \
             --reffasta {input.ref} \
-            --queryfasta {input.asm} \
+            --queryfasta {input.query} \
             --config {params.config} \
             -p {output} \
             -t {threads} \
@@ -67,7 +66,6 @@ rule repeatmasker:
             -dir $(dirname {output.out}) \
             -pa {threads} \
             -gff \
-            -html \
             {input.fa} \
             > {log} 2>&1
         """

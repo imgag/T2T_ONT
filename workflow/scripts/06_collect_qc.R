@@ -83,7 +83,8 @@ time_execution <- function(func, args, func_name) {
   return(result)
 }
 
-# Example of simplified parsing function
+
+
 parse_paf_stat <- function(paf_stats) {
   results <- lapply(paf_stats, function(file) {
     metadata <- get_file_metadata(file)
@@ -91,12 +92,33 @@ parse_paf_stat <- function(paf_stats) {
     read_lines(file) %>%
       enframe(name = NULL, value = "line") %>%
       separate(line, into = c("metric", "value"), sep = ": ", convert = TRUE) %>%
-      mutate(metric = str_trim(metric),
-             value = as.numeric(value),
-             haplotype = metadata$haplotype,
-             asm_method = metadata$asm_method,
-             asm_name = metadata$asm_name,
-             source = "stat")
+      mutate(metric = case_when(
+        metric == "Number of mapped sequences" ~ "mapped_sequences_n",
+        metric == "Number of primary alignments" ~ "primary_alignments_n",
+        metric == "Number of secondary alignments" ~ "secondary_alignments_n",
+        metric == "Number of primary alignments with >65535 CIGAR operations" ~ "primary_alignments_long_cigar_n",
+        metric == "Number of bases in mapped sequences" ~ "bases_in_mapped_sequences",
+        metric == "Number of mapped bases" ~ "bases_mapped",
+        metric == "Number of substitutions" ~ "substitutions",
+        metric == "Number of insertions in [0,50)" ~ "insertions_length_0_50",
+        metric == "Number of insertions in [50,100)" ~ "insertions_length_50_100",
+        metric == "Number of insertions in [100,300)" ~ "insertions_length_100_300",
+        metric == "Number of insertions in [300,400)" ~ "insertions_length_300_400",
+        metric == "Number of insertions in [400,1000)" ~ "insertions_length_400_1000",
+        metric == "Number of insertions in [1000,inf)" ~ "insertions_length_1000_inf",
+        metric == "Number of deletions in [0,50)" ~ "deletions_length_0_50",
+        metric == "Number of deletions in [50,100)" ~ "deletions_length_50_100",
+        metric == "Number of deletions in [100,300)" ~ "deletions_length_100_300",
+        metric == "Number of deletions in [300,400)" ~ "deletions_length_300_400",
+        metric == "Number of deletions in [400,1000)" ~ "deletions_length_400_1000",
+        metric == "Number of deletions in [1000,inf)" ~ "deletions_length_1000_inf",
+        TRUE ~ metric
+      ),
+      value = as.numeric(value),
+      haplotype = metadata$haplotype,
+      asm_method = metadata$asm_method,
+      asm_name = metadata$asm_name,
+      source = "stat")
   })
   names(results) <- paf_stats
   return(results)
@@ -110,7 +132,16 @@ parse_paf_asmstat <- function(paf_stats) {
     
     # Read the file as a table
     read_tsv(paf_stat, col_names = c("metric", "value"), skip = 1, show_col_types = FALSE) %>%
-      mutate(metric = str_trim(metric), 
+      mutate(metric = case_when(
+              metric == "#breaks" ~ "breaks",
+              metric == "bp(10000,0)" ~ "length_0-10000",
+              metric == "bp(10000,10k)" ~ "length_10k-100k",
+              metric == "Length" ~ "length",
+              metric == "Rcov" ~ "ref_covered", 
+              metric == "Rdup" ~ "ref_dup",
+              metric == "Qcov" ~ "asm_covered",
+              TRUE ~ metric
+            ), 
              value = case_when(         
                grepl("%$", value) ~ as.numeric(sub("%", "", value)) / 100,
                TRUE ~ suppressWarnings(as.numeric(value))
@@ -119,6 +150,7 @@ parse_paf_asmstat <- function(paf_stats) {
              asm_method = metadata$asm_method,
              asm_name = metadata$asm_name,
              source = "asmstat")
+    
   })
   
   # Set names for the results list based on the input filenames
@@ -169,7 +201,7 @@ parse_paf_misjoin <- function(paf_stats) {
       ) %>%
       # Extract metric and value
       mutate(
-        metric = map_chr(parts, ~.x[1]),
+        metric = map_chr(parts, ~str_replace_all(.x[1], "\\s+", "_")),
         value = map_dbl(parts, ~as.numeric(.x[2])),
         # We ignore the third column until we know what it is,
         # Hypoythesis: Misjoins in centromere regions, for all samples so far this has been 0
