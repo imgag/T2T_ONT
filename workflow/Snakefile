@@ -26,6 +26,7 @@ include: "rules/polishing.smk"
 include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
 include: "rules/qc_extended.smk"
+include: "rules/dip3d.smk"
 
 
 # Data subgroups
@@ -441,17 +442,9 @@ rule all_input_qc:
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
-
-#rule all_unphased:
-#    input:
-#        expand("assembly/output/verkko_unphased/{asm}/use_verkko_files.done", asm=asm),
-
-
-#rule all_verkko_phased:
-#    input:
-#        expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_with_porec),
-#        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
-
+rule all_dip3d:
+    input:
+        "analysis_other/dip3d/GE-MED-T2T00/1-falign/porec.fragments.bam"
 
 #rule all_verkko_trio:
 #    input:

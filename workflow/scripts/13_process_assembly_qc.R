@@ -1,4 +1,25 @@
-process_qc_table <- function(dt){
+selected_metrics = c(
+    "length",
+    "ref_covered",
+    "asm_covered",
+    "inter-chromosomal_misjoins",
+    "intra-chromosomal_gaps",
+    "candidate_inversions_in_the_middle",
+    "candidate_inversions_at_contig_ends",
+    "variants",
+    "blocks",
+    "qv",
+    "n_T2T",
+    "total_n_count",
+    "total_gaps",
+    "n_contigs",
+    "n_contigs_over_10mb",
+    "genome_completeness",
+    "MMC",
+    "overall_switch_rate"
+    )
+
+process_qc_table <- function(dt, selection = selected_metrics) {
 
     # Define the optional grouping columns
     optional_group_cols <- c("n_UL", "n_DX", "sample")
@@ -96,12 +117,6 @@ process_qc_table <- function(dt){
         values_to = "value"
     ) %>%
     mutate(
-        metric = case_when(
-            metric == "total_covered_variants" ~ "Covered Variants (Total)",
-            metric == "overall_switch_rate" ~ "Overall Switch Rate (%)",
-            metric == "overall_switch_flip_rate" ~ "Overall Switch Flip Rate (%)",
-            TRUE ~ metric
-        ),
         source = "whatshap_compare_aggregated",
         chromosome = "ALL"  # Marking as aggregated across all chromosomes
     )
@@ -109,57 +124,11 @@ process_qc_table <- function(dt){
     # add MMC, completeness, and whatshap_agg to original table
     dt <- bind_rows(dt, dt_completeness, dt_mmc, dt_whatshap_agg)
 
+    key_metrics = c(
+        "")
     # Remove  values from dataset
     dt_reduced <- dt %>%
-        filter(!str_detect(metric, "Number of")) %>%
-        filter(!str_detect(metric, "asm.")) %>% filter(!str_detect(metric, "ref.")) %>%
-        filter(!(source == "merqury" & str_detect(metric, "_kmers"))) %>%
-        filter(!(source == "whatshap_compare" & str_detect(metric, "block"))) %>%
-        filter(!(source == "whatshap_stats" & str_detect(metric, "_"))) %>%
-        filter(!(source == "whatshap_stats" & str_detect(metric, "_"))) %>%
-        filter(!(source == "t2t_motif")) %>%
-        filter(!(source == "whatshap_compare" & metric %in% c("het_variants0", "only_snvs", 'all_assessed_pairs', 'all_switches'))) %>% 
-        filter(!(source == "whatshap_stats" &  metric %in% c("covered_variants", "only_snvs"))) %>%
-        filter(!(source == "asmstat" & str_detect(metric, "bp"))) %>%
-        filter(!(source == "asmstat" & str_detect(metric, "l_cov")))
-
-        # Rename metrics to better names used in plotting
-    dt_reduced <- dt_reduced %>%
-        mutate(
-            metric = case_when(
-                metric == "NG50" ~ "NG50",
-                metric == "n_T2T" ~ "Number of T2T chromosomes",
-                metric == "qv" ~ "Quality Value",
-                metric == "error_rate" ~ "Error Rate",
-                metric == "all_switch_rate" ~ "Switch Rate (%)",
-                metric == "#breaks" ~ "Number of Breaks in Assembly",
-                metric == "MMC" ~ "Missing Multi-Copy Genes (%)",
-                metric == "Length" ~ "Assembly Length",
-                metric == "Rcov" ~ "% of Ref covered by Assembly",
-                metric == "Rdup" ~ "% of Ref duplicated in Assembly",
-                metric == "Qcov" ~ "% of Assembly covered by Ref",
-                metric == "NG75" ~ "NG75",
-                metric == "NGA50" ~ "NGA50",
-                metric == "AUNGA" ~ "Average Ungapped Alignment length",
-                metric == "variants" ~ "Variants",
-                metric == "phased" ~ "Variants Phased",
-                metric == "unphased" ~ "Variants Unphased",
-                metric == "blocks" ~ "Phase Blocks",
-                metric == "covered_variants" ~ "Covered Variants",
-                metric == "all_switchflip_rate" ~ "Switch Flip Rate (%)",
-                metric == "n_y_chrom" ~ "Number of Y Chromosomes",
-                metric == "genome_completeness" ~ "Genome Completeness",
-                TRUE ~ metric
-                
-            )
-        )
-
-
-    # Keep only ALL chromosome rows from whatshap_stats, remove per-chromosome stats
-    dt_reduced <- dt_reduced %>%
-        filter(!(source == "whatshap_stats" & chromosome != "ALL")) %>%
-        filter(!(source == "whatshap_compare")) %>%
-        filter(!(source == "whatshap_compare_aggregated" & chromosome != "ALL"))
+        filter(metric %in% selection)
 
     return(dt_reduced)
 }

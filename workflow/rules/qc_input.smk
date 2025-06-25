@@ -119,7 +119,7 @@ rule porec_qc:
         "analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html",
     threads: 36
     benchmark:
-        "runtimes/{dataset}.porec_qc.txt"
+        "runtimes/porec_qc/{dataset}.porec_qc.txt"
     log:
         "logs/porec_qc/{dataset}.log",
     params:
