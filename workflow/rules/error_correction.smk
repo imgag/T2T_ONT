@@ -70,7 +70,7 @@ rule dorado_correct_inference:
     log:
         "logs/dorado_correct_inference/{dataset}_{file}.log",
     resources:
-        queue="gpu_srv010,gpu_srv019", 
+        queue="gpu_srv010", 
         gpu=1,
     run:
         with get_gpu_id() as gid:  # Check for unused GPU

@@ -50,7 +50,6 @@ rule repeatmasker:
     output:
         out="analysis_other/repeatmasker/{asm}/assembly.fasta.out",
         gff="analysis_other/repeatmasker/{asm}/assembly.fasta.out.gff",
-        html="analysis_other/repeatmasker/{asm}/assembly.fasta.html"
     conda:
         "../env/repeatmasker.yml"
     log:
@@ -85,7 +84,7 @@ rule analyze_repeatmasker:
         # Run the R script to analyze the RepeatMasker output
         Rscript workflow/scripts/16_analyze_repeatmasker.R \
             --input {input.rm_out} \
-            --output {output.summary} \
+            --output $(dirname {output.summary})/{wildcards.asm}   \
             > {log} 2>&1
         """
 
