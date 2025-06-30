@@ -7,13 +7,13 @@ def get_chr_list_for_asm(wc):
     else:
         chroms = ['chr'+str(i) for i in list(range(1, 23)) + ["X"]] 
     
-    return(["chr17"])
-
+    return(chroms)
 
 rule all_merge_dip3d:
     input:
         "assembly/qc/phased_verkko/{asm}/sample_sex.txt",
-        lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
+        expand("analysis_other/dip3d/{{asm}}/4-haplotag/{type}_dip3d_stats.txt", type = ["imputed", "snp-tagged"]),
+    #    lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
     output:
         "analysis_other/dip3d/{asm}/dip3d.done"
     benchmark:
@@ -49,7 +49,7 @@ rule dip3d_build_repeat_regions:
 
 rule dip3d_map_reads:
     input:
-        fq = "analysis_other/dip3d/{asm}/{asm}.POREC.fastq.gz",
+        fq = lambda wc: f"assembly/input/{asm[wc.asm]["dataset"]}/{asm[wc.asm]["dataset"]}.POREC_all.fastq.gz",
         fa = config['ref'],
         bed = config['ref'] + ".repeat_regions.bed"
     output: 
@@ -333,7 +333,26 @@ rule dip3d_bam_haplotag:
             >{log} 2>&1
         """
 
-## Step 5: Haplotype imputation (ASHIC)
+rule dip3d_stats:
+    input:
+        lambda wc: expand("analysis_other/dip3d/{{asm}}/4-haplotag/{chr}/{{type}}-frag-hap-list", chr = get_chr_list_for_asm(wc))
+    output:
+        "analysis_other/dip3d/{asm}/4-haplotag/{type}_dip3d_stats.txt"
+    params:
+        dip3d = config['dip3d']
+    threads: 1
+    log:
+        "logs/dip3d/stats/{asm}.{type}.stats.log"
+    benchmark:
+        "runtimes/dip3d/dip3d_bam_haplotag/{asm}.{type}.haplotag.txt"
+    shell:
+        """
+        {params.dip3d} haplo-tag-stats \
+            {input} \
+            2>{output}
+        """
+
+## Step 5: Chromatin contact modeling (ASHIC)
 # --------------------------------------
 
 
@@ -476,4 +495,135 @@ rule dip3d_run_ashic:
             --model {params.model} \
             >{log} 2>&1
         """
+
+# Step 6: Convert haplotagged bam to file suitable for downstream  analysis
+# -----------------------------------------------------
+
+rule dip3d_extract_hp_bams:
+    input:
+        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"
+    output:
+        hp1 = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp1.bam",
+        hp2 = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp2.bam"
+    conda:
+        "../env/samtools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.extract_hp_bams.log"
+    shell:
+        '''
+        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:1/) {print $0}' | samtools view -b -o {output.hp1} - 2>>{log}
+        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:2/) {print $0}' | samtools view -b -o {output.hp2} - 2>>{log}
+        '''
+
+rule dip3d_bam_to_paf:
+    input:
+        bam = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.bam"
+    output:
+        paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.paf"
+    conda:
+        "../env/nodejs.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.bam_to_paf.hp{hp}.log"
+    shell:
+        '''
+        samtools view -h {input.bam} 2>>{log} | paftools.js sam2paf - > {output.paf} 2>>{log}
+        '''
+
+rule dip3d_clean_paf:
+    input:
+        paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.paf"
+    output:
+        clean_paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.clean.paf"
+    conda:
+        "../env/python.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.clean_paf.hp{hp}.log"
+    shell:
+        '''
+        awk '$6!="*" && $7!="*"' {input.paf} > {output.clean_paf} 2>>{log}
+        '''
+
+rule dip3d_paf_to_jmatrix:
+    input:
+        clean_paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.clean.paf"
+    output:
+        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+    conda:
+        "../env/python.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.paf_to_jmatrix.hp{hp}.log"
+    shell:
+        '''
+        python scripts/paf2jmatrix.py {input.clean_paf} {output.jmatrix} > {log} 2>&1
+        '''
+
+rule dip3d_jmatrix_to_hic:
+    input:
+        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+    output:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.jmatrix_to_hic.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools pre {input.jmatrix} {output.hic} chrNameSize.txt > {log} 2>&1
+        '''
+
+rule dip3d_hic_to_cool:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    conda:
+        "../env/hicexplorer.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.hic_to_cool.hp{hp}.log"
+    shell:
+        '''
+        hicConvertFormat -m {input.hic} --inputFormat hic --outputFormat cool -o {output.cool} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_eigs:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        eigs = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.eigs.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_eigs.hp{hp}.log"
+    shell:
+        '''
+        cooltools eigs-cis {input.cool} -o {output.eigs} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_insulation:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        insulation = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.insulation.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_insulation.hp{hp}.log"
+    shell:
+        '''
+        cooltools insulation {input.cool} -o {output.insulation} > {log} 2>&1
+        '''
+
+rule dip3d_juicer_apa:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        apa = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.apa"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.juicer_apa.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools apa {input.hic} {output.apa} > {log} 2>&1
+        '''
 

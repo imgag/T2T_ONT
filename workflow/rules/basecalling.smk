@@ -23,7 +23,7 @@ rule dorado:
     log:
         "logs/dorado/{type}_{dataset}.log"
     resources:
-        queue="gpu_srv010,gpu_srv019", 
+        queue="gpu_srv010", 
         gpu=2
     benchmark:
         "runtimes/dorado/{type}/{dataset}.{type}.txt"

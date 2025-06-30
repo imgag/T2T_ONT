@@ -14,7 +14,7 @@ def update_herro_paths(f, dataset):
     return f
 
 
-def find_input_datasets(wc, print_debug=True):
+def find_input_datasets(wc, print_debug=True, all_porec=False):
     # Input is a raw data folder, run basecalling depending on type
     # print(datasets[wc.dataset][wc.type])
     files = []
@@ -64,10 +64,13 @@ def find_input_datasets(wc, print_debug=True):
             else [datasets[wc.dataset]["HQ_duplex"]],
         }
     else:
+
+        real_type = "POREC" if wc.type == "POREC_all" else wc.type
+
         elements = {
-            wc.type: datasets[wc.dataset].get(wc.type, "")
-            if isinstance(datasets[wc.dataset].get(wc.type, ""), list)
-            else [datasets[wc.dataset].get(wc.type, "")]
+            wc.type: datasets[wc.dataset].get(real_type, "")
+            if isinstance(datasets[wc.dataset].get(real_type, ""), list)
+            else [datasets[wc.dataset].get( real_type, "")]
         }
 
         for wc_type, elements in elements.items():
@@ -103,6 +106,11 @@ def find_input_datasets(wc, print_debug=True):
                         files.append(
                             f"data/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
                         )
+                        if not all_porec: break # Only use first POREC for assembly
+                    if wc_type == "POREC_all":
+                        files.append(
+                            f"data/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.unmapped.bam"
+                        )
                     if wc_type == "APK":
                         files.append(
                             f"data/basecalled/apk/{os.path.basename(e)}/{os.path.basename(e)}.apk.unmapped.bam"
@@ -130,6 +138,9 @@ def find_input_datasets(wc, print_debug=True):
                         case "UL":
                             files.append(e)
                         case "POREC":
+                            files.append(e)
+                            if not all_porec: break # Only use first POREC for assembly
+                        case "POREC_all":
                             files.append(e)
                         case "APK":
                             files.append(e)
@@ -184,7 +195,6 @@ rule merge_copy_rename_fastq:
         samtools fastq <({params.samtools} cat {input.files}) 2>{log}\
         | pigz -p {threads} -c >{output} 2>>{log}
         """
-
 
 rule map_unaligned_bam:
     input:
