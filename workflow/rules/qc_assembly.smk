@@ -20,30 +20,49 @@ def get_assembly_output(wc):
 
     if isphased == "unphased":
         if wc["tool"] == "verkko":
-            return f"assembly/output/verkko_unphased/{wc['asm']}/assembly.fasta"
+            return {
+                "assembly": f"assembly/output/verkko_unphased/{wc['asm']}/assembly.fasta"
+            }
         else:
             raise ValueError(f"Invalid tool for unphased assembly: {wc['tool']}")
 
     elif isphased == "phased":
         if wc["tool"] == "verkko":
             if not wc["hp"] or wc["hp"] == "unphased" or wc["hp"] == "both":
-                return f"assembly/output/verkko/{wc['asm']}/assembly.fasta"
+                return {
+                    "assembly": f"assembly/output/verkko/{wc['asm']}/assembly.fasta",
+                    "done": f"assembly/output/verkko/{wc['asm']}/create_porec_scaffold.done",
+                }
             elif wc["hp"] == "haplotype1":
-                return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
+                return {
+                    "assembly": f"assembly/output/verkko/{wc['asm']}/assembly.haplotype1.fasta"
+                }
             elif wc["hp"] == "haplotype2":
-                return f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
+                return {
+                    "assembly": f"assembly/output/verkko/{wc['asm']}/assembly.haplotype2.fasta"
+                }
         elif wc["tool"] == "gfase":
             if wc["hp"] == "haplotype1":
-                return f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
+                return {
+                    "assembly": f"assembly/output/gfase/{wc['asm']}/gfase/phase_0.fasta"
+                }
             elif wc["hp"] == "haplotype2":
-                return f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
+                return {
+                    "assembly": f"assembly/output/gfase/{wc['asm']}/gfase/phase_1.fasta"
+                }
         elif wc["tool"] == "hifiasm":
             if not wc["hp"] or wc["hp"] == "unphased" or wc["hp"] == "both":
-                return f"assembly/output/hifiasm/{wc['asm']}/assembly.fasta"
+                return {
+                    "assembly": f"assembly/output/hifiasm/{wc['asm']}/assembly.fasta"
+                }
             elif wc["hp"] == "haplotype1":
-                return f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype1.fasta"
+                return {
+                    "assembly": f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype1.fasta"
+                }
             elif wc["hp"] == "haplotype2":
-                return f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype2.fasta"
+                return {
+                    "assembly": f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype2.fasta"
+                }
         else:
             raise ValueError(f"Invalid tool: {wc['tool']}")
 
@@ -66,23 +85,24 @@ def get_assembly_colors(wc):
     else:
         raise ValueError(f"Invalid  phasing value: {wc['isphased']}")
 
+
 rule get_contig_stats:
     input:
-        fa = get_assembly_output
+        unpack(get_assembly_output),
     output:
-        "assembly/qc/{isphased}_{tool}/{asm}/contig_stats.{hp}.tsv"
+        "assembly/qc/{isphased}_{tool}/{asm}/contig_stats.{hp}.tsv",
     log:
-        "logs/get_contig_stats/{isphased}_{tool}_{asm}_{hp}.tsv"
+        "logs/get_contig_stats/{isphased}_{tool}_{asm}_{hp}.tsv",
     conda:
         "../env/samtools.yml"
-    threads:
-        1
+    threads: 1
     shell:
         """
-        samtools faidx {input}
+        samtools faidx {input.assembly}
         awk 'BEGIN {{ count_total=0; count_gt_10Mb=0; }} {{ current_length=$2+0; count_total++; if (current_length > 10000000) count_gt_10Mb++; }} END {{ printf "n_contigs\\t%d\\n", count_total; printf "n_contigs_over_10mb\\t%d\\n", count_gt_10Mb; }}' \
-        {input.fa}.fai > {output} 2>{log}
+        {input.assembly}.fai > {output} 2>{log}
         """
+
 
 rule subsample_ref_genome:
     input:
@@ -105,17 +125,21 @@ rule subsample_ref_genome:
 rule create_colors:
     input:
         paf="assembly/qc/{isphased}_{tool}/{asm}/both.mapped_T2T.paf",
-        colors_phasing=lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
-        if wc.isphased == "phased" and wc.tool == "verkko"
-        else [],
+        colors_phasing=lambda wc: (
+            f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+            if wc.isphased == "phased" and wc.tool == "verkko"
+            else []
+        ),
     output:
         csv="assembly/qc/{isphased}_{tool}/{asm}/colors.tsv",
     log:
         "logs/create_colors/{isphased}_{tool}_{asm}.log",
     params:
-        colours_phasing=lambda wc: f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv"
-        if wc.isphased == "phased" and wc.tool == "verkko"
-        else "",
+        colours_phasing=lambda wc: (
+            f"-c assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+            if wc.isphased == "phased" and wc.tool == "verkko"
+            else ""
+        ),
     shell:
         """
         python workflow/scripts/11_extract_colors.py \
@@ -145,7 +169,6 @@ rule process_graph:
         """
 
 
-
 rule bandage:
     input:
         gfa="assembly/qc/{isphased}_{tool}/{asm}/assembly_graph.gfa",
@@ -167,11 +190,13 @@ rule bandage:
 
 rule map_asm_to_ref:
     input:
-        fa=ancient(get_assembly_output),
+        unpack(lambda wc: {k: ancient(v) for k, v in get_assembly_output(wc).items()}),
         ref=get_ref_genome,
-        phased_out=lambda wc: f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
-        if wc.isphased == "phased" and wc.tool == "verkko"
-        else [],
+        phased_out=lambda wc: (
+            f"assembly/output/verkko/{wc.asm}/assembly.colors.csv"
+            if wc.isphased == "phased" and wc.tool == "verkko"
+            else []
+        ),
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/{hp}.mapped_T2T.paf",
     conda:
@@ -184,7 +209,7 @@ rule map_asm_to_ref:
         minimap2 \
             -cx asm5 \
             -t {threads} \
-            {input.ref} {input.fa} \
+            {input.ref} {input.assembly} \
             > {output.paf} 2> {log}
         """
 
@@ -211,7 +236,7 @@ rule map_cdna_to_ref:
 
 rule map_cdna_to_asm:
     input:
-        asm=get_assembly_output,
+        unpack(get_assembly_output),
         ref=config["ref_cdna"],
     output:
         paf="assembly/qc/{isphased}_{tool}/{asm}/cdna_aln.{hp}.paf",
@@ -224,7 +249,7 @@ rule map_cdna_to_asm:
         """
         minimap2 -cxsplice -C5\
             -t {threads} \
-            {input.asm} {input.ref} \
+            {input.assembly} {input.ref} \
             >{output.paf} 2>{log}
         """
 
@@ -266,9 +291,10 @@ rule qc_paftools_asmstat:
             > {output} 2>{log}
         """
 
+
 rule qc_paftools_misjoin:
     input:
-        paf=rules.map_asm_to_ref.output.paf
+        paf=rules.map_asm_to_ref.output.paf,
     output:
         "assembly/qc/{isphased}_{tool}/{asm}/qc_paftools_misjoin.{hp}.txt",
     conda:
@@ -323,7 +349,7 @@ rule qc_paftools_asmgene:
 
 rule scaffold_lengths:
     input:
-        fa=get_assembly_output,
+        unpack(get_assembly_output),
         ref=get_ref_genome,
     output:
         txt="assembly/qc/phased_{tool}/{asm}/scaffold_lengths.{hp}.txt",
@@ -334,21 +360,24 @@ rule scaffold_lengths:
         "logs/scaffold_lengths/{tool}_{asm}_{hp}.txt",
     shell:
         """
-        samtools faidx {input.fa}
-        cut -f 1,2 {input.fa}.fai > {output}
+        samtools faidx {input.assembly}
+        cut -f 1,2 {input.assembly}.fai > {output}
         cut -f 1,2 {input.ref}.fai >> {output}
-        rm {input.fa}.fai
+        rm {input.assembly}.fai
         """
+
 
 rule gap_stats:
     input:
-        fa=get_assembly_output,
-        done=lambda wc: f"assembly/output/verkko/{wc.asm}/create_porec_scaffold.done"
-        if wc.isphased == "phased" and wc.tool == "verkko"
-        else [],
+        unpack(get_assembly_output),
+        done=lambda wc: (
+            f"assembly/output/verkko/{wc.asm}/create_porec_scaffold.done"
+            if wc.isphased == "phased" and wc.tool == "verkko"
+            else []
+        ),
     output:
-        bed = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_regions.bed",
-        stats = "assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_stats.tsv",
+        bed="assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_regions.bed",
+        stats="assembly/qc/{isphased}_{tool}/{asm}/gap_stats.{hp}.n_stats.tsv",
     conda:
         "../env/hapdiff.yml"
     log:
@@ -356,10 +385,11 @@ rule gap_stats:
     shell:
         """
         workflow/scripts/17_assembly_qc_gaps.py \
-            --input {input.fa} \
+            --input {input.assembly} \
             --output $(dirname {output.bed})/gap_stats.{wildcards.hp} \
             > {log} 2>&1
         """
+
 
 rule dotplot:
     input:
@@ -418,11 +448,11 @@ rule qc_meryl:
 # 1) HG002 for published set, fallback 2) Illumina shortread data from config file for specified samples
 def get_meryl_ref(wc):
     if "published" in str(wc.asm):
-        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl' 
+        return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
     elif str(wc.asm) in config["kmer_refs"]:
         return config["kmer_refs"].get(wc.asm, "")
     elif "TUE_02" in str(wc.asm):
-        return "analysis_other/merqury_shortread/DX203429_02.meryl"    
+        return "analysis_other/merqury_shortread/DX203429_02.meryl"
     else:
         print(f"WARNING: Unknown Meryl Ref for {wc.asm}, using HG002")
         return f'data/ref/hg002_q100_meryl/hg002_q100_k_{config["K-mer"]}.meryl'
@@ -431,8 +461,8 @@ def get_meryl_ref(wc):
 rule qc_merqury_haplotypes:
     input:
         meryl=get_meryl_ref,
-        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"})["assembly"],
+        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"})["assembly"],
     output:
         out="assembly/qc/phased_{tool}/{asm}/merqury.qv",
         hap_pat_meryl="assembly/qc/phased_{tool}/{asm}/merqury.haplotype1.qv",
@@ -518,7 +548,7 @@ ruleorder: qc_merqury_haplotypes > qc_merqury_both
 
 rule find_T2T_contigs:
     input:
-        asm=get_assembly_output,
+        unpack(get_assembly_output),
         ref=get_ref_genome,
     output:
         seqinfo="assembly/qc/{isphased}_{tool}/{asm}/T2T_contigs.{hp}.seqinfo.txt",
@@ -533,7 +563,7 @@ rule find_T2T_contigs:
         """
         export PATH=$PATH:$(dirname {params.T2T_chromosomes})
         {params.T2T_chromosomes} \
-            -a {input.asm} \
+            -a {input.assembly} \
             -r {input.ref} \
             -o "$(dirname {output.seqinfo})/T2T_contigs.{wildcards.hp}" \
             -m TTAGGG \

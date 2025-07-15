@@ -14,6 +14,7 @@ rule dorado_trim:
         fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
     params:
         dorado=config["dorado"],
+        seq_kit=config["seq_kit"]
     threads: 5
     benchmark:
         "runtimes/dorado_trim/{dataset}_{file}.txt"
@@ -24,6 +25,7 @@ rule dorado_trim:
         {params.dorado} trim \
             --threads 20 \
             --emit-fastq \
+            --sequencing-kit {params.seq_kit} \
             {input} > {output.fastq} \
             2> {log}
         """

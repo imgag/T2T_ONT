@@ -438,14 +438,14 @@ rule all_input_qc:
 # Creates QC for all assembly inputs (FastQ)
 # TODO Creates BAMQC for all assembly inputs
     input:
-        #fq_qc,
+        fq_qc,
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
 rule all_dip3d:
     input:
-        "analysis_other/dip3d/GE-MED-T2T04/1-falign/porec.fragments.bam",
-        "analysis_other/dip3d/GE-MED-T2T04/dip3d.done"
+        "analysis_other/dip3d/T2T04/1-falign/porec.fragments.bam",
+        "analysis_other/dip3d/T2T04/dip3d.done"
 
 #rule all_verkko_trio:
 #    input:
