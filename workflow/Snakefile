@@ -438,7 +438,7 @@ rule all_input_qc:
 # Creates QC for all assembly inputs (FastQ)
 # TODO Creates BAMQC for all assembly inputs
     input:
-        fq_qc,
+        # fq_qc,
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 

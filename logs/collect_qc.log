@@ -1,113 +1,252 @@
-Starting QC collection at: 2025-06-04 21:24:25.727281
-── Attaching core tidyverse packages ───────────────────── tidyverse 2.0.0 ──
+Starting QC collection at: 2025-07-11 17:46:54.813732
+── Attaching core tidyverse packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.0.4     
-── Conflicts ─────────────────────────────────────── tidyverse_conflicts() ──
+── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 Warning messages:
 1: package ‘ggplot2’ was built under R version 4.4.3 
-2: package ‘purrr’ was built under R version 4.4.2 
-3: package ‘lubridate’ was built under R version 4.4.2 
+2: package ‘tibble’ was built under R version 4.4.3 
+3: package ‘purrr’ was built under R version 4.4.2 
+4: package ‘lubridate’ was built under R version 4.4.2 
 Libraries loaded successfully
 Running in production mode
 Input files loaded:
-- PAF stats: 6 files
-- PAF asmstat: 6 files
-- PAF asmgene: 4 files
-- PAF misjoin: 6 files
+- PAF stats: 24 files
+- PAF asmstat: 24 files
+- PAF asmgene: 16 files
+- PAF misjoin: 24 files
 - Sex determination: 0 files
-- WhatsHap stats: 2 files
-- WhatsHap compare: 2 files
-- Merqury: 2 files
-- FindT2T alignment: 6 files
-- FindT2T motif: 6 files
-- Gap statistics: 6 files
-- Contig statistics: 6 files
-Starting data parsing at:2025-06-04 21:24:34.530741
-Starting PAF stat parsing at: 2025-06-04 21:24:34.531
-Completed PAF stat parsing in: 1.26 seconds
-Starting PAF asmstat parsing at: 2025-06-04 21:24:35.790806
-[1] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_asmstat.haplotype1.txt"
-[2] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_asmstat.haplotype2.txt"
-[3] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_asmstat.both.txt"      
-[4] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_asmstat.haplotype1.txt"
-[5] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_asmstat.haplotype2.txt"
-[6] "Parse paf_asmstat from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_asmstat.both.txt"      
-Completed PAF asmstat parsing in: 0.03 seconds
-Starting PAF asmgene parsing at: 2025-06-04 21:24:35.821517
-[1] "Parse paf_asmgene from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_asmgene.haplotype1.txt"
-[2] "Parse paf_asmgene from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_asmgene.haplotype2.txt"
-[3] "Parse paf_asmgene from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_asmgene.haplotype1.txt"
-[4] "Parse paf_asmgene from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_asmgene.haplotype2.txt"
-Completed PAF asmgene parsing in: 0.26 seconds
-Starting PAF misjoin parsing at: 2025-06-04 21:24:36.079487
-[1] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_misjoin.haplotype1.txt"
-[2] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_misjoin.haplotype2.txt"
-[3] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T00/qc_paftools_misjoin.both.txt"      
-[4] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_misjoin.haplotype1.txt"
-[5] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_misjoin.haplotype2.txt"
-[6] "Parse paf_misjoin from  assembly/qc/phased_verkko/GE-MED-T2T04/qc_paftools_misjoin.both.txt"      
-Completed PAF misjoin parsing in: 0.04 seconds
-Starting WhatsHap stats parsing at: 2025-06-04 21:24:36.122663
-[1] "Parse whatshap_stats from  assembly/qc/phased_verkko/GE-MED-T2T00/whatshap_stats.tsv"
-[2] "Parse whatshap_stats from  assembly/qc/phased_verkko/GE-MED-T2T04/whatshap_stats.tsv"
-Completed WhatsHap stats parsing in: 1 seconds
-Starting WhatsHap compare parsing at: 2025-06-04 21:24:37.120091
-[1] "Parse whatshap_compare from  assembly/qc/phased_verkko/GE-MED-T2T00/whatshap_compare.tsv"
-[2] "Parse whatshap_compare from  assembly/qc/phased_verkko/GE-MED-T2T04/whatshap_compare.tsv"
-Completed WhatsHap compare parsing in: 0.98 seconds
-Starting Merqury parsing at: 2025-06-04 21:24:38.100295
-[1] "Parse merqury from  assembly/qc/phased_verkko/GE-MED-T2T00/merqury.qv"
-[2] "Parse merqury from  assembly/qc/phased_verkko/GE-MED-T2T04/merqury.qv"
-Completed Merqury parsing in: 0.22 seconds
-Starting FindT2T alignment parsing at: 2025-06-04 21:24:38.323034
-[1] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.haplotype1_alignment_T2T.txt"
-[2] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.haplotype2_alignment_T2T.txt"
-[3] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.both_alignment_T2T.txt"      
-[4] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.haplotype1_alignment_T2T.txt"
-[5] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.haplotype2_alignment_T2T.txt"
-[6] "Parse findt2t_alignment from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.both_alignment_T2T.txt"      
-Completed FindT2T alignment parsing in: 0.44 seconds
-Starting FindT2T motif parsing at: 2025-06-04 21:24:38.763839
-[1] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.haplotype1_alignment_T2T.txt"
-[2] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.haplotype2_alignment_T2T.txt"
-[3] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T00/T2T_contigs.both_alignment_T2T.txt"      
-[4] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.haplotype1_alignment_T2T.txt"
-[5] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.haplotype2_alignment_T2T.txt"
-[6] "Parse findt2t_motif from  assembly/qc/phased_verkko/GE-MED-T2T04/T2T_contigs.both_alignment_T2T.txt"      
-Completed FindT2T motif parsing in: 0.44 seconds
-Starting Sex determination parsing at: 2025-06-04 21:24:39.204847
+- WhatsHap stats: 8 files
+- WhatsHap compare: 8 files
+- Merqury: 8 files
+- FindT2T alignment: 24 files
+- FindT2T motif: 24 files
+- Gap statistics: 24 files
+- Contig statistics: 24 files
+Starting data parsing at:2025-07-11 17:47:02.799355
+Starting PAF stat parsing at: 2025-07-11 17:47:02.799576
+Completed PAF stat parsing in: 1.95 seconds
+Starting PAF asmstat parsing at: 2025-07-11 17:47:04.753151
+ [1] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T00/qc_paftools_asmstat.haplotype1.txt"
+ [2] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T00/qc_paftools_asmstat.haplotype2.txt"
+ [3] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T00/qc_paftools_asmstat.both.txt"      
+ [4] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T01/qc_paftools_asmstat.haplotype1.txt"
+ [5] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T01/qc_paftools_asmstat.haplotype2.txt"
+ [6] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T01/qc_paftools_asmstat.both.txt"      
+ [7] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T04/qc_paftools_asmstat.haplotype1.txt"
+ [8] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T04/qc_paftools_asmstat.haplotype2.txt"
+ [9] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T04/qc_paftools_asmstat.both.txt"      
+[10] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T05/qc_paftools_asmstat.haplotype1.txt"
+[11] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T05/qc_paftools_asmstat.haplotype2.txt"
+[12] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T05/qc_paftools_asmstat.both.txt"      
+[13] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T06/qc_paftools_asmstat.haplotype1.txt"
+[14] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T06/qc_paftools_asmstat.haplotype2.txt"
+[15] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T06/qc_paftools_asmstat.both.txt"      
+[16] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T07/qc_paftools_asmstat.haplotype1.txt"
+[17] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T07/qc_paftools_asmstat.haplotype2.txt"
+[18] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T07/qc_paftools_asmstat.both.txt"      
+[19] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T09/qc_paftools_asmstat.haplotype1.txt"
+[20] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T09/qc_paftools_asmstat.haplotype2.txt"
+[21] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T09/qc_paftools_asmstat.both.txt"      
+[22] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T10/qc_paftools_asmstat.haplotype1.txt"
+[23] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T10/qc_paftools_asmstat.haplotype2.txt"
+[24] "Parse paf_asmstat from  assembly/qc/phased_verkko/T2T10/qc_paftools_asmstat.both.txt"      
+Completed PAF asmstat parsing in: 0.28 seconds
+Starting PAF asmgene parsing at: 2025-07-11 17:47:05.038492
+ [1] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T00/qc_paftools_asmgene.haplotype1.txt"
+ [2] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T00/qc_paftools_asmgene.haplotype2.txt"
+ [3] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T01/qc_paftools_asmgene.haplotype1.txt"
+ [4] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T01/qc_paftools_asmgene.haplotype2.txt"
+ [5] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T04/qc_paftools_asmgene.haplotype1.txt"
+ [6] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T04/qc_paftools_asmgene.haplotype2.txt"
+ [7] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T05/qc_paftools_asmgene.haplotype1.txt"
+ [8] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T05/qc_paftools_asmgene.haplotype2.txt"
+ [9] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T06/qc_paftools_asmgene.haplotype1.txt"
+[10] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T06/qc_paftools_asmgene.haplotype2.txt"
+[11] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T07/qc_paftools_asmgene.haplotype1.txt"
+[12] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T07/qc_paftools_asmgene.haplotype2.txt"
+[13] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T09/qc_paftools_asmgene.haplotype1.txt"
+[14] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T09/qc_paftools_asmgene.haplotype2.txt"
+[15] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T10/qc_paftools_asmgene.haplotype1.txt"
+[16] "Parse paf_asmgene from  assembly/qc/phased_verkko/T2T10/qc_paftools_asmgene.haplotype2.txt"
+Completed PAF asmgene parsing in: 1.86 seconds
+Starting PAF misjoin parsing at: 2025-07-11 17:47:06.902156
+ [1] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T00/qc_paftools_misjoin.haplotype1.txt"
+ [2] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T00/qc_paftools_misjoin.haplotype2.txt"
+ [3] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T00/qc_paftools_misjoin.both.txt"      
+ [4] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T01/qc_paftools_misjoin.haplotype1.txt"
+ [5] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T01/qc_paftools_misjoin.haplotype2.txt"
+ [6] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T01/qc_paftools_misjoin.both.txt"      
+ [7] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T04/qc_paftools_misjoin.haplotype1.txt"
+ [8] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T04/qc_paftools_misjoin.haplotype2.txt"
+ [9] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T04/qc_paftools_misjoin.both.txt"      
+[10] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T05/qc_paftools_misjoin.haplotype1.txt"
+[11] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T05/qc_paftools_misjoin.haplotype2.txt"
+[12] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T05/qc_paftools_misjoin.both.txt"      
+[13] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T06/qc_paftools_misjoin.haplotype1.txt"
+[14] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T06/qc_paftools_misjoin.haplotype2.txt"
+[15] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T06/qc_paftools_misjoin.both.txt"      
+[16] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T07/qc_paftools_misjoin.haplotype1.txt"
+[17] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T07/qc_paftools_misjoin.haplotype2.txt"
+[18] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T07/qc_paftools_misjoin.both.txt"      
+[19] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T09/qc_paftools_misjoin.haplotype1.txt"
+[20] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T09/qc_paftools_misjoin.haplotype2.txt"
+[21] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T09/qc_paftools_misjoin.both.txt"      
+[22] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T10/qc_paftools_misjoin.haplotype1.txt"
+[23] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T10/qc_paftools_misjoin.haplotype2.txt"
+[24] "Parse paf_misjoin from  assembly/qc/phased_verkko/T2T10/qc_paftools_misjoin.both.txt"      
+Completed PAF misjoin parsing in: 0.31 seconds
+Starting WhatsHap stats parsing at: 2025-07-11 17:47:07.212333
+[1] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T00/whatshap_stats.tsv"
+[2] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T01/whatshap_stats.tsv"
+[3] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T04/whatshap_stats.tsv"
+[4] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T05/whatshap_stats.tsv"
+[5] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T06/whatshap_stats.tsv"
+[6] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T07/whatshap_stats.tsv"
+[7] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T09/whatshap_stats.tsv"
+[8] "Parse whatshap_stats from  assembly/qc/phased_verkko/T2T10/whatshap_stats.tsv"
+Completed WhatsHap stats parsing in: 7.85 seconds
+Starting WhatsHap compare parsing at: 2025-07-11 17:47:15.064918
+[1] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T00/whatshap_compare.tsv"
+[2] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T01/whatshap_compare.tsv"
+[3] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T04/whatshap_compare.tsv"
+[4] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T05/whatshap_compare.tsv"
+[5] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T06/whatshap_compare.tsv"
+[6] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T07/whatshap_compare.tsv"
+[7] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T09/whatshap_compare.tsv"
+[8] "Parse whatshap_compare from  assembly/qc/phased_verkko/T2T10/whatshap_compare.tsv"
+Completed WhatsHap compare parsing in: 7.85 seconds
+Starting Merqury parsing at: 2025-07-11 17:47:22.915452
+[1] "Parse merqury from  assembly/qc/phased_verkko/T2T00/merqury.qv"
+[2] "Parse merqury from  assembly/qc/phased_verkko/T2T01/merqury.qv"
+[3] "Parse merqury from  assembly/qc/phased_verkko/T2T04/merqury.qv"
+[4] "Parse merqury from  assembly/qc/phased_verkko/T2T05/merqury.qv"
+[5] "Parse merqury from  assembly/qc/phased_verkko/T2T06/merqury.qv"
+[6] "Parse merqury from  assembly/qc/phased_verkko/T2T07/merqury.qv"
+[7] "Parse merqury from  assembly/qc/phased_verkko/T2T09/merqury.qv"
+[8] "Parse merqury from  assembly/qc/phased_verkko/T2T10/merqury.qv"
+Completed Merqury parsing in: 1.69 seconds
+Starting FindT2T alignment parsing at: 2025-07-11 17:47:24.608197
+ [1] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T00/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [2] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T00/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [3] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T00/T2T_contigs.both_alignment_T2T.txt"      
+ [4] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T01/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [5] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T01/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [6] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T01/T2T_contigs.both_alignment_T2T.txt"      
+ [7] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T04/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [8] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T04/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [9] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T04/T2T_contigs.both_alignment_T2T.txt"      
+[10] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T05/T2T_contigs.haplotype1_alignment_T2T.txt"
+[11] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T05/T2T_contigs.haplotype2_alignment_T2T.txt"
+[12] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T05/T2T_contigs.both_alignment_T2T.txt"      
+[13] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T06/T2T_contigs.haplotype1_alignment_T2T.txt"
+[14] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T06/T2T_contigs.haplotype2_alignment_T2T.txt"
+[15] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T06/T2T_contigs.both_alignment_T2T.txt"      
+[16] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T07/T2T_contigs.haplotype1_alignment_T2T.txt"
+[17] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T07/T2T_contigs.haplotype2_alignment_T2T.txt"
+[18] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T07/T2T_contigs.both_alignment_T2T.txt"      
+[19] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T09/T2T_contigs.haplotype1_alignment_T2T.txt"
+[20] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T09/T2T_contigs.haplotype2_alignment_T2T.txt"
+[21] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T09/T2T_contigs.both_alignment_T2T.txt"      
+[22] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T10/T2T_contigs.haplotype1_alignment_T2T.txt"
+[23] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T10/T2T_contigs.haplotype2_alignment_T2T.txt"
+[24] "Parse findt2t_alignment from  assembly/qc/phased_verkko/T2T10/T2T_contigs.both_alignment_T2T.txt"      
+Completed FindT2T alignment parsing in: 1.63 seconds
+Starting FindT2T motif parsing at: 2025-07-11 17:47:26.239343
+ [1] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T00/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [2] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T00/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [3] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T00/T2T_contigs.both_alignment_T2T.txt"      
+ [4] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T01/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [5] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T01/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [6] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T01/T2T_contigs.both_alignment_T2T.txt"      
+ [7] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T04/T2T_contigs.haplotype1_alignment_T2T.txt"
+ [8] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T04/T2T_contigs.haplotype2_alignment_T2T.txt"
+ [9] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T04/T2T_contigs.both_alignment_T2T.txt"      
+[10] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T05/T2T_contigs.haplotype1_alignment_T2T.txt"
+[11] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T05/T2T_contigs.haplotype2_alignment_T2T.txt"
+[12] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T05/T2T_contigs.both_alignment_T2T.txt"      
+[13] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T06/T2T_contigs.haplotype1_alignment_T2T.txt"
+[14] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T06/T2T_contigs.haplotype2_alignment_T2T.txt"
+[15] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T06/T2T_contigs.both_alignment_T2T.txt"      
+[16] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T07/T2T_contigs.haplotype1_alignment_T2T.txt"
+[17] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T07/T2T_contigs.haplotype2_alignment_T2T.txt"
+[18] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T07/T2T_contigs.both_alignment_T2T.txt"      
+[19] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T09/T2T_contigs.haplotype1_alignment_T2T.txt"
+[20] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T09/T2T_contigs.haplotype2_alignment_T2T.txt"
+[21] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T09/T2T_contigs.both_alignment_T2T.txt"      
+[22] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T10/T2T_contigs.haplotype1_alignment_T2T.txt"
+[23] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T10/T2T_contigs.haplotype2_alignment_T2T.txt"
+[24] "Parse findt2t_motif from  assembly/qc/phased_verkko/T2T10/T2T_contigs.both_alignment_T2T.txt"      
+Completed FindT2T motif parsing in: 1.51 seconds
+Starting Sex determination parsing at: 2025-07-11 17:47:27.751695
 [1] "Parse sex from  "
 Completed Sex determination parsing in: 0.01 seconds
-Starting Gap statistics parsing at: 2025-06-04 21:24:39.212481
-[1] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/gap_stats.haplotype1.n_stats.tsv"
-[2] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/gap_stats.haplotype2.n_stats.tsv"
-[3] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/gap_stats.both.n_stats.tsv"      
-[4] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/gap_stats.haplotype1.n_stats.tsv"
-[5] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/gap_stats.haplotype2.n_stats.tsv"
-[6] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/gap_stats.both.n_stats.tsv"      
-Completed Gap statistics parsing in: 0.04 seconds
-Starting Contig statistics parsing at: 2025-06-04 21:24:39.252109
-[1] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/contig_stats.haplotype1.tsv"
-[2] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/contig_stats.haplotype2.tsv"
-[3] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T00/contig_stats.both.tsv"      
-[4] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/contig_stats.haplotype1.tsv"
-[5] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/contig_stats.haplotype2.tsv"
-[6] "Parse N statistics from  assembly/qc/phased_verkko/GE-MED-T2T04/contig_stats.both.tsv"      
-Completed Contig statistics parsing in: 0.17 seconds
-Starting data binding at:2025-06-04 21:24:39.421723
+Starting Gap statistics parsing at: 2025-07-11 17:47:27.760058
+ [1] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/gap_stats.haplotype1.n_stats.tsv"
+ [2] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/gap_stats.haplotype2.n_stats.tsv"
+ [3] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/gap_stats.both.n_stats.tsv"      
+ [4] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/gap_stats.haplotype1.n_stats.tsv"
+ [5] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/gap_stats.haplotype2.n_stats.tsv"
+ [6] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/gap_stats.both.n_stats.tsv"      
+ [7] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/gap_stats.haplotype1.n_stats.tsv"
+ [8] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/gap_stats.haplotype2.n_stats.tsv"
+ [9] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/gap_stats.both.n_stats.tsv"      
+[10] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/gap_stats.haplotype1.n_stats.tsv"
+[11] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/gap_stats.haplotype2.n_stats.tsv"
+[12] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/gap_stats.both.n_stats.tsv"      
+[13] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/gap_stats.haplotype1.n_stats.tsv"
+[14] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/gap_stats.haplotype2.n_stats.tsv"
+[15] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/gap_stats.both.n_stats.tsv"      
+[16] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/gap_stats.haplotype1.n_stats.tsv"
+[17] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/gap_stats.haplotype2.n_stats.tsv"
+[18] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/gap_stats.both.n_stats.tsv"      
+[19] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/gap_stats.haplotype1.n_stats.tsv"
+[20] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/gap_stats.haplotype2.n_stats.tsv"
+[21] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/gap_stats.both.n_stats.tsv"      
+[22] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/gap_stats.haplotype1.n_stats.tsv"
+[23] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/gap_stats.haplotype2.n_stats.tsv"
+[24] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/gap_stats.both.n_stats.tsv"      
+Completed Gap statistics parsing in: 0.35 seconds
+Starting Contig statistics parsing at: 2025-07-11 17:47:28.115183
+ [1] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/contig_stats.haplotype1.tsv"
+ [2] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/contig_stats.haplotype2.tsv"
+ [3] "Parse N statistics from  assembly/qc/phased_verkko/T2T00/contig_stats.both.tsv"      
+ [4] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/contig_stats.haplotype1.tsv"
+ [5] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/contig_stats.haplotype2.tsv"
+ [6] "Parse N statistics from  assembly/qc/phased_verkko/T2T01/contig_stats.both.tsv"      
+ [7] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/contig_stats.haplotype1.tsv"
+ [8] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/contig_stats.haplotype2.tsv"
+ [9] "Parse N statistics from  assembly/qc/phased_verkko/T2T04/contig_stats.both.tsv"      
+[10] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/contig_stats.haplotype1.tsv"
+[11] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/contig_stats.haplotype2.tsv"
+[12] "Parse N statistics from  assembly/qc/phased_verkko/T2T05/contig_stats.both.tsv"      
+[13] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/contig_stats.haplotype1.tsv"
+[14] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/contig_stats.haplotype2.tsv"
+[15] "Parse N statistics from  assembly/qc/phased_verkko/T2T06/contig_stats.both.tsv"      
+[16] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/contig_stats.haplotype1.tsv"
+[17] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/contig_stats.haplotype2.tsv"
+[18] "Parse N statistics from  assembly/qc/phased_verkko/T2T07/contig_stats.both.tsv"      
+[19] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/contig_stats.haplotype1.tsv"
+[20] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/contig_stats.haplotype2.tsv"
+[21] "Parse N statistics from  assembly/qc/phased_verkko/T2T09/contig_stats.both.tsv"      
+[22] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/contig_stats.haplotype1.tsv"
+[23] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/contig_stats.haplotype2.tsv"
+[24] "Parse N statistics from  assembly/qc/phased_verkko/T2T10/contig_stats.both.tsv"      
+Completed Contig statistics parsing in: 1.49 seconds
+Starting data binding at:2025-07-11 17:47:29.604065
 Data binding completed in: 0 seconds
-Writing output file at:2025-06-04 21:24:39.425151
-Output file written in: 0.31 seconds
-Total execution time: 14.01 seconds
-QC collection completed at: 2025-06-04 21:24:39.73643
+Writing output file at:2025-07-11 17:47:29.60834
+Output file written in: 1.27 seconds
+Total execution time: 36.06 seconds
+QC collection completed at: 2025-07-11 17:47:30.876896
 Summary statistics:
-- Total metrics collected: 2246
+- Total metrics collected: 8984
 - Unique metric types: 105
 - Number of haplotypes: 4
 - Number of data sources: 11
