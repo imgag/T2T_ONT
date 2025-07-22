@@ -1,0 +1,71 @@
+
+rule dip3d_jmatrix_to_hic:
+    input:
+        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+    output:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.jmatrix_to_hic.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools pre {input.jmatrix} {output.hic} chrNameSize.txt > {log} 2>&1
+        '''
+
+rule dip3d_hic_to_cool:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    conda:
+        "../env/hicexplorer.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.hic_to_cool.hp{hp}.log"
+    shell:
+        '''
+        hicConvertFormat -m {input.hic} --inputFormat hic --outputFormat cool -o {output.cool} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_eigs:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        eigs = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.eigs.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_eigs.hp{hp}.log"
+    shell:
+        '''
+        cooltools eigs-cis {input.cool} -o {output.eigs} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_insulation:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        insulation = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.insulation.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_insulation.hp{hp}.log"
+    shell:
+        '''
+        cooltools insulation {input.cool} -o {output.insulation} > {log} 2>&1
+        '''
+
+rule dip3d_juicer_apa:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        apa = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.apa"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.juicer_apa.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools apa {input.hic} {output.apa} > {log} 2>&1
+        '''
+

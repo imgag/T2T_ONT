@@ -83,11 +83,16 @@ def _parse_chrom_freq(data=List[Tuple[str, str]]):
     return df
 
 
-def _parse_summary(data=List[Tuple[str, str]]):
-    """Parse summary."""
+def _parse_summary(data: List[Tuple[str, str]]):
+    """Parse summary, skipping non-numeric values."""
     res = []
     for key, val in data:
-        res.append({"statistic": key, "value": float(val)})
+        try:
+            res.append({"statistic": key, "value": float(val)})
+        except ValueError:
+            # Skip or log non-numeric values
+            print(f"Warning: Skipping non-numeric summary value for '{key}': '{val}'")
+            continue
     return pd.DataFrame(res)
 
 
