@@ -55,8 +55,8 @@ def get_sex_file(wildcards):
 # Small Variants and Indels with dipcall
 rule dipcall:
     input:
-        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"})["assembly"],
+        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"})["assembly"],
         ref_fa=get_ref_genome,
         sex="assembly/qc/phased_{tool}/{asm}/sample_sex.txt",
     output:

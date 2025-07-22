@@ -13,6 +13,7 @@ rule all_merge_dip3d:
     input:
         "assembly/qc/phased_verkko/{asm}/sample_sex.txt",
         expand("analysis_other/dip3d/{{asm}}/4-haplotag/{type}_dip3d_stats.txt", type = ["imputed", "snp-tagged"]),
+        expand("analysis_other/dip3d/{{asm}}/5-pairs/{{asm}}.hp{hp}.pairs", hp = ["1", "2"]),
     #    lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
     output:
         "analysis_other/dip3d/{asm}/dip3d.done"
@@ -503,27 +504,27 @@ rule dip3d_extract_hp_bams:
     input:
         bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"
     output:
-        hp1 = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp1.bam",
-        hp2 = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp2.bam"
+        hp1 = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp1.bam",
+        hp2 = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp2.bam"
     conda:
         "../env/samtools.yml"
     log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.extract_hp_bams.log"
+        "logs/dip3d/4-haplotag/{asm}.{chr}.extract_hp_bams.log"
     shell:
         '''
-        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:1/) {print $0}' | samtools view -b -o {output.hp1} - 2>>{log}
-        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:2/) {print $0}' | samtools view -b -o {output.hp2} - 2>>{log}
+        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:1/) {{print $0}}' | samtools view -b -o {output.hp1} - 2>>{log}
+        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:2/) {{print $0}}' | samtools view -b -o {output.hp2} - 2>>{log}
         '''
 
 rule dip3d_bam_to_paf:
     input:
-        bam = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.bam"
+        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp{hp}.bam"
     output:
-        paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.paf"
+        paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.paf"
     conda:
-        "../env/nodejs.yml"
+        "../env/minimap2.yml"
     log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.bam_to_paf.hp{hp}.log"
+        "logs/dip3d/5-pairs/{asm}.{chr}.bam_to_paf.hp{hp}.log"
     shell:
         '''
         samtools view -h {input.bam} 2>>{log} | paftools.js sam2paf - > {output.paf} 2>>{log}
@@ -531,99 +532,43 @@ rule dip3d_bam_to_paf:
 
 rule dip3d_clean_paf:
     input:
-        paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.paf"
+        paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.paf"
     output:
-        clean_paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.clean.paf"
-    conda:
-        "../env/python.yml"
+        clean_paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.clean.paf"
     log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.clean_paf.hp{hp}.log"
+        "logs/dip3d/5-pairs/{asm}.{chr}.clean_paf.hp{hp}.log"
     shell:
         '''
         awk '$6!="*" && $7!="*"' {input.paf} > {output.clean_paf} 2>>{log}
         '''
 
-rule dip3d_paf_to_jmatrix:
+rule dip3d_paf_to_pairs:
     input:
-        clean_paf = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.clean.paf"
+        clean_paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.clean.paf"
     output:
-        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+        pairs = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.pairs"
     conda:
-        "../env/python.yml"
+        "../env/py_report.yml"
     log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.paf_to_jmatrix.hp{hp}.log"
+        "logs/dip3d/5-pairs/{asm}.{chr}.paf_to_pairs.hp{hp}.log"
     shell:
         '''
-        python scripts/paf2jmatrix.py {input.clean_paf} {output.jmatrix} > {log} 2>&1
+        python scripts/21_paf_to_pairs.py {input.clean_paf} {output.pairs} > {log} 2>&1
         '''
 
-rule dip3d_jmatrix_to_hic:
+rule dip3d_merge_pairs:
     input:
-        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+        pairs = lambda wc: expand("analysis_other/dip3d/{{asm}}/5-pairs/{chr}/hp{{hp}}.pairs", chr = get_chr_list_for_asm(wc))
     output:
-        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
-    conda:
-        "../env/juicer_tools.yml"
+        pairs = "analysis_other/dip3d/{asm}/5-pairs/{asm}.hp{hp}.pairs"
     log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.jmatrix_to_hic.hp{hp}.log"
-    shell:
-        '''
-        juicer_tools pre {input.jmatrix} {output.hic} chrNameSize.txt > {log} 2>&1
-        '''
-
-rule dip3d_hic_to_cool:
-    input:
-        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
-    output:
-        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+        "logs/porec/dip3d_merge_pairs.{asm}.{hp}.log"
     conda:
-        "../env/hicexplorer.yml"
-    log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.hic_to_cool.hp{hp}.log"
+        "../env/pairtools.yml"
     shell:
-        '''
-        hicConvertFormat -m {input.hic} --inputFormat hic --outputFormat cool -o {output.cool} > {log} 2>&1
-        '''
-
-rule dip3d_cooltools_eigs:
-    input:
-        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
-    output:
-        eigs = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.eigs.tsv"
-    conda:
-        "../env/cooltools.yml"
-    log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_eigs.hp{hp}.log"
-    shell:
-        '''
-        cooltools eigs-cis {input.cool} -o {output.eigs} > {log} 2>&1
-        '''
-
-rule dip3d_cooltools_insulation:
-    input:
-        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
-    output:
-        insulation = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.insulation.tsv"
-    conda:
-        "../env/cooltools.yml"
-    log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_insulation.hp{hp}.log"
-    shell:
-        '''
-        cooltools insulation {input.cool} -o {output.insulation} > {log} 2>&1
-        '''
-
-rule dip3d_juicer_apa:
-    input:
-        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
-    output:
-        apa = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.apa"
-    conda:
-        "../env/juicer_tools.yml"
-    log:
-        "logs/dip3d/6-cooler/{asm}.{chr}.juicer_apa.hp{hp}.log"
-    shell:
-        '''
-        juicer_tools apa {input.hic} {output.apa} > {log} 2>&1
-        '''
-
+        """
+        pairtools merge \
+            --output {output.pairs} \
+            {input.pairs} \
+            >{log} 2>&1
+        """

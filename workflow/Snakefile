@@ -27,6 +27,7 @@ include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
 include: "rules/qc_extended.smk"
 include: "rules/dip3d.smk"
+include: "rules/porec.smk"
 
 
 # Data subgroups
@@ -174,6 +175,9 @@ print("----------------------------------------------------------")
 # Initialize dictionaries with empty sets
 unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}
 
+# Track original paths for conflict detection
+path_tracking = {}
+
 # Create dict with unique datasets for run folder lookup
 for dataset_set in datasets.keys():
     for data_type in datasets[dataset_set]:
@@ -186,19 +190,55 @@ for dataset_set in datasets.keys():
                 if leaf_folder == "":
                     print(f"Warning: Empty folder name found in {run_folder}, skipping")
                     continue
+                
+                # Function to add to unique_datasets with conflict resolution
+                def add_to_unique_datasets(data_type_key, leaf_folder, run_folder):
+                    original_leaf = leaf_folder
+                    suffix = 1
+                    
+                    # Check for conflicts and resolve with suffix
+                    while leaf_folder in unique_datasets[data_type_key]:
+                        existing_path = unique_datasets[data_type_key][leaf_folder]
+                        if existing_path != run_folder:
+                            print(f"Warning: Duplicate run folder name '{original_leaf}' found!")
+                            print(f"  Existing: {existing_path}")
+                            print(f"  New: {run_folder}")
+                            print(f"  Adding suffix '_{suffix}' to new entry")
+                            leaf_folder = f"{original_leaf}_{suffix}"
+                            suffix += 1
+                        else:
+                            # Same path, no conflict
+                            break
+                    
+                    unique_datasets[data_type_key][leaf_folder] = run_folder
+                    
+                    # Track for cross-type conflicts
+                    if run_folder in path_tracking:
+                        path_tracking[run_folder].append((data_type_key, leaf_folder))
+                    else:
+                        path_tracking[run_folder] = [(data_type_key, leaf_folder)]
+                    
+                    return leaf_folder
+                
                 if data_type == "UL":
-                    unique_datasets["sup"][leaf_folder] = run_folder
+                    add_to_unique_datasets("sup", leaf_folder, run_folder)
                 elif data_type == "HQ_herro":  # Herro needs to be sup basecalled first
-                    unique_datasets["sup"][leaf_folder] = run_folder
-                    unique_datasets["herro"][leaf_folder] = run_folder
+                    final_leaf = add_to_unique_datasets("sup", leaf_folder, run_folder)
+                    add_to_unique_datasets("herro", final_leaf, run_folder)
                 elif data_type == "HQ_duplex":
-                    unique_datasets["duplex"][leaf_folder] = run_folder
+                    add_to_unique_datasets("duplex", leaf_folder, run_folder)
                 elif data_type == "POREC":
-                    unique_datasets["sup"][leaf_folder] = run_folder
-                    unique_datasets["porec"][leaf_folder] = run_folder
+                    final_leaf = add_to_unique_datasets("sup", leaf_folder, run_folder)
+                    add_to_unique_datasets("porec", final_leaf, run_folder)
                 elif data_type == "APK":
-                    unique_datasets["apk"][leaf_folder] = run_folder
+                    add_to_unique_datasets("apk", leaf_folder, run_folder)
 
+# Check for cross-type conflicts (same path mapped to different run IDs across types)
+for run_folder, mappings in path_tracking.items():
+    if len(set(mapping[1] for mapping in mappings)) > 1:
+        print(f"Warning: Path '{run_folder}' is mapped to different run IDs across data types:")
+        for data_type, run_id in mappings:
+            print(f"  {data_type}: {run_id}")
 
 print("Unique datasets:")
 print(unique_datasets)
