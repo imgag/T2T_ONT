@@ -149,7 +149,6 @@ rule dip3d_calculate_coverage:
         # Calculate per-base coverage with mosdepth
         mosdepth \
             -t {threads} \
-            --no-per-contig \
             {params.prefix} {input.bam} \
             >{log} 2>&1
         """
@@ -551,9 +550,11 @@ rule dip3d_paf_to_pairs:
         "../env/py_report.yml"
     log:
         "logs/dip3d/5-pairs/{asm}.{chr}.paf_to_pairs.hp{hp}.log"
+    params:
+        script = "workflow/scripts/21_paf_to_pairs.py"
     shell:
         '''
-        python scripts/21_paf_to_pairs.py {input.clean_paf} {output.pairs} > {log} 2>&1
+        python {params.script} {input.clean_paf} {output.pairs} > {log} 2>&1
         '''
 
 rule dip3d_merge_pairs:
