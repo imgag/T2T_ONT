@@ -63,6 +63,21 @@ def get_assembly_output(wc):
                 return {
                     "assembly": f"assembly/output/hifiasm/{wc['asm']}/assembly.haplotype2.fasta"
                 }
+        elif wc["tool"] == "repair":
+            if not wc["hp"] or wc["hp"] == "unphased" or wc["hp"] == "both":
+                return {
+                    "assembly": f"analysis_other/assembly_repairer/{wc['asm']}/repaired_assembly.final.fa"
+                }
+            elif wc["hp"] == "haplotype1":
+                raise ValueError(f"Currently no distinct haplotypes for repaired assembly")
+                return {
+                    "assembly": []
+                }
+            elif wc["hp"] == "haplotype2":
+                raise ValueError(f"Currently no distinct haplotypes for repaired assembly")
+                return {
+                    "assembly": []
+                }
         else:
             raise ValueError(f"Invalid tool: {wc['tool']}")
 
@@ -506,6 +521,10 @@ def get_merqury_input(wc):
             ]
     elif wc["tool"] == "hifiasm":
         return f"assembly/output/hifiasm/{wc['asm']}/assembly{wc['polished']}.fasta"
+    elif wc["tool"] == "repair":
+        return f"analysis_other/assembly_repairer/{wc['asm']}/repaired_assembly.final.fa"
+    else :
+        raise ValueError(f"Merqury input: Invalid tool{wc['tool']}")
 
 rule qc_merqury_both:
     input:

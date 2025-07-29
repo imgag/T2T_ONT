@@ -245,7 +245,7 @@ print(unique_datasets)
 
 ### Create collections of QC files. Specify assemblies and assembly methods that should be included.
 def qc_collection(
-    asm, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"]
+    asm, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"], haplotypes = ["haplotype1", "haplotype2", "both"]
 ):
     results_unphased = {}
     results_phased = {}
@@ -317,37 +317,19 @@ def qc_collection(
                 print(f"Warning: Unexpected value type for {key} in QC collection")
 
     if methods_phased:
-        results_phased = {
-                # QV for diploid assembly (merqury)
+        if "both" in haplotypes:
+            results_phased = {
+                # Merqury stats are special (Also account for polished/unpolished and are managed inside the QC re)
                 "merqury_stats": expand(
                     "assembly/qc/{method}/{asm}/merqury.qv",
                     asm=asm,
                     method=methods_phased,
                 ),
-                "paf_stat": expand(
-                    "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
-                "paf_asmstat": expand(
-                    "assembly/qc/{method}/{asm}/qc_paftools_asmstat.{hp}.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
-                "paf_asmgene": expand(
-                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2"],
-                ),
-                "paf_misjoin": expand(
-                    "assembly/qc/{method}/{asm}/qc_paftools_misjoin.{hp}.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
+            }
+
+        # Rules valid for "hap1" and  "hap2"
+        if "haplotype1" in haplotypes and "haplotype2" in haplotypes:
+            results_phased.update({
                 "whatshap_stats": expand(
                     "assembly/qc/{method}/{asm}/whatshap_stats.tsv",
                     asm=asm,
@@ -358,37 +340,66 @@ def qc_collection(
                     asm=asm,
                     method=methods_phased,
                 ),
+                "paf_asmgene": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
                 "merqury_hap_stats": expand(
                     "assembly/qc/{method}/{asm}/merqury.{hp}.qv",
                     asm=asm,
                     method=methods_phased,
                     hp=["haplotype1", "haplotype2"],
                 ),
-                "findt2t_alignment": expand(
-                    "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
-                "findt2t_motif": expand(
-                    "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
-                "gap_stats": expand(
-                    "assembly/qc/{method}/{asm}/gap_stats.{hp}.n_stats.tsv",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"],
-                ),
-                "contig_stats": expand(
-                    "assembly/qc/{method}/{asm}/contig_stats.{hp}.tsv",
-                    asm=asm,
-                    method=methods_phased,
-                    hp=["haplotype1", "haplotype2", "both"]
-                )
-            }
+            })
+        
+        # Rules valid for "hap1", "hap2" and "both"
+        results_phased.update({
+            "paf_stat": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "paf_asmstat": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_asmstat.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "paf_misjoin": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_misjoin.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+
+            "findt2t_alignment": expand(
+                "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "findt2t_motif": expand(
+                "assembly/qc/{method}/{asm}/T2T_contigs.{hp}_alignment_T2T.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "gap_stats": expand(
+                "assembly/qc/{method}/{asm}/gap_stats.{hp}.n_stats.tsv",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "contig_stats": expand(
+                "assembly/qc/{method}/{asm}/contig_stats.{hp}.tsv",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes
+            )
+        })
 
     for key, files in results_phased.items():
         if isinstance(files, list):
@@ -491,6 +502,9 @@ rule all_dip3d:
 #    input:
 #        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
 
+rule all_repair:
+    input:
+        "assembly/qc/qc_repair_test.tsv"
 
 rule all_basecalling:
 # This rule just makes the basecalling for raw datasets, no QC, no downstream processing
@@ -583,6 +597,23 @@ rule collect_qc_method_comparison:
             methods_unphased=["unphased_verkko"]),
     output:
         tsv="assembly/qc/qc_method_comparison.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_method_comparison.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+
+rule collect_qc_repair_test:
+    input:
+        **qc_collection(
+            ["T2T00"],
+            methods_phased=["phased_verkko", "phased_repair"],
+            methods_unphased=[],
+            haplotypes=["both"]),
+    output:
+        tsv="assembly/qc/qc_repair_test.tsv",
     conda:
         "env/R.yml"
     log:

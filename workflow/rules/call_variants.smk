@@ -4,7 +4,7 @@ rule determine_sex:
         bam=lambda wc: re.sub(
             r".chr\d+",
             "",
-            get_assembly_input(wc)["hq"]
+            get_assembly_input(wc)["ul"]
             .replace("assembly/input/", "data/mapped/")
             .replace(".fastq.gz", ".bam"),
         ),
