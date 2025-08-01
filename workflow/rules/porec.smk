@@ -1,13 +1,23 @@
 rule all_porec:
     input:
-        "analysis_other/porec/T2T04/pairs/T2T04.pairs.gz",
-        "analysis_other/porec/T2T04/pairs/T2T04.pairs.stats.html",
-        "analysis_other/porec/T2T04/cooler/T2T04.mcool",
-        expand("analysis_other/porec/T2T04/cooler/T2T04_{res}_corrected.cool", res = config['porec_resolutions']),
-        "analysis_other/porec/T2T04/qc/T2T04_10000_diagnostic.png",
-        "analysis_other/porec/T2T04/qc/plot_vs_counts_10000.png",
-        "analysis_other/porec/T2T04/qc/matrix_correlation_heatmap_10000.png"
+        "analysis_other/porec/T2T04.done"
 
+rule collect_porec:
+    input:
+        expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.gz", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.stats.html", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}.mcool", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}_{res}_corrected.cool", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
+        expand("analysis_other/porec/{{asm}}{hp}/qc/{{asm}}{hp}_10000_diagnostic.png", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_10000.png", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
+        expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000']))
+    output:
+        "analysis_other/porec/{asm}.done"
+    shell:
+        """
+        touch {output}
+        """
 
 def get_all_porec_runs(wc):
     folders = datasets[wc.dataset].get("POREC", [])
@@ -30,6 +40,8 @@ rule merge_pairs:
         pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.pairs.gz", run = get_all_porec_runs(wc))
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    wildcard_constraints:
+        dataset="\w+"
     log:
         "logs/porec/merge_pairs.{dataset}.log"
     conda:
@@ -37,6 +49,30 @@ rule merge_pairs:
     shell:
         """
         pairtools merge \
+            --output {output.pairs} \
+            {input.pairs} \
+            >{log} 2>&1
+        """
+
+rule copy_haplotype_pairs:
+    input:
+        pairs = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/5-pairs/{wc.dataset}.pairs",
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    log:
+        "logs/porec/copy_haplotype_pairs.{dataset}.log"
+    conda:
+        "../env/pairtools.yml"
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2"
+    shell:
+        """
+        pairtools header generate \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --columns {params.columns} \
             --output {output.pairs} \
             {input.pairs} \
             >{log} 2>&1
@@ -197,25 +233,142 @@ rule hic_plot_dist_vs_counts:
             >{log} 2>&1
         """
 
-rule hic_correlate:
+rule hic_find_tads:
     input:
-        cool_files = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
     output:
-        heatmap = "analysis_other/porec/{dataset}/qc/matrix_correlation_heatmap_{resolution}.png",
-        scatterplot = "analysis_other/porec/{dataset}/qc/matrix_correlation_scatter_{resolution}.png"
+        tads = "analysis_other/porec/{dataset}/tad/{dataset}_{resolution}_domains.bed",
+        boundaries = "analysis_other/porec/{dataset}/tad/{dataset}_{resolution}_boundaries.bed",
+        score = "analysis_other/porec/{dataset}/tad/{dataset}_{resolution}_score.bedgraph"
     log:
-        "logs/porec/hic_correlate.{dataset}.{resolution}.log"
+        "logs/porec/hic_find_tads.{dataset}.{resolution}.log"
     params:
-        range_param = config.get("correlation_range", "20000:500000")
+        min_depth = lambda wc: max(config.get("tad_min_depth", 20000), 3*int(wc.resolution)),
+        max_depth = config.get("tad_max_depth", 200000),
+        step = lambda wc: max(config.get("tad_step", 10000), int(wc.resolution)),
+        fdr_threshold = config.get("tad_fdr_threshold", 0.05),
+        delta = config.get("tad_delta", 0.01),
+        correction_factor_threshold = config.get("tad_correction_threshold", 1.5)
     conda:
         "../env/hicexplorer.yml"
     shell:
         """
-        hicCorrelate \
-            --log1p \
-            --matrices {input.cool_files} \
-            --range {params.range_param} \
-            -oh {output.heatmap} \
-            -os {output.scatterplot} \
+        hicFindTADs \
+            --matrix {input.cool} \
+            --outPrefix analysis_other/porec/{wildcards.dataset}/tad/{wildcards.dataset}_{wildcards.resolution} \
+            --minDepth {params.min_depth} \
+            --maxDepth {params.max_depth} \
+            --step {params.step} \
+            --thresholdComparisons {params.fdr_threshold} \
+            --delta {params.delta} \
+            --correctForMultipleTesting fdr \
+            --numberOfProcessors {threads} \
+            >{log} 2>&1
+        """
+
+rule hic_plot_tads:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        tads = "analysis_other/porec/{dataset}/tad/{dataset}_{resolution}_domains.bed"
+    output:
+        plot = "analysis_other/porec/{dataset}/tad/{dataset}_{resolution}_{region}_tads.png"
+    log:
+        "logs/porec/hic_plot_tads.{dataset}.{resolution}.{region}.log"
+    params:
+        region = lambda wc: wc.region,  # e.g., "chr1:1000000-5000000"
+        dpi = config.get("plot_dpi", 300)
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicPlotMatrix \
+            --matrix {input.cool} \
+            --region {params.region} \
+            --outFileName {output.plot} \
+            --dpi {params.dpi} \
+            --clearMaskedBins \
+            >{log} 2>&1
+        """
+
+rule hic_detect_loops:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+    output:
+        loops = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_loops.bedpe",
+    log:
+        "logs/porec/hic_detect_loops.{dataset}.{resolution}.log"
+    params:
+        window_size = config.get("loop_window_size", 10),
+        peak_width = config.get("loop_peak_width", 6),
+        max_loop_distance = config.get("loop_max_distance", 2000000),
+        pvalue_threshold = config.get("loop_pvalue_threshold", 0.05),
+        fdr_threshold = config.get("loop_fdr_threshold", 0.1)
+    threads: 4
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicDetectLoops \
+            --matrix {input.cool} \
+            --outFileName {output.loops} \
+            --windowSize {params.window_size} \
+            --peakWidth {params.peak_width} \
+            --maxLoopDistance {params.max_loop_distance} \
+            --pValuePreselection {params.pvalue_threshold} \
+            --pValue {params.fdr_threshold} \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+rule hic_validate_viewpoints:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        loops = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_loops.bedpe"
+    output:
+        viewpoints = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_viewpoints.txt",
+        interactions = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_interactions.txt"
+    log:
+        "logs/porec/hic_validate_viewpoints.{dataset}.{resolution}.log"
+    params:
+        resolution_val = lambda wc: wc.resolution,
+        interaction_file = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_interactions.txt"
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicValidateLocations \
+            --matrix {input.cool} \
+            --locations {input.loops} \
+            --method loops \
+            --outFileName {output.viewpoints} \
+            --outFileNameInteractions {params.interaction_file} \
+            --resolution {params.resolution_val} \
+            >{log} 2>&1
+        """
+
+rule hic_aggregate_contacts:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        loops = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_loops.bedpe"
+    output:
+        aggregate_plot = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_aggregate_loops.png",
+        aggregate_data = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_aggregate_loops.npz"
+    log:
+        "logs/porec/hic_aggregate_contacts.{dataset}.{resolution}.log"
+    params:
+        range_around_loop = config.get("aggregate_range", 100000),
+        number_of_bins = config.get("aggregate_bins", 30)
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicAggregateContacts \
+            --matrix {input.cool} \
+            --BED {input.loops} \
+            --outFileName {output.aggregate_plot} \
+            --outFilePrefixMatrix analysis_other/porec/{wildcards.dataset}/loops/{wildcards.dataset}_{wildcards.resolution}_aggregate_loops \
+            --range {params.range_around_loop}:{params.range_around_loop} \
+            --numberOfBins {params.number_of_bins} \
+            --plotType 2d \
             >{log} 2>&1
         """

@@ -69,3 +69,58 @@ rule dip3d_juicer_apa:
         juicer_tools apa {input.hic} {output.apa} > {log} 2>&1
         '''
 
+
+rule hic_correlate:
+    input:
+        cool_files = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+    output:
+        heatmap = "analysis_other/porec/{dataset}/qc/matrix_correlation_heatmap_{resolution}.png",
+        scatterplot = "analysis_other/porec/{dataset}/qc/matrix_correlation_scatter_{resolution}.png"
+    log:
+        "logs/porec/hic_correlate.{dataset}.{resolution}.log"
+    params:
+        range_param = config.get("correlation_range", "20000:500000")
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicCorrelate \
+            --log1p \
+            --matrices {input.cool_files} \
+            --range {params.range_param} \
+            -oh {output.heatmap} \
+            -os {output.scatterplot} \
+            >{log} 2>&1
+        """
+
+rule pairtools_parse_bam:
+    input:
+        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam"
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    log:
+        "logs/porec/copy_haplotype_pairs.{dataset}.log"
+    conda:
+        "../env/pairtools.yml"
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction"
+    shell:
+        """
+        pairtools parse2 \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --single-end \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches" \
+            --output {output.pairs} \
+            {input.pairs} \
+            >{log} 2>&1
+        """
