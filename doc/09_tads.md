@@ -25,13 +25,25 @@ Information from source code
 
 pore_c_py/annotate.py should only consider primary alignments. The final bamfile also contains only primary alignments. 
 
-
-
 ### Output files
     .cs.bam : Coordinate sorted bam
     .bs.bam : Name sorted bam
 
-
-
-
 Idea: If a phased VCF is provided ,the output BAM will be haplotagged using Whatshap.
+
+## Doc
+
+**TAD (Topologically Associating Domains) Calling:**
+
+- TADs are large genomic regions (typically 100kb-1Mb) where DNA sequences interact more frequently with each other than with sequences outside the domain
+- TADs represent stable chromatin organization units that are conserved across cell types
+- Used for: understanding chromatin architecture, gene regulation domains, structural variants analysis
+- Method: Uses insulation score calculations to identify domain boundaries
+
+**Loop Calling:**
+- Loops are specific point-to-point contacts between distant genomic loci (e.g., enhancer-promoter interactions)
+- Represent dynamic, often tissue-specific regulatory interactions
+- Used for: identifying regulatory elements, enhancer-promoter pairs, CTCF-mediated loops
+- Method: Identifies statistically significant peak interactions above local background
+
+

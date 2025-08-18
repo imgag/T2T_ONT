@@ -1,0 +1,20 @@
+[2025-08-05 20:35:59.364] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa066_T2T08_05589/25006LRa066_T2T08_05589.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:1" "--index-size" "4G" "data/corrected/25006LRa066_T2T08_05589/25006LRa066_T2T08_05589.trimmed.fastq"
+[2025-08-05 20:36:02.217] [info] Using CUDA devices:
+[2025-08-05 20:36:02.217] [info] cuda:1 - NVIDIA H100 PCIe
+[2025-08-05 20:36:05.412] [info] Using batch size 700669184 on device cuda:1 in inference thread 0.
+terminate called after throwing an instance of 'c10::Error'
+  what():  CUDA error: CUDA-capable device(s) is/are busy or unavailable
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Exception raised from c10_cuda_check_implementation at /builds/machine-learning/torch-builds/pytorch/c10/cuda/CUDAException.cpp:43 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xb0 (0x1054096e9390 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0xfa (0x105400289896 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #2: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, int, bool) + 0x3cc (0x10540968a39c in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #3: c10::cuda::ExchangeDevice(signed char) + 0x65 (0x10540968a7b5 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #4: bin/dorado-1.0.2-linux-x64/bin/dorado() [0xe5ab85]
+frame #5: <unknown function> + 0xecdb4 (0x1053fe0ecdb4 in /lib/x86_64-linux-gnu/libstdc++.so.6)
+frame #6: <unknown function> + 0x9caa4 (0x1053fdc9caa4 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #7: <unknown function> + 0x129c3c (0x1053fdd29c3c in /lib/x86_64-linux-gnu/libc.so.6)
+

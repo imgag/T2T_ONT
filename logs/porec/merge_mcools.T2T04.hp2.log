@@ -1,0 +1,45 @@
+INFO:cooler.cli.zoomify:Recursively aggregating "T2T04.hp2.cool"
+INFO:cooler.cli.zoomify:Writing to "analysis_other/porec/T2T04.hp2/cooler/T2T04.hp2.mcool"
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/bin/cooler", line 10, in <module>
+    sys.exit(cli())
+             ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/click/core.py", line 1442, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/click/core.py", line 1363, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/click/core.py", line 1830, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/click/core.py", line 1226, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/click/core.py", line 794, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/cooler/cli/zoomify.py", line 176, in zoomify
+    clr = api.Cooler(cool_uri)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/cooler/api.py", line 88, in __init__
+    self._refresh()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/cooler/api.py", line 92, in _refresh
+    with open_hdf5(self.store, **self.open_kws) as h5:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/cooler/util.py", line 546, in open_hdf5
+    fh = h5py.File(fp, mode, *args, **kwargs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/h5py/_hl/files.py", line 564, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/963399ac62e7cf2f7e762b6f5877f427_/lib/python3.12/site-packages/h5py/_hl/files.py", line 238, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 56, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 57, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = 'T2T04.hp2.cool', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
