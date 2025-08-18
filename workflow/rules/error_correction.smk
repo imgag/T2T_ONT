@@ -67,6 +67,7 @@ rule dorado_correct_inference:
         dorado=config["dorado"],
         herro_model=config["herro_model"],
     threads: 1
+    priority: 50
     benchmark:
         "runtimes/dorado_correct_inference/{dataset}_{file}.txt"
     log:

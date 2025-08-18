@@ -54,28 +54,36 @@ rule merge_pairs:
             >{log} 2>&1
         """
 
-rule copy_haplotype_pairs:
+rule pairtools_parse_bam:
     input:
-        pairs = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/5-pairs/{wc.dataset}.pairs",
+        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
         chromsize = config['ref'] + ".chrom-size.txt"
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
     log:
-        "logs/porec/copy_haplotype_pairs.{dataset}.log"
+        "logs/porec/pairtools_parse2.{dataset}.log"
     conda:
         "../env/pairtools.yml"
     params:
         assembly = "T2T-CHM13.v2",
-        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2"
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction"
     shell:
         """
-        pairtools header generate \
+        pairtools parse2 \
             --chroms-path {input.chromsize} \
             --assembly {params.assembly} \
-            --columns {params.columns} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --single-end \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches \
             --output {output.pairs} \
-            {input.pairs} \
-            >{log} 2>&1
+            {input.bam} \
+            >{log}
         """
 
 rule merge_pairs_stats:

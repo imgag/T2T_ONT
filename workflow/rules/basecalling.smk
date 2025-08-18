@@ -33,12 +33,13 @@ rule dorado:
         dorado=config["dorado"],
         model=lambda wc: config["dorado_model"][wc.type],
         models_directory=config["models_directory"],
+        model_mod = lambda wc: f"--modified-bases-models {config["dorado_model"]["mod"]}" if wc.type == "sup" else ""
     shell:
         """
         {params.dorado} basecaller \
             {params.model} \
             {input.pod5} \
-            --models-directory {params.models_directory} \
+            --models-directory {params.models_directory} {params.model_mod} \
             --recursive \
             --trim all \
             --output-dir $(dirname {output.done}) \
