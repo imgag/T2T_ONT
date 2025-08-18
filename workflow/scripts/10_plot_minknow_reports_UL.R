@@ -81,14 +81,14 @@ create_plots <- function(data, output_dir) {
                       "to", format(max(data$run_start_time), "%b %Y"))
     ) +
     theme_classic() +
-    scale_fill_manual("Sample", values = c(
+    scale_fill_manual("Sample", values = rep(c(
       "#E69F00", "#56B4E9", "#009E73", 
       "#F0E442", "#0072B2", "#D55E00", 
       "#CC79A7", "#999999",
       "#882255", "#44AA99", "#117733",
       "#332288", "#88CCEE", "#DDCC77",
       "#AA4499", "#6699CC"
-    )) +
+    ), 2)) +
     scale_shape_manual(values = c(
       "SQK-ULK114" = 21,  # Filled circle
       "SQK-LSK114" = 22,  # Filled triangle

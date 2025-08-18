@@ -354,24 +354,25 @@ rule dip3d_stats:
 
 rule dip3d_merge_bam:
     input:
-        bam = expand("analysis_other/dip3d/{{asm}}/4-haplotag/{chr}/tagged.bam", )
+        lambda wc: expand(
+            "analysis_other/dip3d/{asm}/4-haplotag/{chr}/{hp}.bam",
+            asm=wc.asm,
+            hp=wc.hp,
+            chr=get_chr_list_for_asm(wc)
+        )
     output:
-        bam = "analysis_other/dip3d/{{asm}}/4-haplotag/{asm}.hp1.bam"
-    threads:
-        1
+        "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam"
+    threads: 1
     log:
-        "logs/dip3d/merge_bam/{asm}.merge_bam.log"
+        "logs/dip3d/merge_bam/{asm}.{hp}.merge_bam.log"
     conda:
         "../env/samtools.yml"
     shell:
         """
-        samtools merge \
-            -o {output.bam} \
-            --output-fmt BAM \
-            {input.bam} \
-            >{log} 2>&1
-        samtools index {output}
+        samtools merge -o {output} --output-fmt BAM {input} >{log} 2>&1
         """
+
+
 ## Step 5: Chromatin contact modeling (ASHIC)
 # --------------------------------------
 
