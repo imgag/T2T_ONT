@@ -31,7 +31,7 @@ rule determine_sex:
             awk '{{sum+=$4}} END {{print sum/NR}}')
 
         # Determine sex based on Y/X ratio
-        # Ratio > 0.5 indicates male, < 0.2 indicates female
+        # Ratio > 0.5 indicates male
         ratio=$(echo "scale=3; $Y_cov/$X_cov" | bc)
         if (( $(echo "$ratio > 0.5" | bc -l) )); then
             echo "male\t${{ratio}}" > {output.sex}

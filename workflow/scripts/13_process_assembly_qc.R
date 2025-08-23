@@ -33,7 +33,7 @@ process_qc_table <- function(dt, selection = selected_metrics) {
     # Calculate MMC
     dt_mmc <- dt %>%
     # First calculate MMC as before
-    filter(metric %in% c("ref.dup_cnt", "asm.dup_cnt")) %>%
+    filter(metric %in% c("ref_covered", "asm_covered")) %>%
     pivot_wider(
         names_from = metric,
         values_from = value,
@@ -41,8 +41,8 @@ process_qc_table <- function(dt, selection = selected_metrics) {
         ) %>%
         group_by(!!!syms(group_cols)) %>%
     summarise(
-        ref_mc = sum(ref.dup_cnt),
-        asm_mc = sum(asm.dup_cnt),
+        ref_mc = sum(ref_covered),
+        asm_mc = sum(asm_covered),
         value = 1 - asm_mc/ref_mc,
         .groups = 'drop'
     ) %>% 

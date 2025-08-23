@@ -26,3 +26,5 @@ rule medaka_polishing:
         mv -v $(dirname {output})/polishing/consensus.fasta {output} >> {log} 2>&1
         rm -rfv $(dirname {output})/polishing >>{log} 2>&1
         """
+
+#todo add polishing with dorado and check if it performs better then medaka polishing
