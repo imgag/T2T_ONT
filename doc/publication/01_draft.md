@@ -1,8 +1,25 @@
-# Haplotype-phased T2T-3D genomes and genomewide topological domains of 20 individuals
+# Haplotype-phased  T2T-3D genomes and genomewide topological domains of 20 individuals
+
+Comments about title:
+- Labelling the assemblies as T2T is problematic since not all chromosomes are fully gap free. Other authors use: near-compelete, ...
+- We should include nanopore-only
+- 3D Genome is good, topological domains are not relevant enough for title
+
+Suggestion:
+
+Near complete 3D-T2T genomes using Nanopore only for 20 individuals.
+
 
 ## Introduction
 
-Single method, cost efficient by using the same UL library prep and sequencing for the generation of both High qualitiy initial assembly and to spand long stretches.
+Short historic development of T2T assembly. First complete T2T reference genome published was T2T-CHM13 [nurk_complete_2022],  with latest releases of HPGRC.
+Single method, cost efficient by using the same UL library prep and sequencing for the generation of both High qualitiy initial assembly and to spand long stretches. True personalised genome, integrates well with graph based reference genomes. Allows
+
+**Overview assembly method development:**
+Building of reference quality genome assemblies until now made use of a wide variety of sequencing technologies. The first complete T2T reference genome CHM13 [nurk_complete_2022] used accurate PacBio Hifi Sequencing together with Ultra Long Nanopore reads for. These assemblies were refined using optical genome mapping []
+
+**Clinical relevance**
+
 
 ## Methods
 
@@ -32,7 +49,7 @@ Comment Stephan: Detection of variants compared to hg38, SNVs, indels, SVs, MEIs
 
 ### Haplotype-phased 3D genome using Pore-C
 
-Contact maps were generated using the he _wf-pore-c_ pipeline [Publication]. Individual flowcells were first analysed separately, allowing for granular sequencing quality control. Multiple pairs file from the same sample were merged with _pairtools merge_[Publication]. For haplotype separation of the Pore-C reads we adapted the haplotagging approach used by [Chien et al., 2025] to use the phased SNPs obtained by variant calling from the de novo assembly against the reference genomes. As described in the study we used the Falign alignment method to map the Pore-C reads against the reference genome. We reduced the SNP variant set to high quality regions wnere the mapped Pore-C reads have a minimum depth of 5.  Every chromosome was processed individually, inter-chromosomal contacts were not included in the phasing. We haplotagged the Pore-C reads with _dip3d haplotag_ [Publication] and calculated stats with _dip3d stats_.  Finally we merged the individual chromosomes for each sample and extracted separate alignments for every haplotype. For downstream analysis we converted the BAM files to PAF format using _samtools_ and then used a custom script to convert PAF to Pairs format. Now we were able to use the same downstream analysis routines for both the haplotype separated and merged contact pairs files.
+Contact maps were generated using the he _wf-pore-c_ pipeline [Publication]. Individual flowcells were first analysed separately, allowing for granular sequencing quality control. Multiple pairs file from the same sample were merged with _pairtools merge_[Publication]. For haplotype separation of the Pore-C reads we adapted the haplotagging approach used by [Chien et al., 2025] to use the phased SNPs obtained by variant calling from the de novo assembly against the reference genomes. As described in the study we used the Falign alignment method to map the Pore-C reads against the reference genome. We reduced the SNP variant set to high quality regions wnere the mapped Pore-C reads have a minimum depth of 5.  Every chromosome was processed individually, inter-chromosomal contacts were not included in the phasing. We haplotagged the Pore-C reads with _dip3d haplotag_ [Publication] and calculated stats with _dip3d stats_. Finally we merged the individual chromosomes for each sample and extracted separate alignments for every haplotype. For downstream analysis we converted the BAM files to PAF format using _samtools_ and then used a custom script to convert PAF to Pairs format. Now we were able to use the same downstream analysis routines for both the haplotype separated and merged contact pairs files.
 
 
 poreC, TAD computation, phasing, differential TAD analysis between haplotypes, QTL - variants affecting TADs between haplotypes
@@ -54,8 +71,8 @@ Analysis with various tools of the repeat composition, length etc.
 Repeat composition of each telomere, comparison between the different telomeres, and differences between individuals
 
 ### Dark genome - duplicate genes, HLA etc.
-TODO
 
+We should include one example of a duplicate gene cluster/difficult region that can be used with. In T2T-CHM13 for example they looked a the FRG1 paralogs. 
 
 ## Results
 TODO
@@ -67,10 +84,8 @@ Structure see above
 - Optimal assembly approach (Supp Figure)
 
 ## Discussion
-TODO
 
-
-
+Data will be made availabe, can be used as background data or for more detailed analyses.
 
 ## References
 
@@ -95,6 +110,8 @@ This work was supported by grants via the BEGIN program of Baden-Württemberg to
 
 a) For every chromosome, Number of completely assembled haplotypes. Barplot.
 b) Assembly QC Plot for a single sample showing all gaps and assembly errors
+c) Gap Profiling (Location, length), Assembly Error profiling (Classification, Location)
+d) Consistency of assembly QC. Correlation Read quality, amount to Assembly  QC, maybe include the subsampling approach here?
 
 ### Figure 2: Population genetics
 
@@ -104,7 +121,7 @@ c) Pangenome graph
 
 ### Figure 3: 3D Genome
 
-a) TADs heatmap of imprinted gene (SNRPN?), phased, unphased with loops and methylation
+a) TADs heatmap of X chr region, phased, unphased with loops and methylation.
 b) Number of contacts for all samples
 c) Try to find 3D Structure (phased) with ASHIC
 

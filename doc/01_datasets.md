@@ -10,6 +10,8 @@ From Koren et al 2024:
 - Pore-C: https://www.ncbi.nlm.nih.gov/sra/?term=SRR27664048
 - Simplex: https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/0CB931D5-AE0C-4187-8BD8-B3A9C9BFDADE--UCSC_HG002_R1041_Duplex_Dorado/Dorado_v0.1.1/simplex/
 
+This part will not be included in the publication, was only used for setting up the pipeline and testing.
+
 ## Reference genomes
 
 Multiple consotia are working together on a T2T reference genome:
@@ -52,8 +54,6 @@ There is also a [comparison](https://ccb.jhu.edu/T2T.shtml) of the RefSeq alignm
 Annotation of Centromeres:
 https://github.com/hloucks/CenSatData
 Downloaded from https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/annotation/centromere/hg002v1.1_v2.0/hg002v1.1.cenSatv2.0.bed
-
-
 
 
 ## Additional datasets:

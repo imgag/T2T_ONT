@@ -16,6 +16,7 @@ Analysis methods. Collection of informations in instructions for tools used in t
 ### Scaffolding
 
 <https://github.com/zengxiaofei/HapHiC>
+YaHS
 
 ## RepeatMasker
 
