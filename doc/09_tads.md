@@ -31,7 +31,13 @@ pore_c_py/annotate.py should only consider primary alignments. The final bamfile
 
 Idea: If a phased VCF is provided ,the output BAM will be haplotagged using Whatshap.
 
-## Doc
+This approach did not work, would need some additional work.
+
+### 2nd approach: 
+
+Dip3D as explained in the draft publicartion
+
+## Definitions
 
 **TAD (Topologically Associating Domains) Calling:**
 
@@ -45,5 +51,4 @@ Idea: If a phased VCF is provided ,the output BAM will be haplotagged using What
 - Represent dynamic, often tissue-specific regulatory interactions
 - Used for: identifying regulatory elements, enhancer-promoter pairs, CTCF-mediated loops
 - Method: Identifies statistically significant peak interactions above local background
-
 

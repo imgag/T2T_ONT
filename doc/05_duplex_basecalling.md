@@ -1,10 +1,10 @@
 # Duplex basecalling
 
-Observations, Rates, Sample overview
+This is obsolete, HERRO correction has shown to work better then Duplex calling and requires much fewer flowcells.
 
 ## Pipeline
 
-After much work and bugfixing, [duplex pipeline](https://github.com/imgag/NCCT_scripts/duplex) now runs relatively stable on SRV025. It is now fully included into the T2T-Pipeline
+Standalone duplex pipeline: [duplex pipeline](https://github.com/imgag/NCCT_scripts/duplex). It is also fully included into the T2T-Pipeline.
 
 ## Duplex rates
 
@@ -33,4 +33,4 @@ We want to find out the duplex rates, here is a list of "normal" WGS Samples, to
 21073LRa259L2_01At the same time we
 ```
 
-After checking the assembly results on data sequenced by ourselvs we see that Duplex does not really improve assembly quality over Herro corrected reads. We decided to not pursue Duplex calling for the real T2T genomes.
+Duplex rates around 25% on LSK_109 without optimizations.

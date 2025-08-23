@@ -1,6 +1,6 @@
 # Bash commands
 
-Collection of bash commands:
+Collection of instructions to run different parts and tools of the analysis pipelines.
 
 ## MinKnow Read QC
 
