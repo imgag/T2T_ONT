@@ -1,50 +1,9 @@
-[2025-08-05 20:33:36.861] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa048_T2T05_05586/25006LRa048_T2T05_05586.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:0" "--index-size" "4G" "data/corrected/25006LRa048_T2T05_05586/25006LRa048_T2T05_05586.trimmed.fastq"
-[2025-08-05 20:33:40.077] [info] Using CUDA devices:
-[2025-08-05 20:33:40.077] [info] cuda:0 - NVIDIA H100 PCIe
-[2025-08-05 20:33:42.881] [info] Using batch size 28 on device cuda:0 in inference thread 0.
-[2025-08-05 20:33:42.881] [info] Using batch size 28 on device cuda:0 in inference thread 1.
-[2025-08-05 20:33:42.881] [info] Using batch size 28 on device cuda:0 in inference thread 2.
-[2025-08-05 20:56:15.749] [info] Starting
-[2025-08-06 04:06:03.353] [warning] Caught Torch error 'The following operation failed in the TorchScript interpreter.
-Traceback of TorchScript, serialized code (most recent call last):
-  File "code/__torch__/transformer.py", line 26, in forward
-      _2 = torch.select(x2, 0, i)
-      _3 = annotate(List[Optional[Tensor]], [tp])
-      _4 = torch.append(batch, torch.index(_2, _3))
-                               ~~~~~~~~~~~ <--- HERE
-    x3 = _0(batch, True, 0., )
-    _5 = __torch__.transformer.create_mask(lengths, )
-
-Traceback of TorchScript, original code (most recent call last):
-  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 40, in forward
-        x = x.squeeze(-1).transpose(1, 2)  # [B, L, 256]
-    
-        batch = [x[i, tp] for i, tp in enumerate(target_positions)]
-                 ~~~~~~~~ <--- HERE
-        x = nn.utils.rnn.pad_sequence(batch, True)
-        mask = create_mask(lengths).to(device=x.device)
-RuntimeError: CUDA error: unspecified launch failure
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-
-', clearing CUDA cache and retrying.
-terminate called after throwing an instance of 'c10::Error'
-  what():  CUDA error: unspecified launch failure
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-
-Exception raised from c10_cuda_check_implementation at /builds/machine-learning/torch-builds/pytorch/c10/cuda/CUDAException.cpp:43 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xb0 (0xb9165bc5390 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0xfa (0xb915c765896 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #2: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, int, bool) + 0x3cc (0xb9165b6639c in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #3: <unknown function> + 0xb245e1d (0xb9165b41e1d in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #4: <unknown function> + 0xb24677e (0xb9165b4277e in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #5: <unknown function> + 0xb259f98 (0xb9165b55f98 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #6: bin/dorado-1.0.2-linux-x64/bin/dorado() [0x45278c]
-frame #7: bin/dorado-1.0.2-linux-x64/bin/dorado() [0xe5a5c0]
-frame #8: <unknown function> + 0xecdb4 (0xb915a6ecdb4 in /lib/x86_64-linux-gnu/libstdc++.so.6)
-frame #9: <unknown function> + 0x9caa4 (0xb915a29caa4 in /lib/x86_64-linux-gnu/libc.so.6)
-frame #10: <unknown function> + 0x129c3c (0xb915a329c3c in /lib/x86_64-linux-gnu/libc.so.6)
-
+[2025-08-26 21:51:27.733] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa048_T2T05_05586/25006LRa048_T2T05_05586.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:1" "--index-size" "4G" "data/corrected/25006LRa048_T2T05_05586/25006LRa048_T2T05_05586.trimmed.fastq"
+[2025-08-26 21:51:27.941] [info] Using CUDA devices:
+[2025-08-26 21:51:27.941] [info] cuda:1 - NVIDIA H100 PCIe
+[2025-08-26 21:51:27.998] [info] Using batch size 28 on device cuda:1 in inference thread 0.
+[2025-08-26 21:51:27.998] [info] Using batch size 28 on device cuda:1 in inference thread 1.
+[2025-08-26 21:51:27.999] [info] Using batch size 28 on device cuda:1 in inference thread 2.
+[2025-08-26 21:51:28.002] [info] Starting
+[2025-08-27 02:37:52.457] [info] Number of reads submitted for correction: 1737190
+[2025-08-27 02:37:52.457] [info] Finished
