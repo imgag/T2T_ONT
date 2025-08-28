@@ -14,7 +14,7 @@ status Update
 
 ### Sequencing progress
 
-
+![bg right:60% h:600](../img/minknow_metrics_UL_aug.png)
 
 --- 
 
