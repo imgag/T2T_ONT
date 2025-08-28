@@ -154,6 +154,7 @@ rule verkko_scaffold:
             --nano {input.ul} \
             --porec {input.porec} \
             --local-memory 300 \
+            --cns-run 24 256 6 \
             --ahc-run 24 256 6 \
             --fhc-run 24 256 6 \
             --mashmap {params.mashmap} \
