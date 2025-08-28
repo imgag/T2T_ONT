@@ -26,4 +26,4 @@ Create plots:
 
 ```bash
 Rscript workflow/scripts/10_plot_minknow_reports.R doc/run_reports/run_summary.csv doc/tables/flowcell_biological_sample.tsv doc/img/
-``
+```

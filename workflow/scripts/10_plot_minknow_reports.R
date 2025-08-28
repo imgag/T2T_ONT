@@ -1,18 +1,27 @@
-library(tidyverse)
-library(lubridate)
-library(scales)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(lubridate)
+  library(scales)
+})
 
 #' Read and process MinKNOW report data
 #' @param csv_path Path to the CSV file containing parsed reports
 #' @param bio_sample_path Path to the biological sample TSV file
+#' @param filter_ul Logical, whether to filter for ULK114 kit only
 #' @return Processed tibble with merged flowcell data
-process_report_data <- function(csv_path, bio_sample_path) {
+process_report_data <- function(csv_path, bio_sample_path, filter_ul = FALSE) {
   # Read biological sample information
-  bio_samples <- read_tsv(bio_sample_path) %>%
+  bio_samples <- read_tsv(bio_sample_path, show_col_types = FALSE) %>%
     select(name_external, run_flowcell_id)
   
-  # Read CSV and convert times to datetime
-  data <- read_csv(csv_path) %>%
+  # Read CSV and optionally filter for UL kit
+  data <- read_csv(csv_path, show_col_types = FALSE)
+  
+  if (filter_ul) {
+    data <- data %>% filter(kit_type == "SQK-ULK114")
+  }
+  
+  data <- data %>%
     # Group by flowcell_id and merge metrics
     group_by(flow_cell_id, kit_type) %>%
     summarise(
@@ -32,20 +41,36 @@ process_report_data <- function(csv_path, bio_sample_path) {
       run_time_hours = elapsed_time_seconds / 3600,
       # Set default name for any unmatched flowcells
       name_external = if_else(is.na(name_external), "Unknown", name_external)
-    ) %>%
-    # Create long format data for faceting
-    pivot_longer(
-      cols = c(estimated_n50, bases_called_pass, reads_called_pass, run_time_hours),
-      names_to = "metric",
-      values_to = "value"
-    ) %>%
-    # Add nice labels for facets
-    mutate(
-      metric = factor(metric,
-        levels = c("estimated_n50", "bases_called_pass", "reads_called_pass", "run_time_hours"),
-        labels = c("N50", "Bases Called (Pass)", "Reads Called (Pass)", "Run Time (hours)")
-      )
     )
+  
+  # Create different long format data based on filter
+  if (filter_ul) {
+    data <- data %>%
+      pivot_longer(
+        cols = c(estimated_n50, bases_called_pass),
+        names_to = "metric",
+        values_to = "value"
+      ) %>%
+      mutate(
+        metric = factor(metric,
+          levels = c("estimated_n50", "bases_called_pass"),
+          labels = c("N50", "Bases Called (Pass)")
+        )
+      )
+  } else {
+    data <- data %>%
+      pivot_longer(
+        cols = c(estimated_n50, bases_called_pass, reads_called_pass, run_time_hours),
+        names_to = "metric",
+        values_to = "value"
+      ) %>%
+      mutate(
+        metric = factor(metric,
+          levels = c("estimated_n50", "bases_called_pass", "reads_called_pass", "run_time_hours"),
+          labels = c("N50", "Bases Called (Pass)", "Reads Called (Pass)", "Run Time (hours)")
+        )
+      )
+  }
   
   return(data)
 }
@@ -53,13 +78,21 @@ process_report_data <- function(csv_path, bio_sample_path) {
 #' Create plots for MinKNOW report data
 #' @param data Processed report data
 #' @param output_dir Directory to save plots
-create_plots <- function(data, output_dir) {
+#' @param suffix Suffix for output files
+create_plots <- function(data, output_dir, suffix = "") {
+  # Determine number of columns based on number of metrics
+  n_metrics <- length(unique(data$metric))
+  ncol_value <- if (n_metrics <= 2) 2 else 2
+  
+  # Adjust plot dimensions based on number of metrics
+  plot_height <- if (n_metrics <= 2) 6 else 8
+  
   # Create faceted plot
   p <- ggplot(data, aes(x = run_start_time, y = value, 
                         fill = name_external, 
                         shape = kit_type)) +
     geom_point(alpha = 0.7, size = 3) +
-    facet_wrap(~metric, scales = "free_y", ncol = 2) +
+    facet_wrap(~metric, scales = "free_y", ncol = ncol_value) +
     # Add both month and week ticks
     scale_x_datetime(
       # Major breaks for months with labels
@@ -75,19 +108,20 @@ create_plots <- function(data, output_dir) {
       y = NULL,
       fill = "Sample",
       shape = "Kit Type",
-      title = "MinKNOW Sequencing Run Metrics",
+      title = paste("MinKNOW Sequencing Run Metrics", 
+                   if(suffix == "_UL") "(ULK114 Kit Only)" else ""),
       subtitle = paste("Data from", format(min(data$run_start_time), "%b %Y"),
                       "to", format(max(data$run_start_time), "%b %Y"))
     ) +
     theme_classic() +
-    scale_fill_manual("Sample", values = c(
+    scale_fill_manual("Sample", values = rep(c(
       "#E69F00", "#56B4E9", "#009E73", 
       "#F0E442", "#0072B2", "#D55E00", 
       "#CC79A7", "#999999",
       "#882255", "#44AA99", "#117733",
       "#332288", "#88CCEE", "#DDCC77",
       "#AA4499", "#6699CC"
-    )) +
+    ), 2)) +
     scale_shape_manual(values = c(
       "SQK-ULK114" = 21,  # Filled circle
       "SQK-LSK114" = 22,  # Filled triangle
@@ -107,19 +141,19 @@ create_plots <- function(data, output_dir) {
       plot.title = element_text(size = 16, face = "bold")
     )
   
-  # Save plots
+  # Save plots with suffix
   ggsave(
-    file.path(output_dir, "minknow_metrics.pdf"),
+    file.path(output_dir, paste0("minknow_metrics", suffix, ".pdf")),
     p,
     width = 12,
-    height = 8
+    height = plot_height
   )
   
   ggsave(
-    file.path(output_dir, "minknow_metrics.png"),
+    file.path(output_dir, paste0("minknow_metrics", suffix, ".png")),
     p,
-    width = 15,
-    height = 12,
+    width = 12,
+    height = plot_height,
     dpi = 300
   )
 }
@@ -133,7 +167,9 @@ if (sys.nframe() == 0) {
     cat("Usage: Rscript plot_minknow_reports.R <csv_file> <bio_sample_file> <output_dir>
     
 Description:
-  Create plots from MinKNOW report data
+  Create plots from MinKNOW report data. Generates two sets of plots:
+  - All data (minknow_metrics.pdf/png)
+  - ULK114 kit only (minknow_metrics_UL.pdf/png)
   
 Arguments:
   csv_file         Path to the CSV file containing parsed report data
@@ -154,9 +190,18 @@ Arguments:
   # Create output directory if it doesn't exist
   dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
   
-  # Process data and create plots
-  data <- process_report_data(csv_path, bio_sample_path)
-  create_plots(data, output_dir)
+  # Process data and create plots for all data
+  cat("Creating plots for all data...\n")
+  data_all <- process_report_data(csv_path, bio_sample_path, filter_ul = FALSE)
+  create_plots(data_all, output_dir, suffix = "")
+  
+  # Process data and create plots for UL kit only
+  cat("Creating plots for ULK114 kit only...\n")
+  data_ul <- process_report_data(csv_path, bio_sample_path, filter_ul = TRUE)
+  create_plots(data_ul, output_dir, suffix = "_UL")
   
   cat("Created plots in", output_dir, "\n")
+  cat("Files created:\n")
+  cat("  - minknow_metrics.pdf/png (all data)\n")
+  cat("  - minknow_metrics_UL.pdf/png (ULK114 only)\n")
 }
