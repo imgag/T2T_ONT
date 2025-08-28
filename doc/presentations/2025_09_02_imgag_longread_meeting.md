@@ -12,15 +12,39 @@ status Update
 
 ---
 
-### Sequencing progress
+![bg h:600](../img/minknow_metrics_UL_aug2.png)
 
-![bg right:60% h:600](../img/minknow_metrics_UL_aug.png)
+---
 
---- 
+### Assembly progress
 
-### Analysis progress
+<style scoped>
+table {
+  font-size: 15px;
+}
+</style>
 
-Assemblies, probably still running?
+| Assembly | Status | UL Flowcells |
+|----------|--------|-------------------|
+| T2T00 | ✅ finished | 3 |
+| T2T01 | ✅ finished | 4 |
+| T2T02 | 🚀 started | 4 |
+| T2T03 | 🚀 started | 3 |
+| T2T04 | ✅ finished | 6 |
+| T2T04_1 | 🚀 started | 5 |
+| T2T04_2 | 🚀 started | 6 |
+| T2T05 | 🚀 started | 3 |
+| T2T06 | 🚀 started | 3 |
+| T2T07 | 🚀 started | 3 |
+| T2T08 | 🚀 started | 3 |
+| T2T09 | 🚀 started | 3 |
+| T2T10 | 🚀 started | 4 |
+| T2T11 | 🚀 started | 3 |
+| T2T12 | 🔄 basecalling | 3 |
+| T2T13 | 🚀 started | 3 |
+| T2T14 | 🔄 basecalling | 4 |
+| T2T15 | 🔄 basecalling | 3 |
+| T2T16 | 🔄 basecalling | 3 |
 
 ---
 

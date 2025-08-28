@@ -1,20 +1,9 @@
-[2025-08-06 03:28:30.162] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa083_T2T11_05484/25006LRa083_T2T11_05484.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:1" "--index-size" "4G" "data/corrected/25006LRa083_T2T11_05484/25006LRa083_T2T11_05484.trimmed.fastq"
-[2025-08-06 03:28:30.305] [info] Using CUDA devices:
-[2025-08-06 03:28:30.305] [info] cuda:1 - NVIDIA H100 PCIe
-[2025-08-06 03:28:30.421] [info] Using batch size 700669184 on device cuda:1 in inference thread 0.
-terminate called after throwing an instance of 'c10::Error'
-  what():  CUDA error: CUDA-capable device(s) is/are busy or unavailable
-CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1
-Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
-
-Exception raised from c10_cuda_check_implementation at /builds/machine-learning/torch-builds/pytorch/c10/cuda/CUDAException.cpp:43 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xb0 (0xf2ab9c05390 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0xfa (0xf2ab07a5896 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #2: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, int, bool) + 0x3cc (0xf2ab9ba639c in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #3: c10::cuda::ExchangeDevice(signed char) + 0x65 (0xf2ab9ba67b5 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/bin/../lib/libdorado_torch_lib.so)
-frame #4: bin/dorado-1.0.2-linux-x64/bin/dorado() [0xe5ab85]
-frame #5: <unknown function> + 0xecdb4 (0xf2aae6ecdb4 in /lib/x86_64-linux-gnu/libstdc++.so.6)
-frame #6: <unknown function> + 0x9caa4 (0xf2aae29caa4 in /lib/x86_64-linux-gnu/libc.so.6)
-frame #7: <unknown function> + 0x129c3c (0xf2aae329c3c in /lib/x86_64-linux-gnu/libc.so.6)
-
+[2025-08-26 15:38:11.979] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa083_T2T11_05484/25006LRa083_T2T11_05484.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:1" "--index-size" "4G" "data/corrected/25006LRa083_T2T11_05484/25006LRa083_T2T11_05484.trimmed.fastq"
+[2025-08-26 15:38:12.212] [info] Using CUDA devices:
+[2025-08-26 15:38:12.212] [info] cuda:1 - NVIDIA H100 PCIe
+[2025-08-26 15:38:12.306] [info] Using batch size 28 on device cuda:1 in inference thread 0.
+[2025-08-26 15:38:12.306] [info] Using batch size 28 on device cuda:1 in inference thread 1.
+[2025-08-26 15:38:12.306] [info] Using batch size 28 on device cuda:1 in inference thread 2.
+[2025-08-26 15:42:47.652] [info] Starting
+[2025-08-26 17:44:30.739] [info] Number of reads submitted for correction: 951563
+[2025-08-26 17:44:30.739] [info] Finished

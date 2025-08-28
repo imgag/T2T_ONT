@@ -1,9 +1,15 @@
 # Tasks
 
+## Basecalling
+
+- [ ] Redo 25006LRa108_T2T14_05592 (+Backup)
+- [ ] PoreC batch mid August
+
 ## Assembly
 
 - [ ] Benchmark Hifiasm with YAHS scaffolding,= use synthetic pairs output from _wf-pore-c_
 - [ ] Speed Up Verkko Scaffolding step.
+- [ ] Assembly T2T0
 
 ## Assembly Quality
 
