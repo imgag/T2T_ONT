@@ -1,5 +1,8 @@
 # Done tasks
 
+- [X] Check QC Input pipeline for Merqury / Pafstats.
+- [X] Aggregate Read and Mapping stats from `wf-PoreC` into a table
+- [X] Get sample IDs from NGSD, create MySQL connectiob
 - [X] Create bed file with RepeatMasker categories
 - [X] Add number of N in final assembly to QC
 - [X] Add NucFlag to pipeline
