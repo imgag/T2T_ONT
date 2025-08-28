@@ -85,8 +85,8 @@ rule dipcall:
 rule hapdiff:
     input:
         ref_fa=get_ref_genome,
-        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"}),
-        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"}),
+        pat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype1"})["assembly"],
+        mat_fa=lambda wc: get_assembly_output({**wc, "hp": "haplotype2"})["assembly"],
     output:
         vcf="assembly/variants/{asm}/phased_{tool}/hapdiff_phased.vcf.gz",
     log:
