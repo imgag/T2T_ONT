@@ -54,7 +54,7 @@ rule dip3d_map_reads:
         fa = config['ref'],
         bed = config['ref'] + ".repeat_regions.bed"
     output: 
-        bam = "analysis_other/dip3d/{asm}/1-falign/porec.fragments.bam"
+        bam = temp("analysis_other/dip3d/{asm}/1-falign/porec.fragments.bam")
     params:
         falign = config['falign']
     threads: 30
@@ -83,7 +83,7 @@ rule dip3d_split_bams:
     input:
         bam = rules.dip3d_map_reads.output.bam
     output:
-        "analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.bam"
+        temp("analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.bam")
     params:
         dip3d = config['dip3d'],
     threads: 16
@@ -104,7 +104,7 @@ rule dip3d_select_chr_snp_bam:
     input:
         bam_dirs = "analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.bam"
     output:
-        bam = "analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.hq.bam"
+        bam = temp("analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.hq.bam")
     params:
         dip3d = config['dip3d'],
         l = 100,
@@ -312,7 +312,7 @@ rule dip3d_bam_haplotag:
         vcf = "analysis_other/dip3d/{asm}/3-snp/{chr}/{chr}.snp.whatshap.vcf",
         bam = "analysis_other/dip3d/{asm}/2-chr-bams/{chr}/{chr}.bam"
     output:
-        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam",
+        bam = temp("analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"),
         imputed_frag_list = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/imputed-frag-hap-list",
         tagged_frag_list = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/snp-tagged-frag-hap-list"
     params:
@@ -361,7 +361,7 @@ rule dip3d_merge_bam:
             chr=get_chr_list_for_asm(wc)
         )
     output:
-        "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam"
+        temp("analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam")
     threads: 1
     log:
         "logs/dip3d/merge_bam/{asm}.{hp}.merge_bam.log"
@@ -513,83 +513,5 @@ rule dip3d_run_ashic:
             -i {input}/ashic_read_pair_{wildcards.chr}_{params.res}.pickle \
             -o $(dirname {output.result}) \
             --model {params.model} \
-            >{log} 2>&1
-        """
-
-# Step 6: Convert haplotagged bam to file suitable for downstream  analysis
-# -----------------------------------------------------
-
-rule dip3d_extract_hp_bams:
-    input:
-        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"
-    output:
-        hp1 = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp1.bam",
-        hp2 = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp2.bam"
-    conda:
-        "../env/samtools.yml"
-    log:
-        "logs/dip3d/4-haplotag/{asm}.{chr}.extract_hp_bams.log"
-    shell:
-        '''
-        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:1/) {{print $0}}' | samtools view -b -o {output.hp1} - 2>>{log}
-        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:2/) {{print $0}}' | samtools view -b -o {output.hp2} - 2>>{log}
-        '''
-
-rule dip3d_bam_to_paf:
-    input:
-        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp{hp}.bam"
-    output:
-        paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.paf"
-    conda:
-        "../env/minimap2.yml"
-    log:
-        "logs/dip3d/5-pairs/{asm}.{chr}.bam_to_paf.hp{hp}.log"
-    shell:
-        '''
-        samtools view -h {input.bam} 2>>{log} | paftools.js sam2paf - > {output.paf} 2>>{log}
-        '''
-
-rule dip3d_clean_paf:
-    input:
-        paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.paf"
-    output:
-        clean_paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.clean.paf"
-    log:
-        "logs/dip3d/5-pairs/{asm}.{chr}.clean_paf.hp{hp}.log"
-    shell:
-        '''
-        awk '$6!="*" && $7!="*"' {input.paf} > {output.clean_paf} 2>>{log}
-        '''
-
-rule dip3d_paf_to_pairs:
-    input:
-        clean_paf = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.clean.paf"
-    output:
-        pairs = "analysis_other/dip3d/{asm}/5-pairs/{chr}/hp{hp}.pairs"
-    conda:
-        "../env/py_report.yml"
-    log:
-        "logs/dip3d/5-pairs/{asm}.{chr}.paf_to_pairs.hp{hp}.log"
-    params:
-        script = "workflow/scripts/21_paf_to_pairs.py"
-    shell:
-        '''
-        python {params.script} {input.clean_paf} {output.pairs} > {log} 2>&1
-        '''
-
-rule dip3d_merge_pairs:
-    input:
-        pairs = lambda wc: expand("analysis_other/dip3d/{{asm}}/5-pairs/{chr}/hp{{hp}}.pairs", chr = get_chr_list_for_asm(wc))
-    output:
-        pairs = "analysis_other/dip3d/{asm}/5-pairs/{asm}.hp{hp}.pairs"
-    log:
-        "logs/porec/dip3d_merge_pairs.{asm}.{hp}.log"
-    conda:
-        "../env/pairtools.yml"
-    shell:
-        """
-        pairtools merge \
-            --output {output.pairs} \
-            {input.pairs} \
             >{log} 2>&1
         """

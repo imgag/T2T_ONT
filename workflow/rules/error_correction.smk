@@ -11,7 +11,7 @@ rule dorado_trim:
     input:
         get_dorado_trim_input,
     output:
-        fastq="data/corrected/{dataset}/{file}.trimmed.fastq",
+        fastq=temp("data/corrected/{dataset}/{file}.trimmed.fastq"),
     params:
         dorado=config["dorado"],
         seq_kit=config["seq_kit"]
@@ -35,7 +35,7 @@ rule dorado_correct_mapping:
     input:
         fastq=rules.dorado_trim.output.fastq,
     output:
-        paf="data/corrected/{dataset}/{file}.ovl.paf",
+        paf=temp("data/corrected/{dataset}/{file}.ovl.paf"),
     params:
         dorado=config["dorado"],
         herro_model=config["herro_model"],
