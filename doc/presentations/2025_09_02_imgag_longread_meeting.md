@@ -15,12 +15,12 @@ status Update
 ![bg h:600](../img/minknow_metrics_UL_aug2.png)
 
 ---
-
-### Assembly progress
+Assembly progress
 
 <style scoped>
 table {
-  font-size: 15px;
+    font-size: 13.5px;
+    margin: 0 auto;
 }
 </style>
 
@@ -45,9 +45,11 @@ table {
 | T2T14 | 🔄 basecalling | 4 |
 | T2T15 | 🔄 basecalling | 3 |
 | T2T16 | 🔄 basecalling | 3 |
+| T2T17 | 🔄 basecalling | 3 |
+| T2T18 | 🔄 basecalling | 3 |
+| T2T19 | 🔄 basecalling | 3 |
 
 ---
-
 ### Clinically relevant genes, dark genome
 
 Highlight clinically relevant genes?

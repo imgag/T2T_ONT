@@ -1,0 +1,1556 @@
+Launching release v2.2.1
+Using snakemake 7.32.4.
+6a3f32e8028bc796ac407fffbd24b_/bin/verkko: 21: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 25: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 33: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 37: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 41: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 45: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 49: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 60: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 64: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 73: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 77: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 81: [[: not found
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 48
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=300
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineTipsONT                     1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             18
+
+Select jobs to execute...
+
+[Mon Sep  1 05:49:08 2025]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 8
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Mon Sep  1 05:49:08 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/T2T02/T2T02.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 10
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Mon Sep  1 05:49:08 2025]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/T2T02/T2T02.HQ_herro.50x.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Mon Sep  1 05:49:08 2025]
+Finished job 8.
+1 of 18 steps (6%) done
+[Mon Sep  1 06:19:19 2025]
+Finished job 7.
+2 of 18 steps (11%) done
+Select jobs to execute...
+
+[Mon Sep  1 06:19:19 2025]
+rule fixErrors:
+    input: 0-correction/hifi.seqStore, emptyfile, emptyfile, emptyfile
+    output: 0-correction/red.red, 0-correction/hifi-corrected.fasta.gz
+    log: 0-correction/fixErrors.err
+    jobid: 6
+    reason: Missing output files: 0-correction/hifi-corrected.fasta.gz; Input files updated by another job: emptyfile, 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=16, time_h=4
+
+[Mon Sep  1 06:34:45 2025]
+Finished job 6.
+3 of 18 steps (17%) done
+Select jobs to execute...
+
+[Mon Sep  1 06:34:45 2025]
+localrule correctHiFi:
+    input: 0-correction/hifi-corrected.fasta.gz
+    output: hifi-corrected.fasta.gz
+    jobid: 5
+    reason: Missing output files: hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi-corrected.fasta.gz
+    resources: tmpdir=/tmp, n_cpus=1, mem_gb=1, time_h=1
+
+[Mon Sep  1 06:34:45 2025]
+Finished job 5.
+4 of 18 steps (22%) done
+Select jobs to execute...
+
+[Mon Sep  1 06:34:45 2025]
+rule buildGraph:
+    input: hifi-corrected.fasta.gz
+    output: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    log: 1-buildGraph/buildGraph.err
+    jobid: 4
+    reason: Missing output files: 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf; Input files updated by another job: hifi-corrected.fasta.gz
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=72, time_h=72
+
+[Mon Sep  1 06:35:28 2025]
+Finished job 10.
+5 of 18 steps (28%) done
+[Mon Sep  1 14:21:48 2025]
+Finished job 4.
+6 of 63 steps (10%) done
+Select jobs to execute...
+
+[Mon Sep  1 14:21:48 2025]
+rule processGraph:
+    input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
+    output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
+    log: 2-processGraph/process.err
+    jobid: 3
+    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa; Input files updated by another job: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Mon Sep  1 15:00:18 2025]
+Finished job 3.
+7 of 63 steps (11%) done
+Select jobs to execute...
+
+[Mon Sep  1 15:00:18 2025]
+rule indexGraph:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/graph.index, 3-align/diploid.index
+    log: 3-align/index.err
+    jobid: 22
+    reason: Missing output files: 3-align/graph.index, 3-align/diploid.index; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=127, time_h=24
+
+[Mon Sep  1 17:05:07 2025]
+Finished job 22.
+8 of 63 steps (13%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:05:07 2025]
+rule alignONT:
+    input: 3-align/split/ont040.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned040.gaf
+    log: 3-align/aligned040.err
+    jobid: 61
+    reason: Missing output files: 3-align/aligned040.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=040
+    threads: 24
+    resources: tmpdir=/tmp, job_id=40, n_cpus=24, mem_gb=46, time_h=24
+
+
+[Mon Sep  1 17:05:07 2025]
+rule alignONT:
+    input: 3-align/split/ont007.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned007.gaf
+    log: 3-align/aligned007.err
+    jobid: 28
+    reason: Missing output files: 3-align/aligned007.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=007
+    threads: 24
+    resources: tmpdir=/tmp, job_id=7, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:23:07 2025]
+Finished job 28.
+9 of 63 steps (14%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:23:07 2025]
+rule alignONT:
+    input: 3-align/split/ont017.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned017.gaf
+    log: 3-align/aligned017.err
+    jobid: 38
+    reason: Missing output files: 3-align/aligned017.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=017
+    threads: 24
+    resources: tmpdir=/tmp, job_id=17, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:23:45 2025]
+Finished job 61.
+10 of 63 steps (16%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:23:45 2025]
+rule alignONT:
+    input: 3-align/split/ont003.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned003.gaf
+    log: 3-align/aligned003.err
+    jobid: 24
+    reason: Missing output files: 3-align/aligned003.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=003
+    threads: 24
+    resources: tmpdir=/tmp, job_id=3, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:40:36 2025]
+Finished job 38.
+11 of 63 steps (17%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:40:36 2025]
+rule alignONT:
+    input: 3-align/split/ont031.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned031.gaf
+    log: 3-align/aligned031.err
+    jobid: 52
+    reason: Missing output files: 3-align/aligned031.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=031
+    threads: 24
+    resources: tmpdir=/tmp, job_id=31, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:41:47 2025]
+Finished job 24.
+12 of 63 steps (19%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:41:47 2025]
+rule alignONT:
+    input: 3-align/split/ont038.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned038.gaf
+    log: 3-align/aligned038.err
+    jobid: 59
+    reason: Missing output files: 3-align/aligned038.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=038
+    threads: 24
+    resources: tmpdir=/tmp, job_id=38, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:59:38 2025]
+Finished job 52.
+13 of 63 steps (21%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:59:39 2025]
+rule alignONT:
+    input: 3-align/split/ont011.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned011.gaf
+    log: 3-align/aligned011.err
+    jobid: 32
+    reason: Missing output files: 3-align/aligned011.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=011
+    threads: 24
+    resources: tmpdir=/tmp, job_id=11, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 17:59:53 2025]
+Finished job 59.
+14 of 63 steps (22%) done
+Select jobs to execute...
+
+[Mon Sep  1 17:59:53 2025]
+rule alignONT:
+    input: 3-align/split/ont024.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned024.gaf
+    log: 3-align/aligned024.err
+    jobid: 45
+    reason: Missing output files: 3-align/aligned024.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=024
+    threads: 24
+    resources: tmpdir=/tmp, job_id=24, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:16:44 2025]
+Finished job 32.
+15 of 63 steps (24%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:16:44 2025]
+rule alignONT:
+    input: 3-align/split/ont025.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned025.gaf
+    log: 3-align/aligned025.err
+    jobid: 46
+    reason: Missing output files: 3-align/aligned025.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=025
+    threads: 24
+    resources: tmpdir=/tmp, job_id=25, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:17:21 2025]
+Finished job 45.
+16 of 63 steps (25%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:17:21 2025]
+rule alignONT:
+    input: 3-align/split/ont010.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned010.gaf
+    log: 3-align/aligned010.err
+    jobid: 31
+    reason: Missing output files: 3-align/aligned010.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=010
+    threads: 24
+    resources: tmpdir=/tmp, job_id=10, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:36:31 2025]
+Finished job 46.
+17 of 63 steps (27%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:36:31 2025]
+rule alignONT:
+    input: 3-align/split/ont039.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned039.gaf
+    log: 3-align/aligned039.err
+    jobid: 60
+    reason: Missing output files: 3-align/aligned039.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=039
+    threads: 24
+    resources: tmpdir=/tmp, job_id=39, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:36:53 2025]
+Finished job 31.
+18 of 63 steps (29%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:36:53 2025]
+rule alignONT:
+    input: 3-align/split/ont027.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned027.gaf
+    log: 3-align/aligned027.err
+    jobid: 48
+    reason: Missing output files: 3-align/aligned027.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=027
+    threads: 24
+    resources: tmpdir=/tmp, job_id=27, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:56:59 2025]
+Finished job 48.
+19 of 63 steps (30%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:56:59 2025]
+rule alignONT:
+    input: 3-align/split/ont041.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned041.gaf
+    log: 3-align/aligned041.err
+    jobid: 62
+    reason: Missing output files: 3-align/aligned041.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=041
+    threads: 24
+    resources: tmpdir=/tmp, job_id=41, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 18:57:23 2025]
+Finished job 60.
+20 of 63 steps (32%) done
+Select jobs to execute...
+
+[Mon Sep  1 18:57:23 2025]
+rule alignONT:
+    input: 3-align/split/ont035.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned035.gaf
+    log: 3-align/aligned035.err
+    jobid: 56
+    reason: Missing output files: 3-align/aligned035.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=035
+    threads: 24
+    resources: tmpdir=/tmp, job_id=35, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:12:37 2025]
+Finished job 62.
+21 of 63 steps (33%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:12:38 2025]
+rule alignONT:
+    input: 3-align/split/ont021.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned021.gaf
+    log: 3-align/aligned021.err
+    jobid: 42
+    reason: Missing output files: 3-align/aligned021.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=021
+    threads: 24
+    resources: tmpdir=/tmp, job_id=21, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:13:51 2025]
+Finished job 56.
+22 of 63 steps (35%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:13:51 2025]
+rule alignONT:
+    input: 3-align/split/ont042.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned042.gaf
+    log: 3-align/aligned042.err
+    jobid: 63
+    reason: Missing output files: 3-align/aligned042.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=042
+    threads: 24
+    resources: tmpdir=/tmp, job_id=42, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:27:51 2025]
+Finished job 42.
+23 of 63 steps (37%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:27:51 2025]
+rule alignONT:
+    input: 3-align/split/ont028.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned028.gaf
+    log: 3-align/aligned028.err
+    jobid: 49
+    reason: Missing output files: 3-align/aligned028.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=028
+    threads: 24
+    resources: tmpdir=/tmp, job_id=28, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:30:20 2025]
+Finished job 63.
+24 of 63 steps (38%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:30:20 2025]
+rule alignONT:
+    input: 3-align/split/ont014.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned014.gaf
+    log: 3-align/aligned014.err
+    jobid: 35
+    reason: Missing output files: 3-align/aligned014.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=014
+    threads: 24
+    resources: tmpdir=/tmp, job_id=14, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:44:13 2025]
+Finished job 49.
+25 of 63 steps (40%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:44:14 2025]
+rule alignONT:
+    input: 3-align/split/ont001.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned001.gaf
+    log: 3-align/aligned001.err
+    jobid: 21
+    reason: Missing output files: 3-align/aligned001.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:46:11 2025]
+Finished job 35.
+26 of 63 steps (41%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:46:11 2025]
+rule alignONT:
+    input: 3-align/split/ont006.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned006.gaf
+    log: 3-align/aligned006.err
+    jobid: 27
+    reason: Missing output files: 3-align/aligned006.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=006
+    threads: 24
+    resources: tmpdir=/tmp, job_id=6, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 19:59:37 2025]
+Finished job 21.
+27 of 63 steps (43%) done
+Select jobs to execute...
+
+[Mon Sep  1 19:59:38 2025]
+rule alignONT:
+    input: 3-align/split/ont008.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned008.gaf
+    log: 3-align/aligned008.err
+    jobid: 29
+    reason: Missing output files: 3-align/aligned008.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=008
+    threads: 24
+    resources: tmpdir=/tmp, job_id=8, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:02:28 2025]
+Finished job 27.
+28 of 63 steps (44%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:02:28 2025]
+rule alignONT:
+    input: 3-align/split/ont036.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned036.gaf
+    log: 3-align/aligned036.err
+    jobid: 57
+    reason: Missing output files: 3-align/aligned036.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=036
+    threads: 24
+    resources: tmpdir=/tmp, job_id=36, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:15:34 2025]
+Finished job 29.
+29 of 63 steps (46%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:15:35 2025]
+rule alignONT:
+    input: 3-align/split/ont022.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned022.gaf
+    log: 3-align/aligned022.err
+    jobid: 43
+    reason: Missing output files: 3-align/aligned022.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=022
+    threads: 24
+    resources: tmpdir=/tmp, job_id=22, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:18:53 2025]
+Finished job 57.
+30 of 63 steps (48%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:18:53 2025]
+rule alignONT:
+    input: 3-align/split/ont029.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned029.gaf
+    log: 3-align/aligned029.err
+    jobid: 50
+    reason: Missing output files: 3-align/aligned029.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=029
+    threads: 24
+    resources: tmpdir=/tmp, job_id=29, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:30:53 2025]
+Finished job 43.
+31 of 63 steps (49%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:30:53 2025]
+rule alignONT:
+    input: 3-align/split/ont043.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned043.gaf
+    log: 3-align/aligned043.err
+    jobid: 64
+    reason: Missing output files: 3-align/aligned043.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=043
+    threads: 24
+    resources: tmpdir=/tmp, job_id=43, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:34:22 2025]
+Finished job 50.
+32 of 63 steps (51%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:34:22 2025]
+rule alignONT:
+    input: 3-align/split/ont015.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned015.gaf
+    log: 3-align/aligned015.err
+    jobid: 36
+    reason: Missing output files: 3-align/aligned015.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=015
+    threads: 24
+    resources: tmpdir=/tmp, job_id=15, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:47:17 2025]
+Finished job 64.
+33 of 63 steps (52%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:47:18 2025]
+rule alignONT:
+    input: 3-align/split/ont012.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned012.gaf
+    log: 3-align/aligned012.err
+    jobid: 33
+    reason: Missing output files: 3-align/aligned012.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=012
+    threads: 24
+    resources: tmpdir=/tmp, job_id=12, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 20:49:57 2025]
+Finished job 36.
+34 of 63 steps (54%) done
+Select jobs to execute...
+
+[Mon Sep  1 20:49:57 2025]
+rule alignONT:
+    input: 3-align/split/ont026.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned026.gaf
+    log: 3-align/aligned026.err
+    jobid: 47
+    reason: Missing output files: 3-align/aligned026.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=026
+    threads: 24
+    resources: tmpdir=/tmp, job_id=26, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:02:33 2025]
+Finished job 33.
+35 of 63 steps (56%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:02:34 2025]
+rule alignONT:
+    input: 3-align/split/ont009.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned009.gaf
+    log: 3-align/aligned009.err
+    jobid: 30
+    reason: Missing output files: 3-align/aligned009.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=009
+    threads: 24
+    resources: tmpdir=/tmp, job_id=9, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:06:04 2025]
+Finished job 47.
+36 of 63 steps (57%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:06:04 2025]
+rule alignONT:
+    input: 3-align/split/ont037.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned037.gaf
+    log: 3-align/aligned037.err
+    jobid: 58
+    reason: Missing output files: 3-align/aligned037.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=037
+    threads: 24
+    resources: tmpdir=/tmp, job_id=37, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:17:38 2025]
+Finished job 30.
+37 of 63 steps (59%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:17:38 2025]
+rule alignONT:
+    input: 3-align/split/ont004.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned004.gaf
+    log: 3-align/aligned004.err
+    jobid: 25
+    reason: Missing output files: 3-align/aligned004.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=004
+    threads: 24
+    resources: tmpdir=/tmp, job_id=4, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:21:49 2025]
+Finished job 58.
+38 of 63 steps (60%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:21:49 2025]
+rule alignONT:
+    input: 3-align/split/ont030.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned030.gaf
+    log: 3-align/aligned030.err
+    jobid: 51
+    reason: Missing output files: 3-align/aligned030.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=030
+    threads: 24
+    resources: tmpdir=/tmp, job_id=30, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:33:20 2025]
+Finished job 25.
+39 of 63 steps (62%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:33:20 2025]
+rule alignONT:
+    input: 3-align/split/ont044.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned044.gaf
+    log: 3-align/aligned044.err
+    jobid: 65
+    reason: Missing output files: 3-align/aligned044.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=044
+    threads: 24
+    resources: tmpdir=/tmp, job_id=44, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:38:16 2025]
+Finished job 51.
+40 of 63 steps (63%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:38:16 2025]
+rule alignONT:
+    input: 3-align/split/ont032.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned032.gaf
+    log: 3-align/aligned032.err
+    jobid: 53
+    reason: Missing output files: 3-align/aligned032.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=032
+    threads: 24
+    resources: tmpdir=/tmp, job_id=32, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:45:37 2025]
+Finished job 65.
+41 of 63 steps (65%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:45:37 2025]
+rule alignONT:
+    input: 3-align/split/ont020.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned020.gaf
+    log: 3-align/aligned020.err
+    jobid: 41
+    reason: Missing output files: 3-align/aligned020.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=020
+    threads: 24
+    resources: tmpdir=/tmp, job_id=20, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 21:54:34 2025]
+Finished job 53.
+42 of 63 steps (67%) done
+Select jobs to execute...
+
+[Mon Sep  1 21:54:35 2025]
+rule alignONT:
+    input: 3-align/split/ont034.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned034.gaf
+    log: 3-align/aligned034.err
+    jobid: 55
+    reason: Missing output files: 3-align/aligned034.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=034
+    threads: 24
+    resources: tmpdir=/tmp, job_id=34, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:01:10 2025]
+Finished job 41.
+43 of 63 steps (68%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:01:11 2025]
+rule alignONT:
+    input: 3-align/split/ont018.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned018.gaf
+    log: 3-align/aligned018.err
+    jobid: 39
+    reason: Missing output files: 3-align/aligned018.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=018
+    threads: 24
+    resources: tmpdir=/tmp, job_id=18, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:12:03 2025]
+Finished job 55.
+44 of 63 steps (70%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:12:04 2025]
+rule alignONT:
+    input: 3-align/split/ont002.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned002.gaf
+    log: 3-align/aligned002.err
+    jobid: 23
+    reason: Missing output files: 3-align/aligned002.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=002
+    threads: 24
+    resources: tmpdir=/tmp, job_id=2, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:17:12 2025]
+Finished job 39.
+45 of 63 steps (71%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:17:13 2025]
+rule alignONT:
+    input: 3-align/split/ont016.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned016.gaf
+    log: 3-align/aligned016.err
+    jobid: 37
+    reason: Missing output files: 3-align/aligned016.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=016
+    threads: 24
+    resources: tmpdir=/tmp, job_id=16, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:27:50 2025]
+Finished job 23.
+46 of 63 steps (73%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:27:50 2025]
+rule alignONT:
+    input: 3-align/split/ont023.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned023.gaf
+    log: 3-align/aligned023.err
+    jobid: 44
+    reason: Missing output files: 3-align/aligned023.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=023
+    threads: 24
+    resources: tmpdir=/tmp, job_id=23, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:33:06 2025]
+Finished job 37.
+47 of 63 steps (75%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:33:06 2025]
+rule alignONT:
+    input: 3-align/split/ont019.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned019.gaf
+    log: 3-align/aligned019.err
+    jobid: 40
+    reason: Missing output files: 3-align/aligned019.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=019
+    threads: 24
+    resources: tmpdir=/tmp, job_id=19, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:44:10 2025]
+Finished job 44.
+48 of 63 steps (76%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:44:10 2025]
+rule alignONT:
+    input: 3-align/split/ont033.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned033.gaf
+    log: 3-align/aligned033.err
+    jobid: 54
+    reason: Missing output files: 3-align/aligned033.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=033
+    threads: 24
+    resources: tmpdir=/tmp, job_id=33, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 22:49:43 2025]
+Finished job 40.
+49 of 63 steps (78%) done
+Select jobs to execute...
+
+[Mon Sep  1 22:49:43 2025]
+rule alignONT:
+    input: 3-align/split/ont005.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned005.gaf
+    log: 3-align/aligned005.err
+    jobid: 26
+    reason: Missing output files: 3-align/aligned005.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=005
+    threads: 24
+    resources: tmpdir=/tmp, job_id=5, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 23:02:04 2025]
+Finished job 54.
+50 of 63 steps (79%) done
+Select jobs to execute...
+
+[Mon Sep  1 23:02:04 2025]
+rule alignONT:
+    input: 3-align/split/ont013.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned013.gaf
+    log: 3-align/aligned013.err
+    jobid: 34
+    reason: Missing output files: 3-align/aligned013.gaf; Input files updated by another job: 3-align/graph.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index
+    wildcards: nnnn=013
+    threads: 24
+    resources: tmpdir=/tmp, job_id=13, n_cpus=24, mem_gb=46, time_h=24
+
+[Mon Sep  1 23:06:39 2025]
+Finished job 26.
+51 of 63 steps (81%) done
+[Mon Sep  1 23:17:32 2025]
+Finished job 34.
+52 of 63 steps (83%) done
+Select jobs to execute...
+
+[Mon Sep  1 23:17:32 2025]
+rule combineONT:
+    input: 3-align/splitONT.finished, 3-align/aligned001.gaf, 3-align/aligned002.gaf, 3-align/aligned003.gaf, 3-align/aligned004.gaf, 3-align/aligned005.gaf, 3-align/aligned006.gaf, 3-align/aligned007.gaf, 3-align/aligned008.gaf, 3-align/aligned009.gaf, 3-align/aligned010.gaf, 3-align/aligned011.gaf, 3-align/aligned012.gaf, 3-align/aligned013.gaf, 3-align/aligned014.gaf, 3-align/aligned015.gaf, 3-align/aligned016.gaf, 3-align/aligned017.gaf, 3-align/aligned018.gaf, 3-align/aligned019.gaf, 3-align/aligned020.gaf, 3-align/aligned021.gaf, 3-align/aligned022.gaf, 3-align/aligned023.gaf, 3-align/aligned024.gaf, 3-align/aligned025.gaf, 3-align/aligned026.gaf, 3-align/aligned027.gaf, 3-align/aligned028.gaf, 3-align/aligned029.gaf, 3-align/aligned030.gaf, 3-align/aligned031.gaf, 3-align/aligned032.gaf, 3-align/aligned033.gaf, 3-align/aligned034.gaf, 3-align/aligned035.gaf, 3-align/aligned036.gaf, 3-align/aligned037.gaf, 3-align/aligned038.gaf, 3-align/aligned039.gaf, 3-align/aligned040.gaf, 3-align/aligned041.gaf, 3-align/aligned042.gaf, 3-align/aligned043.gaf, 3-align/aligned044.gaf
+    output: 3-align/alns-ont.gaf
+    log: 3-align/combineONT.err
+    jobid: 9
+    reason: Missing output files: 3-align/alns-ont.gaf; Input files updated by another job: 3-align/aligned015.gaf, 3-align/aligned002.gaf, 3-align/aligned040.gaf, 3-align/aligned038.gaf, 3-align/aligned009.gaf, 3-align/aligned007.gaf, 3-align/aligned029.gaf, 3-align/aligned043.gaf, 3-align/aligned010.gaf, 3-align/aligned005.gaf, 3-align/aligned004.gaf, 3-align/aligned026.gaf, 3-align/aligned014.gaf, 3-align/aligned001.gaf, 3-align/aligned018.gaf, 3-align/aligned030.gaf, 3-align/aligned021.gaf, 3-align/aligned003.gaf, 3-align/aligned028.gaf, 3-align/aligned027.gaf, 3-align/aligned020.gaf, 3-align/aligned025.gaf, 3-align/aligned044.gaf, 3-align/aligned022.gaf, 3-align/aligned013.gaf, 3-align/aligned016.gaf, 3-align/aligned032.gaf, 3-align/aligned033.gaf, 3-align/aligned006.gaf, 3-align/aligned017.gaf, 3-align/aligned036.gaf, 3-align/aligned042.gaf, 3-align/aligned034.gaf, 3-align/aligned031.gaf, 3-align/aligned039.gaf, 3-align/aligned011.gaf, 3-align/aligned024.gaf, 3-align/aligned037.gaf, 3-align/aligned035.gaf, 3-align/aligned008.gaf, 3-align/aligned041.gaf, 3-align/aligned012.gaf, 3-align/aligned023.gaf, 3-align/aligned019.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Mon Sep  1 23:17:41 2025]
+Finished job 9.
+53 of 63 steps (84%) done
+Select jobs to execute...
+
+[Mon Sep  1 23:17:41 2025]
+checkpoint splitTipsONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/T2T02/T2T02.UL.70x.fastq.gz, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf, 3-align/splitONT.finished
+    output: 3-alignTips/splitONT.finished
+    log: 3-alignTips/splitONT.err
+    jobid: 12
+    reason: Missing output files: 3-alignTips/splitONT.finished; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+[Mon Sep  1 23:40:03 2025]
+Finished job 12.
+54 of 63 steps (86%) done
+Select jobs to execute...
+
+[Mon Sep  1 23:40:03 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont002.fasta.gz
+    output: 3-alignTips/aligned002.gaf
+    log: 3-alignTips/aligned002.err
+    jobid: 68
+    reason: Missing output files: 3-alignTips/aligned002.gaf
+    wildcards: nnnn=002
+    threads: 24
+    resources: tmpdir=/tmp, job_id=2, n_cpus=24, mem_gb=64, time_h=24
+
+
+[Mon Sep  1 23:40:03 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont004.fasta.gz
+    output: 3-alignTips/aligned004.gaf
+    log: 3-alignTips/aligned004.err
+    jobid: 70
+    reason: Missing output files: 3-alignTips/aligned004.gaf
+    wildcards: nnnn=004
+    threads: 24
+    resources: tmpdir=/tmp, job_id=4, n_cpus=24, mem_gb=64, time_h=24
+
+[Tue Sep  2 00:06:45 2025]
+Finished job 70.
+55 of 68 steps (81%) done
+Select jobs to execute...
+
+[Tue Sep  2 00:06:46 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont005.fasta.gz
+    output: 3-alignTips/aligned005.gaf
+    log: 3-alignTips/aligned005.err
+    jobid: 71
+    reason: Missing output files: 3-alignTips/aligned005.gaf
+    wildcards: nnnn=005
+    threads: 24
+    resources: tmpdir=/tmp, job_id=5, n_cpus=24, mem_gb=64, time_h=24
+
+[Tue Sep  2 00:11:21 2025]
+Finished job 68.
+56 of 68 steps (82%) done
+Select jobs to execute...
+
+[Tue Sep  2 00:11:22 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont001.fasta.gz
+    output: 3-alignTips/aligned001.gaf
+    log: 3-alignTips/aligned001.err
+    jobid: 67
+    reason: Missing output files: 3-alignTips/aligned001.gaf
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=24
+
+[Tue Sep  2 00:22:50 2025]
+Finished job 71.
+57 of 68 steps (84%) done
+Select jobs to execute...
+
+[Tue Sep  2 00:22:50 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont003.fasta.gz
+    output: 3-alignTips/aligned003.gaf
+    log: 3-alignTips/aligned003.err
+    jobid: 69
+    reason: Missing output files: 3-alignTips/aligned003.gaf
+    wildcards: nnnn=003
+    threads: 24
+    resources: tmpdir=/tmp, job_id=3, n_cpus=24, mem_gb=64, time_h=24
+
+[Tue Sep  2 00:40:20 2025]
+Finished job 67.
+58 of 68 steps (85%) done
+[Tue Sep  2 00:49:30 2025]
+Finished job 69.
+59 of 68 steps (87%) done
+Select jobs to execute...
+
+[Tue Sep  2 00:49:30 2025]
+rule combineTipsONT:
+    input: 3-alignTips/splitONT.finished, 3-alignTips/aligned001.gaf, 3-alignTips/aligned002.gaf, 3-alignTips/aligned003.gaf, 3-alignTips/aligned004.gaf, 3-alignTips/aligned005.gaf
+    output: 3-alignTips/alns-ont.gaf
+    log: 3-alignTips/combineONT.err
+    jobid: 11
+    reason: Missing output files: 3-alignTips/alns-ont.gaf; Input files updated by another job: 3-alignTips/aligned005.gaf, 3-alignTips/aligned003.gaf, 3-alignTips/aligned004.gaf, 3-alignTips/aligned002.gaf, 3-alignTips/aligned001.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Tue Sep  2 00:49:31 2025]
+Finished job 11.
+60 of 68 steps (88%) done
+Select jobs to execute...
+
+[Tue Sep  2 00:49:32 2025]
+rule processONT:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 3-align/alns-ont.gaf, 3-alignTips/alns-ont.gaf
+    output: 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf, 4-processONT/nodecovs-ont.csv
+    log: 4-processONT/processONT.err
+    jobid: 2
+    reason: Missing output files: 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf, 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/nodecovs-ont.csv; Input files updated by another job: 3-alignTips/alns-ont.gaf, 1-buildGraph/hifi_nodecov.csv, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=64, time_h=48
+
+[Tue Sep  2 01:43:28 2025]
+Finished job 2.
+61 of 68 steps (90%) done
+Select jobs to execute...
+
+[Tue Sep  2 01:43:28 2025]
+rule extractONT:
+    input: 4-processONT/gaps-ont.gaf, 3-align/splitONT.finished
+    output: 7-consensus/ont_subset.id, 7-consensus/ont_subset.extract, 7-consensus/ont_subset.fasta.gz
+    log: 7-consensus/extractONT.err
+    jobid: 17
+    reason: Missing output files: 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id; Input files updated by another job: 4-processONT/gaps-ont.gaf
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=16, time_h=24
+
+
+[Tue Sep  2 01:43:28 2025]
+rule untip:
+    input: 4-processONT/unitig-unrolled-ont-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 4-processONT/nodecovs-ont.csv
+    output: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    log: 5-untip/untip.err
+    jobid: 1
+    reason: Missing output files: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa; Input files updated by another job: 1-buildGraph/hifi_nodecov.csv, 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/nodecovs-ont.csv
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Tue Sep  2 01:45:01 2025]
+Finished job 17.
+62 of 68 steps (91%) done
+[Tue Sep  2 02:16:59 2025]
+Finished job 1.
+63 of 68 steps (93%) done
+Select jobs to execute...
+
+[Tue Sep  2 02:16:59 2025]
+rule generateLayoutContigsInputs:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 1-buildGraph/paths.gaf, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf
+    output: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    log: 6-layoutContigs/createLayoutInputs.err
+    jobid: 14
+    reason: Missing output files: 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/nodelens.txt, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa; Input files updated by another job: 4-processONT/gaps-ont.gaf, 4-processONT/alns-ont-mapqfilter.gaf, 1-buildGraph/paths.gaf, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Tue Sep  2 02:25:07 2025]
+Finished job 14.
+64 of 68 steps (94%) done
+Select jobs to execute...
+
+[Tue Sep  2 02:25:07 2025]
+rule layoutContigs:
+    input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
+    log: 6-layoutContigs/createLayout.err
+    jobid: 13
+    reason: Missing output files: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap; Input files updated by another job: 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/nodelens.txt, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Tue Sep  2 02:27:14 2025]
+Finished job 13.
+65 of 68 steps (96%) done
+Select jobs to execute...
+
+[Tue Sep  2 02:27:14 2025]
+checkpoint buildPackages:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/T2T02/T2T02.HQ_herro.50x.fastq.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
+    output: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished, 7-consensus/packages.report
+    log: 7-consensus/buildPackages.err
+    jobid: 16
+    reason: Missing output files: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished; Input files updated by another job: 7-consensus/ont_subset.id, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=22, time_h=24
+DAG of jobs will be updated after completion.
+
+[Tue Sep  2 03:03:49 2025]
+Finished job 16.
+66 of 68 steps (97%) done
+Select jobs to execute...
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part017.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part017.fasta
+    log: 7-consensus/packages/part017.err
+    jobid: 101
+    reason: Missing output files: 7-consensus/packages/part017.fasta
+    wildcards: nnnn=017
+    threads: 8
+    resources: tmpdir=/tmp, job_id=17, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part011.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part011.fasta
+    log: 7-consensus/packages/part011.err
+    jobid: 110
+    reason: Missing output files: 7-consensus/packages/part011.fasta
+    wildcards: nnnn=011
+    threads: 8
+    resources: tmpdir=/tmp, job_id=11, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part015.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part015.fasta
+    log: 7-consensus/packages/part015.err
+    jobid: 96
+    reason: Missing output files: 7-consensus/packages/part015.fasta
+    wildcards: nnnn=015
+    threads: 8
+    resources: tmpdir=/tmp, job_id=15, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part009.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part009.fasta
+    log: 7-consensus/packages/part009.err
+    jobid: 109
+    reason: Missing output files: 7-consensus/packages/part009.fasta
+    wildcards: nnnn=009
+    threads: 8
+    resources: tmpdir=/tmp, job_id=9, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part013.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part013.fasta
+    log: 7-consensus/packages/part013.err
+    jobid: 103
+    reason: Missing output files: 7-consensus/packages/part013.fasta
+    wildcards: nnnn=013
+    threads: 8
+    resources: tmpdir=/tmp, job_id=13, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Tue Sep  2 03:03:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part012.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part012.fasta
+    log: 7-consensus/packages/part012.err
+    jobid: 95
+    reason: Missing output files: 7-consensus/packages/part012.fasta
+    wildcards: nnnn=012
+    threads: 8
+    resources: tmpdir=/tmp, job_id=12, n_cpus=8, mem_gb=7, time_h=24
+
+[Tue Sep  2 03:54:40 2025]
+Finished job 109.
+67 of 113 steps (59%) done
+Select jobs to execute...
+
+[Tue Sep  2 03:54:41 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part001.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part001.fasta
+    log: 7-consensus/packages/part001.err
+    jobid: 117
+    reason: Missing output files: 7-consensus/packages/part001.fasta
+    wildcards: nnnn=001
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=16, time_h=24
+
+[Tue Sep  2 03:58:23 2025]
+Finished job 110.
+68 of 113 steps (60%) done
+Select jobs to execute...
+
+[Tue Sep  2 03:58:23 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part007.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part007.fasta
+    log: 7-consensus/packages/part007.err
+    jobid: 82
+    reason: Missing output files: 7-consensus/packages/part007.fasta
+    wildcards: nnnn=007
+    threads: 8
+    resources: tmpdir=/tmp, job_id=7, n_cpus=8, mem_gb=8, time_h=24
+
+[Tue Sep  2 04:00:36 2025]
+Finished job 117.
+69 of 113 steps (61%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:00:36 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part002.fasta
+    log: 7-consensus/packages/part002.err
+    jobid: 115
+    reason: Missing output files: 7-consensus/packages/part002.fasta
+    wildcards: nnnn=002
+    threads: 8
+    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=13, time_h=24
+
+[Tue Sep  2 04:04:42 2025]
+Finished job 95.
+70 of 113 steps (62%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:04:42 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part005.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part005.fasta
+    log: 7-consensus/packages/part005.err
+    jobid: 106
+    reason: Missing output files: 7-consensus/packages/part005.fasta
+    wildcards: nnnn=005
+    threads: 8
+    resources: tmpdir=/tmp, job_id=5, n_cpus=8, mem_gb=8, time_h=24
+
+[Tue Sep  2 04:09:26 2025]
+Finished job 115.
+71 of 113 steps (63%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:09:26 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part008.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part008.fasta
+    log: 7-consensus/packages/part008.err
+    jobid: 111
+    reason: Missing output files: 7-consensus/packages/part008.fasta
+    wildcards: nnnn=008
+    threads: 8
+    resources: tmpdir=/tmp, job_id=8, n_cpus=8, mem_gb=7, time_h=24
+
+[Tue Sep  2 04:10:53 2025]
+Finished job 103.
+72 of 113 steps (64%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:10:53 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part006.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part006.fasta
+    log: 7-consensus/packages/part006.err
+    jobid: 114
+    reason: Missing output files: 7-consensus/packages/part006.fasta
+    wildcards: nnnn=006
+    threads: 8
+    resources: tmpdir=/tmp, job_id=6, n_cpus=8, mem_gb=8, time_h=24
+
+[Tue Sep  2 04:20:39 2025]
+Finished job 96.
+73 of 113 steps (65%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:20:39 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part003.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part003.fasta
+    log: 7-consensus/packages/part003.err
+    jobid: 113
+    reason: Missing output files: 7-consensus/packages/part003.fasta
+    wildcards: nnnn=003
+    threads: 8
+    resources: tmpdir=/tmp, job_id=3, n_cpus=8, mem_gb=12, time_h=24
+
+[Tue Sep  2 04:26:21 2025]
+Finished job 101.
+74 of 113 steps (65%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:26:21 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part014.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part014.fasta
+    log: 7-consensus/packages/part014.err
+    jobid: 84
+    reason: Missing output files: 7-consensus/packages/part014.fasta
+    wildcards: nnnn=014
+    threads: 8
+    resources: tmpdir=/tmp, job_id=14, n_cpus=8, mem_gb=7, time_h=24
+
+[Tue Sep  2 04:28:41 2025]
+Finished job 106.
+75 of 113 steps (66%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:28:41 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part016.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part016.fasta
+    log: 7-consensus/packages/part016.err
+    jobid: 85
+    reason: Missing output files: 7-consensus/packages/part016.fasta
+    wildcards: nnnn=016
+    threads: 8
+    resources: tmpdir=/tmp, job_id=16, n_cpus=8, mem_gb=7, time_h=24
+
+[Tue Sep  2 04:31:31 2025]
+Finished job 113.
+76 of 113 steps (67%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:31:32 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part010.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part010.fasta
+    log: 7-consensus/packages/part010.err
+    jobid: 99
+    reason: Missing output files: 7-consensus/packages/part010.fasta
+    wildcards: nnnn=010
+    threads: 8
+    resources: tmpdir=/tmp, job_id=10, n_cpus=8, mem_gb=7, time_h=24
+
+[Tue Sep  2 04:36:35 2025]
+Finished job 82.
+77 of 113 steps (68%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:36:35 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part004.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part004.fasta
+    log: 7-consensus/packages/part004.err
+    jobid: 116
+    reason: Missing output files: 7-consensus/packages/part004.fasta
+    wildcards: nnnn=004
+    threads: 8
+    resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=9, time_h=24
+
+[Tue Sep  2 04:44:34 2025]
+Finished job 114.
+78 of 113 steps (69%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:44:34 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part034.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part034.fasta
+    log: 7-consensus/packages/part034.err
+    jobid: 88
+    reason: Missing output files: 7-consensus/packages/part034.fasta
+    wildcards: nnnn=034
+    threads: 8
+    resources: tmpdir=/tmp, job_id=34, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 04:50:32 2025]
+Finished job 111.
+79 of 113 steps (70%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:50:32 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part037.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part037.fasta
+    log: 7-consensus/packages/part037.err
+    jobid: 102
+    reason: Missing output files: 7-consensus/packages/part037.fasta
+    wildcards: nnnn=037
+    threads: 8
+    resources: tmpdir=/tmp, job_id=37, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 04:54:00 2025]
+Finished job 116.
+80 of 113 steps (71%) done
+Select jobs to execute...
+
+[Tue Sep  2 04:54:00 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part025.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part025.fasta
+    log: 7-consensus/packages/part025.err
+    jobid: 89
+    reason: Missing output files: 7-consensus/packages/part025.fasta
+    wildcards: nnnn=025
+    threads: 8
+    resources: tmpdir=/tmp, job_id=25, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 05:26:51 2025]
+Finished job 99.
+81 of 113 steps (72%) done
+Select jobs to execute...
+
+[Tue Sep  2 05:26:51 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part038.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part038.fasta
+    log: 7-consensus/packages/part038.err
+    jobid: 75
+    reason: Missing output files: 7-consensus/packages/part038.fasta
+    wildcards: nnnn=038
+    threads: 8
+    resources: tmpdir=/tmp, job_id=38, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 05:34:39 2025]
+Finished job 84.
+82 of 113 steps (73%) done
+Select jobs to execute...
+
+[Tue Sep  2 05:34:39 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part018.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part018.fasta
+    log: 7-consensus/packages/part018.err
+    jobid: 83
+    reason: Missing output files: 7-consensus/packages/part018.fasta
+    wildcards: nnnn=018
+    threads: 8
+    resources: tmpdir=/tmp, job_id=18, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 05:46:44 2025]
+Finished job 85.
+83 of 113 steps (73%) done
+Select jobs to execute...
+
+[Tue Sep  2 05:46:44 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part031.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part031.fasta
+    log: 7-consensus/packages/part031.err
+    jobid: 97
+    reason: Missing output files: 7-consensus/packages/part031.fasta
+    wildcards: nnnn=031
+    threads: 8
+    resources: tmpdir=/tmp, job_id=31, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 07:01:08 2025]
+Finished job 83.
+84 of 113 steps (74%) done
+Select jobs to execute...
+
+[Tue Sep  2 07:01:08 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part032.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part032.fasta
+    log: 7-consensus/packages/part032.err
+    jobid: 90
+    reason: Missing output files: 7-consensus/packages/part032.fasta
+    wildcards: nnnn=032
+    threads: 8
+    resources: tmpdir=/tmp, job_id=32, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 07:02:23 2025]
+Finished job 89.
+85 of 113 steps (75%) done
+Select jobs to execute...
+
+[Tue Sep  2 07:02:23 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part027.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part027.fasta
+    log: 7-consensus/packages/part027.err
+    jobid: 104
+    reason: Missing output files: 7-consensus/packages/part027.fasta
+    wildcards: nnnn=027
+    threads: 8
+    resources: tmpdir=/tmp, job_id=27, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 08:56:48 2025]
+Finished job 88.
+86 of 113 steps (76%) done
+Select jobs to execute...
+
+[Tue Sep  2 08:56:48 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part035.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part035.fasta
+    log: 7-consensus/packages/part035.err
+    jobid: 76
+    reason: Missing output files: 7-consensus/packages/part035.fasta
+    wildcards: nnnn=035
+    threads: 8
+    resources: tmpdir=/tmp, job_id=35, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 09:03:48 2025]
+Finished job 97.
+87 of 113 steps (77%) done
+Select jobs to execute...
+
+[Tue Sep  2 09:03:49 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part045.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part045.fasta
+    log: 7-consensus/packages/part045.err
+    jobid: 112
+    reason: Missing output files: 7-consensus/packages/part045.fasta
+    wildcards: nnnn=045
+    threads: 8
+    resources: tmpdir=/tmp, job_id=45, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 09:03:50 2025]
+Finished job 112.
+88 of 113 steps (78%) done
+Select jobs to execute...
+
+[Tue Sep  2 09:03:50 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part044.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part044.fasta
+    log: 7-consensus/packages/part044.err
+    jobid: 87
+    reason: Missing output files: 7-consensus/packages/part044.fasta
+    wildcards: nnnn=044
+    threads: 8
+    resources: tmpdir=/tmp, job_id=44, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 09:30:26 2025]
+Finished job 104.
+89 of 113 steps (79%) done
+Select jobs to execute...
+
+[Tue Sep  2 09:30:27 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part040.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part040.fasta
+    log: 7-consensus/packages/part040.err
+    jobid: 74
+    reason: Missing output files: 7-consensus/packages/part040.fasta
+    wildcards: nnnn=040
+    threads: 8
+    resources: tmpdir=/tmp, job_id=40, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 10:01:46 2025]
+Finished job 102.
+90 of 113 steps (80%) done
+Select jobs to execute...
+
+[Tue Sep  2 10:01:46 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part033.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part033.fasta
+    log: 7-consensus/packages/part033.err
+    jobid: 73
+    reason: Missing output files: 7-consensus/packages/part033.fasta
+    wildcards: nnnn=033
+    threads: 8
+    resources: tmpdir=/tmp, job_id=33, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 10:29:24 2025]
+Finished job 90.
+91 of 113 steps (81%) done
+Select jobs to execute...
+
+[Tue Sep  2 10:29:24 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part043.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part043.fasta
+    log: 7-consensus/packages/part043.err
+    jobid: 86
+    reason: Missing output files: 7-consensus/packages/part043.fasta
+    wildcards: nnnn=043
+    threads: 8
+    resources: tmpdir=/tmp, job_id=43, n_cpus=8, mem_gb=6, time_h=24
+
+[Tue Sep  2 10:46:39 2025]
+Finished job 75.
+92 of 113 steps (81%) done
+Select jobs to execute...
+
+[Tue Sep  2 10:46:39 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part021.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part021.fasta
+    log: 7-consensus/packages/part021.err
+    jobid: 100
+    reason: Missing output files: 7-consensus/packages/part021.fasta
+    wildcards: nnnn=021
+    threads: 8
+    resources: tmpdir=/tmp, job_id=21, n_cpus=8, mem_gb=6, time_h=24
+

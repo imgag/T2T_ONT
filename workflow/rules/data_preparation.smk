@@ -182,7 +182,7 @@ rule merge_copy_rename_fastq:
     input:
         unpack(find_input_datasets),
     output:
-        "assembly/input/{dataset}/{dataset}.{type}.fastq.gz",
+        temp("assembly/input/{dataset}/{dataset}.{type}.fastq.gz"),
     conda:
         "../env/minimap2.yml"
     log:
