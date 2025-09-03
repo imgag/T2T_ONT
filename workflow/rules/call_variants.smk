@@ -6,7 +6,7 @@ rule determine_sex:
             "",
             get_assembly_input(wc)["ul"]
             .replace("assembly/input/", "data/mapped/")
-            .replace(".fastq.gz", ".bam"),
+            .replace(".fastq.gz", ".ref.bam"),
         ),
     output:
         sex="assembly/qc/{isphased}_{tool}/{asm}/sample_sex.txt",
