@@ -12,6 +12,9 @@ rule determine_sex:
         sex="assembly/qc/{isphased}_{tool}/{asm}/sample_sex.txt",
     log:
         "logs/determine_sex_{isphased}_{tool}_{asm}.log",
+    wildcard_constraints:
+        # Should not be applied to hprc samples
+        tool="^(?!.*hprc).*"
     conda:
         "../env/mosdepth.yml"
     shell:
@@ -42,6 +45,30 @@ rule determine_sex:
         # Cleanup temp files
         rm $(dirname {output.sex})/$(basename {output.sex}.tmp)*
         """
+
+rule get_sex_from_metadata_hprc:
+    input:
+        "data/ref/hprc/hprc_release2_sample_metadata.csv"
+    output:
+        sex="assembly/qc/phased_hprc/{asm}/sample_sex.txt",
+    run:
+        import csv
+
+        sample_id = wildcards.asm
+        sex_value = None
+
+        with open(input[0], newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row.get("sample_id") == sample_id:
+                    sex_value = row.get("sex")
+                    break
+
+        if sex_value is None:
+            raise ValueError(f"Sample id {sample_id} not found in metadata.")
+
+        with open(output.sex, "w") as out:
+            out.write(str(sex_value) + "\n")
 
 
 def get_sex_file(wildcards):

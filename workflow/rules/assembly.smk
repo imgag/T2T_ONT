@@ -409,9 +409,10 @@ rule verkko_scaffold_trio:
 
 ruleorder: verkko_scaffold > verkko_scaffold_trio
 
-#######################
+######################
 ## Hifiasm assembly ##
 ######################
+
 rule yak_count:
     input:
         get_trio_input
@@ -499,3 +500,11 @@ rule hifiasm_to_fasta:
         awk '/^S/{{print ">"$2;print $3}}' {input.hap1_gfa} > {output.hap1_fa} 2>> {log}
         awk '/^S/{{print ">"$2;print $3}}' {input.hap2_gfa} > {output.hap2_fa} 2>> {log}
         """
+
+######################
+##   YAHS Phasing   ##
+######################
+
+#rule map_porec_to_asm:
+#    input:
+#       fa = "assembly/output/hifiasm/{asm}/assembly.fasta",

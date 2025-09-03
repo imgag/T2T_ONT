@@ -620,3 +620,24 @@ rule collect_qc_repair_test:
         "logs/collect_qc_method_comparison.log",
     script:
         "scripts/06_collect_qc.R"
+
+
+hprc_samples, = glob_wildcards("data/ref/hprc/{sample}/{sample}.haplotype1.fasta")
+
+rule collect_qc_hprc:
+    input:
+        **qc_collection(
+            hprc_samples,
+            methods_phased=["phased_hprc"],
+            methods_unphased=[],
+            haplotypes=["haplotype1", "haplotype2"]
+        )
+    output:
+        tsv = "assembly/qc/qc_hprc.tsv"
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_hprc.log"
+    script:
+        "scripts/06_collect_qc.R"
+

@@ -78,6 +78,13 @@ def get_assembly_output(wc):
                 return {
                     "assembly": []
                 }
+        elif wc["tool"] == "hprc":
+            if wc["hp"] == "haplotype1" or wc["hp"] == "haplotype2":
+                return {
+                    "assembly": f"data/ref/hprc/{wc['asm']}/{wc['asm']}.{wc['hp']}.fasta"
+                }
+            else:
+                raise ValueError(f"Invalid haplotype {wc['hp']} for hprc assembliues")
         else:
             raise ValueError(f"Invalid tool: {wc['tool']}")
 
@@ -533,7 +540,7 @@ rule qc_merqury_both:
     output:
         out="assembly/qc/{isphased}_{tool}/{asm}/merqury{polished}.qv",
     wildcard_constraints:
-        polished=".*",
+        polished=".polished*",
     conda:
         "../env/merqury.yml"
     log:
