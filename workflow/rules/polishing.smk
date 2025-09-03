@@ -27,4 +27,4 @@ rule medaka_polishing:
         rm -rfv $(dirname {output})/polishing >>{log} 2>&1
         """
 
-#todo add polishing with dorado and check if it performs better then medaka polishing
+# possible todo add polishing with dorado and UL?
