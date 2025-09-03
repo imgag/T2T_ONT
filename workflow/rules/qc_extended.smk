@@ -74,7 +74,7 @@ rule analyze_repeatmasker:
         rm_out="analysis_other/repeatmasker/{asm}/assembly.fasta.out"
     output:
         summary="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv",
-        bed = "analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplot.bed"
+        bed = "analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucflag.bed"
     conda:
         "../env/R.yml"
     log:
@@ -91,7 +91,7 @@ rule analyze_repeatmasker:
 rule nucflag:
     input:
         bam=lambda wc: get_assembly_input(wc).get("ul"),
-        rm_bed="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucplot.bed"
+        rm_bed="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucflag.bed"
     output:
         status="analysis_other/nucflag/{asm}/nucflag_status.bed",
         misasm="analysis_other/nucflag/{asm}/nucflag_misasm.bed",
@@ -122,6 +122,10 @@ rule nucflag:
             fi
         done
         """
+
+rule flagger:
+    input:
+        bam = ""
 
 rule create_plot:
     input:

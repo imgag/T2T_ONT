@@ -260,7 +260,7 @@ write.table(
   quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE
 )
 # Create a bedfile for nucplot
-message("Creating nucplot BED file...")
+message("Creating nucflag BED file...")
 nucplot_bed <- filtered_data %>%
   select(sequence, begin, end, repeat_class) %>%
   mutate(plot = "plot") %>%
@@ -268,7 +268,7 @@ nucplot_bed <- filtered_data %>%
 
 write.table(
   nucplot_bed,
-  paste0(opt$output, "_nucplot.bed"),
+  paste0(opt$output, "_nucflag.bed"),
   quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE
 )
 
