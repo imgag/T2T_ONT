@@ -1,6 +1,6 @@
 rule mosdepth:
     input:
-        bam="data/mapped/{path}.bam",
+        bam="data/mapped/{path}.ref.bam",
     output:
         depth="data/bamstats/{path}/cov.mosdepth.summary.txt",
         dist="data/bamstats/{path}/cov.mosdepth.global.dist.txt",
@@ -22,7 +22,7 @@ rule mosdepth:
 
 rule bam_qc:
     input:
-        bam="data/mapped/{path}.bam",
+        bam="data/mapped/{path}.ref.bam",
         ref=config["ref"],
     output:
         tsv="data/bamstats/{path}/bamqc.tsv.gz",
@@ -45,7 +45,7 @@ rule bam_qc:
 
 rule bamstats:
     input:
-        bam="data/mapped/{path}.bam",
+        bam="data/mapped/{path}.ref.bam",
     output:
         hist_l="data/bamstats/mapped/{path}/length.hist",
         hist_q="data/bamstats/mapped/{path}/quality.hist",

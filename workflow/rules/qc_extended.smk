@@ -1,7 +1,7 @@
 rule gqc:
     input:
-        ref=config["ref_hg002_q100"],
-        query=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"}),
+        assembly = lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"],
+        ref=config["ref_hg002_q100"]
     output:
         directory("analysis_other/GQC/{asm}")
     conda:
@@ -20,7 +20,7 @@ rule gqc:
         export PATH=$PATH:{params.fastk_binfolder}
         GQC \
             --reffasta {input.ref} \
-            --queryfasta {input.query} \
+            --queryfasta {input.assembly} \
             --config {params.config} \
             -p {output} \
             -t {threads} \
@@ -29,24 +29,10 @@ rule gqc:
             > {log} 2>&1
         """
 
-#rule map_ul_to_asm:
-#    input:
-#        fa=get_assembly_output
-#    output
-#        bam=
-#    conda:
-#        "../env/minimap2.yml"
-#    log:
-#        "logs/map_ul_to_asm/{asm}.log"
-#    threads: 40
-#    shell:
-#        """
-#        
-#        """
 
 rule repeatmasker:
     input:
-        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
     output:
         out="analysis_other/repeatmasker/{asm}/assembly.fasta.out",
         gff="analysis_other/repeatmasker/{asm}/assembly.fasta.out.gff",
@@ -90,7 +76,7 @@ rule analyze_repeatmasker:
 
 rule nucflag:
     input:
-        bam=lambda wc: get_assembly_input(wc).get("ul"),
+        bam="data/mapped/{asm}/{asm}.HQ.asm.bam",
         rm_bed="analysis_other/repeatmasker/{asm}/rm_summary/{asm}_nucflag.bed"
     output:
         status="analysis_other/nucflag/{asm}/nucflag_status.bed",
@@ -123,9 +109,52 @@ rule nucflag:
         done
         """
 
+rule flagger_create_cov:
+    input:
+        bam = "data/mapped/{asm}/{asm}.HQ.asm.bam"
+    output:
+        cov = "analysis_other/flagger/{asm}/coverage_file.cov.gz"
+    log:
+        "logs/flagger/{asm}/create_cov.log"
+    threads:
+        16
+    params:
+        bam2cov = config['bam2cov']
+    shell:
+        """
+        {params.bam2cov} \
+            --bam {input.bam} \
+            --output {output.cov} \
+            --annotationJson 
+            --threads {threads} \
+            --baselineAnnotation whole_genome
+        >{log} 2>&1
+        """
+
 rule flagger:
     input:
-        bam = ""
+        cov = "analysis_other/flagger/{asm}/coverage_file.cov.gz"
+    output:
+        tsv = "analysis_other/flagger/{asm}/prediction_summary_final.tsv",
+        bed = "analysis_other/flagger/{asm}/final_flagger_prediction.bed"
+    log:
+        "logs/flagger/{asm}/hmm_flager.log"
+    threads:
+        16
+    params:
+        hmm_flagger = config['hmm_flagger'], 
+        workdir = workflow.basedir
+    shell:
+        """
+        docker run -it --rm \
+            -v{params.workdir}:/mnt \
+            {params.hmm_flagger} \
+                --input /mnt/{input.cov} \
+                --outputDir /mnt/$(dirname {output.tsv}) \
+                --labelNames Err,Dup,Hap,Col \
+                --threads {threads} \
+        >{log} 2>&1
+        """
 
 rule create_plot:
     input:
