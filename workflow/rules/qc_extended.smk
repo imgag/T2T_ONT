@@ -109,26 +109,64 @@ rule nucflag:
         done
         """
 
+rule asm_index:
+    input:
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+    output:
+        "analysis_other/flagger/{asm}/assembly.index.bed"
+    log:
+        "logs/flagger/{asm}/asm_index.log"
+    threads:
+        1
+    shell:
+        """
+        samtools faidx {input.fa} && \
+        awk 'BEGIN{{OFS="\t"}} {{print $1, 0, $2}}' {input.fa}.fai > {output} 2>{log}
+        """
+
+rule create_index_json:
+    input:
+        "analysis_other/flagger/{asm}/assembly.index.bed"
+    output:
+        "analysis_other/flagger/{asm}/assembly.index.json"
+    log:
+        "logs/flagger/{asm}/create_json.log"
+    params:
+        workdir = workflow.basedir
+    threads:
+        1
+    shell:
+        """
+        echo "{{" > {output}
+        echo \\"whole_genome\\" : \\"/mnt/{input}\\" >> {output}
+        echo "}}" >> {output}
+        """
+
 rule flagger_create_cov:
     input:
-        bam = "data/mapped/{asm}/{asm}.HQ.asm.bam"
+        bam = "data/mapped/{asm}/{asm}.HQ.asm.bam",
+        idx = "analysis_other/flagger/{asm}/assembly.index.json"
     output:
-        cov = "analysis_other/flagger/{asm}/coverage_file.cov.gz"
+        cov = "analysis_other/flagger/{asm}/coverage_file.cov.gz",
     log:
         "logs/flagger/{asm}/create_cov.log"
     threads:
         16
     params:
-        bam2cov = config['bam2cov']
+        bam2cov = config['bam2cov'], 
+        workdir = workflow.basedir
     shell:
         """
-        {params.bam2cov} \
-            --bam {input.bam} \
-            --output {output.cov} \
-            --annotationJson 
-            --threads {threads} \
-            --baselineAnnotation whole_genome
-        >{log} 2>&1
+        docker run --rm \
+            --user $(id -u):$(id -g) \
+            -v$(dirname {params.workdir}):/mnt \
+            {params.bam2cov} \
+                --bam /mnt/{input.bam} \
+                --output /mnt/{output.cov} \
+                --annotationJson {input.idx} \
+                --threads {threads} \
+                --baselineAnnotation "whole_genome" \
+            >{log} 2>&1
         """
 
 rule flagger:
@@ -142,16 +180,20 @@ rule flagger:
     threads:
         16
     params:
-        hmm_flagger = config['hmm_flagger'], 
+        hmm_flagger = config['hmm_flagger'],
+        alpha_tsv = config['hmm_flagger_alpha_tsv'],
         workdir = workflow.basedir
     shell:
         """
-        docker run -it --rm \
-            -v{params.workdir}:/mnt \
+        docker run --rm \
+            --user $(id -u):$(id -g) \
+            -v$(dirname {params.workdir}):/mnt \
             {params.hmm_flagger} \
                 --input /mnt/{input.cov} \
                 --outputDir /mnt/$(dirname {output.tsv}) \
                 --labelNames Err,Dup,Hap,Col \
+                --trackName {wildcards.asm}_flagger_stats \
+                --alphaTsv {params.alpha_tsv} \
                 --threads {threads} \
         >{log} 2>&1
         """
