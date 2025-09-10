@@ -36,13 +36,10 @@ if (is.null(opt$input)) {
 # Read RepeatMasker .out file
 message("Reading RepeatMasker output file: ", opt$input)
 # Skip the header lines (first 3 lines)
-repeatmasker_data <- read.table(opt$input, skip=3, stringsAsFactors=FALSE, fill=TRUE)
-
-# Define column names based on RepeatMasker output format
-colnames(repeatmasker_data) <- c(
-  "score", "div", "del", "ins", "sequence", "begin", "end", "left", 
-  "strand", "repeat_name", "class_family", "repeat_begin", "repeat_end", "repeat_left", "ID"
-)
+repeatmasker_data <- read_table(opt$input, skip = 3, col_names = FALSE, show_col_types = FALSE) %>%
+  select(1:15) %>%
+  setNames(c("score", "div", "del", "ins", "sequence", "begin", "end", "left", 
+             "strand", "repeat_name", "class_family", "repeat_begin", "repeat_end", "repeat_left", "ID"))
 
 # Clean up the data
 repeatmasker_data <- repeatmasker_data %>%

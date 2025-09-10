@@ -1,0 +1,101 @@
+hmm_flagger: unrecognized option '--help'
+[E::main] undefined option ?
+
+Usage: hmm_flagger  -i <INPUT_FILE> -o <OUTPUT_DIR> 
+Options:
+         --input, -i
+                           Path to the input file (cov/cov.gz or binary output of create_bin_chunks) 
+         --outputDir, -o
+                           Directory for saving output files.
+         --modelType, -m
+                           Model type can be either 'gaussian', 'negative_binomial', or 
+                           'trunc_exp_gaussian' [Default = 'trunc_exp_gaussian']
+         --trackName, -N
+                           The track name that will appear in the final BED.[Default = 'final_flagger']
+         --chunkLen, -C
+                           Chunk length. Each chunk is the length of the genome (in bases) for which 
+                           forward/backward algorithm will be performed once in each iteration. Splitting
+                           genome into chunks is mainly for enabling multi-threading and running 
+                           this algorithm for multiple parts of the genome simultaneously. 
+                           [Default = 20000000 (20Mb)]
+         --windowLen, -W
+                           Window length. Coverage information will be averaged along each window 
+                           (non-overlapping) and the average value of each window will be regarded 
+                           as one observation for the EM algorithm. Having larger windows will lead 
+                           to lower resolution but faster runtime. (default = 4000)
+         --labelNames, -l
+                           (Optional) (For naming rows in the final benchmarking tsv file) A 
+                           comma-delimited string of label names (for example 
+                           'Err,Dup,Hap,Col'). It should match the number of labels in the 
+                           header of the input file.[default: none]
+         --iterations, -n
+                           Maximum number of iterations [Default = 100]
+         --contigsList, -c
+                           (Optional) Path to a file with a list of contig names to include (one 
+                           contig name per line) [Optional]
+         --convergenceTol, -t
+                           Convergence tolerance. The EM iteration will stop once the difference 
+                           between all model parameter values in two consecutive iterations is 
+                           less than this value. [Default = 0.001]
+         --maxHighMapqRatio, -q
+                           Maximum ratio of high mapq coverage for duplicated state [Default=0.25]
+         --minHighMapqRatio, -Q
+                           Minimum ratio of high mapq coverage for collapsed state [Default=0.75]
+         --alphaTsv, -A
+                           (Optional) The dependency factors of the current emission density
+                           to the previous emission. This parameter is a tsv file with 4 rows
+                           and 4 columns with no header line. All numbers should be between 
+                           0 and 1. 
+                           [Default = all alpha factors set to 0]
+         --collapsedComps, -p
+                           (Optional) Force the number of components of the collapsed state
+                           to this positive integer number (Only for testing purposes) 
+                           [Default = it will automatically detect the best number of 
+                           components by taking the maximum observed coverage.]
+         --writeParameterStatsPerIteration, -w
+                           (Optional) Write emission, transition statistics per 
+                           each iteration (For only investigating how the model 
+                           is improved over EM iterations) [Default = disabled].
+         --writeBenchmarkingStatsPerIteration, -k
+                           (Optional) Write benchmarking (precision/recall/f1score)
+                           statistics per each iteration (For only investigating how 
+                           the model is improved over EM iterations) [Default = disabled].
+         --writePosteriorProbs, -P
+                           (Optional) Recommended only for development. 
+                           Write posterior probabilities in tsv format [Default = disabled].
+         --binArrayFile, -b
+                           (Optional) A tsv file (tab-delimited) that contains bin arrays 
+                           for stratifying results by event size. Bin intervals can have overlap.
+                           It should contain three columns. 
+                           1st column is the closed start of the bin and the 2nd 
+                           column is the open end. The 3rd column has a name for each bin. 
+                           For example one row can be '0	100	[0-100)'
+                           If no file is passed it will consider one large bin as the default value.
+                           (Default = [0,1e9) with the name 'ALL_SIZES')
+         --overlapRatioThreshold, -v
+                           Minimum overlap ratio in calculating overlap-based metrics for 
+                           considering a hit between a ref label (for example truth label for
+                           recall) and query label (for example prediction label for recall) 
+                           [default: 0.4]
+         --initialRandomDev, -D
+                           Randomly deviate the initial mean values for EM algorithm.
+                           This is only for experimenting how much HMM-Flagger is tolerant to
+                           starting with approximate values. It should be greater than or equal
+                           to 0 and less than 0.5 . [default: 0.0]
+         --threads, -@
+                           Number of threads [default: 4]
+         --dumpBin, -B
+                           Dump chunks in binary format in the output dir (it will make 
+                           later runs faster by skipping chunk creation part if using the
+                           same bin file) [default: disabled]
+         --accelerate, -s
+                           Run EM in accelerated mode. Each iteration will run 3 rounds 
+                           of EM internally so each iteration will take longer in the 
+                           acceleration mode but it will have a boosted update for 
+                           parameters. The whole run should converge faster 
+                           [default: disabled]
+         --minimumLengths, -M
+                           Comma-delimited list of minimum lengths for converting 
+                           non-Hap short blocks into Hap blocks. Given numbers should be 
+                           related to states Err, Dup and Col respectively. 
+                           [default: '0,0,0']
