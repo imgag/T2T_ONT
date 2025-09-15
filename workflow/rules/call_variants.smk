@@ -12,9 +12,9 @@ rule determine_sex:
         sex="assembly/qc/{isphased}_{tool}/{asm}/sample_sex.txt",
     log:
         "logs/determine_sex_{isphased}_{tool}_{asm}.log",
-    wildcard_constraints:
+    #wildcard_constraints:
         # Should not be applied to hprc samples
-        tool="^(?!.*hprc).*"
+    #    tool="^(?!hprc$).+"
     conda:
         "../env/mosdepth.yml"
     shell:
