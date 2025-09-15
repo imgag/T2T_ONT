@@ -76,6 +76,8 @@ MMC = Missing multi copy genes
 
 MSC = Missing single copy genes
 
+> “paftools asmgene” detects missing genes by aligning transcripts to both an assembly  haplotype and a haploid reference and counting discrepancies in gene copy number.  Subsequently, the percentage of genes that are multi-copy in the haploid reference  but not in the assembly haplotype (%MMC) and the percentage of genes that are single-copy in the haploid reference but not in the assembly haplotype (%MSC) were  computed. (1. Henglin, M. et al. Graphasing: phasing diploid genome assembly graphs with single-cell strand sequencing. Genome Biology 25, 265 (2024).
+)
 
 
 ### Base quality

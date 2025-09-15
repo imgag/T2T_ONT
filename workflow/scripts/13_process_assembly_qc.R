@@ -1,4 +1,4 @@
-selected_metrics = c(
+default_selected_metrics = c(
     "length",
     "ref_covered",
     "asm_covered",
@@ -16,10 +16,11 @@ selected_metrics = c(
     "n_contigs_over_10mb",
     "genome_completeness",
     "MMC",
+    "MSC",
     "overall_switch_rate"
     )
 
-process_qc_table <- function(dt, selection = selected_metrics) {
+process_qc_table <- function(dt, selection = default_selected_metrics) {
 
     # Define the optional grouping columns
     optional_group_cols <- c("n_UL", "n_DX", "sample")
@@ -30,10 +31,9 @@ process_qc_table <- function(dt, selection = selected_metrics) {
     # Add optional columns if they exist in the data
     group_cols <- c(base_group_cols, optional_group_cols[optional_group_cols %in% names(dt)])
     
-    # Calculate MMC
+    # Calculate MMC (Missing Multi Copy)
     dt_mmc <- dt %>%
-    # First calculate MMC as before
-    filter(metric %in% c("ref_covered", "asm_covered")) %>%
+    filter(metric %in% c("ref.dup_cnt", "asm.dup_cnt")) %>%
     pivot_wider(
         names_from = metric,
         values_from = value,
@@ -41,16 +41,29 @@ process_qc_table <- function(dt, selection = selected_metrics) {
         ) %>%
         group_by(!!!syms(group_cols)) %>%
     summarise(
-        ref_mc = sum(ref_covered),
-        asm_mc = sum(asm_covered),
+        ref_mc = sum(ref.dup_cnt),
+        asm_mc = sum(asm.dup_cnt),
         value = 1 - asm_mc/ref_mc,
         .groups = 'drop'
     ) %>% 
     select( -ref_mc, -asm_mc) %>%
     mutate(metric = "MMC")
 
-    #head(dt_mmc)
-
+    # Calculate MSC (Missing Single Copy)
+    dt_msc <- dt %>%
+    filter(source == "asmgene") %>%
+    group_by(!!!syms(group_cols)) %>%
+    summarise(
+        ref_single = value[metric == "ref.full_sgl"],
+        asm_single = value[metric == "asm.full_sgl"],
+        value = (ref_single - asm_single) / ref_single,
+        .groups = 'drop'
+    ) %>%
+    select(-ref_single, -asm_single) %>%
+    mutate(metric = "MSC")
+    #print(head(dt_msc))
+    #print(head(dt_mmc))
+    
     # Calculate genome completeness
     dt_completeness <- dt %>%
     filter(source == "asmgene") %>%
@@ -122,7 +135,7 @@ process_qc_table <- function(dt, selection = selected_metrics) {
     )
 
     # add MMC, completeness, and whatshap_agg to original table
-    dt <- bind_rows(dt, dt_completeness, dt_mmc, dt_whatshap_agg)
+    dt <- bind_rows(dt, dt_completeness, dt_mmc, dt_msc, dt_whatshap_agg)
 
     key_metrics = c(
         "")
