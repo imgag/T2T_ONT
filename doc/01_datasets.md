@@ -56,13 +56,6 @@ https://github.com/hloucks/CenSatData
 Downloaded from https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/annotation/centromere/hg002v1.1_v2.0/hg002v1.1.cenSatv2.0.bed
 
 
-## Additional datasets:
-
-ONT Official Blogpost: 
- 45X UL -> Herro
- 35X PoreC 
- 35X 6B4 Polishing
-
 ## Repeat Masker database
 
 DFAM for mammal/human in H5 Format. Downlaoded from https://www.dfam.org/releases/current/families/FamDB/
@@ -71,3 +64,42 @@ DFAM for mammal/human in H5 Format. Downlaoded from https://www.dfam.org/release
 
 Folder with benchmark data for GQC:
 https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/HG002/assemblies/polishing/HG002/v1.1/benchmark/resources/hg002v1.1.resources.tar.gz
+
+## HPRC data
+
+Created a script to download the datasets
+
+List downloaded samples:
+
+```bash
+python workflow/scripts/22_download_hprc_asm.py \
+    --output assembly/output/hprc \
+    --list-downloaded \
+    --config-file data/ref/hprc/download_status.txt \
+    doc/tables/HPGRC_R2_SequencingDataIndex_assemblies.tsv 
+```
+
+Download samples:
+
+```bash
+python workflow/scripts/22_download_hprc_asm.py \
+    --output data/ref/hprc \
+    --qc-output-dir assembly/qc/phased_hprc \
+    --config-file data/ref/hprc/download_status.txt \
+    --flagger-file data/ref/hprc/flagger_ont_v0.1.1.csv \
+    --nucflag-file data/ref/hprc/nucflag_pre_release_v0.1.index.csv \
+    doc/tables/HPGRC_R2_SequencingDataIndex_assemblies.tsv 
+```
+
+Download QC only:
+
+```bash
+python workflow/scripts/22_download_hprc_asm.py \
+    --output data/ref/hprc \
+    --qc-output-dir assembly/qc/phased_hprc \
+    --config-file data/ref/hprc/download_status.txt \
+    --flagger-file data/ref/hprc/flagger_ont_v0.1.1.csv \
+    --nucflag-file data/ref/hprc/nucflag_pre_release_v0.1.index.csv \
+    --qc-only \
+    doc/tables/HPGRC_R2_SequencingDataIndex_assemblies.tsv 
+```
