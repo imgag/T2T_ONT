@@ -163,7 +163,7 @@ rule flagger_create_cov:
             {params.bam2cov} \
                 --bam /mnt/{input.bam} \
                 --output /mnt/{output.cov} \
-                --annotationJson {input.idx} \
+                --annotationJson /mnt/{input.idx} \
                 --threads {threads} \
                 --baselineAnnotation "whole_genome" \
             >{log} 2>&1
@@ -191,9 +191,7 @@ rule flagger:
             {params.hmm_flagger} \
                 --input /mnt/{input.cov} \
                 --outputDir /mnt/$(dirname {output.tsv}) \
-                --labelNames Err,Dup,Hap,Col \
-                --trackName {wildcards.asm}_flagger_stats \
-                --alphaTsv {params.alpha_tsv} \
+                --trackName {wildcards.asm}_flagger_prediction \
                 --threads {threads} \
         >{log} 2>&1
         """
