@@ -40,20 +40,25 @@ rule repeatmasker:
         "../env/repeatmasker.yml"
     log:
         "logs/repeatmasker/{asm}_repeatmasker.log"
-    threads: 64
+    threads: 32
     benchmark:
         "runtimes/repeatmasker/{asm}.repeatmasker.txt"
+    params:
+        dfam_lib=config.get('dfam_db')
     shell:
         """
-        # Run RepeatMasker
         RepeatMasker \
-            -species human \
+            -lib {params.dfam_lib} \
+            -engine rmblast \
             -dir $(dirname {output.out}) \
             -pa {threads} \
             -gff \
+            -q \
+            -no_is \
             {input.fa} \
             > {log} 2>&1
         """
+
 
 rule analyze_repeatmasker:
     input:
