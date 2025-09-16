@@ -1,0 +1,123 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/NA20827/NA20827.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/NA20827/NA20827.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/NA20827/NA20827.haplotype2.fasta >assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/NA20827/NA20827.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome NA20827#2#CM102559.1_Start processed
+[+]	Chromosome NA20827#2#CM102560.1_Start processed
+[+]	Chromosome NA20827#2#CM102561.1_Start processed
+[+]	Chromosome NA20827#2#CM102562.1_Start processed
+[+]	Chromosome NA20827#2#CM102563.1_Start processed
+[+]	Chromosome NA20827#2#CM102564.1_Start processed
+[+]	Chromosome NA20827#2#CM102565.1_Start processed
+[+]	Chromosome NA20827#2#CM102566.1_Start processed
+[+]	Chromosome NA20827#2#CM102567.1_Start processed
+[+]	Chromosome NA20827#2#CM102568.1_Start processed
+[+]	Chromosome NA20827#2#CM102569.1_Start processed
+[+]	Chromosome NA20827#2#CM102570.1_Start processed
+[+]	Chromosome NA20827#2#CM102571.1_Start processed
+[+]	Chromosome NA20827#2#CM102572.1_Start processed
+[+]	Chromosome NA20827#2#CM102573.1_Start processed
+[+]	Chromosome NA20827#2#CM102574.1_Start processed
+[+]	Chromosome NA20827#2#CM102575.1_Start processed
+[+]	Chromosome NA20827#2#CM102576.1_Start processed
+[+]	Chromosome NA20827#2#CM102577.1_Start processed
+[+]	Chromosome NA20827#2#CM102578.1_Start processed
+[+]	Chromosome NA20827#2#CM102579.1_Start processed
+[+]	Chromosome NA20827#2#CM102580.1_Start processed
+[+]	Chromosome NA20827#2#CM102581.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000014.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000015.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000016.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000017.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000018.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000019.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000030.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000031.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000032.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000033.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000034.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000035.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000036.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000037.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000038.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000039.1_Start processed
+[+]	Chromosome NA20827#2#JBKOQZ010000040.1_Start processed
+[+]	Chromosome NA20827#2#CM102559.1_End processed
+[+]	Chromosome NA20827#2#CM102560.1_End processed
+[+]	Chromosome NA20827#2#CM102561.1_End processed
+[+]	Chromosome NA20827#2#CM102562.1_End processed
+[+]	Chromosome NA20827#2#CM102563.1_End processed
+[+]	Chromosome NA20827#2#CM102564.1_End processed
+[+]	Chromosome NA20827#2#CM102565.1_End processed
+[+]	Chromosome NA20827#2#CM102566.1_End processed
+[+]	Chromosome NA20827#2#CM102567.1_End processed
+[+]	Chromosome NA20827#2#CM102568.1_End processed
+[+]	Chromosome NA20827#2#CM102569.1_End processed
+[+]	Chromosome NA20827#2#CM102570.1_End processed
+[+]	Chromosome NA20827#2#CM102571.1_End processed
+[+]	Chromosome NA20827#2#CM102572.1_End processed
+[+]	Chromosome NA20827#2#CM102573.1_End processed
+[+]	Chromosome NA20827#2#CM102574.1_End processed
+[+]	Chromosome NA20827#2#CM102575.1_End processed
+[+]	Chromosome NA20827#2#CM102576.1_End processed
+[+]	Chromosome NA20827#2#CM102577.1_End processed
+[+]	Chromosome NA20827#2#CM102578.1_End processed
+[+]	Chromosome NA20827#2#CM102579.1_End processed
+[+]	Chromosome NA20827#2#CM102580.1_End processed
+[+]	Chromosome NA20827#2#CM102581.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000014.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000015.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000016.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000017.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000018.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000019.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000030.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000031.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000032.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000033.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000034.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000035.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000036.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000037.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000038.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000039.1_End processed
+[+]	Chromosome NA20827#2#JBKOQZ010000040.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::3.963*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::61.298*1.40] indexed the graph
+[M::mg_opt_update::65.406*1.38] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::309.062*3.86] mapped 11 sequences
+[M::worker_pipeline::451.894*4.08] mapped 29 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20827/NA20827.haplotype2.fasta
+[M::main] Real time: 452.401 sec; CPU: 1844.006 sec; Peak RSS: 52.726 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/NA20827/T2T_contigs.haplotype2_alignment_T2T.txt
+

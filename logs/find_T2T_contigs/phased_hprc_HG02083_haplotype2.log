@@ -1,0 +1,185 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG02083/HG02083.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/HG02083/HG02083.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG02083/HG02083.haplotype2.fasta >assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG02083/HG02083.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG02083#2#CM086963.1_Start processed
+[+]	Chromosome HG02083#2#CM086964.1_Start processed
+[+]	Chromosome HG02083#2#CM086965.1_Start processed
+[+]	Chromosome HG02083#2#CM086966.1_Start processed
+[+]	Chromosome HG02083#2#CM086967.1_Start processed
+[+]	Chromosome HG02083#2#CM086968.1_Start processed
+[+]	Chromosome HG02083#2#CM086969.1_Start processed
+[+]	Chromosome HG02083#2#CM086970.1_Start processed
+[+]	Chromosome HG02083#2#CM086971.1_Start processed
+[+]	Chromosome HG02083#2#CM086972.1_Start processed
+[+]	Chromosome HG02083#2#CM086973.1_Start processed
+[+]	Chromosome HG02083#2#CM086974.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000002.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000003.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000006.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000008.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000009.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000010.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000011.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000013.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000014.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000015.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000017.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000018.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000019.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000020.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000021.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000022.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000023.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000024.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000025.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000026.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000027.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000028.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000029.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000030.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000031.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000032.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000033.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000034.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000035.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000036.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000037.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000038.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000039.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000041.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000042.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000043.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000046.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000047.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000048.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000052.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000053.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000054.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000055.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000056.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000057.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000058.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000059.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000060.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000061.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000062.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000063.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000064.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000065.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000066.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000067.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000068.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000069.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000070.1_Start processed
+[+]	Chromosome HG02083#2#JBHDTW010000071.1_Start processed
+[+]	Chromosome HG02083#2#CM086963.1_End processed
+[+]	Chromosome HG02083#2#CM086964.1_End processed
+[+]	Chromosome HG02083#2#CM086965.1_End processed
+[+]	Chromosome HG02083#2#CM086966.1_End processed
+[+]	Chromosome HG02083#2#CM086967.1_End processed
+[+]	Chromosome HG02083#2#CM086968.1_End processed
+[+]	Chromosome HG02083#2#CM086969.1_End processed
+[+]	Chromosome HG02083#2#CM086970.1_End processed
+[+]	Chromosome HG02083#2#CM086971.1_End processed
+[+]	Chromosome HG02083#2#CM086972.1_End processed
+[+]	Chromosome HG02083#2#CM086973.1_End processed
+[+]	Chromosome HG02083#2#CM086974.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000002.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000003.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000006.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000008.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000009.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000010.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000011.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000013.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000014.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000015.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000017.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000018.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000019.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000020.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000021.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000022.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000023.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000024.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000025.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000026.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000027.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000028.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000029.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000030.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000031.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000032.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000033.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000034.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000035.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000036.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000037.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000038.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000039.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000041.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000042.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000043.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000046.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000047.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000048.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000052.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000053.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000054.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000055.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000056.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000057.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000058.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000059.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000060.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000061.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000062.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000063.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000064.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000065.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000066.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000067.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000068.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000069.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000070.1_End processed
+[+]	Chromosome HG02083#2#JBHDTW010000071.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.772*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::53.700*1.43] indexed the graph
+[M::mg_opt_update::57.630*1.40] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::267.444*4.21] mapped 20 sequences
+[M::worker_pipeline::375.771*4.33] mapped 51 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG02083/HG02083.haplotype2.fasta
+[M::main] Real time: 376.237 sec; CPU: 1627.607 sec; Peak RSS: 45.720 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG02083/T2T_contigs.haplotype2_alignment_T2T.txt
+

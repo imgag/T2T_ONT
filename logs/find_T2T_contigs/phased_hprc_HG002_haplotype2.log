@@ -1,0 +1,91 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG002/HG002.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/HG002/HG002.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG002/HG002.haplotype2.fasta >assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG002/HG002.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome chr1_MATERNAL_Start processed
+[+]	Chromosome chr2_MATERNAL_Start processed
+[+]	Chromosome chr3_MATERNAL_Start processed
+[+]	Chromosome chr4_MATERNAL_Start processed
+[+]	Chromosome chr5_MATERNAL_Start processed
+[+]	Chromosome chr6_MATERNAL_Start processed
+[+]	Chromosome chr7_MATERNAL_Start processed
+[+]	Chromosome chr8_MATERNAL_Start processed
+[+]	Chromosome chr9_MATERNAL_Start processed
+[+]	Chromosome chr10_MATERNAL_Start processed
+[+]	Chromosome chr11_MATERNAL_Start processed
+[+]	Chromosome chr12_MATERNAL_Start processed
+[+]	Chromosome chr13_MATERNAL_Start processed
+[+]	Chromosome chr14_MATERNAL_Start processed
+[+]	Chromosome chr15_MATERNAL_Start processed
+[+]	Chromosome chr16_MATERNAL_Start processed
+[+]	Chromosome chr17_MATERNAL_Start processed
+[+]	Chromosome chr18_MATERNAL_Start processed
+[+]	Chromosome chr19_MATERNAL_Start processed
+[+]	Chromosome chr20_MATERNAL_Start processed
+[+]	Chromosome chr21_MATERNAL_Start processed
+[+]	Chromosome chr22_MATERNAL_Start processed
+[+]	Chromosome chrX_MATERNAL_Start processed
+[+]	Chromosome chrM_Start processed
+[+]	Chromosome chr1_MATERNAL_End processed
+[+]	Chromosome chr2_MATERNAL_End processed
+[+]	Chromosome chr3_MATERNAL_End processed
+[+]	Chromosome chr4_MATERNAL_End processed
+[+]	Chromosome chr5_MATERNAL_End processed
+[+]	Chromosome chr6_MATERNAL_End processed
+[+]	Chromosome chr7_MATERNAL_End processed
+[+]	Chromosome chr8_MATERNAL_End processed
+[+]	Chromosome chr9_MATERNAL_End processed
+[+]	Chromosome chr10_MATERNAL_End processed
+[+]	Chromosome chr11_MATERNAL_End processed
+[+]	Chromosome chr12_MATERNAL_End processed
+[+]	Chromosome chr13_MATERNAL_End processed
+[+]	Chromosome chr14_MATERNAL_End processed
+[+]	Chromosome chr15_MATERNAL_End processed
+[+]	Chromosome chr16_MATERNAL_End processed
+[+]	Chromosome chr17_MATERNAL_End processed
+[+]	Chromosome chr18_MATERNAL_End processed
+[+]	Chromosome chr19_MATERNAL_End processed
+[+]	Chromosome chr20_MATERNAL_End processed
+[+]	Chromosome chr21_MATERNAL_End processed
+[+]	Chromosome chr22_MATERNAL_End processed
+[+]	Chromosome chrX_MATERNAL_End processed
+[+]	Chromosome chrM_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.014*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::53.242*1.43] indexed the graph
+[M::mg_opt_update::57.087*1.40] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::286.846*3.85] mapped 11 sequences
+[M::worker_pipeline::420.256*4.05] mapped 13 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG002/HG002.haplotype2.fasta
+[M::main] Real time: 420.744 sec; CPU: 1702.635 sec; Peak RSS: 51.877 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG002/T2T_contigs.haplotype2_alignment_T2T.txt
+

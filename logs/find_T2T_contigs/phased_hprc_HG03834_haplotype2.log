@@ -1,0 +1,215 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG03834/HG03834.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/HG03834/HG03834.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG03834/HG03834.haplotype2.fasta >assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG03834/HG03834.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG03834#2#CM085809.1_Start processed
+[+]	Chromosome HG03834#2#CM085810.1_Start processed
+[+]	Chromosome HG03834#2#CM085811.1_Start processed
+[+]	Chromosome HG03834#2#CM085812.1_Start processed
+[+]	Chromosome HG03834#2#CM085813.1_Start processed
+[+]	Chromosome HG03834#2#CM085814.1_Start processed
+[+]	Chromosome HG03834#2#CM085815.1_Start processed
+[+]	Chromosome HG03834#2#CM085816.1_Start processed
+[+]	Chromosome HG03834#2#CM085817.1_Start processed
+[+]	Chromosome HG03834#2#CM085818.1_Start processed
+[+]	Chromosome HG03834#2#CM085819.1_Start processed
+[+]	Chromosome HG03834#2#CM085820.1_Start processed
+[+]	Chromosome HG03834#2#CM085821.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000007.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000008.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000009.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000010.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000011.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000013.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000015.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000016.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000017.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000018.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000019.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000021.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000022.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000023.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000024.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000025.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000026.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000027.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000028.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000029.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000030.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000031.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000032.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000033.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000034.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000035.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000036.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000037.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000038.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000039.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000040.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000041.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000042.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000043.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000045.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000046.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000047.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000050.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000051.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000053.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000054.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000055.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000056.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000057.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000058.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000059.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000060.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000061.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000062.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000063.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000064.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000065.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000066.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000067.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000068.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000069.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000070.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000071.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000072.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000073.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000074.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000075.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000076.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000077.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000078.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000079.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000080.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000081.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000082.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000083.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000084.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000085.1_Start processed
+[+]	Chromosome HG03834#2#JBHDUX010000086.1_Start processed
+[+]	Chromosome HG03834#2#CM085809.1_End processed
+[+]	Chromosome HG03834#2#CM085810.1_End processed
+[+]	Chromosome HG03834#2#CM085811.1_End processed
+[+]	Chromosome HG03834#2#CM085812.1_End processed
+[+]	Chromosome HG03834#2#CM085813.1_End processed
+[+]	Chromosome HG03834#2#CM085814.1_End processed
+[+]	Chromosome HG03834#2#CM085815.1_End processed
+[+]	Chromosome HG03834#2#CM085816.1_End processed
+[+]	Chromosome HG03834#2#CM085817.1_End processed
+[+]	Chromosome HG03834#2#CM085818.1_End processed
+[+]	Chromosome HG03834#2#CM085819.1_End processed
+[+]	Chromosome HG03834#2#CM085820.1_End processed
+[+]	Chromosome HG03834#2#CM085821.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000007.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000008.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000009.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000010.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000011.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000013.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000015.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000016.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000017.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000018.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000019.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000021.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000022.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000023.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000024.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000025.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000026.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000027.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000028.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000029.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000030.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000031.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000032.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000033.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000034.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000035.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000036.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000037.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000038.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000039.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000040.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000041.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000042.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000043.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000045.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000046.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000047.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000050.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000051.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000053.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000054.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000055.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000056.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000057.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000058.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000059.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000060.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000061.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000062.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000063.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000064.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000065.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000066.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000067.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000068.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000069.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000070.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000071.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000072.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000073.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000074.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000075.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000076.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000077.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000078.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000079.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000080.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000081.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000082.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000083.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000084.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000085.1_End processed
+[+]	Chromosome HG03834#2#JBHDUX010000086.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.149*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::56.478*1.43] indexed the graph
+[M::mg_opt_update::60.362*1.41] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::295.806*3.96] mapped 14 sequences
+[M::worker_pipeline::423.528*4.02] mapped 72 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG03834/HG03834.haplotype2.fasta
+[M::main] Real time: 424.049 sec; CPU: 1704.028 sec; Peak RSS: 50.707 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG03834/T2T_contigs.haplotype2_alignment_T2T.txt
+

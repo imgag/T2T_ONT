@@ -1,0 +1,119 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/NA20503/NA20503.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1.seqinfo.txt data/ref/hprc/NA20503/NA20503.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/NA20503/NA20503.haplotype1.fasta >assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/NA20503/NA20503.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome NA20503#1#CM102455.1_Start processed
+[+]	Chromosome NA20503#1#CM102456.1_Start processed
+[+]	Chromosome NA20503#1#CM102457.1_Start processed
+[+]	Chromosome NA20503#1#CM102458.1_Start processed
+[+]	Chromosome NA20503#1#CM102459.1_Start processed
+[+]	Chromosome NA20503#1#CM102460.1_Start processed
+[+]	Chromosome NA20503#1#CM102461.1_Start processed
+[+]	Chromosome NA20503#1#CM102462.1_Start processed
+[+]	Chromosome NA20503#1#CM102463.1_Start processed
+[+]	Chromosome NA20503#1#CM102464.1_Start processed
+[+]	Chromosome NA20503#1#CM102465.1_Start processed
+[+]	Chromosome NA20503#1#CM102466.1_Start processed
+[+]	Chromosome NA20503#1#CM102467.1_Start processed
+[+]	Chromosome NA20503#1#CM102468.1_Start processed
+[+]	Chromosome NA20503#1#CM102469.1_Start processed
+[+]	Chromosome NA20503#1#CM102470.1_Start processed
+[+]	Chromosome NA20503#1#CM102471.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000001.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000002.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000008.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000010.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000012.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000014.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000015.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000016.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000017.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000018.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000019.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000020.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000021.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000022.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000026.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000033.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000034.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000035.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000036.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000037.1_Start processed
+[+]	Chromosome NA20503#1#JBKOQS010000038.1_Start processed
+[+]	Chromosome NA20503#1#CM102455.1_End processed
+[+]	Chromosome NA20503#1#CM102456.1_End processed
+[+]	Chromosome NA20503#1#CM102457.1_End processed
+[+]	Chromosome NA20503#1#CM102458.1_End processed
+[+]	Chromosome NA20503#1#CM102459.1_End processed
+[+]	Chromosome NA20503#1#CM102460.1_End processed
+[+]	Chromosome NA20503#1#CM102461.1_End processed
+[+]	Chromosome NA20503#1#CM102462.1_End processed
+[+]	Chromosome NA20503#1#CM102463.1_End processed
+[+]	Chromosome NA20503#1#CM102464.1_End processed
+[+]	Chromosome NA20503#1#CM102465.1_End processed
+[+]	Chromosome NA20503#1#CM102466.1_End processed
+[+]	Chromosome NA20503#1#CM102467.1_End processed
+[+]	Chromosome NA20503#1#CM102468.1_End processed
+[+]	Chromosome NA20503#1#CM102469.1_End processed
+[+]	Chromosome NA20503#1#CM102470.1_End processed
+[+]	Chromosome NA20503#1#CM102471.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000001.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000002.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000008.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000010.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000012.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000014.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000015.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000016.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000017.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000018.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000019.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000020.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000021.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000022.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000026.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000033.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000034.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000035.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000036.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000037.1_End processed
+[+]	Chromosome NA20503#1#JBKOQS010000038.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.443*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::61.221*1.42] indexed the graph
+[M::mg_opt_update::65.889*1.39] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::312.207*3.76] mapped 12 sequences
+[M::worker_pipeline::449.211*3.89] mapped 26 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20503/NA20503.haplotype1.fasta
+[M::main] Real time: 449.906 sec; CPU: 1747.610 sec; Peak RSS: 51.087 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/NA20503/T2T_contigs.haplotype1_alignment_T2T.txt
+

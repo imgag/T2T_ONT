@@ -14,7 +14,6 @@ Extracting 1000bps from start and end of sequences for telomere motif identifica
 seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/T2T11/assembly.haplotype1.fasta >assembly/qc/phased_verkko/T2T11/T2T_contigs.haplotype1.teloinput.fa
 
 
-[INFO][0m create FASTA index for assembly/output/verkko/T2T11/assembly.haplotype1.fasta
 searching telomere motif
 
 tidk search -d . -f assembly/qc/phased_verkko/T2T11/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_verkko/T2T11/T2T_contigs.haplotype1 -s TTAGGG -w 1000
@@ -370,14 +369,14 @@ tidk search -d . -f assembly/qc/phased_verkko/T2T11/T2T_contigs.haplotype1.teloi
 
 Reference sequence provided, proceeding with mapping based T2T filtering
 
-[M::main::4.202*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
-[M::mg_index::54.794*1.42] indexed the graph
-[M::mg_opt_update::59.579*1.39] occ_max1=100; lc_max_occ=2
-[M::worker_pipeline::275.569*4.29] mapped 20 sequences
-[M::worker_pipeline::423.722*4.15] mapped 152 sequences
+[M::main::4.727*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::64.937*1.43] indexed the graph
+[M::mg_opt_update::69.838*1.40] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::294.507*4.25] mapped 20 sequences
+[M::worker_pipeline::446.930*4.13] mapped 152 sequences
 [M::main] Version: 0.20-r559
 [M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/verkko/T2T11/assembly.haplotype1.fasta
-[M::main] Real time: 424.269 sec; CPU: 1759.755 sec; Peak RSS: 44.474 GB
+[M::main] Real time: 447.493 sec; CPU: 1846.299 sec; Peak RSS: 44.054 GB
 [M::load_paf::] ==> Loaded assembly/qc/phased_verkko/T2T11/T2T_contigs.haplotype1.paf
 
 

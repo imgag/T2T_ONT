@@ -2,26 +2,31 @@
 
 ## Basecalling
 
-- [o] Redo 25006LRa108_T2T14_05592 (+Backup)
-- [ ] PoreC batch mid August
+- [X] Redo 25006LRa108_T2T14_05592 (+Backup)
+- [o] PoreC batch mid August
 
 ## Assembly
 
-- [ ] Benchmark Hifiasm with YAHS scaffolding,= use synthetic pairs output from _wf-pore-c_
-- [ ] Speed Up Verkko Scaffolding step.
+- [ ] Benchmark Hifiasm with YAHS scaffolding, use synthetic pairs output from _wf-pore-c_
+- [X] Speed Up Verkko Scaffolding step.
 
 ## Assembly Quality
 
 - [ ] Redo hifiasm QC table with latest version of scripts
+- [ ] Check out [BISER](https://github.com/0xTCG/biser/) tool for finding segmental duplication
 - [ ] Make downsampling plots and stats for all new QC, including Gaps. Create 1 summary figure/table for talks or publication.
 - [ ] Add heterozygosity to QC table
 - [ ] Add summary_stats QC for SUP basecalled reads / MultiQC. Aggregate for every sample.
 - [ ] Compare our samples to HPGRC pipeline
 - [ ] Check the accrocentric chromosomes, are there any that were assembled gap free?
+- [ ] Add hmm-flagger QC
+- [ ] Rename repeatmasker and nucflag outputs
+- [ ] Add nucflag and repeatmaskter outputs to Git
 
 ## General
 
 - [ ] Add polishing with dorado
+- [ ] Select polishing files with dorado
 - [ ] Check Polishing results
 - [ ] Dont calculate mod bases for PoreC!
 - [ ] Check where the sequences not in haplotype1 and haplotype2 are coming from.
@@ -29,6 +34,7 @@
 - [ ] Cleanup analysis_other folder, add required to Git, delete not needed
 - [ ] Decide what to do with rfhap, is it required? Maybe for methylation?
 - [ ] Create Report for every assembly. Maybe Typst? Markdown? Key metrics and Figures for every sample.
+- [ ] Upload folder: Generate README describing files, update file names
 
 ## Base modifications
 
@@ -52,6 +58,10 @@
 - [ ] GCP: Read paper in detail, apply to our results
 - [ ] Create GQC plots
 
+## Population genetics
+
+- [ ] Ancestry estimation STRUCTURE/ADMIXTURE
+
 ## Figures
 
 - [ ]
@@ -59,4 +69,5 @@
 ## Writing
 
 - [ ] Add documentation header to all scripts
+- [ ] Describe all final QC Parameters
 - [ ] Remove unused scripts
