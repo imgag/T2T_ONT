@@ -56,16 +56,19 @@ table {
 ---
 
 
+![bg](../figures/qc_beesplot.png)
+
+---
+
+- Most samples look good, no additional sequencing required.
+- T2T02 is off, probably can be fixed with existing data
+
 
 ---
 ### Clinically relevant genes, dark genome
 
-Highlight clinically relevant genes?
+List of clinically relevant genes/regions?
 
 > facioscapulohumeral muscular dystrophy (FSHD) (55). This region includes FSHD region gene 1 (FRG1), FSHD region gene 2 (FRG2), and an intervening D4Z4 macrosatellite repeat containing the double homeobox 4 (DUX4) gene that has been implicated in the etiology of FSHD (56). Numerous duplications of this region throughout the genome have complicated past genetic analyses of FSHD (Nurk et al, 2022)
 
 ---
-
-### Publication name
-
-Comment from draft

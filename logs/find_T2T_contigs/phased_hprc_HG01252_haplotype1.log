@@ -1,0 +1,179 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG01252/HG01252.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1.seqinfo.txt data/ref/hprc/HG01252/HG01252.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG01252/HG01252.haplotype1.fasta >assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG01252/HG01252.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG01252#1#CM088822.1_Start processed
+[+]	Chromosome HG01252#1#CM088823.1_Start processed
+[+]	Chromosome HG01252#1#CM088824.1_Start processed
+[+]	Chromosome HG01252#1#CM088825.1_Start processed
+[+]	Chromosome HG01252#1#CM088826.1_Start processed
+[+]	Chromosome HG01252#1#CM088827.1_Start processed
+[+]	Chromosome HG01252#1#CM088828.1_Start processed
+[+]	Chromosome HG01252#1#CM088829.1_Start processed
+[+]	Chromosome HG01252#1#CM088830.1_Start processed
+[+]	Chromosome HG01252#1#CM088831.1_Start processed
+[+]	Chromosome HG01252#1#CM088832.1_Start processed
+[+]	Chromosome HG01252#1#CM088833.1_Start processed
+[+]	Chromosome HG01252#1#CM088834.1_Start processed
+[+]	Chromosome HG01252#1#CM088835.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000006.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000009.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000010.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000011.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000013.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000014.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000015.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000016.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000017.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000018.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000019.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000020.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000021.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000022.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000023.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000024.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000025.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000026.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000027.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000028.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000029.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000030.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000031.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000032.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000033.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000034.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000035.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000036.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000037.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000039.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000040.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000043.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000047.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000048.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000049.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000050.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000051.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000052.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000053.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000054.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000055.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000056.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000057.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000058.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000059.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000060.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000061.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000062.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000063.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000064.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000065.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000066.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000067.1_Start processed
+[+]	Chromosome HG01252#1#JBHIHY010000068.1_Start processed
+[+]	Chromosome HG01252#1#CM088822.1_End processed
+[+]	Chromosome HG01252#1#CM088823.1_End processed
+[+]	Chromosome HG01252#1#CM088824.1_End processed
+[+]	Chromosome HG01252#1#CM088825.1_End processed
+[+]	Chromosome HG01252#1#CM088826.1_End processed
+[+]	Chromosome HG01252#1#CM088827.1_End processed
+[+]	Chromosome HG01252#1#CM088828.1_End processed
+[+]	Chromosome HG01252#1#CM088829.1_End processed
+[+]	Chromosome HG01252#1#CM088830.1_End processed
+[+]	Chromosome HG01252#1#CM088831.1_End processed
+[+]	Chromosome HG01252#1#CM088832.1_End processed
+[+]	Chromosome HG01252#1#CM088833.1_End processed
+[+]	Chromosome HG01252#1#CM088834.1_End processed
+[+]	Chromosome HG01252#1#CM088835.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000006.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000009.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000010.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000011.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000013.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000014.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000015.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000016.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000017.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000018.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000019.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000020.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000021.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000022.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000023.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000024.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000025.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000026.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000027.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000028.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000029.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000030.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000031.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000032.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000033.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000034.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000035.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000036.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000037.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000039.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000040.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000043.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000047.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000048.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000049.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000050.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000051.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000052.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000053.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000054.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000055.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000056.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000057.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000058.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000059.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000060.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000061.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000062.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000063.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000064.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000065.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000066.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000067.1_End processed
+[+]	Chromosome HG01252#1#JBHIHY010000068.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.126*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::56.649*1.45] indexed the graph
+[M::mg_opt_update::60.737*1.42] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::307.655*3.93] mapped 16 sequences
+[M::worker_pipeline::438.220*4.13] mapped 52 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG01252/HG01252.haplotype1.fasta
+[M::main] Real time: 438.878 sec; CPU: 1808.478 sec; Peak RSS: 47.610 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG01252/T2T_contigs.haplotype1_alignment_T2T.txt
+
