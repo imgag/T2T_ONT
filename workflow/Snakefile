@@ -33,147 +33,11 @@ include: "rules/porec.smk"
 include: "rules/ancestry.smk"
 
 
-# Data subgroups
-
-## Create subset of datasets for benchmarking, published dataset only
-
-datasets_benchmark = {key: datasets[key] for key in ["published"]}
-asm_benchmark = {k: v for k, v in asm.items() if v["dataset"] == "published"}
-
-## Create subset of assemblies for reduced flowcell number
-asm_flowcell_ids = [
-    "TUE_02_01UL",
-    "TUE_02_02UL",
-    "TUE_02_03UL",
-    "TUE_02_04UL",
-    "TUE_02_05UL",
-    "TUE_02_06UL",
-    "TUE_02_01UL_01DX",
-    "TUE_02_02UL_01DX",
-    "TUE_02_03UL_01DX",
-    "TUE_02_04UL_01DX",
-    "TUE_02_05UL_01DX",
-    "TUE_02_06UL_01DX",
-    "TUE_02_01UL_02DX",
-    "TUE_02_02UL_02DX",
-    "TUE_02_03UL_02DX",
-    "TUE_02_04UL_02DX",
-    "TUE_02_05UL_02DX",
-    "TUE_02_06UL_02DX",
-]
-
-asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcell_ids}
-asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
-asm_with_apk = {k: v for k, v in asm.items() if v.get("apk_polishing", False)}
-asm_hifiasm = {k: v for k, v in asm.items() if v.get("hifiasm", False)}
-asm_with_porec = {k: v for k, v in asm.items() if "POREC" in datasets[v["dataset"]].keys()}
-
-## All other assemblies are "real" samples
+## Only include diagnostic samples
 asm_samples = {
     k: v
     for k, v in asm.items()
-    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys() | asm_hifiasm.keys())
 }
-
-print("Benchmark assemblies:")
-for key, value in asm_benchmark.items():
-    print(f"  {key}: {value}")
-
-print("\nFlowcell number assemblies:")
-for key, value in asm_flowcells.items():
-    print(f"  {key}: {value}")
-
-print("\nReal sample assemblies:")
-for key, value in asm_samples.items():
-    print(f"  {key}: {value}")
-
-print("\nTrio assemblies:")
-for key, value in asm_trio.items():
-    print(f"  {key}: {value}")
-
-print("\nHifiasm assemblies:")
-for key, value in asm_hifiasm.items():
-    print(f"  {key}: {value}")
-
-#print("\nPOREC assemblies:")
-#for key, value in asm_with_porec.items():
-#    print(f"  {key}: {value}")
-
-print("----------------------------------------------------------")
-
-# Create QC for all input FASTQ files
-
-fq_qc = []
-fq_files = [
-    str(item) for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values() if str(item).endswith(".fastq.gz")
-]
-fq_qc = [
-    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
-    for x in fq_files
-]
-
-# # Create BAMS and mapping QC for all input files
-bam_qc = []
-# for dataset in datasets_benchmark:
-#     for filetype in datasets_benchmark[dataset]:
-#         if filetype != "POREC":
-#             bam_qc.append(
-#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamstats.txt"
-#             )  # ONT bamstats
-#             bam_qc.append(
-#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
-#             )  # Coverage
-#             bam_qc.append(
-#                 f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
-#             )  # Alfred Bamqc
-
-# # Include downsampled files for benchmarking
-# bam_qc += [
-#     re.sub(
-#         ".chr\d+.",
-#         "/",
-#         x.replace("assembly/input/", "data/bamstats/mapped/").replace(
-#             ".fastq.gz", "/bamstats.txt"
-#         ),
-#     )
-#     for x in fq_files
-#     if "POREC" not in x and "Trio" not in x
-# ]
-
-# bam_qc += [
-#     re.sub(
-#         ".chr\d+.",
-#         "/",
-#         x.replace("assembly/input/", "data/bamstats/mapped/").replace(
-#             ".fastq.gz", "/cov.mosdepth.summary.txt"
-#         ),
-#     )
-#     for x in fq_files
-#     if "POREC" not in x and "Trio" not in x
-# ]
-
-# Create Dorado summary files for basecalled unmapped bams
-for dataset in datasets:
-    for entry in datasets[dataset]:
-        files = (
-            datasets[dataset].get(entry, [])
-            if isinstance(datasets[dataset].get(entry), list)
-            else [datasets[dataset].get(entry)]
-        )
-        for e in files:
-            if os.path.isdir(e):
-                if entry == "UL":
-                    bam_qc.append(
-                        f"data/bamstats/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
-                    )
-                elif entry == "HQ_duplex":
-                    bam_qc.append(
-                        f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplex.sequencing_summary.processed.txt"
-                    )
-            else:
-                print("Not included in BAM QC:", e)
-
-print("----------------------------------------------------------")
 
 # Initialize dictionaries with empty sets
 unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}
@@ -461,34 +325,6 @@ rule all_extended_qc:
         # Flagger results
         expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples)
 
-rule all_polishing:
-    input:
-        expand("assembly/output/verkko/{asm}/assembly_polished.fasta", asm=asm_samples),
-        expand(
-            "assembly/qc/phased_verkko/{asm}/merqury{polished}.qv",
-            asm=asm_samples,
-            polished=["", "_polished"],
-        ),
-
-rule all_hifiasm:
-# Hifiasm produces always two haplotypes, even when unphased
-    input:
-        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
-        "assembly/qc/qc_hifiasm.tsv"
-
-
-rule all_benchmark:
-    input:
-        # Read QC Files
-        fq_qc,
-        bam_qc,
-        # Assembly Files
-        expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_benchmark),
-        expand("assembly/output/gfase/{asm}/gfase/chained.gfa", asm=asm_benchmark),
-        # Assembly QC
-        "assembly/qc/qc_benchmark.tsv",
-
-
 rule all_input_qc:
 # Creates wf-pore-c reports for all datasets with POREC
 # Creates QC for all assembly inputs (FastQ)
@@ -498,18 +334,6 @@ rule all_input_qc:
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
 
-rule all_dip3d:
-    input:
-        "analysis_other/dip3d/T2T04/1-falign/porec.fragments.bam",
-        "analysis_other/dip3d/T2T04/dip3d.done"
-
-#rule all_verkko_trio:
-#    input:
-#        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
-
-rule all_repair:
-    input:
-        "assembly/qc/qc_repair_test.tsv"
 
 rule all_basecalling:
 # This rule just makes the basecalling for raw datasets, no QC, no downstream processing
@@ -521,6 +345,7 @@ rule all_basecalling:
         expand(
             "data/basecalled/sup/{dataset}/{dataset}.sup.sequencing_summary.txt",
             dataset=unique_datasets["sup"],
+# Data subgroups
         ),
         expand(
             "data/corrected/{dataset}/{dataset}.corrected.fasta",
@@ -548,22 +373,6 @@ rule collect_qc_benchmark:
     script:
         "scripts/06_collect_qc.R"
 
-rule collect_qc_hifiasm:
-    input:
-        **qc_collection(
-            asm_hifiasm,
-            methods_phased=["phased_hifiasm"],
-            methods_unphased=[]
-        )
-    output:
-        tsv="assembly/qc/qc_hifiasm.tsv",
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc_hifiasm.log",
-    script:
-        "scripts/06_collect_qc.R"
-
 
 rule collect_qc_samples:
     input:
@@ -577,72 +386,6 @@ rule collect_qc_samples:
     script:
         "scripts/06_collect_qc.R"
 
-rule collect_qc_flowcells:
-    input:
-        **qc_collection(
-            asm_flowcells,
-            methods_unphased=["unphased_verkko"],
-            methods_phased=["phased_verkko"],
-        ),
-    output:
-        tsv="assembly/qc/qc_flowcells.tsv",
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc_flowcells.log",
-    script:
-        "scripts/06_collect_qc.R"
 
 
-rule collect_qc_method_comparison:
-    input:
-        **qc_collection(
-            ["TUE_02_trio", "TUE_02_03UL"],
-            methods_phased=["phased_verkko"],
-            methods_unphased=["unphased_verkko"]),
-    output:
-        tsv="assembly/qc/qc_method_comparison.tsv",
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc_method_comparison.log",
-    script:
-        "scripts/06_collect_qc.R"
-
-
-rule collect_qc_repair_test:
-    input:
-        **qc_collection(
-            ["T2T00"],
-            methods_phased=["phased_verkko", "phased_repair"],
-            methods_unphased=[],
-            haplotypes=["both"]),
-    output:
-        tsv="assembly/qc/qc_repair_test.tsv",
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc_method_comparison.log",
-    script:
-        "scripts/06_collect_qc.R"
-
-
-hprc_samples, = glob_wildcards("data/ref/hprc/{sample}/{sample}.haplotype1.fasta")
-
-rule collect_qc_hprc:
-    input:
-        **qc_collection(
-            hprc_samples,
-            methods_phased=["phased_hprc"],
-            methods_unphased=[],
-            haplotypes=["haplotype1", "haplotype2"]
-        )
-    output:
-        tsv = "assembly/qc/qc_hprc.tsv"
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc_hprc.log"
-    script:
-        "scripts/06_collect_qc.R"
 
