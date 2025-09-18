@@ -1,13 +1,13 @@
 # Reference datasets
-ref: data/ref/T2T-CHM13.v2.fasta
-ref_cdna: data/ref/Homo_sapiens.GRCh38.cdna.all.fa.gz
-ref_cdna_paf: data/ref/T2T-CHM13.cdna.paf
-ref_giab_vcf: data/ref/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
-ref_hg002_q100: data/ref/hg002v1.1.fasta.gz
-ref_centromer_bed: data/ref/hg002v1.1.cenSatv2.0.bed
+ref: ../ahthapp1_T2T_ONT/data/ref/T2T-CHM13.v2.fasta
+ref_cdna: ../ahthapp1_T2T_ONT/data/ref/Homo_sapiens.GRCh38.cdna.all.fa.gz
+ref_cdna_paf: ../ahthapp1_T2T_ONT/data/ref/T2T-CHM13.cdna.paf
+ref_giab_vcf: ../ahthapp1_T2T_ONT/data/ref/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
+ref_hg002_q100: ../ahthapp1_T2T_ONT/data/ref/hg002v1.1.fasta.gz
+ref_centromer_bed: ../ahthapp1_T2T_ONT/data/ref/hg002v1.1.cenSatv2.0.bed
 
 # DORADO settings
-dorado : bin/dorado-1.0.2-linux-x64/bin/dorado
+dorado : ../ahthapp1_T2T_ONT/bin/dorado-1.0.2-linux-x64/../ahthapp1_T2T_ONT/bin/dorado
 dorado_model:
   sup: "data/dorado_models/dna_r10.4.1_e8.2_400bps_sup@v5.2.0"
   apk: "data/dorado_models/dna_r10.4.1_e8.2_apk_sup@v5.0.0"
@@ -18,7 +18,7 @@ split_number: 100
 process_subset_chunks: 3
 seq_kit : "SQK-ULK114"
 
-herro_model : bin/herro-v1
+herro_model : ../ahthapp1_T2T_ONT/bin/herro-v1
 
 gpu_queues: "gpu_srv010,gpu_srv019"
 
@@ -33,7 +33,7 @@ genome_length : 3200000000
 verkko_dryrun : False
 
 # Hifiasm settings:
-hifiasm : bin/hifiasm-0.25.0/hifiasm
+hifiasm : ../ahthapp1_T2T_ONT/bin/hifiasm-0.25.0/hifiasm
 hifiasm_opts:
   ont:   "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 --ont {ul}"
   herro: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 {hq}"
@@ -41,13 +41,13 @@ hifiasm_opts:
   herro_trio: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l0 --trio-dual -1 {maternal} -2 {paternal} {hq}"
   rfhap: "--telo-m CCCTTA --dual-scaf --primary --ul-cut 70000 -l2 --n-hap 1 --ont {ul}"
 
-yak : bin/yak/yak
-mashmap : bin/MashMap/build/bin/mashmap
+yak : ../ahthapp1_T2T_ONT/bin/yak/yak
+mashmap : ../ahthapp1_T2T_ONT/bin/MashMap/build/../ahthapp1_T2T_ONT/bin/mashmap
 
 # Variant calling settings
-X_PAR_file: bin/dipcall.kit/hs38.PAR.bed
-run-dipcall: bin/dipcall.kit/run-dipcall
-hapdiff: bin/hapdiff/hapdiff.py
+X_PAR_file: ../ahthapp1_T2T_ONT/bin/dipcall.kit/hs38.PAR.bed
+run-dipcall: ../ahthapp1_T2T_ONT/bin/dipcall.kit/run-dipcall
+hapdiff: ../ahthapp1_T2T_ONT/bin/hapdiff/hapdiff.py
 
 # meryl kmer choice
 K-mer: 37  # For QC
@@ -57,29 +57,33 @@ kmer_refs:
   GE-MED-T2T00: "analysis_other/merqury_shortread/DX203429_02.meryl"
 
 # T2T contigs
-T2T_chromosomes: bin/T2T_Sequences/T2T_chromosomes.sh
+T2T_chromosomes: ../ahthapp1_T2T_ONT/bin/T2T_Sequences/T2T_chromosomes.sh
 
 # RepeatMasker
-dfam_db: data/ref/dfam39_full.7.h5
+dfam_db: ../ahthapp1_T2T_ONT/data/ref/dfam39_full.7.h5
+
+# Nextflow locations
+nextflow: ../ahthapp1_T2T_ONT/bin/nextflow
+wf_pore_c: ../ahthapp1_T2T_ONT/bin/wf-pore-c
 
 # GQC
 gqc:
-  venv: bin/GQC/venv
-  config: data/ref/gqc_config.yaml
-  resourcedir: data/ref/gqc_resources
-  fastk_binfolder: bin/FASTK/bin
+  venv: ../ahthapp1_T2T_ONT/bin/GQC/venv
+  config: ../ahthapp1_T2T_ONT/data/ref/gqc_config.yaml
+  resourcedir: ../ahthapp1_T2T_ONT/data/ref/gqc_resources
+  fastk_binfolder: ../ahthapp1_T2T_ONT/bin/FASTK/bin
 
 # hmm_flagger
 bam2cov: "mobinasri/flagger:v1.1.0 bam2cov"
 hmm_flagger: "mobinasri/flagger:v1.1.0 hmm_flagger"
-hmm_flagger_alpha_tsv: "data/ref/alpha_optimum_trunc_exp_gaussian_w_8000_n_50.ONT_R1041_Dorado_DEC_2024.v1.1.0.tsv"
+hmm_flagger_alpha_tsv: "../ahthapp1_T2T_ONT/data/ref/alpha_optimum_trunc_exp_gaussian_w_8000_n_50.ONT_R1041_Dorado_DEC_2024.v1.1.0.tsv"
 
 # Dip3D
-falign: bin/Falign/Linux-amd64/bin/falign
-dip3d: bin/Falign/Linux-amd64/bin/dip3d
-ashic: bin/ASHIC/ashic/__main__.py
-ashic_data: bin/ASHIC/ashic/cli/ashic_data.py
-ashic_utils: bin/ASHIC/ashic/cli/ashic_utils.py 
+falign: ../ahthapp1_T2T_ONT/bin/Falign/Linux-amd64/../ahthapp1_T2T_ONT/bin/falign
+dip3d: ../ahthapp1_T2T_ONT/bin/Falign/Linux-amd64/../ahthapp1_T2T_ONT/bin/dip3d
+ashic: ../ahthapp1_T2T_ONT/bin/ASHIC/ashic/__main__.py
+ashic_data: ../ahthapp1_T2T_ONT/bin/ASHIC/ashic/cli/ashic_data.py
+ashic_utils: ../ahthapp1_T2T_ONT/bin/ASHIC/ashic/cli/ashic_utils.py 
 ashic_model: ASHIC-ZIPM
 ashic_resolution: 10000
 
@@ -118,4 +122,4 @@ aggregate_range: 100000
 aggregate_bins: 30
 
 # Population genetics
-liftover_chain_GRCh37_to_T2T: data/ref/hg19-chm13v2.chain
+liftover_chain_GRCh37_to_T2T: ../ahthapp1_T2T_ONT/data/ref/hg19-chm13v2.chain

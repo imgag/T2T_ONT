@@ -124,9 +124,11 @@ rule porec_qc:
         "logs/porec_qc/{dataset}.log",
     params:
         ref=config["ref"],
+        nextflow=config["nextflow"],
+        wf_pore_c=config["wf_pore_c"],
     shell:
         """
-        bin/nextflow run bin/wf-pore-c/main.nf \
+        {params.nextflow} run {params.wf_pore_c} \
             --bam {input.bam} \
             --ref {params.ref} \
             --out_dir analysis_other/wf-pore-c/{wildcards.dataset} \

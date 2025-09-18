@@ -110,6 +110,17 @@ for run_folder, mappings in path_tracking.items():
 print("Unique datasets:")
 print(unique_datasets)
 
+# Create QC for all input FASTQ files
+
+fq_qc = []
+fq_files = [
+    str(item) for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values() if str(item).endswith(".fastq.gz")
+]
+fq_qc = [
+    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
+    for x in fq_files
+]
+
 ### Create collections of QC files. Specify assemblies and assembly methods that should be included.
 def qc_collection(
     asm, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"], haplotypes = ["haplotype1", "haplotype2", "both"]
@@ -300,7 +311,6 @@ def qc_collection(
 
 rule all:
     input:
-        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
         expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_samples),
         #expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
         #"assembly/qc/qc_benchmark.tsv",
@@ -355,23 +365,6 @@ rule all_basecalling:
             "data/basecalled/apk/{dataset}/{dataset}.apk.unmapped.bam",
             dataset=unique_datasets["apk"],
         )
-
-
-rule collect_qc_benchmark:
-    input:
-        **qc_collection(
-            asm_benchmark,
-            methods_unphased=["unphased_verkko", "phased_verkko"],
-            methods_phased=["phased_verkko", "phased_gfase"],
-        ),
-    output:
-        tsv="assembly/qc/qc_benchmark.tsv",
-    conda:
-        "env/R.yml"
-    log:
-        "logs/collect_qc.log",
-    script:
-        "scripts/06_collect_qc.R"
 
 
 rule collect_qc_samples:
