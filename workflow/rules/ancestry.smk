@@ -27,7 +27,7 @@ rule download_1000g_vcf:
         vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz",
         tbi="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz.tbi"
     params:
-        url="http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr{chr}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz"
+        url="http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr{chr}.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
     shell:
         """
         mkdir -p ancestry/raw_data/1000G
@@ -39,7 +39,6 @@ rule download_1000g_vcf:
 rule download_1000g_metadata:
     output:
         metadata="data/ref/variant_sets/1000G/1000G_sample_info.txt",
-        populations="data/ref/variant_sets/1000G/1000G_population_info.txt"
     shell:
         """
         mkdir -p data/ref/variant_sets/1000G
@@ -47,49 +46,62 @@ rule download_1000g_metadata:
         # Download sample information
         wget -O {output.metadata} \
             http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel
-        
-        # Download population information
-        wget -O {output.populations} \
-            http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20200731.ALL.panel
         """
 
-# Liftover 1000G variants from GRCh37 to T2T-CHM13
-rule liftover_1000g_to_t2t:
+# Step 1: Add chr prefix and bgzip
+rule add_chr_prefix_and_bgzip:
     input:
-        vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz",
+        vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz"
+    output:
+        vcf=temp("ancestry/processed/1000G/chr{chr}_temp.vcf.gz")
+    log:
+        "logs/ancestry/add_chr_prefix_chr{chr}.log"
+    shell:
+        """
+        zcat {input.vcf} | \
+        awk 'BEGIN{{OFS="\\t"}} /^#/{{print; next}} {{$1="chr"$1; print}}' | \
+        bgzip > {output.vcf} 2>{log}
+        """
+
+# Step 2: Liftover coordinates
+rule crossmap_liftover:
+    input:
+        vcf="ancestry/processed/1000G/chr{chr}_temp.vcf.gz"
     output:
         lifted_vcf="data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz",
         rejected="data/ref/variant_sets/1000G/chr{chr}_rejected.vcf"
+    params:
+        chain=config['liftover_chain_GRCh37_to_T2T'],
+        ref=config['ref']
     conda:
         "../env/liftover.yml"
     log:
-        "logs/liftover_1000g_chr{chr}.log"
-    params:
-        chain = config['liftover_chain_GRCh37_to_T2T']
+        "logs/ancestry/liftover_1000g_chr{chr}.log"
     shell:
         """
-        # Convert VCF to UCSC format and liftover
-        zcat {input.vcf} | \
-        awk 'BEGIN{{OFS="\t"}} /^#/{{print; next}} {{$1="chr"$1; print}}' | \
-        bgzip > ancestry/processed/1000G/chr{wildcards.chr}_temp.vcf.gz
-        
-        # Liftover coordinates
         CrossMap.py vcf {params.chain} \
-            ancestry/processed/1000G/chr{wildcards.chr}_temp.vcf.gz \
-            /path/to/T2T_CHM13v2.0.fa \
-            {output.lifted_vcf} 2>{log}
-        
-        # Clean up temp files
-        rm ancestry/processed/1000G/chr{wildcards.chr}_temp.vcf.gz
-        
-        # Index output
-        tabix -p vcf {output.lifted_vcf}
+            {input.vcf} \
+            {params.ref} \
+            {output.lifted_vcf} >{log} 2>&1
+        """
+
+# Step 3: Index lifted VCF
+rule index_lifted_vcf:
+    input:
+        lifted_vcf="data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz"
+    output:
+        tbi="data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz.tbi"
+    log:
+        "logs/ancestry/index_lifted_vcf_chr{chr}.log"
+    shell:
+        """
+        tabix -p vcf {input.lifted_vcf} 2>{log}
         """
 
 # Merge your sample VCFs 
 rule merge_sample_vcfs:
     input:
-        vcfs=lambda wc: expand("assembly/variants/{sample}/phased_verkko/small_variants.dip.vcf.gz", 
+        vcfs=lambda wc: expand("assembly/variants/{sample}/phased_verkko/small_variants.vcf.gz", 
                               sample=[s for s in finished_samples if s in asm_samples])
     output:
         merged="analysis_other/ancestry/processed/samples/merged_samples.vcf.gz",
@@ -97,7 +109,7 @@ rule merge_sample_vcfs:
     conda:
         "../env/bcftools.yml"
     log:
-        "logs/merge_sample_vcfs.log"
+        "logs/ancestry/merge_sample_vcfs.log"
     shell:
         """
         # Create list of VCF files
@@ -125,7 +137,7 @@ rule samples_to_plink:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/samples_to_plink.log"
+        "logs/ancestry/samples_to_plink.log"
     shell:
         """
         plink2 \
@@ -149,7 +161,7 @@ rule merge_1000g_to_plink:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/merge_1000g_to_plink.log"
+        "logs/ancestry/merge_1000g_to_plink.log"
     shell:
         """
         # Concatenate chromosomes
@@ -195,7 +207,7 @@ rule qc_and_harmonize:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/qc_harmonize.log"
+        "logs/ancestry/qc_harmonize.log"
     shell:
         """
         # QC filters
@@ -272,7 +284,7 @@ rule run_pca:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/run_pca.log"
+        "logs/ancestry/run_pca.log"
     shell:
         """
         # LD pruning for PCA
@@ -301,7 +313,7 @@ rule run_iadmix:
         touch("analysis_other/ancestry/global/iadmix/results.done"),
         results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt"
     log:
-        "logs/iadmix.log"
+        "logs/ancestry/iadmix.log"
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
@@ -337,7 +349,7 @@ rule run_admixture:
     conda:
         "../env/admixture.yml"
     log:
-        "logs/admixture.log"
+        "logs/ancestry/admixture.log"
     threads: 4
     shell:
         """
@@ -363,7 +375,7 @@ rule prepare_local_ancestry:
     conda:
         "../env/bcftools.yml"
     log:
-        "logs/prepare_local_ancestry.log"
+        "logs/ancestry/prepare_local_ancestry.log"
     shell:
         """
         # Convert back to VCF format (assuming phased data)
@@ -390,7 +402,7 @@ rule run_rfmix:
     conda:
         "../env/rfmix.yml"
     log:
-        "logs/rfmix.log"
+        "logs/ancestry/rfmix.log"
     threads: 8
     shell:
         """
@@ -419,7 +431,7 @@ rule run_gnomix:
     conda:
         "../env/gnomix.yml"
     log:
-        "logs/gnomix.log"
+        "logs/ancestry/gnomix.log"
     threads: 8
     shell:
         """
@@ -448,7 +460,7 @@ rule create_ancestry_report:
     conda:
         "../env/r_ancestry.yml"
     log:
-        "logs/create_ancestry_report.log"
+        "logs/ancestry/create_ancestry_report.log"
     script:
         "../scripts/generate_ancestry_report.R"
 

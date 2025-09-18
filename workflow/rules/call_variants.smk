@@ -107,6 +107,27 @@ rule dipcall:
         tabix {output.vcf}
         """
 
+rule rename_small_variant_vcf:
+    input:
+        vcf="assembly/variants/{sample}/phased_verkko/small_variants.dip.vcf.gz"
+    output:
+        vcf="assembly/variants/{sample}/phased_verkko/small_variants.vcf.gz"
+    params:
+        sample="{sample}"
+    conda:
+        "../env/bcftools.yml"
+    log:
+        "logs/rename_sample_{sample}.log"
+    shell:
+        """
+        # Create a sample name map file
+        echo -e "$(bcftools query -l {input.vcf})\t{params.sample}" > {wildcards.sample}.sample_map.txt
+
+        # Reheader the VCF with the new sample name
+        bcftools reheader -s {wildcards.sample}.sample_map.txt -o {output.vcf} {input.vcf} 2>{log}
+        tabix -p vcf {output.vcf}
+        rm {wildcards.sample}.sample_map.txt
+        """
 
 # Structural Variants with hapdiff (minimap2+svim_asm)
 rule hapdiff:
