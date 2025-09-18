@@ -27,7 +27,8 @@ rule download_1000g_vcf:
         vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz",
         tbi="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz.tbi"
     params:
-        url="http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr{chr}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz"
+        url="http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr{chr}.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
+    
     shell:
         """
         mkdir -p ancestry/raw_data/1000G
@@ -63,7 +64,7 @@ rule liftover_1000g_to_t2t:
     conda:
         "../env/liftover.yml"
     log:
-        "logs/liftover_1000g_chr{chr}.log"
+        "logs/ancestry/liftover_1000g_chr{chr}.log"
     params:
         chain = config['liftover_chain_GRCh37_to_T2T']
     shell:
@@ -97,7 +98,7 @@ rule merge_sample_vcfs:
     conda:
         "../env/bcftools.yml"
     log:
-        "logs/merge_sample_vcfs.log"
+        "logs/ancestry/merge_sample_vcfs.log"
     shell:
         """
         # Create list of VCF files
@@ -125,7 +126,7 @@ rule samples_to_plink:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/samples_to_plink.log"
+        "logs/ancestry/samples_to_plink.log"
     shell:
         """
         plink2 \
@@ -149,7 +150,7 @@ rule merge_1000g_to_plink:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/merge_1000g_to_plink.log"
+        "logs/ancestry/merge_1000g_to_plink.log"
     shell:
         """
         # Concatenate chromosomes
@@ -195,7 +196,7 @@ rule qc_and_harmonize:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/qc_harmonize.log"
+        "logs/ancestry/qc_harmonize.log"
     shell:
         """
         # QC filters
@@ -272,7 +273,7 @@ rule run_pca:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/run_pca.log"
+        "logs/ancestry/run_pca.log"
     shell:
         """
         # LD pruning for PCA
@@ -301,7 +302,7 @@ rule run_iadmix:
         touch("analysis_other/ancestry/global/iadmix/results.done"),
         results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt"
     log:
-        "logs/iadmix.log"
+        "logs/ancestry/iadmix.log"
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
@@ -337,7 +338,7 @@ rule run_admixture:
     conda:
         "../env/admixture.yml"
     log:
-        "logs/admixture.log"
+        "logs/ancestry/admixture.log"
     threads: 4
     shell:
         """
@@ -363,7 +364,7 @@ rule prepare_local_ancestry:
     conda:
         "../env/bcftools.yml"
     log:
-        "logs/prepare_local_ancestry.log"
+        "logs/ancestry/prepare_local_ancestry.log"
     shell:
         """
         # Convert back to VCF format (assuming phased data)
@@ -390,7 +391,7 @@ rule run_rfmix:
     conda:
         "../env/rfmix.yml"
     log:
-        "logs/rfmix.log"
+        "logs/ancestry/rfmix.log"
     threads: 8
     shell:
         """
@@ -419,7 +420,7 @@ rule run_gnomix:
     conda:
         "../env/gnomix.yml"
     log:
-        "logs/gnomix.log"
+        "logs/ancestry/gnomix.log"
     threads: 8
     shell:
         """
@@ -448,7 +449,7 @@ rule create_ancestry_report:
     conda:
         "../env/r_ancestry.yml"
     log:
-        "logs/create_ancestry_report.log"
+        "logs/ancestry/create_ancestry_report.log"
     script:
         "../scripts/generate_ancestry_report.R"
 

@@ -135,6 +135,7 @@ rule porec_qc:
             --threads {threads} \
             -profile singularity \
             --coverage True \
+            --chunk_size 100000 \
             --chromunity True \
             --pairs True \
             --mcool True > {log} 2>&1

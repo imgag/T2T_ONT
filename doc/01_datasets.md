@@ -25,6 +25,9 @@ The latest release (T2T-CHMv2.0) includes a Y chromosome. Used for mapping and c
 
 Haploid cellline from a hydatidiform mole. This occurs when a sperm fertilizes an egg that lost its DNA. After mitosis the genotype is 46,XX but the genome consists only of a duplicated set of haploid chromosomes.
 
+Liftover HG19 -> CHM13-T2t: [Chain](https://s3-us-west-2.amazonaws.com/human-pangenomics/T2T/CHM13/assemblies/chain/v1_nflo/hg19-chm13v2.chain)
+
+
 ### Diploid reference genome (HG002)
 
 Published reference genome on [Github](https://github.com/marbl/HG002?tab=readme-ov-file)

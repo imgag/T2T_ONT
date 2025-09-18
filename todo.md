@@ -17,7 +17,7 @@
 - [ ] Make downsampling plots and stats for all new QC, including Gaps. Create 1 summary figure/table for talks or publication.
 - [ ] Add heterozygosity to QC table
 - [ ] Add summary_stats QC for SUP basecalled reads / MultiQC. Aggregate for every sample.
-- [ ] Compare our samples to HPGRC pipeline
+- [X] Compare our samples to HPGRC pipeline
 - [ ] Check the accrocentric chromosomes, are there any that were assembled gap free?
 - [ ] Add hmm-flagger QC
 - [ ] Rename repeatmasker and nucflag outputs
@@ -55,12 +55,13 @@
 
 ## Centromeres
 
-- [ ] GCP: Read paper in detail, apply to our results
-- [ ] Create GQC plots
+- [ ] GCP: Read paper in detail, apply to our results, create Plots. This is a Snakemake pipeline, needs to be integrated.
+- [ ] Create GCP plots
 
 ## Population genetics
 
 - [ ] Ancestry estimation STRUCTURE/ADMIXTURE
+- [ ] Local ancestry detection
 
 ## Figures
 
