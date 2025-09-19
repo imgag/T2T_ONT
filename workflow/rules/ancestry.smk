@@ -21,52 +21,25 @@ rule all_ancestry:
         # Summary reports
         "analysis_other/ancestry/reports/ancestry_summary.html"
 
-# Download 1000 Genomes Phase 3 data
-rule download_1000g_vcf:
-    output:
-        vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz",
-        tbi="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz.tbi"
-    params:
-        url="http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr{chr}.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz"
-    shell:
-        """
-        mkdir -p ancestry/raw_data/1000G
-        wget -O {output.vcf} {params.url}
-        wget -O {output.tbi} {params.url}.tbi
-        """
-
-# Download 1000G sample metadata
-rule download_1000g_metadata:
-    output:
-        metadata="data/ref/variant_sets/1000G/1000G_sample_info.txt",
-    shell:
-        """
-        mkdir -p data/ref/variant_sets/1000G
-        
-        # Download sample information
-        wget -O {output.metadata} \
-            http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel
-        """
 
 # Step 1: Add chr prefix and bgzip
 rule add_chr_prefix_and_bgzip:
-    input:
-        vcf="data/ref/variant_sets/1000G/chr{chr}_phase3_v5a.vcf.gz"
     output:
-        vcf=temp("ancestry/processed/1000G/chr{chr}_temp.vcf.gz")
+        vcf=temp("analysis_other/ancestry/processed/1000G/chr{chr}_temp.vcf.gz")
     log:
         "logs/ancestry/add_chr_prefix_chr{chr}.log"
     shell:
         """
-        zcat {input.vcf} | \
-        awk 'BEGIN{{OFS="\\t"}} /^#/{{print; next}} {{$1="chr"$1; print}}' | \
-        bgzip > {output.vcf} 2>{log}
+        zcat data/ref/variant_sets/1000G/ALL.chr{wildcards.chr}.*.vcf.gz 2>{log} | \
+        awk 'BEGIN{{OFS="\\t"}} /^#/{{print; next}} {{$1="chr"$1; print}}' 2>{log} | \
+        bgzip > {output.vcf} 2>{log} 
+        tabix {output.vcf} 2>{log}
         """
 
 # Step 2: Liftover coordinates
 rule crossmap_liftover:
     input:
-        vcf="ancestry/processed/1000G/chr{chr}_temp.vcf.gz"
+        vcf="analysis_other/ancestry/processed/1000G/chr{chr}_temp.vcf.gz"
     output:
         lifted_vcf="data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz",
         rejected="data/ref/variant_sets/1000G/chr{chr}_rejected.vcf"
@@ -95,7 +68,7 @@ rule index_lifted_vcf:
         "logs/ancestry/index_lifted_vcf_chr{chr}.log"
     shell:
         """
-        tabix -p vcf {input.lifted_vcf} 2>{log}
+        tabix -p vcf {input.lifted_vcf} >{log} 2>&1
         """
 
 # Merge your sample VCFs 
@@ -121,7 +94,7 @@ rule merge_sample_vcfs:
             --file-list {output.list} \
             --output-type z \
             --output {output.merged} \
-            2>{log}
+            >{log} 2>&1
         
         tabix -p vcf {output.merged}
         """
@@ -143,50 +116,68 @@ rule samples_to_plink:
         plink2 \
             --vcf {input.vcf} \
             --make-bed \
-            --out ancestry/plink/samples \
+            --out analysis_other/ancestry/plink/samples \
             --allow-extra-chr \
-            2>{log}
+            >{log} 2>&1
         """
 
-# Merge 1000G chromosomes and convert to Plink
-rule merge_1000g_to_plink:
+# Concatenate 1000G chromosomes into a merged VCF
+rule concat_1000g_vcfs:
     input:
-        vcfs=expand("data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz", chr=CHROMOSOMES),
-        metadata="data/ref/variant_sets/1000G/1000G_sample_info.txt"
+        vcfs=expand("data/ref/variant_sets/1000G/chr{chr}_T2T.vcf.gz", chr=CHROMOSOMES)
     output:
-        bed="analysis_other/ancestry/reference/1000G_phase3_T2T.bed",
-        bim="analysis_other/ancestry/reference/1000G_phase3_T2T.bim",
-        fam="analysis_other/ancestry/reference/1000G_phase3_T2T.fam",
         merged_vcf="analysis_other/ancestry/processed/1000G/1000G_merged_T2T.vcf.gz"
     conda:
-        "../env/plink2.yml"
+        "../env/bcftools.yml"
     log:
-        "logs/ancestry/merge_1000g_to_plink.log"
+        "logs/ancestry/concat_1000g_vcfs.log"
     shell:
         """
-        # Concatenate chromosomes
         bcftools concat \
             {input.vcfs} \
             --output-type z \
             --output {output.merged_vcf} \
-            2>{log}
-        
+            >{log} 2>&1
         tabix -p vcf {output.merged_vcf}
-        
-        # Convert to Plink format
+        """
+
+# Convert merged VCF to Plink format
+rule vcf_to_plink_1000g:
+    input:
+        merged_vcf="analysis_other/ancestry/processed/1000G/1000G_merged_T2T.vcf.gz"
+    output:
+        bed="analysis_other/ancestry/reference/1000G_phase3_T2T.bed",
+        bim="analysis_other/ancestry/reference/1000G_phase3_T2T.bim",
+        fam="analysis_other/ancestry/reference/1000G_phase3_T2T.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/vcf_to_plink_1000g.log"
+    shell:
+        """
         plink2 \
-            --vcf {output.merged_vcf} \
+            --vcf {input.merged_vcf} \
             --make-bed \
             --out ancestry/reference/1000G_phase3_T2T \
             --allow-extra-chr \
-            2>>{log}
-        
-        # Update FAM file with population information
+            >{log} 2>&1
+        """
+
+# Update FAM file with population information
+rule update_1000g_fam:
+    input:
+        fam="analysis_other/ancestry/reference/1000G_phase3_T2T.fam",
+        metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel"
+    output:
+        fam="analysis_other/ancestry/reference/1000G_phase3_T2T.fam"
+    log:
+        "logs/ancestry/update_1000g_fam.log"
+    shell:
+        """
         python3 scripts/24_update_1000G.py \
-            --fam {output.fam} \
+            --fam {input.fam} \
             --metadata {input.metadata} \
             --output {output.fam}.tmp
-        
         mv {output.fam}.tmp {output.fam}
         """
 
@@ -223,7 +214,7 @@ rule qc_and_harmonize:
             --hwe $HWE_THRESHOLD \
             --make-bed \
             --out ancestry/plink/1000G_qc \
-            2>{log}
+            >{log} 2>&1
         
         # QC sample data  
         plink2 \
@@ -292,7 +283,7 @@ rule run_pca:
             --bfile ancestry/plink/merged_cohort \
             --indep-pairwise 50 10 0.2 \
             --out ancestry/pca/ld_pruned \
-            2>{log}
+            >{log} 2>&1
         
         # Run PCA
         plink2 \
@@ -333,7 +324,7 @@ rule run_iadmix:
             --file analysis_other/ancestry/plink/merged_cohort \
             --out analysis_other/ancestry/global/iadmix/results \
             --K 5 \
-            2>{log}
+            >{log} 2>&1
         
         # Process results
         cp analysis_other/ancestry/global/iadmix/results.Q {output.results}
@@ -383,7 +374,7 @@ rule prepare_local_ancestry:
             --bfile ancestry/plink/merged_cohort \
             --export vcf bgz \
             --out ancestry/local/input/merged_cohort_phased \
-            2>{log}
+            >{log} 2>&1
         
         # Create sample mapping file for RFMix
         python3 scripts/25_create_ancestry_sample_map.py \
@@ -417,7 +408,7 @@ rule run_rfmix:
             -o ancestry/local/rfmix/output \
             --chromosome=ALL \
             --n-threads={threads} \
-            2>{log}
+            >{log} 2>&1
         """
 
 # Local ancestry with gnomix  
@@ -443,7 +434,7 @@ rule run_gnomix:
             --output_basename ancestry/local/gnomix/output \
             --population_map {input.sample_map} \
             --n_cores {threads} \
-            2>{log}
+            >{log} 2>&1
         """
 
 # Generate summary report
@@ -451,6 +442,7 @@ rule create_ancestry_report:
     input:
         pca_eigenval="analysis_other/ancestry/pca/merged_cohort.eigenval",
         pca_eigenvec="analysis_other/ancestry/pca/merged_cohort.eigenvec", 
+        fam="analysis_other/ancestry/plink/merged_cohort.fam",
         iadmix="analysis_other/ancestry/global/iadmix/results.done",
         admixture="analysis_other/ancestry/global/admixture/results.done",
         rfmix="analysis_other/ancestry/local/rfmix/results.done",
@@ -461,6 +453,10 @@ rule create_ancestry_report:
         "../env/r_ancestry.yml"
     log:
         "logs/ancestry/create_ancestry_report.log"
-    script:
-        "../scripts/generate_ancestry_report.R"
-
+    params:
+        rscript = "../../../scripts/26_generate_ancestry_report.R"
+    shell:
+        """
+        cd analysis_other/ancestry/reports
+        Rscript {params.rscript} >{log} 2>&1
+        """
