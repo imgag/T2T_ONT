@@ -7,18 +7,18 @@ CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
 rule all_ancestry:
     input:
         # Merged and QC'd variant set
-        "analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        "analysis_other/ancestry/plink/merged/merged_cohort.bim", 
-        "analysis_other/ancestry/plink/merged/merged_cohort.fam",
+        "analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        "analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        "analysis_other/ancestry/plink/merged/merged_cohort.psam",
         # 1000G reference data (filtered)
-        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.bed",
-        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.bim",
-        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.fam",
+        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pgen",
+        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
+        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
         "analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq",
         # Sample data (filtered)
-        "analysis_other/ancestry/plink/samples/samples_filtered.bed",
-        "analysis_other/ancestry/plink/samples/samples_filtered.bim",
-        "analysis_other/ancestry/plink/samples/samples_filtered.fam",
+        "analysis_other/ancestry/plink/samples/samples_filtered.pgen",
+        "analysis_other/ancestry/plink/samples/samples_filtered.pvar",
+        "analysis_other/ancestry/plink/samples/samples_filtered.psam",
         # Global ancestry results
         expand("analysis_other/ancestry/global/{tool}/results.done", tool=ANCESTRY_TOOLS),
         # Local ancestry results  
@@ -185,9 +185,9 @@ rule vcf_to_plink_1000g_with_sex:
     input:
         merged_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
     output:
-        bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bed",
-        bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bim",
-        fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.fam"
+        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam"
     conda:
         "../env/plink2.yml"
     log:
@@ -195,13 +195,12 @@ rule vcf_to_plink_1000g_with_sex:
     params:
         min_male_xf=config['min_male_xf'],
         max_female_yrate=config['max_female_yrate']
-    threads:
-        32
+    threads: 32
     shell:
         """
         plink2 \
             --vcf {input.merged_vcf} \
-            --make-bed \
+            --make-pgen \
             --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex \
             --allow-extra-chr \
             --split-par b38 \
@@ -211,12 +210,12 @@ rule vcf_to_plink_1000g_with_sex:
             >{log} 2>&1
         """
 
-# Step A9: Caluclate allele frequencies for 1000G data, used in sex imputation of samples
+# Step A9: Calculate allele frequencies for 1000G data
 rule generate_1000g_frequencies:
     input:
-        bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bed",
-        bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bim",
-        fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.fam"
+        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam"
     output:
         afreq="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq"
     conda:
@@ -228,39 +227,37 @@ rule generate_1000g_frequencies:
     shell:
         """
         plink2 \
-            --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex \
+            --pfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex \
             --freq \
             --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T \
             --threads {threads} \
             >{log} 2>&1
         """
 
-
-
-# Step A10: Update FAM file with population information
+# Step A10: Update PSAM file with population information
 rule update_1000g_fam:
     input:
-        fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.fam",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam",
         metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel",
-        bed_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bed",
-        bim_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bim"
+        pgen_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
+        pvar_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar"
     output:
-        fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.fam",
-        bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bed",
-        bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bim"
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam",
+        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pgen",
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pvar"
     log:
-        "logs/ancestry/ref_update_fam.log"
+        "logs/ancestry/ref_update_psam.log"
     shell:
         """
         python3 workflow/scripts/24_update_1000G.py \
-            --fam {input.fam} \
+            --psam {input.psam} \
             --metadata {input.metadata} \
-            --output {output.fam} \
+            --output {output.psam} \
             2>{log}
         
-        # Copy bed and bim files to final location
-        cp -v {input.bed_in} {output.bed} >>{log} 2>&1
-        cp -v {input.bim_in} {output.bim} >>{log} 2>&1
+        # Copy pgen and pvar files to final location
+        cp -v {input.pgen_in} {output.pgen} >>{log} 2>&1
+        cp -v {input.pvar_in} {output.pvar} >>{log} 2>&1
         """
 
 
@@ -323,22 +320,20 @@ rule filter_sample_vcf:
         tabix -p vcf {output.vcf} 2>>{log}
         """
 
-# Step B3: Infer sample with AF from 1000G variants
+# Step B3: Infer sample sex with PLINK2
 rule samples_infer_sex_plink:
     input:
         vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
         afreq="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq"
-
     output:
-        bed=temp("analysis_other/ancestry/plink/samples/samples_imputed.bed"),
-        bim=temp("analysis_other/ancestry/plink/samples/samples_imputed.bim"),
-        fam=temp("analysis_other/ancestry/plink/samples/samples_imputed.fam")
+        pgen=temp("analysis_other/ancestry/plink/samples/samples_imputed.pgen"),
+        pvar=temp("analysis_other/ancestry/plink/samples/samples_imputed.pvar"),
+        psam=temp("analysis_other/ancestry/plink/samples/samples_imputed.psam")
     conda:
         "../env/plink2.yml"
     log:
         "logs/ancestry/samples_infer_sex_plink.log"
     params:
-        afreq="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq",
         min_male_xf=config['min_male_xf'],
         max_female_yrate=config['max_female_yrate']
     threads: 32
@@ -347,7 +342,7 @@ rule samples_infer_sex_plink:
         # Infer sex from X chromosome
         plink2 \
             --vcf {input.vcf} \
-            --make-bed \
+            --make-pgen \
             --vcf-half-call m \
             --out analysis_other/ancestry/plink/samples/samples_imputed \
             --read-freq {input.afreq} \
@@ -361,43 +356,41 @@ rule samples_infer_sex_plink:
         """
 
 
-# Step B4: Update FAM file with pedigree information
+# Step B4: Update PSAM file with pedigree information
 rule update_sample_pedigree:
     input:
-        bed="analysis_other/ancestry/plink/samples/samples_imputed.bed",
-        bim="analysis_other/ancestry/plink/samples/samples_imputed.bim",
-        fam="analysis_other/ancestry/plink/samples/samples_imputed.fam"
+        pgen="analysis_other/ancestry/plink/samples/samples_imputed.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples_imputed.pvar",
+        psam="analysis_other/ancestry/plink/samples/samples_imputed.psam"
     output:
-        bed="analysis_other/ancestry/plink/samples/samples.bed",
-        bim="analysis_other/ancestry/plink/samples/samples.bim", 
-        fam="analysis_other/ancestry/plink/samples/samples.fam"
+        pgen="analysis_other/ancestry/plink/samples/samples.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples.pvar", 
+        psam="analysis_other/ancestry/plink/samples/samples.psam"
     log:
         "logs/ancestry/sample_update_pedigree.log"
     shell:
         """
-        # Update FAM file with pedigree information
+        # Update PSAM file with pedigree information
         python3 workflow/scripts/27_update_pedigree_info.py \
-            --fam {input.fam} \
-            --output {output.fam} \
+            --psam {input.psam} \
+            --output {output.psam} \
             >{log} 2>&1
         
-        # Copy BED and BIM files
-        cp {input.bed} {output.bed}
-        cp {input.bim} {output.bim}
+        # Copy PGEN and PVAR files
+        cp {input.pgen} {output.pgen}
+        cp {input.pvar} {output.pvar}
         """
 
-# C: Merge datasets, QC 
-
-# Step C1: Filter datasets with QC filters. Reassign variant IDs.
+# Step C1: Filter datasets with QC filters using PGEN format
 rule qc_filter_plink:
     input:
-        bed="analysis_other/ancestry/plink/{dataset}/{prefix}.bed",
-        bim="analysis_other/ancestry/plink/{dataset}/{prefix}.bim",
-        fam="analysis_other/ancestry/plink/{dataset}/{prefix}.fam"
+        pgen="analysis_other/ancestry/plink/{dataset}/{prefix}.pgen",
+        pvar="analysis_other/ancestry/plink/{dataset}/{prefix}.pvar",
+        psam="analysis_other/ancestry/plink/{dataset}/{prefix}.psam"
     output:
-        bed="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.bed",
-        bim="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.bim",
-        fam="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.fam"
+        pgen="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.pgen",
+        pvar="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.pvar",
+        psam="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.psam"
     conda:
         "../env/plink2.yml"
     log:
@@ -405,38 +398,48 @@ rule qc_filter_plink:
     threads: 32
     shell:
         """
-        # QC filters - lenient HWE for family structures
+        # QC filters - lenient for ancestry analysis
         MAF_THRESHOLD=0.01     # Keep rare variants for ancestry
         GENO_THRESHOLD=0.15    # Lenient missing rate
-        HWE_THRESHOLD=1e-3     # Lenient HWE for population structure with included families
+        HWE_THRESHOLD=1e-3     # Lenient HWE for population structure with families
+        MIND_THRESHOLD=0.1     # Remove samples with >10% missing data
+        
+        echo "Applying QC filters to {wildcards.dataset}/{wildcards.prefix}..." >{log}
+        echo "GENO_THRESHOLD=$GENO_THRESHOLD (allowing up to 15% missing per variant)" >>{log}
         
         plink2 \
-            --bfile analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix} \
+            --pfile analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix} \
+            --mind $MIND_THRESHOLD \
             --maf $MAF_THRESHOLD \
             --geno $GENO_THRESHOLD \
             --hwe $HWE_THRESHOLD \
-            --make-bed \
+            --make-pgen \
             --out analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered \
             --threads {threads} \
             --set-all-var-ids @:#:\$r:\$a \
-            --new-id-max-allele-len 1000 \
+            --new-id-max-allele-len 60 \
             --sort-vars \
             >{log} 2>&1
+        
+        # Report filtering statistics
+        echo "Filtering completed for {wildcards.dataset}/{wildcards.prefix}" >>{log}
+        echo "Variants after filtering: $(wc -l < analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered.pvar | tail -n +2)" >>{log}
+        echo "Samples after filtering: $(wc -l < analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered.psam | tail -n +2)" >>{log}
         """
 
-# Step C2: Merge datasets
+# Step C2: Merge datasets using PGEN format
 rule merge_datasets_with_matching:
     input:
-        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.bed",
-        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.bim",
-        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.fam",
-        sample_bed="analysis_other/ancestry/plink/samples/samples_filtered.bed",
-        sample_bim="analysis_other/ancestry/plink/samples/samples_filtered.bim",
-        sample_fam="analysis_other/ancestry/plink/samples/samples_filtered.fam"
+        ref_pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pgen",
+        ref_pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
+        ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
+        sample_pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
+        sample_pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
+        sample_psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
     output:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam",
         merge_report="analysis_other/ancestry/qc/merge_report.txt"
     conda:
         "../env/plink2.yml"
@@ -447,22 +450,23 @@ rule merge_datasets_with_matching:
         """
         mkdir -p analysis_other/ancestry/plink/merged analysis_other/ancestry/qc
         
-        # Attempt merge with automatic variant matching and strand flipping
+        # Create pmerge list file
+        echo "analysis_other/ancestry/plink/samples/samples_filtered" > analysis_other/ancestry/plink/pmerge_list.txt
+        
+        # Attempt merge with automatic variant matching
         plink2 \
-            --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered \
-            --pmerge \
-                {input.sample_bed} \
-                {input.sample_bim} \
-                {input.sample_fam} \
-            --make-bed \
+            --pfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered \
+            --pmerge-list analysis_other/ancestry/plink/pmerge_list.txt \
+            --pmerge-list-mode 6 \
+            --make-pgen \
             --out analysis_other/ancestry/plink/merged/merged_cohort \
             --threads {threads} \
             >{log} 2>&1
         
         # Generate merge report
         echo "Merge completed on $(date)" > {output.merge_report}
-        echo "Final sample count: $(wc -l < {output.fam})" >> {output.merge_report}
-        echo "Final variant count: $(wc -l < {output.bim})" >> {output.merge_report}
+        echo "Final sample count: $(tail -n +2 {output.psam} | wc -l)" >> {output.merge_report}
+        echo "Final variant count: $(tail -n +2 {output.pvar} | wc -l)" >> {output.merge_report}
         
         # Check for merge conflicts
         if [[ -f analysis_other/ancestry/plink/merged/merged_cohort.missnp ]]; then
@@ -470,13 +474,12 @@ rule merge_datasets_with_matching:
         fi
         """
 
-# Step C3: Generate harmonization report
+# Step C3: Generate harmonization report (updated for PGEN format)
 rule generate_harmonization_report:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
-        common_variants="analysis_other/ancestry/plink/common_variants.txt"
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
         qc_report="analysis_other/ancestry/qc/harmonization_report.txt"
     log:
@@ -486,25 +489,23 @@ rule generate_harmonization_report:
         mkdir -p analysis_other/ancestry/qc
         
         echo "Harmonization completed on $(date)" > {output.qc_report}
-        echo "Common variants: $(wc -l < {input.common_variants})" >> {output.qc_report}
-        echo "Final sample count: $(wc -l < {input.fam})" >> {output.qc_report}
+        echo "Final sample count: $(tail -n +2 {input.psam} | wc -l)" >> {output.qc_report}
+        echo "Final variant count: $(tail -n +2 {input.pvar} | wc -l)" >> {output.qc_report}
         
-        # Report family structure
+        # Report family structure from PSAM file
         echo "" >> {output.qc_report}
         echo "Family structure summary:" >> {output.qc_report}
-        awk '$3 != "0" || $4 != "0" {{print "Child: " $2 " Father: " $3 " Mother: " $4}}' {input.fam} >> {output.qc_report}
+        awk 'NR>1 && ($3 != "0" || $4 != "0") {{print "Child: " $2 " Father: " $3 " Mother: " $4}}' {input.psam} >> {output.qc_report}
         
         echo "Report generated successfully" >{log}
         """
 
-# Part D: Ancestry and population analyses 
-
-# PCA for population structure (accounting for related samples)
+# PCA for population structure using PGEN format
 rule run_pca:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim", 
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar", 
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
         eigenval="analysis_other/ancestry/pca/merged_cohort.eigenval",
         eigenvec="analysis_other/ancestry/pca/merged_cohort.eigenvec"
@@ -512,38 +513,57 @@ rule run_pca:
         "../env/plink2.yml"
     log:
         "logs/ancestry/run_pca.log"
+    threads: 32
     shell:
         """
+        mkdir -p analysis_other/ancestry/pca
+        
         # LD pruning for PCA
         plink2 \
-            --bfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
             --indep-pairwise 50 10 0.2 \
             --out analysis_other/ancestry/pca/ld_pruned \
+            --threads {threads} \
             >{log} 2>&1
         
-        # Run PCA (note: plink2 automatically handles related samples)
+        # Run PCA
         plink2 \
-            --bfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
             --extract analysis_other/ancestry/pca/ld_pruned.prune.in \
             --pca 20 \
             --out analysis_other/ancestry/pca/merged_cohort \
+            --threads {threads} \
             2>>{log}
         """
 
-# Global ancestry with iAdmix
+# Global ancestry with iAdmix (convert to BED format for compatibility)
 rule run_iadmix:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
         touch("analysis_other/ancestry/global/iadmix/results.done"),
-        results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt"
+        results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt",
+        bed=temp("analysis_other/ancestry/global/iadmix/merged_cohort.bed"),
+        bim=temp("analysis_other/ancestry/global/iadmix/merged_cohort.bim"),
+        fam=temp("analysis_other/ancestry/global/iadmix/merged_cohort.fam")
+    conda:
+        "../env/plink2.yml"
     log:
         "logs/ancestry/iadmix.log"
+    threads: 32
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
+        
+        # Convert PGEN to BED format for iAdmix compatibility
+        plink2 \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --make-bed \
+            --out analysis_other/ancestry/global/iadmix/merged_cohort \
+            --threads {threads} \
+            >{log} 2>&1
         
         # Get current working directory and user info
         WORKDIR=$(pwd)
@@ -557,65 +577,81 @@ rule run_iadmix:
             -w /workdir \
             caspargross/iadmix \
             iadmix \
-            --file analysis_other/ancestry/plink/merged/merged_cohort \
+            --file analysis_other/ancestry/global/iadmix/merged_cohort \
             --out analysis_other/ancestry/global/iadmix/results \
             --K 5 \
-            >{log} 2>&1
+            2>>{log}
         
         # Process results
-        cp analysis_other/ancestry/global/iadmix/results.Q {output.results}
+        cp analysis_other/ancestry/global/iadmix/results.Q {output.results} 2>>{log} || echo "Results.Q not found" >>{log}
         """
 
-# Global ancestry with ADMIXTURE
+# Global ancestry with ADMIXTURE (convert to BED format for compatibility)
 rule run_admixture:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed"
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
         touch("analysis_other/ancestry/global/admixture/results.done"),
-        results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q"
+        results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q",
+        bed=temp("analysis_other/ancestry/global/admixture/merged_cohort.bed")
     conda:
-        "../env/admixture.yml"
+        "../env/plink2.yml"
     log:
         "logs/ancestry/admixture.log"
     threads: 4
     shell:
         """
-        cd ancestry/global/admixture
+        mkdir -p analysis_other/ancestry/global/admixture
+        
+        # Convert PGEN to BED format for ADMIXTURE compatibility
+        plink2 \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --make-bed \
+            --out analysis_other/ancestry/global/admixture/merged_cohort \
+            --threads {threads} \
+            >{log} 2>&1
+        
+        cd analysis_other/ancestry/global/admixture
         
         # Run ADMIXTURE for different K values
         for K in {{3..7}}; do
-            admixture --cv ../../../{input.bed} $K -j{threads} 2>>../../../{log}
+            admixture --cv merged_cohort.bed $K -j{threads} 2>>../../../../{log}
         done
-        
-        # The output files will be created in the working directory
         """
 
-# Prepare data for local ancestry analysis
+# Prepare data for local ancestry analysis (convert from PGEN to VCF)
 rule prepare_local_ancestry:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
         phased_vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz",
         sample_map="analysis_other/ancestry/local/input/sample_map.txt"
     conda:
-        "../env/bcftools.yml"
+        "../env/plink2.yml"
     log:
         "logs/ancestry/prepare_local_ancestry.log"
+    threads: 32
     shell:
         """
-        # Convert back to VCF format (assuming phased data)
+        mkdir -p analysis_other/ancestry/local/input
+        
+        # Convert PGEN to VCF format
         plink2 \
-            --bfile ancestry/plink/merged/merged_cohort \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
             --export vcf bgz \
-            --out ancestry/local/input/merged_cohort_phased \
+            --out analysis_other/ancestry/local/input/merged_cohort_phased \
+            --threads {threads} \
             >{log} 2>&1
         
         # Create sample mapping file for RFMix
-        python3 scripts/25_create_ancestry_sample_map.py \
-            --fam {input.fam} \
-            --output {output.sample_map}
+        python3 workflow/scripts/25_create_ancestry_sample_map.py \
+            --psam {input.psam} \
+            --output {output.sample_map} \
+            2>>{log}
         """
 
 # Local ancestry with RFMix
@@ -678,7 +714,7 @@ rule create_ancestry_report:
     input:
         pca_eigenval="analysis_other/ancestry/pca/merged_cohort.eigenval",
         pca_eigenvec="analysis_other/ancestry/pca/merged_cohort.eigenvec", 
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam",
         iadmix="analysis_other/ancestry/global/iadmix/results.done",
         admixture="analysis_other/ancestry/global/admixture/results.done",
         rfmix="analysis_other/ancestry/local/rfmix/results.done",
@@ -690,9 +726,10 @@ rule create_ancestry_report:
     log:
         "logs/ancestry/create_ancestry_report.log"
     params:
-        rscript = "../../../scripts/26_generate_ancestry_report.R"
+        rscript = "workflow/scripts/26_generate_ancestry_report.R"
     shell:
         """
+        mkdir -p analysis_other/ancestry/reports
         cd analysis_other/ancestry/reports
-        Rscript {params.rscript} >{log} 2>&1
+        Rscript ../../../{params.rscript} >{log} 2>&1
         """
