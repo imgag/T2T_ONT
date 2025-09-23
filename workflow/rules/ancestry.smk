@@ -24,9 +24,9 @@ rule all_ancestry:
 
 
 
-# Preprocess 1000G ref data
+# Part A: Preprocess 1000G ref data
 
-# Step 1: Add chr prefix and basic processing
+# Step A1: Add chr prefix and basic processing
 rule add_chr_prefix_1000g:
     output:
         vcf=temp("analysis_other/ancestry/processed_vcf/1000G/chr{chr}_prefixed.vcf.gz"),
@@ -48,7 +48,7 @@ rule add_chr_prefix_1000g:
         tabix -p vcf {output.vcf} 2>>{log}
         """
 
-# Step 2: Normalize and split multiallelic variants
+# Step A2: Normalize and split multiallelic variants
 rule normalize_and_split_multiallelic:
     input:
         vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_prefixed.vcf.gz",
@@ -56,7 +56,7 @@ rule normalize_and_split_multiallelic:
         vcf=temp("analysis_other/ancestry/processed_vcf/1000G/chr{chr}_normalized.vcf.gz"),
         tbi=temp("analysis_other/ancestry/processed_vcf/1000G/chr{chr}_normalized.vcf.gz.tbi")
     params:
-        ref=config['ref']
+        ref=config['ref_grch37']
     conda:
         "../env/bcftools.yml"
     log:
@@ -76,7 +76,7 @@ rule normalize_and_split_multiallelic:
         tabix -p vcf {output.vcf} 2>>{log}
         """
 
-# Step 3: Filter out problematic variants before liftover
+# Step A3: Filter out problematic variants before liftover
 rule filter_for_liftover:
     input:
         vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_normalized.vcf.gz"
@@ -103,7 +103,7 @@ rule filter_for_liftover:
         tabix -p vcf {output.vcf} >>{log} 2>&1
         """
 
-# Step 4 Liftover coordinates with CrossMap (produces unsorted VCF)
+# Step A4 Liftover coordinates with CrossMap (produces unsorted VCF)
 rule crossmap_liftover:
     input:
         vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_filtered.vcf.gz"
@@ -124,7 +124,7 @@ rule crossmap_liftover:
             {output.vcf} >>{log} 2>&1
         """
 
-# Step 5: Fix VCF header
+# Step A5: Fix VCF header
 rule add_contigs_to_header:
     input:
         vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_T2T.unsorted.vcf",
@@ -140,7 +140,7 @@ rule add_contigs_to_header:
         bcftools reheader --fai {input.fai} -o {output.vcf} {input.vcf} 2>{log}
         """
 
-# Step 6: Sort, compress, and index the lifted VCF
+# Step A6: Sort, compress, and index the lifted VCF
 rule sort_compress_index_lifted_vcf:
     input:
         vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_T2T.headerfix.vcf"
@@ -156,7 +156,7 @@ rule sort_compress_index_lifted_vcf:
         tabix -p vcf {output.lifted_vcf} 2>>{log}
         """
 
-# Step 7: Concatenate 1000G chromosomes into a merged VCF
+# Step A7: Concatenate 1000G chromosomes into a merged VCF
 rule concat_1000g_vcfs:
     input:
         vcfs=expand("analysis_other/ancestry/processed_vcf/1000G/chr{chr}_T2T.vcf.gz", chr=CHROMOSOMES)
@@ -176,7 +176,7 @@ rule concat_1000g_vcfs:
         tabix -p vcf {output.merged_vcf}
         """
 
-# Step 8: Convert merged VCF to Plink format
+# Step A8: Convert merged VCF to Plink format
 rule vcf_to_plink_1000g_with_sex:
     input:
         merged_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
@@ -207,7 +207,7 @@ rule vcf_to_plink_1000g_with_sex:
             >{log} 2>&1
         """
 
-# Step 9: Caluclate allele frequencies for 1000G data, used in sex imputation of samples
+# Step A9: Caluclate allele frequencies for 1000G data, used in sex imputation of samples
 rule generate_1000g_frequencies:
     input:
         bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.bed",
@@ -233,7 +233,7 @@ rule generate_1000g_frequencies:
 
 
 
-# Step 10: Update FAM file with population information
+# Step A10: Update FAM file with population information
 rule update_1000g_fam:
     input:
         fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.fam",
@@ -262,7 +262,7 @@ rule update_1000g_fam:
 
 # Process samples data
 
-# Step 1: Merge sample VCFs 
+# Step B1: Merge sample VCFs 
 rule merge_sample_vcfs:
     input:
         vcfs=lambda wc: expand("assembly/variants/{sample}/phased_verkko/small_variants.vcf.gz", 
@@ -290,7 +290,7 @@ rule merge_sample_vcfs:
         tabix -p vcf {output.merged}
         """
 
-# Step 2: filter out problematic variants from sample VCFs
+# Step B2: filter out problematic variants from sample VCFs
 rule filter_sample_vcf:
     input:
         vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples.vcf.gz"
@@ -319,7 +319,7 @@ rule filter_sample_vcf:
         tabix -p vcf {output.vcf} 2>>{log}
         """
 
-# Step 4: Infer sample with AF from 1000G variants
+# Step B3: Infer sample with AF from 1000G variants
 rule samples_infer_sex_plink:
     input:
         vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
@@ -357,29 +357,7 @@ rule samples_infer_sex_plink:
         """
 
 
-# Step 3: Convert sample VCFs to Plink format
-rule samples_to_plink:
-    input:
-        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples.nohalfcall.vcf.gz"
-    output:
-        bed=temp("analysis_other/ancestry/plink/samples/samples_temp.bed"),
-        bim=temp("analysis_other/ancestry/plink/samples/samples_temp.bim"),
-        fam=temp("analysis_other/ancestry/plink/samples/samples_temp.fam")
-    conda:
-        "../env/plink2.yml"
-    log:
-        "logs/ancestry/samples_to_plink_temp.log"
-    shell:
-        """
-        plink2 \
-            --vcf {input.vcf} \
-            --make-bed \
-            --out analysis_other/ancestry/plink/samples/samples_temp \
-            --threads 32 \
-            >{log} 2>&1
-        """
-
-# Step 4: Update FAM file with pedigree information
+# Step B4: Update FAM file with pedigree information
 rule update_sample_pedigree:
     input:
         bed="analysis_other/ancestry/plink/samples/samples_imputed.bed",
@@ -394,7 +372,7 @@ rule update_sample_pedigree:
     shell:
         """
         # Update FAM file with pedigree information
-        python3 scripts/27_update_pedigree_info.py \
+        python3 workflow/scripts/27_update_pedigree_info.py \
             --fam {input.fam} \
             --output {output.fam} \
             >{log} 2>&1
@@ -404,33 +382,30 @@ rule update_sample_pedigree:
         cp {input.bim} {output.bim}
         """
 
+# C: Merge datasets, QC 
 
-# Quality control and harmonization with family structure consideration
-rule qc_and_harmonize:
+# Step C1: QC reference data (1000G)
+rule qc_reference_data:
     input:
-        samples_bed="analysis_other/ancestry/plink/samples/samples.bed",
-        samples_bim="analysis_other/ancestry/plink/samples/samples.bim",
-        samples_fam="analysis_other/ancestry/plink/samples/samples.fam",
-        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bed",
-        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bim",
-        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.fam"
+        bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bed",
+        bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.bim",
+        fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.fam"
     output:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
-        qc_report="analysis_other/ancestry/qc/harmonization_report.txt"
+        bed="analysis_other/ancestry/plink/reference/1000G_qc.bed",
+        bim="analysis_other/ancestry/plink/reference/1000G_qc.bim",
+        fam="analysis_other/ancestry/plink/reference/1000G_qc.fam"
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/qc_harmonize.log"
+        "logs/ancestry/qc_reference_data.log"
+    threads: 32
     shell:
         """
-        # QC filters
+        # QC filters - lenient HWE for family structures
         MAF_THRESHOLD=0.01
         GENO_THRESHOLD=0.05
-        HWE_THRESHOLD=1e-6
+        HWE_THRESHOLD=1e-3
         
-        # QC reference data
         plink2 \
             --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T \
             --maf $MAF_THRESHOLD \
@@ -438,41 +413,137 @@ rule qc_and_harmonize:
             --hwe $HWE_THRESHOLD \
             --make-bed \
             --out analysis_other/ancestry/plink/reference/1000G_qc \
+            --threads {threads} \
             >{log} 2>&1
+        """
+
+# Step C2: QC sample data  
+rule qc_sample_data:
+    input:
+        bed="analysis_other/ancestry/plink/samples/samples.bed",
+        bim="analysis_other/ancestry/plink/samples/samples.bim",
+        fam="analysis_other/ancestry/plink/samples/samples.fam"
+    output:
+        bed="analysis_other/ancestry/plink/samples/samples_qc.bed",
+        bim="analysis_other/ancestry/plink/samples/samples_qc.bim",
+        fam="analysis_other/ancestry/plink/samples/samples_qc.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/qc_sample_data.log"
+    threads: 32
+    shell:
+        """
+        # QC filters - lenient HWE for family structures
+        MAF_THRESHOLD=0.01
+        GENO_THRESHOLD=0.05
+        HWE_THRESHOLD=1e-3
         
-        # QC sample data (accounting for family structure in HWE test)
         plink2 \
             --bfile analysis_other/ancestry/plink/samples/samples \
             --maf $MAF_THRESHOLD \
             --geno $GENO_THRESHOLD \
             --hwe $HWE_THRESHOLD \
-            --hwe-all \
             --make-bed \
             --out analysis_other/ancestry/plink/samples/samples_qc \
-            2>>{log}
-        
-        # Find common variants
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step C3: Find common variants between datasets
+rule find_common_variants:
+    input:
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_qc.bim",
+        sample_bim="analysis_other/ancestry/plink/samples/samples_qc.bim"
+    output:
+        common_variants="analysis_other/ancestry/plink/common_variants.txt"
+    log:
+        "logs/ancestry/find_common_variants.log"
+    shell:
+        """
         comm -12 \
-            <(cut -f2 analysis_other/ancestry/plink/reference/1000G_qc.bim | sort) \
-            <(cut -f2 analysis_other/ancestry/plink/samples/samples_qc.bim | sort) \
-            > analysis_other/ancestry/plink/common_variants.txt
+            <(cut -f2 {input.ref_bim} | sort) \
+            <(cut -f2 {input.sample_bim} | sort) \
+            > {output.common_variants} 2>{log}
         
-        # Extract common variants from both datasets
+        echo "Found $(wc -l < {output.common_variants}) common variants" >>{log}
+        """
+
+# Step C4: Extract common variants from reference data
+rule extract_common_variants_reference:
+    input:
+        bed="analysis_other/ancestry/plink/reference/1000G_qc.bed",
+        bim="analysis_other/ancestry/plink/reference/1000G_qc.bim",
+        fam="analysis_other/ancestry/plink/reference/1000G_qc.fam",
+        common_variants="analysis_other/ancestry/plink/common_variants.txt"
+    output:
+        bed="analysis_other/ancestry/plink/reference/1000G_common.bed",
+        bim="analysis_other/ancestry/plink/reference/1000G_common.bim",
+        fam="analysis_other/ancestry/plink/reference/1000G_common.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/ref_extract_common_variants.log"
+    threads: 32
+    shell:
+        """
         plink2 \
             --bfile analysis_other/ancestry/plink/reference/1000G_qc \
-            --extract analysis_other/ancestry/plink/common_variants.txt \
+            --extract {input.common_variants} \
             --make-bed \
             --out analysis_other/ancestry/plink/reference/1000G_common \
-            2>>{log}
-        
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step C5: Extract common variants from sample data
+rule extract_common_variants_samples:
+    input:
+        bed="analysis_other/ancestry/plink/samples/samples_qc.bed",
+        bim="analysis_other/ancestry/plink/samples/samples_qc.bim",
+        fam="analysis_other/ancestry/plink/samples/samples_qc.fam",
+        common_variants="analysis_other/ancestry/plink/common_variants.txt"
+    output:
+        bed="analysis_other/ancestry/plink/samples/samples_common.bed",
+        bim="analysis_other/ancestry/plink/samples/samples_common.bim",
+        fam="analysis_other/ancestry/plink/samples/samples_common.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/samples_extract_common_variants.log"
+    threads: 32
+    shell:
+        """
         plink2 \
             --bfile analysis_other/ancestry/plink/samples/samples_qc \
-            --extract analysis_other/ancestry/plink/common_variants.txt \
+            --extract {input.common_variants} \
             --make-bed \
             --out analysis_other/ancestry/plink/samples/samples_common \
-            2>>{log}
-        
-        # Merge datasets
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step C6: Merge datasets
+rule merge_datasets:
+    input:
+        ref_bed="analysis_other/ancestry/plink/reference/1000G_common.bed",
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_common.bim",
+        ref_fam="analysis_other/ancestry/plink/reference/1000G_common.fam",
+        sample_bed="analysis_other/ancestry/plink/samples/samples_common.bed",
+        sample_bim="analysis_other/ancestry/plink/samples/samples_common.bim",
+        sample_fam="analysis_other/ancestry/plink/samples/samples_common.fam"
+    output:
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/merge_datasets.log"
+    threads: 32
+    shell:
+        """
+        # Create merge list file
         echo "analysis_other/ancestry/plink/samples/samples_common" > analysis_other/ancestry/plink/merge_list.txt
         
         plink2 \
@@ -480,18 +551,38 @@ rule qc_and_harmonize:
             --merge-list analysis_other/ancestry/plink/merge_list.txt \
             --make-bed \
             --out analysis_other/ancestry/plink/merged/merged_cohort \
-            2>>{log}
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step C7: Generate harmonization report
+rule generate_harmonization_report:
+    input:
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
+        common_variants="analysis_other/ancestry/plink/common_variants.txt"
+    output:
+        qc_report="analysis_other/ancestry/qc/harmonization_report.txt"
+    log:
+        "logs/ancestry/qc_harmonization_report.log"
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/qc
         
-        # Generate QC report
         echo "Harmonization completed on $(date)" > {output.qc_report}
-        echo "Common variants: $(wc -l < analysis_other/ancestry/plink/common_variants.txt)" >> {output.qc_report}
-        echo "Final sample count: $(wc -l < {output.fam})" >> {output.qc_report}
+        echo "Common variants: $(wc -l < {input.common_variants})" >> {output.qc_report}
+        echo "Final sample count: $(wc -l < {input.fam})" >> {output.qc_report}
         
         # Report family structure
         echo "" >> {output.qc_report}
         echo "Family structure summary:" >> {output.qc_report}
-        awk '$3 != "0" || $4 != "0" {{print "Child: " $2 " Father: " $3 " Mother: " $4}}' {output.fam} >> {output.qc_report}
+        awk '$3 != "0" || $4 != "0" {{print "Child: " $2 " Father: " $3 " Mother: " $4}}' {input.fam} >> {output.qc_report}
+        
+        echo "Report generated successfully" >{log}
         """
+
+# Part D: Ancestry and population analyses 
 
 # PCA for population structure (accounting for related samples)
 rule run_pca:
