@@ -179,14 +179,36 @@ rule concat_1000g_vcfs:
         tabix -p vcf {output.merged_vcf}
         """
 
-# Step A8: Convert VCF to PGEN format
+# Step A8: Convert metadata to PSAM, using only IDs that appear in the VCF file
+rule vcf_1000G_tsv_to_psam:
+    input:
+        metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20200731.ALL.ped",
+        vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
+    output:
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam"
+    conda:
+        "../env/bcftools.yml"
+    log:
+        "logs/ancestry/ref_metadata_to_psam.log"
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/plink/reference
+
+        python3 workflow/scripts/26_convert_metadata_to_psam.py \
+            --vcf {input.vcf} \
+            --metadata {input.metadata} \
+            --psam {output.psam} \
+            2>{log}
+        """
+
+# Step A9: Convert VCF to PGEN format
 rule vcf_to_plink_1000g:
     input:
-        merged_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
+        merged_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam"
     output:
-        pgen=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pgen"),
-        pvar=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pvar"),
-        psam=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.psam")
+        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pgen",
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pvar",
     conda:
         "../env/plink2.yml"
     log:
@@ -197,7 +219,8 @@ rule vcf_to_plink_1000g:
         plink2 \
             --vcf {input.merged_vcf} \
             --make-pgen \
-            --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp \
+            --psam {input.psam} \
+            --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T \
             --allow-extra-chr \
             --split-par b38 \
             --vcf-half-call m \
@@ -205,30 +228,6 @@ rule vcf_to_plink_1000g:
             >{log} 2>&1
         """
 
-# Step A9: Update 1000G PSAM with metadata  
-rule update_1000g_psam:
-    input:
-        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pgen",
-        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pvar",
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.psam",
-        metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel"
-    output:
-        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pgen",
-        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pvar",
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam"
-    log:
-        "logs/ancestry/update_1000g_psam.log"
-    shell:
-        """
-        # Convert 1000G metadata to PSAM format
-        awk 'BEGIN{{OFS="\\t"; print "#FID","IID","PAT","MAT","SEX","PHENO"}} 
-             NR>1 {{print $1,$2,$3,$4,$5,$6}}' \
-             {input.metadata} > {output.psam} 2>{log}
-        
-        # Copy pgen and pvar files
-        cp {input.pgen} {output.pgen}
-        cp {input.pvar} {output.pvar}
-        """
 
 # Process samples data
 
@@ -292,11 +291,12 @@ rule filter_sample_vcf:
 # Step B3: Convert sample VCF to PGEN format
 rule samples_to_plink:
     input:
-        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz"
+        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
+        metadata="data/samples_pedigree.tsv"
     output:
-        pgen=temp("analysis_other/ancestry/plink/samples/samples_temp.pgen"),
-        pvar=temp("analysis_other/ancestry/plink/samples/samples_temp.pvar"),
-        psam=temp("analysis_other/ancestry/plink/samples/samples_temp.psam")
+        pgen="analysis_other/ancestry/plink/samples/samples.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples.pvar",
+        psam="analysis_other/ancestry/plink/samples/samples.psam"
     conda:
         "../env/plink2.yml"
     log:
@@ -307,36 +307,14 @@ rule samples_to_plink:
         plink2 \
             --vcf {input.vcf} \
             --make-pgen \
-            --out analysis_other/ancestry/plink/samples/samples_temp \
+            --out analysis_other/ancestry/plink/samples/samples \
+            --psam {input.metadata} \
             --allow-extra-chr \
             --split-par b38 \
             --vcf-half-call m \
             --set-missing-var-ids @:# \
             --threads {threads} \
             >{log} 2>&1
-        """
-
-# Step B4: Update sample PSAM with metadata
-rule update_sample_psam:
-    input:
-        pgen="analysis_other/ancestry/plink/samples/samples_temp.pgen",
-        pvar="analysis_other/ancestry/plink/samples/samples_temp.pvar", 
-        psam="analysis_other/ancestry/plink/samples/samples_temp.psam",
-        metadata="data/samples_pedigree.tsv"
-    output:
-        pgen="analysis_other/ancestry/plink/samples/samples.pgen",
-        pvar="analysis_other/ancestry/plink/samples/samples.pvar",
-        psam="analysis_other/ancestry/plink/samples/samples.psam"
-    log:
-        "logs/ancestry/update_sample_psam.log"
-    shell:
-        """
-        # Use provided metadata for sample pedigree
-        cp {input.metadata} {output.psam} 2>{log}
-        
-        # Copy pgen and pvar files  
-        cp {input.pgen} {output.pgen}
-        cp {input.pvar} {output.pvar}
         """
 
 
@@ -355,20 +333,22 @@ rule qc_filter_plink:
     log:
         "logs/ancestry/qc_filter_{dataset}_{prefix}.log"
     threads: 32
+
+    # Unused filter:         
+    # MIND_THRESHOLD=0.6     # Remove samples with >60% missing data (very lenient)
+    # --mind $MIND_THRESHOLD 
+
     shell:
         """
         # QC filters - lenient for ancestry analysis
         MAF_THRESHOLD=0.01     # Keep rare variants for ancestry
         GENO_THRESHOLD=0.15    # Lenient missing rate
         HWE_THRESHOLD=1e-3     # Lenient HWE for population structure with families
-        MIND_THRESHOLD=0.1     # Remove samples with >10% missing data
-        
+
         echo "Applying QC filters to {wildcards.dataset}/{wildcards.prefix}..." >{log}
-        echo "GENO_THRESHOLD=$GENO_THRESHOLD (allowing up to 15% missing per variant)" >>{log}
         
         plink2 \
             --pfile analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix} \
-            --mind $MIND_THRESHOLD \
             --maf $MAF_THRESHOLD \
             --geno $GENO_THRESHOLD \
             --hwe $HWE_THRESHOLD \
@@ -386,7 +366,7 @@ rule qc_filter_plink:
         echo "Samples after filtering: $(wc -l < analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered.psam | tail -n +2)" >>{log}
         """
 
-# Step C2: Merge datasets using PGEN format
+# Step C2: Merge datasets
 rule merge_datasets_with_matching:
     input:
         ref_pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pgen",
@@ -409,18 +389,37 @@ rule merge_datasets_with_matching:
         """
         mkdir -p analysis_other/ancestry/plink/merged analysis_other/ancestry/qc
         
-        # Create pmerge list file
-        echo "analysis_other/ancestry/plink/samples/samples_filtered" > analysis_other/ancestry/plink/pmerge_list.txt
-        
-        # Attempt merge with automatic variant matching
+        # Convert reference to BED format
         plink2 \
             --pfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered \
-            --pmerge-list analysis_other/ancestry/plink/pmerge_list.txt \
-            --pmerge-list-mode 6 \
-            --make-pgen \
-            --out analysis_other/ancestry/plink/merged/merged_cohort \
+            --make-bed \
+            --out analysis_other/ancestry/plink/merged/ref_temp \
             --threads {threads} \
             >{log} 2>&1
+        
+        # Convert samples to BED format  
+        plink2 \
+            --pfile analysis_other/ancestry/plink/samples/samples_filtered \
+            --make-bed \
+            --out analysis_other/ancestry/plink/merged/sample_temp \
+            --threads {threads} \
+            >>{log} 2>&1
+        
+        # Create merge list
+        echo "analysis_other/ancestry/plink/merged/sample_temp" > analysis_other/ancestry/plink/merged/merge_list.txt
+        
+        # Merge using traditional PLINK format
+        plink \
+            --bfile analysis_other/ancestry/plink/merged/ref_temp \
+            --merge-list analysis_other/ancestry/plink/merged/merge_list.txt \
+            --out analysis_other/ancestry/plink/merged/merged_cohort \
+            --threads {threads} \
+            >>{log} 2>&1
+        
+        # Clean up temporary files
+        rm -f analysis_other/ancestry/plink/merged/ref_temp.*
+        rm -f analysis_other/ancestry/plink/merged/sample_temp.*
+        rm -f analysis_other/ancestry/plink/merged/merge_list.txt
         
         # Generate merge report
         echo "Merge completed on $(date)" > {output.merge_report}
@@ -433,7 +432,7 @@ rule merge_datasets_with_matching:
         fi
         """
 
-# Step C3: Generate harmonization report (updated for PGEN format)
+# Step C3: Generate harmonization report
 rule generate_harmonization_report:
     input:
         pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
