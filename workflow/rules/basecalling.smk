@@ -58,8 +58,14 @@ rule rename_dorado_output:
         "logs/rename_dorado_output/{dataset}_{type}.log",
     shell:
         """
-        mv -v $(find $(dirname {input.folder}) -name "calls_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_T[0-9][0-9]-[0-9][0-9]-[0-9][0-9].bam") {output.bam} \
-        > {log} 2>&1
+        # Find the BAM file in the new nested directory structure
+        BAM_FILE=$(find $(dirname {input.folder}) -name "*.bam" -path "*/bam_pass/*" | head -1)
+        
+        # Move the BAM file to the expected location
+        mv -v "$BAM_FILE" {output.bam} > {log} 2>&1
+        
+        # Remove the empty nested directory structure
+        find $(dirname {input.folder}) -type d -empty -delete >> {log} 2>&1 || true
         """
 
 
