@@ -1,7 +1,10 @@
 # Global variables for ancestry analysis
-ANCESTRY_TOOLS = ["iadmix", "admixture"]
+#ANCESTRY_TOOLS = ["iadmix", "admixture"]
+ANCESTRY_TOOLS = ["iadmix"]
 
-LOCAL_ANCESTRY_TOOLS = ["rfmix", "gnomix"]
+#LOCAL_ANCESTRY_TOOLS = ["rfmix", "gnomix"]
+LOCAL_ANCESTRY_TOOLS = []
+
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
 
@@ -24,7 +27,7 @@ rule all_ancestry:
         # Local ancestry results  
         expand("analysis_other/ancestry/local/{tool}/results.done", tool=LOCAL_ANCESTRY_TOOLS),
         # Summary reports
-        "analysis_other/ancestry/reports/ancestry_summary.html"
+        #"analysis_other/ancestry/reports/ancestry_summary.html"
 
 
 
@@ -463,7 +466,7 @@ rule convert_bed_to_pgen_final:
     output:
         pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
         pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+        psam="analysis_other/ancestry/plink/merged/merged_cohort_no_pop.psam"
     conda:
         "../env/plink2.yml"
     log:
@@ -479,6 +482,9 @@ rule convert_bed_to_pgen_final:
             --threads {threads} \
             >{log} 2>&1
         
+        # Move PSAM to indicate no population info yet
+        mv analysis_other/ancestry/plink/merged/merged_cohort.psam {output.psam}
+
         # Update merge report with final PGEN file statistics
         echo "" >> {input.merge_report}
         echo "Conversion to PGEN completed on $(date)" >> {input.merge_report}
@@ -486,6 +492,27 @@ rule convert_bed_to_pgen_final:
         echo "Final PGEN variant count: $(tail -n +2 {output.pvar} | wc -l)" >> {input.merge_report}
         """
 
+# Step C5: Restore population information to merged PSAM file
+rule restore_population_info_to_merged_psam:
+    input:
+        merged_psam="analysis_other/ancestry/plink/merged/merged_cohort_no_pop.psam",
+        ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
+        sample_psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
+    output:
+        enhanced_psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/restore_population_info.log"
+    shell:
+        """
+        python3 workflow/scripts/27_restore_population_info.py \
+            --merged-psam {input.merged_psam} \
+            --ref-psam {input.ref_psam} \
+            --sample-psam {input.sample_psam} \
+            --output {output.enhanced_psam} \
+            >{log} 2>&1
+        """
 
 # Part D: Ancestry analysis
 
@@ -525,7 +552,7 @@ rule run_pca:
             >{log} 2>&1
         """
 
-# Step D1a: Calculate allele frequencies by population using PLINK 1.9
+# Step D2a: Calculate allele frequencies by population using PLINK 1.9
 rule create_iadmix_plink_frequencies:
     input:
         ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
@@ -533,7 +560,7 @@ rule create_iadmix_plink_frequencies:
         ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
         ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
-        freq_file="analysis_other/ancestry/global/iadmix/freq_{population}.frq"
+        freq_file="analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq"
     conda:
         "../env/plink2.yml"
     log:
@@ -546,8 +573,17 @@ rule create_iadmix_plink_frequencies:
         POP={wildcards.population}
         echo "Calculating frequencies for population: $POP" >{log}
         
-        # Create population-specific keep file from PSAM (column 7 should be SUPERPOP)
-        awk -v pop="$POP" 'NR==1 {{next}} $7 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
+        # Create population-specific keep file from PSAM (column 8 is SUPERPOP, skip header with #)
+        awk -v pop="$POP" '!/^#/ && $8 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
+        
+        # Debug: Show first few lines of PSAM file and what we're looking for
+        echo "Looking for population: $POP" >>{log}
+        echo "PSAM header:" >>{log}
+        head -1 {input.ref_psam} >>{log}
+        echo "Sample PSAM lines:" >>{log}
+        head -5 {input.ref_psam} | tail -4 >>{log}
+        echo "Generated keep file content:" >>{log}
+        head -5 analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt >>{log}
         
         # Check if keep file has any samples
         SAMPLE_COUNT=$(wc -l < analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt)
@@ -566,19 +602,16 @@ rule create_iadmix_plink_frequencies:
             echo "No samples found for population $POP, creating empty frequency file" >>{log}
             touch {output.freq_file}
         fi
-        
-        # Clean up keep file
-        rm -f analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
         """
 
-# Step D1b: Convert PLINK frequency output to iAdmix format
+# Step D2b: Convert PLINK frequency output to iAdmix format
 rule convert_to_iadmix_freq_format:
     input:
-        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq_{pop}.frq", pop=THOUSAND_G_POPS),  # Fixed extension
+        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq/freq_{pop}.frq", pop=THOUSAND_G_POPS),  # Fixed extension
         pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
         psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
-        freq_file="analysis_other/ancestry/global/iadmix/reference_frequencies.txt"
+        freq_file="analysis_other/ancestry/global/iadmix/freq/reference_frequencies.txt"
     conda:
         "../env/py_report.yml"  # Use Python environment
     log:
@@ -594,14 +627,14 @@ rule convert_to_iadmix_freq_format:
             >{log} 2>&1
         """
 
-# Step D1c: Export sample genotypes in transposed format using PLINK2
+# Step D2c: Export sample genotypes in transposed format using PLINK2
 rule export_iadmix_plink_genotypes:
     input:
         pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
         pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
         psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
     output:
-        raw_file="analysis_other/ancestry/global/iadmix/sample_raw.traw"
+        raw_file="analysis_other/ancestry/global/iadmix/geno/sample_raw.traw"
     conda:
         "../env/plink2.yml"
     log:
@@ -615,7 +648,7 @@ rule export_iadmix_plink_genotypes:
         plink2 \
             --pfile analysis_other/ancestry/plink/samples/samples_filtered \
             --export A-transpose \
-            --out analysis_other/ancestry/global/iadmix/sample_raw \
+            --out analysis_other/ancestry/global/iadmix/geno/sample_raw \
             --threads {threads} \
             >{log} 2>&1
         """
@@ -623,9 +656,9 @@ rule export_iadmix_plink_genotypes:
 # Step D1d: Convert PLINK genotypes to iAdmix format
 rule convert_to_iadmix_geno_format:
     input:
-        plink_raw="analysis_other/ancestry/global/iadmix/sample_raw.traw"
+        plink_raw="analysis_other/ancestry/global/iadmix/geno/sample_raw.traw"
     output:
-        geno_file="analysis_other/ancestry/global/iadmix/sample_genotypes.txt"
+        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_genotypes.txt"
     conda:
         "../env/py_report.yml"
     log:
@@ -642,11 +675,11 @@ rule convert_to_iadmix_geno_format:
 # Step D1e: Run iAdmix using Docker
 rule run_iadmix:
     input:
-        freq_file="analysis_other/ancestry/global/iadmix/reference_frequencies.txt",
-        geno_file="analysis_other/ancestry/global/iadmix/sample_genotypes.txt"
+        freq_file="analysis_other/ancestry/global/iadmix/freq/reference_frequencies.txt",
+        geno_file="analysis_other/ancestry/global/iadmix/geno/gsample_genotypes.txt"
     output:
         touch("analysis_other/ancestry/global/iadmix/results.done"),
-        results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt"
+        results="analysis_other/ancestry/global/iadmix/results/admixture_proportions.txt"
     log:
         "logs/ancestry/iadmix.log"
     threads: 16
@@ -665,12 +698,13 @@ rule run_iadmix:
             -v ${{WORKDIR}}:/workdir \
             -w /workdir \
             caspargross/iadmix \
-            python runancestry.py \
+            python /usr/src/app/runancestry.py \
             --freq analysis_other/ancestry/global/iadmix/reference_frequencies.txt \
-            --plink analysis_other/ancestry/global/iadmix/sample_genotypes.txt \
-            --out analysis_other/ancestry/global/iadmix/results \
-            --K 5 \
-            2>>{log}
+            --geno analysis_other/ancestry/global/iadmix/sample_genotypes.txt \
+            --out analysis_other/ancestry/global/iadmix/results/results \
+            --cores {threads} \
+            --path /usr/src/app/ \
+            >{log} 2>&1
         
         # Process results
         if [[ -f analysis_other/ancestry/global/iadmix/results.Q ]]; then
@@ -682,15 +716,45 @@ rule run_iadmix:
         fi
         """
 
-# Global ancestry with ADMIXTURE (convert to BED format for compatibility)
-rule run_admixture:
+# Step D2a: Convert chromosome codes for ADMIXTURE (requires integer codes)
+rule prepare_bed_for_admixture:
     input:
         bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
         bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
         fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
     output:
+        bed="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bed",
+        bim="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bim",
+        fam="analysis_other/ancestry/global/admixture/merged_cohort_numeric.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/prepare_bed_for_admixture.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/admixture
+        
+        # Convert chromosome codes to numeric format for ADMIXTURE
+        plink2 \
+            --bfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --make-bed \
+            --out analysis_other/ancestry/global/admixture/merged_cohort_numeric \
+            --chr 1-22,X \
+            --output-chr 26 \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Updated ADMIXTURE rule to use numeric chromosome codes
+rule run_admixture:
+    input:
+        bed="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bed",
+        bim="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bim",
+        fam="analysis_other/ancestry/global/admixture/merged_cohort_numeric.fam"
+    output:
         touch("analysis_other/ancestry/global/admixture/results.done"),
-        results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q"
+        results="analysis_other/ancestry/global/admixture/merged_cohort_numeric.5.Q"
     conda:
         "../env/admixture.yml"
     log:
@@ -703,18 +767,13 @@ rule run_admixture:
         # Store absolute path of log file before changing directory
         LOGFILE=$(realpath {log})
         
-        # Create symlinks to input files in ADMIXTURE directory (ADMIXTURE creates output files in working dir)
-        ln -sf $(realpath {input.bed}) analysis_other/ancestry/global/admixture/merged_cohort.bed
-        ln -sf $(realpath {input.bim}) analysis_other/ancestry/global/admixture/merged_cohort.bim
-        ln -sf $(realpath {input.fam}) analysis_other/ancestry/global/admixture/merged_cohort.fam
-        
-        # Run ADMIXTURE from the target directory
+        # Run ADMIXTURE from the target directory (files are already in the right place)
         cd analysis_other/ancestry/global/admixture
         
         # Run ADMIXTURE for different K values
         for K in {{3..7}}; do
             echo "Running ADMIXTURE with K=$K" >>$LOGFILE 2>&1
-            admixture --cv merged_cohort.bed $K -j{threads} >>$LOGFILE 2>&1
+            admixture --cv merged_cohort_numeric.bed $K -j{threads} >>$LOGFILE 2>&1
         done
         
         echo "ADMIXTURE analysis completed" >>$LOGFILE

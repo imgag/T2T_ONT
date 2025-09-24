@@ -18,80 +18,115 @@ def main():
     for f in args.plink_freq:
         print(f"  - {f}")
     
-    # Read PVAR file for variant information (handle comments properly)
+    # Read PVAR file for variant information
     print("Reading PVAR file...")
     try:
-        # PVAR files can have comments starting with ##
-        # First, find the actual header line
+        # Read PVAR file by skipping comment lines (##) and finding the header
         with open(args.pvar, 'r') as f:
             lines = f.readlines()
         
-        # Find the header line (starts with #CHROM or CHROM)
-        header_idx = 0
+        # Find the first non-comment line (header or data)
+        header_line_idx = 0
         for i, line in enumerate(lines):
-            if line.startswith('#CHROM') or (line.startswith('CHROM') and not line.startswith('##')):
-                header_idx = i
+            if not line.strip().startswith('##'):
+                header_line_idx = i
                 break
         
-        print(f"Found header at line {header_idx + 1}")
+        print(f"Found data starting at line {header_line_idx + 1}")
+        first_data_line = lines[header_line_idx].strip()
+        print(f"First data line: {first_data_line}")
         
-        # Read the file starting from the header
-        pvar_df = pd.read_csv(args.pvar, sep='\t', skiprows=header_idx, comment='#')
-        
-        # Clean column names
-        pvar_df.columns = pvar_df.columns.str.replace('#', '')
+        # Check if the first non-comment line is a header
+        if first_data_line.startswith('#CHROM') or 'CHROM' in first_data_line:
+            print("Found header line")
+            # Read with header, skipping comment lines
+            pvar_df = pd.read_csv(args.pvar, sep='\t', dtype=str, skiprows=header_line_idx, nrows=None, comment=None)
+            # Clean column names
+            pvar_df.columns = pvar_df.columns.str.replace('#', '')
+        else:
+            print("No header found, using standard PVAR column names")
+            # Read without header, skipping comment lines
+            pvar_df = pd.read_csv(args.pvar, sep='\t', header=None, dtype=str, skiprows=header_line_idx, comment=None)
+            # Standard PVAR columns
+            expected_cols = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO']
+            # Assign column names based on number of columns
+            if len(pvar_df.columns) >= 5:
+                pvar_df.columns = expected_cols[:len(pvar_df.columns)]
+            else:
+                raise ValueError(f"PVAR file has only {len(pvar_df.columns)} columns, expected at least 5")
         
     except Exception as e:
         print(f"Error reading PVAR file: {e}")
         print("Trying alternative parsing method...")
         
-        # Alternative: read with comment='#' and infer header
+        # Alternative: manually parse the file
         try:
-            pvar_df = pd.read_csv(args.pvar, sep='\t', comment='#')
-            if pvar_df.columns[0].startswith('#'):
-                pvar_df.columns = pvar_df.columns.str.replace('#', '')
-        except Exception as e2:
-            print(f"Alternative parsing also failed: {e2}")
-            print("Trying to read line by line...")
-            
-            # Manual parsing as last resort
             data_lines = []
             header = None
             
             with open(args.pvar, 'r') as f:
                 for line in f:
                     line = line.strip()
-                    if not line or line.startswith('##'):
-                        continue
-                    elif line.startswith('#CHROM') or line.startswith('CHROM'):
+                    if line.startswith('##') or not line:
+                        continue  # Skip comment lines and empty lines
+                    elif line.startswith('#CHROM') or (line.startswith('CHROM') and not line.startswith('##')):
                         header = line.replace('#', '').split('\t')
-                    elif header and not line.startswith('#'):
+                        print(f"Found header: {header}")
+                    elif not line.startswith('#'):
                         data_lines.append(line.split('\t'))
             
-            if not header:
-                raise ValueError("Could not find proper header in PVAR file")
-                
-            pvar_df = pd.DataFrame(data_lines, columns=header)
+            if header:
+                pvar_df = pd.DataFrame(data_lines, columns=header)
+            else:
+                # Use standard column names if no header found
+                expected_cols = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO']
+                if data_lines and len(data_lines[0]) >= 5:
+                    pvar_df = pd.DataFrame(data_lines, columns=expected_cols[:len(data_lines[0])])
+                else:
+                    raise ValueError("Could not parse PVAR file properly")
+                    
+        except Exception as e2:
+            print(f"Alternative parsing also failed: {e2}")
+            return 1
     
     print(f"Found {len(pvar_df)} variants in PVAR file")
     print(f"PVAR columns: {list(pvar_df.columns)}")
     
+    # Verify required columns exist
+    required_cols = ['CHROM', 'POS', 'ID', 'REF', 'ALT']
+    missing_cols = [col for col in required_cols if col not in pvar_df.columns]
+    if missing_cols:
+        print(f"Error: Missing required columns in PVAR: {missing_cols}")
+        print(f"Available columns: {list(pvar_df.columns)}")
+        return 1
+    
     # Read PSAM file for population information
     print("Reading PSAM file...")
     try:
-        psam_df = pd.read_csv(args.psam, sep='\t', comment='#')
-        if psam_df.columns[0].startswith('#'):
-            psam_df.columns = psam_df.columns.str.replace('#', '')
+        # Check the first line to see if it has a header
+        with open(args.psam, 'r') as f:
+            first_line = f.readline().strip()
+            print(f"First line of PSAM: {first_line}")
+        
+        if first_line.startswith('#'):
+            print("PSAM has header starting with #")
+            psam_df = pd.read_csv(args.psam, sep='\t', dtype=str)
+            # Clean column names by removing # prefix
+            psam_df.columns = [col.lstrip('#') for col in psam_df.columns]
+        else:
+            print("PSAM has no # prefix in header")
+            psam_df = pd.read_csv(args.psam, sep='\t', dtype=str)
+            
+        print(f"PSAM columns after cleaning: {list(psam_df.columns)}")
+        
     except Exception as e:
         print(f"Error reading PSAM file: {e}")
         return 1
     
-    print(f"PSAM columns: {list(psam_df.columns)}")
-    
     # Get available populations from PSAM
     if 'SUPERPOP' in psam_df.columns:
         populations = sorted(psam_df['SUPERPOP'].unique())
-        populations = [p for p in populations if p != 'UNK' and pd.notna(p)]
+        populations = [p for p in populations if p != 'UNK' and p != 'QUERY' and pd.notna(p)]
     else:
         print("Warning: No SUPERPOP column found, using default populations")
         populations = ['AFR', 'AMR', 'EAS', 'EUR', 'SAS']
@@ -107,7 +142,7 @@ def main():
         # Extract population from filename (e.g., freq_AFR.frq -> AFR)
         basename = os.path.basename(freq_file)
         if 'freq_' in basename:
-            pop = basename.split('freq_')[1].split('.')[0]  # Extract pop from freq_POP.frq
+            pop = basename.split('freq_')[1].split('.')[0]
         else:
             print(f"Warning: Cannot extract population from filename {freq_file}")
             continue
@@ -121,17 +156,18 @@ def main():
         
         try:
             # Read PLINK .frq file
-            # Format: CHR SNP A1 A2 MAF NCHROBS
-            freq_df = pd.read_csv(freq_file, sep=r'\s+')
+            freq_df = pd.read_csv(freq_file, sep=r'\s+', dtype={'CHR': str, 'SNP': str})
             
             print(f"  Found {len(freq_df)} variants for {pop}")
             print(f"  Columns: {list(freq_df.columns)}")
             
             # Store frequency data indexed by SNP ID
-            # Use MAF column (Minor Allele Frequency)
             if 'MAF' in freq_df.columns:
+                # Convert MAF to float, handle any non-numeric values
+                freq_df['MAF'] = pd.to_numeric(freq_df['MAF'], errors='coerce')
                 freq_data[pop] = freq_df.set_index('SNP')['MAF'].to_dict()
             elif 'FREQ' in freq_df.columns:
+                freq_df['FREQ'] = pd.to_numeric(freq_df['FREQ'], errors='coerce')
                 freq_data[pop] = freq_df.set_index('SNP')['FREQ'].to_dict()
             else:
                 print(f"  Warning: No frequency column found in {freq_file}")
@@ -161,38 +197,44 @@ def main():
     skipped_variants = 0
     
     for idx, row in pvar_df.iterrows():
-        if idx % 10000 == 0:
+        if idx % 100000 == 0:
             print(f"Processed {idx} variants...")
         
-        variant_id = row['ID']
-        chrom = str(row['CHROM']).replace('chr', '')  # Remove chr prefix for iAdmix
-        pos = row['POS']
-        ref_allele = row['REF']
-        alt_allele = row['ALT']
-        
-        # Build output row
-        out_row = [chrom, pos, variant_id, ref_allele, alt_allele]
-        
-        # Add population frequencies
-        has_freq_data = False
-        for pop in populations:
-            if pop in freq_data and variant_id in freq_data[pop]:
-                freq = freq_data[pop][variant_id]
-                # Ensure frequency is a valid number
-                if pd.notna(freq) and isinstance(freq, (int, float)):
-                    out_row.append(f"{float(freq):.5f}")
-                    has_freq_data = True
+        try:
+            variant_id = row['ID']
+            chrom = str(row['CHROM']).replace('chr', '')  # Remove chr prefix for iAdmix
+            pos = row['POS']
+            ref_allele = row['REF']
+            alt_allele = row['ALT']
+            
+            # Build output row
+            out_row = [chrom, pos, variant_id, ref_allele, alt_allele]
+            
+            # Add population frequencies
+            has_freq_data = False
+            for pop in populations:
+                if pop in freq_data and variant_id in freq_data[pop]:
+                    freq = freq_data[pop][variant_id]
+                    # Ensure frequency is a valid number
+                    if pd.notna(freq) and isinstance(freq, (int, float)):
+                        out_row.append(f"{float(freq):.5f}")
+                        has_freq_data = True
+                    else:
+                        out_row.append("0.00000")
                 else:
-                    out_row.append("0.00000")
+                    out_row.append("0.00000")  # Default frequency if not found
+            
+            # Only include variants that have frequency data for at least one population
+            if has_freq_data:
+                output_data.append(out_row)
+                processed_variants += 1
             else:
-                out_row.append("0.00000")  # Default frequency if not found
-        
-        # Only include variants that have frequency data for at least one population
-        if has_freq_data:
-            output_data.append(out_row)
-            processed_variants += 1
-        else:
+                skipped_variants += 1
+                
+        except Exception as e:
+            print(f"Error processing variant at index {idx}: {e}")
             skipped_variants += 1
+            continue
     
     # Write output file
     print(f"\nWriting iAdmix frequency file to {args.output}")

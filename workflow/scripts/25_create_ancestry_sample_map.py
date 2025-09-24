@@ -1,59 +1,73 @@
 #!/usr/bin/env python3
-# filepath: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/25_create_ancestry_sample_map.py
 
 import argparse
 import pandas as pd
 
 def main():
     parser = argparse.ArgumentParser(description='Create sample mapping file for local ancestry')
-    parser.add_argument('--psam', required=True, help='Input PSAM file')  # UPDATED: --psam instead of --fam
+    parser.add_argument('--psam', required=True, help='Input PSAM file')
     parser.add_argument('--output', required=True, help='Output sample map file')
     
     args = parser.parse_args()
     
-    # Read PSAM file (has header, unlike FAM)
+    print(f"Reading PSAM file: {args.psam}")
+    
+    # Read PSAM file
     psam = pd.read_csv(args.psam, sep='\t')
     
-    # Handle different possible column names for PSAM format
-    if '#FID' in psam.columns:
-        psam = psam.rename(columns={'#FID': 'FID'})
+    # Clean column names (remove # prefix if present)
+    psam.columns = [col.lstrip('#') for col in psam.columns]
     
-    # Ensure required columns exist
-    required_cols = ['FID', 'IID']
-    for col in required_cols:
-        if col not in psam.columns:
-            print(f"Error: Required column '{col}' not found in PSAM file")
-            return
+    print(f"PSAM columns: {list(psam.columns)}")
+    print(f"Total samples: {len(psam)}")
     
-    # Handle phenotype column (could be PHENO1, PHENOTYPE, or similar)
-    pheno_col = None
-    for col in ['PHENO1', 'PHENOTYPE', 'PHENO']:
-        if col in psam.columns:
-            pheno_col = col
-            break
+    # Check if required columns exist
+    if 'IID' not in psam.columns:
+        print("Error: IID column not found in PSAM file")
+        return 1
     
-    if pheno_col is None:
-        print("Warning: No phenotype column found, using -9 (Unknown) for all samples")
-        psam['PHENO'] = -9
+    # Determine population column
+    if 'SUPERPOP' in psam.columns:
+        pop_col = 'SUPERPOP'
+    elif 'POP' in psam.columns:
+        pop_col = 'POP'
     else:
-        psam['PHENO'] = psam[pheno_col]
+        print("Error: No population column (SUPERPOP or POP) found in PSAM file")
+        return 1
     
-    # Create sample map (sample_id, population)
-    # Assuming PHENO codes: 1=AFR, 2=AMR, 3=EAS, 4=EUR, 5=SAS, -9=Unknown
-    pop_map = {1: 'AFR', 2: 'AMR', 3: 'EAS', 4: 'EUR', 5: 'SAS', -9: 'UNK'}
+    print(f"Using population column: {pop_col}")
     
+    # Create sample map
     sample_map = pd.DataFrame({
         'sample_id': psam['IID'],
-        'population': psam['PHENO'].map(pop_map).fillna('UNK')
+        'population': psam[pop_col].fillna('UNK')
     })
     
-    # Save sample map (no header for RFMix compatibility)
+    # Map query samples (samples that don't have standard 1000G population codes)
+    # Standard 1000G superpopulations: AFR, AMR, EAS, EUR, SAS
+    standard_pops = {'AFR', 'AMR', 'EAS', 'EUR', 'SAS'}
+    
+    # Mark samples not in standard populations as QUERY
+    sample_map.loc[~sample_map['population'].isin(standard_pops), 'population'] = 'QUERY'
+    
+    # Save sample map (with header for debugging, but RFMix might need without header)
     sample_map.to_csv(args.output, sep='\t', index=False, header=False)
     
-    print(f"Sample map saved to {args.output}")
+    # Also save a version with header for debugging
+    debug_file = args.output.replace('.txt', '_with_header.txt')
+    sample_map.to_csv(debug_file, sep='\t', index=False, header=True)
+    
+    print(f"Sample map saved to: {args.output}")
+    print(f"Debug file with header saved to: {debug_file}")
     print(f"Total samples: {len(sample_map)}")
-    print("Population counts:")
-    print(sample_map['population'].value_counts().to_string())
+    print("\nPopulation distribution:")
+    pop_counts = sample_map['population'].value_counts()
+    for pop, count in pop_counts.items():
+        print(f"  {pop}: {count} samples")
+    
+    # Show first few entries for verification
+    print(f"\nFirst 10 entries:")
+    print(sample_map.head(10).to_string(index=False))
 
 if __name__ == '__main__':
     main()
