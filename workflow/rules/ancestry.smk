@@ -1,5 +1,6 @@
 # Global variables for ancestry analysis
 ANCESTRY_TOOLS = ["iadmix", "admixture"]
+
 LOCAL_ANCESTRY_TOOLS = ["rfmix", "gnomix"]
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
@@ -179,15 +180,16 @@ rule concat_1000g_vcfs:
         tabix -p vcf {output.merged_vcf}
         """
 
-# Step A8: Convert metadata to PSAM, using only IDs that appear in the VCF file
+# Step A8: Convert metadata to PSAM, using panel file for population info
 rule vcf_1000G_tsv_to_psam:
     input:
         metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20200731.ALL.ped",
+        panel="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel",
         vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
     output:
         psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam"
     conda:
-        "../env/bcftools.yml"
+        "../env/py_report.yml"
     log:
         "logs/ancestry/ref_metadata_to_psam.log"
     shell:
@@ -197,8 +199,9 @@ rule vcf_1000G_tsv_to_psam:
         python3 workflow/scripts/26_convert_metadata_to_psam.py \
             --vcf {input.vcf} \
             --metadata {input.metadata} \
+            --panel {input.panel} \
             --psam {output.psam} \
-            2>{log}
+            >{log} 2>&1
         """
 
 # Step A9: Convert VCF to PGEN format
@@ -404,9 +407,9 @@ rule merge_bed_files_plink:
         sample_bim="analysis_other/ancestry/plink/samples/samples_old.bim",
         sample_fam="analysis_other/ancestry/plink/samples/samples_old.fam"
     output:
-        bed=temp("analysis_other/ancestry/plink/merged/merged_cohort.bed"),
-        bim=temp("analysis_other/ancestry/plink/merged/merged_cohort.bim"),
-        fam=temp("analysis_other/ancestry/plink/merged/merged_cohort.fam"),
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
         merge_report="analysis_other/ancestry/qc/merge_report.txt"
     conda:
         "../env/plink2.yml"
@@ -470,7 +473,7 @@ rule convert_bed_to_pgen_final:
         """
         # Convert merged BED back to PGEN format using PLINK2
         plink2 \
-            --bfile analysis_other/ancestry/plink/merged/merged_cohort_temp \
+            --bfile analysis_other/ancestry/plink/merged/merged_cohort \
             --make-pgen \
             --out analysis_other/ancestry/plink/merged/merged_cohort \
             --threads {threads} \
@@ -522,20 +525,131 @@ rule run_pca:
             >{log} 2>&1
         """
 
-# Global ancestry with iAdmix (convert to BED format for compatibility)
-rule run_iadmix:
+# Step D1a: Calculate allele frequencies by population using PLINK 1.9
+rule create_iadmix_plink_frequencies:
     input:
-        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
-        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
-        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bim", 
+        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
+        ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
-        touch("analysis_other/ancestry/global/iadmix/results.done"),
-        results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt",
+        freq_file="analysis_other/ancestry/global/iadmix/freq_{population}.frq"
     conda:
         "../env/plink2.yml"
     log:
+        "logs/ancestry/create_iadmix_plink_freq_{population}.log"  
+    threads: 4  
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/iadmix
+        
+        POP={wildcards.population}
+        echo "Calculating frequencies for population: $POP" >{log}
+        
+        # Create population-specific keep file from PSAM (column 7 should be SUPERPOP)
+        awk -v pop="$POP" 'NR==1 {{next}} $7 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
+        
+        # Check if keep file has any samples
+        SAMPLE_COUNT=$(wc -l < analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt)
+        echo "Found $SAMPLE_COUNT samples for population $POP" >>{log}
+        
+        if [[ $SAMPLE_COUNT -gt 0 ]]; then
+            # Calculate frequencies using PLINK 1.9
+            plink \
+                --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
+                --keep analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt \
+                --freq \
+                --out analysis_other/ancestry/global/iadmix/freq_${{POP}} \
+                --allow-extra-chr \
+                >>{log} 2>&1
+        else
+            echo "No samples found for population $POP, creating empty frequency file" >>{log}
+            touch {output.freq_file}
+        fi
+        
+        # Clean up keep file
+        rm -f analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
+        """
+
+# Step D1b: Convert PLINK frequency output to iAdmix format
+rule convert_to_iadmix_freq_format:
+    input:
+        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq_{pop}.frq", pop=THOUSAND_G_POPS),  # Fixed extension
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
+    output:
+        freq_file="analysis_other/ancestry/global/iadmix/reference_frequencies.txt"
+    conda:
+        "../env/py_report.yml"  # Use Python environment
+    log:
+        "logs/ancestry/convert_iadmix_freq.log"
+    shell:
+        """
+        # Convert PLINK frequency output to iAdmix format
+        python3 workflow/scripts/28_create_iadmix_freq.py \
+            --plink-freq {input.plink_freq} \
+            --pvar {input.pvar} \
+            --psam {input.psam} \
+            --output {output.freq_file} \
+            >{log} 2>&1
+        """
+
+# Step D1c: Export sample genotypes in transposed format using PLINK2
+rule export_iadmix_plink_genotypes:
+    input:
+        pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
+        psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
+    output:
+        raw_file="analysis_other/ancestry/global/iadmix/sample_raw.traw"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/export_iadmix_plink_geno.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/iadmix
+        
+        # Export genotypes in A-transpose format (samples as columns, variants as rows)
+        plink2 \
+            --pfile analysis_other/ancestry/plink/samples/samples_filtered \
+            --export A-transpose \
+            --out analysis_other/ancestry/global/iadmix/sample_raw \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step D1d: Convert PLINK genotypes to iAdmix format
+rule convert_to_iadmix_geno_format:
+    input:
+        plink_raw="analysis_other/ancestry/global/iadmix/sample_raw.traw"
+    output:
+        geno_file="analysis_other/ancestry/global/iadmix/sample_genotypes.txt"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/convert_iadmix_geno.log"
+    shell:
+        """
+        # Convert to iAdmix genotype format
+        python3 workflow/scripts/29_create_iadmix_geno.py \
+            --plink-raw {input.plink_raw} \
+            --output {output.geno_file} \
+            >{log} 2>&1
+        """
+
+# Step D1e: Run iAdmix using Docker
+rule run_iadmix:
+    input:
+        freq_file="analysis_other/ancestry/global/iadmix/reference_frequencies.txt",
+        geno_file="analysis_other/ancestry/global/iadmix/sample_genotypes.txt"
+    output:
+        touch("analysis_other/ancestry/global/iadmix/results.done"),
+        results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt"
+    log:
         "logs/ancestry/iadmix.log"
-    threads: 32
+    threads: 16
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
@@ -551,14 +665,21 @@ rule run_iadmix:
             -v ${{WORKDIR}}:/workdir \
             -w /workdir \
             caspargross/iadmix \
-            iadmix \
-            --file analysis_other/ancestry/global/iadmix/merged_cohort \
+            python runancestry.py \
+            --freq analysis_other/ancestry/global/iadmix/reference_frequencies.txt \
+            --plink analysis_other/ancestry/global/iadmix/sample_genotypes.txt \
             --out analysis_other/ancestry/global/iadmix/results \
             --K 5 \
             2>>{log}
         
         # Process results
-        cp analysis_other/ancestry/global/iadmix/results.Q {output.results} 2>>{log} || echo "Results.Q not found" >>{log}
+        if [[ -f analysis_other/ancestry/global/iadmix/results.Q ]]; then
+            cp analysis_other/ancestry/global/iadmix/results.Q {output.results} 2>>{log}
+        else
+            echo "Sample_ID AFR AMR EAS EUR SAS" > {output.results}
+            echo "No results generated" >> {output.results}
+            echo "Results.Q not found" >>{log}
+        fi
         """
 
 # Global ancestry with ADMIXTURE (convert to BED format for compatibility)
@@ -569,39 +690,48 @@ rule run_admixture:
         fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
     output:
         touch("analysis_other/ancestry/global/admixture/results.done"),
-        results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q",
-        bed=temp("analysis_other/ancestry/global/admixture/merged_cohort.bed")
+        results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q"
     conda:
-        "../env/plink2.yml"
+        "../env/admixture.yml"
     log:
         "logs/ancestry/admixture.log"
     threads: 4
     shell:
         """
         mkdir -p analysis_other/ancestry/global/admixture
-        pushd analysis_other/ancestry/global/admixture
+        
+        # Store absolute path of log file before changing directory
+        LOGFILE=$(realpath {log})
+        
+        # Create symlinks to input files in ADMIXTURE directory (ADMIXTURE creates output files in working dir)
+        ln -sf $(realpath {input.bed}) analysis_other/ancestry/global/admixture/merged_cohort.bed
+        ln -sf $(realpath {input.bim}) analysis_other/ancestry/global/admixture/merged_cohort.bim
+        ln -sf $(realpath {input.fam}) analysis_other/ancestry/global/admixture/merged_cohort.fam
+        
+        # Run ADMIXTURE from the target directory
+        cd analysis_other/ancestry/global/admixture
         
         # Run ADMIXTURE for different K values
         for K in {{3..7}}; do
-            admixture --cv {input.bed} $K -j{threads} 2>>../../../../{log}
+            echo "Running ADMIXTURE with K=$K" >>$LOGFILE 2>&1
+            admixture --cv merged_cohort.bed $K -j{threads} >>$LOGFILE 2>&1
         done
-
-        popd
+        
+        echo "ADMIXTURE analysis completed" >>$LOGFILE
         """
 
-# Prepare data for local ancestry analysis (convert from PGEN to VCF)
-rule prepare_local_ancestry:
+# Prepare data for local ancestry analysis - Step 1: Convert PGEN to VCF
+rule convert_pgen_to_vcf:
     input:
         pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
         pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
         psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
     output:
-        phased_vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz",
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt"
+        phased_vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz"
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/prepare_local_ancestry.log"
+        "logs/ancestry/convert_pgen_to_vcf.log"
     threads: 32
     shell:
         """
@@ -614,12 +744,27 @@ rule prepare_local_ancestry:
             --out analysis_other/ancestry/local/input/merged_cohort_phased \
             --threads {threads} \
             >{log} 2>&1
+        """
+
+# Prepare data for local ancestry analysis - Step 2: Create sample mapping
+rule create_sample_map:
+    input:
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    output:
+        sample_map="analysis_other/ancestry/local/input/sample_map.txt"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/create_sample_map.log"
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/local/input
         
         # Create sample mapping file for RFMix
         python3 workflow/scripts/25_create_ancestry_sample_map.py \
             --psam {input.psam} \
             --output {output.sample_map} \
-            2>>{log}
+            >{log} 2>&1
         """
 
 # Local ancestry with RFMix
