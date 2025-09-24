@@ -366,99 +366,127 @@ rule qc_filter_plink:
         echo "Samples after filtering: $(wc -l < analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered.psam | tail -n +2)" >>{log}
         """
 
-# Step C2: Merge datasets
-rule merge_datasets_with_matching:
+# Step C2: Convert PGEN to BED format for merging (works for both reference and samples)
+rule convert_pgen_to_bed_for_merge:
     input:
-        ref_pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pgen",
-        ref_pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
-        ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
-        sample_pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
-        sample_pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
-        sample_psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
+        pgen="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.pgen",
+        pvar="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.pvar",
+        psam="analysis_other/ancestry/plink/{dataset}/{prefix}_filtered.psam"
     output:
-        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
-        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam",
+        bed=temp("analysis_other/ancestry/plink/{dataset}/{prefix}_old.bed"),
+        bim=temp("analysis_other/ancestry/plink/{dataset}/{prefix}_old.bim"),
+        fam=temp("analysis_other/ancestry/plink/{dataset}/{prefix}_old.fam")
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/convert_to_bed_{dataset}_{prefix}.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/plink/merged
+        
+        # Convert PGEN to BED format using PLINK2
+        plink2 \
+            --pfile analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered \
+            --make-bed \
+            --out analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_old \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step C3: Merge BED files using PLINK 1.9
+rule merge_bed_files_plink:
+    input:
+        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bim", 
+        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
+        sample_bed="analysis_other/ancestry/plink/samples/samples_old.bed",
+        sample_bim="analysis_other/ancestry/plink/samples/samples_old.bim",
+        sample_fam="analysis_other/ancestry/plink/samples/samples_old.fam"
+    output:
+        bed=temp("analysis_other/ancestry/plink/merged/merged_cohort.bed"),
+        bim=temp("analysis_other/ancestry/plink/merged/merged_cohort.bim"),
+        fam=temp("analysis_other/ancestry/plink/merged/merged_cohort.fam"),
         merge_report="analysis_other/ancestry/qc/merge_report.txt"
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/merge_datasets.log"
+        "logs/ancestry/merge_bed_files.log"
     threads: 32
-    shell:
-        """
-        mkdir -p analysis_other/ancestry/plink/merged analysis_other/ancestry/qc
-        
-        # Convert reference to BED format
-        plink2 \
-            --pfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered \
-            --make-bed \
-            --out analysis_other/ancestry/plink/merged/ref_temp \
-            --threads {threads} \
-            >{log} 2>&1
-        
-        # Convert samples to BED format  
-        plink2 \
-            --pfile analysis_other/ancestry/plink/samples/samples_filtered \
-            --make-bed \
-            --out analysis_other/ancestry/plink/merged/sample_temp \
-            --threads {threads} \
-            >>{log} 2>&1
-        
-        # Create merge list
-        echo "analysis_other/ancestry/plink/merged/sample_temp" > analysis_other/ancestry/plink/merged/merge_list.txt
-        
-        # Merge using traditional PLINK format
-        plink \
-            --bfile analysis_other/ancestry/plink/merged/ref_temp \
-            --merge-list analysis_other/ancestry/plink/merged/merge_list.txt \
-            --out analysis_other/ancestry/plink/merged/merged_cohort \
-            --threads {threads} \
-            >>{log} 2>&1
-        
-        # Clean up temporary files
-        rm -f analysis_other/ancestry/plink/merged/ref_temp.*
-        rm -f analysis_other/ancestry/plink/merged/sample_temp.*
-        rm -f analysis_other/ancestry/plink/merged/merge_list.txt
-        
-        # Generate merge report
-        echo "Merge completed on $(date)" > {output.merge_report}
-        echo "Final sample count: $(tail -n +2 {output.psam} | wc -l)" >> {output.merge_report}
-        echo "Final variant count: $(tail -n +2 {output.pvar} | wc -l)" >> {output.merge_report}
-        
-        # Check for merge conflicts
-        if [[ -f analysis_other/ancestry/plink/merged/merged_cohort.missnp ]]; then
-            echo "Variants with merge conflicts: $(wc -l < analysis_other/ancestry/plink/merged/merged_cohort.missnp)" >> {output.merge_report}
-        fi
-        """
-
-# Step C3: Generate harmonization report
-rule generate_harmonization_report:
-    input:
-        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
-        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
-    output:
-        qc_report="analysis_other/ancestry/qc/harmonization_report.txt"
-    log:
-        "logs/ancestry/qc_harmonization_report.log"
     shell:
         """
         mkdir -p analysis_other/ancestry/qc
         
-        echo "Harmonization completed on $(date)" > {output.qc_report}
-        echo "Final sample count: $(tail -n +2 {input.psam} | wc -l)" >> {output.qc_report}
-        echo "Final variant count: $(tail -n +2 {input.pvar} | wc -l)" >> {output.qc_report}
+        # Create merge list for PLINK 1.9
+        echo "analysis_other/ancestry/plink/samples/samples_old" > analysis_other/ancestry/plink/merged/merge_list.txt
         
-        # Report family structure from PSAM file
-        echo "" >> {output.qc_report}
-        echo "Family structure summary:" >> {output.qc_report}
-        awk 'NR>1 && ($3 != "0" || $4 != "0") {{print "Child: " $2 " Father: " $3 " Mother: " $4}}' {input.psam} >> {output.qc_report}
+        # Merge using PLINK 1.9 with --merge
+        plink \
+            --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
+            --merge-list analysis_other/ancestry/plink/merged/merge_list.txt \
+            --out analysis_other/ancestry/plink/merged/merged_cohort \
+            --allow-extra-chr \
+            --threads {threads} \
+            >{log} 2>&1
         
-        echo "Report generated successfully" >{log}
+        # Generate merge report
+        echo "Merge completed on $(date)" > {output.merge_report}
+        
+        # Count samples and variants from BED/BIM/FAM files
+        if [[ -f {output.fam} ]]; then
+            echo "Final sample count: $(wc -l < {output.fam})" >> {output.merge_report}
+        fi
+        
+        if [[ -f {output.bim} ]]; then
+            echo "Final variant count: $(wc -l < {output.bim})" >> {output.merge_report}
+        fi
+        
+        # Check for merge conflicts
+        if [[ -f analysis_other/ancestry/plink/merged/merged_cohort_temp.missnp ]]; then
+            echo "Variants with merge conflicts: $(wc -l < analysis_other/ancestry/plink/merged/merged_cohort_temp.missnp)" >> {output.merge_report}
+        fi
+        
+        # Clean up merge list
+        rm -f analysis_other/ancestry/plink/merged/merge_list.txt
         """
 
-# PCA for population structure using PGEN format
+# Step C4: Convert merged BED back to PGEN format
+rule convert_bed_to_pgen_final:
+    input:
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim", 
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam",
+        merge_report="analysis_other/ancestry/qc/merge_report.txt"
+    output:
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/convert_to_pgen_final.log"
+    threads: 32
+    shell:
+        """
+        # Convert merged BED back to PGEN format using PLINK2
+        plink2 \
+            --bfile analysis_other/ancestry/plink/merged/merged_cohort_temp \
+            --make-pgen \
+            --out analysis_other/ancestry/plink/merged/merged_cohort \
+            --threads {threads} \
+            >{log} 2>&1
+        
+        # Update merge report with final PGEN file statistics
+        echo "" >> {input.merge_report}
+        echo "Conversion to PGEN completed on $(date)" >> {input.merge_report}
+        echo "Final PGEN sample count: $(tail -n +2 {output.psam} | wc -l)" >> {input.merge_report}
+        echo "Final PGEN variant count: $(tail -n +2 {output.pvar} | wc -l)" >> {input.merge_report}
+        """
+
+
+# Part D: Ancestry analysis
+
+# Step D1: PCA for population structure using PGEN format
 rule run_pca:
     input:
         pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
@@ -491,21 +519,18 @@ rule run_pca:
             --pca 20 \
             --out analysis_other/ancestry/pca/merged_cohort \
             --threads {threads} \
-            2>>{log}
+            >{log} 2>&1
         """
 
 # Global ancestry with iAdmix (convert to BED format for compatibility)
 rule run_iadmix:
     input:
-        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
-        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
     output:
         touch("analysis_other/ancestry/global/iadmix/results.done"),
         results="analysis_other/ancestry/global/iadmix/admixture_proportions.txt",
-        bed=temp("analysis_other/ancestry/global/iadmix/merged_cohort.bed"),
-        bim=temp("analysis_other/ancestry/global/iadmix/merged_cohort.bim"),
-        fam=temp("analysis_other/ancestry/global/iadmix/merged_cohort.fam")
     conda:
         "../env/plink2.yml"
     log:
@@ -514,14 +539,6 @@ rule run_iadmix:
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
-        
-        # Convert PGEN to BED format for iAdmix compatibility
-        plink2 \
-            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
-            --make-bed \
-            --out analysis_other/ancestry/global/iadmix/merged_cohort \
-            --threads {threads} \
-            >{log} 2>&1
         
         # Get current working directory and user info
         WORKDIR=$(pwd)
@@ -547,9 +564,9 @@ rule run_iadmix:
 # Global ancestry with ADMIXTURE (convert to BED format for compatibility)
 rule run_admixture:
     input:
-        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
-        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
     output:
         touch("analysis_other/ancestry/global/admixture/results.done"),
         results="analysis_other/ancestry/global/admixture/merged_cohort.5.Q",
@@ -562,21 +579,14 @@ rule run_admixture:
     shell:
         """
         mkdir -p analysis_other/ancestry/global/admixture
-        
-        # Convert PGEN to BED format for ADMIXTURE compatibility
-        plink2 \
-            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
-            --make-bed \
-            --out analysis_other/ancestry/global/admixture/merged_cohort \
-            --threads {threads} \
-            >{log} 2>&1
-        
-        cd analysis_other/ancestry/global/admixture
+        pushd analysis_other/ancestry/global/admixture
         
         # Run ADMIXTURE for different K values
         for K in {{3..7}}; do
-            admixture --cv merged_cohort.bed $K -j{threads} 2>>../../../../{log}
+            admixture --cv {input.bed} $K -j{threads} 2>>../../../../{log}
         done
+
+        popd
         """
 
 # Prepare data for local ancestry analysis (convert from PGEN to VCF)
