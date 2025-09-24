@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# filepath: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/26_generate_ancestry_report.R
+# filepath: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/24_generate_ancestry_report.R
 
 # Load required libraries
 suppressPackageStartupMessages({

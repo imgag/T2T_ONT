@@ -14,7 +14,6 @@ rule all_ancestry:
         "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pgen",
         "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
         "analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
-        "analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq",
         # Sample data (filtered)
         "analysis_other/ancestry/plink/samples/samples_filtered.pgen",
         "analysis_other/ancestry/plink/samples/samples_filtered.pvar",
@@ -180,86 +179,56 @@ rule concat_1000g_vcfs:
         tabix -p vcf {output.merged_vcf}
         """
 
-# Step A8: Convert merged VCF to Plink format
-rule vcf_to_plink_1000g_with_sex:
+# Step A8: Convert VCF to PGEN format
+rule vcf_to_plink_1000g:
     input:
         merged_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz"
     output:
-        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
-        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar",
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam"
+        pgen=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pgen"),
+        pvar=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pvar"),
+        psam=temp("analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.psam")
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/ref_vcf_to_plink_1000g_with_sex.log"
-    params:
-        min_male_xf=config['min_male_xf'],
-        max_female_yrate=config['max_female_yrate']
+        "logs/ancestry/vcf_to_plink_1000g.log"
     threads: 32
     shell:
         """
         plink2 \
             --vcf {input.merged_vcf} \
             --make-pgen \
-            --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex \
+            --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp \
             --allow-extra-chr \
             --split-par b38 \
             --vcf-half-call m \
-            --impute-sex max-female-xf={params.max_female_yrate} min-male-xf={params.min_male_xf} \
             --threads {threads} \
             >{log} 2>&1
         """
 
-# Step A9: Calculate allele frequencies for 1000G data
-rule generate_1000g_frequencies:
+# Step A9: Update 1000G PSAM with metadata  
+rule update_1000g_psam:
     input:
-        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
-        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar",
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam"
+        pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pgen",
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_temp.psam",
+        metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel"
     output:
-        afreq="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq"
-    conda:
-        "../env/plink2.yml"
-    log:
-        "logs/ancestry/ref_generate_frequencies.log"
-    threads:
-        32
-    shell:
-        """
-        plink2 \
-            --pfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex \
-            --freq \
-            --out analysis_other/ancestry/plink/reference/1000G_phase3_T2T \
-            --threads {threads} \
-            >{log} 2>&1
-        """
-
-# Step A10: Update PSAM file with population information
-rule update_1000g_fam:
-    input:
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.psam",
-        metadata="data/ref/variant_sets/1000G/integrated_call_samples_v3.20130502.ALL.panel",
-        pgen_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pgen",
-        pvar_in="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_imputed_sex.pvar"
-    output:
-        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam",
         pgen="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pgen",
-        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pvar"
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.psam"
     log:
-        "logs/ancestry/ref_update_psam.log"
+        "logs/ancestry/update_1000g_psam.log"
     shell:
         """
-        python3 workflow/scripts/24_update_1000G.py \
-            --psam {input.psam} \
-            --metadata {input.metadata} \
-            --output {output.psam} \
-            2>{log}
+        # Convert 1000G metadata to PSAM format
+        awk 'BEGIN{{OFS="\\t"; print "#FID","IID","PAT","MAT","SEX","PHENO"}} 
+             NR>1 {{print $1,$2,$3,$4,$5,$6}}' \
+             {input.metadata} > {output.psam} 2>{log}
         
-        # Copy pgen and pvar files to final location
-        cp -v {input.pgen_in} {output.pgen} >>{log} 2>&1
-        cp -v {input.pvar_in} {output.pvar} >>{log} 2>&1
+        # Copy pgen and pvar files
+        cp {input.pgen} {output.pgen}
+        cp {input.pvar} {output.pvar}
         """
-
 
 # Process samples data
 
@@ -320,66 +289,56 @@ rule filter_sample_vcf:
         tabix -p vcf {output.vcf} 2>>{log}
         """
 
-# Step B3: Infer sample sex with PLINK2
-rule samples_infer_sex_plink:
+# Step B3: Convert sample VCF to PGEN format
+rule samples_to_plink:
     input:
-        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
-        afreq="analysis_other/ancestry/plink/reference/1000G_phase3_T2T.afreq"
+        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz"
     output:
-        pgen=temp("analysis_other/ancestry/plink/samples/samples_imputed.pgen"),
-        pvar=temp("analysis_other/ancestry/plink/samples/samples_imputed.pvar"),
-        psam=temp("analysis_other/ancestry/plink/samples/samples_imputed.psam")
+        pgen=temp("analysis_other/ancestry/plink/samples/samples_temp.pgen"),
+        pvar=temp("analysis_other/ancestry/plink/samples/samples_temp.pvar"),
+        psam=temp("analysis_other/ancestry/plink/samples/samples_temp.psam")
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/samples_infer_sex_plink.log"
-    params:
-        min_male_xf=config['min_male_xf'],
-        max_female_yrate=config['max_female_yrate']
+        "logs/ancestry/samples_to_plink.log"
     threads: 32
     shell:
         """
-        # Infer sex from X chromosome
         plink2 \
             --vcf {input.vcf} \
             --make-pgen \
-            --vcf-half-call m \
-            --out analysis_other/ancestry/plink/samples/samples_imputed \
-            --read-freq {input.afreq} \
-            --impute-sex max-female-xf={params.max_female_yrate} min-male-xf={params.min_male_xf} \
+            --out analysis_other/ancestry/plink/samples/samples_temp \
             --allow-extra-chr \
-            --set-missing-var-ids @:#:\$r:\$a \
-            --new-id-max-allele-len 60 \
             --split-par b38 \
+            --vcf-half-call m \
+            --set-missing-var-ids @:# \
             --threads {threads} \
             >{log} 2>&1
         """
 
-
-# Step B4: Update PSAM file with pedigree information
-rule update_sample_pedigree:
+# Step B4: Update sample PSAM with metadata
+rule update_sample_psam:
     input:
-        pgen="analysis_other/ancestry/plink/samples/samples_imputed.pgen",
-        pvar="analysis_other/ancestry/plink/samples/samples_imputed.pvar",
-        psam="analysis_other/ancestry/plink/samples/samples_imputed.psam"
+        pgen="analysis_other/ancestry/plink/samples/samples_temp.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples_temp.pvar", 
+        psam="analysis_other/ancestry/plink/samples/samples_temp.psam",
+        metadata="data/samples_pedigree.tsv"
     output:
         pgen="analysis_other/ancestry/plink/samples/samples.pgen",
-        pvar="analysis_other/ancestry/plink/samples/samples.pvar", 
+        pvar="analysis_other/ancestry/plink/samples/samples.pvar",
         psam="analysis_other/ancestry/plink/samples/samples.psam"
     log:
-        "logs/ancestry/sample_update_pedigree.log"
+        "logs/ancestry/update_sample_psam.log"
     shell:
         """
-        # Update PSAM file with pedigree information
-        python3 workflow/scripts/27_update_pedigree_info.py \
-            --psam {input.psam} \
-            --output {output.psam} \
-            >{log} 2>&1
+        # Use provided metadata for sample pedigree
+        cp {input.metadata} {output.psam} 2>{log}
         
-        # Copy PGEN and PVAR files
+        # Copy pgen and pvar files  
         cp {input.pgen} {output.pgen}
         cp {input.pvar} {output.pvar}
         """
+
 
 # Step C1: Filter datasets with QC filters using PGEN format
 rule qc_filter_plink:
@@ -417,7 +376,7 @@ rule qc_filter_plink:
             --out analysis_other/ancestry/plink/{wildcards.dataset}/{wildcards.prefix}_filtered \
             --threads {threads} \
             --set-all-var-ids @:#:\$r:\$a \
-            --new-id-max-allele-len 60 \
+            --new-id-max-allele-len 1000 \
             --sort-vars \
             >{log} 2>&1
         
@@ -726,7 +685,7 @@ rule create_ancestry_report:
     log:
         "logs/ancestry/create_ancestry_report.log"
     params:
-        rscript = "workflow/scripts/26_generate_ancestry_report.R"
+        rscript = "workflow/scripts/24_generate_ancestry_report.R"
     shell:
         """
         mkdir -p analysis_other/ancestry/reports
