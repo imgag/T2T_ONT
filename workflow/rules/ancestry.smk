@@ -627,94 +627,166 @@ rule convert_to_iadmix_freq_format:
             >{log} 2>&1
         """
 
-# Step D2c: Export sample genotypes in transposed format using PLINK2
-rule export_iadmix_plink_genotypes:
+# Function to get sample IDs from PSAM file
+def get_query_sample_ids():
+    import pandas as pd
+    psam_file = "analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    try:
+        psam_df = pd.read_csv(psam_file, sep='\t')
+        psam_df.columns = [col.lstrip('#') for col in psam_df.columns]
+        # Get only query samples (not 1000G reference)
+        if 'SUPERPOP' in psam_df.columns:
+            query_samples = psam_df[psam_df['SUPERPOP'] == 'QUERY']['IID'].tolist()
+        else:
+            # If no SUPERPOP column, get all samples (fallback)
+            query_samples = psam_df['IID'].tolist()
+        return query_samples
+    except:
+        # Fallback if file doesn't exist yet
+        return []
+
+# Get sample IDs (this will be populated after the merged PSAM file is created)
+QUERY_SAMPLES = get_query_sample_ids()
+
+# Step D2c: Export sample genotypes for individual processing
+rule export_iadmix_plink_genotypes_individual:
     input:
         pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
         pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
         psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
     output:
-        raw_file="analysis_other/ancestry/global/iadmix/geno/sample_raw.traw"
+        raw_file="analysis_other/ancestry/global/iadmix/geno/samples_raw.traw"
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/export_iadmix_plink_geno.log"
+        "logs/ancestry/export_iadmix_plink_geno_individual.log"
     threads: 16
     shell:
         """
-        mkdir -p analysis_other/ancestry/global/iadmix
+        mkdir -p analysis_other/ancestry/global/iadmix/geno
         
         # Export genotypes in A-transpose format (samples as columns, variants as rows)
         plink2 \
             --pfile analysis_other/ancestry/plink/samples/samples_filtered \
             --export A-transpose \
-            --out analysis_other/ancestry/global/iadmix/geno/sample_raw \
+            --out analysis_other/ancestry/global/iadmix/geno/samples_raw \
             --threads {threads} \
             >{log} 2>&1
         """
 
-# Step D1d: Convert PLINK genotypes to iAdmix format
-rule convert_to_iadmix_geno_format:
+# Step D2d: Convert PLINK genotypes to iAdmix format for individual samples
+rule convert_to_iadmix_geno_format_individual:
     input:
-        plink_raw="analysis_other/ancestry/global/iadmix/geno/sample_raw.traw"
+        plink_raw="analysis_other/ancestry/global/iadmix/geno/samples_raw.traw"
     output:
-        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_genotypes.txt"
+        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_{sample}_genotypes.txt"
     conda:
         "../env/py_report.yml"
     log:
-        "logs/ancestry/convert_iadmix_geno.log"
+        "logs/ancestry/convert_iadmix_geno_{sample}.log"
     shell:
         """
-        # Convert to iAdmix genotype format
+        # Convert to iAdmix genotype format for specific sample
         python3 workflow/scripts/29_create_iadmix_geno.py \
             --plink-raw {input.plink_raw} \
+            --sample {wildcards.sample} \
             --output {output.geno_file} \
             >{log} 2>&1
         """
 
-# Step D1e: Run iAdmix using Docker
-rule run_iadmix:
+# Step D2e: Run iAdmix for individual samples
+rule run_iadmix_individual:
     input:
         freq_file="analysis_other/ancestry/global/iadmix/freq/reference_frequencies.txt",
-        geno_file="analysis_other/ancestry/global/iadmix/geno/gsample_genotypes.txt"
+        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_{sample}_genotypes.txt"
     output:
-        touch("analysis_other/ancestry/global/iadmix/results.done"),
-        results="analysis_other/ancestry/global/iadmix/results/admixture_proportions.txt"
+        results="analysis_other/ancestry/global/iadmix/results/sample_{sample}_ancestry.txt"
     log:
-        "logs/ancestry/iadmix.log"
-    threads: 16
+        "logs/ancestry/iadmix_{sample}.log"
+    threads: 4
     shell:
         """
-        mkdir -p analysis_other/ancestry/global/iadmix
+        mkdir -p analysis_other/ancestry/global/iadmix/results
         
-        # Get current working directory and user info
-        WORKDIR=$(pwd)
-        USER_ID=$(id -u)
-        GROUP_ID=$(id -g)
+        # Store absolute paths
+        WORKDIR=$(realpath .)
+        LOGFILE=$(realpath {log})
         
-        # Run iAdmix using Docker
+        # Run iAdmix using Docker for individual sample as current user
         docker run --rm \
-            --user ${{USER_ID}}:${{GROUP_ID}} \
-            -v ${{WORKDIR}}:/workdir \
+            -u $(id -u):$(id -g) \
+            -v $WORKDIR:/workdir \
             -w /workdir \
             caspargross/iadmix \
             python /usr/src/app/runancestry.py \
-            --freq analysis_other/ancestry/global/iadmix/reference_frequencies.txt \
-            --geno analysis_other/ancestry/global/iadmix/sample_genotypes.txt \
-            --out analysis_other/ancestry/global/iadmix/results/results \
+            --freq {input.freq_file} \
+            --geno {input.geno_file} \
+            --out analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} \
             --cores {threads} \
             --path /usr/src/app/ \
-            >{log} 2>&1
+            >$LOGFILE 2>&1
         
+        rm {input.geno_file}.ancestry.input   # Clean up genotype file after processing
+
         # Process results
-        if [[ -f analysis_other/ancestry/global/iadmix/results.Q ]]; then
-            cp analysis_other/ancestry/global/iadmix/results.Q {output.results} 2>>{log}
+        if [[ -f analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} ]]; then
+            # Extract ancestry proportions and create formatted output
+            echo -e "{wildcards.sample}\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
         else
-            echo "Sample_ID AFR AMR EAS EUR SAS" > {output.results}
-            echo "No results generated" >> {output.results}
-            echo "Results.Q not found" >>{log}
+            # Create empty result if analysis failed
+            echo "iAdmix analysis failed for {wildcards.sample}" >>$LOGFILE
         fi
         """
+
+# Step D2f: Combine all individual iAdmix results
+rule combine_iadmix_individual_results:
+    input:
+        lambda wildcards: expand("analysis_other/ancestry/global/iadmix/results/sample_{sample}_ancestry.txt", 
+                                sample=QUERY_SAMPLES) if QUERY_SAMPLES else []
+    output:
+        combined="analysis_other/ancestry/global/iadmix/all_samples_ancestry_individual.txt",
+        touch_file=touch("analysis_other/ancestry/global/iadmix/results.done")
+    log:
+        "logs/ancestry/combine_iadmix_individual_results.log"
+    run:
+        import os
+        
+        # Create output directory
+        os.makedirs("analysis_other/ancestry/global/iadmix", exist_ok=True)
+        
+        # Create header
+        with open(output.combined, 'w') as f:
+            f.write("Sample_ID\tAFR\tAMR\tEAS\tEUR\tSAS\n")
+        
+        # Combine results
+        if input:
+            shell("cat {input} >> {output.combined} 2>{log}")
+            with open(str(log), 'a') as f:
+                f.write(f"Combined ancestry results for {len(input)} sample files\n")
+        else:
+            with open(output.combined, 'a') as f:
+                f.write("No samples processed\n")
+            with open(str(log), 'a') as f:
+                f.write("No sample results to combine\n")
+        
+        with open(str(log), 'a') as f:
+            f.write("Individual iAdmix analysis completed\n")
+
+# Update the main iadmix rule to use individual results
+rule run_iadmix:
+    input:
+        individual_results="analysis_other/ancestry/global/iadmix/all_samples_ancestry_individual.txt"
+    output:
+        results="analysis_other/ancestry/global/iadmix/results/admixture_proportions.txt"
+    log:
+        "logs/ancestry/iadmix_final.log"
+    shell:
+        """
+        # Copy individual results to main output location
+        cp {input.individual_results} {output.results} 2>{log}
+        echo "iAdmix individual sample analysis completed" >>{log}
+        """
+
 
 # Step D2a: Convert chromosome codes for ADMIXTURE (requires integer codes)
 rule prepare_bed_for_admixture:

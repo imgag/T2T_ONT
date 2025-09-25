@@ -24,13 +24,47 @@ def main():
     
     print(f"Available samples: {sample_cols}")
     
-    # Check if requested sample exists
-    if args.sample not in sample_cols:
+    # Find the correct sample column name
+    target_sample_col = None
+    
+    # Method 1: Direct match (exact IID)
+    if args.sample in sample_cols:
+        target_sample_col = args.sample
+        print(f"Found exact match: {target_sample_col}")
+    else:
+        # Method 2: Look for FID_IID format where IID matches our sample
+        for col in sample_cols:
+            if '_' in col:
+                # Split by underscore and check if IID part matches
+                parts = col.split('_')
+                if len(parts) >= 2 and parts[1] == args.sample:
+                    target_sample_col = col
+                    print(f"Found FID_IID match: {target_sample_col}")
+                    break
+                # Also check if the sample ID appears anywhere in the column name
+                elif args.sample in parts:
+                    target_sample_col = col
+                    print(f"Found partial match: {target_sample_col}")
+                    break
+        
+        # Method 3: Check if any column contains the sample ID
+        if not target_sample_col:
+            for col in sample_cols:
+                if args.sample in col:
+                    target_sample_col = col
+                    print(f"Found substring match: {target_sample_col}")
+                    break
+    
+    # Check if we found the sample
+    if not target_sample_col:
         print(f"Error: Sample {args.sample} not found in traw file")
         print(f"Available samples: {sample_cols}")
+        print(f"Searched for:")
+        print(f"  - Exact match: {args.sample}")
+        print(f"  - FID_IID patterns containing: {args.sample}")
         return 1
     
-    print(f"Processing sample: {args.sample}")
+    print(f"Processing sample column: {target_sample_col} for sample: {args.sample}")
     
     # Prepare output data
     output_data = []
@@ -45,7 +79,7 @@ def main():
         rsid = row['SNP']
         
         # Get genotype for this sample
-        genotype_code = row[args.sample]
+        genotype_code = row[target_sample_col]
         
         # Convert PLINK coding (0, 1, 2, NA) to iAdmix format (AA, AB, BB)
         if pd.isna(genotype_code) or genotype_code == -9:
@@ -66,7 +100,7 @@ def main():
     print(f"Writing genotype file to {args.output}")
     
     with open(args.output, 'w') as f:
-        # Write header (rsid and sample name)
+        # Write header (rsid and original sample name requested)
         f.write(f'rsid\t{args.sample}\n')
         
         # Write genotype data
@@ -75,7 +109,7 @@ def main():
     
     print("iAdmix genotype file created successfully!")
     print(f"Total variants: {len(output_data)}")
-    print(f"Sample: {args.sample}")
+    print(f"Sample: {args.sample} (from column: {target_sample_col})")
     
     # Report genotype distribution
     genotypes = [row[1] for row in output_data]
