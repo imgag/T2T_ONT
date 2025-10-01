@@ -1,0 +1,30 @@
+PLINK v1.9.0-b.8 64-bit (22 Oct 2024)              cog-genomics.org/plink/1.9/
+(C) 2005-2024 Shaun Purcell, Christopher Chang   GNU General Public License v3
+Logging to analysis_other/ancestry/plink/merged/merged_cohort.log.
+Options in effect:
+  --allow-extra-chr
+  --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old
+  --merge-list analysis_other/ancestry/plink/merged/merge_list.txt
+  --out analysis_other/ancestry/plink/merged/merged_cohort
+  --threads 32
+
+1547674 MB RAM detected; reserving 773837 MB for main workspace.
+Warning: First fileset to be merged contains duplicate variant ID(s).  Variants
+with matching IDs are all merged together; if this is not what you want (e.g.
+you have a bunch of novel variants, all with ID "."), assign distinct IDs to
+them (with e.g. --set-missing-var-ids) before rerunning this merge.
+Warning: Unusually long variant ID(s) present.  PLINK 1.9 does not scale well
+to length-80+ variant IDs; consider using a different naming scheme for long
+indels and the like.
+Warning: Variants '1:147169:CTTt:Ct' and '1:147169:CTTt:C' have the same
+position.
+Warning: Variants '1:216703:g:GTGGAATGGAA' and '1:216703:g:GTGGAA' have the
+same position.
+Warning: Variants '1:218817:cgaatg:CGAATGGAATG' and '1:218817:cgaatg:C' have
+the same position.
+216370 more same-position warnings: see log file.
+Performing single-pass merge (2518 people, 8752416 variants).
+Pass 1: fileset #1 complete.                                              Merged fileset written to
+analysis_other/ancestry/plink/merged/merged_cohort.bed +
+analysis_other/ancestry/plink/merged/merged_cohort.bim +
+analysis_other/ancestry/plink/merged/merged_cohort.fam .
