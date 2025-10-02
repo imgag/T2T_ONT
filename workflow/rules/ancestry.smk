@@ -26,6 +26,9 @@ rule all_ancestry:
         expand("analysis_other/ancestry/global/{tool}/results.done", tool=ANCESTRY_TOOLS),
         # Local ancestry results  
         expand("analysis_other/ancestry/local/{tool}/results.done", tool=LOCAL_ANCESTRY_TOOLS),
+        # PCA plots for each population
+        expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
+        
         # Summary reports
         #"analysis_other/ancestry/reports/ancestry_summary.html"
 
@@ -552,6 +555,32 @@ rule run_pca:
             >{log} 2>&1
         """
 
+
+rule plot_pca:
+    input:
+        matrix="analysis_other/ancestry/pca/merged_cohort.eigenvec",
+        metadata="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam",
+    output:
+        plot="analysis_other/ancestry/pca/pca_plot.{population}.pdf"
+    params:
+        script="workflow/scripts/30_plot_pca.R"
+    threads: 1
+    log:
+        "logs/ancestry/plot_pca/pca_plot_{population}.log"
+    conda:
+        "../env/r_ancestry.yml"
+    shell:
+        """
+        Rscript \
+            {params.script} \
+            {input.matrix} \
+            {output.plot} \
+            NA \
+            {input.metadata} \
+            {wildcards.population} > {log} 2>&1
+        """
+
+
 # Step D2a: Calculate allele frequencies by population using PLINK 1.9
 rule create_iadmix_plink_frequencies:
     input:
@@ -574,7 +603,7 @@ rule create_iadmix_plink_frequencies:
         echo "Calculating frequencies for population: $POP" >{log}
         
         # Create population-specific keep file from PSAM (column 8 is SUPERPOP, skip header with #)
-        awk -v pop="$POP" '!/^#/ && $8 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt
+        awk -v pop="$POP" '!/^#/ && $8 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{population}}.txt
         
         # Debug: Show first few lines of PSAM file and what we're looking for
         echo "Looking for population: $POP" >>{log}
@@ -583,19 +612,19 @@ rule create_iadmix_plink_frequencies:
         echo "Sample PSAM lines:" >>{log}
         head -5 {input.ref_psam} | tail -4 >>{log}
         echo "Generated keep file content:" >>{log}
-        head -5 analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt >>{log}
+        head -5 analysis_other/ancestry/global/iadmix/keep_${{population}}.txt >>{log}
         
         # Check if keep file has any samples
-        SAMPLE_COUNT=$(wc -l < analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt)
+        SAMPLE_COUNT=$(wc -l < analysis_other/ancestry/global/iadmix/keep_${{population}}.txt)
         echo "Found $SAMPLE_COUNT samples for population $POP" >>{log}
         
         if [[ $SAMPLE_COUNT -gt 0 ]]; then
             # Calculate frequencies using PLINK 1.9
             plink \
                 --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
-                --keep analysis_other/ancestry/global/iadmix/keep_${{POP}}.txt \
+                --keep analysis_other/ancestry/global/iadmix/keep_${{population}}.txt \
                 --freq \
-                --out analysis_other/ancestry/global/iadmix/freq_${{POP}} \
+                --out analysis_other/ancestry/global/iadmix/freq_${{population}} \
                 --allow-extra-chr \
                 >>{log} 2>&1
         else
@@ -607,7 +636,7 @@ rule create_iadmix_plink_frequencies:
 # Step D2b: Convert PLINK frequency output to iAdmix format
 rule convert_to_iadmix_freq_format:
     input:
-        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq/freq_{pop}.frq", pop=THOUSAND_G_POPS),  # Fixed extension
+        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq", population=THOUSAND_G_POPS),  # Fixed extension
         pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
         psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
@@ -731,10 +760,10 @@ rule run_iadmix_individual:
         # Process results
         if [[ -f analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} ]]; then
             # Extract ancestry proportions and create formatted output
-            echo -e "{wildcards.sample}\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
+            echo -e "{wildcards.sample}\\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
         else
             # Create empty result if analysis failed
-            echo "iAdmix analysis failed for {wildcards.sample}" >>$LOGFILE
+            echo "iAdmix analysis failed for {wildcards.sample}" >>${{LOGFILE}}
         fi
         """
 
@@ -762,12 +791,12 @@ rule combine_iadmix_individual_results:
         if input:
             shell("cat {input} >> {output.combined} 2>{log}")
             with open(str(log), 'a') as f:
-                f.write(f"Combined ancestry results for {len(input)} sample files\n")
+                f.write(f"Combined ancestry results for {len(input)} sample files\\n")
         else:
             with open(output.combined, 'a') as f:
-                f.write("No samples processed\n")
+                f.write("No samples processed\\n")
             with open(str(log), 'a') as f:
-                f.write("No sample results to combine\n")
+                f.write("No sample results to combine\\n")
         
         with open(str(log), 'a') as f:
             f.write("Individual iAdmix analysis completed\n")

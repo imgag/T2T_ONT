@@ -41,7 +41,7 @@ rule merge_pairs:
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
     wildcard_constraints:
-        dataset="\w+"
+        dataset=r"\w+"
     log:
         "logs/porec/merge_pairs.{dataset}.log"
     conda:
@@ -129,7 +129,7 @@ rule pairs_to_cooler:
     output:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.cool"
     wildcard_constraints:
-        resolution = "\d+"
+        resolution = r"\d+"
     log:
         "logs/porec/pairs_to_cooler.{dataset}_{resolution}.log"
     conda:
