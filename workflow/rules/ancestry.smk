@@ -927,34 +927,9 @@ rule create_sample_map:
             >{log} 2>&1
         """
 
-# Local ancestry with RFMix
-rule run_rfmix:
-    input:
-        vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz",
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt"
-    output:
-        touch("analysis_other/ancestry/local/rfmix/results.done"),
-        results="analysis_other/ancestry/local/rfmix/output.rfmix.Q"
-    conda:
-        "../env/rfmix.yml"
-    log:
-        "logs/ancestry/rfmix.log"
-    threads: 8
-    shell:
-        """
-        mkdir -p ancestry/local/rfmix
-        
-        # Run RFMix
-        rfmix \
-            -f {input.vcf} \
-            -r {input.sample_map} \
-            -m 5 \
-            -g ancestry/local/rfmix/genetic_map.txt \
-            -o ancestry/local/rfmix/output \
-            --chromosome=ALL \
-            --n-threads={threads} \
-            >{log} 2>&1
-        """
+
+
+
 
 # Local ancestry with gnomix  
 rule run_gnomix:

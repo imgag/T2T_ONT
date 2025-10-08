@@ -456,9 +456,11 @@ rule all_extended_qc:
         # GQC results
         expand("analysis_other/GQC/{asm}", asm=finished_samples),
         # Nucflag results
-        expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
+        #expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
+        # Longdust results
+        expand("analysis_other/longdust/{asm}/longdust.txt", asm=finished_samples),
         # RepeatMasker results
-        expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
+        #expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
         # Flagger results
         expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples)
 

@@ -29,6 +29,27 @@ rule gqc:
             > {log} 2>&1
         """
 
+# This is a faster alternative to repeatmasker. 
+rule longdust:
+    input:
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+    output:
+        out="analysis_other/longdust/{asm}/longdust.txt"
+    log:
+        "logs/longdust/{asm}_longdust.log"
+    threads: 1
+    benchmark:
+        "runtimes/longdust/{asm}.longdust.txt"
+    params:
+        longdust=config['longdust']
+    shell:
+        """
+        {params.longdust} \
+            {input.fa} \
+            > {output.out} 2>{log}
+        """
+
+
 
 rule repeatmasker:
     input:
