@@ -352,6 +352,20 @@ rule dip3d_stats:
             2>{output}
         """
 
+rule dip3d_extract_hp_bams:
+    input:
+        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"
+    output:
+        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp{hp}.bam",
+    conda:
+        "../env/samtools.yml"
+    log:
+        "logs/dip3d/4-haplotag/{asm}.{chr}.extract_hp{hp}_bams.log"
+    shell:
+        '''
+        samtools view -h {input.bam} | awk '($0 ~ /^@/ || $0 ~ /HP:i:{wildcards.hp}/) {{print $0}}' | samtools view -b -o {output.bam} - 2>>{log}
+        '''
+
 rule dip3d_merge_bam:
     input:
         lambda wc: expand(

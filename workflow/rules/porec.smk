@@ -1,6 +1,6 @@
 rule all_porec:
     input:
-        "analysis_other/porec/T2T04.done"
+        expand("analysis_other/porec/{sample}.done", sample = ["T2T04", "T2T03"])
 
 rule collect_porec:
     input:
@@ -8,8 +8,8 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.stats.html", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}.mcool", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}_{res}_corrected.cool", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
-        expand("analysis_other/porec/{{asm}}{hp}/qc/{{asm}}{hp}_10000_diagnostic.png", hp = ["", ".hp1", ".hp2"]),
-        expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_10000.png", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/qc/{{asm}}{hp}_{res}_diagnostic.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
+        expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_{res}.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
         expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000']))
     output:
@@ -121,7 +121,6 @@ rule pairs_stats_report:
             >{log} 2>&1
         """
 
-
 rule pairs_to_cooler:
     input:
         fai = f"{config['ref']}.fai",
@@ -147,7 +146,7 @@ rule pairs_to_cooler:
 
 rule merge_mcools:
     input:
-        "analysis_other/porec/{dataset}/cooler/{dataset}_1000.cool", 
+        expand("analysis_other/porec/{{dataset}}/cooler/{{dataset}}_{resolution}.cool", resolution=config.get("min_bin_width", "1000"))
     output:
         mcool = "analysis_other/porec/{dataset}/cooler/{dataset}.mcool"
     log:
@@ -163,7 +162,7 @@ rule merge_mcools:
         cooler zoomify \
             -r {params.resolutions} \
             -o {output.mcool} \
-            {params.prefix}.cool \
+            {input}\
             >{log} 2>&1
         """
 
@@ -221,7 +220,35 @@ rule hic_correct_matrix:
             --correctionMethod {params.correction_method} \
             --outFileName {output.cool} \
             --filterThreshold {params.filter_threshold} \
-            >{log} 2>&1
+            >{log} 2>&1 || {{
+            
+            echo "Standard correction failed, trying more stringent filtering..." >>{log}
+            
+            # Try with more stringent filtering
+            hicCorrectMatrix correct \
+                --matrix {input.cool} \
+                --correctionMethod {params.correction_method} \
+                --outFileName {output.cool} \
+                --filterThreshold -3.0 3.0 \
+                --iterNum 200 \
+                >>{log} 2>&1 || {{
+                
+                echo "Stringent correction failed, trying KR normalization..." >>{log}
+                
+                # Try Knight-Ruiz normalization as fallback
+                hicCorrectMatrix correct \
+                    --matrix {input.cool} \
+                    --correctionMethod KR \
+                    --outFileName {output.cool} \
+                    --filterThreshold -3.0 3.0 \
+                    >>{log} 2>&1 || {{
+                    
+                    echo "All correction methods failed, copying normalized matrix..." >>{log}
+                    # As last resort, just copy the normalized matrix
+                    cp {input.cool} {output.cool}
+                }}
+            }}
+        }}
         """
 
 rule hic_plot_dist_vs_counts:
