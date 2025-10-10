@@ -1,6 +1,9 @@
 import glob
 import yaml
 import re
+import gzip
+import os
+import pandas as pd
 from types import SimpleNamespace
 
 
@@ -439,6 +442,7 @@ rule all:
     input:
         expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
         expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_samples),
+        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = asm_samples),
         #expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
         #"assembly/qc/qc_benchmark.tsv",
         #"assembly/qc/qc_flowcells.tsv",
@@ -458,7 +462,7 @@ rule all_extended_qc:
         # Nucflag results
         #expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
         # Longdust results
-        expand("analysis_other/longdust/{asm}/longdust.txt", asm=finished_samples),
+        expand("analysis_other/longdust/{asm}/longdust.bed", asm=finished_samples),
         # RepeatMasker results
         #expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
         # Flagger results
@@ -500,11 +504,6 @@ rule all_input_qc:
         # fq_qc,
         # bam_qc,
         expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
-
-rule all_dip3d:
-    input:
-        "analysis_other/dip3d/T2T04/1-falign/porec.fragments.bam",
-        "analysis_other/dip3d/T2T04/dip3d.done"
 
 #rule all_verkko_trio:
 #    input:

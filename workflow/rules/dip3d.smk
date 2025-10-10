@@ -9,12 +9,16 @@ def get_chr_list_for_asm(wc):
     
     return(chroms)
 
-rule all_merge_dip3d:
+rule all_dip3d:
+    input:
+        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = ["T2T03", "T2T04"])
+
+rule collect_dip3d:
     input:
         "assembly/qc/phased_verkko/{asm}/sample_sex.txt",
         expand("analysis_other/dip3d/{{asm}}/4-haplotag/{type}_dip3d_stats.txt", type = ["imputed", "snp-tagged"]),
-        expand("analysis_other/dip3d/{{asm}}/5-pairs/{{asm}}.hp{hp}.pairs", hp = ["1", "2"]),
-    #    lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
+        expand("analysis_other/dip3d/{{asm}}/4-haplotag/{{asm}}.{hp}.bam", hp = ["hp1", "hp2", "tagged"])
+    #   lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
     output:
         "analysis_other/dip3d/{asm}/dip3d.done"
     benchmark:
@@ -333,7 +337,7 @@ rule dip3d_bam_haplotag:
             >{log} 2>&1
         """
 
-rule dip3d_stats:
+rule dip3d_stats_all:
     input:
         lambda wc: expand("analysis_other/dip3d/{{asm}}/4-haplotag/{chr}/{{type}}-frag-hap-list", chr = get_chr_list_for_asm(wc))
     output:
@@ -356,7 +360,7 @@ rule dip3d_extract_hp_bams:
     input:
         bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam"
     output:
-        bam = "analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp{hp}.bam",
+        bam = temp("analysis_other/dip3d/{asm}/4-haplotag/{chr}/hp{hp}.bam"),
     conda:
         "../env/samtools.yml"
     log:
@@ -369,13 +373,13 @@ rule dip3d_extract_hp_bams:
 rule dip3d_merge_bam:
     input:
         lambda wc: expand(
-            "analysis_other/dip3d/{asm}/4-haplotag/{chr}/{hp}.bam",
+            "analysis_other/dip3d/{asm}/4-haplotag/{chr}/tagged.bam" if wc.hp == "tagged" else "analysis_other/dip3d/{asm}/4-haplotag/{chr}/{hp}.bam" ,
             asm=wc.asm,
             hp=wc.hp,
             chr=get_chr_list_for_asm(wc)
         )
     output:
-        temp("analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam")
+        "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam"
     threads: 1
     log:
         "logs/dip3d/merge_bam/{asm}.{hp}.merge_bam.log"
@@ -384,6 +388,7 @@ rule dip3d_merge_bam:
     shell:
         """
         samtools merge -o {output} --output-fmt BAM {input} >{log} 2>&1
+        samtools index {output} >>{log} 2>&1
         """
 
 

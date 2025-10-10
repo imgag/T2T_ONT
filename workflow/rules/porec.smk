@@ -1,6 +1,6 @@
 rule all_porec:
     input:
-        expand("analysis_other/porec/{sample}.done", sample = ["T2T04", "T2T03"])
+        expand("analysis_other/porec/{sample}.done", sample = finished_samples)
 
 rule collect_porec:
     input:
@@ -35,25 +35,7 @@ def get_all_porec_runs(wc):
 
     return run_ids
 
-rule merge_pairs:
-    input:
-        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.pairs.gz", run = get_all_porec_runs(wc))
-    output:
-        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
-    wildcard_constraints:
-        dataset=r"\w+"
-    log:
-        "logs/porec/merge_pairs.{dataset}.log"
-    conda:
-        "../env/pairtools.yml"
-    shell:
-        """
-        pairtools merge \
-            --output {output.pairs} \
-            {input.pairs} \
-            >{log} 2>&1
-        """
-
+# Create pairs file for Haplotype1 and Haplotype2 datasets
 rule pairtools_parse_bam:
     input:
         bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
@@ -86,6 +68,26 @@ rule pairtools_parse_bam:
             >{log}
         """
 
+# Create pairs file for all flowcells from sample
+rule merge_pairs:
+    input:
+        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.pairs.gz", run = get_all_porec_runs(wc))
+    output:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    wildcard_constraints:
+        dataset=r"\w+"
+    log:
+        "logs/porec/merge_pairs.{dataset}.log"
+    conda:
+        "../env/pairtools.yml"
+    shell:
+        """
+        pairtools merge \
+            --output {output.pairs} \
+            {input.pairs} \
+            >{log} 2>&1
+        """
+
 rule merge_pairs_stats:
     input:
         stats = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
@@ -103,6 +105,7 @@ rule merge_pairs_stats:
             >{log} 2>&1
         """
 
+# Stats script from wf-pore-c pipeline
 rule pairs_stats_report:
     input:
         "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.stats.txt"
@@ -193,7 +196,7 @@ rule hic_diagnostic_plot:
         "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
-    shell:
+    shell: 
         """
         hicCorrectMatrix diagnostic_plot \
             --matrix {input.cool} \
@@ -355,6 +358,7 @@ rule hic_detect_loops:
             >{log} 2>&1
         """
 
+# Not used yet
 rule hic_validate_viewpoints:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
@@ -381,6 +385,7 @@ rule hic_validate_viewpoints:
             >{log} 2>&1
         """
 
+# Not used yet
 rule hic_aggregate_contacts:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
@@ -407,3 +412,8 @@ rule hic_aggregate_contacts:
             --plotType 2d \
             >{log} 2>&1
         """
+
+# Todo:
+# Differential TAD: HP1 vs HP2
+# Look at target regions:
+#   - Imprinted genes
