@@ -1,9 +1,9 @@
 # Global variables for ancestry analysis
-#ANCESTRY_TOOLS = ["iadmix", "admixture"]
+#ANCESTRY_TOOLS = ["iadmix"]
 ANCESTRY_TOOLS = ["iadmix"]
 
 #LOCAL_ANCESTRY_TOOLS = ["rfmix", "gnomix"]
-LOCAL_ANCESTRY_TOOLS = []
+LOCAL_ANCESTRY_TOOLS = ["gnomix"]
 
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
@@ -647,13 +647,13 @@ rule calculate_plink_frequencies:
                 --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
                 --keep {input.keep_file} \
                 --freq \
-                --out analysis_other/ancestry/global/iadmix/freq_${wildcards.population} \
+                --out analysis_other/ancestry/global/iadmix/freq_{wildcards.population} \
                 --allow-extra-chr \
                 >>{log} 2>&1
             
             # Check if freq file exists and has correct name
-            if [[ -f analysis_other/ancestry/global/iadmix/freq_${wildcards.population}.frq ]]; then
-                cp analysis_other/ancestry/global/iadmix/freq_${wildcards.population}.frq {output.freq_file}
+            if [[ -f analysis_other/ancestry/global/iadmix/freq_{wildcards.population}.frq ]]; then
+                cp analysis_other/ancestry/global/iadmix/freq_{wildcards.population}.frq {output.freq_file}
             else
                 echo "PLINK frequency calculation failed for $POP" >>{log}
                 touch {output.freq_file}
@@ -940,7 +940,7 @@ rule convert_pgen_to_vcf:
 # Prepare data for local ancestry analysis - Step 2: Create sample mapping
 rule create_sample_map:
     input:
-        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
         sample_map="analysis_other/ancestry/local/input/sample_map.txt"
     conda:
@@ -985,13 +985,13 @@ rule split_vcf_by_chromosome_gnomix:
 # Modified rule for chromosome-specific genetic maps
 rule extract_chromosome_genetic_map:
     input:
-        gmap="data/ref/phasing_T2T/resources/recombination_maps/t2t_native_scaled_maps/chr{chr}.t2t.scaled.gmap.gz"
+        gmap="data/ref/phasing_T2T/resources/recombination_maps/t2t_native_scaled_maps/{chr}.t2t.scaled.gmap.gz"
     output:
-        map="analysis_other/ancestry/local/genetic_map/chr{chr}.map"
+        map="analysis_other/ancestry/local/genetic_map/{chr}.map"
     conda:
         "../env/py_report.yml"
     log:
-        "logs/ancestry/extract_chr_genetic_map/chr{chr}.log"
+        "logs/ancestry/extract_chr_genetic_map/{chr}.log"
     run:
         with gzip.open(input.gmap, 'rt') as f_in, open(output.map, 'w') as f_out, open(log[0], 'w') as log_file:
             try:
@@ -1007,7 +1007,7 @@ rule extract_chromosome_genetic_map:
                         if len(fields) >= 3:
                             pos = int(fields[0])
                             cM = float(fields[2])  # Use cumulative genetic distance
-                            f_out.write(f"{pos}\t{cM}\n")
+                            f_out.write(f"{wildcards.chr}\t{pos}\t{cM}\n")
                             count += 1
                 
                 log_file.write(f"Successfully wrote {count} genetic map positions for chr{wildcards.chr}\n")
@@ -1016,25 +1016,80 @@ rule extract_chromosome_genetic_map:
                 log_file.write(f"Error processing genetic map: {str(e)}\n")
                 raise e
 
+# RFMix local ancestry analysis rules
+
+# Rule to create combined genetic map for all chromosomes
+rule create_combined_genetic_map:
+    input:
+        gmaps=expand("analysis_other/ancestry/local/genetic_map/chr{chr}.map", chr=CHROMOSOMES)
+    output:
+        combined_map="analysis_other/ancestry/local/genetic_map/all_chr.map"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/rfmix/create_combined_genetic_map.log"
+    shell:
+        """
+        # Concatenate and sort genetic map files lexicographically by chromosome and position
+        cat {input.gmaps} | sort -k1,1V -k2,2n > {output.combined_map}
+        echo "Combined genetic map created with $(wc -l < {output.combined_map}) positions" >>{log}
+        """
+
+# Rule to run RFMix on whole dataset
+rule run_rfmix_whole_genome:
+    input:
+        query_vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
+        reference_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz",
+        sample_map="analysis_other/ancestry/local/input/sample_map.txt",
+        genetic_map="analysis_other/ancestry/local/genetic_map/all_chr.map"
+    output:
+        msp="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.msp.tsv",
+        fb="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.fb.tsv",
+        q="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.Q",
+        touch_file=touch("analysis_other/ancestry/local/rfmix/results.done")
+    conda:
+        "../env/rfmix.yml"
+    log:
+        "logs/ancestry/rfmix/run_rfmix_whole_genome.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/local/rfmix/results
+        
+        # Run RFMix for local ancestry analysis on whole genome
+        rfmix \
+            -f {input.query_vcf} \
+            -r {input.reference_vcf} \
+            --sample-map {input.sample_map} \
+            --genetic-map {input.genetic_map} \
+            --output-basename analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome \
+            --n-threads {threads} \
+            --crf-spacing=0.001 \
+            --rf-window-size=0.1 \
+            >{log} 2>&1
+        
+        echo "RFMix whole genome analysis completed successfully" >>{log}
+        """
+
 # Modified rule to train GnomiX model per chromosome
 rule run_gnomix_with_training_by_chr:
     input:
-        query_vcf="analysis_other/ancestry/local/input/samples.chr{chr}.vcf.gz",
-        reference_vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_T2T.vcf.gz",
+        query_vcf="analysis_other/ancestry/local/input/samples.{chr}.vcf.gz",
+        reference_vcf="analysis_other/ancestry/processed_vcf/1000G/{chr}_T2T.vcf.gz",
         sample_map="analysis_other/ancestry/local/input/sample_map.txt",
-        genetic_map="analysis_other/ancestry/local/genetic_map/chr{chr}.map"
+        genetic_map="analysis_other/ancestry/local/genetic_map/{chr}.map"
     output:
-        model="analysis_other/ancestry/local/gnomix/trained_model/{chr}/model_chr{chr}.pkl",
-        msp="analysis_other/ancestry/local/gnomix/results/chr{chr}.msp"
+        model="analysis_other/ancestry/local/gnomix/trained_model/{chr}/model_{chr}.pkl",
+        msp="analysis_other/ancestry/local/gnomix/results/{chr}.msp"
     conda:
         "../env/gnomix.yml"
     log:
-        "logs/ancestry/gnomix/run_gnomix_with_training_chr{chr}.log"
+        "logs/ancestry/gnomix/run_gnomix_with_training_{chr}.log"
     params:
         gnomix=config['gnomix'],
         config=config['gnomix_config'],
-        output_prefix="analysis_other/ancestry/local/gnomix/trained_model/1000G_T2T"
-    threads: 8
+    threads: 16
+    # python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <genetic_map_file> <reference_file> <sample_map_file>
     shell:
         """
         mkdir -p analysis_other/ancestry/local/gnomix/trained_model
@@ -1052,7 +1107,6 @@ rule run_gnomix_with_training_by_chr:
             >{log} 2>&1
         """
 
-# python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <genetic_map_file> <reference_file> <sample_map_file>
 
 # Aggregate rule to combine results from all chromosomes
 rule combine_gnomix_results:
@@ -1114,7 +1168,7 @@ rule create_ancestry_report:
         psam="analysis_other/ancestry/plink/merged/merged_cohort.psam",
         iadmix="analysis_other/ancestry/global/iadmix/results.done",
         #admixture="analysis_other/ancestry/global/admixture/results.done",
-        #rfmix="analysis_other/ancestry/local/rfmix/results.done",
+        rfmix="analysis_other/ancestry/local/rfmix/results.done",
         gnomix="analysis_other/ancestry/local/gnomix/results.done"
     output:
         report="analysis_other/ancestry/reports/ancestry_summary.html"
