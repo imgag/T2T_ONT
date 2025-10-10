@@ -23,6 +23,7 @@ rule all_ancestry:
         "analysis_other/ancestry/plink/samples/samples_filtered.pvar",
         "analysis_other/ancestry/plink/samples/samples_filtered.psam",
         # Global ancestry results
+        expand("analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq", population=THOUSAND_G_POPS),
         expand("analysis_other/ancestry/global/{tool}/results.done", tool=ANCESTRY_TOOLS),
         # Local ancestry results  
         expand("analysis_other/ancestry/local/{tool}/results.done", tool=LOCAL_ANCESTRY_TOOLS),
@@ -30,7 +31,7 @@ rule all_ancestry:
         expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
         
         # Summary reports
-        #"analysis_other/ancestry/reports/ancestry_summary.html"
+        "analysis_other/ancestry/reports/ancestry_summary.html"
 
 
 
@@ -581,29 +582,25 @@ rule plot_pca:
         """
 
 
-# Step D2a: Calculate allele frequencies by population using PLINK 1.9
-rule create_iadmix_plink_frequencies:
+# Step D2a-1: Create population-specific keep files
+rule create_population_keep_file:
     input:
-        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
-        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bim", 
-        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
         ref_psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
-        freq_file="analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq"
+        keep_file="analysis_other/ancestry/global/iadmix/keep_{population}.txt"
     conda:
-        "../env/plink2.yml"
+        "../env/py_report.yml"
     log:
-        "logs/ancestry/create_iadmix_plink_freq_{population}.log"  
-    threads: 4  
+        "logs/ancestry/iadmix/create_keep_file_{population}.log"
     shell:
         """
         mkdir -p analysis_other/ancestry/global/iadmix
         
         POP={wildcards.population}
-        echo "Calculating frequencies for population: $POP" >{log}
+        echo "Creating keep file for population: $POP" >{log}
         
         # Create population-specific keep file from PSAM (column 8 is SUPERPOP, skip header with #)
-        awk -v pop="$POP" '!/^#/ && $8 == pop {{print $1, $2}}' {input.ref_psam} > analysis_other/ancestry/global/iadmix/keep_${{population}}.txt
+        awk -v pop="$POP" '!/^#/ && $8 == pop {{print $1, $2}}' {input.ref_psam} > {output.keep_file}
         
         # Debug: Show first few lines of PSAM file and what we're looking for
         echo "Looking for population: $POP" >>{log}
@@ -612,21 +609,55 @@ rule create_iadmix_plink_frequencies:
         echo "Sample PSAM lines:" >>{log}
         head -5 {input.ref_psam} | tail -4 >>{log}
         echo "Generated keep file content:" >>{log}
-        head -5 analysis_other/ancestry/global/iadmix/keep_${{population}}.txt >>{log}
+        head -5 {output.keep_file} >>{log}
+        
+        # Report count of samples in keep file
+        SAMPLE_COUNT=$(wc -l < {output.keep_file})
+        echo "Found $SAMPLE_COUNT samples for population $POP" >>{log}
+        """
+
+# Step D2a-2: Calculate allele frequencies using population-specific keep files
+rule calculate_plink_frequencies:
+    input:
+        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bim", 
+        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
+        keep_file="analysis_other/ancestry/global/iadmix/keep_{population}.txt"
+    output:
+        freq_file="analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/iadmix/calculate_freq_{population}.log"  
+    threads: 4  
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/iadmix/freq
+        
+        POP={wildcards.population}
+        echo "Calculating frequencies for population: $POP" >{log}
         
         # Check if keep file has any samples
-        SAMPLE_COUNT=$(wc -l < analysis_other/ancestry/global/iadmix/keep_${{population}}.txt)
-        echo "Found $SAMPLE_COUNT samples for population $POP" >>{log}
+        SAMPLE_COUNT=$(wc -l < {input.keep_file})
+        echo "Using $SAMPLE_COUNT samples for population $POP" >>{log}
         
         if [[ $SAMPLE_COUNT -gt 0 ]]; then
             # Calculate frequencies using PLINK 1.9
             plink \
                 --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
-                --keep analysis_other/ancestry/global/iadmix/keep_${{population}}.txt \
+                --keep {input.keep_file} \
                 --freq \
-                --out analysis_other/ancestry/global/iadmix/freq_${{population}} \
+                --out analysis_other/ancestry/global/iadmix/freq_${wildcards.population} \
                 --allow-extra-chr \
                 >>{log} 2>&1
+            
+            # Check if freq file exists and has correct name
+            if [[ -f analysis_other/ancestry/global/iadmix/freq_${wildcards.population}.frq ]]; then
+                cp analysis_other/ancestry/global/iadmix/freq_${wildcards.population}.frq {output.freq_file}
+            else
+                echo "PLINK frequency calculation failed for $POP" >>{log}
+                touch {output.freq_file}
+            fi
         else
             echo "No samples found for population $POP, creating empty frequency file" >>{log}
             touch {output.freq_file}
@@ -644,7 +675,7 @@ rule convert_to_iadmix_freq_format:
     conda:
         "../env/py_report.yml"  # Use Python environment
     log:
-        "logs/ancestry/convert_iadmix_freq.log"
+        "logs/ancestry/iadmix/convert_iadmix_freq.log"
     shell:
         """
         # Convert PLINK frequency output to iAdmix format
@@ -688,7 +719,7 @@ rule export_iadmix_plink_genotypes_individual:
     conda:
         "../env/plink2.yml"
     log:
-        "logs/ancestry/export_iadmix_plink_geno_individual.log"
+        "logs/ancestry/iadmix/export_plink_geno_individual.log"
     threads: 16
     shell:
         """
@@ -712,7 +743,7 @@ rule convert_to_iadmix_geno_format_individual:
     conda:
         "../env/py_report.yml"
     log:
-        "logs/ancestry/convert_iadmix_geno_{sample}.log"
+        "logs/ancestry/iadmix/convert_geno_{sample}.log"
     shell:
         """
         # Convert to iAdmix genotype format for specific sample
@@ -731,7 +762,7 @@ rule run_iadmix_individual:
     output:
         results="analysis_other/ancestry/global/iadmix/results/sample_{sample}_ancestry.txt"
     log:
-        "logs/ancestry/iadmix_{sample}.log"
+        "logs/ancestry/iadmix/run_{sample}.log"
     threads: 4
     shell:
         """
@@ -776,7 +807,7 @@ rule combine_iadmix_individual_results:
         combined="analysis_other/ancestry/global/iadmix/all_samples_ancestry_individual.txt",
         touch_file=touch("analysis_other/ancestry/global/iadmix/results.done")
     log:
-        "logs/ancestry/combine_iadmix_individual_results.log"
+        "logs/ancestry/iadmix/combine_individual_results.log"
     run:
         import os
         
@@ -927,35 +958,153 @@ rule create_sample_map:
             >{log} 2>&1
         """
 
-
-
-
-
-# Local ancestry with gnomix  
-rule run_gnomix:
+# New rule to split VCF by chromosome for GnomiX
+rule split_vcf_by_chromosome_gnomix:
     input:
-        vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz",
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt"
+        vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz"
     output:
-        touch("analysis_other/ancestry/local/gnomix/results.done"),
-        results="analysis_other/ancestry/local/gnomix/output.lai"
+        vcf="analysis_other/ancestry/local/input/samples.chr{chr}.vcf.gz"
+    conda:
+        "../env/bcftools.yml"
+    log:
+        "logs/ancestry/gnomix/split_vcf/chr{chr}.log"
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/local/gnomix/input
+        
+        bcftools view \
+            --regions {wildcards.chr} \
+            --output-type z \
+            --output {output.vcf} \
+            {input.vcf} \
+            >{log} 2>&1
+            
+        bcftools index --tbi {output.vcf} 2>>{log}
+        """
+
+# Modified rule for chromosome-specific genetic maps
+rule extract_chromosome_genetic_map:
+    input:
+        gmap="data/ref/phasing_T2T/resources/recombination_maps/t2t_native_scaled_maps/chr{chr}.t2t.scaled.gmap.gz"
+    output:
+        map="analysis_other/ancestry/local/genetic_map/chr{chr}.map"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/extract_chr_genetic_map/chr{chr}.log"
+    run:
+        with gzip.open(input.gmap, 'rt') as f_in, open(output.map, 'w') as f_out, open(log[0], 'w') as log_file:
+            try:
+                # Skip header
+                header = f_in.readline()
+                log_file.write(f"Processing chromosome {wildcards.chr}, skipping header: {header.strip()}\n")
+                
+                # Write data lines: position and cM (cumulative genetic distance)
+                count = 0
+                for line in f_in:
+                    if line.strip():
+                        fields = line.strip().split()
+                        if len(fields) >= 3:
+                            pos = int(fields[0])
+                            cM = float(fields[2])  # Use cumulative genetic distance
+                            f_out.write(f"{pos}\t{cM}\n")
+                            count += 1
+                
+                log_file.write(f"Successfully wrote {count} genetic map positions for chr{wildcards.chr}\n")
+                
+            except Exception as e:
+                log_file.write(f"Error processing genetic map: {str(e)}\n")
+                raise e
+
+# Modified rule to train GnomiX model per chromosome
+rule run_gnomix_with_training_by_chr:
+    input:
+        query_vcf="analysis_other/ancestry/local/input/samples.chr{chr}.vcf.gz",
+        reference_vcf="analysis_other/ancestry/processed_vcf/1000G/chr{chr}_T2T.vcf.gz",
+        sample_map="analysis_other/ancestry/local/input/sample_map.txt",
+        genetic_map="analysis_other/ancestry/local/genetic_map/chr{chr}.map"
+    output:
+        model="analysis_other/ancestry/local/gnomix/trained_model/{chr}/model_chr{chr}.pkl",
+        msp="analysis_other/ancestry/local/gnomix/results/chr{chr}.msp"
     conda:
         "../env/gnomix.yml"
     log:
-        "logs/ancestry/gnomix.log"
+        "logs/ancestry/gnomix/run_gnomix_with_training_chr{chr}.log"
+    params:
+        gnomix=config['gnomix'],
+        config=config['gnomix_config'],
+        output_prefix="analysis_other/ancestry/local/gnomix/trained_model/1000G_T2T"
     threads: 8
     shell:
         """
-        mkdir -p ancestry/local/gnomix
+        mkdir -p analysis_other/ancestry/local/gnomix/trained_model
         
-        # Run gnomix
-        python gnomix.py \
-            --query_file {input.vcf} \
-            --output_basename ancestry/local/gnomix/output \
-            --population_map {input.sample_map} \
-            --n_cores {threads} \
+        # Train GnomiX model for this chromosome
+        {params.gnomix} \
+            {input.query_vcf} \
+            $(dirname {output.model}) \
+            {wildcards.chr} \
+            True \
+            {input.genetic_map} \
+            {input.reference_vcf} \
+            {input.sample_map} \
+            {params.config} \
             >{log} 2>&1
         """
+
+# python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <genetic_map_file> <reference_file> <sample_map_file>
+
+# Aggregate rule to combine results from all chromosomes
+rule combine_gnomix_results:
+    input:
+        msps=expand("analysis_other/ancestry/local/gnomix/results/chr{chr}.msp", 
+                   chr=[str(i) for i in range(1, 23)] + ["X"])
+    output:
+        touch("analysis_other/ancestry/local/gnomix/results.done"),
+        combined="analysis_other/ancestry/local/gnomix/results/gnomix_lai.msp"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/combine_gnomix_results.log"
+    run:
+        # Set up logging
+        log_file = open(log[0], "w")
+        
+        try:
+            # Process all MSP files
+            dfs = []
+            for f in input.msps:
+                try:
+                    df = pd.read_csv(f, sep='\t')
+                    dfs.append(df)
+                    log_file.write(f"Successfully read {f}, found {len(df)} rows\n")
+                except Exception as e:
+                    log_file.write(f"Error reading {f}: {str(e)}\n")
+            
+            if dfs:
+                # Combine all dataframes
+                combined = pd.concat(dfs, ignore_index=True)
+                
+                # Sort by chromosome and position
+                combined = combined.sort_values(['chm', 'spos', 'epos'])
+                
+                # Create output directory if it doesn't exist
+                os.makedirs(os.path.dirname(output.combined), exist_ok=True)
+                
+                # Write combined output
+                combined.to_csv(output.combined, sep='\t', index=False)
+                log_file.write(f"Successfully combined {len(dfs)} MSP files into {output.combined}, total rows: {len(combined)}\n")
+            else:
+                log_file.write("No valid MSP files found to combine\n")
+                # Create empty output file
+                with open(output.combined, 'w') as f:
+                    f.write("# No valid GnomiX results found to combine\n")
+        
+        except Exception as e:
+            log_file.write(f"Error combining results: {str(e)}\n")
+            raise e
+        finally:
+            log_file.close()
 
 # Generate summary report
 rule create_ancestry_report:
@@ -964,8 +1113,8 @@ rule create_ancestry_report:
         pca_eigenvec="analysis_other/ancestry/pca/merged_cohort.eigenvec", 
         psam="analysis_other/ancestry/plink/merged/merged_cohort.psam",
         iadmix="analysis_other/ancestry/global/iadmix/results.done",
-        admixture="analysis_other/ancestry/global/admixture/results.done",
-        rfmix="analysis_other/ancestry/local/rfmix/results.done",
+        #admixture="analysis_other/ancestry/global/admixture/results.done",
+        #rfmix="analysis_other/ancestry/local/rfmix/results.done",
         gnomix="analysis_other/ancestry/local/gnomix/results.done"
     output:
         report="analysis_other/ancestry/reports/ancestry_summary.html"
