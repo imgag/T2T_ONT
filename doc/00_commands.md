@@ -27,3 +27,8 @@ Create plots:
 ```bash
 Rscript workflow/scripts/10_plot_minknow_reports.R doc/run_reports/run_summary.csv doc/tables/flowcell_biological_sample.tsv doc/img/
 ```
+
+Collect sex informations:
+```bash
+find assembly/qc/phased_verkko -path '*/T2T*' -name 'sample_sex.txt' -exec sh -c 'echo -n "$1 "; cat "$1"' _ {} \; | sort
+```

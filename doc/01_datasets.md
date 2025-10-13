@@ -103,3 +103,10 @@ python workflow/scripts/22_download_hprc_asm.py \
     --qc-only \
     doc/tables/HPGRC_R2_SequencingDataIndex_assemblies.tsv 
 ```
+
+## 1000G variant sets
+
+
+Phased from Lalli et al:
+https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=T2T/CHM13/assemblies/variants/1000_Genomes_Project/chm13v2.0/Phased_SHAPEIT5_v1.1
+
