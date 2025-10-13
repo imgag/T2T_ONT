@@ -34,12 +34,12 @@ rule longdust:
     input:
         fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
     output:
-        out="analysis_other/longdust/{asm}/longdust.txt"
+        out="analysis_other/longdust/{asm}/longdust.bed"
     log:
         "logs/longdust/{asm}_longdust.log"
     threads: 1
     benchmark:
-        "runtimes/longdust/{asm}.longdust.txt"
+        "runtimes/longdust/{asm}.longdust.bed"
     params:
         longdust=config['longdust']
     shell:

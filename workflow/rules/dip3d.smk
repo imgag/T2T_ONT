@@ -11,7 +11,7 @@ def get_chr_list_for_asm(wc):
 
 rule all_dip3d:
     input:
-        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = ["T2T03", "T2T04"])
+        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = finished_samples)
 
 rule collect_dip3d:
     input:
@@ -380,15 +380,16 @@ rule dip3d_merge_bam:
         )
     output:
         "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam"
-    threads: 1
+    threads: 8
     log:
         "logs/dip3d/merge_bam/{asm}.{hp}.merge_bam.log"
     conda:
         "../env/samtools.yml"
     shell:
         """
-        samtools merge -o {output} --output-fmt BAM {input} >{log} 2>&1
-        samtools index {output} >>{log} 2>&1
+        samtools merge -O BAM - {input} | \
+        samtools sort -@ {threads} -o {output} - 2>{log}
+        samtools index {output} 2>>{log}
         """
 
 

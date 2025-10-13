@@ -1,9 +1,8 @@
 # Global variables for ancestry analysis
-#ANCESTRY_TOOLS = ["iadmix"]
 ANCESTRY_TOOLS = ["iadmix"]
 
-#LOCAL_ANCESTRY_TOOLS = ["rfmix", "gnomix"]
-LOCAL_ANCESTRY_TOOLS = ["gnomix"]
+#LOCAL_ANCESTRY_TOOLS = ["gnomix"]
+#LOCAL_ANCESTRY_TOOLS = ["rfmix"]
 
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
@@ -28,10 +27,10 @@ rule all_ancestry:
         # Local ancestry results  
         expand("analysis_other/ancestry/local/{tool}/results.done", tool=LOCAL_ANCESTRY_TOOLS),
         # PCA plots for each population
-        expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
+        #expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
         
         # Summary reports
-        "analysis_other/ancestry/reports/ancestry_summary.html"
+        #"analysis_other/ancestry/reports/ancestry_summary.html"
 
 
 
@@ -1035,7 +1034,7 @@ rule create_combined_genetic_map:
         echo "Combined genetic map created with $(wc -l < {output.combined_map}) positions" >>{log}
         """
 
-# Rule to run RFMix on whole dataset
+# Rule to run RFMix by chromosome
 rule run_rfmix_whole_genome:
     input:
         query_vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
@@ -1043,27 +1042,24 @@ rule run_rfmix_whole_genome:
         sample_map="analysis_other/ancestry/local/input/sample_map.txt",
         genetic_map="analysis_other/ancestry/local/genetic_map/all_chr.map"
     output:
-        msp="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.msp.tsv",
-        fb="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.fb.tsv",
-        q="analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome.Q",
-        touch_file=touch("analysis_other/ancestry/local/rfmix/results.done")
+        msp="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.msp.tsv",
+        fb="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.fb.tsv",
+        q="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.Q"
     conda:
         "../env/rfmix.yml"
     log:
-        "logs/ancestry/rfmix/run_rfmix_whole_genome.log"
-    threads: 16
+        "logs/ancestry/rfmix/{chr}/run_rfmix.log"
+    threads: 6
     shell:
         """
-        mkdir -p analysis_other/ancestry/local/rfmix/results
-        
-        # Run RFMix for local ancestry analysis on whole genome
         rfmix \
             -f {input.query_vcf} \
             -r {input.reference_vcf} \
-            --sample-map {input.sample_map} \
-            --genetic-map {input.genetic_map} \
-            --output-basename analysis_other/ancestry/local/rfmix/results/rfmix_whole_genome \
-            --n-threads {threads} \
+            --chromosome={wildcards.chr} \
+            --sample-map={input.sample_map} \
+            --genetic-map={input.genetic_map} \
+            --output-basename=$(dirname {output.q}) \
+            --n-threads={threads} \
             --crf-spacing=0.001 \
             --rf-window-size=0.1 \
             >{log} 2>&1
@@ -1071,6 +1067,16 @@ rule run_rfmix_whole_genome:
         echo "RFMix whole genome analysis completed successfully" >>{log}
         """
 
+rule combine_rfmix_results:
+    input:
+        msps=expand("analysis_other/ancestry/local/rfmix/chr{chr}/rfmix_chr{chr}.Q", 
+                   chr=[str(i) for i in range(1, 23)] + ["X"])
+    output:
+        touch("analysis_other/ancestry/local/rfmix/results.done"),
+    shell:
+        """
+        touch {output}
+        """
 
 # Modified rule to train GnomiX model per chromosome
 rule run_gnomix_with_training_by_chr:
