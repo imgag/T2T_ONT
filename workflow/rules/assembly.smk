@@ -139,7 +139,7 @@ rule verkko_scaffold:
         "logs/verkko_scaffold/{asm}.log",
     benchmark:
         "runtimes/verkko_scaffold/{asm}.verkko_scaffold.txt"
-    threads: 48
+    threads: 72
     params:
         dryrun="--dryrun" if config["verkko_dryrun"] else "",
         skip_verkko_polish=lambda wc: "--no-correction"
@@ -154,9 +154,9 @@ rule verkko_scaffold:
             --nano {input.ul} \
             --porec {input.porec} \
             --local-memory 300 \
-            --cns-run 24 256 6 \
-            --ahc-run 24 256 6 \
-            --fhc-run 24 256 6 \
+            --cns-run 16 48 6 \
+            --ahc-run 16 48 6 \
+            --fhc-run 16 48 6 \
             --mashmap {params.mashmap} \
             --snakeopts "--cores {threads} {params.dryrun}" \
             >{log} 2>{log}

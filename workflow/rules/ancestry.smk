@@ -1,8 +1,8 @@
 # Global variables for ancestry analysis
 ANCESTRY_TOOLS = ["iadmix"]
 
-LOCAL_ANCESTRY_TOOLS = ["gnomix"]
-#LOCAL_ANCESTRY_TOOLS = ["rfmix"]
+#LOCAL_ANCESTRY_TOOLS = ["gnomix"]
+LOCAL_ANCESTRY_TOOLS = ["rfmix"]
 
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
@@ -29,7 +29,7 @@ rule all_ancestry:
         # PCA plots for each population
         expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
         # RFMIX tagore plots
-        #"analysis_other/ancestry/local/rfmix/tagore_plots.done"
+        "analysis_other/ancestry/local/rfmix/tagore_plots.done"
         # Summary reports
         #"analysis_other/ancestry/reports/ancestry_summary.html"
 
@@ -1093,14 +1093,12 @@ rule combine_rfmix_msp_genome_wide:
             >{log} 2>&1
         """
 
-# Rule to convert RFMix MSP to BED format for each sample
-rule rfmix_msp_to_bed:
+# Rule to convert RFMix MSP to Tagore BED format for each sample
+rule rfmix_msp_to_tagore_bed:
     input:
         msp="analysis_other/ancestry/local/rfmix/combined/rfmix_all_chr.msp.tsv"
     output:
-        hap0="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap0.bed",
-        hap1="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap1.bed",
-        config="analysis_other/ancestry/local/rfmix/tagore_input/{sample}_tagore.conf"
+        bed="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.tagore.bed"
     conda:
         "../env/py_report.yml"
     log:
@@ -1110,31 +1108,14 @@ rule rfmix_msp_to_bed:
         python3 workflow/scripts/33_rfmix_to_tagore_bed.py \
             --msp {input.msp} \
             --sample {wildcards.sample} \
-            --output-prefix analysis_other/ancestry/local/rfmix/tagore_input/{wildcards.sample} \
-            --create-config \
+            --output {output.bed} \
             >{log} 2>&1
-        """
-
-# Rule to create chromosome sizes file for Tagore
-rule create_chrom_sizes:
-    input:
-        fai=config['ref_fai']
-    output:
-        sizes="analysis_other/ancestry/local/rfmix/tagore_input/chrom.sizes"
-    shell:
-        """
-        # Extract chromosome sizes for autosomes only
-        awk '$1 ~ /^chr[0-9]+$/ {{print $1"\\t"$2}}' {input.fai} | \
-            sort -V > {output.sizes}
         """
 
 # Rule to run Tagore for ancestry painting
 rule run_tagore_ancestry_painting:
     input:
-        hap0="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap0.bed",
-        hap1="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap1.bed",
-        config="analysis_other/ancestry/local/rfmix/tagore_input/{sample}_tagore.conf",
-        sizes="analysis_other/ancestry/local/rfmix/tagore_input/chrom.sizes"
+        bed="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.tagore.bed"
     output:
         plot="analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry.png"
     conda:
@@ -1142,19 +1123,17 @@ rule run_tagore_ancestry_painting:
     log:
         "logs/ancestry/rfmix/tagore_{sample}.log"
     params:
-        output_prefix="analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry"
+        prefix="analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry"
     threads: 1
     shell:
         """
         tagore \
-            --input {input.hap0} {input.hap1} \
-            --genome {input.sizes} \
-            --color {input.config} \
-            --output {params.output_prefix} \
-            --prefix {wildcards.sample} \
-            --height 800 \
-            --width 1200 \
-            --format png \
+            --input {input.bed} \
+            --prefix {params.prefix} \
+            --build hg38 \
+            --oformat png \
+            --force \
+            --verbose \
             >{log} 2>&1
         """
 
@@ -1165,10 +1144,6 @@ rule all_tagore_plots:
                sample=QUERY_SAMPLES)
     output:
         touch("analysis_other/ancestry/local/rfmix/tagore_plots.done")
-
-# Update the all_ancestry rule to include Tagore plots
-# Modify the existing rule by adding to the input list:
-# "analysis_other/ancestry/local/rfmix/tagore_plots.done"
 
 
 # Modified rule to train GnomiX model per chromosome
