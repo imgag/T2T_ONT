@@ -6,6 +6,7 @@ bin/
 *.tar
 *.gz
 *.bed
+*.global.dist.txt
 assembly/qc/**/*.fastq
 assembly/qc/**/*.fa
 assembly/qc/**/*.svg
@@ -14,6 +15,7 @@ assembly/qc/**/*.paf
 *.fasta
 *.paf
 *.vcf.gz.csi
+*.vcf
 data/*/
 logs/filtlong*.merylData
 merqury/q
@@ -35,6 +37,7 @@ test_data
 *.d4
 *.gfa
 !*.noseq.gfa
+*-frag-hap-list
 fragments.bed
 RM*
 work
@@ -50,8 +53,17 @@ analysis_other/repeatmasker/*/
 analysis_other/nucflag/plot
 !analysis_other/repeatmasker/rm_summary
 
-
 analysis_other/*
+
 logs/filtlong
 logs/porec_qc
 logs/dip3d/
+
+results/*.pdf
+results/**/*.pdf
+
+
+# Include selected results from analysis_other
+!analysis_other/dip3d
+!analysis_other/ancestry/pca
+
