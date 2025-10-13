@@ -1,7 +1,7 @@
 # Global variables for ancestry analysis
 ANCESTRY_TOOLS = ["iadmix"]
 
-#LOCAL_ANCESTRY_TOOLS = ["gnomix"]
+LOCAL_ANCESTRY_TOOLS = ["gnomix"]
 #LOCAL_ANCESTRY_TOOLS = ["rfmix"]
 
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
@@ -27,8 +27,9 @@ rule all_ancestry:
         # Local ancestry results  
         expand("analysis_other/ancestry/local/{tool}/results.done", tool=LOCAL_ANCESTRY_TOOLS),
         # PCA plots for each population
-        #expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
-        
+        expand("analysis_other/ancestry/pca/pca_plot.{population}.pdf", population=["POP", "SUPERPOP"]),
+        # RFMIX tagore plots
+        #"analysis_other/ancestry/local/rfmix/tagore_plots.done"
         # Summary reports
         #"analysis_other/ancestry/reports/ancestry_summary.html"
 
@@ -763,18 +764,13 @@ rule run_iadmix_individual:
     log:
         "logs/ancestry/iadmix/run_{sample}.log"
     threads: 4
-    shell:
-        r"""
-        mkdir -p analysis_other/ancestry/global/iadmix/results
-        
-        # Store absolute paths
-        WORKDIR=$(realpath .)
-        LOGFILE=$(realpath {log})
-        
-        # Run iAdmix using Docker for individual sample as current user
+    params:
+        wd = workflow.basedir
+    shell:  
+        """
         docker run --rm \
             -u $(id -u):$(id -g) \
-            -v $WORKDIR:/workdir \
+            -v $(realpath .):/workdir \
             -w /workdir \
             caspargross/iadmix \
             python /usr/src/app/runancestry.py \
@@ -783,17 +779,16 @@ rule run_iadmix_individual:
             --out analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} \
             --cores {threads} \
             --path /usr/src/app/ \
-            >$LOGFILE 2>&1
+            >{log} 2>&1
         
         rm {input.geno_file}.ancestry.input   # Clean up genotype file after processing
 
-        # Process results
         if [[ -f analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} ]]; then
             # Extract ancestry proportions and create formatted output
             echo -e "{wildcards.sample}\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
         else
             # Create empty result if analysis failed
-            echo "iAdmix analysis failed for {wildcards.sample}" >>${{LOGFILE}}
+            echo "iAdmix analysis failed for {wildcards.sample}" >>{log}
         fi
         """
 
@@ -1042,9 +1037,10 @@ rule run_rfmix_whole_genome:
         sample_map="analysis_other/ancestry/local/input/sample_map.txt",
         genetic_map="analysis_other/ancestry/local/genetic_map/all_chr.map"
     output:
+        sis="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.sis.tsv",
         msp="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.msp.tsv",
         fb="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.fb.tsv",
-        q="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.Q"
+        q="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.rfmix.Q"
     conda:
         "../env/rfmix.yml"
     log:
@@ -1058,7 +1054,7 @@ rule run_rfmix_whole_genome:
             --chromosome={wildcards.chr} \
             --sample-map={input.sample_map} \
             --genetic-map={input.genetic_map} \
-            --output-basename=$(dirname {output.q}) \
+            --output-basename=analysis_other/ancestry/local/rfmix/{wildcards.chr}/rfmix_{wildcards.chr} \
             --n-threads={threads} \
             --crf-spacing=0.001 \
             --rf-window-size=0.1 \
@@ -1069,14 +1065,111 @@ rule run_rfmix_whole_genome:
 
 rule combine_rfmix_results:
     input:
-        msps=expand("analysis_other/ancestry/local/rfmix/chr{chr}/rfmix_chr{chr}.Q", 
-                   chr=[str(i) for i in range(1, 23)] + ["X"])
+        msps=expand("analysis_other/ancestry/local/rfmix/chr{chr}/rfmix_chr{chr}.rfmix.Q", 
+                   chr=[str(i) for i in range(1, 23)]) # chrX does not work (segfault, skipping for now)
     output:
         touch("analysis_other/ancestry/local/rfmix/results.done"),
     shell:
         """
         touch {output}
         """
+
+# Rule to combine per-chromosome MSP files for each sample
+rule combine_rfmix_msp_genome_wide:
+    input:
+        msp_files=expand("analysis_other/ancestry/local/rfmix/chr{chr}/rfmix_chr{chr}.msp.tsv",
+                        chr=[str(i) for i in range(1, 23)])
+    output:
+        combined_msp="analysis_other/ancestry/local/rfmix/combined/rfmix_all_chr.msp.tsv"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/rfmix/combine_msp_genome_wide.log"
+    shell:
+        """
+        python3 workflow/scripts/32_combine_rfmix_msp.py \
+            --msp-files {input.msp_files} \
+            --output {output.combined_msp} \
+            >{log} 2>&1
+        """
+
+# Rule to convert RFMix MSP to BED format for each sample
+rule rfmix_msp_to_bed:
+    input:
+        msp="analysis_other/ancestry/local/rfmix/combined/rfmix_all_chr.msp.tsv"
+    output:
+        hap0="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap0.bed",
+        hap1="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap1.bed",
+        config="analysis_other/ancestry/local/rfmix/tagore_input/{sample}_tagore.conf"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/rfmix/msp_to_bed_{sample}.log"
+    shell:
+        """
+        python3 workflow/scripts/33_rfmix_to_tagore_bed.py \
+            --msp {input.msp} \
+            --sample {wildcards.sample} \
+            --output-prefix analysis_other/ancestry/local/rfmix/tagore_input/{wildcards.sample} \
+            --create-config \
+            >{log} 2>&1
+        """
+
+# Rule to create chromosome sizes file for Tagore
+rule create_chrom_sizes:
+    input:
+        fai=config['ref_fai']
+    output:
+        sizes="analysis_other/ancestry/local/rfmix/tagore_input/chrom.sizes"
+    shell:
+        """
+        # Extract chromosome sizes for autosomes only
+        awk '$1 ~ /^chr[0-9]+$/ {{print $1"\\t"$2}}' {input.fai} | \
+            sort -V > {output.sizes}
+        """
+
+# Rule to run Tagore for ancestry painting
+rule run_tagore_ancestry_painting:
+    input:
+        hap0="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap0.bed",
+        hap1="analysis_other/ancestry/local/rfmix/tagore_input/{sample}.hap1.bed",
+        config="analysis_other/ancestry/local/rfmix/tagore_input/{sample}_tagore.conf",
+        sizes="analysis_other/ancestry/local/rfmix/tagore_input/chrom.sizes"
+    output:
+        plot="analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry.png"
+    conda:
+        "../env/tagore.yml"
+    log:
+        "logs/ancestry/rfmix/tagore_{sample}.log"
+    params:
+        output_prefix="analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry"
+    threads: 1
+    shell:
+        """
+        tagore \
+            --input {input.hap0} {input.hap1} \
+            --genome {input.sizes} \
+            --color {input.config} \
+            --output {params.output_prefix} \
+            --prefix {wildcards.sample} \
+            --height 800 \
+            --width 1200 \
+            --format png \
+            >{log} 2>&1
+        """
+
+# Rule to generate all Tagore plots
+rule all_tagore_plots:
+    input:
+        expand("analysis_other/ancestry/local/rfmix/plots/{sample}_ancestry.png",
+               sample=QUERY_SAMPLES)
+    output:
+        touch("analysis_other/ancestry/local/rfmix/tagore_plots.done")
+
+# Update the all_ancestry rule to include Tagore plots
+# Modify the existing rule by adding to the input list:
+# "analysis_other/ancestry/local/rfmix/tagore_plots.done"
+
 
 # Modified rule to train GnomiX model per chromosome
 rule run_gnomix_with_training_by_chr:
@@ -1087,7 +1180,7 @@ rule run_gnomix_with_training_by_chr:
         genetic_map="analysis_other/ancestry/local/genetic_map/{chr}.map"
     output:
         model="analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl",
-        msp="analysis_other/ancestry/local/gnomix/{chr}/1000G_T2T_chm_{chr}.msp"
+        msp="analysis_other/ancestry/local/gnomix/{chr}/query_results.msp"
     conda:
         "../env/gnomix.yml"
     log:
@@ -1115,10 +1208,10 @@ rule run_gnomix_with_training_by_chr:
 # Modified rule to train GnomiX model per chromosome
 rule run_gnomix_by_chr:
     input:
-        model="analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl",
+        model=ancient("analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl"),
         query_vcf="analysis_other/ancestry/local/input/samples.{chr}.vcf.gz",
     output:
-        msp="analysis_other/ancestry/local/gnomix/results/{chr}.msp"
+        msp="analysis_other/ancestry/local/gnomix/{chr}/query_results.msp"
     conda:
         "../env/gnomix.yml"
     log:
@@ -1142,12 +1235,12 @@ rule run_gnomix_by_chr:
             >{log} 2>&1
         """
 
-ruleorder: run_gnomix_by_chr > run_gnomix_with_training_by_chr
+ruleorder:  run_gnomix_with_training_by_chr > run_gnomix_by_chr
 
 # Aggregate rule to combine results from all chromosomes
 rule combine_gnomix_results:
     input:
-        msps=expand("analysis_other/ancestry/local/gnomix/results/chr{chr}.msp", 
+        msps=expand("analysis_other/ancestry/local/gnomix/chr{chr}/query_results.msp", 
                    chr=[str(i) for i in range(1, 23)] + ["X"])
     output:
         touch("analysis_other/ancestry/local/gnomix/results.done"),
