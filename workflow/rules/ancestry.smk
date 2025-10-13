@@ -765,7 +765,7 @@ rule run_iadmix_individual:
         "logs/ancestry/iadmix/run_{sample}.log"
     threads: 4
     shell:
-        """
+        r"""
         mkdir -p analysis_other/ancestry/global/iadmix/results
         
         # Store absolute paths
@@ -791,7 +791,7 @@ rule run_iadmix_individual:
         # Process results
         if [[ -f analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} ]]; then
             # Extract ancestry proportions and create formatted output
-            echo -e "{wildcards.sample}\\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
+            echo -e "{wildcards.sample}\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
         else
             # Create empty result if analysis failed
             echo "iAdmix analysis failed for {wildcards.sample}" >>${{LOGFILE}}
@@ -963,11 +963,11 @@ rule split_vcf_by_chromosome_gnomix:
     input:
         vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz"
     output:
-        vcf="analysis_other/ancestry/local/input/samples.chr{chr}.vcf.gz"
+        vcf="analysis_other/ancestry/local/input/samples.{chr}.vcf.gz"
     conda:
         "../env/bcftools.yml"
     log:
-        "logs/ancestry/gnomix/split_vcf/chr{chr}.log"
+        "logs/ancestry/gnomix/split_vcf/{chr}.log"
     shell:
         """
         mkdir -p analysis_other/ancestry/local/gnomix/input
@@ -1071,15 +1071,47 @@ rule run_rfmix_whole_genome:
         echo "RFMix whole genome analysis completed successfully" >>{log}
         """
 
+
 # Modified rule to train GnomiX model per chromosome
 rule run_gnomix_with_training_by_chr:
     input:
-        query_vcf="analysis_other/ancestry/local/input/samples.{chr}.vcf.gz",
+        query_vcf=ancient("analysis_other/ancestry/local/input/samples.{chr}.vcf.gz"),
         reference_vcf="analysis_other/ancestry/processed_vcf/1000G/{chr}_T2T.vcf.gz",
         sample_map="analysis_other/ancestry/local/input/sample_map.txt",
         genetic_map="analysis_other/ancestry/local/genetic_map/{chr}.map"
     output:
-        model="analysis_other/ancestry/local/gnomix/trained_model/{chr}/model_{chr}.pkl",
+        model="analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl",
+        msp="analysis_other/ancestry/local/gnomix/{chr}/1000G_T2T_chm_{chr}.msp"
+    conda:
+        "../env/gnomix.yml"
+    log:
+        "logs/ancestry/gnomix/run_gnomix_with_training_{chr}.log"
+    params:
+        gnomix=config['gnomix'],
+        config=config['gnomix_config'],
+    threads: 1
+    # python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <genetic_map_file> <reference_file> <sample_map_file>
+    shell:
+        """
+        
+        # Use script command to capture all output including subprocess calls
+        {params.gnomix} \
+            {input.query_vcf} \
+            $(dirname {output.msp}) \
+            {wildcards.chr} \
+            True \
+            {input.genetic_map} \
+            {input.reference_vcf} \
+            {input.sample_map} \
+            {params.config} > {log} 2>&1
+        """
+
+# Modified rule to train GnomiX model per chromosome
+rule run_gnomix_by_chr:
+    input:
+        model="analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl",
+        query_vcf="analysis_other/ancestry/local/input/samples.{chr}.vcf.gz",
+    output:
         msp="analysis_other/ancestry/local/gnomix/results/{chr}.msp"
     conda:
         "../env/gnomix.yml"
@@ -1088,8 +1120,8 @@ rule run_gnomix_with_training_by_chr:
     params:
         gnomix=config['gnomix'],
         config=config['gnomix_config'],
-    threads: 16
-    # python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <genetic_map_file> <reference_file> <sample_map_file>
+    threads: 1
+        #$ python3 gnomix.py <query_file> <output_folder> <chr_nr> <phase> <path_to_model>     
     shell:
         """
         mkdir -p analysis_other/ancestry/local/gnomix/trained_model
@@ -1097,16 +1129,14 @@ rule run_gnomix_with_training_by_chr:
         # Train GnomiX model for this chromosome
         {params.gnomix} \
             {input.query_vcf} \
-            $(dirname {output.model}) \
+            $(dirname {output.msp}) \
             {wildcards.chr} \
             True \
-            {input.genetic_map} \
-            {input.reference_vcf} \
-            {input.sample_map} \
-            {params.config} \
+            $(dirname {input.model} \
             >{log} 2>&1
         """
 
+ruleorder: run_gnomix_by_chr > run_gnomix_with_training_by_chr
 
 # Aggregate rule to combine results from all chromosomes
 rule combine_gnomix_results:
