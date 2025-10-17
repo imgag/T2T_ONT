@@ -1,13 +1,13 @@
-rule gqc:
+rule gqc_assemblybench:
     input:
         assembly = lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"],
         ref=config["ref_hg002_q100"]
     output:
-        directory("analysis_other/GQC/{asm}")
+        directory("analysis_other/GQC/{asm}/assemblybench")
     conda:
         "../env/gqc.yml"
     log:
-        "logs/gqc/{asm}_gqc.log"
+        "logs/gqc/{asm}_gqc_assemblybench.log"
     threads: 10
     params:
         config = config['gqc']['config'],
@@ -18,18 +18,48 @@ rule gqc:
         """
         source {params.venv}/bin/activate
         export PATH=$PATH:{params.fastk_binfolder}
-        GQC \
+        assemblybench\
             --reffasta {input.ref} \
             --queryfasta {input.assembly} \
             --config {params.config} \
-            -p {output} \
+            --prefix {output} \
             -t {threads} \
             --assembly {wildcards.asm} \
             --benchmark HG002v1.1 \
             > {log} 2>&1
         """
 
-# This is a faster alternative to repeatmasker. 
+rule gqc_readbench:
+    input:
+        ref=config["ref_hg002_q100"],
+        bam = "data/mapped/{asm}/{asm}.HQ.asm.bam"
+    output:
+        directory("analysis_other/GQC/{asm}/readbench")
+    conda:
+        "../env/gqc.yml"
+    log:
+        "logs/gqc/{asm}_gqc_readbench.log"
+    threads: 1
+    params:
+        config = config['gqc']['config'],
+        resourcedir = config['gqc']['resourcedir'],
+        venv = config['gqc']['venv'],
+        fastk_binfolder = config['gqc']['fastk_binfolder'],
+    shell:
+        """
+        source {params.venv}/bin/activate
+        export PATH=$PATH:{params.fastk_binfolder}
+        readbench\
+            --reffasta {input.ref} \
+            --bam {input.bam} \
+            --config {params.config} \
+            --prefix {output} \
+            --readsetname {wildcards.asm} \
+            >{log} 2>&1
+        """
+
+
+# This is a faster alternative to repeatmasker. Annotates repeats but no classification 
 rule longdust:
     input:
         fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
@@ -51,12 +81,13 @@ rule longdust:
 
 
 
-rule repeatmasker:
+rule repeatmasker_quick:
     input:
-        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased": "phased"})["assembly"]
     output:
         out="analysis_other/repeatmasker/{asm}/assembly.fasta.out",
         gff="analysis_other/repeatmasker/{asm}/assembly.fasta.out.gff",
+        tbl="analysis_other/repeatmasker/{asm}/assembly.fasta.tbl"
     conda:
         "../env/repeatmasker.yml"
     log:
@@ -64,22 +95,42 @@ rule repeatmasker:
     threads: 32
     benchmark:
         "runtimes/repeatmasker/{asm}.repeatmasker.txt"
+    resources:
+        mem_mb=120000  # 120 GB RAM
     params:
-        dfam_lib=config.get('dfam_db')
+        dfam_lib=config.get('dfam_hmm'),
+        engine="hmmer",
+        outdir=lambda wc: f"analysis_other/repeatmasker/{wc.asm}",
+        # Quick mode options
+        extra_params="-xsmall -q"  # -q: quick mode
     shell:
         """
+        LOG=$(realpath {log})
+        FA=$(realpath {input.fa})
+        LIB=$(realpath {params.dfam_lib})
+
+        mkdir -p {params.outdir}
+        pushd {params.outdir}  > $LOG
+        cp $FA assembly.fasta
+        
         RepeatMasker \
-            -lib {params.dfam_lib} \
-            -engine rmblast \
-            -dir $(dirname {output.out}) \
+            -lib $LIB \
+            -engine {params.engine} \
             -pa {threads} \
             -gff \
             -q \
             -no_is \
-            {input.fa} \
-            > {log} 2>&1
+            {params.extra_params} \
+            assembly.fasta \
+            > $LOG 2>&1
+        
+        popd
+        
+        # Cleanup
+        rm -f {params.outdir}/assembly.fasta
+        rm -f {params.outdir}/assembly.fasta.cat
+        rm -f {params.outdir}/*.ori.out
         """
-
 
 rule analyze_repeatmasker:
     input:

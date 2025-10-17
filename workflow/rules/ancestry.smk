@@ -1,8 +1,7 @@
 # Global variables for ancestry analysis
 ANCESTRY_TOOLS = ["iadmix"]
 
-#LOCAL_ANCESTRY_TOOLS = ["gnomix"]
-LOCAL_ANCESTRY_TOOLS = ["rfmix"]
+LOCAL_ANCESTRY_TOOLS = ["gnomix", "rfmix"]
 
 THOUSAND_G_POPS = ["AFR", "AMR", "EAS", "EUR", "SAS"]
 CHROMOSOMES = [str(i) for i in range(1, 23)] + ["X"]
@@ -936,7 +935,7 @@ rule create_sample_map:
     input:
         psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
     output:
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt"
+        sample_map="analysis_other/ancestry/local/input/reference_sample_map.txt"
     conda:
         "../env/py_report.yml"
     log:
@@ -1034,7 +1033,7 @@ rule run_rfmix_whole_genome:
     input:
         query_vcf="analysis_other/ancestry/processed_vcf/samples/merged_samples_filtered.vcf.gz",
         reference_vcf="analysis_other/ancestry/processed_vcf/1000G/1000G_merged_T2T.vcf.gz",
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt",
+        sample_map="analysis_other/ancestry/local/input/reference_sample_map.txt",
         genetic_map="analysis_other/ancestry/local/genetic_map/all_chr.map"
     output:
         sis="analysis_other/ancestry/local/rfmix/{chr}/rfmix_{chr}.sis.tsv",
@@ -1151,7 +1150,7 @@ rule run_gnomix_with_training_by_chr:
     input:
         query_vcf=ancient("analysis_other/ancestry/local/input/samples.{chr}.vcf.gz"),
         reference_vcf="analysis_other/ancestry/processed_vcf/1000G/{chr}_T2T.vcf.gz",
-        sample_map="analysis_other/ancestry/local/input/sample_map.txt",
+        sample_map="analysis_other/ancestry/local/input/reference_sample_map.txt",
         genetic_map="analysis_other/ancestry/local/genetic_map/{chr}.map"
     output:
         model="analysis_other/ancestry/local/gnomix/{chr}/models/1000G_T2T_chm_{chr}/1000G_T2T_chm_{chr}.pkl",

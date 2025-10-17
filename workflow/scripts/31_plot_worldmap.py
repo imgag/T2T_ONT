@@ -46,7 +46,7 @@ ax = plt.axes(projection=ccrs.Robinson())
 # Add map features with coarser resolution
 ax.add_feature(cfeature.COASTLINE, linewidth=0.8, color='black')
 ax.add_feature(cfeature.BORDERS, linewidth=0.5, color='black', alpha=0.7)
-ax.add_feature(cfeature.OCEAN, color='lightblue', alpha=0.3)
+ax.add_feature(cfeature.OCEAN, color='lightblue', alpha=0.1)
 ax.add_feature(cfeature.LAND, color='lightgray', alpha=0.3)
 
 # Set global extent
