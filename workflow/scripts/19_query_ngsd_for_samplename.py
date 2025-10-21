@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import mysql.connector  # Fix the import
+import mysql.connector
 from typing import Dict, List
 import sys
 
@@ -13,7 +13,13 @@ def read_existing_data(file_path: str) -> pd.DataFrame:
     if os.path.exists(file_path):
         return pd.read_csv(file_path, sep="\t")
     return pd.DataFrame(
-        columns=["name_ngsd", "name_external", "project_name", "run_flowcell_id"]
+        columns=[
+            "name_ngsd",
+            "name_external",
+            "project_name",
+            "run_flowcell_id",
+            "processing_system_name",
+        ]
     )
 
 
@@ -25,7 +31,7 @@ def get_database_connection():
             user=os.getenv("MYSQL_USER"),
             password=os.getenv("MYSQL_PASSWORD"),
             database=os.getenv("MYSQL_DATABASE"),
-            auth_plugin="mysql_native_password",  # Add authentication method
+            auth_plugin="mysql_native_password",
         )
         return connection
     except mysql.connector.Error as err:
@@ -60,6 +66,28 @@ def query_database(connection) -> pd.DataFrame:
 
 def merge_data(existing_df: pd.DataFrame, new_df: pd.DataFrame) -> pd.DataFrame:
     """Merge existing and new data, preserving all columns and manual changes."""
+    # Define expected columns - ensure processing_system_name is included
+    expected_columns = [
+        "name_ngsd",
+        "name_external",
+        "project_name",
+        "run_flowcell_id",
+        "processing_system_name",
+    ]
+
+    # Ensure both DataFrames have all expected columns
+    for col in expected_columns:
+        if col not in existing_df.columns:
+            existing_df[col] = None
+        if col not in new_df.columns:
+            new_df[col] = None
+
+    # Get additional columns that might be in either DataFrame
+    additional_columns = list(
+        set(existing_df.columns).union(set(new_df.columns)) - set(expected_columns)
+    )
+    all_columns = expected_columns + additional_columns
+
     # Create a composite key for comparison
     existing_df["composite_key"] = existing_df.apply(
         lambda x: f"{x['name_ngsd']}_{x['run_flowcell_id']}", axis=1
@@ -76,15 +104,25 @@ def merge_data(existing_df: pd.DataFrame, new_df: pd.DataFrame) -> pd.DataFrame:
 
     # Append only new records
     if len(new_records) > 0:
-        # Make sure new_records has all columns from existing_df
-        for col in existing_df.columns:
-            if col not in new_records.columns and col != "composite_key":
-                new_records[col] = None
-
-        result_df = pd.concat([result_df, new_records[result_df.columns]])
+        result_df = pd.concat([result_df, new_records[all_columns]])
 
     # Drop the composite key column
     result_df = result_df.drop("composite_key", axis=1)
+
+    # Ensure the expected columns are in the result
+    expected_columns = [
+        "name_ngsd",
+        "name_external",
+        "project_name",
+        "run_flowcell_id",
+        "processing_system_name",
+    ]
+
+    # Reorder columns to ensure expected columns come first
+    result_columns = expected_columns + [
+        col for col in result_df.columns if col not in expected_columns
+    ]
+    result_df = result_df[result_columns]
 
     # Sort by name_ngsd
     return result_df.sort_values("name_ngsd").reset_index(drop=True)

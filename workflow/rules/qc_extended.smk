@@ -14,6 +14,8 @@ rule gqc_assemblybench:
         resourcedir = config['gqc']['resourcedir'],
         venv = config['gqc']['venv'],
         fastk_binfolder = config['gqc']['fastk_binfolder'],
+    resources:
+        mem_mb=80000  # 80 GB RAM
     shell:
         """
         source {params.venv}/bin/activate
@@ -59,7 +61,7 @@ rule gqc_readbench:
         """
 
 
-# This is a faster alternative to repeatmasker. Annotates repeats but no classification 
+# This is a faster alternative to repeatmasker. Annotates repeats but no classification
 rule longdust:
     input:
         fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
@@ -98,8 +100,8 @@ rule repeatmasker_quick:
     resources:
         mem_mb=120000  # 120 GB RAM
     params:
-        dfam_lib=config.get('dfam_hmm'),
-        engine="hmmer",
+        dfam_lib=config.get('dfam_db'),
+        engine="rmblast",
         outdir=lambda wc: f"analysis_other/repeatmasker/{wc.asm}",
         # Quick mode options
         extra_params="-xsmall -q"  # -q: quick mode
@@ -112,7 +114,7 @@ rule repeatmasker_quick:
         mkdir -p {params.outdir}
         pushd {params.outdir}  > $LOG
         cp $FA assembly.fasta
-        
+
         RepeatMasker \
             -lib $LIB \
             -engine {params.engine} \
@@ -123,9 +125,9 @@ rule repeatmasker_quick:
             {params.extra_params} \
             assembly.fasta \
             > $LOG 2>&1
-        
+
         popd
-        
+
         # Cleanup
         rm -f {params.outdir}/assembly.fasta
         rm -f {params.outdir}/assembly.fasta.cat
@@ -230,7 +232,7 @@ rule flagger_create_cov:
     threads:
         16
     params:
-        bam2cov = config['bam2cov'], 
+        bam2cov = config['bam2cov'],
         workdir = workflow.basedir
     shell:
         """
@@ -287,7 +289,7 @@ rule create_plot:
     shell:
         """
         mkdir -p $(dirname {output.plot})
-        
+
         Rscript workflow/scripts/20_plot_genomic_features.R \
             --contig_file {input.contig_file} \
             --fai_file {input.fai_file} \
