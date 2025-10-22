@@ -1,0 +1,9 @@
+configfile: "config.yml"
+
+include: "rules/pairs_to_hic.smk"
+
+rule hic_files:
+    input:
+        expand("hic/{sample}.{hap}.hic",
+              sample=config["samples"],
+              hap=config["hap"])
