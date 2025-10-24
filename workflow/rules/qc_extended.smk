@@ -98,40 +98,118 @@ rule repeatmasker_quick:
     benchmark:
         "runtimes/repeatmasker/{asm}.repeatmasker.txt"
     resources:
-        mem_mb=120000  # 120 GB RAM
+        mem_mb=80000  # 80 GB RAM
     params:
-        dfam_lib=config.get('dfam_db'),
-        engine="rmblast",
         outdir=lambda wc: f"analysis_other/repeatmasker/{wc.asm}",
-        # Quick mode options
-        extra_params="-xsmall -q"  # -q: quick mode
+        species="human"  # Use built-in RepeatMasker library for human
     shell:
         """
+        set -euo pipefail
+
+        LOG=$(realpath {log})
+        FA=$(realpath {input.fa})
+        OUTDIR=$(realpath {params.outdir})
+
+        # Create output directory
+        mkdir -p $OUTDIR
+
+        # Change to output directory
+        cd $OUTDIR
+
+        # Copy input fasta
+        cp $FA assembly.fasta
+
+        # Run RepeatMasker with species library (much faster than HMM)
+        # -species: uses curated species-specific repeat library
+        # -xsmall: returns repetitive regions in lowercase
+        # -gff: creates GFF output
+        # -pa: number of parallel threads
+        RepeatMasker \
+            -species {params.species} \
+            -pa {threads} \
+            -xsmall \
+            -gff \
+            assembly.fasta \
+            >> $LOG 2>&1
+
+        # Remove temporary files
+        rm -f assembly.fasta
+        rm -f assembly.fasta.cat
+        rm -f *.ori.out
+
+        # Clean up RepeatMasker temporary directories
+        rm -rf RM_*/
+
+        echo "RepeatMasker completed successfully" >> $LOG
+        """
+
+# Alternative: RepeatMasker with custom Dfam HMM library (slower but more comprehensive)
+rule repeatmasker_hmm:
+    input:
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased": "phased"})["assembly"]
+    output:
+        out="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.out",
+        gff="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.out.gff",
+        tbl="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.tbl"
+    conda:
+        "../env/repeatmasker.yml"
+    log:
+        "logs/repeatmasker/{asm}_repeatmasker_hmm.log"
+    threads: 32
+    benchmark:
+        "runtimes/repeatmasker/{asm}.repeatmasker_hmm.txt"
+    resources:
+        mem_mb=120000  # 120 GB RAM
+    params:
+        dfam_lib=config.get('dfam_hmm'),
+        outdir=lambda wc: f"analysis_other/repeatmasker_hmm/{wc.asm}",
+    shell:
+        """
+        set -euo pipefail
+
         LOG=$(realpath {log})
         FA=$(realpath {input.fa})
         LIB=$(realpath {params.dfam_lib})
+        OUTDIR=$(realpath {params.outdir})
 
-        mkdir -p {params.outdir}
-        pushd {params.outdir}  > $LOG
+        # Create output directory
+        mkdir -p $OUTDIR
+
+        # Change to output directory - RepeatMasker works best in the directory with the input
+        cd $OUTDIR
+
+        # Copy input fasta
         cp $FA assembly.fasta
 
+        # Copy HMM library (not symlink - RepeatMasker may need to modify/index it)
+        cp $LIB dfam.hmm
+
+        # Run RepeatMasker with HMM library
+        # Using hmmer engine (auto-selects nhmmer for DNA)
+        # -q: quick search (5-10% less sensitive, but 3-4x faster)
+        # -no_is: skips bacterial insertion element check
+        # -xsmall: returns repetitive regions in lowercase
+        # -gff: creates GFF output
         RepeatMasker \
-            -lib $LIB \
-            -engine {params.engine} \
+            -lib dfam.hmm \
+            -engine hmmer \
             -pa {threads} \
             -gff \
             -q \
             -no_is \
-            {params.extra_params} \
+            -xsmall \
             assembly.fasta \
-            > $LOG 2>&1
+            >> $LOG 2>&1
 
-        popd
+        # Remove temporary files but keep the HMM database files for inspection
+        rm -f assembly.fasta
+        rm -f assembly.fasta.cat
+        rm -f *.ori.out
 
-        # Cleanup
-        rm -f {params.outdir}/assembly.fasta
-        rm -f {params.outdir}/assembly.fasta.cat
-        rm -f {params.outdir}/*.ori.out
+        # Clean up RepeatMasker temporary directories
+        rm -rf RM_*/
+
+        echo "RepeatMasker completed successfully" >> $LOG
         """
 
 rule analyze_repeatmasker:

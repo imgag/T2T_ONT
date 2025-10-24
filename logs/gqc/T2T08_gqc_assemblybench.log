@@ -1,0 +1,141 @@
+
+  Kmer size is 40
+
+  Creating a profile of v1.1.matnotpat.k40.hap against the assembly assembly
+
+  Running command FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T08/assemblybench/tmp -k40 -p:data/ref/gqc_resources/v1.1.matnotpat.k40.hap assembly/output/verkko/T2T08/assembly.fasta -N._MQY_RP.Fd9Yon
+
+Partitioning 1 .fasta file into 2 parts
+
+Determining minimizer scheme & partition for ._MQY_RP.Fd9Yon
+  Estimate 6.106G 40-mers
+  Dividing data into 7 blocks
+  Using 5-minimizers with 1024 core prefixes
+
+Phase 1: Partitioning K-mers into 14 Super-mer Files
+
+    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  100%  101%  102%           There are 631 reads totalling 6,106,382,387 bps
+
+     Part:         40-mer   super-mers  ave. length
+        0:    882,224,853   42,474,026         20.8
+        1:    890,974,296   41,982,961         21.2
+        2:    867,096,552   57,322,476         15.1
+        3:    868,712,354   59,891,500         14.5
+        4:    854,944,042   46,524,860         18.4
+        5:    877,956,175   55,387,541         15.9
+        6:    863,641,702   57,120,061         15.1
+      Sum:  6,105,549,974  360,703,425         16.9
+
+      Range 854,944,042 - 890,974,296 (4.13%)
+
+  Resources for phase:  2:46.115u  21.800s  1:49.136w  172.2%
+
+Phase 1a: Partitioning K-mer table data/ref/gqc_resources/v1.1.matnotpat.k40.hap.ktab into 7 block tables
+
+    0%    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%         
+  Resources for phase:  25.887u  9.040s  24.143w  144.7%
+
+Phase 2: Sorting & Counting K-mers in 7 blocks
+
+  Processing block 1: Sorting super-mers       Processing block 1: Sorting weighted k-mers  Processing block 1: Inverse profile sorting  Processing block 2: Sorting super-mers       Processing block 2: Sorting weighted k-mers  Processing block 2: Inverse profile sorting  Processing block 3: Sorting super-mers       Processing block 3: Sorting weighted k-mers  Processing block 3: Inverse profile sorting  Processing block 4: Sorting super-mers       Processing block 4: Sorting weighted k-mers  Processing block 4: Inverse profile sorting  Processing block 5: Sorting super-mers       Processing block 5: Sorting weighted k-mers  Processing block 5: Inverse profile sorting  Processing block 6: Sorting super-mers       Processing block 6: Sorting weighted k-mers  Processing block 6: Inverse profile sorting  Processing block 7: Sorting super-mers       Processing block 7: Sorting weighted k-mers  Processing block 7: Inverse profile sorting                                                     Part:   wgt'd k-mers  savings
+         0:    552,433,785      1.6
+         1:    555,280,435      1.6
+         2:    532,390,928      1.6
+         3:    525,412,914      1.7
+         4:    500,068,928      1.7
+         5:    521,823,792      1.7
+         6:    529,506,249      1.6
+       All:  3,716,917,031      1.6
+
+  Resources for phase:  24:29.974u  5:14.346s  16:07.549w  184.4%
+
+Phase 4 (-p option): Merging Profile Fragments
+
+    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  124%           The profiles occupy 118.41 MB
+
+  Resources for phase:  22.974u  10.563s  21.417w  156.6%
+
+Total Resources:  28:04.952u  5:55.828s  18:42.324w  181.8%  12MB
+
+  About to open relative kmer profile
+
+  Done
+
+
+  Kmer size is 40
+
+  Creating a profile of v1.1.patnotmat.k40.hap against the assembly assembly
+
+  Running command FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T08/assemblybench/tmp -k40 -p:data/ref/gqc_resources/v1.1.patnotmat.k40.hap assembly/output/verkko/T2T08/assembly.fasta -N._MQY_RP.DLgmmB
+
+Partitioning 1 .fasta file into 2 parts
+
+Determining minimizer scheme & partition for ._MQY_RP.DLgmmB
+  Estimate 6.106G 40-mers
+  Dividing data into 7 blocks
+  Using 5-minimizers with 1024 core prefixes
+
+Phase 1: Partitioning K-mers into 14 Super-mer Files
+
+    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  100%  101%  102%           There are 631 reads totalling 6,106,382,387 bps
+
+     Part:         40-mer   super-mers  ave. length
+        0:    882,224,853   42,474,026         20.8
+        1:    890,974,296   41,982,961         21.2
+        2:    867,096,552   57,322,476         15.1
+        3:    868,712,354   59,891,500         14.5
+        4:    854,944,042   46,524,860         18.4
+        5:    877,956,175   55,387,541         15.9
+        6:    863,641,702   57,120,061         15.1
+      Sum:  6,105,549,974  360,703,425         16.9
+
+      Range 854,944,042 - 890,974,296 (4.13%)
+
+  Resources for phase:  2:29.358u  20.196s  1:38.819w  171.6%
+
+Phase 1a: Partitioning K-mer table data/ref/gqc_resources/v1.1.patnotmat.k40.hap.ktab into 7 block tables
+
+    0%    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%         
+  Resources for phase:  12.214u  4.184s  10.516w  155.9%
+
+Phase 2: Sorting & Counting K-mers in 7 blocks
+
+  Processing block 1: Sorting super-mers       Processing block 1: Sorting weighted k-mers  Processing block 1: Inverse profile sorting  Processing block 2: Sorting super-mers       Processing block 2: Sorting weighted k-mers  Processing block 2: Inverse profile sorting  Processing block 3: Sorting super-mers       Processing block 3: Sorting weighted k-mers  Processing block 3: Inverse profile sorting  Processing block 4: Sorting super-mers       Processing block 4: Sorting weighted k-mers  Processing block 4: Inverse profile sorting  Processing block 5: Sorting super-mers       Processing block 5: Sorting weighted k-mers  Processing block 5: Inverse profile sorting  Processing block 6: Sorting super-mers       Processing block 6: Sorting weighted k-mers  Processing block 6: Inverse profile sorting  Processing block 7: Sorting super-mers       Processing block 7: Sorting weighted k-mers  Processing block 7: Inverse profile sorting                                                     Part:   wgt'd k-mers  savings
+         0:    552,433,785      1.6
+         1:    555,280,435      1.6
+         2:    532,390,928      1.6
+         3:    525,412,914      1.7
+         4:    500,068,928      1.7
+         5:    521,823,792      1.7
+         6:    529,506,249      1.6
+       All:  3,716,917,031      1.6
+
+  Resources for phase:  23:39.309u  3:44.487s  15:14.728w  179.7%
+
+Phase 4 (-p option): Merging Profile Fragments
+
+    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  125%           The profiles occupy 107.90 MB
+
+  Resources for phase:  21.088u  8.663s  20.489w  145.2%
+
+Total Resources:  26:41.972u  4:17.604s  17:24.627w  178.0%  12MB
+
+  About to open relative kmer profile
+
+  Done
+
+File analysis_other/GQC/T2T08/assemblybench/T2T08.HG002v1.1.hapmers.merged.bed does not exist--calling FASTK to generate one
+Found hap2 v1.1.matnotpat.k40.hap and  hap1 v1.1.patnotmat.k40.hap as haplotypes.
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/venv/bin/assemblybench", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/GQC/bench.py", line 210, in main
+    phaseblockints = phasing.find_hapmer_phase_blocks_with_hmm(markerbed, outputfiles["hmmphaseblockbed"], queryobj, alpha, transitionprob, 0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/GQC/phasing.py", line 454, in find_hapmer_phase_blocks_with_hmm
+    write_scaffold_phase_blocks(scaffname, scafflength, timepoint, lastlogprobs, previousstate, intermarkercoords, mathap1color, pathap2color, shortmathap, shortpathap, mfh, pfh)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/GQC/phasing.py", line 528, in write_scaffold_phase_blocks
+    path[timepoint-1] = 1
+    ~~~~^^^^^^^^^^^^^
+IndexError: list assignment index out of range

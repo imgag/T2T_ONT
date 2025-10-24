@@ -33,3 +33,23 @@ Parameters: { "use_label_encoder" } are not used.
 
   warnings.warn(smsg, UserWarning)
 Evaluating model...
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 403, in <module>
+    model = train_model(config, data_path, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 201, in train_model
+    model.train(data=data, retrain_base=retrain_base, evaluate=True, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/model.py", line 135, in train
+    B_t1 = self.base.predict_proba(X_t1)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/Base/base.py", line 144, in predict_proba
+    return self.predict_proba_loopy(X)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/Base/base.py", line 202, in predict_proba_loopy
+    B[:,i,self.models[i].classes_] = self.models[i].predict_proba(X_w)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/linear_model/_logistic.py", line 1428, in predict_proba
+    return super()._predict_proba_lr(X)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/linear_model/_base.py", line 389, in _predict_proba_lr
+    prob = self.decision_function(X)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/linear_model/_base.py", line 352, in decision_function
+    scores = safe_sparse_dot(X, self.coef_.T, dense_output=True) + self.intercept_
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/utils/extmath.py", line 203, in safe_sparse_dot
+    ret = a @ b
+KeyboardInterrupt

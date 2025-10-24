@@ -32,3 +32,23 @@ Training smoother...
 Parameters: { "use_label_encoder" } are not used.
 
   warnings.warn(smsg, UserWarning)
+Evaluating model...
+Re-training base models...
+Windows done: 1/709Windows done: 2/709Windows done: 3/709Windows done: 4/709Windows done: 5/709Windows done: 6/709Windows done: 7/709Windows done: 8/709Windows done: 9/709Windows done: 10/709Windows done: 11/709Windows done: 12/709Windows done: 13/709Windows done: 14/709Windows done: 15/709Windows done: 16/709Windows done: 17/709Windows done: 18/709Windows done: 19/709Windows done: 20/709Windows done: 21/709Windows done: 22/709Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 403, in <module>
+    model = train_model(config, data_path, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 201, in train_model
+    model.train(data=data, retrain_base=retrain_base, evaluate=True, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/model.py", line 163, in train
+    self.base.train(X_t, y_t)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/Base/base.py", line 60, in train
+    return self.train_loopy(X, y, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/Base/base.py", line 81, in train_loopy
+    self.models[i].fit(X_w,y_w)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/linear_model/_logistic.py", line 1276, in fit
+    self.coef_, self.intercept_, self.n_iter_ = _fit_liblinear(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/sklearn/svm/_base.py", line 1229, in _fit_liblinear
+    raw_coef_, n_iter_ = liblinear.train_wrap(
+KeyboardInterrupt

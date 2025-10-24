@@ -21,8 +21,8 @@ for file in "$source_dir"/*/*.bam; do
     subfolder="$dest_dir/Sample_${sample}_$id"
     new_filename="${sample}_$id.mod.unmapped.bam"
 
-    # Create the subfolder if it doesn't exist and copy the file to the new location
-    echo mkdir -p "$subfolder" "&&" cp "$file" "$subfolder/$new_filename"
+    # Create the subfolder if it doesn't exist and copy the file to the new location only if it doesn't exist yet
+    echo "if [ ! -f \"$subfolder/$new_filename\" ]; then mkdir -p \"$subfolder\" && cp \"$file\" \"$subfolder/$new_filename\"; fi"
 
 done
 
@@ -38,7 +38,7 @@ while IFS=$'\t' read -r name_ngsd name_external project_name run_flowcell_id pro
         continue
     fi
 
-    if [[ $name_external == "GE-MED-T2T"* ]]; then
+    if [[ $name_external == "T2T"* ]]; then
         # Create a composite key using biological sample and processing system
         composite_key="${name_external}_${processing_system_name}"
         if [[ -z "${samples[$composite_key]}" ]]; then

@@ -19,3 +19,21 @@ Splitting sample map...
 Running Simulation...
 Training...
 Reading data...
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 403, in <module>
+    model = train_model(config, data_path, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 189, in train_model
+    data, meta = get_data(data_path, generations, window_size_cM)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 148, in get_data
+    X_t1, y_t1 = read("train1")
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 144, in read
+    X_raw, labels_raw = [load_np_data(f) for f in [X_files, labels_files]]
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 144, in <listcomp>
+    X_raw, labels_raw = [load_np_data(f) for f in [X_files, labels_files]]
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/preprocess.py", line 17, in load_np_data
+    data.append(np.load(f).astype(np.int16))
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/numpy/lib/npyio.py", line 439, in load
+    return format.read_array(fid, allow_pickle=allow_pickle,
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/numpy/lib/format.py", line 741, in read_array
+    array = numpy.fromfile(fp, dtype=dtype, count=count)
+KeyboardInterrupt

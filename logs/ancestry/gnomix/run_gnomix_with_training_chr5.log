@@ -15,3 +15,19 @@ Reading vcf file...
 Getting genetic map info...
 Getting sample map info...
 Building founders...
+Splitting sample map...
+Running Simulation...
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 398, in <module>
+    simulate_splits(base_args, config, data_path) # will create the simulation_output folder
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 300, in simulate_splits
+    laidataset.simulate(num_outs[split],
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/laidataset.py", line 388, in simulate
+    write_output(outdir,simulated_samples)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/laidataset.py", line 200, in write_output
+    anc = np.stack(anc)
+  File "<__array_function__ internals>", line 5, in stack
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/88327a4dd3697002e10b66efa86e27ee_/lib/python3.9/site-packages/numpy/core/shape_base.py", line 434, in stack
+    return _nx.concatenate(expanded_arrays, axis=axis, out=out)
+  File "<__array_function__ internals>", line 5, in concatenate
+KeyboardInterrupt

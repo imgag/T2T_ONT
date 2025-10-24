@@ -25,7 +25,7 @@ herro_model : bin/herro-v1
 gpu_queues: "gpu_srv010,gpu_srv019"
 
 # Preprocessing settings
-min_length : 
+min_length :
   default: 10000
   UL: 80000
 min_mean_q : 9
@@ -63,7 +63,7 @@ T2T_chromosomes: bin/T2T_Sequences/T2T_chromosomes.sh
 
 # RepeatMasker
 dfam_db: data/ref/dfam39_full.7.h5
-dfam_hmm: data/ref/Dfam-7.hmm
+dfam_hmm: data/ref/Dfam-curated_only-1.hmm
 
 # GQC
 gqc:
@@ -82,7 +82,7 @@ falign: bin/Falign/Linux-amd64/bin/falign
 dip3d: bin/Falign/Linux-amd64/bin/dip3d
 ashic: bin/ASHIC/ashic/__main__.py
 ashic_data: bin/ASHIC/ashic/cli/ashic_data.py
-ashic_utils: bin/ASHIC/ashic/cli/ashic_utils.py 
+ashic_utils: bin/ASHIC/ashic/cli/ashic_utils.py
 ashic_model: ASHIC-ZIPM
 ashic_resolution: 10000
 
@@ -108,7 +108,7 @@ tad_fdr_threshold: 0.05
 tad_delta: 0.01
 tad_correction_threshold: 1.5
 
-# Loop calling parameters  
+# Loop calling parameters
 loop_resolutions: ["5000", "10000"]  # Higher resolution for loops
 loop_window_size: 10
 loop_peak_width: 6
@@ -148,7 +148,7 @@ colours:
     FIN: "#1E88E5"
     IBS: "#2196F3"
     TSI: "#42A5F5"
-    # African  
+    # African
     YRI: "#E64A19"
     LWK: "#F4511E"
     GWD: "#FF5722"

@@ -1,1548 +1,2 @@
-
-  Kmer size is 40
-
-  Creating a profile of v1.1.matnotpat.k40.hap against the assembly assembly
-
-  Running command FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T10/tmp -k40 -p:data/ref/gqc_resources/v1.1.matnotpat.k40.hap assembly/output/verkko/T2T10/assembly.fasta -N._MQY_RP.8yplLQ
-
-Partitioning 1 .fasta file into 2 parts
-
-Determining minimizer scheme & partition for ._MQY_RP.8yplLQ
-  Estimate 6.203G 40-mers
-  Dividing data into 7 blocks
-  Using 5-minimizers with 1024 core prefixes
-
-Phase 1: Partitioning K-mers into 14 Super-mer Files
-
-    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   99%  100%  101%           There are 2,035 reads totalling 6,202,961,909 bps
-
-     Part:         40-mer   super-mers  ave. length
-        0:    864,619,252   40,979,650         21.1
-        1:    876,372,318   42,694,353         20.5
-        2:    877,780,409   52,559,356         16.7
-        3:    905,300,023   59,085,209         15.3
-        4:    880,226,860   50,772,488         17.3
-        5:    898,366,621   62,336,700         14.4
-        6:    893,668,413   57,643,954         15.5
-      Sum:  6,196,333,896  366,071,710         16.9
-
-      Range 864,619,252 - 905,300,023 (4.60%)
-
-  Resources for phase:  1:05.720u  10.799s  51.692w  148.0%
-
-Phase 1a: Partitioning K-mer table data/ref/gqc_resources/v1.1.matnotpat.k40.hap.ktab into 7 block tables
-
-    0%    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%         
-  Resources for phase:  10.886u  4.760s  17.001w  92.0%
-
-Phase 2: Sorting & Counting K-mers in 7 blocks
-
-  Processing block 1: Sorting super-mers       Processing block 1: Sorting weighted k-mers  Processing block 1: Inverse profile sorting  Processing block 2: Sorting super-mers       Processing block 2: Sorting weighted k-mers  Processing block 2: Inverse profile sorting  Processing block 3: Sorting super-mers       Processing block 3: Sorting weighted k-mers  Processing block 3: Inverse profile sorting  Processing block 4: Sorting super-mers       Processing block 4: Sorting weighted k-mers  Processing block 4: Inverse profile sorting  Processing block 5: Sorting super-mers       Processing block 5: Sorting weighted k-mers  Processing block 5: Inverse profile sorting  Processing block 6: Sorting super-mers       Processing block 6: Sorting weighted k-mers  Processing block 6: Inverse profile sorting  Processing block 7: Sorting super-mers       Processing block 7: Sorting weighted k-mers  Processing block 7: Inverse profile sorting                                                     Part:   wgt'd k-mers  savings
-         0:    533,340,127      1.6
-         1:    539,362,612      1.6
-         2:    529,399,800      1.7
-         3:    529,765,616      1.7
-         4:    498,059,370      1.8
-         5:    542,083,070      1.7
-         6:    531,185,297      1.7
-       All:  3,703,195,892      1.7
-
-  Resources for phase:  8:34.356u  1:36.869s  5:52.257w  173.5%
-
-Phase 4 (-p option): Merging Profile Fragments
-
-    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  124%           The profiles occupy 119.42 MB
-
-  Resources for phase:  9.281u  5.333s  21.044w  69.4%
-
-Total Resources:  10:00.244u  1:57.782s  7:22.016w  162.4%  12MB
-
-  About to open relative kmer profile
-
-  Done
-
-
-  Kmer size is 40
-
-  Creating a profile of v1.1.patnotmat.k40.hap against the assembly assembly
-
-  Running command FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T10/tmp -k40 -p:data/ref/gqc_resources/v1.1.patnotmat.k40.hap assembly/output/verkko/T2T10/assembly.fasta -N._MQY_RP.2AzmG5
-
-Partitioning 1 .fasta file into 2 parts
-
-Determining minimizer scheme & partition for ._MQY_RP.2AzmG5
-  Estimate 6.203G 40-mers
-  Dividing data into 7 blocks
-  Using 5-minimizers with 1024 core prefixes
-
-Phase 1: Partitioning K-mers into 14 Super-mer Files
-
-    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   99%  100%  101%           There are 2,035 reads totalling 6,202,961,909 bps
-
-     Part:         40-mer   super-mers  ave. length
-        0:    864,619,252   40,979,650         21.1
-        1:    876,372,318   42,694,353         20.5
-        2:    877,780,409   52,559,356         16.7
-        3:    905,300,023   59,085,209         15.3
-        4:    880,226,860   50,772,488         17.3
-        5:    898,366,621   62,336,700         14.4
-        6:    893,668,413   57,643,954         15.5
-      Sum:  6,196,333,896  366,071,710         16.9
-
-      Range 864,619,252 - 905,300,023 (4.60%)
-
-  Resources for phase:  1:09.653u  11.092s  1:04.370w  125.4%
-
-Phase 1a: Partitioning K-mer table data/ref/gqc_resources/v1.1.patnotmat.k40.hap.ktab into 7 block tables
-
-    0%    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%         
-  Resources for phase:  6.284u  2.689s  9.298w  96.5%
-
-Phase 2: Sorting & Counting K-mers in 7 blocks
-
-  Processing block 1: Sorting super-mers       Processing block 1: Sorting weighted k-mers  Processing block 1: Inverse profile sorting  Processing block 2: Sorting super-mers       Processing block 2: Sorting weighted k-mers  Processing block 2: Inverse profile sorting  Processing block 3: Sorting super-mers       Processing block 3: Sorting weighted k-mers  Processing block 3: Inverse profile sorting  Processing block 4: Sorting super-mers       Processing block 4: Sorting weighted k-mers  Processing block 4: Inverse profile sorting  Processing block 5: Sorting super-mers       Processing block 5: Sorting weighted k-mers  Processing block 5: Inverse profile sorting  Processing block 6: Sorting super-mers       Processing block 6: Sorting weighted k-mers  Processing block 6: Inverse profile sorting  Processing block 7: Sorting super-mers       Processing block 7: Sorting weighted k-mers  Processing block 7: Inverse profile sorting                                                     Part:   wgt'd k-mers  savings
-         0:    533,340,127      1.6
-         1:    539,362,612      1.6
-         2:    529,399,800      1.7
-         3:    529,765,616      1.7
-         4:    498,059,370      1.8
-         5:    542,083,070      1.7
-         6:    531,185,297      1.7
-       All:  3,703,195,892      1.7
-
-  Resources for phase:  8:24.894u  1:25.124s  5:43.266w  171.9%
-
-Phase 4 (-p option): Merging Profile Fragments
-
-    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  124%           The profiles occupy 110.93 MB
-
-  Resources for phase:  9.422u  5.748s  21.727w  69.8%
-
-Total Resources:  9:50.254u  1:44.687s  7:18.695w  158.4%  12MB
-
-  About to open relative kmer profile
-
-  Done
-
-[M::mm_idx_gen::57.941*1.23] collected minimizers
-[M::mm_idx_gen::61.680*1.63] sorted minimizers
-[M::main::61.680*1.63] loaded/built the index for 23 target sequence(s)
-[M::mm_mapopt_update::66.811*1.58] mid_occ = 156
-[M::mm_idx_stat] kmer size: 19; skip: 19; is_hpc: 0; #seq: 23
-[M::mm_idx_stat::70.082*1.55] distinct minimizers: 214022571 (92.32% are singletons); average occurrences: 1.420; average spacing: 10.037; total length: 3051512984
-[M::worker_pipeline::205.006*3.00] mapped 6 sequences
-[M::worker_pipeline::343.072*3.23] mapped 7 sequences
-[M::worker_pipeline::456.175*3.38] mapped 12 sequences
-[M::worker_pipeline::697.114*3.10] mapped 4 sequences
-[M::worker_pipeline::848.583*3.23] mapped 7 sequences
-[M::worker_pipeline::928.898*3.36] mapped 130 sequences
-[M::worker_pipeline::1040.467*3.45] mapped 10 sequences
-[M::worker_pipeline::1168.024*3.45] mapped 9 sequences
-[M::worker_pipeline::1256.484*3.48] mapped 7 sequences
-[M::worker_pipeline::1421.700*3.53] mapped 3 sequences
-[M::worker_pipeline::1518.175*3.84] mapped 1840 sequences
-[M::main] Version: 2.28-r1209
-[M::main] CMD: minimap2 -a -t10 -x asm5 data/ref/gqc_resources/hg002v1.1.mat.fasta.gz assembly/output/verkko/T2T10/assembly.fasta
-[M::main] Real time: 1518.852 sec; CPU: 5831.051 sec; Peak RSS: 26.392 GB
-[M::mm_idx_gen::39.512*1.67] collected minimizers
-[M::mm_idx_gen::42.488*2.18] sorted minimizers
-[M::main::42.488*2.18] loaded/built the index for 23 target sequence(s)
-[M::mm_mapopt_update::45.371*2.11] mid_occ = 162
-[M::mm_idx_stat] kmer size: 19; skip: 19; is_hpc: 0; #seq: 23
-[M::mm_idx_stat::47.286*2.06] distinct minimizers: 205464466 (92.42% are singletons); average occurrences: 1.436; average spacing: 9.989; total length: 2947895164
-[M::worker_pipeline::165.711*3.57] mapped 6 sequences
-[M::worker_pipeline::316.154*3.39] mapped 7 sequences
-[M::worker_pipeline::645.667*2.65] mapped 12 sequences
-[M::worker_pipeline::881.278*2.62] mapped 4 sequences
-[M::worker_pipeline::1027.905*2.79] mapped 7 sequences
-[M::worker_pipeline::1108.747*2.93] mapped 130 sequences
-[M::worker_pipeline::1443.483*2.75] mapped 10 sequences
-[M::worker_pipeline::1565.304*2.81] mapped 9 sequences
-[M::worker_pipeline::1650.388*2.84] mapped 7 sequences
-[M::worker_pipeline::1803.626*2.92] mapped 3 sequences
-[M::worker_pipeline::1913.486*3.28] mapped 1840 sequences
-[M::main] Version: 2.28-r1209
-[M::main] CMD: minimap2 -a -t10 -x asm5 data/ref/gqc_resources/hg002v1.1.pat.fasta.gz assembly/output/verkko/T2T10/assembly.fasta
-[M::main] Real time: 1914.014 sec; CPU: 6278.269 sec; Peak RSS: 23.966 GB
-[bam_sort_core] merging from 30 files and 1 in-memory blocks...
-Loading required package: regioneR
-Loading required package: GenomicRanges
-Loading required package: stats4
-Loading required package: BiocGenerics
-
-Attaching package: ‘BiocGenerics’
-
-The following objects are masked from ‘package:stats’:
-
-    IQR, mad, sd, var, xtabs
-
-The following objects are masked from ‘package:base’:
-
-    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
-    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-    Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
-    table, tapply, union, unique, unsplit, which.max, which.min
-
-Loading required package: S4Vectors
-
-Attaching package: ‘S4Vectors’
-
-The following object is masked from ‘package:utils’:
-
-    findMatches
-
-The following objects are masked from ‘package:base’:
-
-    expand.grid, I, unname
-
-Loading required package: IRanges
-Loading required package: GenomeInfoDb
-null device 
-          1 
-null device 
-          1 
-Loading required package: regioneR
-Loading required package: GenomicRanges
-Loading required package: stats4
-Loading required package: BiocGenerics
-
-Attaching package: ‘BiocGenerics’
-
-The following objects are masked from ‘package:stats’:
-
-    IQR, mad, sd, var, xtabs
-
-The following objects are masked from ‘package:base’:
-
-    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
-    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-    Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
-    table, tapply, union, unique, unsplit, which.max, which.min
-
-Loading required package: S4Vectors
-
-Attaching package: ‘S4Vectors’
-
-The following object is masked from ‘package:utils’:
-
-    findMatches
-
-The following objects are masked from ‘package:base’:
-
-    expand.grid, I, unname
-
-Loading required package: IRanges
-Loading required package: GenomeInfoDb
-null device 
-          1 
-null device 
-          1 
-
-Attaching package: ‘Hmisc’
-
-The following objects are masked from ‘package:base’:
-
-    format.pval, units
-
-null device 
-          1 
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-Error in plot.new() : figure margins too large
-Calls: multiplotaligns -> plotaligns -> plot -> plot.default -> plot.new
-In addition: Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-Execution halted
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-pdf 
-  2 
-Warning messages:
-1: In par(pardefault) : graphical parameter "cin" cannot be set
-2: In par(pardefault) : graphical parameter "cra" cannot be set
-3: In par(pardefault) : graphical parameter "csi" cannot be set
-4: In par(pardefault) : graphical parameter "cxy" cannot be set
-5: In par(pardefault) : graphical parameter "din" cannot be set
-6: In par(pardefault) : graphical parameter "page" cannot be set
-File analysis_other/GQC/T2T10/T2T10.HG002v1.1.hapmers.merged.bed does not exist--calling FASTK to generate one
-Found hap2 v1.1.matnotpat.k40.hap and  hap1 v1.1.patnotmat.k40.hap as haplotypes.
-Running minimap2 -a -t10 -x asm5 data/ref/gqc_resources/hg002v1.1.mat.fasta.gz assembly/output/verkko/T2T10/assembly.fasta | samtools view -O BAM | samtools sort --threads 10 -O bam -o analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.mat.mm2defparams.sort.bam > analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.mat.minimap2.defparams.out 2>&1
-Running samtools index analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.mat.mm2defparams.sort.bam
-Running minimap2 -a -t10 -x asm5 data/ref/gqc_resources/hg002v1.1.pat.fasta.gz assembly/output/verkko/T2T10/assembly.fasta | samtools view -O BAM | samtools sort --threads 10 -O bam -o analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.pat.mm2defparams.sort.bam > analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.pat.minimap2.defparams.out 2>&1
-Running samtools index analysis_other/GQC/T2T10/T2T10_vs_HG002v1.1.pat.mm2defparams.sort.bam
-Finding subaligns in maternal alignments for maternal phase blocked regions of the assembly
-Intersect called with -wo option
-Combining cigar 1 length 123 with cigar 2 length 4
-Combining cigar 1 length 6 with cigar 2 length 8
-Combining cigar 1 length 13 with cigar 2 length 11
-Align haplotype1-0000001_44092977_44256470 intersects phase block 44180286-44192487 from 44180286 to 44192487
-Found refcoords chr16_MATERNAL:46377042-46377042
-Cigar ops consume 59535 bases and intersect is 12201
-Combining cigar 2 length 29 with cigar 1 length 10
-Combining cigar 1 length 6 with cigar 2 length 18
-Combining cigar 1 length 4 with cigar 2 length 11
-Combining cigar 1 length 39 with cigar 2 length 11
-Combining cigar 1 length 31 with cigar 2 length 7
-Combining cigar 1 length 86 with cigar 2 length 86
-Combining cigar 1 length 31 with cigar 2 length 7
-Align haplotype1-0000002_3803946_4343159 intersects phase block 3933066-3936834 from 3933066 to 3936834
-Found refcoords chr19_MATERNAL:57372351-57372351
-Cigar ops consume 9643 bases and intersect is 3768
-Align haplotype1-0000002_4443191_4770456 intersects phase block 4515505-4519698 from 4515505 to 4519698
-Found refcoords chr19_MATERNAL:56849682-56849682
-Cigar ops consume 11353 bases and intersect is 4193
-Combining cigar 1 length 8 with cigar 2 length 13
-Combining cigar 1 length 7 with cigar 2 length 10
-Combining cigar 1 length 4 with cigar 2 length 6
-Combining cigar 2 length 381 with cigar 1 length 4
-Combining cigar 1 length 7 with cigar 2 length 14
-Combining cigar 1 length 14 with cigar 2 length 7
-Combining cigar 1 length 37 with cigar 2 length 3
-Combining cigar 1 length 17 with cigar 2 length 11
-Combining cigar 1 length 5 with cigar 2 length 17
-Combining cigar 1 length 25 with cigar 2 length 11
-Combining cigar 1 length 26 with cigar 2 length 7
-Combining cigar 1 length 19 with cigar 2 length 20
-Combining cigar 1 length 31 with cigar 2 length 15
-Combining cigar 1 length 13 with cigar 2 length 15
-Combining cigar 1 length 10 with cigar 2 length 11
-Combining cigar 1 length 15 with cigar 2 length 13
-Combining cigar 2 length 27 with cigar 1 length 3
-Combining cigar 1 length 5 with cigar 2 length 4
-Combining cigar 1 length 82 with cigar 2 length 82
-Combining cigar 1 length 60 with cigar 2 length 60
-Combining cigar 1 length 55 with cigar 2 length 10603
-Combining cigar 1 length 108 with cigar 2 length 9
-Align haplotype1-0000008_9153007_9318348 intersects phase block 9268895-9275256 from 9268895 to 9275256
-Found refcoords chr9_MATERNAL:62372829-62372829
-Cigar ops consume 22544 bases and intersect is 6361
-Combining cigar 1 length 21 with cigar 2 length 17
-Combining cigar 1 length 6105 with cigar 2 length 17
-Combining cigar 1 length 35 with cigar 2 length 13
-Combining cigar 1 length 34 with cigar 2 length 17
-Combining cigar 2 length 351 with cigar 1 length 6
-Combining cigar 1 length 32 with cigar 2 length 16
-Combining cigar 1 length 4 with cigar 2 length 5
-Combining cigar 1 length 13 with cigar 2 length 6
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 11 with cigar 2 length 12
-Combining cigar 1 length 7 with cigar 2 length 7
-Combining cigar 1 length 4552 with cigar 2 length 6
-Combining cigar 2 length 40 with cigar 1 length 8
-Combining cigar 2 length 31 with cigar 1 length 4
-Combining cigar 1 length 76 with cigar 2 length 15
-Combining cigar 1 length 29 with cigar 2 length 9
-Combining cigar 1 length 11 with cigar 2 length 19
-Align haplotype1-0000015_578913_651748 intersects phase block 606311-608647 from 606311 to 608647
-Found refcoords chr15_MATERNAL:7312417-7312417
-Cigar ops consume 17832 bases and intersect is 2336
-Align haplotype1-0000015_578913_651748 intersects phase block 615558-618924 from 615558 to 618924
-Found refcoords chr15_MATERNAL:7312417-7312417
-Cigar ops consume 28109 bases and intersect is 3366
-Align haplotype1-0000015_578913_651748 intersects phase block 630231-634186 from 630231 to 634186
-Found refcoords chr15_MATERNAL:7312417-7312417
-Cigar ops consume 43371 bases and intersect is 3955
-Align haplotype1-0000015_578913_651748 intersects phase block 638764-642328 from 638764 to 642328
-Found refcoords chr15_MATERNAL:7312417-7312417
-Cigar ops consume 51513 bases and intersect is 3564
-Align haplotype1-0000015_578913_651748 intersects phase block 645268-649835 from 645268 to 649835
-Found refcoords chr15_MATERNAL:7312417-7312417
-Cigar ops consume 59020 bases and intersect is 4567
-Combining cigar 1 length 5 with cigar 2 length 9
-Combining cigar 1 length 7 with cigar 2 length 4
-Combining cigar 1 length 27 with cigar 2 length 11
-Combining cigar 2 length 115 with cigar 1 length 8
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 1 length 6 with cigar 2 length 12
-Combining cigar 1 length 13 with cigar 2 length 21
-Combining cigar 2 length 37 with cigar 1 length 9
-Combining cigar 1 length 99 with cigar 2 length 9
-Combining cigar 1 length 4 with cigar 2 length 6
-Combining cigar 1 length 11 with cigar 2 length 19
-Combining cigar 2 length 27 with cigar 1 length 9
-Combining cigar 2 length 106 with cigar 1 length 3
-Combining cigar 2 length 141 with cigar 1 length 6
-Combining cigar 1 length 5 with cigar 2 length 11
-Combining cigar 1 length 17 with cigar 2 length 15
-Combining cigar 1 length 15 with cigar 2 length 11
-Combining cigar 1 length 37 with cigar 2 length 17
-Combining cigar 1 length 16 with cigar 2 length 16
-Combining cigar 1 length 4 with cigar 2 length 5
-Combining cigar 2 length 32 with cigar 1 length 14
-Combining cigar 1 length 14 with cigar 2 length 6
-Align haplotype1-0000022_7364944_12827945 intersects phase block 7707164-7713872 from 7707164 to 7713872
-Found refcoords chr22_MATERNAL:45758925-45758925
-Cigar ops consume 20006 bases and intersect is 6708
-Combining cigar 2 length 70 with cigar 1 length 4
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 2 length 262 with cigar 1 length 5
-Combining cigar 1 length 19 with cigar 2 length 14
-Combining cigar 1 length 6 with cigar 2 length 7
-Combining cigar 1 length 11 with cigar 2 length 13
-Combining cigar 1 length 12 with cigar 2 length 11
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 2 length 31 with cigar 1 length 7
-Combining cigar 1 length 4 with cigar 2 length 7
-Combining cigar 1 length 17 with cigar 2 length 13
-Align haplotype1-0000025_64673659_65402950 intersects phase block 64703085-64706471 from 64703085 to 64706471
-Found refcoords chr18_MATERNAL:15615087-15615087
-Cigar ops consume 91761 bases and intersect is 3386
-Align haplotype1-0000025_64673659_65402950 intersects phase block 64728470-64758170 from 64728470 to 64758170
-Found refcoords chr18_MATERNAL:15615087-15615087
-Cigar ops consume 66376 bases and intersect is 29700
-Align haplotype1-0000025_64673659_65402950 intersects phase block 64813312-64871466 from 64813312 to 64871466
-Found refcoords chr18_MATERNAL:15611233-15611233
-Cigar ops consume 78945 bases and intersect is 58154
-Combining cigar 1 length 41 with cigar 2 length 3
-Combining cigar 1 length 9 with cigar 2 length 6
-Align haplotype1-0000026_12984380_13062878 intersects phase block 13010397-13017151 from 13010397 to 13017151
-Found refcoords chr1_MATERNAL:12981789-12981789
-Cigar ops consume 23880 bases and intersect is 6754
-Align haplotype1-0000026_12984380_13062878 intersects phase block 13026039-13049071 from 13026039 to 13049071
-Found refcoords chr1_MATERNAL:12981789-12981789
-Cigar ops consume 55800 bases and intersect is 23032
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 325 with cigar 2 length 4
-Combining cigar 2 length 296 with cigar 1 length 12
-Combining cigar 2 length 51 with cigar 1 length 14
-Combining cigar 1 length 19 with cigar 2 length 16
-Combining cigar 1 length 6 with cigar 2 length 5
-Combining cigar 1 length 34 with cigar 2 length 9
-Combining cigar 1 length 25 with cigar 2 length 7
-Combining cigar 2 length 26 with cigar 1 length 10
-Combining cigar 1 length 19 with cigar 2 length 20
-Combining cigar 1 length 30 with cigar 2 length 5
-Combining cigar 1 length 846 with cigar 2 length 8
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 2 length 114 with cigar 1 length 6
-Combining cigar 1 length 122 with cigar 2 length 17
-Combining cigar 1 length 11 with cigar 2 length 19
-Combining cigar 1 length 5 with cigar 2 length 6
-Align haplotype1-0000028_60441304_61166767 intersects phase block 60518634-60524945 from 60518634 to 60524945
-Found refcoords chr6_MATERNAL:63865214-63865214
-Cigar ops consume 14887 bases and intersect is 6311
-Combining cigar 1 length 9 with cigar 2 length 9
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 2 length 1999 with cigar 1 length 7
-Combining cigar 2 length 25 with cigar 1 length 13
-Combining cigar 1 length 13 with cigar 2 length 11
-Combining cigar 2 length 33 with cigar 1 length 7
-Combining cigar 1 length 15 with cigar 2 length 8
-Combining cigar 2 length 50 with cigar 1 length 8
-Combining cigar 1 length 9 with cigar 2 length 12
-Combining cigar 1 length 8 with cigar 2 length 13
-Combining cigar 1 length 15 with cigar 2 length 16
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 1 length 31 with cigar 2 length 19
-Combining cigar 1 length 11 with cigar 2 length 19
-Combining cigar 1 length 31 with cigar 2 length 13
-Combining cigar 1 length 19 with cigar 2 length 5
-Combining cigar 1 length 9 with cigar 2 length 5
-Combining cigar 1 length 25 with cigar 2 length 15
-Combining cigar 1 length 19 with cigar 2 length 13
-Combining cigar 1 length 5 with cigar 2 length 4
-Combining cigar 1 length 23 with cigar 2 length 21
-Combining cigar 2 length 204 with cigar 1 length 18
-Combining cigar 1 length 53 with cigar 2 length 6
-Combining cigar 2 length 43 with cigar 1 length 5
-Combining cigar 1 length 5 with cigar 2 length 15
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 1 length 11 with cigar 2 length 13
-Combining cigar 2 length 373 with cigar 1 length 4
-Combining cigar 1 length 15 with cigar 2 length 11
-Combining cigar 2 length 10996 with cigar 1 length 12
-Combining cigar 2 length 2991 with cigar 1 length 15
-Combining cigar 1 length 8 with cigar 2 length 9
-Combining cigar 1 length 267 with cigar 2 length 12
-Combining cigar 1 length 19 with cigar 2 length 11
-Combining cigar 1 length 23 with cigar 2 length 6
-Combining cigar 1 length 25 with cigar 2 length 10
-Combining cigar 2 length 22 with cigar 1 length 5
-Combining cigar 2 length 290 with cigar 1 length 10
-Combining cigar 1 length 23 with cigar 2 length 11
-Align haplotype2-0000162_39997424_40355176 intersects phase block 40004298-40008131 from 40004298 to 40008131
-Found refcoords chr20_MATERNAL:26363775-26363775
-Cigar ops consume 5058 bases and intersect is 3833
-Combining cigar 1 length 25 with cigar 2 length 21
-Combining cigar 2 length 43 with cigar 1 length 5
-Combining cigar 1 length 5 with cigar 2 length 4
-Combining cigar 1 length 44 with cigar 2 length 4
-Combining cigar 1 length 7 with cigar 2 length 11
-Combining cigar 1 length 6 with cigar 2 length 18
-Combining cigar 2 length 27 with cigar 1 length 6
-Combining cigar 1 length 42 with cigar 2 length 383
-Combining cigar 1 length 42 with cigar 2 length 383
-Align haplotype2-0000164_11071719_11126989 intersects phase block 11083126-11085574 from 11083126 to 11085574
-Found refcoords chr19_MATERNAL:26282337-26282337
-Cigar ops consume 6126 bases and intersect is 2448
-Combining cigar 1 length 264 with cigar 2 length 8
-Combining cigar 1 length 31 with cigar 2 length 9
-Combining cigar 1 length 30 with cigar 2 length 13
-Combining cigar 1 length 11 with cigar 2 length 13
-Combining cigar 2 length 186 with cigar 1 length 3
-Combining cigar 1 length 33 with cigar 2 length 7
-Combining cigar 1 length 8 with cigar 2 length 11
-Combining cigar 1 length 15 with cigar 2 length 11
-Combining cigar 1 length 32 with cigar 2 length 14
-Align haplotype2-0000166_51585242_54794528 intersects phase block 53365751-53387508 from 53365751 to 53387508
-Found refcoords chr12_MATERNAL:80378691-80378691
-Cigar ops consume 151128 bases and intersect is 21757
-Align haplotype2-0000166_51585242_54794528 intersects phase block 53394890-53428955 from 53394890 to 53428955
-Found refcoords chr12_MATERNAL:80378691-80378691
-Cigar ops consume 121989 bases and intersect is 34065
-Combining cigar 2 length 91 with cigar 1 length 12
-Combining cigar 1 length 7 with cigar 2 length 7
-Combining cigar 1 length 8 with cigar 2 length 11
-Combining cigar 1 length 21 with cigar 2 length 15
-Combining cigar 1 length 31 with cigar 2 length 15
-Align haplotype2-0000167_7260812_13184671 intersects phase block 9252479-9254155 from 9252479 to 9254155
-Found refcoords chr10_MATERNAL:126617577-126617577
-Cigar ops consume 75223 bases and intersect is 1676
-Align haplotype2-0000167_7260812_13184671 intersects phase block 9255503-9262981 from 9255503 to 9262981
-Found refcoords chr10_MATERNAL:126617577-126617577
-Cigar ops consume 72199 bases and intersect is 7478
-Align haplotype2-0000167_7260812_13184671 intersects phase block 9264684-9278539 from 9264684 to 9278539
-Found refcoords chr10_MATERNAL:126617577-126617577
-Cigar ops consume 63018 bases and intersect is 13855
-Combining cigar 1 length 23 with cigar 2 length 11
-Combining cigar 1 length 1 with cigar 2 length 2036
-Combining cigar 1 length 27 with cigar 2 length 11
-Combining cigar 1 length 6 with cigar 2 length 12
-Combining cigar 2 length 29 with cigar 1 length 6
-Combining cigar 1 length 7 with cigar 2 length 5
-Combining cigar 1 length 99 with cigar 2 length 9
-Combining cigar 1 length 9 with cigar 2 length 5
-Combining cigar 1 length 21 with cigar 2 length 20
-Combining cigar 2 length 1 with cigar 1 length 74911
-Combining cigar 1 length 15 with cigar 2 length 21
-Combining cigar 1 length 11 with cigar 2 length 19
-Combining cigar 2 length 141 with cigar 1 length 6
-Combining cigar 1 length 26 with cigar 2 length 10
-Combining cigar 1 length 11 with cigar 2 length 13
-Combining cigar 1 length 15 with cigar 2 length 11
-Combining cigar 1 length 4 with cigar 2 length 19
-Combining cigar 2 length 22 with cigar 1 length 4
-Combining cigar 1 length 142 with cigar 2 length 7
-Combining cigar 1 length 21 with cigar 2 length 15
-Combining cigar 1 length 27 with cigar 2 length 19
-Combining cigar 1 length 91 with cigar 2 length 7
-Combining cigar 1 length 36 with cigar 2 length 16
-Combining cigar 2 length 73 with cigar 1 length 3
-Combining cigar 1 length 25 with cigar 2 length 17
-Align haplotype2-0000173_44664561_44948568 intersects phase block 44682111-44694207 from 44682111 to 44694207
-Found refcoords chr9_MATERNAL:47410757-47410757
-Cigar ops consume 17894 bases and intersect is 12096
-Combining cigar 1 length 5 with cigar 2 length 8057
-Combining cigar 2 length 31 with cigar 1 length 6
-Combining cigar 2 length 48 with cigar 1 length 9
-Combining cigar 2 length 232 with cigar 1 length 8
-Combining cigar 1 length 5 with cigar 2 length 10
-Combining cigar 1 length 25 with cigar 2 length 5
-Combining cigar 2 length 289 with cigar 1 length 15
-Combining cigar 2 length 289 with cigar 1 length 15
-Combining cigar 1 length 47 with cigar 2 length 11
-Combining cigar 1 length 1520 with cigar 2 length 8
-Align haplotype2-0000174_1846459_2628707 intersects phase block 1969825-1971699 from 1969825 to 1971699
-Found refcoords chr14_MATERNAL:1204400-1204400
-Cigar ops consume 3264 bases and intersect is 1874
-Align haplotype2-0000174_1846459_2628707 intersects phase block 1986768-1988642 from 1986768 to 1988642
-Found refcoords chr14_MATERNAL:1197135-1197135
-Cigar ops consume 6134 bases and intersect is 1874
-Combining cigar 2 length 132 with cigar 1 length 6
-Combining cigar 2 length 118 with cigar 1 length 3
-Combining cigar 1 length 17 with cigar 2 length 21
-Combining cigar 1 length 802 with cigar 2 length 6
-Align haplotype2-0000176_66532617_67519454 intersects phase block 66736847-66746527 from 66736847 to 66746527
-Found refcoords chr11_MATERNAL:68589238-68589238
-Cigar ops consume 72991 bases and intersect is 9680
-Combining cigar 1 length 4 with cigar 2 length 12
-Combining cigar 1 length 6117 with cigar 2 length 17
-Combining cigar 1 length 11 with cigar 2 length 6
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 12 with cigar 2 length 8
-Combining cigar 1 length 6 with cigar 2 length 8
-Combining cigar 2 length 23 with cigar 1 length 11
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 1 length 76 with cigar 2 length 15
-Combining cigar 1 length 19 with cigar 2 length 17
-Combining cigar 1 length 25 with cigar 2 length 11
-Combining cigar 1 length 11 with cigar 2 length 9
-Align haplotype2-0000180_103879922_105739962 intersects phase block 104258815-104276899 from 104258815 to 104276899
-Found refcoords chr7_MATERNAL:55866521-55866521
-Cigar ops consume 28467 bases and intersect is 18084
-Combining cigar 2 length 262 with cigar 1 length 5
-Combining cigar 1 length 13 with cigar 2 length 5
-Combining cigar 2 length 22 with cigar 1 length 5
-Combining cigar 1 length 1 with cigar 2 length 2035
-Align haplotype2-0000181_17745991_18687258 intersects phase block 18508405-18512041 from 18508405 to 18512041
-Found refcoords chr18_MATERNAL:19045805-19045805
-Cigar ops consume 9097 bases and intersect is 3636
-Combining cigar 2 length 29 with cigar 1 length 8
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 2 length 34 with cigar 1 length 7
-Combining cigar 1 length 12 with cigar 2 length 5
-Combining cigar 1 length 96 with cigar 2 length 9
-Combining cigar 1 length 6 with cigar 2 length 8
-Combining cigar 1 length 20 with cigar 2 length 10
-Combining cigar 1 length 11 with cigar 2 length 15
-Combining cigar 2 length 27 with cigar 1 length 3
-Combining cigar 1 length 11 with cigar 2 length 15
-Combining cigar 1 length 19 with cigar 2 length 15
-Combining cigar 1 length 6 with cigar 2 length 19
-Combining cigar 1 length 39 with cigar 2 length 11
-Combining cigar 1 length 325 with cigar 2 length 4
-Combining cigar 1 length 6 with cigar 2 length 8
-Combining cigar 2 length 24 with cigar 1 length 5
-Combining cigar 1 length 12 with cigar 2 length 8
-Combining cigar 1 length 35 with cigar 2 length 8
-Combining cigar 1 length 5 with cigar 2 length 370
-Align haplotype2-0000188_1115106_1175136 intersects phase block 1130273-1133923 from 1130273 to 1133923
-Found refcoords chr15_MATERNAL:7433910-7433910
-Cigar ops consume 8430 bases and intersect is 3650
-Align haplotype2-0000188_1115106_1175136 intersects phase block 1138501-1142065 from 1138501 to 1142065
-Found refcoords chr15_MATERNAL:7433910-7433910
-Cigar ops consume 16572 bases and intersect is 3564
-Align haplotype2-0000188_1115106_1175136 intersects phase block 1145005-1149572 from 1145005 to 1149572
-Found refcoords chr15_MATERNAL:7433910-7433910
-Cigar ops consume 24079 bases and intersect is 4567
-Combining cigar 2 length 1 with cigar 1 length 38751
-Combining cigar 1 length 35 with cigar 2 length 7
-Combining cigar 2 length 35 with cigar 1 length 20
-Combining cigar 2 length 84 with cigar 1 length 3
-Align haplotype2-0000189_107561278_111168758 intersects phase block 111084607-111092245 from 111084607 to 111092245
-Found refcoords chr6_MATERNAL:63865214-63865214
-Cigar ops consume 16217 bases and intersect is 7638
-Combining cigar 1 length 19 with cigar 2 length 17
-Combining cigar 1 length 5 with cigar 2 length 6
-Combining cigar 1 length 122 with cigar 2 length 17
-Combining cigar 1 length 11 with cigar 2 length 19
-Combining cigar 1 length 17 with cigar 2 length 11
-Align haplotype2-0000189_168967085_170388479 intersects phase block 169652189-169653693 from 169652189 to 169653693
-Found refcoords chr6_MATERNAL:820853-820853
-Cigar ops consume 3693 bases and intersect is 1504
-Align haplotype2-0000189_168967085_170388479 intersects phase block 169659440-169665272 from 169659440 to 169665272
-Found refcoords chr6_MATERNAL:820182-820182
-Cigar ops consume 8304 bases and intersect is 5832
-Combining cigar 2 length 25 with cigar 1 length 14
-Combining cigar 2 length 1999 with cigar 1 length 7
-Align haplotype2-0000190_26382539_26650245 intersects phase block 26382831-26473150 from 26382831 to 26473150
-Found refcoords chr17_MATERNAL:26267990-26267990
-Cigar ops consume 90470 bases and intersect is 90319
-Combining cigar 1 length 6 with cigar 2 length 5
-Combining cigar 1 length 29 with cigar 2 length 9
-Combining cigar 1 length 27 with cigar 2 length 7
-Combining cigar 1 length 21 with cigar 2 length 15
-Combining cigar 1 length 19 with cigar 2 length 17
-Combining cigar 1 length 80 with cigar 2 length 16
-Combining cigar 2 length 26 with cigar 1 length 6
-Combining cigar 1 length 13 with cigar 2 length 21
-Combining cigar 1 length 29 with cigar 2 length 9
-Combining cigar 1 length 11 with cigar 2 length 10
-Combining cigar 2 length 26 with cigar 1 length 5
-Combining cigar 1 length 1 with cigar 2 length 94134
-Combining cigar 2 length 26 with cigar 1 length 10
-Combining cigar 1 length 13 with cigar 2 length 9
-Combining cigar 1 length 5 with cigar 2 length 6
-Combining cigar 1 length 13 with cigar 2 length 11
-Combining cigar 1 length 8 with cigar 2 length 15
-Combining cigar 1 length 424 with cigar 2 length 10
-Combining cigar 1 length 51 with cigar 2 length 18
-Combining cigar 1 length 25 with cigar 2 length 11
-Combining cigar 2 length 477 with cigar 1 length 6
-Combining cigar 1 length 19 with cigar 2 length 11
-Combining cigar 1 length 114 with cigar 2 length 115
-Combining cigar 2 length 33 with cigar 1 length 7
-Combining cigar 2 length 30 with cigar 1 length 4
-Combining cigar 2 length 30 with cigar 1 length 4
-Combining cigar 1 length 26 with cigar 2 length 6
-Combining cigar 1 length 13 with cigar 2 length 19
-Combining cigar 1 length 15 with cigar 2 length 8
-Combining cigar 1 length 26 with cigar 2 length 11
-Combining cigar 1 length 6 with cigar 2 length 5
-Combining cigar 1 length 4 with cigar 2 length 6
-Combining cigar 1 length 9 with cigar 2 length 12
-Align haplotype2-0000194_3442293_5216639 intersects phase block 3834887-3836877 from 3834887 to 3836877
-Found refcoords chr4_MATERNAL:3964002-3964002
-Cigar ops consume 19461 bases and intersect is 1990
-Align haplotype2-0000194_3442293_5216639 intersects phase block 3839578-3848412 from 3839578 to 3848412
-Found refcoords chr4_MATERNAL:3964002-3964002
-Cigar ops consume 30996 bases and intersect is 8834
-Align haplotype2-0000194_3442293_5216639 intersects phase block 3852693-3853315 from 3852693 to 3853315
-Found refcoords chr4_MATERNAL:3964002-3964002
-Cigar ops consume 35899 bases and intersect is 622
-Align haplotype2-0000194_3442293_5216639 intersects phase block 3857966-3863182 from 3857966 to 3863182
-Found refcoords chr4_MATERNAL:3964002-3964002
-Cigar ops consume 45766 bases and intersect is 5216
-Align haplotype2-0000194_49823248_49840965 intersects phase block 49831533-49833570 from 49831533 to 49833570
-Found refcoords chr4_MATERNAL:50002475-50002475
-Cigar ops consume 7066 bases and intersect is 2037
-Combining cigar 2 length 1 with cigar 1 length 1192
-Combining cigar 2 length 1 with cigar 1 length 1192
-Combining cigar 2 length 1 with cigar 1 length 1192
-Combining cigar 1 length 2 with cigar 2 length 3228
-Combining cigar 1 length 5 with cigar 2 length 4
-Combining cigar 1 length 11 with cigar 2 length 7
-Combining cigar 1 length 34 with cigar 2 length 10
-Combining cigar 1 length 5 with cigar 2 length 6
-Combining cigar 1 length 1434 with cigar 2 length 10
-Combining cigar 1 length 9 with cigar 2 length 5
-Combining cigar 1 length 27 with cigar 2 length 7
-Align haplotype2-0000195_92435743_92602934 intersects phase block 92464483-92472747 from 92464483 to 92472747
-Found refcoords chr14_MATERNAL:11629254-11629254
-Cigar ops consume 17716 bases and intersect is 8264
-Combining cigar 1 length 5 with cigar 2 length 11
-Combining cigar 1 length 84 with cigar 2 length 4
-Combining cigar 2 length 32 with cigar 1 length 14
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 1 length 31 with cigar 2 length 9
-Combining cigar 1 length 15 with cigar 2 length 16
-Combining cigar 1 length 32 with cigar 2 length 19
-Combining cigar 1 length 29 with cigar 2 length 9
-Combining cigar 1 length 11 with cigar 2 length 10
-Combining cigar 1 length 8 with cigar 2 length 6
-Combining cigar 1 length 17 with cigar 2 length 11
-Align haplotype2-0000275_10234_500601 intersects phase block 467236-474874 from 467236 to 474874
-Found refcoords chr6_MATERNAL:63865214-63865214
-Cigar ops consume 16215 bases and intersect is 7638
-Combining cigar 1 length 4 with cigar 2 length 12
-Combining cigar 1 length 9 with cigar 2 length 8
-Combining cigar 1 length 17 with cigar 2 length 19
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 2 length 43 with cigar 1 length 5
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 1 length 28 with cigar 2 length 20
-Combining cigar 1 length 19 with cigar 2 length 19
-Combining cigar 2 length 5613 with cigar 1 length 4
-Combining cigar 1 length 19 with cigar 2 length 15
-Combining cigar 2 length 25 with cigar 1 length 18
-Combining cigar 1 length 13 with cigar 2 length 13
-Combining cigar 1 length 7 with cigar 2 length 6
-Combining cigar 2 length 5356 with cigar 1 length 7
-Finding subaligns in paternal alignments for paternal phase blocked regions of the assembly
-Intersect called with -wo option
-Combining cigar 1 length 17 with cigar 2 length 11
-Align haplotype1-0000002_36150421_36580907 intersects phase block 36385685-36387569 from 36385685 to 36387569
-Found refcoords chr19_PATERNAL:24992285-24992285
-Cigar ops consume 62403 bases and intersect is 1884
-Align haplotype1-0000002_36150421_36580907 intersects phase block 36397864-36401924 from 36397864 to 36401924
-Found refcoords chr19_PATERNAL:24992285-24992285
-Cigar ops consume 50224 bases and intersect is 4060
-Align haplotype1-0000002_36150421_36580907 intersects phase block 36424656-36431252 from 36424656 to 36431252
-Found refcoords chr19_PATERNAL:24992285-24992285
-Cigar ops consume 23432 bases and intersect is 6596
-Combining cigar 2 length 437 with cigar 1 length 3
-Align haplotype1-0000002_4443191_4770624 intersects phase block 4519698-4521014 from 4519698 to 4521014
-Found refcoords chr19_PATERNAL:56944422-56944422
-Cigar ops consume 5716 bases and intersect is 1316
-Combining cigar 1 length 5 with cigar 2 length 11
-Combining cigar 1 length 1 with cigar 2 length 16105
-Combining cigar 1 length 15 with cigar 2 length 17
-Align haplotype1-0000003_1516592_2321172 intersects phase block 2032595-2035879 from 2032595 to 2035879
-Found refcoords chr13_PATERNAL:107198631-107198631
-Cigar ops consume 6239 bases and intersect is 3284
-Combining cigar 1 length 6 with cigar 2 length 16
-Combining cigar 1 length 72 with cigar 2 length 16
-Combining cigar 2 length 189 with cigar 1 length 10
-Combining cigar 2 length 11457 with cigar 1 length 7
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 1 length 5 with cigar 2 length 8
-Align haplotype1-0000005_507301_732045 intersects phase block 585578-588534 from 585578 to 588534
-Found refcoords chr13_PATERNAL:580988-580988
-Cigar ops consume 11734 bases and intersect is 2956
-Combining cigar 1 length 338 with cigar 2 length 8
-Combining cigar 1 length 10 with cigar 2 length 11
-Combining cigar 2 length 39 with cigar 1 length 4
-Combining cigar 1 length 1 with cigar 2 length 3731
-Combining cigar 1 length 96 with cigar 2 length 6
-Combining cigar 2 length 53 with cigar 1 length 9
-Combining cigar 1 length 29 with cigar 2 length 13
-Combining cigar 1 length 23 with cigar 2 length 10
-Combining cigar 1 length 11 with cigar 2 length 15
-Combining cigar 2 length 189 with cigar 1 length 17
-Combining cigar 1 length 21 with cigar 2 length 17
-Combining cigar 1 length 5 with cigar 2 length 7
-Align haplotype1-0000008_3325425_3580961 intersects phase block 3330826-3351978 from 3330826 to 3351978
-Found refcoords chr9_PATERNAL:56932846-56932846
-Cigar ops consume 25832 bases and intersect is 21152
-Combining cigar 2 length 10 with cigar 1 length 9591
-Align haplotype1-0000008_9194268_9290241 intersects phase block 9264021-9268895 from 9264021 to 9268895
-Found refcoords chr9_PATERNAL:53918211-53918211
-Cigar ops consume 4951 bases and intersect is 4874
-Combining cigar 1 length 8 with cigar 2 length 10
-Combining cigar 1 length 41 with cigar 2 length 13
-Align haplotype1-0000009_126531791_128154010 intersects phase block 127643031-127650130 from 127643031 to 127650130
-Found refcoords chr11_PATERNAL:127377472-127377472
-Cigar ops consume 12221 bases and intersect is 7099
-Combining cigar 2 length 40 with cigar 1 length 16
-Combining cigar 1 length 19 with cigar 2 length 13
-Combining cigar 1 length 1 with cigar 2 length 1206
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 2 length 23 with cigar 1 length 15
-Combining cigar 1 length 7 with cigar 2 length 35
-Combining cigar 1 length 6 with cigar 2 length 11
-Combining cigar 1 length 11 with cigar 2 length 17
-Combining cigar 1 length 228 with cigar 2 length 4
-Combining cigar 2 length 23 with cigar 1 length 11
-Combining cigar 1 length 38 with cigar 2 length 3
-Combining cigar 1 length 46 with cigar 2 length 10
-Combining cigar 1 length 47 with cigar 2 length 3
-Combining cigar 1 length 663 with cigar 2 length 3
-Combining cigar 2 length 1 with cigar 1 length 3425
-Combining cigar 1 length 1 with cigar 2 length 10273
-Combining cigar 2 length 27 with cigar 1 length 5
-Combining cigar 2 length 27 with cigar 1 length 7
-Combining cigar 1 length 30 with cigar 2 length 7
-Combining cigar 1 length 13 with cigar 2 length 5
-Combining cigar 2 length 360 with cigar 1 length 5
-Align haplotype1-0000024_62432497_62505036 intersects phase block 62457313-62460094 from 62457313 to 62460094
-Found refcoords chr7_PATERNAL:62850416-62850416
-Cigar ops consume 13247 bases and intersect is 2781
-Combining cigar 2 length 686 with cigar 1 length 9
-Align haplotype1-0000025_64387699_65402950 intersects phase block 64758170-64813312 from 64758170 to 64813312
-Found refcoords chr18_PATERNAL:15555066-15555066
-Cigar ops consume 58522 bases and intersect is 55142
-Align haplotype1-0000025_64387699_65402950 intersects phase block 64871466-64893465 from 64871466 to 64893465
-Found refcoords chr18_PATERNAL:15554370-15554370
-Cigar ops consume 27571 bases and intersect is 21999
-Align haplotype1-0000025_64387699_65402950 intersects phase block 64923166-64938832 from 64923166 to 64938832
-Found refcoords chr18_PATERNAL:15534993-15534993
-Cigar ops consume 44578 bases and intersect is 15666
-Combining cigar 1 length 33 with cigar 2 length 7
-Align haplotype1-0000026_12984380_13062878 intersects phase block 13003762-13010397 from 13003762 to 13010397
-Found refcoords chr1_PATERNAL:12898226-12898226
-Cigar ops consume 17126 bases and intersect is 6635
-Align haplotype1-0000026_12984380_13062878 intersects phase block 13017151-13026039 from 13017151 to 13026039
-Found refcoords chr1_PATERNAL:12898226-12898226
-Cigar ops consume 32768 bases and intersect is 8888
-Combining cigar 1 length 56 with cigar 2 length 475
-Combining cigar 1 length 32 with cigar 2 length 5
-Combining cigar 1 length 19 with cigar 2 length 8
-Combining cigar 2 length 65 with cigar 1 length 5
-Combining cigar 2 length 211 with cigar 1 length 4
-Combining cigar 1 length 8 with cigar 2 length 9
-Combining cigar 1 length 10 with cigar 2 length 6
-Combining cigar 1 length 37 with cigar 2 length 9
-Combining cigar 2 length 45 with cigar 1 length 7
-Combining cigar 1 length 8 with cigar 2 length 4
-Combining cigar 1 length 21 with cigar 2 length 15
-Combining cigar 1 length 4 with cigar 2 length 17
-Combining cigar 2 length 985 with cigar 1 length 15
-Combining cigar 1 length 22 with cigar 2 length 13
-Combining cigar 2 length 99 with cigar 1 length 6
-Combining cigar 2 length 29 with cigar 1 length 15
-Combining cigar 1 length 9 with cigar 2 length 11
-Combining cigar 1 length 13 with cigar 2 length 5
-Align haplotype1-0000028_60441304_65979466 intersects phase block 60511241-60518634 from 60511241 to 60518634
-Found refcoords chr6_PATERNAL:63471384-63471384
-Cigar ops consume 8576 bases and intersect is 7393
-Align haplotype1-0000028_60441304_65979466 intersects phase block 60524945-60528458 from 60524945 to 60528458
-Found refcoords chr6_PATERNAL:63471384-63471384
-Cigar ops consume 18400 bases and intersect is 3513
-Combining cigar 2 length 35 with cigar 1 length 20
-Combining cigar 1 length 209 with cigar 2 length 4
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 8 with cigar 2 length 13
-Combining cigar 1 length 19 with cigar 2 length 11
-Combining cigar 1 length 25 with cigar 2 length 17
-Combining cigar 1 length 497 with cigar 2 length 17
-Combining cigar 2 length 35 with cigar 1 length 10
-Combining cigar 1 length 5 with cigar 2 length 10
-Combining cigar 2 length 45 with cigar 1 length 16
-Combining cigar 1 length 17 with cigar 2 length 13
-Combining cigar 1 length 4 with cigar 2 length 21
-Combining cigar 1 length 15 with cigar 2 length 7
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 1 length 10 with cigar 2 length 8
-Combining cigar 1 length 11 with cigar 2 length 6
-Combining cigar 1 length 13 with cigar 2 length 16
-Combining cigar 1 length 8 with cigar 2 length 6
-Combining cigar 1 length 12 with cigar 2 length 6
-Combining cigar 1 length 15 with cigar 2 length 11
-Combining cigar 2 length 55 with cigar 1 length 11
-Combining cigar 1 length 21 with cigar 2 length 19
-Combining cigar 1 length 56 with cigar 2 length 60
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 1 length 1 with cigar 2 length 51
-Combining cigar 1 length 7 with cigar 2 length 6
-Align haplotype1-0000031_5451_183634 intersects phase block 150819-152091 from 150819 to 152091
-Found refcoords chr14_PATERNAL:105680860-105680860
-Cigar ops consume 27485 bases and intersect is 1272
-Combining cigar 2 length 2 with cigar 1 length 27
-Combining cigar 1 length 6 with cigar 2 length 11
-Combining cigar 1 length 1423 with cigar 2 length 4
-Combining cigar 1 length 28 with cigar 2 length 5
-Combining cigar 1 length 35 with cigar 2 length 8
-Combining cigar 2 length 197 with cigar 1 length 12
-Align haplotype1-0000032_34174083_34774627 intersects phase block 34715533-34732634 from 34715533 to 34732634
-Found refcoords chr20_PATERNAL:31773324-31773324
-Cigar ops consume 18071 bases and intersect is 17101
-Align haplotype1-0000032_36845161_37223536 intersects phase block 36863521-36866193 from 36863521 to 36866193
-Found refcoords chr20_PATERNAL:26430221-26430221
-Cigar ops consume 15244 bases and intersect is 2672
-Align haplotype1-0000032_36845161_37223536 intersects phase block 36868961-36871645 from 36868961 to 36871645
-Found refcoords chr20_PATERNAL:26430221-26430221
-Cigar ops consume 9804 bases and intersect is 2684
-Align haplotype1-0000032_36845161_37223536 intersects phase block 36874401-36877073 from 36874401 to 36877073
-Found refcoords chr20_PATERNAL:26430221-26430221
-Cigar ops consume 4364 bases and intersect is 2672
-Combining cigar 1 length 19 with cigar 2 length 15
-Align haplotype1-0000033_1233362_1449354 intersects phase block 1265127-1266853 from 1265127 to 1266853
-Found refcoords chr22_PATERNAL:1639770-1639770
-Cigar ops consume 5685 bases and intersect is 1726
-Combining cigar 1 length 6 with cigar 2 length 11
-Combining cigar 2 length 30 with cigar 1 length 11
-Combining cigar 1 length 8 with cigar 2 length 238
-Combining cigar 1 length 27 with cigar 2 length 9
-Combining cigar 2 length 1 with cigar 1 length 106
-Combining cigar 1 length 31 with cigar 2 length 13
-Combining cigar 2 length 449 with cigar 1 length 5
-Combining cigar 1 length 15 with cigar 2 length 13
-Combining cigar 1 length 1 with cigar 2 length 660
-Combining cigar 1 length 11 with cigar 2 length 10
-Combining cigar 1 length 15 with cigar 2 length 19
-Combining cigar 1 length 18 with cigar 2 length 13
-Combining cigar 2 length 49 with cigar 1 length 4
-Combining cigar 1 length 28 with cigar 2 length 5
-Combining cigar 1 length 5 with cigar 2 length 3167
-Combining cigar 1 length 6 with cigar 2 length 11
-Combining cigar 1 length 3 with cigar 2 length 1985
-Combining cigar 2 length 3 with cigar 1 length 2829
-Combining cigar 2 length 23 with cigar 1 length 9
-Align haplotype2-0000164_9723684_10241411 intersects phase block 9930296-9933611 from 9930296 to 9933611
-Found refcoords chr19_PATERNAL:24993223-24993223
-Cigar ops consume 29919 bases and intersect is 3315
-Align haplotype2-0000164_9723684_10241411 intersects phase block 10079878-10085035 from 10079878 to 10085035
-Found refcoords chr19_PATERNAL:24994854-24994854
-Cigar ops consume 40854 bases and intersect is 5157
-Align haplotype2-0000164_9723684_10241411 intersects phase block 10130080-10132419 from 10130080 to 10132419
-Found refcoords chr19_PATERNAL:24994854-24994854
-Cigar ops consume 88238 bases and intersect is 2339
-Combining cigar 1 length 86 with cigar 2 length 15
-Combining cigar 2 length 30 with cigar 1 length 8
-Combining cigar 1 length 6 with cigar 2 length 16
-Combining cigar 1 length 4 with cigar 2 length 6
-Combining cigar 2 length 27 with cigar 1 length 10
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 2 length 2 with cigar 1 length 28
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 1 length 6 with cigar 2 length 10
-Combining cigar 1 length 8 with cigar 2 length 5
-Combining cigar 1 length 1 with cigar 2 length 27
-Combining cigar 1 length 338 with cigar 2 length 8
-Align haplotype2-0000167_7248613_9404250 intersects phase block 9254155-9255503 from 9254155 to 9255503
-Found refcoords chr10_PATERNAL:126511538-126511538
-Cigar ops consume 70360 bases and intersect is 1348
-Align haplotype2-0000167_7248613_9404250 intersects phase block 9262981-9264684 from 9262981 to 9264684
-Found refcoords chr10_PATERNAL:126511538-126511538
-Cigar ops consume 61534 bases and intersect is 1703
-Combining cigar 2 length 1 with cigar 1 length 45976
-Combining cigar 1 length 56 with cigar 2 length 15
-Align haplotype2-0000168_1843432_2374443 intersects phase block 2012043-2014999 from 2012043 to 2014999
-Found refcoords chr13_PATERNAL:575389-575389
-Cigar ops consume 26732 bases and intersect is 2956
-Align haplotype2-0000170_154758781_154863939 intersects phase block 154833685-154838881 from 154833685 to 154838881
-Found refcoords chrY_PATERNAL:88339-88339
-Cigar ops consume 5925 bases and intersect is 5196
-Combining cigar 1 length 4 with cigar 2 length 16
-Combining cigar 1 length 1 with cigar 2 length 754
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 1 length 60 with cigar 2 length 60
-Align haplotype2-0000173_44948600_45794478 intersects phase block 45651274-45653096 from 45651274 to 45653096
-Found refcoords chr9_PATERNAL:46326498-46326498
-Cigar ops consume 3394 bases and intersect is 1822
-Combining cigar 2 length 37 with cigar 1 length 5
-Combining cigar 1 length 12 with cigar 2 length 12
-Combining cigar 1 length 7 with cigar 2 length 35
-Combining cigar 2 length 23 with cigar 1 length 15
-Combining cigar 1 length 11 with cigar 2 length 6
-Combining cigar 2 length 1571 with cigar 1 length 10
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 8 with cigar 2 length 15
-Combining cigar 1 length 228 with cigar 2 length 4
-Combining cigar 1 length 17 with cigar 2 length 11
-Combining cigar 2 length 1 with cigar 1 length 29909
-Combining cigar 2 length 1 with cigar 1 length 300
-Combining cigar 1 length 4 with cigar 2 length 7
-Align haplotype2-0000180_103604188_105381033 intersects phase block 104236479-104258815 from 104236479 to 104258815
-Found refcoords chr7_PATERNAL:55893410-55893410
-Cigar ops consume 50803 bases and intersect is 22336
-Combining cigar 2 length 1 with cigar 1 length 579
-Combining cigar 2 length 360 with cigar 1 length 5
-Combining cigar 1 length 16 with cigar 2 length 5
-Combining cigar 2 length 27 with cigar 1 length 7
-Combining cigar 2 length 27 with cigar 1 length 5
-Combining cigar 1 length 8 with cigar 2 length 12
-Combining cigar 1 length 7 with cigar 2 length 4
-Combining cigar 1 length 15 with cigar 2 length 13
-Align haplotype2-0000180_54786769_61401549 intersects phase block 57018952-57034358 from 57018952 to 57034358
-Found refcoords chr7_PATERNAL:103182231-103182231
-Cigar ops consume 38923 bases and intersect is 15406
-Combining cigar 1 length 49 with cigar 2 length 15
-Combining cigar 2 length 2 with cigar 1 length 3064
-Combining cigar 1 length 15 with cigar 2 length 17
-Combining cigar 1 length 33 with cigar 2 length 7
-Combining cigar 1 length 9 with cigar 2 length 4
-Combining cigar 2 length 108 with cigar 1 length 3
-Combining cigar 2 length 1 with cigar 1 length 1868
-Combining cigar 2 length 64 with cigar 1 length 5
-Combining cigar 1 length 12 with cigar 2 length 5
-Combining cigar 1 length 124 with cigar 2 length 6
-Combining cigar 2 length 53 with cigar 1 length 9
-Combining cigar 2 length 979 with cigar 1 length 9
-Combining cigar 1 length 6 with cigar 2 length 4
-Combining cigar 1 length 33 with cigar 2 length 6
-Combining cigar 1 length 23 with cigar 2 length 10
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 2 length 1 with cigar 1 length 47442
-Combining cigar 2 length 37 with cigar 1 length 7
-Align haplotype2-0000185_88555985_98203116 intersects phase block 95968721-95975827 from 95968721 to 95975827
-Found refcoords chr5_PATERNAL:101748367-101748367
-Cigar ops consume 14489 bases and intersect is 7106
-Combining cigar 2 length 162 with cigar 1 length 3
-Combining cigar 1 length 27 with cigar 2 length 13
-Combining cigar 1 length 25 with cigar 2 length 7
-Align haplotype2-0000186_37646411_40264167 intersects phase block 40184274-40187751 from 40184274 to 40187751
-Found refcoords chr1_PATERNAL:186753587-186753587
-Cigar ops consume 5362 bases and intersect is 3477
-Combining cigar 1 length 6 with cigar 2 length 8
-Combining cigar 2 length 296 with cigar 1 length 12
-Combining cigar 1 length 21 with cigar 2 length 11
-Combining cigar 1 length 35 with cigar 2 length 4
-Combining cigar 2 length 65 with cigar 1 length 5
-Combining cigar 2 length 211 with cigar 1 length 4
-Combining cigar 1 length 5 with cigar 2 length 2028
-Combining cigar 1 length 13 with cigar 2 length 5
-Combining cigar 1 length 33 with cigar 2 length 8
-Align haplotype2-0000189_168856301_170388479 intersects phase block 169653693-169654960 from 169653693 to 169654960
-Found refcoords chr6_PATERNAL:818382-818382
-Cigar ops consume 2374 bases and intersect is 1267
-Align haplotype2-0000189_168856301_170388479 intersects phase block 169658173-169659440 from 169658173 to 169659440
-Found refcoords chr6_PATERNAL:818040-818040
-Cigar ops consume 13519 bases and intersect is 1267
-Align haplotype2-0000189_168856301_170388479 intersects phase block 169665272-169666486 from 169665272 to 169666486
-Found refcoords chr6_PATERNAL:818040-818040
-Cigar ops consume 6420 bases and intersect is 1214
-Combining cigar 1 length 22 with cigar 2 length 13
-Combining cigar 2 length 985 with cigar 1 length 15
-Combining cigar 1 length 4 with cigar 2 length 17
-Combining cigar 2 length 99 with cigar 1 length 6
-Combining cigar 1 length 9 with cigar 2 length 7
-Combining cigar 1 length 9 with cigar 2 length 5
-Combining cigar 1 length 7 with cigar 2 length 4
-Combining cigar 1 length 8 with cigar 2 length 9
-Combining cigar 2 length 27 with cigar 1 length 9
-Combining cigar 1 length 11 with cigar 2 length 21
-Combining cigar 1 length 10 with cigar 2 length 6
-Combining cigar 2 length 39 with cigar 1 length 11
-Combining cigar 1 length 7 with cigar 2 length 8
-Combining cigar 1 length 8 with cigar 2 length 14
-Combining cigar 1 length 4 with cigar 2 length 12
-Combining cigar 1 length 345 with cigar 2 length 3
-Combining cigar 1 length 5 with cigar 2 length 7
-Combining cigar 1 length 8 with cigar 2 length 13
-Combining cigar 1 length 19 with cigar 2 length 11
-Combining cigar 1 length 23 with cigar 2 length 9
-Combining cigar 2 length 45 with cigar 1 length 16
-Combining cigar 1 length 5 with cigar 2 length 10
-Combining cigar 1 length 4 with cigar 2 length 21
-Combining cigar 1 length 11 with cigar 2 length 17
-Align haplotype2-0000194_3670059_3968181 intersects phase block 3832269-3834887 from 3832269 to 3834887
-Found refcoords chr4_PATERNAL:3966676-3966676
-Cigar ops consume 24379 bases and intersect is 2618
-Align haplotype2-0000194_3670059_3968181 intersects phase block 3836877-3839578 from 3836877 to 3839578
-Found refcoords chr4_PATERNAL:3966676-3966676
-Cigar ops consume 29070 bases and intersect is 2701
-Align haplotype2-0000194_3670059_3968181 intersects phase block 3848412-3852693 from 3848412 to 3852693
-Found refcoords chr4_PATERNAL:3966676-3966676
-Cigar ops consume 42185 bases and intersect is 4281
-Align haplotype2-0000194_3670059_3968181 intersects phase block 3853315-3857966 from 3853315 to 3857966
-Found refcoords chr4_PATERNAL:3966676-3966676
-Cigar ops consume 47458 bases and intersect is 4651
-Combining cigar 1 length 8 with cigar 2 length 13
-Combining cigar 1 length 16 with cigar 2 length 16
-Combining cigar 1 length 10 with cigar 2 length 19
-Combining cigar 1 length 20 with cigar 2 length 6
-Combining cigar 2 length 16 with cigar 1 length 20
-Combining cigar 1 length 5 with cigar 2 length 6
-Combining cigar 1 length 31 with cigar 2 length 3
-Combining cigar 1 length 4 with cigar 2 length 5
-Combining cigar 1 length 1852 with cigar 2 length 6
-Combining cigar 1 length 1 with cigar 2 length 1530
-Combining cigar 2 length 30 with cigar 1 length 11
-Combining cigar 2 length 34 with cigar 1 length 3
-Combining cigar 1 length 8 with cigar 2 length 272
-Align haplotype2-0000198_1896391_3181746 intersects phase block 2289796-2291284 from 2289796 to 2291284
-Found refcoords chr8_PATERNAL:144525345-144525345
-Cigar ops consume 36656 bases and intersect is 1488
-Combining cigar 1 length 19 with cigar 2 length 13
-Combining cigar 1 length 11 with cigar 2 length 17
-Combining cigar 1 length 13 with cigar 2 length 11
-Combining cigar 1 length 267 with cigar 2 length 12
-Combining cigar 1 length 12 with cigar 2 length 12
-Combining cigar 1 length 1 with cigar 2 length 660
-Combining cigar 1 length 17 with cigar 2 length 11
-Combining cigar 1 length 7 with cigar 2 length 8
-Combining cigar 1 length 14 with cigar 2 length 16
-Combining cigar 1 length 5 with cigar 2 length 8
-Combining cigar 1 length 7 with cigar 2 length 8
-Combining cigar 1 length 35 with cigar 2 length 35
-Combining cigar 1 length 42 with cigar 2 length 39
-Combining cigar 1 length 7 with cigar 2 length 4
-Combining cigar 1 length 5 with cigar 2 length 9
-Combining cigar 1 length 5 with cigar 2 length 9
-Combining cigar 2 length 27 with cigar 1 length 11
-Combining cigar 2 length 30 with cigar 1 length 11
-Combining cigar 2 length 30 with cigar 1 length 11
-Align unassigned-0001591_21998_122720 intersects phase block 43440-61921 from 43440 to 61921
-Found refcoords chr14_PATERNAL:5213234-5213234
-Cigar ops consume 28009 bases and intersect is 18481
-Combining cigar 1 length 1 with cigar 2 length 1874
-Combining cigar 1 length 6 with cigar 2 length 11
-Combining cigar 2 length 53 with cigar 1 length 9
-Combining cigar 1 length 11 with cigar 2 length 6
-Combining cigar 2 length 23 with cigar 1 length 16
-Combining cigar 1 length 5 with cigar 2 length 11
-Align unassigned-0002322_22618_40961 intersects phase block 28008-30573 from 28008 to 30573
-Found refcoords chr21_PATERNAL:5060254-5060254
-Cigar ops consume 3247 bases and intersect is 2565
-Combining cigar 1 length 12 with cigar 2 length 10
+usage: readbench [OPTION] [FILE]...
+readbench: error: unrecognized arguments: -t 10

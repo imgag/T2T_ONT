@@ -19,3 +19,18 @@ Splitting sample map...
 Running Simulation...
 Training...
 Reading data...
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 403, in <module>
+    model = train_model(config, data_path, verbose=verbose)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 189, in train_model
+    data, meta = get_data(data_path, generations, window_size_cM)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 148, in get_data
+    X_t1, y_t1 = read("train1")
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 144, in read
+    X_raw, labels_raw = [load_np_data(f) for f in [X_files, labels_files]]
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 144, in <listcomp>
+    X_raw, labels_raw = [load_np_data(f) for f in [X_files, labels_files]]
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/preprocess.py", line 19, in load_np_data
+    data = np.concatenate(data,axis=0)
+  File "<__array_function__ internals>", line 5, in concatenate
+KeyboardInterrupt

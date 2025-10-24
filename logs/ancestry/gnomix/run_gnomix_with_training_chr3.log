@@ -17,3 +17,14 @@ Getting sample map info...
 Building founders...
 Splitting sample map...
 Running Simulation...
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 398, in <module>
+    simulate_splits(base_args, config, data_path) # will create the simulation_output folder
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/gnomix.py", line 300, in simulate_splits
+    laidataset.simulate(num_outs[split],
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/laidataset.py", line 410, in simulate
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/gnomix/src/laidataset.py", line 156, in admix
+    breakpoints = np.random.choice(np.arange(1,chm_length_snps), 
+  File "mtrand.pyx", line 970, in numpy.random.mtrand.RandomState.choice
+  File "<__array_function__ internals>", line 2, in cumsum
+KeyboardInterrupt
