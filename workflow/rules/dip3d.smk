@@ -1,12 +1,12 @@
 def get_chr_list_for_asm(wc):
-    
+
     file = f"assembly/qc/phased_verkko/{wc.asm}/sample_sex.txt"
 
     if open(file).read().strip() == "male":
-        chroms = ['chr'+str(i) for i in list(range(1, 23)) + ["X", "Y"]] 
+        chroms = ['chr'+str(i) for i in list(range(1, 23)) + ["X", "Y"]]
     else:
-        chroms = ['chr'+str(i) for i in list(range(1, 23)) + ["X"]] 
-    
+        chroms = ['chr'+str(i) for i in list(range(1, 23)) + ["X"]]
+
     return(chroms)
 
 rule all_dip3d:
@@ -17,7 +17,7 @@ rule collect_dip3d:
     input:
         "assembly/qc/phased_verkko/{asm}/sample_sex.txt",
         expand("analysis_other/dip3d/{{asm}}/4-haplotag/{type}_dip3d_stats.txt", type = ["imputed", "snp-tagged"]),
-        expand("analysis_other/dip3d/{{asm}}/4-haplotag/{{asm}}.{hp}.bam", hp = ["hp1", "hp2", "tagged"])
+        expand("analysis_other/dip3d/{{asm}}/4-haplotag/{{asm}}.{hp}.bam", hp = ["hp1", "hp2", "tagged", "tagged.sorted"])
     #   lambda wc: expand("analysis_other/dip3d/{{asm}}/5-ashic/{chr}/ashic_result.txt", chr = get_chr_list_for_asm(wc))
     output:
         "analysis_other/dip3d/{asm}/dip3d.done"
@@ -57,7 +57,7 @@ rule dip3d_map_reads:
         fq = lambda wc: f"assembly/input/{asm[wc.asm]["dataset"]}/{asm[wc.asm]["dataset"]}.POREC_all.fastq.gz",
         fa = config['ref'],
         bed = config['ref'] + ".repeat_regions.bed"
-    output: 
+    output:
         bam = temp("analysis_other/dip3d/{asm}/1-falign/porec.fragments.bam")
     params:
         falign = config['falign']
@@ -170,35 +170,35 @@ rule dip3d_create_well_covered_regions:
         "runtimes/dip3d/dip3d_create_well_covered_regions/{asm}.{chr}.dip3d_create_well_covered_regions.txt"
     run:
         import gzip
-        
+
         def create_well_covered_regions(coverage_file, output_file, min_coverage, log_file):
             with open(log_file, 'w') as log:
                 log.write(f"Processing coverage file: {coverage_file}\n")
                 log.write(f"Minimum coverage threshold: {min_coverage}\n")
-                
+
                 regions = []
                 current_region = None
-                
+
                 with gzip.open(coverage_file, 'rt') as f:
                     for line_num, line in enumerate(f, 1):
                         if line_num % 1000000 == 0:
                             log.write(f"Processed {line_num} lines\n")
                             log.flush()
-                        
+
                         parts = line.strip().split('\t')
                         if len(parts) < 4:
                             continue
-                            
+
                         chrom = parts[0]
                         start = int(parts[1])
                         end = int(parts[2])
                         coverage = float(parts[3])
-                        
+
                         if coverage >= min_coverage:
                             if current_region is None:
                                 # Start new region
                                 current_region = [chrom, start, end]
-                            elif (current_region[0] == chrom and 
+                            elif (current_region[0] == chrom and
                                   current_region[2] == start):
                                 # Extend current region
                                 current_region[2] = end
@@ -211,20 +211,20 @@ rule dip3d_create_well_covered_regions:
                             if current_region is not None:
                                 regions.append(current_region)
                                 current_region = None
-                
+
                 # Don't forget the last region
                 if current_region is not None:
                     regions.append(current_region)
-                
+
                 log.write(f"Found {len(regions)} well-covered regions\n")
-                
+
                 # Write output BED file
                 with open(output_file, 'w') as out:
                     for region in regions:
                         out.write(f"{region[0]}\t{region[1]}\t{region[2]}\n")
-                
+
                 log.write(f"Output written to: {output_file}\n")
-        
+
         # Execute the function
         create_well_covered_regions(
             input.coverage_bed,
@@ -277,10 +277,10 @@ rule dip3d_filter_vcf_by_coverage:
         # Compress and index VCF file first
         bgzip -c {input.vcf} > {input.vcf}.gz 2>>{log}
         tabix -p vcf {input.vcf}.gz 2>>{log}
-        
+
         # Intersect VCF with coverage BED file to keep only well-covered regions
         bcftools view -R {input.bed} {input.vcf}.gz > {output.vcf} 2>>{log}
-        
+
         # Clean up temporary files
         rm -f {input.vcf}.gz {input.vcf}.gz.tbi 2>>{log}
         """
@@ -387,8 +387,22 @@ rule dip3d_merge_bam:
         "../env/samtools.yml"
     shell:
         """
-        samtools merge -O BAM - {input} | \
-        samtools sort -@ {threads} -o {output} - 2>{log}
+        samtools merge -O BAM - {input} > {output}
+        """
+
+rule dip3d_sort_bam:
+    input:
+        "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.bam"
+    output:
+        "analysis_other/dip3d/{asm}/4-haplotag/{asm}.{hp}.sorted.bam"
+    threads: 8
+    log:
+        "logs/dip3d/merge_bam/{asm}.{hp}.sort_bam.log"
+    conda:
+        "../env/samtools.yml"
+    shell:
+        """
+        samtools sort -@ {threads} -o {output} {input} 2>{log}
         samtools index {output} 2>>{log}
         """
 
@@ -437,7 +451,7 @@ rule dip3d_frag_to_ashic_read_pair:
             {output} \
             >{log} 2>&1
         """
-    
+
 rule dip3d_ashic_split2chrs:
     input:
         read_pair = rules.dip3d_frag_to_ashic_read_pair.output
