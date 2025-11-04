@@ -1,9 +1,11 @@
 configfile: "config.yml"
 
-include: "rules/pairs_to_hic.smk"
+include: "rules/hicExplorer.smk"
+include: "rules/pairs_to_hic_expand.smk"
+#include: "rules/parse_contacts.smk"
+#include: "rules/cooler.smk"
+#include: "rules/heatmap_plotting.smk"
 
-rule hic_files:
-    input:
-        expand("hic/{sample}.{hap}.hic",
-              sample=config["samples"],
-              hap=config["hap"])
+
+
+

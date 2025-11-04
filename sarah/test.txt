@@ -1,0 +1,271 @@
+host: SRV026
+Building DAG of jobs...
+Job stats:
+job                       count
+----------------------  -------
+collect_cooler                1
+cooler_balance                6
+eigs_cis                      2
+eigs_phasing_track            1
+insulation_correlation        2
+insulation_score              4
+pairs_to_cooler               2
+total                        18
+
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_adj_25000.log
+    jobid: 16
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=25000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool         >logs/cooler_balance.T2T04.hp1_adj_25000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_nonadj_25000.log
+    jobid: 20
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=25000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool         >logs/cooler_balance.T2T04.hp1_nonadj_25000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule pairs_to_cooler:
+    input: ../data/ref/T2T-CHM13.v2.fasta.fai, outputs/pairs_files_T2T/T2T04.hp1/pairs/T2T04.hp1_adj.pairs.gz
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool
+    log: logs/pairs_to_cooler.T2T04.hp1_adj_100000.log
+    jobid: 27
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=100000
+    threads: 2
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooler cload pairs             -c1 2 -p1 3 -c2 4 -p2 5             ../data/ref/T2T-CHM13.v2.fasta.fai:100000             outputs/pairs_files_T2T/T2T04.hp1/pairs/T2T04.hp1_adj.pairs.gz             outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool             >logs/pairs_to_cooler.T2T04.hp1_adj_100000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule pairs_to_cooler:
+    input: ../data/ref/T2T-CHM13.v2.fasta.fai, outputs/pairs_files_T2T/T2T04.hp1/pairs/T2T04.hp1_nonadj.pairs.gz
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool
+    log: logs/pairs_to_cooler.T2T04.hp1_nonadj_100000.log
+    jobid: 31
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=100000
+    threads: 2
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooler cload pairs             -c1 2 -p1 3 -c2 4 -p2 5             ../data/ref/T2T-CHM13.v2.fasta.fai:100000             outputs/pairs_files_T2T/T2T04.hp1/pairs/T2T04.hp1_nonadj.pairs.gz             outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool             >logs/pairs_to_cooler.T2T04.hp1_nonadj_100000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_adj_40000.log
+    jobid: 18
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=40000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool         >logs/cooler_balance.T2T04.hp1_adj_40000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_nonadj_40000.log
+    jobid: 22
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=40000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool         >logs/cooler_balance.T2T04.hp1_nonadj_40000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_score:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv
+    log: logs/T2T04.hp1_nonadj_25000_insulation_score.log
+    jobid: 19
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=25000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools insulation         --threshold Li         --clr-weight-name "weight"         --output outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv         --verbose         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_25000_balanced.cool 75000 125000 250000 625000         >logs/T2T04.hp1_nonadj_25000_insulation_score.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule eigs_phasing_track:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool, ../data/ref/T2T-CHM13.v2.fasta
+    output: data/bins.100000.tsv, data/gc.100000.tsv
+    log: logs/eigs_phasing_track.log
+    jobid: 26
+    reason: Missing output files: data/gc.100000.tsv; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooler dump --header -t bins outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool | cut -f1-3 > data/bins.100000.tsv         cooltools genome gc data/bins.100000.tsv ../data/ref/T2T-CHM13.v2.fasta > data/gc.100000.tsv
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_score:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv
+    log: logs/T2T04.hp1_adj_25000_insulation_score.log
+    jobid: 15
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=25000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools insulation         --threshold Li         --clr-weight-name "weight"         --output outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv         --verbose         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_25000_balanced.cool 75000 125000 250000 625000         >logs/T2T04.hp1_adj_25000_insulation_score.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_score:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv
+    log: logs/T2T04.hp1_adj_40000_insulation_score.log
+    jobid: 17
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=40000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools insulation         --threshold Li         --clr-weight-name "weight"         --output outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv         --verbose         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_40000_balanced.cool 120000 200000 400000 1000000         >logs/T2T04.hp1_adj_40000_insulation_score.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_score:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv
+    log: logs/T2T04.hp1_nonadj_40000_insulation_score.log
+    jobid: 21
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=40000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools insulation         --threshold Li         --clr-weight-name "weight"         --output outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv         --verbose         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_40000_balanced.cool 120000 200000 400000 1000000         >logs/T2T04.hp1_nonadj_40000_insulation_score.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_adj_100000.log
+    jobid: 28
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool
+    wildcards: dataset=T2T04.hp1, exp=adj, resolution=100000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool         >logs/cooler_balance.T2T04.hp1_adj_100000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule cooler_balance:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool
+    log: logs/cooler_balance.T2T04.hp1_nonadj_100000.log
+    jobid: 30
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj, resolution=100000
+    resources: tmpdir=<TBD>
+Shell command: 
+        cp outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000.cool outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool
+        cooler balance         --cis-only         --ignore-diags 2         --mad-max 5         --min-nnz 10         --tol 1e-05         --max-iters 500         outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool         >logs/cooler_balance.T2T04.hp1_nonadj_100000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule eigs_cis:
+    input: data/gc.100000.tsv, outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.lam.txt
+    log: logs/eigs_cis_T2T04.hp1_adj.log
+    jobid: 25
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.lam.txt; Input files updated by another job: data/gc.100000.tsv, outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=adj
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools eigs-cis         --phasing-track data/gc.100000.tsv         --clr-weight-name "weight"         --verbose         --out-prefix outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj
+        outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj_100000_balanced.cool         >logs/eigs_cis_T2T04.hp1_adj.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_correlation:
+    input: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation_3x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation_5x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation_10x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation_25x_boundary_nonadj.png
+    log: logs/insulation_correlation_T2T04.hp1_40000.log
+    jobid: 24
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation.png; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv
+    wildcards: dataset=T2T04.hp1, resolution=40000
+    resources: tmpdir=<TBD>
+Shell command: 
+        Rscript scripts/plot_insulation_corr.R         --adj_insu outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv         --nonadj_insu outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv         --prefixes outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation_         --plot outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation.png         >logs/insulation_correlation_T2T04.hp1_40000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule insulation_correlation:
+    input: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv
+    output: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation_3x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation_5x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation_10x_boundary_nonadj.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation_25x_boundary_nonadj.png
+    log: logs/insulation_correlation_T2T04.hp1_25000.log
+    jobid: 23
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation.png; Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv
+    wildcards: dataset=T2T04.hp1, resolution=25000
+    resources: tmpdir=<TBD>
+Shell command: 
+        Rscript scripts/plot_insulation_corr.R         --adj_insu outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv         --nonadj_insu outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv         --prefixes outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation_         --plot outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation.png         >logs/insulation_correlation_T2T04.hp1_25000.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule eigs_cis:
+    input: data/gc.100000.tsv, outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool
+    output: outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.lam.txt
+    log: logs/eigs_cis_T2T04.hp1_nonadj.log
+    jobid: 29
+    reason: Missing output files: outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.lam.txt; Input files updated by another job: data/gc.100000.tsv, outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool
+    wildcards: dataset=T2T04.hp1, exp=nonadj
+    resources: tmpdir=<TBD>
+Shell command: 
+        cooltools eigs-cis         --phasing-track data/gc.100000.tsv         --clr-weight-name "weight"         --verbose         --out-prefix outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj
+        outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj_100000_balanced.cool         >logs/eigs_cis_T2T04.hp1_nonadj.log 2>&1
+        
+
+[Thu Oct 30 07:38:18 2025]
+rule collect_cooler:
+    input: outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_adj.mcool, outputs/pairs_files_T2T/T2T04.hp1/cooler/T2T04.hp1_nonadj.mcool, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_scatterplot_5000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_scatterplot_10000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_scatterplot_25000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_scatterplot_40000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_heatmap_5000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_heatmap_10000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_heatmap_25000.png, outputs/pairs_files_T2T/T2T04.hp1/qc/correlation_heatmap_40000.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.lam.txt, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.lam.txt
+    jobid: 0
+    reason: Input files updated by another job: outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_40000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_adj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_40000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.vecs.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_adj.contact_type.lam.txt, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_nonadj_25000.insulation.tsv, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.lam.txt, outputs/pairs_files_T2T/T2T04.hp1/insulation/T2T04.hp1_25000.insulation_correlation.png, outputs/pairs_files_T2T/T2T04.hp1/compartments/T2T04.hp1_nonadj.contact_type.vecs.tsv
+    resources: tmpdir=<TBD>
+Shell command: None
+Job stats:
+job                       count
+----------------------  -------
+collect_cooler                1
+cooler_balance                6
+eigs_cis                      2
+eigs_phasing_track            1
+insulation_correlation        2
+insulation_score              4
+pairs_to_cooler               2
+total                        18
+
+Reasons:
+    (check individual jobs above for details)
+    input files updated by another job:
+        collect_cooler, cooler_balance, eigs_cis, eigs_phasing_track, insulation_correlation, insulation_score
+    output files have to be generated:
+        cooler_balance, eigs_cis, eigs_phasing_track, insulation_correlation, insulation_score, pairs_to_cooler
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.

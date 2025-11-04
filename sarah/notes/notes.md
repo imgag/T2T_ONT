@@ -1,0 +1,94 @@
+## ok plan:
+
+### 1. corrected cool of adj + nonadj at suitable resolutions 
+--> done
+
+#### 1.1 check .hic, compare to other human hic
+--> done
+- non adj look better at 25 kb, 10 kb eh, all higher res --> not feasible
+- T2T04: no chrx no chry, ? chromsize file? sample specific? old pairs of T2T03 had both.
+- roughly 100 million mapped / valid junction reads, is sufficient to support a 40kb data resolution (Lajoie 2016)
+---
+- nonadj: 337,790,263 (max expansion depth=20)
+- adj: 81,349,419 
+
+e.g. d79b2e5f-ac5e-4b64-b6a6-4a47d3f32e5f_0001121076
+- 22 non adj pairs
+- 7 adj pairs (8 frags?)
+---
+
+#### 1.2 add + check plot, decide z-score thresh
+--> done:
+pairs_to_cooler, merge_mcools, hic_diagnostic_plot, hic_correct_matrix
+
+- #### 30.10.25: changed to cooler balance to stay within cooler, better for downstream cooltools analysis; new: cooler_balance
+
+- how to apply internal threshold calc of tool hicCorrectMatrix?
+- way to extract threshold out of diagnostic plot and directly insert into correction function:
+
+hicCorrectMatrix diagnostic_plot -m matrix.h5 -o QC/matrix.pdf &> QC/matrix_mad_threshold.out
+madscore=$(grep "mad threshold" QC/matrix_mad_threshold.out | sed 's/INFO:hicexplorer.hicCorrectMatrix:mad threshold //g');
+upper=$(echo -3*$madscore | bc);
+echo $madscore " " $upper > QC/matrix_mad_threshold.values
+thresholds=$(cat QC/matrix_mad_threshold.values);
+hicCorrectMatrix correct --filterThreshold $thresholds -m matrix.h5 -o matrix_cor.h5
+
+mine:
+madscore=$(grep "mad threshold" {input.diagnostic} | \
+        sed 's/INFO:hicexplorer.hicCorrectMatrix:mad threshold //g')
+        upper=$(echo -3*$madscore | bc)
+        thresholds=$(echo $madscore " " $upper)
+
+find:
+    - common number of its for human
+    - is ice applied per chrom per default? yes
+    - should i normalise the matrices first?
+
+### 2. matrix analysis
+
+A linear correlation between the Pore-C and Hi-C contact 
+matrices measured three different similarity metrics:
+(1) raw contact matrices, 
+(2) compartmental eigenvector scores identified using 
+cooltools call-compartments and 
+(3) TAD insulation scores calculated using the cooltools 
+diamond-insulation tools.
+
+#### 2.1 hic_plot_dist_vs_counts
+- compare adj + nonadj, see reduction in sr similar to papers?
+- done but idk if it plots relative counts  
+--> do own script
+
+#### 2.2 hic_find_tads and hic_detect_loops
+- resolution humans? size humans? number?
+- does any of them output insulation score?
+- cooltools diamond-insulation (Desphande 2022), this is api, i will use cli cooltools insulation
+
+#### 2.3 NEW:   
+- hicCorrelate is a dedicated Quality Control
+    tool that allows the correlation of multiple Hi-C matrices 
+    at once with either a heatmap or scatter plots output.
+    --> better used on un-corrected matrices
+    --> --outFileNameScatter
+
+- i will need to select a resolution at which the adj matrix is not shit (results: 40 kb, pcc=0.92, 25 kb pcc=0.88)
+- HiCrep v1.2.0: stratum-adjusted correlation coefficient of the pairwise contact matrix between samples (https://github.com/TaoYang-dev/hicrep)
+
+2.4 NEW:
+- resolution? --> hg38 at 100kb (cooltools doc)
+- In humans and mice, GC content is useful for phasing 
+    because it typically has a strong correlation at the 100kb-1Mb 
+    bin level with the eigenvector.
+- The cooltools genome command group can generate GC or gene coverage tracks.
+
+- cooltools eigs-cis: very high correlation between adj and non adj at 100 kb
+- to do: plot along heatmap
+- done: look at .hic eig --> similar to lieberman 2009 eigs of humans!
+
+ - dCHiC https://github.com/ay-lab/dcHiC
+    - 
+
+##### two forms of balance:
+-  hicCorrectMatrix, for all downstream hicExplorer tools
+- cooler balance
+

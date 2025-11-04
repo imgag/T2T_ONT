@@ -1,10 +1,46 @@
 samples:
-  - T2T03
+  #- T2T03
   - T2T04
 
 hap:
   - hp1
   - hp2
 
-juicer_resolutions:
-  - "10000,25000,100000,250000,1000000"
+expansions:
+  #- adj
+  - nonadj
+
+# reference files
+ref: ../data/ref/T2T-CHM13.v2.fasta
+chromsize: data/T2T-CHM13.v2.fasta.chrom-size.txt
+chromsize_porec: data/T2T-CHM13.v2.fasta.chrom-size-porec.txt
+
+
+# matrix generation
+juicer_resolutions: "5000,10000,25000,40000,100000,250000,1000000"
+
+min_bin_width: 5000
+cooler_resolutions: "5000,10000,25000,40000,100000,250000"
+correction_method: "ICE"
+filter_threshold: "-1.5 4"
+# For the upper threshold is only important to remove very high outliers 
+# and thus a value of 5 could be used. For the lower threshold it is recommended 
+# to use a value between -2 and -1. What it not desired is to try to correct low 
+# count bins which could result simply in an amplification of noise. 
+# For the upper threshold is not so concerning because those bins will be scaled down.
+
+porec_resolutions:
+  - "5000"
+  - "10000"
+  - "25000"
+  - "40000"
+
+insulation_resolutions:
+  - "25000"
+  - "40000"
+  
+# Pairtools
+parse2_depth: 20
+
+insu_windows: "75000 100000 250000 500000"
+insu_window_multipliers: [3,5,10,25]
