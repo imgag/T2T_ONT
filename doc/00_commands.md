@@ -32,3 +32,47 @@ Collect sex informations:
 ```bash
 find assembly/qc/phased_verkko -path '*/T2T*' -name 'sample_sex.txt' -exec sh -c 'echo -n "$1 "; cat "$1"' _ {} \; | sort
 ```
+
+Test query to update external sample names in NGSD:
+
+```SQL
+SELECT
+    sample.name_external AS current_name,
+    CASE
+        WHEN sample.name_external REGEXP '^GE-MED-T2T[0-9]+\\.[0-9]+$' THEN
+            REPLACE(SUBSTRING(sample.name_external, 8), '.', '_')
+        ELSE
+            SUBSTRING(sample.name_external, 8)
+    END AS new_name
+FROM
+    sample
+    JOIN processed_sample ON sample.id = processed_sample.sample_id
+    JOIN project ON processed_sample.project_id = project.id
+WHERE
+    project.name = '25006_1422_BEGIN_T2T_GoE'
+    AND sample.name_external LIKE 'GE-MED-%';
+```
+
+Real queryt to update external sample names in NGSD:
+
+```SQL
+UPDATE sample
+JOIN processed_sample ON sample.id = processed_sample.sample_id
+JOIN project ON processed_sample.project_id = project.id
+SET sample.name_external =
+    CASE
+        -- First replace dots with underscores for patterns like T2T00.1
+        WHEN sample.name_external REGEXP '^GE-MED-T2T[0-9]+\\.[0-9]+$' THEN
+            REPLACE(
+                SUBSTRING(sample.name_external, 8), -- Remove GE-MED- (7 chars)
+                '.', -- Replace dots
+                '_'  -- With underscores
+            )
+        -- For all other samples, just remove the GE-MED- prefix
+        ELSE
+            SUBSTRING(sample.name_external, 8) -- Remove GE-MED- (7 chars)
+    END
+WHERE
+    project.name = '25006_1422_BEGIN_T2T_GoE'
+    AND sample.name_external LIKE 'GE-MED-%';
+```
