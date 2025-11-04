@@ -16,7 +16,7 @@ def update_herro_paths(f, dataset):
 
 def find_input_datasets(wc, print_debug=True, all_porec=False):
     # Input is a raw data folder, run basecalling depending on type
-    # print(datasets[wc.dataset][wc.type])
+    #print(datasets[wc.dataset][wc.type])
     files = []
     folders = []
     elements = ()

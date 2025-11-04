@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 rule map_unaligned_bam:
     input:
         bam="data/{path}.bam",
@@ -45,8 +47,30 @@ rule map_fq_ref:
         samtools index {output.bam}
         """
 
-# Map UL (including bamstats to diploid assembly). For extraction Modifications
-# rule map_ul_to_asm:
+# Map UL (including modifications to diploid assembly)
+rule map_ul_to_asm:
+    input:
+        asm = lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"],
+        bam = lambda wc: find_input_datasets(SimpleNamespace(dataset=wc.asm, type="UL"))["files"]
+    output:
+        bam = "data/mapped/{asm}/{asm}.UL.asm.bam"
+    log:
+        "logs/mapping/{asm}/map_hq_to_asm.log"
+    conda:
+        "../env/minimap2.yml"
+    threads: 
+        40
+    shell:
+        # Convert to FASTQ and keep modifications
+        # Remove unmapped, non primary, secondary alignments
+        """
+        samtools fastq -TMM,ML --reference {input.asm} <(samtools cat {input.bam}) \
+        | minimap2 --MD -ax lr:hq --eqx -y \
+            -t {threads} \
+            {input.asm} - 2>>{log} \
+        | samtools view -h -F 2308 \
+        | samtools sort -m 8G -@ 8 -o {output.bam} -O BAM - >>{log} 2>&1
+        """
 
 # Map HQ to diploid assembly, for Nucflag and Flagger
 rule map_hq_to_asm:
