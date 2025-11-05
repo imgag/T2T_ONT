@@ -4,6 +4,9 @@
 # This script reads *.out files, summarizes repeat content,
 # creates visualizations, and outputs BED files with repeat categories
 
+# Disable scientific notation for numbers
+options(scipen = 999)
+
 # Load required libraries
 suppressPackageStartupMessages({
   library(tidyverse)
