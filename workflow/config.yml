@@ -86,6 +86,12 @@ ashic_utils: bin/ASHIC/ashic/cli/ashic_utils.py
 ashic_model: ASHIC-ZIPM
 ashic_resolution: 10000
 
+# Pairtools
+parse2_depth: 20
+
+# Juicer Resolutions
+juicer_resolutions: "5000,10000,25000,40000,100000,250000,1000000"
+
 # Cooler Resolutions
 min_bin_width: 1000
 cooler_resolutions: "1000,5000,10000,50000,100000"
@@ -95,9 +101,11 @@ correction_method: "ICE"
 filter_threshold: "-2.5 5"
 correlation_range: "20000:500000"
 porec_resolutions:
-  - "1000"
+  #- "1000"
   - "5000"
   - "10000"
+  - "25000"
+  - "40000"
 
 # TAD calling parameters
 tad_resolutions: ["25000", "40000"]  # Higher resolution for TADs
@@ -133,7 +141,7 @@ longdust: bin/longdust/longdust
 
 # Modkit
 modkit: bin/dist_modkit_v0.5.1_8fa79e3/modkit
-mod_num_reads: 20084
+mod_num_reads: 100420
 
 # PLotting options
 

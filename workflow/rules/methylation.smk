@@ -1,7 +1,7 @@
 rule all_methylation:
     input:
-        expand("analysis_other/mod/{sample}/{sample}.modkit_summary.tsv", sample = "T2T01"),
-        expand("analysis_other/mod/{sample}/{sample}.modifications.bed", sample = "T2T01")
+        expand("analysis_other/mod/{sample}/{sample}.modkit_summary.tsv", sample = finished_samples),
+        expand("analysis_other/mod/{sample}/{sample}.modifications.bed", sample = finished_samples)
 
 
 rule modkit_summary:

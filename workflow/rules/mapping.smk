@@ -58,7 +58,7 @@ rule map_ul_to_asm:
         "logs/mapping/{asm}/map_hq_to_asm.log"
     conda:
         "../env/minimap2.yml"
-    threads: 
+    threads:
         40
     shell:
         # Convert to FASTQ and keep modifications
@@ -70,6 +70,7 @@ rule map_ul_to_asm:
             {input.asm} - 2>>{log} \
         | samtools view -h -F 2308 \
         | samtools sort -m 8G -@ 8 -o {output.bam} -O BAM - >>{log} 2>&1
+        samtools index {output.bam}
         """
 
 # Map HQ to diploid assembly, for Nucflag and Flagger
@@ -83,7 +84,7 @@ rule map_hq_to_asm:
         "logs/mapping/{asm}/map_hq_to_asm.log"
     conda:
         "../env/minimap2.yml"
-    threads: 
+    threads:
         40
     params:
         preset="lr:hqae",
@@ -96,7 +97,7 @@ rule map_hq_to_asm:
         samtools index {output.bam}
         """
 
-    
+
 rule map_asm_to_ref:
     input:
         unpack(lambda wc: {k: ancient(v) for k, v in get_assembly_output(wc).items()}),

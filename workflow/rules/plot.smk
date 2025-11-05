@@ -1,4 +1,4 @@
-# PCA plotting rule for Snakemake
+# PCA plotting rule for Snakemake (Into PCA dir)
 rule plot_pca:
     input:
         matrix="data/pca/{dataset}/{file}.pca.tsv"

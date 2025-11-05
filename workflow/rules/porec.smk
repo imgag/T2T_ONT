@@ -11,7 +11,8 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/qc/{{asm}}{hp}_{res}_diagnostic.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_{res}.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
-        expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000']))
+        expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000'])),
+        expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"])
     output:
         "analysis_other/porec/{asm}.done"
     shell:
@@ -36,6 +37,41 @@ def get_all_porec_runs(wc):
     return run_ids
 
 # Create pairs file for Haplotype1 and Haplotype2 datasets
+# 1. adj contacts (_adj, not used downstream)
+rule pairtools_parse_bam_no_expand:
+    input:
+        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}_adj.pairs.gz"
+    log:
+        "logs/porec/pairtools_parse2_no_expand.{dataset}_adj.log"
+    conda:
+        "../env/pairtools.yml"
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction",
+        expand_depth = config['parse2_depth']
+    shell:
+        """
+        pairtools parse2 \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --single-end \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches \
+            --output {output.pairs} \
+            {input.bam} \
+            >{log}
+        """
+
+# 2. adj+nonadj contacts (no suffix, used downstream)
 rule pairtools_parse_bam:
     input:
         bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
@@ -50,7 +86,8 @@ rule pairtools_parse_bam:
         assembly = "T2T-CHM13.v2",
         columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
         orientation = "pair", 
-        position = "junction"
+        position = "junction",
+        expand_depth = config['parse2_depth']
     shell:
         """
         pairtools parse2 \
@@ -59,6 +96,8 @@ rule pairtools_parse_bam:
             --report-position {params.position} \
             --report-orientation {params.orientation} \
             --single-end \
+            --expand \
+            --max-expansion-depth {params.expand_depth} \
             --readid-transform 'readID.split(":")[0]' \
             --drop-seq \
             --drop-sam \
@@ -124,6 +163,40 @@ rule pairs_stats_report:
             >{log} 2>&1
         """
 
+# Create Hic File for Juicebox Visualisation
+
+rule clean_pairs:
+    input:
+        "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    output:
+        temp("analysis_other/porec/{dataset}/pairs/{dataset}.pairs.for_juice")
+    shell:
+        """
+        zcat {input} | \
+        grep -v '^#' | \
+        awk '{{OFS="\\t"; print $1,$6,$2,$3,0,$7,$4,$5,1,$11,$12}}' | \
+        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}'> {output}
+        """
+
+rule pairs_to_hic:
+    input:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.for_juice",
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        hic = "analysis_other/porec/{dataset}/hic/{dataset}.hic"
+    params:
+        resolutions = config.get("juicer_resolutions", "1000,5000,10000,50000,100000")
+    log:
+        "logs/porec/juicer_tools_pre.{dataset}.log"
+    shell:
+        '''
+        java -Xmx50G -jar /mnt/storage2/users/ahleucs1/tools/juicertools/juicer_tools_1.19.02.jar \
+        pre {input.pairs} {output.hic} {input.chromsize} \
+        -r {params.resolutions} > {log} 2>&1
+        '''
+
+# Create coolers for downstream analysis
+
 rule pairs_to_cooler:
     input:
         fai = f"{config['ref']}.fai",
@@ -169,6 +242,7 @@ rule merge_mcools:
             >{log} 2>&1
         """
 
+# Does not currently do anything
 rule hic_normalize:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.cool"

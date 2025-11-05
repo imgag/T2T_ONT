@@ -36,6 +36,7 @@ include: "rules/porec.smk"
 include: "rules/ancestry.smk"
 include: "rules/per_sample_results.smk"
 include: "rules/methylation.smk"
+include: "rules/plot.smk"
 
 
 # Data subgroups
@@ -198,12 +199,12 @@ for dataset_set in datasets.keys():
                 if leaf_folder == "":
                     print(f"Warning: Empty folder name found in {run_folder}, skipping")
                     continue
-                
+
                 # Function to add to unique_datasets with conflict resolution
                 def add_to_unique_datasets(data_type_key, leaf_folder, run_folder):
                     original_leaf = leaf_folder
                     suffix = 1
-                    
+
                     # Check for conflicts and resolve with suffix
                     while leaf_folder in unique_datasets[data_type_key]:
                         existing_path = unique_datasets[data_type_key][leaf_folder]
@@ -217,17 +218,17 @@ for dataset_set in datasets.keys():
                         else:
                             # Same path, no conflict
                             break
-                    
+
                     unique_datasets[data_type_key][leaf_folder] = run_folder
-                    
+
                     # Track for cross-type conflicts
                     if run_folder in path_tracking:
                         path_tracking[run_folder].append((data_type_key, leaf_folder))
                     else:
                         path_tracking[run_folder] = [(data_type_key, leaf_folder)]
-                    
+
                     return leaf_folder
-                
+
                 if data_type == "UL":
                     add_to_unique_datasets("sup", leaf_folder, run_folder)
                 elif data_type == "HQ_herro":  # Herro needs to be sup basecalled first
@@ -361,7 +362,7 @@ def qc_collection(
                     hp=["haplotype1", "haplotype2"],
                 ),
             })
-        
+
         # Rules valid for "hap1", "hap2" and "both"
         results_phased.update({
             "paf_stat": expand(
@@ -435,7 +436,7 @@ def qc_collection(
     for key, files in results_stats.items():
         print(f"{key}:")
         print(f"    {files}")
-    
+
     return results
 
 
@@ -455,7 +456,7 @@ rule all_samples:
         "assembly/qc/qc_samples.tsv",
         expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples),
         expand("assembly/variants/{asm}/phased_verkko/hapdiff_phased.vcf.gz", asm=asm_samples)
-        
+
 rule all_extended_qc:
     input:
         # GQC results
@@ -649,4 +650,3 @@ rule collect_qc_hprc:
         "logs/collect_qc_hprc.log"
     script:
         "scripts/06_collect_qc.R"
-
