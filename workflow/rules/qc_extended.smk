@@ -1,3 +1,7 @@
+rule all_annotation:
+    input:
+        expand("analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3", asm="T2T00")
+
 rule gqc_assemblybench:
     input:
         assembly = lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"],
@@ -351,6 +355,53 @@ rule flagger:
                 --trackName {wildcards.asm}_flagger_prediction \
                 --threads {threads} \
         >{log} 2>&1
+        """
+
+rule gff_from_flagger_nucflag:
+    input:
+        flagger="analysis_other/flagger/{asm}/final_flagger_prediction.bed",
+        nucflag="analysis_other/nucflag/{asm}/nucflag_status.bed"
+    output:
+        gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3"
+    log:
+        "logs/flagger/{asm}_gff_from_flagger_nucflag.log"
+    threads: 1
+    shell:
+        """
+        bash workflow/scripts/combine_bed_to_gff3.sh \
+            {input.flagger} \
+            {input.nucflag} \
+            {output.gff} \
+            > {log} 2>&1
+        """
+
+rule liftoff_gff:
+    input:
+        gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
+        ref=config["ref"],
+        asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+    output:
+        lifted_gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3",
+        chroms = "analysis_other/annotations/{asm}/lifted_chroms.txt",
+        unmapped = "analysis_other/annotations/{asm}/lifted_unmapped.txt",
+        unplaced = "analysis_other/annotations/{asm}/lifted_unplaced.txt"
+    conda:
+        "../env/liftoff.yml"
+    log:
+        "logs/flagger/{asm}_liftoff_gff.log"
+    threads: 8
+    shell:
+        """
+        liftoff \
+            -g {input.gff} \
+            -o {output.lifted_gff} \
+            -dir $(dirname {output.lifted_gff}) \
+            -p {threads} \
+            -chroms {output.chroms} \
+            -unplaced {output.unplaced} \
+            -u {output.unmapped} \
+            {input.asm} {input.ref}\
+            > {log} 2>&1
         """
 
 rule create_plot:
