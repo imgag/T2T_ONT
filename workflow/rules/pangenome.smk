@@ -36,11 +36,53 @@ rule rename_assembly_header:
         ' {input.fa} > {output} 2>{log}
         """
 
+rule rename_hg002_header:
+# PanSN naming convention for HG002 reference
+# Convert chr1_MATERNAL -> HG002#1#chr1, chr1_PATERNAL -> HG002#2#chr1
+    input:
+        fa=config['ref_hg002_q100']  # Adjust path as needed
+    output:
+        "analysis_other/pangenome/assemblies/HG002.fasta"
+    log:
+        "logs/rename_assembly/HG002.log"
+    shell:
+        """
+        zcat {input.fa} | awk -v sample="HG002" '
+        /^>/ {{
+            # Extract original header without ">"
+            header = substr($0, 2)
+            
+            # Split on underscore to get chromosome and haplotype
+            # Example: chr1_MATERNAL -> chr1, MATERNAL
+            split(header, parts, "_")
+            
+            chr = parts[1]
+            haplotype = parts[2]
+            
+            # Map MATERNAL to haplotype 1, PATERNAL to haplotype 2
+            if (haplotype == "MATERNAL") {{
+                hap = "1"
+            }} else if (haplotype == "PATERNAL") {{
+                hap = "2"
+            }} else {{
+                # If no haplotype specified (e.g., unphased contigs), default to 0
+                hap = "0"
+            }}
+            
+            # Create PanSN format: sample#hap#chr
+            print ">" sample "#" hap "#" chr
+            next
+        }}
+        {{ print }}
+        ' > {output} 2>{log}
+        """
+
 rule merge_assemblies:
     input:
-        expand("analysis_other/pangenome/assemblies/{asm}.fasta", asm=finished_samples),
+        expand("analysis_other/pangenome/assemblies/{asm}.fasta", asm=finished_samples) +
+        ["analysis_other/pangenome/assemblies/HG002.fasta"],
     output:
-        "analysis_other/pangenome/all_assemblies.fasta.bgz"
+        "analysis_other/pangenome/all_assemblies.fasta.gz"
     log:
         "logs/pangenome/merge_assemblies.log"
     threads: 8
@@ -49,12 +91,12 @@ rule merge_assemblies:
     shell:
         """
         cat {input} | bgzip -@{threads} -c > {output} 2>{log}
-        samtools faidx {output}
+        samtools faidx {output} 2>>{log}
         """
 
 rule nfcore_pangenome:
     input:
-        assemblies = "analysis_other/pangenome/all_assemblies.fasta.bgz",
+        assemblies = "analysis_other/pangenome/all_assemblies.fasta.gz",
     output:
         report = "analysis_other/pangenome/multiqc_report.html",
     threads: 64
@@ -70,10 +112,13 @@ rule nfcore_pangenome:
         echo "process {{ resourceLimits = [cpus : {threads}] }}" > $tmp_config
 
         export NXF_PLUGINS_DIR={params.nf_plugins_dir}
-        .bin/nextflow run bin/nf-core-pangenome_1.1.3/1_1_3 \
+        export NXF_OFFLINE='true'
+        export NXF_SINGULARITY_CACHEDIR="bin/nf-core-pangenome_1.1.3/singularity-images"
+
+        ./bin/nextflow run bin/nf-core-pangenome_1.1.3/1_1_3 \
             --input {input.assemblies} \
             --n_haplotypes 2 \
-            --outdir analysis_other/pangenome
+            --outdir analysis_other/pangenome \
             -profile singularity \
             -c $tmp_config \
             > {log} 2>&1
