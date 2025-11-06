@@ -360,7 +360,8 @@ rule flagger:
 rule gff_from_flagger_nucflag:
     input:
         flagger="analysis_other/flagger/{asm}/final_flagger_prediction.bed",
-        nucflag="analysis_other/nucflag/{asm}/nucflag_status.bed"
+        nucflag="analysis_other/nucflag/{asm}/nucflag_status.bed",
+        gaps="assembly/qc/phased_verkko/{asm}/gap_stats.both.n_regions.bed"
     output:
         gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3"
     log:
@@ -368,13 +369,13 @@ rule gff_from_flagger_nucflag:
     threads: 1
     shell:
         """
-        bash workflow/scripts/combine_bed_to_gff3.sh \
+        bash workflow/scripts/35_combine_bed_to_gff3.sh \
             {input.flagger} \
             {input.nucflag} \
+            {input.gaps} \
             {output.gff} \
             > {log} 2>&1
         """
-
 rule liftoff_gff:
     input:
         gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
@@ -382,9 +383,7 @@ rule liftoff_gff:
         asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
     output:
         lifted_gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3",
-        chroms = "analysis_other/annotations/{asm}/lifted_chroms.txt",
         unmapped = "analysis_other/annotations/{asm}/lifted_unmapped.txt",
-        unplaced = "analysis_other/annotations/{asm}/lifted_unplaced.txt"
     conda:
         "../env/liftoff.yml"
     log:
@@ -392,15 +391,17 @@ rule liftoff_gff:
     threads: 8
     shell:
         """
+        feature_file=$(mktemp)
+        cut -f3 {input.gff} | sort | uniq | grep -v '##' > ${{feature_file}}
+
         liftoff \
+            -f ${{feature_file}} \
             -g {input.gff} \
             -o {output.lifted_gff} \
             -dir $(dirname {output.lifted_gff}) \
             -p {threads} \
-            -chroms {output.chroms} \
-            -unplaced {output.unplaced} \
             -u {output.unmapped} \
-            {input.asm} {input.ref}\
+            {input.ref} {input.asm} \
             > {log} 2>&1
         """
 

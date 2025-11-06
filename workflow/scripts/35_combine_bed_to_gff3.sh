@@ -1,23 +1,25 @@
 #!/bin/bash
 
-# Script to combine two BED files into a valid GFF3 file
-# Usage: ./combine_bed_to_gff3.sh flagger.bed nucflag.bed output.gff3
+# Script to combine three BED files into a valid GFF3 file
+# Usage: ./combine_bed_to_gff3.sh flagger.bed nucflag.bed gaps.bed output.gff3
 
 set -euo pipefail
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 <flagger_bed> <nucflag_bed> <output_gff3>"
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <flagger_bed> <nucflag_bed> <gaps_bed> <output_gff3>"
     echo ""
     echo "Arguments:"
     echo "  flagger_bed:  BED9 file with Flagger predictions (Err, Hap, Dup)"
     echo "  nucflag_bed:  BED4 file with Nucflag predictions (MISJOIN, HET)"
+    echo "  gaps_bed:     BED5 file with N regions (gaps)"
     echo "  output_gff3:  Output GFF3 file"
     exit 1
 fi
 
 FLAGGER_BED="$1"
 NUCFLAG_BED="$2"
-OUTPUT_GFF3="$3"
+GAPS_BED="$3"
+OUTPUT_GFF3="$4"
 
 # Check input files exist
 if [ ! -f "$FLAGGER_BED" ]; then
@@ -30,16 +32,22 @@ if [ ! -f "$NUCFLAG_BED" ]; then
     exit 1
 fi
 
+if [ ! -f "$GAPS_BED" ]; then
+    echo "Error: Gaps BED file not found: $GAPS_BED"
+    exit 1
+fi
+
 echo "Combining BED files into GFF3 format..."
 echo "  Flagger: $FLAGGER_BED"
 echo "  Nucflag: $NUCFLAG_BED"
+echo "  Gaps:    $GAPS_BED"
 echo "  Output:  $OUTPUT_GFF3"
 
 # Create GFF3 file with header
 cat > "$OUTPUT_GFF3" << 'EOF'
 ##gff-version 3
-##description: Combined assembly QC predictions from Flagger and Nucflag
-##source: Flagger (Err, Hap, Dup) and Nucflag (MISJOIN, HET)
+##description: Combined assembly QC predictions from Flagger, Nucflag, and Gap analysis
+##source: Flagger (Err, Hap, Dup), Nucflag (MISJOIN, HET), and N-regions (gaps)
 EOF
 
 # Process Flagger BED file (BED9 format)
@@ -118,6 +126,32 @@ NF >= 4 {
     print chr, "Nucflag", so_term, start, end, score, ".", ".", attributes
 }' "$NUCFLAG_BED" >> "$OUTPUT_GFF3"
 
+# Process Gaps BED file (BED5 format)
+awk 'BEGIN {OFS="\t"}
+/^track/ {next}
+/^#/ {next}
+NF >= 5 {
+    chr = $1
+    start = $2 + 1  # Convert to 1-based
+    end = $3
+    feature_type = $4
+    length = $5
+    
+    # Use gap as SO term
+    so_term = "gap"
+    description = sprintf("Assembly gap (%s bp)", length)
+    
+    # Create unique ID
+    id = sprintf("%s_gap_%d_%d", chr, start, end)
+    
+    # Build attributes
+    attributes = sprintf("ID=%s;Name=N_region;source=GapAnalysis;feature_type=gap;gap_length=%s;description=%s", 
+                        id, length, description)
+    
+    # Print GFF3 line
+    print chr, "GapAnalysis", so_term, start, end, ".", ".", ".", attributes
+}' "$GAPS_BED" >> "$OUTPUT_GFF3"
+
 # Sort the GFF3 file by chromosome and position
 echo "Sorting GFF3 file..."
 (
@@ -132,4 +166,5 @@ echo ""
 echo "Statistics:"
 echo "  Flagger features: $(grep -c "Flagger" "$OUTPUT_GFF3" || echo 0)"
 echo "  Nucflag features: $(grep -c "Nucflag" "$OUTPUT_GFF3" || echo 0)"
+echo "  Gap features:     $(grep -c "GapAnalysis" "$OUTPUT_GFF3" || echo 0)"
 echo "  Total features:   $(grep -cv "^##" "$OUTPUT_GFF3" || echo 0)"
