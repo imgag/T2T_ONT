@@ -1,6 +1,7 @@
 rule all_plot:
     input:
-        expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample="T2T00")
+        expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample="T2T00"),
+        expand("results/{sample}/ref_alignment/{sample}.synteny.png", sample=finished_samples)
 
 # Karyogram plotting rule for Snakemake
 rule plot_karyogram:
@@ -39,3 +40,50 @@ rule plot_karyogram:
             {params.output_prefix} \
             > {log} 2>&1
         """
+
+
+rule install_svbyeye:
+  output:
+    flag = "bin/.svbyeye_installed"
+  log:
+    "logs/plot/install_svbyeye.log"
+  conda:
+    "../env/svbyeye.yml"
+  params:
+    script = "workflow/scripts/37_install_svbyeye.R"
+  shell:
+    """
+    Rscript {params.script} > {log} 2>&1 && touch {output.flag}
+    """
+
+rule synteny_plot_genome:
+  input:
+    paf_hap1 = "assembly/qc/phased_verkko/{sample}/haplotype1.mapped_T2T.paf",
+    paf_hap2 = "assembly/qc/phased_verkko/{sample}/haplotype2.mapped_T2T.paf",
+    cdna_hap1 = "assembly/qc/phased_verkko/{sample}/cdna_aln.haplotype1.paf" ,
+    cdna_hap2 = "assembly/qc/phased_verkko/{sample}/cdna_aln.haplotype2.paf" ,
+    cdna_ref = config['ref_cdna_paf'],
+    flag = "bin/.svbyeye_installed"
+  output:
+    png = "results/{sample}/ref_alignment/{sample}.synteny.png",
+    pdf = "results/{sample}/ref_alignment/{sample}.synteny.pdf"
+  log:
+    "logs/plot/{sample}/synteny_plot_genome.log"
+  threads:
+    1
+  conda:
+    "../env/svbyeye.yml"
+  params:
+    script = "workflow/scripts/38_synteny_plot.R",
+  shell:
+    """
+    Rscript {params.script} \
+        {input.paf_hap1} \
+        {input.paf_hap2} \
+        {output.png} \
+        {output.pdf} \
+        {input.cdna_hap1} \
+        {input.cdna_hap2} \
+        {input.cdna_ref} \
+        > {log} 2>&1
+    """
