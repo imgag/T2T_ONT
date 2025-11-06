@@ -1,28 +1,31 @@
-# Karyogram plotting rule for Snakemake
-# Generates chromosome QC plots showing assembly quality, gaps, repeats, and misassemblies
+rule all_plot:
+    input:
+        expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample="T2T00")
 
+# Karyogram plotting rule for Snakemake
 rule plot_karyogram:
     input:
-        fai="data/ref/{reference}.fasta.fai",
-        seqinfo="assembly/qc/{assembler}/{sample}/T2T_contigs.unphased.seqinfo.txt",
-        colors="assembly/qc/{assembler}/{sample}/colors.tsv",
-        gap_stats="assembly/qc/{assembler}/{sample}/gap_stats.both.n_regions.bed",
-        nucflag="analysis_other/nucflag/{sample}.nucflag_misasm.bed",
-        rm_satellites="analysis_other/repeatmasker/{sample}/rm_summary_filtered_satellites.bed",
-        rm_telo="analysis_other/repeatmasker/{sample}/rm_filtered_telo.bed",
-        telo="assembly/qc/{assembler}/{sample}/T2T_contigs.unphased_telomeric_repeat_windows.csv"
+        fai=config['ref']+".fai",
+        seqinfo="assembly/qc/phased_verkko/{sample}/T2T_contigs.both.seqinfo.txt",
+        colors="assembly/qc/phased_verkko/{sample}/colors.tsv",
+        gap_stats="assembly/qc/phased_verkko/{sample}/gap_stats.both.n_regions.bed",
+        nucflag="analysis_other/nucflag/{sample}/nucflag_misasm.bed",
+        rm_satellites="analysis_other/repeatmasker/{sample}/rm_summary/{sample}_filtered_satellites.bed",
+        telo="assembly/qc/phased_verkko/{sample}/T2T_contigs.both_telomeric_repeat_windows.csv"
     output:
-        gaps_all="assembly/qc/{assembler}/{sample}/karyogram.gaps.with_unassigned.png",
-        gaps_clean="assembly/qc/{assembler}/{sample}/karyogram.gaps.clean.png",
-        nucflag_clean="assembly/qc/{assembler}/{sample}/karyogram.nucflag.clean.png",
-        gap_lengths="assembly/qc/{assembler}/{sample}/karyogram.gap_lengths.png",
-        nucflag_types="assembly/qc/{assembler}/{sample}/karyogram.nucflag_types.png"
+        gaps_all="results/{sample}/assembly_issues/{sample}.karyogram.gaps.with_unassigned.png",
+        gaps_clean="results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png",
+        nucflag_clean="results/{sample}/assembly_issues/{sample}.karyogram.nucflag.clean.png",
+        gap_lengths="results/{sample}/assembly_issues/{sample}.gap_lengths.png",
+        nucflag_types="results/{sample}/assembly_issues/{sample}.nucflag_types.png"
     params:
-        script="workflow/scripts/plot_karyograms.R",
-        output_prefix="assembly/qc/{assembler}/{sample}/karyogram"
+        script="workflow/scripts/36_plot_karyograms.R",
+        output_prefix="results/{sample}/assembly_issues/{sample}"
+    conda:
+        "../env/R.yml"
     threads: 1
     log:
-        "logs/plot_karyogram/{assembler}_{sample}_{reference}.log"
+        "logs/plot/{sample}/plot_karyograms.log"
     shell:
         """
         Rscript {params.script} \
@@ -32,7 +35,6 @@ rule plot_karyogram:
             {input.gap_stats} \
             {input.nucflag} \
             {input.rm_satellites} \
-            {input.rm_telo} \
             {input.telo} \
             {params.output_prefix} \
             > {log} 2>&1
