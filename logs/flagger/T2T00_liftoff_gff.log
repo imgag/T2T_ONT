@@ -1,0 +1,156 @@
+2025-11-06 09:26:36,381 - INFO - Populating features
+Populating features table and first-order relations: 0 featuresPopulating features table and first-order relations: 1000 featuresPopulating features table and first-order relations: 2000 featuresPopulating features table and first-order relations: 3000 featuresPopulating features table and first-order relations: 4000 featuresPopulating features table and first-order relations: 5000 featuresPopulating features table and first-order relations: 6000 featuresPopulating features table and first-order relations: 7000 featuresPopulating features table and first-order relations: 8000 features2025-11-06 09:26:36,715 - INFO - Populating features table and first-order relations: 8766 features
+2025-11-06 09:26:36,715 - INFO - Updating relations
+2025-11-06 09:26:36,796 - INFO - Creating relations(parent) index
+2025-11-06 09:26:36,796 - INFO - Creating relations(child) index
+2025-11-06 09:26:36,796 - INFO - Creating features(featuretype) index
+2025-11-06 09:26:36,799 - INFO - Creating features (seqid, start, end) index
+2025-11-06 09:26:36,801 - INFO - Creating features (seqid, start, end, strand) index
+2025-11-06 09:26:36,804 - INFO - Running ANALYZE features
+extracting features
+[M::main::14.521*0.87] loaded/built the index for 25 target sequence(s)
+[M::mm_mapopt_update::16.024*0.88] mid_occ = 892
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 25
+[M::mm_idx_stat::16.847*0.89] distinct minimizers: 100277218 (38.70% are singletons); average occurrences: 5.856; average spacing: 5.308; total length: 3117292070
+Process ForkPoolWorker-4:
+Process ForkPoolWorker-6:
+Process ForkPoolWorker-8:
+Process ForkPoolWorker-5:
+Process ForkPoolWorker-3:
+Process ForkPoolWorker-7:
+aligning features
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 856, in next
+Process ForkPoolWorker-2:
+    item = self._items.popleft()
+           ^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from an empty deque
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/bin/liftoff", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/site-packages/liftoff/run_liftoff.py", line 12, in main
+    run_all_liftoff_steps(args)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/site-packages/liftoff/run_liftoff.py", line 24, in run_all_liftoff_steps
+    feature_db, feature_hierarchy, ref_parent_order = liftover_types.lift_original_annotation(ref_chroms, target_chroms,
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/site-packages/liftoff/liftover_types.py", line 15, in lift_original_annotation
+Traceback (most recent call last):
+Traceback (most recent call last):
+Traceback (most recent call last):
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+KeyboardInterrupt
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 386, in get
+    with self._rlock:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/synchronize.py", line 95, in __enter__
+    return self._semlock.__enter__()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 114, in worker
+    task = get()
+           ^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/queues.py", line 387, in get
+    res = self._reader.recv_bytes()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/connection.py", line 395, in _recv
+    chunk = read(handle, remaining)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+    align_and_lift_features(ref_chroms, target_chroms, args, feature_hierarchy, liftover_type, unmapped_features,
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/site-packages/liftoff/liftover_types.py", line 23, in align_and_lift_features
+    aligned_segments= align_features.align_features_to_target(ref_chroms, target_chroms, args,
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/site-packages/liftoff/align_features.py", line 24, in align_features_to_target
+    for result in pool.imap_unordered(func, np.arange(0, len(target_chroms))):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/multiprocessing/pool.py", line 861, in next
+    self._cond.wait(timeout)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2cfce4fc27444b49bc36f3afd1fe073c_/lib/python3.12/threading.py", line 355, in wait
+    waiter.acquire()
+KeyboardInterrupt
