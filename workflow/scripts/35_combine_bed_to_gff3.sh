@@ -135,18 +135,18 @@ NF >= 5 {
     start = $2 + 1  # Convert to 1-based
     end = $3
     feature_type = $4
-    length = $5
+    gap_len = $5  # Changed from "length" to "gap_len"
     
     # Use gap as SO term
     so_term = "gap"
-    description = sprintf("Assembly gap (%s bp)", length)
+    description = sprintf("Assembly gap (%s bp)", gap_len)
     
     # Create unique ID
     id = sprintf("%s_gap_%d_%d", chr, start, end)
     
     # Build attributes
     attributes = sprintf("ID=%s;Name=N_region;source=GapAnalysis;feature_type=gap;gap_length=%s;description=%s", 
-                        id, length, description)
+                        id, gap_len, description)
     
     # Print GFF3 line
     print chr, "GapAnalysis", so_term, start, end, ".", ".", ".", attributes
