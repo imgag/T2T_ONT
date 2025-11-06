@@ -10,5 +10,5 @@ High-throughput Pore-C reveals the single-allele topology and cell type-specific
 
 ### insulation scores adj-pairs and non-adj-pairs: 
 - them: pcc 0.902
-- 25 kb: 0.96 +
-- 40 kb: 0.97 +
+- me: 25 kb: 0.96 +
+- me: 40 kb: 0.97 +

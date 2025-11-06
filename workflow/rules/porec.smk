@@ -12,7 +12,7 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_{res}.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
         expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000'])),
-        expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"])
+        #expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"])
     output:
         "analysis_other/porec/{asm}.done"
     shell:
@@ -164,7 +164,6 @@ rule pairs_stats_report:
         """
 
 # Create Hic File for Juicebox Visualisation
-
 rule clean_pairs:
     input:
         "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
@@ -185,7 +184,7 @@ rule pairs_to_hic:
     output:
         hic = "analysis_other/porec/{dataset}/hic/{dataset}.hic"
     params:
-        resolutions = config.get("juicer_resolutions", "1000,5000,10000,50000,100000")
+        resolutions = config.get("juicer_resolutions", "5000,10000,25000,50000,100000,500000")
     log:
         "logs/porec/juicer_tools_pre.{dataset}.log"
     shell:
@@ -196,7 +195,6 @@ rule pairs_to_hic:
         '''
 
 # Create coolers for downstream analysis
-
 rule pairs_to_cooler:
     input:
         fai = f"{config['ref']}.fai",
@@ -242,6 +240,83 @@ rule merge_mcools:
             >{log} 2>&1
         """
 
+# Cooltools analysis
+# 1. Cooler balance to correct matrix (ICE)
+rule cooler_balance:
+    input:
+        "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.cool"
+    output:
+        "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_balanced.cool"
+    log:
+         "logs/porec/cooler_balance.{dataset}_{resolution}.log"
+    conda:
+        "../env/cooler.yml"
+    shell:
+        """
+        cp {input} {output}
+        cooler balance \
+        --cis-only \
+        --ignore-diags 2 \
+        --mad-max 5 \
+        --min-nnz 10 \
+        --tol 1e-05 \
+        --max-iters 500 \
+        {output} \
+        >{log} 2>&1
+        """   
+
+#2. Compartments
+rule eigs_cis:
+    input:
+        gc = config['gc_track'],
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_100000_balanced.cool"
+    output:
+        vecs="analysis_other/porec/{dataset}/compartments/{dataset}.cis.vecs.tsv",
+        lam="analysis_other/porec/{dataset}/compartments/{dataset}.cis.lam.txt",
+        bw="analysis_other/porec/{dataset}/compartments/{dataset}.cis.bw"
+    params:
+        prefix = "analysis_other/porec/{dataset}/compartments/{dataset}"
+    log:
+        "logs/porec/cooltools_eigs_cis.{dataset}.log"
+    conda:
+        "../env/cooltools.yml"
+    shell:
+        """
+        cooltools eigs-cis \
+        --phasing-track {input.gc}::GC \
+        --clr-weight-name "weight" \
+        --bigwig \
+        --out-prefix {params.prefix} \
+        {input.cool} \
+        >{log} 2>&1
+        """
+
+#3. chromatin insulation
+rule insulation_score:
+    input: 
+        cool =  "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_balanced.cool"
+    output:
+        insu = "analysis_other/porec/{dataset}/insulation/{dataset}_{resolution}.insulation.tsv",
+        bw = expand("analysis_other/porec/{{dataset}}/insulation/{{dataset}}_{{resolution}}.insulation.tsv.{window}.bw",
+        window = ) #???
+    params:
+        window = lambda wildcards: " ".join([str(mult * int(wildcards.resolution)) for mult in config['insu_window_multipliers']])
+    log:
+        "logs/porec/ooltools_insulation.{dataset}_{resolution}.log"
+    conda:
+        "../env/cooltools.yml"
+    shell:
+        """
+        cooltools insulation \
+        --threshold Li \
+        --clr-weight-name "weight" \
+        --output {output.insu} \
+        --bigwig \
+        {input.cool} {params.window} \
+        >{log} 2>&1
+        """
+
+
 # Does not currently do anything
 rule hic_normalize:
     input:
@@ -278,6 +353,40 @@ rule hic_diagnostic_plot:
             >{log} 2>&1
         """
 
+# new, need test
+rule hic_correct_matrix:
+    input:
+        cool =  "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool",
+        diagnostic = "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
+    output:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        temp(lower_file="analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.lower"),
+        temp(upper_file="analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.upper")
+    log:
+        "logs/porec/hic_correct.{dataset}.{resolution}.log"
+    params:
+        correction_method = config.get("correction_method", "ICE")
+        #filter_threshold = config.get("filter_threshold", "-1.5 4") 
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        echo "Start log ..." > {log}
+        grep "mad threshold" {input.diagnostic} 2>> {log} | \
+        sed 's/INFO:hicexplorer.hicCorrectMatrix:mad threshold //g' 2>> {log} > {output.lower_file}
+        echo -3*$(cat {output.lower_file}) | bc 2>>{log} > {output.upper_file}
+
+        hicCorrectMatrix correct \
+        --filterThreshold $(cat {output.lower_file}) $(cat {output.upper_file}) \
+        --matrix {input.cool} \
+        --correctionMethod {params.correction_method} \
+        --outFileName {output.cool} \
+        >>{log} 2>&1
+        
+        """
+
+
+# old
 rule hic_correct_matrix:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool"
@@ -328,6 +437,8 @@ rule hic_correct_matrix:
         }}
         """
 
+# Plots
+# 1. contact decay
 rule hic_plot_dist_vs_counts:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
@@ -345,6 +456,70 @@ rule hic_plot_dist_vs_counts:
             >{log} 2>&1
         """
 
+# 2. whole chr +  eigs
+fanc_chroms = config['chroms_fanc'].split(' ')
+fanc_indices_chrom = list(range(len(chroms)))
+
+rule fanc_plot_whole_chr_eigs:
+    input:
+        hic= "analysis_other/porec/{dataset}/hic/{dataset}.hic",
+        eigs="analysis_other/porec/{dataset}/compartments/{dataset}.cis.bw"
+    output:
+        plots=expand("analysis_other/porec/{{dataset}}/plots/whole_chr/{i}_{{dataset}}_{chrom}_None-None.pdf",
+        zip,
+        i = fanc_indices_chrom,
+        chrom = fanc_chroms)
+    params:
+        chroms=config['chroms_fanc'],
+        resolution=250000,
+        name= lambda wc: wc.dataset,
+        outdir="outputs/pairs_files_T2T/{dataset}/plots/whole_chr",
+        vmax=200
+    conda:
+        "../env/fanc.yml"
+    log:
+        "logs/porec/fancplot.whole_chr.{dataset}.log"
+    shell:
+        """
+        fancplot \
+        -n {params.name} \
+        -o {params.outdir} {params.chroms} \
+        -p square \
+        -vmin 0 -vmax {params.vmax} \
+        {input.hic}@{params.resolution}@KR \
+        -p line -f -c black --fix-chromosome {input.eigs} \
+        >{log} 2>&1
+        """
+
+# 3. Correlate all matrices?
+rule correlate_matrices:
+    input:
+        cool = expand("outputs/pairs_files_T2T/{dataset}{hp}/cooler/{dataset}{hp}_{resolution}.cool",
+        dataset = finished_samples,
+        hp = ["", ".hp1", ".hp2"],
+        resolution = 100000)
+    output:
+        scatterplot = "outputs/pairs_files_T2T/combined_plots/correlation_scatterplot_{resolution}.png",
+        heatmap = "outputs/pairs_files_T2T/combined_plots/correlation_heatmap_{resolution}.png"
+    params:
+        range = "5000:5000000" # consider contacts in this range. how to decide?
+    log:
+        "logs/porec/correlate_matrices.{dataset}_{resolution}.log"
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicCorrelate \
+        --matrices {input.cool} \
+        --method=pearson \
+        --log1p \
+        --range {params.range} \
+        --outFileNameHeatmap {output.heatmap} \
+        --outFileNameScatter {output.scatterplot} \
+        >{log} 2>&1
+        """
+
+# architecture: tads and loops
 rule hic_find_tads:
     input:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"

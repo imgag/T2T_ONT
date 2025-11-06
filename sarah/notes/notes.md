@@ -61,34 +61,40 @@ diamond-insulation tools.
 
 #### 2.2 hic_find_tads and hic_detect_loops
 - resolution humans? size humans? number?
-- does any of them output insulation score?
-- cooltools diamond-insulation (Desphande 2022), this is api, i will use cli cooltools insulation
+- does any of them output insulation score? no, but cooltools insulation does
+- cooltools diamond-insulation (Desphande 2022)
 
 #### 2.3 NEW:   
-- hicCorrelate is a dedicated Quality Control
-    tool that allows the correlation of multiple Hi-C matrices 
-    at once with either a heatmap or scatter plots output.
-    --> better used on un-corrected matrices
-    --> --outFileNameScatter
+- hicCorrelate is a dedicated Quality Control tool that allows the correlation of multiple Hi-C matrices at once with either a heatmap or scatter plots output.
+    - --> better used on un-corrected matrices
+    - --> --outFileNameScatter
 
 - i will need to select a resolution at which the adj matrix is not shit (results: 40 kb, pcc=0.92, 25 kb pcc=0.88)
 - HiCrep v1.2.0: stratum-adjusted correlation coefficient of the pairwise contact matrix between samples (https://github.com/TaoYang-dev/hicrep)
 
 2.4 NEW:
 - resolution? --> hg38 at 100kb (cooltools doc)
-- In humans and mice, GC content is useful for phasing 
-    because it typically has a strong correlation at the 100kb-1Mb 
-    bin level with the eigenvector.
+- In humans and mice, GC content is useful for phasing because it typically has a strong correlation at the 100kb-1Mb bin level with the eigenvector. (this looks very similar to lieberman)
 - The cooltools genome command group can generate GC or gene coverage tracks.
 
 - cooltools eigs-cis: very high correlation between adj and non adj at 100 kb
-- to do: plot along heatmap
+- to do: plot along heatmap. --> done
 - done: look at .hic eig --> similar to lieberman 2009 eigs of humans!
 
- - dCHiC https://github.com/ay-lab/dcHiC
-    - 
+ - dCHiC https://github.com/ay-lab/dcHiC: tool for some differential hi-c analysis
 
-##### two forms of balance:
--  hicCorrectMatrix, for all downstream hicExplorer tools
-- cooler balance
+##### several forms of balance:
+- hicCorrectMatrix, for all downstream hicExplorer tools
+- cooler balance, for all downstream cooler and cooltools
+- juicer tools pre: hic files with KR can be used for several kinds of tools, e.g. fanc
+
+### 3. general 
+- wf-pore-c
+    - no expand AND also pairtools restrict, meaning this is much more stringent than the single haps
+- maybe this will not be liked by reviewer, aka the "more difficult" datasets are generated with less stringent settings
+- best practice may be to treat both same starting from aligned bam outputs
+
+
+### caspars snakemake
+- finished_samples = list of all sample names without hap, can be used in expand
 

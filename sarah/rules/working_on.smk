@@ -93,3 +93,6 @@ rule fanc_triangle_plot:
         -m 4000000 \
         -vmin 0 -vmax 50 \
         -p line {input.insulation}
+        """
+
+

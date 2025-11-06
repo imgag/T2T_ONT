@@ -1,3 +1,17 @@
+rule all_extended_qc:
+    input:
+        # GQC results ! T2T08 is not working , removed !
+        expand("analysis_other/GQC/{asm}/assemblybench", asm=[s for s in finished_samples if s != "T2T08"]),
+        expand("analysis_other/GQC/{asm}/readbench", asm=[s for s in finished_samples if s != "T2T08"]),
+        # Nucflag results
+        expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
+        # Longdust results
+        expand("analysis_other/longdust/{asm}/longdust.bed", asm=finished_samples),
+        # RepeatMasker results
+        expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
+        # Flagger results
+        expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples)
+
 rule all_annotation:
     input:
         expand("analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3", asm="T2T00")
@@ -365,7 +379,7 @@ rule gff_from_flagger_nucflag:
     output:
         gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3"
     log:
-        "logs/flagger/{asm}_gff_from_flagger_nucflag.log"
+        "logs/annotation/{asm}/gff_from_flagger_nucflag.log"
     threads: 1
     shell:
         """
@@ -376,6 +390,7 @@ rule gff_from_flagger_nucflag:
             {output.gff} \
             > {log} 2>&1
         """
+
 rule liftoff_gff:
     input:
         gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
@@ -387,7 +402,7 @@ rule liftoff_gff:
     conda:
         "../env/liftoff.yml"
     log:
-        "logs/flagger/{asm}_liftoff_gff.log"
+        "logs/annotation/{asm}/liftoff_gff.log"
     threads: 8
     shell:
         """

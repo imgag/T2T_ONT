@@ -7,27 +7,13 @@ datasets = [f"{sample}.{hap}"
 
 rule collect_cooler:
     input:
-        expand("outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}.mcool",
-        dataset=datasets,
-        exp=config["expansions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/qc/correlation_{plot}_{resolution}.png",
-        dataset=datasets,
-        plot=["scatterplot","heatmap"],
-        resolution = config["porec_resolutions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv",
-        dataset=datasets,
-        exp=config["expansions"],
-        resolution=config["insulation_resolutions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{resolution}.insulation_correlation.png",
-        dataset=datasets,
-        resolution=config["insulation_resolutions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{exp}.cis{file}",
-        dataset=datasets,
-        exp=config["expansions"],
-        file=[".vecs.tsv",".lam.txt",".bw"]),
-        expand("outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{resolution}.eigs_correlation.png",
-        dataset=datasets,
-        resolution=[100000])
+        #expand("outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}.mcool", dataset=datasets, exp=config["expansions"]),
+        #expand("outputs/pairs_files_T2T/{dataset}/qc/correlation_{plot}_{resolution}.png", dataset=datasets,plot=["scatterplot","heatmap"],resolution = config["porec_resolutions"]),
+        expand("outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv",dataset=datasets, exp=config["expansions"],resolution=config["insulation_resolutions"]),
+        #get_insulation_bw(datasets,config['expansions'], insulation_windows),
+        #expand("outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{resolution}.insulation_correlation.png",dataset=datasets, resolution=config["insulation_resolutions"]),
+        expand("outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{exp}.cis{file}",dataset=datasets,exp=config["expansions"],file=[".vecs.tsv",".lam.txt",".bw"]),
+        #expand("outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{resolution}.eigs_correlation.png",dataset=datasets, resolution=[100000])
 
 
 rule pairs_to_cooler:
@@ -200,7 +186,7 @@ rule eigs_correlation:
         adj_eigs= "outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_adj.cis.vecs.tsv",
         nonadj_eigs = "outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_nonadj.cis.vecs.tsv",
     output:
-        plot = "outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{resolution}.eigs_correlation.png",
+        plot = "outputs/pairs_files_T2T/{dataset}/compartments/{dataset}_{resolution}.eigs_correlation.png"
     log: 
         "logs/eigs_correlation_{dataset}_{resolution}.log"
     conda: 
@@ -217,11 +203,16 @@ rule eigs_correlation:
 # (3) insulation score
 # 1. calculate insulation for 25 and 40 kb
 # Li and Otsu automated thresholding criteria borrowed from the image processing field
+
+
+#lambda wildcards: [str(mult * int(wildcards.resolution)) for mult in config['insu_window_multipliers']]
+
 rule insulation_score:
     input: 
         cool = "outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}_balanced.cool"
     output:
         insu = "outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv"
+        #bw = "outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv.{window}.bw"
     params:
         window = lambda wildcards: " ".join([str(mult * int(wildcards.resolution)) for mult in config['insu_window_multipliers']])
     log:
