@@ -105,11 +105,10 @@ rule nfcore_pangenome:
     log:
         "logs/pangenome/nfcore_pangenome.log"
     params:
-        nf_plugins_dir = "$PWD/.nextflow/plugins"
+        nf_plugins_dir = "$PWD/.nextflow/plugins",
+        config  = "bin/nf-core-pangenome_1.1.3/1_1_3/imgag.nextflow.config",
     shell:
         """
-        tmp_config=$(mktemp)
-        echo "process {{ resourceLimits = [cpus : {threads}] }}" > $tmp_config
 
         export NXF_PLUGINS_DIR={params.nf_plugins_dir}
         export NXF_OFFLINE='true'
@@ -120,6 +119,6 @@ rule nfcore_pangenome:
             --n_haplotypes 2 \
             --outdir analysis_other/pangenome \
             -profile singularity \
-            -c $tmp_config \
+            -c {params.config} \
             > {log} 2>&1
         """
