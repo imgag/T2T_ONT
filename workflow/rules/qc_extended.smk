@@ -14,7 +14,8 @@ rule all_extended_qc:
 
 rule all_annotation:
     input:
-        expand("analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3", asm="T2T00")
+        expand("analysis_other/annotations/{asm}_liftoff/flagger_nucflag_annotations.lifted.gff3", asm="T2T00"),
+        expand("analysis_other/annotations/{asm}/assembly_issue_annotations.lifted.gff3", asm="T2T00")
 
 rule gqc_assemblybench:
     input:
@@ -369,6 +370,70 @@ rule flagger:
                 --trackName {wildcards.asm}_flagger_prediction \
                 --threads {threads} \
         >{log} 2>&1
+        """
+
+bed_paths = {
+    'flagger': "analysis_other/flagger/{asm}/final_flagger_prediction.bed",
+    'nucflag': "analysis_other/nucflag/{asm}/nucflag_misasm.bed",
+    'gaps': "assembly/qc/phased_verkko/{asm}/gap_stats.both.n_regions.bed"
+}
+
+rule liftover_bed_paf:
+    input:
+        bed=lambda wc: bed_paths[wc.tool].format(asm=wc.asm),
+        paf="assembly/qc/phased_verkko/{asm}/both.mapped_T2T.paf",
+    output:
+        lifted_bed="analysis_other/annotations/{asm}/{tool}.lifted.bed",
+        unmapped="analysis_other/annotations/{asm}/{tool}.unmapped.bed"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/annotation/{asm}/liftover_{tool}.log"
+    threads: 1
+    shell:
+        """
+        python3 workflow/scripts/40_liftover_bed_paf.py \
+            --bed {input.bed} \
+            --paf {input.paf} \
+            --output {output.lifted_bed} \
+            --unmapped {output.unmapped} \
+            --min-mapq 5 \
+            --min-len 50000 \
+            --max-search 10000 \
+            --window 10000 \
+            --debug \
+            > {log} 2>&1
+        
+        # Log statistics
+        orig_lines=$(grep -v '^#\|^track' {input.bed} | wc -l)
+        lifted_lines=$(grep -v '^#\|^track' {output.lifted_bed} | wc -l)
+        unmapped_lines=$(wc -l < {output.unmapped})
+        
+        echo "Original regions: $orig_lines" >> {log}
+        echo "Lifted regions: $lifted_lines" >> {log}
+        echo "Unmapped regions: $unmapped_lines" >> {log}
+        echo "Success rate: $(echo "scale=2; $lifted_lines/($lifted_lines+$unmapped_lines)*100" | bc)%" >> {log}
+        """
+
+rule gff_from_lifted_flagger_nucflag:
+    input:
+        flagger="analysis_other/annotations/{asm}/flagger.lifted.bed",
+        nucflag="analysis_other/annotations/{asm}/nucflag.lifted.bed",
+        gaps="analysis_other/annotations/{asm}/gaps.lifted.bed"
+    output:
+        gff="analysis_other/annotations/{asm}/assembly_issue_annotations.lifted.gff3"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/annotation/{asm}/gff_from_lifted_bed.log"
+    shell:
+        """
+        bash workflow/scripts/35_combine_bed_to_gff3.sh \
+            {input.flagger} \
+            {input.nucflag} \
+            {input.gaps} \
+            {output.gff} \
+            > {log} 2>&1
         """
 
 rule gff_from_flagger_nucflag:

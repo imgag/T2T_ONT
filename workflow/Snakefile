@@ -32,12 +32,12 @@ include: "rules/qc_assembly.smk"
 include: "rules/call_variants.smk"
 include: "rules/qc_extended.smk"
 include: "rules/dip3d.smk"
-include: "rules/porec.smk"
+#include: "rules/porec.smk"
 include: "rules/ancestry.smk"
 include: "rules/per_sample_results.smk"
 include: "rules/methylation.smk"
 include: "rules/pangenome.smk"
-#include: "rules/plot.smk"
+include: "rules/plot.smk"
 
 
 # Data subgroups
@@ -457,20 +457,6 @@ rule all_samples:
         "assembly/qc/qc_samples.tsv",
         expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples),
         expand("assembly/variants/{asm}/phased_verkko/hapdiff_phased.vcf.gz", asm=asm_samples)
-
-rule all_extended_qc:
-    input:
-        # GQC results
-        expand("analysis_other/GQC/{asm}/assemblybench", asm=finished_samples),
-        expand("analysis_other/GQC/{asm}/readbench", asm=finished_samples),
-        # Nucflag results
-        #expand("analysis_other/nucflag/{asm}/nucflag_status.bed", asm=finished_samples),
-        # Longdust results
-        expand("analysis_other/longdust/{asm}/longdust.bed", asm=finished_samples),
-        # RepeatMasker results
-        expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
-        # Flagger results
-        expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples)
 
 rule all_polishing:
     input:

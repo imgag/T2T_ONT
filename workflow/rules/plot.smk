@@ -1,7 +1,8 @@
 rule all_plot:
     input:
         expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample="T2T00"),
-        expand("results/{sample}/ref_alignment/{sample}.synteny.png", sample=finished_samples)
+        expand("results/{sample}/ref_alignment/{sample}.synteny.png", sample=finished_samples),
+        "doc/tables/for_plots/T2T_contigs.all.seqinfo.txt"
 
 # Karyogram plotting rule for Snakemake
 rule plot_karyogram:
@@ -41,7 +42,7 @@ rule plot_karyogram:
             > {log} 2>&1
         """
 
-
+# Synteny Plot for Genome / Ref alignment
 rule install_svbyeye:
   output:
     flag = "bin/.svbyeye_installed"
@@ -87,3 +88,27 @@ rule synteny_plot_genome:
         {input.cdna_ref} \
         > {log} 2>&1
     """
+
+# Helper scripts to collect QC data for plottin
+
+rule collect_T2T:
+    input:
+        motif_files=expand("assembly/qc/phased_verkko/{sample}/T2T_contigs.both_motif_T2T.txt", sample=finished_samples),
+        alignment_files=expand("assembly/qc/phased_verkko/{sample}/T2T_contigs.both_alignment_T2T.txt", sample=finished_samples),
+        gap_files=expand("assembly/qc/phased_verkko/{sample}/gap_stats.both.n_regions.bed", sample=finished_samples)
+    output:
+        "doc/tables/for_plots/T2T_contigs.all.seqinfo.txt"
+    params:
+        samples=" ".join(finished_samples)
+    log:
+        "logs/pangenome/collect_T2T.log"
+    shell:
+        """
+        python3 workflow/scripts/41_collect_T2T_contigs.py \
+            --samples {params.samples} \
+            --motif-files {input.motif_files} \
+            --alignment-files {input.alignment_files} \
+            --gap-files {input.gap_files} \
+            --output {output} \
+            > {log} 2>&1
+        """

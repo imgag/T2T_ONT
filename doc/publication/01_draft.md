@@ -74,6 +74,12 @@ We should include one example of a duplicate gene cluster/difficult region that 
 
 ## Results
 
+### Identification of T2T genomes
+
+T2T assembly quality was determined by integrating telomeric motif detection, chromosome alignment, and gap annotation data for each sample. Contigs were classified as T2T candidates if they contained telomeric repeats at both ends and successfully aligned to reference chromosomes. Assembly quality categories were defined based on remaining gaps: Complete (T2T, zero gaps), Single Small/Large Gap (one gap ≤/>50 kb), Multiple Small/Large Gaps (multiple gaps totaling ≤/>100 kb), or Not Found (no T2T contig identified). Gap statistics were extracted from BED format files and cross-validated against alignment data.
+
+
+
 TODO
 Structure see above
 

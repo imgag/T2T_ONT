@@ -2,11 +2,107 @@ rule all_pangenome:
     input:
         "analysis_other/pangenome/multiqc_report.html"
 
+rule filter_assembly:
+    input:
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+    output:
+        "analysis_other/pangenome/filtered/{asm}.fasta"
+    log:
+        "logs/filter_assembly/{asm}.log"
+    conda:
+        "../env/samtools.yml"
+    shell:
+        """
+        # Create temporary files for processing
+        temp_fasta=$(mktemp)
+        temp_lengths=$(mktemp)
+        
+        # First, calculate sequence lengths
+        echo "Calculating contig lengths..." > {log}
+        awk '
+        /^>/ {{
+            if (seq_name != "") {{
+                print seq_name "\\t" length(sequence)
+            }}
+            seq_name = substr($0, 2)
+            sequence = ""
+        }}
+        !/^>/ {{
+            sequence = sequence $0
+        }}
+        END {{
+            if (seq_name != "") {{
+                print seq_name "\\t" length(sequence)
+            }}
+        }}
+        ' {input.fa} > $temp_lengths 2>>{log}
+        
+        # Log original statistics
+        total_contigs=$(wc -l < $temp_lengths)
+        echo "Original contigs: $total_contigs" >> {log}
+        
+        # Count unassigned contigs
+        unassigned_count=$(grep "^unassigned" $temp_lengths | wc -l)
+        echo "Unassigned contigs: $unassigned_count" >> {log}
+        
+        # Count short contigs
+        short_count=$(awk '$2 < 250000' $temp_lengths | wc -l)
+        echo "Short contigs (<250kb): $short_count" >> {log}
+        
+        # Count contigs to keep
+        keep_count=$(awk '$2 >= 250000 && !match($1, /^unassigned/)' $temp_lengths | wc -l) 
+        echo "Contigs to keep: $keep_count" >> {log}
+        
+        # Filter the FASTA file
+        echo "Filtering FASTA file..." >> {log}
+        awk -v lengths_file="$temp_lengths" '
+        BEGIN {{
+            # Load contig lengths and filter criteria
+            while ((getline line < lengths_file) > 0) {{
+                split(line, parts, "\\t")
+                contig_name = parts[1]
+                contig_len = parts[2]
+                
+                # Keep contigs that are >= 250kb and not unassigned
+                if (contig_len >= 250000 && !match(contig_name, /^unassigned/)) {{
+                    keep[contig_name] = 1
+                }}
+            }}
+            close(lengths_file)
+        }}
+        /^>/ {{
+            seq_name = substr($0, 2)
+            if (seq_name in keep) {{
+                print_seq = 1
+                print $0
+            }} else {{
+                print_seq = 0
+            }}
+            next
+        }}
+        print_seq == 1 {{ print }}
+        ' {input.fa} > {output} 2>>{log}
+        
+        # Log final statistics
+        final_contigs=$(grep "^>" {output} | wc -l)
+        echo "Final contigs: $final_contigs" >> {log}
+        
+        # Calculate total lengths
+        original_bp=$(awk '{{sum += $2}} END {{print sum}}' $temp_lengths)
+        final_bp=$(awk '/^>/ {{if (seq_name != "") {{total += length(sequence)}} seq_name = substr($0, 2); sequence = ""}} !/^>/ {{sequence = sequence $0}} END {{if (seq_name != "") {{total += length(sequence)}} print total}}' {output})
+        
+        echo "Original total length: $original_bp bp" >> {log}
+        echo "Final total length: $final_bp bp" >> {log}
+        
+        # Cleanup
+        rm -f $temp_fasta $temp_lengths
+        """
+
 rule rename_assembly_header:
 # PanSN naming convention (https://github.com/pangenome/PanSN-spec)
 # [sample_name][delim][haplotype_id][delim][contig_id]
     input:
-        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+        fa="analysis_other/pangenome/filtered/{asm}.fasta"
     output:
         "analysis_other/pangenome/assemblies/{asm}.fasta",
     log:

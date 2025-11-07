@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Liftover BED files using PAF alignments while preserving all original columns.
+Enhanced version with better handling of unmappable regions.
+Uses only the longest alignment for each region to avoid duplicates.
 """
 
 import argparse
@@ -94,32 +96,76 @@ def parse_cigar_operations(cigar):
         operations.append((length, op))
     return operations
 
-def liftover_position(pos, aln, debug=False):
+def find_nearest_mappable_position(pos, aln, direction='downstream', max_search=1000, debug=False):
     """
-    Liftover a single position using CIGAR operations.
-    Returns target coordinate or None if position falls in deletion.
+    Find the nearest mappable position when the exact position falls in insertion/deletion.
     """
     if not aln.cigar:
         # Simple linear mapping without CIGAR
         if aln.strand == '+':
             offset = pos - aln.query_start
-            result = aln.target_start + offset
+            return aln.target_start + offset
         else:
             offset = aln.query_end - pos
-            result = aln.target_start + offset
-        
-        if debug:
-            print(f"    Linear mapping: pos={pos}, offset={offset}, result={result}", file=sys.stderr)
-        return result
+            return aln.target_start + offset
     
     # Use CIGAR for precise mapping
     operations = parse_cigar_operations(aln.cigar)
     
-    query_pos = aln.query_start
-    target_pos = aln.target_start
+    search_positions = []
+    if direction == 'downstream':
+        search_positions = [pos + i for i in range(max_search + 1)]
+    else:  # upstream
+        search_positions = [pos - i for i in range(max_search + 1) if pos - i >= aln.query_start]
+    
+    for search_pos in search_positions:
+        if search_pos < aln.query_start or search_pos >= aln.query_end:
+            continue
+            
+        query_pos = aln.query_start
+        target_pos = aln.target_start
+        
+        for length, op in operations:
+            if op == 'M':  # Match/mismatch
+                if query_pos <= search_pos < query_pos + length:
+                    if aln.strand == '+':
+                        result = target_pos + (search_pos - query_pos)
+                    else:
+                        result = target_pos + length - (search_pos - query_pos) - 1
+                    
+                    if debug:
+                        offset = abs(search_pos - pos)
+                        print(f"    Found mappable position {offset}bp {direction} of original: {pos} -> {search_pos} -> {result}", file=sys.stderr)
+                    return result
+                query_pos += length
+                target_pos += length
+            elif op == 'I':  # Insertion in query
+                query_pos += length
+            elif op == 'D':  # Deletion in query
+                target_pos += length
     
     if debug:
-        print(f"    CIGAR mapping: pos={pos}, operations={operations[:5]}...", file=sys.stderr)
+        print(f"    No mappable position found within {max_search}bp {direction} of {pos}", file=sys.stderr)
+    return None
+
+def liftover_position_robust(pos, aln, max_search=1000, debug=False):
+    """
+    Liftover a single position with fallback to nearest mappable position.
+    """
+    # First try exact mapping
+    if not aln.cigar:
+        # Simple linear mapping without CIGAR
+        if aln.strand == '+':
+            offset = pos - aln.query_start
+            return aln.target_start + offset
+        else:
+            offset = aln.query_end - pos
+            return aln.target_start + offset
+    
+    # Try exact CIGAR mapping first
+    operations = parse_cigar_operations(aln.cigar)
+    query_pos = aln.query_start
+    target_pos = aln.target_start
     
     for length, op in operations:
         if op == 'M':  # Match/mismatch
@@ -129,26 +175,119 @@ def liftover_position(pos, aln, debug=False):
                 else:
                     result = target_pos + length - (pos - query_pos) - 1
                 if debug:
-                    print(f"    Found in match block: query_pos={query_pos}, target_pos={target_pos}, result={result}", file=sys.stderr)
+                    print(f"    Exact mapping: {pos} -> {result}", file=sys.stderr)
                 return result
             query_pos += length
             target_pos += length
         elif op == 'I':  # Insertion in query
             if query_pos <= pos < query_pos + length:
+                # Position falls in insertion - try to find nearest mappable position
                 if debug:
-                    print(f"    Position falls in insertion (query {query_pos}-{query_pos+length})", file=sys.stderr)
-                return None  # Position falls in insertion (not in target)
+                    print(f"    Position {pos} falls in insertion, searching for nearest mappable position", file=sys.stderr)
+                # Try downstream first (for gap regions, we want to map after the gap)
+                result = find_nearest_mappable_position(pos, aln, 'downstream', max_search, debug)
+                if result is not None:
+                    return result
+                # Try upstream as fallback
+                return find_nearest_mappable_position(pos, aln, 'upstream', max_search, debug)
             query_pos += length
         elif op == 'D':  # Deletion in query
             target_pos += length
     
+    # Position not found in any block - try nearest mappable position
     if debug:
-        print(f"    Position {pos} not found in any CIGAR block", file=sys.stderr)
+        print(f"    Position {pos} not found in alignment, searching nearby", file=sys.stderr)
+    result = find_nearest_mappable_position(pos, aln, 'downstream', max_search, debug)
+    if result is not None:
+        return result
+    return find_nearest_mappable_position(pos, aln, 'upstream', max_search, debug)
+
+def find_best_overlapping_alignment(bed_entry, alignments, window=10000):
+    """
+    Find the single best alignment that overlaps with the BED region.
+    Prioritizes by: 1) Direct overlap, 2) Alignment length, 3) MAPQ
+    
+    Returns:
+        (alignment, overlap_start, overlap_end, is_windowed) or None
+    """
+    if bed_entry.chrom not in alignments:
+        return None
+    
+    best_alignment = None
+    best_score = -1
+    best_overlap = None
+    best_windowed = False
+    
+    # First try direct overlaps
+    for aln in alignments[bed_entry.chrom]:
+        overlap_start = max(bed_entry.start, aln.query_start)
+        overlap_end = min(bed_entry.end, aln.query_end)
+        
+        if overlap_start < overlap_end:
+            # Calculate score: alignment_length * mapq * overlap_fraction
+            overlap_length = overlap_end - overlap_start
+            bed_length = bed_entry.end - bed_entry.start
+            overlap_fraction = overlap_length / bed_length
+            
+            score = aln.alignment_len * aln.quality * overlap_fraction
+            
+            if score > best_score:
+                best_score = score
+                best_alignment = aln
+                best_overlap = (overlap_start, overlap_end)
+                best_windowed = False
+    
+    # If no direct overlaps found, try with window
+    if best_alignment is None and window > 0:
+        windowed_start = max(0, bed_entry.start - window)
+        windowed_end = bed_entry.end + window
+        
+        for aln in alignments[bed_entry.chrom]:
+            # Check if alignment overlaps with windowed region
+            if aln.query_end > windowed_start and aln.query_start < windowed_end:
+                # Calculate overlap with windowed region for scoring
+                windowed_overlap_start = max(windowed_start, aln.query_start)
+                windowed_overlap_end = min(windowed_end, aln.query_end)
+                windowed_overlap_length = windowed_overlap_end - windowed_overlap_start
+                
+                # Score based on proximity and alignment quality
+                distance_penalty = min(
+                    abs(bed_entry.start - aln.query_end),
+                    abs(bed_entry.end - aln.query_start)
+                ) / window
+                
+                score = aln.alignment_len * aln.quality * (1 - distance_penalty)
+                
+                if score > best_score:
+                    best_score = score
+                    best_alignment = aln
+                    
+                    # Calculate actual mapping coordinates
+                    actual_start = max(bed_entry.start, aln.query_start)
+                    actual_end = min(bed_entry.end, aln.query_end)
+                    
+                    # If no direct overlap, use closest boundary
+                    if actual_start >= actual_end:
+                        if bed_entry.end <= aln.query_start:
+                            # Region is upstream of alignment
+                            actual_start = aln.query_start
+                            actual_end = min(aln.query_start + (bed_entry.end - bed_entry.start), aln.query_end)
+                        else:
+                            # Region is downstream of alignment
+                            actual_end = aln.query_end
+                            actual_start = max(aln.query_end - (bed_entry.end - bed_entry.start), aln.query_start)
+                    
+                    best_overlap = (actual_start, actual_end)
+                    best_windowed = True
+    
+    if best_alignment is not None:
+        return (best_alignment, best_overlap[0], best_overlap[1], best_windowed)
+    
     return None
 
-def liftover_bed_region(bed_entry, alignments, debug=False):
+def liftover_bed_region(bed_entry, alignments, max_search=1000, window=10000, debug=False):
     """
-    Liftover a BED region, returning list of lifted regions.
+    Liftover a BED region using only the best overlapping alignment.
     """
     failure_reasons = []
     
@@ -160,100 +299,90 @@ def liftover_bed_region(bed_entry, alignments, debug=False):
             print(f"        Available chromosomes: {list(alignments.keys())[:10]}...", file=sys.stderr)
         return [], failure_reasons
     
-    lifted_regions = []
-    overlap_count = 0
+    # Find the single best overlapping alignment
+    best_match = find_best_overlapping_alignment(bed_entry, alignments, window)
     
-    for i, aln in enumerate(alignments[bed_entry.chrom]):
-        # Check if region overlaps with alignment
-        overlap_start = max(bed_entry.start, aln.query_start)
-        overlap_end = min(bed_entry.end, aln.query_end)
-        
-        if overlap_start >= overlap_end:
-            if debug and i < 3:  # Only show first few for brevity
-                print(f"    Alignment {i}: no overlap", file=sys.stderr)
-                print(f"      BED region: {bed_entry.start}-{bed_entry.end}", file=sys.stderr)
-                print(f"      Alignment: {aln.query_start}-{aln.query_end} (MAPQ={aln.quality})", file=sys.stderr)
-            continue  # No overlap
-        
-        overlap_count += 1
-        if debug:
-            print(f"    Alignment {i}: overlap found", file=sys.stderr)
-            print(f"      BED region: {bed_entry.start}-{bed_entry.end}", file=sys.stderr)
-            print(f"      Alignment: {aln.query_start}-{aln.query_end} -> {aln.target_start}-{aln.target_end}", file=sys.stderr)
-            print(f"      Overlap: {overlap_start}-{overlap_end}", file=sys.stderr)
-        
-        # Liftover start and end positions
-        lifted_start = liftover_position(overlap_start, aln, debug)
-        lifted_end = liftover_position(overlap_end - 1, aln, debug)  # BED end is exclusive
-        
-        if lifted_start is None:
-            reason = f"Start position {overlap_start} falls in insertion/unmappable region"
-            failure_reasons.append(reason)
-            if debug:
-                print(f"      FAIL: {reason}", file=sys.stderr)
-            continue
-        
-        if lifted_end is None:
-            reason = f"End position {overlap_end-1} falls in insertion/unmappable region"
-            failure_reasons.append(reason)
-            if debug:
-                print(f"      FAIL: {reason}", file=sys.stderr)
-            continue
-        
-        # Ensure proper ordering
-        if lifted_start > lifted_end:
-            lifted_start, lifted_end = lifted_end, lifted_start
-        
-        lifted_end += 1  # Convert back to exclusive end
-        
-        if debug:
-            print(f"      SUCCESS: {overlap_start}-{overlap_end} -> {lifted_start}-{lifted_end}", file=sys.stderr)
-        
-        # Create lifted BED entry preserving all original fields
-        lifted_name = f"{bed_entry.chrom}_{overlap_start}_{overlap_end}"
-        if overlap_start > bed_entry.start or overlap_end < bed_entry.end:
-            lifted_name += "_partial"
-        
-        # Preserve original name and add liftover info
-        if bed_entry.name != ".":
-            lifted_name = bed_entry.name
-        
-        lifted_regions.append({
-            'chrom': aln.target_name,
-            'start': lifted_start,
-            'end': lifted_end,
-            'name': lifted_name,
-            'score': bed_entry.score,
-            'strand': aln.strand,
-            'extra_fields': bed_entry.extra_fields,
-            'original_entry': bed_entry
-        })
-    
-    if not lifted_regions and overlap_count == 0:
-        reason = f"No overlapping alignments found for region {bed_entry.start}-{bed_entry.end}"
+    if best_match is None:
+        reason = f"No overlapping alignments found for region {bed_entry.start}-{bed_entry.end} even with {window}bp window"
         failure_reasons.append(reason)
         if debug:
-            # Show nearby alignments for context
-            nearby_alns = [aln for aln in alignments[bed_entry.chrom] 
-                          if abs(aln.query_start - bed_entry.start) < 1000000 or 
-                             abs(aln.query_end - bed_entry.end) < 1000000][:3]
             print(f"  FAIL: {reason}", file=sys.stderr)
-            print(f"        Nearby alignments:", file=sys.stderr)
-            for aln in nearby_alns:
-                print(f"          {aln.query_start}-{aln.query_end} (MAPQ={aln.quality})", file=sys.stderr)
+        return [], failure_reasons
     
-    return lifted_regions, failure_reasons
+    aln, overlap_start, overlap_end, is_windowed = best_match
+    
+    if debug:
+        windowed_str = " (windowed)" if is_windowed else ""
+        print(f"    Best alignment: processing overlap {overlap_start}-{overlap_end}{windowed_str}", file=sys.stderr)
+        print(f"      BED region: {bed_entry.start}-{bed_entry.end}", file=sys.stderr)
+        print(f"      Alignment: {aln.query_start}-{aln.query_end} -> {aln.target_start}-{aln.target_end}", file=sys.stderr)
+        print(f"      Alignment length: {aln.alignment_len}, MAPQ: {aln.quality}", file=sys.stderr)
+    
+    # Liftover start and end positions with robust mapping
+    lifted_start = liftover_position_robust(overlap_start, aln, max_search, debug)
+    lifted_end = liftover_position_robust(overlap_end - 1, aln, max_search, debug)  # BED end is exclusive
+    
+    if lifted_start is None:
+        reason = f"Could not map start position {overlap_start} even with {max_search}bp search window"
+        failure_reasons.append(reason)
+        if debug:
+            print(f"      FAIL: {reason}", file=sys.stderr)
+        return [], failure_reasons
+    
+    if lifted_end is None:
+        reason = f"Could not map end position {overlap_end-1} even with {max_search}bp search window"
+        failure_reasons.append(reason)
+        if debug:
+            print(f"      FAIL: {reason}", file=sys.stderr)
+        return [], failure_reasons
+    
+    # Ensure proper ordering
+    if lifted_start > lifted_end:
+        lifted_start, lifted_end = lifted_end, lifted_start
+    
+    lifted_end += 1  # Convert back to exclusive end
+    
+    if debug:
+        print(f"      SUCCESS: {overlap_start}-{overlap_end} -> {lifted_start}-{lifted_end}", file=sys.stderr)
+    
+    # Create lifted BED entry preserving all original fields
+    lifted_name = bed_entry.name
+    if is_windowed:
+        lifted_name += "_windowed"
+    
+    lifted_region = {
+        'chrom': aln.target_name,
+        'start': lifted_start,
+        'end': lifted_end,
+        'name': lifted_name,
+        'score': bed_entry.score,
+        'strand': aln.strand,
+        'extra_fields': bed_entry.extra_fields,
+        'original_entry': bed_entry,
+        'is_windowed': is_windowed,
+        'alignment_info': {
+            'length': aln.alignment_len,
+            'mapq': aln.quality,
+            'target': f"{aln.target_name}:{aln.target_start}-{aln.target_end}"
+        }
+    }
+    
+    return [lifted_region], failure_reasons
 
-def liftover_bed_file(bed_file, paf_file, output_file, unmapped_file, debug=False):
-    """Main liftover function."""
+def liftover_bed_file(bed_file, paf_file, output_file, unmapped_file, max_search=1000, window=10000, debug=False):
+    """Main liftover function with enhanced parameters."""
     
     print(f"Loading PAF alignments from {paf_file}", file=sys.stderr)
     alignments = load_paf_alignments(paf_file)
     
     print(f"Found alignments for {len(alignments)} query sequences", file=sys.stderr)
+    print(f"Using search window: {max_search}bp for unmappable positions", file=sys.stderr)
+    print(f"Using alignment window: {window}bp for distant regions", file=sys.stderr)
+    print(f"Strategy: Select single best alignment per region", file=sys.stderr)
     
     lifted_count = 0
     unmapped_count = 0
+    windowed_count = 0
     failure_summary = defaultdict(int)
     
     with open(bed_file, 'r') as infile, \
@@ -270,10 +399,10 @@ def liftover_bed_file(bed_file, paf_file, output_file, unmapped_file, debug=Fals
             
             bed_entry = BEDEntry(line)
             
-            if debug:
+            if debug and line_num <= 10:  # Debug first 10 entries
                 print(f"\nProcessing BED entry {line_num}: {bed_entry.chrom}:{bed_entry.start}-{bed_entry.end} ({bed_entry.name})", file=sys.stderr)
             
-            lifted_regions, failure_reasons = liftover_bed_region(bed_entry, alignments, debug)
+            lifted_regions, failure_reasons = liftover_bed_region(bed_entry, alignments, max_search, window, debug and line_num <= 10)
             
             if not lifted_regions:
                 unmapped.write(line + '\n')
@@ -287,7 +416,7 @@ def liftover_bed_file(bed_file, paf_file, output_file, unmapped_file, debug=Fals
                 unmapped_count += 1
                 continue
             
-            # Write lifted regions, preserving all original BED columns
+            # Write lifted region (should be exactly one)
             for region in lifted_regions:
                 output_fields = [
                     region['chrom'],
@@ -303,10 +432,17 @@ def liftover_bed_file(bed_file, paf_file, output_file, unmapped_file, debug=Fals
                 
                 outfile.write('\t'.join(output_fields) + '\n')
                 lifted_count += 1
+                
+                if region['is_windowed']:
+                    windowed_count += 1
     
     print(f"\nSUMMARY:", file=sys.stderr)
     print(f"Successfully lifted {lifted_count} regions", file=sys.stderr)
+    print(f"  - Direct overlaps: {lifted_count - windowed_count}", file=sys.stderr)
+    print(f"  - Using alignment window: {windowed_count}", file=sys.stderr)
     print(f"Failed to lift {unmapped_count} regions", file=sys.stderr)
+    success_rate = (lifted_count / (lifted_count + unmapped_count)) * 100 if (lifted_count + unmapped_count) > 0 else 0
+    print(f"Success rate: {success_rate:.1f}%", file=sys.stderr)
     
     if failure_summary:
         print(f"\nFailure reasons:", file=sys.stderr)
@@ -321,11 +457,13 @@ def main():
     parser.add_argument('--unmapped', required=True, help='Output unmapped regions file')
     parser.add_argument('--min-mapq', type=int, default=5, help='Minimum mapping quality')
     parser.add_argument('--min-len', type=int, default=50000, help='Minimum alignment length')
+    parser.add_argument('--max-search', type=int, default=1000, help='Maximum distance to search for mappable positions (bp)')
+    parser.add_argument('--window', type=int, default=10000, help='Window size for finding nearby alignments (bp)')
     parser.add_argument('--debug', action='store_true', help='Enable detailed debug output')
     
     args = parser.parse_args()
     
-    liftover_bed_file(args.bed, args.paf, args.output, args.unmapped, args.debug)
+    liftover_bed_file(args.bed, args.paf, args.output, args.unmapped, args.max_search, args.window, args.debug)
 
 if __name__ == '__main__':
     main()
