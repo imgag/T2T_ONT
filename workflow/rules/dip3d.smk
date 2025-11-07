@@ -11,7 +11,27 @@ def get_chr_list_for_asm(wc):
 
 rule all_dip3d:
     input:
-        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = finished_samples)
+        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = finished_samples),
+        "analysis_other/dip3d/combined_dip3d_stats.tsv"
+
+rule combine_dip3d_stats:
+    input:
+        imputed_stats=expand("analysis_other/dip3d/{asm}/4-haplotag/imputed_dip3d_stats.txt", asm=finished_samples),
+        snp_tagged_stats=expand("analysis_other/dip3d/{asm}/4-haplotag/snp-tagged_dip3d_stats.txt", asm=finished_samples)
+    output:
+        combined="analysis_other/dip3d/combined_dip3d_stats.tsv"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/dip3d/combine_stats/combine_dip3d_stats.log"
+    shell:
+        """
+        python3 workflow/scripts/42_parse_dip3d_stats.py \
+            --imputed {input.imputed_stats} \
+            --snp-tagged {input.snp_tagged_stats} \
+            --output {output.combined} \
+            >{log} 2>&1
+        """
 
 rule collect_dip3d:
     input:
