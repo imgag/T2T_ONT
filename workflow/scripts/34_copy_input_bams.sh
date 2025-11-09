@@ -102,6 +102,6 @@ if [[ ${#final_merged_samples[@]} -eq 0 ]]; then
 else
     for biological_sample in "${!final_merged_samples[@]}"; do
         merged_sample="${final_merged_samples[$biological_sample]}"
-        echo "php /mnt/storage2/megSAP/pipeline/src/Pipelines/analyze_longread.php -folder Sample_${merged_sample} -name ${merged_sample} -threads 32 # Processing biological sample: $biological_sample"
+        echo "php /mnt/storage2/users/ahgrosc1/dev/megsap/pipeline/src/Pipelines/analyze_longread.php -folder Sample_${merged_sample} -name ${merged_sample} -threads 32 # Processing biological sample: $biological_sample"
     done
 fi

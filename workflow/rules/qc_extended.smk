@@ -10,12 +10,14 @@ rule all_extended_qc:
         # RepeatMasker results
         expand("analysis_other/repeatmasker/{asm}/rm_summary/{asm}_sequence_summary.csv", asm=finished_samples),
         # Flagger results
-        expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples)
+        expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples),
+        # CenMap
+        #expand("analysis_other/cenmap/{asm}/cenmap.done", asm = finished_samples)
 
 rule all_annotation:
     input:
-        expand("analysis_other/annotations/{asm}_liftoff/flagger_nucflag_annotations.lifted.gff3", asm="T2T00"),
-        expand("analysis_other/annotations/{asm}/assembly_issue_annotations.lifted.gff3", asm="T2T00")
+        #expand("analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3", asm=finished_samples),
+        expand("analysis_other/annotations/{asm}/assembly_issue_annotations.lifted.gff3", asm=finished_samples)
 
 rule gqc_assemblybench:
     input:
@@ -100,8 +102,7 @@ rule longdust:
             > {output.out} 2>{log}
         """
 
-
-
+# Repeatmaster Quick
 rule repeatmasker_quick:
     input:
         fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased": "phased"})["assembly"]
@@ -403,12 +404,12 @@ rule liftover_bed_paf:
             --window 10000 \
             --debug \
             > {log} 2>&1
-        
+
         # Log statistics
         orig_lines=$(grep -v '^#\|^track' {input.bed} | wc -l)
         lifted_lines=$(grep -v '^#\|^track' {output.lifted_bed} | wc -l)
         unmapped_lines=$(wc -l < {output.unmapped})
-        
+
         echo "Original regions: $orig_lines" >> {log}
         echo "Lifted regions: $lifted_lines" >> {log}
         echo "Unmapped regions: $unmapped_lines" >> {log}
@@ -456,34 +457,34 @@ rule gff_from_flagger_nucflag:
             > {log} 2>&1
         """
 
-rule liftoff_gff:
-    input:
-        gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
-        ref=config["ref"],
-        asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
-    output:
-        lifted_gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3",
-        unmapped = "analysis_other/annotations/{asm}/lifted_unmapped.txt",
-    conda:
-        "../env/liftoff.yml"
-    log:
-        "logs/annotation/{asm}/liftoff_gff.log"
-    threads: 8
-    shell:
-        """
-        feature_file=$(mktemp)
-        cut -f3 {input.gff} | sort | uniq | grep -v '##' > ${{feature_file}}
+# rule liftoff_gff:
+#     input:
+#         gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
+#         ref=config["ref"],
+#         asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+#     output:
+#         lifted_gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3",
+#         unmapped = "analysis_other/annotations/{asm}/lifted_unmapped.txt",
+#     conda:
+#         "../env/liftoff.yml"
+#     log:
+#         "logs/annotation/{asm}/liftoff_gff.log"
+#     threads: 8
+#     shell:
+#         """
+#         feature_file=$(mktemp)
+#         cut -f3 {input.gff} | sort | uniq | grep -v '##' > ${{feature_file}}
 
-        liftoff \
-            -f ${{feature_file}} \
-            -g {input.gff} \
-            -o {output.lifted_gff} \
-            -dir $(dirname {output.lifted_gff}) \
-            -p {threads} \
-            -u {output.unmapped} \
-            {input.ref} {input.asm} \
-            > {log} 2>&1
-        """
+#         liftoff \
+#             -f ${{feature_file}} \
+#             -g {input.gff} \
+#             -o {output.lifted_gff} \
+#             -dir $(dirname {output.lifted_gff}) \
+#             -p {threads} \
+#             -u {output.unmapped} \
+#             {input.ref} {input.asm} \
+#             > {log} 2>&1
+#         """
 
 rule create_plot:
     input:
@@ -506,4 +507,39 @@ rule create_plot:
             --feature_files {input.feature_bed} \
             --output_prefix analysis_other/plots/{wildcards.asm}/{wildcards.asm} \
             > {log} 2>&1
+        """
+
+# Cenmap
+rule cenmap:
+    input:
+        asm = "assembly/output/verkko/{asm}/assembly.fasta",
+        mod = lambda wc: find_input_datasets(SimpleNamespace(dataset=wc.asm, type="UL"))["files"][0],
+        hq = "assembly/input/{asm}/{asm}.HQ_herro.50x.fastq.gz"
+    output:
+        done = "analysis_other/cenmap/{asm}/cenmap.done"
+    conda:
+        "../env/cenmap.yml"
+    log:
+        "logs/cenmap/{asm}.yml"
+    benchmark:
+        "runtimes/cenmap/{asm}/cenmap.txt"
+    threads:
+        24
+    shell:
+        """
+        FA=$(realpath {input.asm})
+        HQ=$(realpath {input.hq})
+        MOD=$(realpath {input.mod})
+        LOG=$(realpath {log})
+        WD=$(dirname {output.done})
+
+        pushd $WD >{log}
+
+        cenmap \
+            -i $FA \
+            -s {wildcards.asm} \
+            --hifi $HQ \
+            --ont $MOD \
+            >$LOG 2>&1
+        touch cenmap.done
         """

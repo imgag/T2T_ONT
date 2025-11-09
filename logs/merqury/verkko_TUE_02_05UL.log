@@ -1,0 +1,532 @@
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/qc/phased_verkko/TUE_02_05UL /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opLessThan
+    DX203429_02.meryl
+    print to (stdout)
+Detected k-mer size 21
+Found asm2: haplotype2.fa
+# Generate meryl db for haplotype1
+
+Found 1 command tree.
+
+Counting 2795 (estimated) million canonical 21-mers from 1 input file:
+    sequence-file: haplotype1.fa
+
+
+SIMPLE MODE
+-----------
+
+  21-mers
+    -> 4398046511104 entries for counts up to 65535.
+    -> 64 Tbits memory used
+
+  2931559854 input bases
+    -> expected max count of 11726239, needing 9 extra bits.
+    -> 36 Tbits memory used
+
+  12 TB memory needed
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P    14 MB   698 MM   895 kS  8192  B  7166 MB  7180 MB
+     2     4  P    13 MB   349 MM   436 kS    16 kB  6991 MB  7004 MB
+     3     8  P    13 MB   174 MM   213 kS    32 kB  6816 MB  6829 MB
+     4    16  P    13 MB    87 MM   103 kS    64 kB  6642 MB  6655 MB
+     5    32  P    12 MB    43 MM    50 kS   128 kB  6469 MB  6482 MB
+     6    64  P    12 MB    21 MM    24 kS   256 kB  6292 MB  6304 MB
+     7   128  P    12 MB    10 MM    11 kS   512 kB  6117 MB  6129 MB
+     8   256  P    12 MB  5591 kM  5946  S  1024 kB  5946 MB  5958 MB
+     9   512  P    12 MB  2795 kM  2886  S  2048 kB  5772 MB  5784 MB
+    10  1024  P    14 MB  1397 kM  1398  S  4096 kB  5592 MB  5606 MB
+    11  2048  P    16 MB   698 kM   678  S  8192 kB  5424 MB  5440 MB
+    12  4096  P    22 MB   349 kM   328  S    16 MB  5248 MB  5270 MB
+    13  8192  P    35 MB   174 kM   159  S    32 MB  5088 MB  5123 MB
+    14    16 kP    60 MB    87 kM    77  S    64 MB  4928 MB  4988 MB
+    15    32 kP   110 MB    43 kM    37  S   128 MB  4736 MB  4846 MB  Best Value!
+    16    64 kP   211 MB    21 kM    18  S   256 MB  4608 MB  4819 MB
+    17   128 kP   413 MB    10 kM     9  S   512 MB  4608 MB  5021 MB
+    18   256 kP   818 MB  5592  M     5  S  1024 MB  5120 MB  5938 MB
+    19   512 kP  1624 MB  2796  M     2  S  2048 MB  4096 MB  5720 MB
+    20  1024 kP  3240 MB  1398  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB   699  M     1  S  8192 MB  8192 MB    14 GB
+    22  4096 kP    12 GB   350  M     1  S    16 GB    16 GB    28 GB
+    23  8192 kP    25 GB   175  M     1  S    32 GB    32 GB    57 GB
+    24    16 MP    50 GB    88  M     1  S    64 GB    64 GB   114 GB
+    25    32 MP   101 GB    44  M     1  S   128 GB   128 GB   229 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 9591 MB memory out of 1511 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 9.367 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.583 GB / 1511.088 GB to store      2097130 kmers; need 0.066 GB to sort       109922 kmers
+Used 0.626 GB / 1511.088 GB to store     16777040 kmers; need 0.150 GB to sort       252298 kmers
+Used 0.716 GB / 1511.088 GB to store     52428250 kmers; need 0.189 GB to sort       316802 kmers
+Used 0.808 GB / 1511.088 GB to store     83885200 kmers; need 0.251 GB to sort       421421 kmers
+Used 0.911 GB / 1511.088 GB to store    117439259 kmers; need 0.292 GB to sort       490266 kmers
+Used 0.988 GB / 1511.088 GB to store    142604819 kmers; need 0.340 GB to sort       571070 kmers
+Used 1.061 GB / 1511.088 GB to store    165565688 kmers; need 0.395 GB to sort       663276 kmers
+Used 1.154 GB / 1511.088 GB to store    194925508 kmers; need 0.436 GB to sort       731224 kmers
+Used 1.233 GB / 1511.088 GB to store    220091068 kmers; need 0.491 GB to sort       822989 kmers
+Used 1.319 GB / 1511.088 GB to store    247353758 kmers; need 0.530 GB to sort       889611 kmers
+Used 1.406 GB / 1511.088 GB to store    274616427 kmers; need 0.589 GB to sort       987821 kmers
+Used 1.486 GB / 1511.088 GB to store    299781987 kmers; need 0.641 GB to sort      1076026 kmers
+Used 1.586 GB / 1511.088 GB to store    331238937 kmers; need 0.672 GB to sort      1127981 kmers
+Used 1.673 GB / 1511.088 GB to store    358501627 kmers; need 0.715 GB to sort      1200090 kmers
+Used 1.747 GB / 1511.088 GB to store    381570057 kmers; need 0.775 GB to sort      1299570 kmers
+Used 1.801 GB / 1511.088 GB to store    398347097 kmers; need 0.848 GB to sort      1422919 kmers
+Used 1.868 GB / 1511.088 GB to store    419318397 kmers; need 0.907 GB to sort      1521253 kmers
+Used 1.961 GB / 1511.088 GB to store    448678175 kmers; need 0.955 GB to sort      1602872 kmers
+Used 2.047 GB / 1511.088 GB to store    475940865 kmers; need 0.995 GB to sort      1669515 kmers
+Used 2.121 GB / 1511.088 GB to store    499009295 kmers; need 1.056 GB to sort      1771735 kmers
+Used 2.208 GB / 1511.088 GB to store    526264423 kmers; need 1.157 GB to sort      1941911 kmers
+Used 2.335 GB / 1511.088 GB to store    566109872 kmers; need 1.157 GB to sort      1941911 kmers
+Used 2.416 GB / 1511.088 GB to store    591275432 kmers; need 1.204 GB to sort      2019243 kmers
+Used 2.510 GB / 1511.088 GB to store    620635252 kmers; need 1.236 GB to sort      2074403 kmers
+Used 2.577 GB / 1511.088 GB to store    641606552 kmers; need 1.295 GB to sort      2172484 kmers
+Used 2.644 GB / 1511.088 GB to store    662577852 kmers; need 1.357 GB to sort      2276379 kmers
+Used 2.724 GB / 1511.088 GB to store    687743412 kmers; need 1.421 GB to sort      2384555 kmers
+Used 2.818 GB / 1511.088 GB to store    717103211 kmers; need 1.457 GB to sort      2444374 kmers
+Used 2.891 GB / 1511.088 GB to store    740171641 kmers; need 1.525 GB to sort      2557731 kmers
+Used 2.966 GB / 1511.088 GB to store    763240071 kmers; need 1.583 GB to sort      2656642 kmers
+Used 3.045 GB / 1511.088 GB to store    788405631 kmers; need 1.631 GB to sort      2735629 kmers
+Used 3.140 GB / 1511.088 GB to store    817765430 kmers; need 1.663 GB to sort      2790837 kmers
+Used 3.233 GB / 1511.088 GB to store    847125250 kmers; need 1.715 GB to sort      2877419 kmers
+Used 3.294 GB / 1511.088 GB to store    865999420 kmers; need 1.793 GB to sort      3007853 kmers
+Used 3.401 GB / 1511.088 GB to store    899553479 kmers; need 1.813 GB to sort      3042344 kmers
+Used 3.441 GB / 1511.088 GB to store    912136259 kmers; need 1.904 GB to sort      3194616 kmers
+Used 3.562 GB / 1511.088 GB to store    949884599 kmers; need 1.946 GB to sort      3265136 kmers
+Used 3.635 GB / 1511.088 GB to store    972953029 kmers; need 2.000 GB to sort      3356020 kmers
+Used 3.729 GB / 1511.088 GB to store   1002312849 kmers; need 2.037 GB to sort      3417163 kmers
+Used 3.810 GB / 1511.088 GB to store   1027478388 kmers; need 2.096 GB to sort      3516203 kmers
+Used 3.870 GB / 1511.088 GB to store   1046352558 kmers; need 2.163 GB to sort      3629033 kmers
+Used 3.976 GB / 1511.088 GB to store   1079906638 kmers; need 2.184 GB to sort      3664964 kmers
+Used 4.056 GB / 1511.088 GB to store   1105072198 kmers; need 2.275 GB to sort      3816671 kmers
+Used 4.150 GB / 1511.088 GB to store   1134432018 kmers; need 2.308 GB to sort      3872265 kmers
+Used 4.279 GB / 1511.088 GB to store   1174277488 kmers; need 2.308 GB to sort      3872265 kmers
+Used 4.312 GB / 1511.088 GB to store   1184763138 kmers; need 2.405 GB to sort      4034176 kmers
+Used 4.440 GB / 1511.088 GB to store   1224608587 kmers; need 2.405 GB to sort      4034176 kmers
+Used 4.547 GB / 1511.088 GB to store   1258162667 kmers; need 2.428 GB to sort      4073451 kmers
+Used 4.580 GB / 1511.088 GB to store   1268648317 kmers; need 2.522 GB to sort      4230662 kmers
+Used 4.702 GB / 1511.088 GB to store   1306396657 kmers; need 2.526 GB to sort      4238584 kmers
+Used 4.735 GB / 1511.088 GB to store   1316882307 kmers; need 2.624 GB to sort      4401657 kmers
+Used 4.836 GB / 1511.088 GB to store   1348339257 kmers; need 2.651 GB to sort      4447717 kmers
+Used 4.903 GB / 1511.088 GB to store   1369310557 kmers; need 2.717 GB to sort      4558137 kmers
+Used 4.976 GB / 1511.088 GB to store   1392378966 kmers; need 2.772 GB to sort      4650681 kmers
+Used 5.098 GB / 1511.088 GB to store   1430127306 kmers; need 2.779 GB to sort      4662422 kmers
+Used 5.125 GB / 1511.088 GB to store   1438515826 kmers; need 2.883 GB to sort      4837461 kmers
+Used 5.245 GB / 1511.088 GB to store   1476256646 kmers; need 2.947 GB to sort      4943710 kmers
+Used 5.366 GB / 1511.088 GB to store   1514004986 kmers; need 3.036 GB to sort      5093593 kmers
+Used 5.493 GB / 1511.088 GB to store   1553850435 kmers; need 3.036 GB to sort      5093593 kmers
+Used 5.540 GB / 1511.088 GB to store   1568530345 kmers; need 3.141 GB to sort      5269870 kmers
+Used 5.621 GB / 1511.088 GB to store   1593695884 kmers; need 3.201 GB to sort      5369713 kmers
+Used 5.741 GB / 1511.088 GB to store   1631444224 kmers; need 3.208 GB to sort      5381864 kmers
+Used 5.809 GB / 1511.088 GB to store   1652415524 kmers; need 3.267 GB to sort      5480953 kmers
+Used 5.903 GB / 1511.088 GB to store   1681775344 kmers; need 3.323 GB to sort      5575831 kmers
+Used 6.024 GB / 1511.088 GB to store   1719523684 kmers; need 3.354 GB to sort      5627708 kmers
+Used 6.084 GB / 1511.088 GB to store   1738397854 kmers; need 3.435 GB to sort      5762711 kmers
+Used 6.192 GB / 1511.088 GB to store   1771951934 kmers; need 3.552 GB to sort      5958874 kmers
+Used 6.313 GB / 1511.088 GB to store   1809700253 kmers; need 3.561 GB to sort      5974721 kmers
+Used 6.433 GB / 1511.088 GB to store   1847431333 kmers; need 3.627 GB to sort      6084887 kmers
+Used 6.546 GB / 1511.088 GB to store   1883082543 kmers; need 3.642 GB to sort      6110254 kmers
+Used 6.647 GB / 1511.088 GB to store   1914539493 kmers; need 3.677 GB to sort      6169674 kmers
+Used 6.654 GB / 1511.088 GB to store   1916636623 kmers; need 3.802 GB to sort      6379140 kmers
+Used 6.748 GB / 1511.088 GB to store   1945996443 kmers; need 3.836 GB to sort      6435266 kmers
+Used 6.821 GB / 1511.088 GB to store   1969064873 kmers; need 3.893 GB to sort      6532028 kmers
+Used 6.949 GB / 1511.088 GB to store   2008910343 kmers; need 3.893 GB to sort      6532028 kmers
+Used 7.036 GB / 1511.088 GB to store   2036173012 kmers; need 3.933 GB to sort      6598884 kmers
+Used 7.070 GB / 1511.088 GB to store   2046658662 kmers; need 4.063 GB to sort      6816110 kmers
+Used 7.191 GB / 1511.088 GB to store   2084407002 kmers; need 4.068 GB to sort      6824222 kmers
+Used 7.299 GB / 1511.088 GB to store   2117961082 kmers; need 4.086 GB to sort      6854994 kmers
+Used 7.386 GB / 1511.088 GB to store   2145223772 kmers; need 4.129 GB to sort      6926592 kmers
+Used 7.453 GB / 1511.088 GB to store   2166195072 kmers; need 4.192 GB to sort      7033683 kmers
+Used 7.513 GB / 1511.088 GB to store   2185069221 kmers; need 4.263 GB to sort      7152766 kmers
+Used 7.641 GB / 1511.088 GB to store   2224814650 kmers; need 4.263 GB to sort      7152766 kmers
+Used 7.728 GB / 1511.088 GB to store   2252077340 kmers; need 4.303 GB to sort      7218431 kmers
+Used 7.768 GB / 1511.088 GB to store   2264660120 kmers; need 4.392 GB to sort      7369230 kmers
+Used 7.896 GB / 1511.088 GB to store   2304505590 kmers; need 4.392 GB to sort      7369230 kmers
+Used 7.936 GB / 1511.088 GB to store   2317088370 kmers; need 4.481 GB to sort      7517682 kmers
+Used 8.016 GB / 1511.088 GB to store   2342253930 kmers; need 4.529 GB to sort      7599044 kmers
+Used 8.144 GB / 1511.088 GB to store   2382099400 kmers; need 4.529 GB to sort      7599044 kmers
+Used 8.218 GB / 1511.088 GB to store   2405167830 kmers; need 4.588 GB to sort      7696946 kmers
+Used 8.305 GB / 1511.088 GB to store   2432430520 kmers; need 4.739 GB to sort      7951070 kmers
+Used 8.419 GB / 1511.088 GB to store   2468081709 kmers; need 4.752 GB to sort      7971727 kmers
+Used 8.547 GB / 1511.088 GB to store   2507827159 kmers; need 4.756 GB to sort      7978562 kmers
+Used 8.627 GB / 1511.088 GB to store   2532992719 kmers; need 4.807 GB to sort      8064821 kmers
+Used 8.688 GB / 1511.088 GB to store   2551866889 kmers; need 5.048 GB to sort      8468792 kmers
+Used 8.762 GB / 1511.088 GB to store   2574935298 kmers; need 5.103 GB to sort      8562157 kmers
+Used 8.889 GB / 1511.088 GB to store   2614780768 kmers; need 5.103 GB to sort      8562157 kmers
+Used 9.003 GB / 1511.088 GB to store   2650431957 kmers; need 5.118 GB to sort      8585855 kmers
+Used 9.090 GB / 1511.088 GB to store   2677694647 kmers; need 5.157 GB to sort      8652238 kmers
+Used 9.158 GB / 1511.088 GB to store   2698665947 kmers; need 5.218 GB to sort      8753844 kmers
+Used 9.171 GB / 1511.088 GB to store   2702860207 kmers; need 5.342 GB to sort      8962393 kmers
+Used 9.238 GB / 1511.088 GB to store   2723831507 kmers; need 5.404 GB to sort      9066876 kmers
+Used 9.366 GB / 1511.088 GB to store   2763676977 kmers; need 5.404 GB to sort      9066876 kmers
+Used 9.480 GB / 1511.088 GB to store   2799328166 kmers; need 5.417 GB to sort      9087669 kmers
+Used 9.561 GB / 1511.088 GB to store   2824493726 kmers; need 5.468 GB to sort      9173732 kmers
+Used 9.621 GB / 1511.088 GB to store   2843367896 kmers; need 5.560 GB to sort      9327647 kmers
+Used 9.741 GB / 1511.088 GB to store   2881116236 kmers; need 5.565 GB to sort      9336620 kmers
+Used 9.869 GB / 1511.088 GB to store   2920961706 kmers; need 5.565 GB to sort      9336620 kmers
+
+Input complete.  Writing results to 'haplotype1.meryl', using 40 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opDifference
+    haplotype1.meryl
+    DX203429_02.meryl
+    output to haplotype1.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for haplotype1
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+--
+-- Estimating memory usage for 'haplotype1.0.meryl/'.
+--
+
+ p       prefixes             bits gigabytes (allowed: 1511 GB)
+-- -------------- ---------------- ---------
+ 5             32           716468     0.000
+ 6             64           701506     0.000
+ 7            128           688592     0.000
+ 8            256           679774     0.000
+ 9            512           679148     0.000 (smallest)
+10           1024           694906     0.000
+11           2048           743432     0.000
+12           4096           857494     0.000 (faster)
+13           8192          1102628     0.000
+14          16384          1609906     0.000
+15          32768          2641472     0.000
+16          65536          4721614     0.001
+-- -------------- ---------------- ---------
+            17010 total kmers
+
+--
+-- Minimal memory needed: 0.000 GB
+-- Optimal memory needed: 0.000 GB  enabled
+-- Memory limit           1511.401 GB
+--
+--
+-- Loading kmers from 'haplotype1.0.meryl/' into lookup table.
+--
+
+For 17010 distinct 21-mers (with 12 bits used for indexing and 30 bits for tags):
+    0.000 GB memory for kmer indices -         4096 elements 64 bits wide)
+    0.000 GB memory for kmer tags    -        17010 elements 30 bits wide)
+    0.000 GB memory for kmer values  -        17010 elements  5 bits wide)
+    0.000 GB memory
+
+Will load 17010 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+Allocating space for 33138 suffixes of 30 bits each -> 994140 bits (0.000 GB) in blocks of 32.000 MB
+                     33138 values   of 5 bits each -> 165690 bits (0.000 GB) in blocks of 32.000 MB
+Loaded 17010 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+-- Opening input sequences 'haplotype1.fa'.
+-- Opening output file '-'.
+Bye!
+# Generate meryl db for haplotype2
+
+Found 1 command tree.
+
+Counting 2888 (estimated) million canonical 21-mers from 1 input file:
+    sequence-file: haplotype2.fa
+
+
+SIMPLE MODE
+-----------
+
+  21-mers
+    -> 4398046511104 entries for counts up to 65535.
+    -> 64 Tbits memory used
+
+  3028628922 input bases
+    -> expected max count of 12114515, needing 9 extra bits.
+    -> 36 Tbits memory used
+
+  12 TB memory needed
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P    14 MB   722 MM   925 kS  8192  B  7403 MB  7417 MB
+     2     4  P    14 MB   361 MM   451 kS    16 kB  7222 MB  7236 MB
+     3     8  P    13 MB   180 MM   220 kS    32 kB  7042 MB  7055 MB
+     4    16  P    13 MB    90 MM   107 kS    64 kB  6862 MB  6875 MB
+     5    32  P    13 MB    45 MM    52 kS   128 kB  6684 MB  6697 MB
+     6    64  P    12 MB    22 MM    25 kS   256 kB  6500 MB  6513 MB
+     7   128  P    12 MB    11 MM    12 kS   512 kB  6320 MB  6332 MB
+     8   256  P    12 MB  5776 kM  6143  S  1024 kB  6143 MB  6155 MB
+     9   512  P    13 MB  2888 kM  2982  S  2048 kB  5964 MB  5977 MB
+    10  1024  P    14 MB  1444 kM  1445  S  4096 kB  5780 MB  5794 MB
+    11  2048  P    17 MB   722 kM   700  S  8192 kB  5600 MB  5617 MB
+    12  4096  P    23 MB   361 kM   339  S    16 MB  5424 MB  5447 MB
+    13  8192  P    35 MB   180 kM   164  S    32 MB  5248 MB  5283 MB
+    14    16 kP    60 MB    90 kM    79  S    64 MB  5056 MB  5116 MB
+    15    32 kP   110 MB    45 kM    39  S   128 MB  4992 MB  5102 MB
+    16    64 kP   211 MB    22 kM    19  S   256 MB  4864 MB  5075 MB  Best Value!
+    17   128 kP   413 MB    11 kM     9  S   512 MB  4608 MB  5021 MB
+    18   256 kP   818 MB  5777  M     5  S  1024 MB  5120 MB  5938 MB
+    19   512 kP  1628 MB  2889  M     3  S  2048 MB  6144 MB  7772 MB
+    20  1024 kP  3240 MB  1445  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB   723  M     1  S  8192 MB  8192 MB    14 GB
+    22  4096 kP    12 GB   362  M     1  S    16 GB    16 GB    28 GB
+    23  8192 kP    25 GB   181  M     1  S    32 GB    32 GB    57 GB
+    24    16 MP    50 GB    91  M     1  S    64 GB    64 GB   114 GB
+    25    32 MP   101 GB    46  M     1  S   128 GB   128 GB   229 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 9692 MB memory out of 1511 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 9.465 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.908 GB / 1511.088 GB to store      2097130 kmers; need 0.097 GB to sort       163089 kmers
+Used 0.955 GB / 1511.088 GB to store     18874170 kmers; need 0.181 GB to sort       304078 kmers
+Used 1.067 GB / 1511.088 GB to store     69205290 kmers; need 0.199 GB to sort       333614 kmers
+Used 1.133 GB / 1511.088 GB to store     94370850 kmers; need 0.263 GB to sort       440918 kmers
+Used 1.211 GB / 1511.088 GB to store    121633519 kmers; need 0.312 GB to sort       523391 kmers
+Used 1.288 GB / 1511.088 GB to store    148896209 kmers; need 0.363 GB to sort       608250 kmers
+Used 1.375 GB / 1511.088 GB to store    178256029 kmers; need 0.403 GB to sort       675313 kmers
+Used 1.464 GB / 1511.088 GB to store    207615849 kmers; need 0.444 GB to sort       745643 kmers
+Used 1.539 GB / 1511.088 GB to store    232781409 kmers; need 0.501 GB to sort       840173 kmers
+Used 1.608 GB / 1511.088 GB to store    255849839 kmers; need 0.561 GB to sort       941713 kmers
+Used 1.708 GB / 1511.088 GB to store    289303878 kmers; need 0.596 GB to sort       999898 kmers
+Used 1.771 GB / 1511.088 GB to store    310275178 kmers; need 0.662 GB to sort      1110519 kmers
+Used 1.858 GB / 1511.088 GB to store    339634977 kmers; need 0.705 GB to sort      1183224 kmers
+Used 1.921 GB / 1511.088 GB to store    360606277 kmers; need 0.771 GB to sort      1293303 kmers
+Used 1.985 GB / 1511.088 GB to store    381577577 kmers; need 0.845 GB to sort      1417090 kmers
+Used 2.092 GB / 1511.088 GB to store    417228766 kmers; need 0.873 GB to sort      1464789 kmers
+Used 2.182 GB / 1511.088 GB to store    446488545 kmers; need 0.928 GB to sort      1557060 kmers
+Used 2.285 GB / 1511.088 GB to store    480042625 kmers; need 0.960 GB to sort      1610988 kmers
+Used 2.355 GB / 1511.088 GB to store    503111055 kmers; need 1.017 GB to sort      1705984 kmers
+Used 2.438 GB / 1511.088 GB to store    530373745 kmers; need 1.061 GB to sort      1780089 kmers
+Used 2.529 GB / 1511.088 GB to store    559733565 kmers; need 1.109 GB to sort      1861398 kmers
+Used 2.612 GB / 1511.088 GB to store    586996255 kmers; need 1.152 GB to sort      1932336 kmers
+Used 2.683 GB / 1511.088 GB to store    610064664 kmers; need 1.224 GB to sort      2053711 kmers
+Used 2.792 GB / 1511.088 GB to store    645715874 kmers; need 1.270 GB to sort      2131297 kmers
+Used 2.869 GB / 1511.088 GB to store    670881434 kmers; need 1.324 GB to sort      2220765 kmers
+Used 2.940 GB / 1511.088 GB to store    693949843 kmers; need 1.380 GB to sort      2314485 kmers
+Used 3.030 GB / 1511.088 GB to store    723309663 kmers; need 1.423 GB to sort      2387756 kmers
+Used 3.113 GB / 1511.088 GB to store    750572353 kmers; need 1.473 GB to sort      2470494 kmers
+Used 3.191 GB / 1511.088 GB to store    775737913 kmers; need 1.520 GB to sort      2550722 kmers
+Used 3.281 GB / 1511.088 GB to store    805097733 kmers; need 1.559 GB to sort      2615902 kmers
+Used 3.346 GB / 1511.088 GB to store    826069012 kmers; need 1.622 GB to sort      2721707 kmers
+Used 3.455 GB / 1511.088 GB to store    861720222 kmers; need 1.666 GB to sort      2794887 kmers
+Used 3.545 GB / 1511.088 GB to store    891080042 kmers; need 1.706 GB to sort      2862714 kmers
+Used 3.617 GB / 1511.088 GB to store    914148451 kmers; need 1.760 GB to sort      2952209 kmers
+Used 3.700 GB / 1511.088 GB to store    941411141 kmers; need 1.807 GB to sort      3032150 kmers
+Used 3.791 GB / 1511.088 GB to store    970770961 kmers; need 1.891 GB to sort      3171951 kmers
+Used 3.907 GB / 1511.088 GB to store   1008519301 kmers; need 1.907 GB to sort      3198794 kmers
+Used 3.997 GB / 1511.088 GB to store   1037879121 kmers; need 1.942 GB to sort      3258768 kmers
+Used 4.068 GB / 1511.088 GB to store   1060947551 kmers; need 2.001 GB to sort      3356562 kmers
+Used 4.138 GB / 1511.088 GB to store   1084015960 kmers; need 2.056 GB to sort      3449029 kmers
+Used 4.240 GB / 1511.088 GB to store   1117570040 kmers; need 2.080 GB to sort      3488825 kmers
+Used 4.319 GB / 1511.088 GB to store   1142735600 kmers; need 2.140 GB to sort      3590125 kmers
+Used 4.409 GB / 1511.088 GB to store   1172095399 kmers; need 2.186 GB to sort      3667645 kmers
+Used 4.487 GB / 1511.088 GB to store   1197260959 kmers; need 2.238 GB to sort      3755553 kmers
+Used 4.583 GB / 1511.088 GB to store   1228717909 kmers; need 2.271 GB to sort      3809337 kmers
+Used 4.666 GB / 1511.088 GB to store   1255980599 kmers; need 2.313 GB to sort      3880278 kmers
+Used 4.744 GB / 1511.088 GB to store   1281146159 kmers; need 2.366 GB to sort      3968713 kmers
+Used 4.822 GB / 1511.088 GB to store   1306311719 kmers; need 2.415 GB to sort      4051638 kmers
+Used 4.899 GB / 1511.088 GB to store   1331477279 kmers; need 2.466 GB to sort      4136811 kmers
+Used 4.983 GB / 1511.088 GB to store   1358739948 kmers; need 2.511 GB to sort      4212251 kmers
+Used 5.060 GB / 1511.088 GB to store   1383903988 kmers; need 2.594 GB to sort      4351580 kmers
+Used 5.170 GB / 1511.088 GB to store   1419555198 kmers; need 2.611 GB to sort      4380602 kmers
+Used 5.260 GB / 1511.088 GB to store   1448915018 kmers; need 2.650 GB to sort      4445608 kmers
+Used 5.343 GB / 1511.088 GB to store   1476177708 kmers; need 2.693 GB to sort      4517877 kmers
+Used 5.415 GB / 1511.088 GB to store   1499246138 kmers; need 2.750 GB to sort      4613342 kmers
+Used 5.499 GB / 1511.088 GB to store   1526508828 kmers; need 2.794 GB to sort      4688352 kmers
+Used 5.570 GB / 1511.088 GB to store   1549577258 kmers; need 2.861 GB to sort      4800581 kmers
+Used 5.667 GB / 1511.088 GB to store   1581034208 kmers; need 2.897 GB to sort      4860495 kmers
+Used 5.751 GB / 1511.088 GB to store   1608296877 kmers; need 2.946 GB to sort      4942559 kmers
+Used 5.828 GB / 1511.088 GB to store   1633462437 kmers; need 2.997 GB to sort      5028017 kmers
+Used 5.918 GB / 1511.088 GB to store   1662822257 kmers; need 3.044 GB to sort      5107117 kmers
+Used 6.008 GB / 1511.088 GB to store   1692182077 kmers; need 3.080 GB to sort      5168180 kmers
+Used 6.085 GB / 1511.088 GB to store   1717347637 kmers; need 3.132 GB to sort      5254143 kmers
+Used 6.170 GB / 1511.088 GB to store   1744610306 kmers; need 3.174 GB to sort      5325893 kmers
+Used 6.259 GB / 1511.088 GB to store   1773970126 kmers; need 3.224 GB to sort      5409356 kmers
+Used 6.349 GB / 1511.088 GB to store   1803322426 kmers; need 3.260 GB to sort      5469220 kmers
+Used 6.401 GB / 1511.088 GB to store   1820099466 kmers; need 3.337 GB to sort      5597800 kmers
+Used 6.511 GB / 1511.088 GB to store   1855750676 kmers; need 3.368 GB to sort      5651233 kmers
+Used 6.614 GB / 1511.088 GB to store   1889304756 kmers; need 3.394 GB to sort      5694552 kmers
+Used 6.692 GB / 1511.088 GB to store   1914470316 kmers; need 3.445 GB to sort      5780426 kmers
+Used 6.770 GB / 1511.088 GB to store   1939635834 kmers; need 3.501 GB to sort      5873141 kmers
+Used 6.861 GB / 1511.088 GB to store   1968995654 kmers; need 3.542 GB to sort      5942385 kmers
+Used 6.951 GB / 1511.088 GB to store   1998355474 kmers; need 3.579 GB to sort      6004796 kmers
+Used 7.022 GB / 1511.088 GB to store   2021423904 kmers; need 3.638 GB to sort      6104037 kmers
+Used 7.112 GB / 1511.088 GB to store   2050783724 kmers; need 3.677 GB to sort      6168290 kmers
+Used 7.202 GB / 1511.088 GB to store   2080143544 kmers; need 3.712 GB to sort      6228524 kmers
+Used 7.267 GB / 1511.088 GB to store   2101114844 kmers; need 3.777 GB to sort      6337119 kmers
+Used 7.339 GB / 1511.088 GB to store   2124183274 kmers; need 3.835 GB to sort      6434503 kmers
+Used 7.448 GB / 1511.088 GB to store   2159834484 kmers; need 3.862 GB to sort      6478801 kmers
+Used 7.506 GB / 1511.088 GB to store   2178708633 kmers; need 3.935 GB to sort      6601289 kmers
+Used 7.583 GB / 1511.088 GB to store   2203874193 kmers; need 3.997 GB to sort      6706005 kmers
+Used 7.705 GB / 1511.088 GB to store   2243719663 kmers; need 4.014 GB to sort      6734622 kmers
+Used 7.776 GB / 1511.088 GB to store   2266688073 kmers; need 4.069 GB to sort      6826780 kmers
+Used 7.860 GB / 1511.088 GB to store   2293950742 kmers; need 4.116 GB to sort      6904991 kmers
+Used 7.932 GB / 1511.088 GB to store   2317019172 kmers; need 4.172 GB to sort      6999076 kmers
+Used 8.021 GB / 1511.088 GB to store   2346378992 kmers; need 4.208 GB to sort      7060141 kmers
+Used 8.099 GB / 1511.088 GB to store   2371537032 kmers; need 4.259 GB to sort      7145145 kmers
+Used 8.170 GB / 1511.088 GB to store   2394605462 kmers; need 4.330 GB to sort      7264180 kmers
+Used 8.216 GB / 1511.088 GB to store   2409285372 kmers; need 4.415 GB to sort      7407409 kmers
+Used 8.319 GB / 1511.088 GB to store   2442839431 kmers; need 4.448 GB to sort      7462126 kmers
+Used 8.403 GB / 1511.088 GB to store   2470102121 kmers; need 4.494 GB to sort      7540323 kmers
+Used 8.480 GB / 1511.088 GB to store   2495267660 kmers; need 4.543 GB to sort      7621716 kmers
+Used 8.571 GB / 1511.088 GB to store   2524627480 kmers; need 4.582 GB to sort      7687631 kmers
+Used 8.654 GB / 1511.088 GB to store   2551890170 kmers; need 4.629 GB to sort      7765798 kmers
+Used 8.726 GB / 1511.088 GB to store   2574958600 kmers; need 4.687 GB to sort      7863731 kmers
+Used 8.823 GB / 1511.088 GB to store   2606415529 kmers; need 4.734 GB to sort      7942842 kmers
+Used 8.913 GB / 1511.088 GB to store   2635775349 kmers; need 4.771 GB to sort      8003605 kmers
+Used 8.958 GB / 1511.088 GB to store   2650455259 kmers; need 4.860 GB to sort      8154171 kmers
+Used 9.061 GB / 1511.088 GB to store   2684009339 kmers; need 4.887 GB to sort      8198482 kmers
+Used 9.145 GB / 1511.088 GB to store   2711272029 kmers; need 4.928 GB to sort      8268393 kmers
+Used 9.223 GB / 1511.088 GB to store   2736437568 kmers; need 4.984 GB to sort      8361249 kmers
+Used 9.314 GB / 1511.088 GB to store   2765797388 kmers; need 5.020 GB to sort      8421922 kmers
+Used 9.405 GB / 1511.088 GB to store   2795157208 kmers; need 5.068 GB to sort      8502693 kmers
+Used 9.488 GB / 1511.088 GB to store   2822419898 kmers; need 5.115 GB to sort      8581516 kmers
+Used 9.572 GB / 1511.088 GB to store   2849582568 kmers; need 5.165 GB to sort      8664784 kmers
+Used 9.656 GB / 1511.088 GB to store   2876845258 kmers; need 5.218 GB to sort      8754869 kmers
+Used 9.746 GB / 1511.088 GB to store   2906205057 kmers; need 5.255 GB to sort      8816074 kmers
+Used 9.837 GB / 1511.088 GB to store   2935564877 kmers; need 5.305 GB to sort      8900639 kmers
+Used 9.921 GB / 1511.088 GB to store   2962827567 kmers; need 5.374 GB to sort      9015652 kmers
+Used 10.050 GB / 1511.088 GB to store   3004720705 kmers; need 5.374 GB to sort      9015652 kmers
+
+Input complete.  Writing results to 'haplotype2.meryl', using 40 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opDifference
+    haplotype2.meryl
+    DX203429_02.meryl
+    output to haplotype2.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for haplotype2
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+--
+-- Estimating memory usage for 'haplotype2.0.meryl/'.
+--
+
+ p       prefixes             bits gigabytes (allowed: 1511 GB)
+-- -------------- ---------------- ---------
+ 5             32           873422     0.000
+ 6             64           854723     0.000
+ 7            128           838072     0.000
+ 8            256           825517     0.000
+ 9            512           821154     0.000 (smallest)
+10           1024           833175     0.000
+11           2048           877964     0.000
+12           4096           988289     0.000 (faster)
+13           8192          1229686     0.000
+14          16384          1733227     0.000
+15          32768          2761056     0.000
+16          65536          4837461     0.001
+-- -------------- ---------------- ---------
+            20747 total kmers
+
+--
+-- Minimal memory needed: 0.000 GB
+-- Optimal memory needed: 0.000 GB  enabled
+-- Memory limit           1511.401 GB
+--
+--
+-- Loading kmers from 'haplotype2.0.meryl/' into lookup table.
+--
+
+For 20747 distinct 21-mers (with 12 bits used for indexing and 30 bits for tags):
+    0.000 GB memory for kmer indices -         4096 elements 64 bits wide)
+    0.000 GB memory for kmer tags    -        20747 elements 30 bits wide)
+    0.000 GB memory for kmer values  -        20747 elements  5 bits wide)
+    0.000 GB memory
+
+Will load 20747 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+Allocating space for 36875 suffixes of 30 bits each -> 1106250 bits (0.000 GB) in blocks of 32.000 MB
+                     36875 values   of 5 bits each -> 184375 bits (0.000 GB) in blocks of 32.000 MB
+Loaded 20747 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+-- Opening input sequences 'haplotype2.fa'.
+-- Opening output file '-'.
+Bye!
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opUnionSum
+    haplotype1.meryl
+    haplotype2.meryl
+    output to both.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 40 threads.
+  opUnionSum
+    haplotype1.0.meryl
+    haplotype2.0.meryl
+    output to both.0.meryl
+
+Cleaning up.
+
+Bye.
+# QV statistics for both
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Done!
+Remove intermediate files:
+rm -r haplotype1.0.meryl haplotype2.0.meryl both.0.meryl
+/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT

@@ -1,8 +1,9 @@
 rule all_plot:
     input:
-        expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample="T2T00"),
+        expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample=finished_samples),
         expand("results/{sample}/ref_alignment/{sample}.synteny.png", sample=finished_samples),
-        "doc/tables/for_plots/T2T_contigs.all.seqinfo.txt"
+        "doc/tables/for_plots/T2T_contigs.all.seqinfo.txt",
+        "doc/tables/for_plots/repeatmasker_summary.all_samples.csv"
 
 # Karyogram plotting rule for Snakemake
 rule plot_karyogram:
@@ -112,3 +113,32 @@ rule collect_T2T:
             --output {output} \
             > {log} 2>&1
         """
+
+rule collect_repeatmasker_summaries:
+    input:
+        expand("analysis_other/repeatmasker/{sample}/rm_summary/{sample}_family_summary.csv", sample=finished_samples)
+    output:
+        "doc/tables/for_plots/repeatmasker_summary.all_samples.csv"
+    params:
+        samples=finished_samples
+    log:
+        "logs/plot/collect_repeatmasker_summaries.log"
+    run:
+        import pandas as pd
+        
+        all_data = []
+        
+        for i, file_path in enumerate(input):
+            sample = params.samples[i]
+            df = pd.read_csv(file_path)
+            df['sample'] = sample
+            all_data.append(df)
+        
+        combined_df = pd.concat(all_data, ignore_index=True)
+        combined_df = combined_df.sort_values(['sample', 'repeat_class', 'repeat_family'])
+        
+        # Reorder columns to put sample first
+        cols = ['sample'] + [col for col in combined_df.columns if col != 'sample']
+        combined_df = combined_df[cols]
+        
+        combined_df.to_csv(output[0], index=False)
