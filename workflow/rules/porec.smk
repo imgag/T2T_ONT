@@ -5,6 +5,7 @@ rule all_porec:
 rule collect_porec:
     input:
         expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.gz", hp = ["", ".hp1", ".hp2"]),
+        expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}_adj.pairs.gz", hp = ["", ".hp1", ".hp2"]), # new
         expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.stats.html", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}.mcool", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}_{res}_corrected.cool", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
@@ -12,7 +13,11 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_{res}.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
         expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000'])),
-        #expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"])
+        expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"]), # new
+        expand("analysis_other/porec/{{asm}}{hp}/compartments/{{asm}}{hp}.cis{file}", hp = ["", ".hp1", ".hp2"] ,file=[".vecs.tsv",".lam.txt",".bw"]),  # new
+        expand("analysis_other/porec/{{asm}}{hp}/insulation/{{asm}}{hp}_{res}.insulation.tsv", hp = ["", ".hp1", ".hp2"], res = config['insulation_resolutions']), # new
+        expand("analysis_other/porec/{{asm}}{hp}/plots/whole_chr/{{asm}}{hp}_{chrom}_None-None.png", hp = ["", ".hp1", ".hp2"], chrom= [str(i) for i in range(1,23)] + ["X", "Y"] ), # new
+        expand("analysis_other/porec/{{asm}}{hp}/plots/imprinted_genes/{{asm}}{hp}_{region}.png", hp = [".hp1", ".hp2"], region = config['regions_fanc']) # new
     output:
         "analysis_other/porec/{asm}.done"
     shell:
@@ -40,7 +45,7 @@ def get_all_porec_runs(wc):
 # 1. adj contacts (_adj, not used downstream)
 rule pairtools_parse_bam_no_expand:
     input:
-        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
+        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.tagged.bam", 
         chromsize = config['ref'] + ".chrom-size.txt"
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}_adj.pairs.gz"
@@ -297,12 +302,11 @@ rule insulation_score:
         cool =  "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_balanced.cool"
     output:
         insu = "analysis_other/porec/{dataset}/insulation/{dataset}_{resolution}.insulation.tsv",
-        bw = expand("analysis_other/porec/{{dataset}}/insulation/{{dataset}}_{{resolution}}.insulation.tsv.{window}.bw",
-        window = ) #???
+        bw = "analysis_other/porec/{dataset}/insulation/{dataset}_{resolution}.insulation.tsv_bw_pseudo"        
     params:
         window = lambda wildcards: " ".join([str(mult * int(wildcards.resolution)) for mult in config['insu_window_multipliers']])
     log:
-        "logs/porec/ooltools_insulation.{dataset}_{resolution}.log"
+        "logs/porec/cooltools_insulation.{dataset}_{resolution}.log"
     conda:
         "../env/cooltools.yml"
     shell:
@@ -314,6 +318,8 @@ rule insulation_score:
         --bigwig \
         {input.cool} {params.window} \
         >{log} 2>&1
+
+        touch {output.bw}
         """
 
 
@@ -353,15 +359,15 @@ rule hic_diagnostic_plot:
             >{log} 2>&1
         """
 
-# new, need test
+# new
 rule hic_correct_matrix:
     input:
         cool =  "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool",
         diagnostic = "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
     output:
         cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
-        temp(lower_file="analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.lower"),
-        temp(upper_file="analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.upper")
+        lower_file=temp("analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.lower"),
+        upper_file=temp("analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}.upper")
     log:
         "logs/porec/hic_correct.{dataset}.{resolution}.log"
     params:
@@ -371,7 +377,7 @@ rule hic_correct_matrix:
         "../env/hicexplorer.yml"
     shell:
         """
-        echo "Start log ..." > {log}
+        echo "Start log ....." > {log}
         grep "mad threshold" {input.diagnostic} 2>> {log} | \
         sed 's/INFO:hicexplorer.hicCorrectMatrix:mad threshold //g' 2>> {log} > {output.lower_file}
         echo -3*$(cat {output.lower_file}) | bc 2>>{log} > {output.upper_file}
@@ -381,41 +387,16 @@ rule hic_correct_matrix:
         --matrix {input.cool} \
         --correctionMethod {params.correction_method} \
         --outFileName {output.cool} \
-        >>{log} 2>&1
-        
-        """
-
-
-# old
-rule hic_correct_matrix:
-    input:
-        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool"
-    output:
-        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
-    log:
-        "logs/porec/hic_correct.{dataset}.{resolution}.log"
-    params:
-        correction_method = config.get("correction_method", "ICE"),
-        filter_threshold = config.get("filter_threshold", "-2.5 5")
-    conda:
-        "../env/hicexplorer.yml"
-    shell:
-        """
-        hicCorrectMatrix correct \
-            --matrix {input.cool} \
-            --correctionMethod {params.correction_method} \
-            --outFileName {output.cool} \
-            --filterThreshold {params.filter_threshold} \
-            >{log} 2>&1 || {{
+        >>{log} 2>&1 || {{
             
-            echo "Standard correction failed, trying more stringent filtering..." >>{log}
+            echo "Standard correction failed, trying more stringent filtering (lower z-score = -1)..." >>{log}
             
             # Try with more stringent filtering
             hicCorrectMatrix correct \
                 --matrix {input.cool} \
                 --correctionMethod {params.correction_method} \
                 --outFileName {output.cool} \
-                --filterThreshold -3.0 3.0 \
+                --filterThreshold -1.0 3.0 \
                 --iterNum 200 \
                 >>{log} 2>&1 || {{
                 
@@ -435,6 +416,7 @@ rule hic_correct_matrix:
                 }}
             }}
         }}
+        
         """
 
 # Plots
@@ -457,33 +439,26 @@ rule hic_plot_dist_vs_counts:
         """
 
 # 2. whole chr +  eigs
-fanc_chroms = config['chroms_fanc'].split(' ')
-fanc_indices_chrom = list(range(len(chroms)))
-
-rule fanc_plot_whole_chr_eigs:
+rule fanc_plot_whole_chr_eigs_new:
     input:
-        hic= "analysis_other/porec/{dataset}/hic/{dataset}.hic",
-        eigs="analysis_other/porec/{dataset}/compartments/{dataset}.cis.bw"
+        hic= "analysis_other/porec/{dataset}/hic/{dataset}_nonadj.hic",
+        eigs="analysis_other/porec/{dataset}/compartments/{dataset}_nonadj.cis.bw"
     output:
-        plots=expand("analysis_other/porec/{{dataset}}/plots/whole_chr/{i}_{{dataset}}_{chrom}_None-None.pdf",
-        zip,
-        i = fanc_indices_chrom,
-        chrom = fanc_chroms)
+        "analysis_other/porec/{dataset}/plots/whole_chr/{dataset}_{chrom}_None-None.png"
     params:
-        chroms=config['chroms_fanc'],
+        chroms= lambda wc: wc.chrom,
         resolution=250000,
         name= lambda wc: wc.dataset,
-        outdir="outputs/pairs_files_T2T/{dataset}/plots/whole_chr",
         vmax=200
     conda:
         "../env/fanc.yml"
     log:
-        "logs/porec/fancplot.whole_chr.{dataset}.log"
+        "logs/porec/plotting/fanc_triangle_plot.whole_chr.{dataset}_{chrom}.log"
     shell:
         """
         fancplot \
         -n {params.name} \
-        -o {params.outdir} {params.chroms} \
+        -o {output} {params.chroms} \
         -p square \
         -vmin 0 -vmax {params.vmax} \
         {input.hic}@{params.resolution}@KR \
@@ -491,31 +466,37 @@ rule fanc_plot_whole_chr_eigs:
         >{log} 2>&1
         """
 
-# 3. Correlate all matrices?
-rule correlate_matrices:
+# 3. interesting regions + insulation (can add tad later)
+# insulation resolution and chosen windows are hardcoded
+# change if need be; possible values: 25000: 75000, 125000, 250000, 625000; 40000: 120000, 200000, 400000, 1000000
+rule fanc_plot_imprinted_genes:
     input:
-        cool = expand("outputs/pairs_files_T2T/{dataset}{hp}/cooler/{dataset}{hp}_{resolution}.cool",
-        dataset = finished_samples,
-        hp = ["", ".hp1", ".hp2"],
-        resolution = 100000)
+        insulation = "analysis_other/porec/{dataset}/insulation/{dataset}_25000.insulation.tsv_bw_pseudo", 
+        hic1= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1/hic/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1.hic", 
+        hic2= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2/hic/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2.hic", 
     output:
-        scatterplot = "outputs/pairs_files_T2T/combined_plots/correlation_scatterplot_{resolution}.png",
-        heatmap = "outputs/pairs_files_T2T/combined_plots/correlation_heatmap_{resolution}.png"
+        "analysis_other/porec/{dataset}/plots/imprinted_genes/{dataset}_{region}.png"
     params:
-        range = "5000:5000000" # consider contacts in this range. how to decide?
-    log:
-        "logs/porec/correlate_matrices.{dataset}_{resolution}.log"
+        insulation1= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1/insulation/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1_25000.insulation.tsv.125000.bw", 
+        insulation2= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2/insulation/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2_25000.insulation.tsv.125000.bw",
+        regions= lambda wc: wc.region.replace("_",":"),
+        resolution=10000,
+        name= lambda wc: wc.dataset,
+        vmax=40
     conda:
-        "../env/hicexplorer.yml"
+        "../env/fanc.yml"
+    log:
+        "logs/porec/plotting/fanc_triangle_plot.imprinted_genes.{dataset}_{region}.log"
     shell:
         """
-        hicCorrelate \
-        --matrices {input.cool} \
-        --method=pearson \
-        --log1p \
-        --range {params.range} \
-        --outFileNameHeatmap {output.heatmap} \
-        --outFileNameScatter {output.scatterplot} \
+        fancplot \
+        -n {params.name} \
+        -o {output} {params.regions} \
+        -p mirror \
+        -uvmin 0 -uvmax {params.vmax} \
+        -lvmin 0 -lvmax {params.vmax} \
+        {input.hic1}@{params.resolution}@KR {input.hic2}@{params.resolution}@KR \
+        -p line -l hp1 hp2 -c black red --fix-chromosome {params.insulation1} {params.insulation2} \
         >{log} 2>&1
         """
 

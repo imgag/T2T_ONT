@@ -211,8 +211,8 @@ rule insulation_score:
     input: 
         cool = "outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}_balanced.cool"
     output:
-        insu = "outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv"
-        #bw = "outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv.{window}.bw"
+        insu = "outputs/pairs_files_T2T/{dataset}/insulation/{dataset}_{exp}_{resolution}.insulation.tsv",
+        bw = "analysis_other/porec/{dataset}/insulation/{dataset}_25000.insulation.tsv.125000.bw"   
     params:
         window = lambda wildcards: " ".join([str(mult * int(wildcards.resolution)) for mult in config['insu_window_multipliers']])
     log:

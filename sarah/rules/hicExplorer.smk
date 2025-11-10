@@ -89,8 +89,8 @@ rule hic_correct_matrix:
         diagnostic = "logs/hic_diagnostic.{dataset}_{exp}.{resolution}.log"
     output:
         cool = "outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}_corrected.cool",
-        temp(lower_file="outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}.lower"),
-        temp(upper_file="outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}.upper")
+        lower_file=temp("outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}.lower"),
+        upper_file=temp("outputs/pairs_files_T2T/{dataset}/cooler/{dataset}_{exp}_{resolution}.upper")
     log:
         "logs/hic_correct.{dataset}_{exp}.{resolution}.log"
     params:
@@ -109,7 +109,7 @@ rule hic_correct_matrix:
         hicCorrectMatrix correct \
         --filterThreshold $(cat {output.lower_file}) $(cat {output.upper_file}) \
         --matrix {input.cool} \
-        --correctionMethod {output.correction_method} \
+        --correctionMethod {params.correction_method} \
         --outFileName {output.cool} \
         >>{log} 2>&1
         

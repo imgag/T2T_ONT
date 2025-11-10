@@ -1,0 +1,33 @@
+2025-11-10 08:28:53,604 INFO Using non-interactive backend
+2025-11-10 08:28:53,839 INFO Found 1 regions
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/bin/fancplot:187: UserWarning: There was an error with plot 0, region XY:None-None (Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/bin/fancplot", line 170, in __init__
+    fig, axes = gf.plot(plot_region)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/plotter.py", line 211, in plot
+    p.plot(r)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/base_plotter.py", line 785, in plot
+    plot_output = self._plot((x_region, y_region))
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/hic_plotter.py", line 299, in _plot
+    self._refresh(region)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/hic_plotter.py", line 342, in _refresh
+    self.current_matrix = self.hic_buffer.get_matrix(*region)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/hic_plotter.py", line 143, in get_matrix
+    self._BUFFERING_STRATEGIES[self.buffering_strategy](self, *regions)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/plotting/hic_plotter.py", line 183, in _buffer_relative
+    self.buffered_matrix = self.data.matrix(tuple(self.buffered_region),
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/matrix.py", line 1023, in matrix
+    row_regions, col_regions, matrix_entries = self.regions_and_matrix_entries(key,
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/matrix.py", line 963, in regions_and_matrix_entries
+    row_regions, col_regions, edges_iter = self.regions_and_edges(key, *args, **kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/matrix.py", line 869, in regions_and_edges
+    row_regions = list(row_regions)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py", line 899, in _region_subset
+    subset_ix, subset_start = self._region_start(region)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py", line 852, in _region_start
+    offset_ix = self._chromosome_ix_offset(region.chromosome)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py", line 835, in _chromosome_ix_offset
+    raise ValueError("Chromosome {} not in matrix.".format(target_chromosome))
+ValueError: Chromosome XY not in matrix.
+)
+  warnings.warn("There was an error with plot {}, region {}:{}-{} ({})".format(i, region.chromosome,
+2025-11-10 08:28:53,947 WARNING Chromosome XY not in matrix.
