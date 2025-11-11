@@ -98,3 +98,28 @@ diamond-insulation tools.
 ### caspars snakemake
 - finished_samples = list of all sample names without hap, can be used in expand
 
+# XCI
+- strong insulation changes across the superdomain boundary
+- 
+
+
+# errors#
+# juicer tools pre
+Hi Marine,
+
+I downloaded your file. Please see below:
+
+awk '{if ($3 == "chr1" && $7 == "chr10") {print NR,$0; exit}}' dijhic006_merge_hg38.input.sorted.txt
+4691370 A00417:65:HMMNNDMXX:2:1101:10104:6715    0    chr1    24928772    0    0    chr10    75633923    1    60    47
+awk '{if ($3 == "chr10" && $7 == "chr1") {print NR,$0; exit}}' dijhic006_merge_hg38.input.sorted.txt
+12783104 A00417:65:HMMNNDMXX:2:1101:10004:2284    16    chr10    70907616    0    16    chr1    12404324    1    60    60
+
+So you have records where chr1 comes before, say, chr10 and those where it is the other way around. This never happens if you use juicer pipeline but can happen with other pipeline. So you first need to make sure that the order of chromosomes for each pair is the same. I would do the following:
+
+awk '{if ($3 <= $7) print $0; else print $1,$6,$7,$8,$9,$2,$3,$4,$5,$11,$10}' dijhic006_merge_hg38.input.sorted.txt > correct_dijhic006_merge_hg38.input.txt
+sort -k3,3d -k7,7d correct_dijhic006_merge_hg38.input.txt > correct_dijhic006_merge_hg38.input.sorted.txt
+and then run pre on correct_dijhic006_merge_hg38.input.sorted.txt
+
+Hope this helps,
+Moshe.
+

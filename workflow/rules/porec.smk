@@ -254,6 +254,8 @@ rule cooler_balance:
         "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_balanced.cool"
     log:
          "logs/porec/cooler_balance.{dataset}_{resolution}.log"
+    threads:
+        16
     conda:
         "../env/cooler.yml"
     shell:
@@ -266,6 +268,7 @@ rule cooler_balance:
         --min-nnz 10 \
         --tol 1e-05 \
         --max-iters 500 \
+        --proc {threads} \
         {output} \
         >{log} 2>&1
         """   
@@ -283,6 +286,8 @@ rule eigs_cis:
         prefix = "analysis_other/porec/{dataset}/compartments/{dataset}"
     log:
         "logs/porec/cooltools_eigs_cis.{dataset}.log"
+    threads:
+        2
     conda:
         "../env/cooltools.yml"
     shell:
@@ -309,6 +314,8 @@ rule insulation_score:
         "logs/porec/cooltools_insulation.{dataset}_{resolution}.log"
     conda:
         "../env/cooltools.yml"
+    threads:
+        8
     shell:
         """
         cooltools insulation \
@@ -316,6 +323,7 @@ rule insulation_score:
         --clr-weight-name "weight" \
         --output {output.insu} \
         --bigwig \
+        --nproc {threads} \
         {input.cool} {params.window} \
         >{log} 2>&1
 
@@ -519,6 +527,8 @@ rule hic_find_tads:
         correction_factor_threshold = config.get("tad_correction_threshold", 1.5)
     conda:
         "../env/hicexplorer.yml"
+    threads:
+        4
     shell:
         """
         hicFindTADs \

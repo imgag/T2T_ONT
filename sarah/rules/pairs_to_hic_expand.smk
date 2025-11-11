@@ -21,7 +21,7 @@ rule collect_expanded_hic:
 rule pairtools_parse_bam:
     input:
         bam = lambda wc: f"../analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.bam", 
-        chromsize = config['chromsize_porec']
+        chromsize = config['ref'] + ".chrom-size.txt" # config['chromsize_porec']
     output:
         pairs = "outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_nonadj.pairs.gz"
     log:
@@ -115,7 +115,7 @@ rule clean_pairs:
 rule pairs_to_hic:
     input:
         pairs = "outputs/hic_files_T2T/{dataset}/pairs_juice/{dataset}_{expansion}.pairs.for_juice",
-        chromsize = config['chromsize_porec']
+        chromsize = config['ref'] + ".chrom-size.txt" # config['chromsize_porec']
     output:
         hic = "outputs/hic_files_T2T/{dataset}/hic/{dataset}_{expansion}.hic"
     params:

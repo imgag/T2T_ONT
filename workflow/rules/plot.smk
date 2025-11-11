@@ -155,32 +155,18 @@ rule collect_assembly_issues:
         samples=finished_samples
     log:
         "logs/plot/collect_assembly_issues.log"
-    run:
-        import pandas as pd
+    shell:
+        """
+        echo -e "sample\tsource\tchr\tstart\tend\tfeature_type" > {output} 2> {log}
         
-def parse_bed_file(file_path, issue_type, sample):
-    """Parse BED file and return standardized format"""
-    if not os.path.exists(file_path):
-        return pd.DataFrame(columns=['chromosome', 'start', 'end', 'issue_type', 'sample'])
-    
-    df = pd.read_csv(file_path, sep='\t', header=None, comment='#')
-    if df.empty:
-        return pd.DataFrame(columns=['chromosome', 'start', 'end', 'issue_type', 'sample'])
-    
-    # Take first 3 columns as chr, start, end
-    df = df.iloc[:, :3]
-    df.columns = ['chromosome', 'start', 'end']
-    
-    # Convert coordinates to numeric, handling non-numeric values
-    df['start'] = pd.to_numeric(df['start'], errors='coerce')
-    df['end'] = pd.to_numeric(df['end'], errors='coerce')
-    
-    # Filter out rows with invalid coordinates
-    df = df.dropna(subset=['start', 'end'])
-    df['start'] = df['start'].astype(int)
-    df['end'] = df['end'].astype(int)
-    
-    df['issue_type'] = issue_type
-    df['sample'] = sample
-    
-    return df
+        for i in {{0..{len(params.samples)-1}}}; do
+            sample=$(echo "{params.samples}" | cut -d' ' -f$((i+1)))
+            flagger=$(echo "{input.flagger_files}" | cut -d' ' -f$((i+1)))
+            nucflag=$(echo "{input.nucflag_files}" | cut -d' ' -f$((i+1)))
+            gaps=$(echo "{input.gaps_files}" | cut -d' ' -f$((i+1)))
+            
+            awk -v s="$sample" -v t="Flagger" 'BEGIN{{OFS="\\t"}} !/^#/ && NF>=3 {{print s,t,$1,$2,$3,(NF>=4?$4:"unknown")}}' "$flagger" >> {output} 2>> {log}
+            awk -v s="$sample" -v t="Nucflag" 'BEGIN{{OFS="\\t"}} !/^#/ && NF>=3 {{print s,t,$1,$2,$3,(NF>=4?$4:"unknown")}}' "$nucflag" >> {output} 2>> {log}
+            awk -v s="$sample" -v t="GapAnalysis" 'BEGIN{{OFS="\\t"}} !/^#/ && NF>=3 {{print s,t,$1,$2,$3,(NF>=4?$4:"unknown")}}' "$gaps" >> {output} 2>> {log}
+        done
+        """

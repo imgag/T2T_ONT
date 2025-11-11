@@ -1,0 +1,110 @@
+output_dir: results
+
+samples:
+  - T2T00
+  - T2T00_1
+  - T2T00_2
+  - T2T01
+  - T2T02
+  - T2T03
+  - T2T04
+  - T2T04_1
+  - T2T04_2
+  - T2T05
+  - T2T06
+  - T2T07
+  - T2T08
+  - T2T09
+  - T2T10
+  - T2T11
+  - T2T12
+  - T2T13
+  - T2T15
+  - T2T16
+  - T2T17
+  - T2T18
+  - T2T19
+
+calculate_hor_length:
+  chromosome_colors: config/chrom_colors.tsv
+  ref_hor_lengths: []
+cdr_finder:
+  aligner: minimap2
+  aln_mem: 50GB
+  aln_threads: 8
+  alr_threshold: 100000
+  bam_rgx: .*\.bam$
+  bp_alr_merge: 8000
+  bp_edge: 500000
+  extend_edges_std: -1
+  height_perc_valley_threshold: 0.34
+  input_bam_dir: data/ont
+  prom_perc_valley_threshold: 0.3
+  window_size: 5000
+chromosomes:
+- chr1
+- chr2
+- chr3
+- chr4
+- chr5
+- chr6
+- chr7
+- chr8
+- chr9
+- chr10
+- chr11
+- chr12
+- chr13
+- chr14
+- chr15
+- chr16
+- chr17
+- chr18
+- chr19
+- chr20
+- chr21
+- chr22
+- chrX
+- chrY
+concat_asm:
+  input_dir: data/asm
+  mem: 20GB
+container: docker://logsdonlab/cenmap:latest
+humas_annot:
+  hmm_profile: config/AS-HORs-hmmer3.4-071024.hmm.gz
+  mem: 30GB
+  mode: sd
+  threads: 6
+ident_cen_ctgs:
+  bp_merge: 2500000
+  bp_slop: 1000000
+  mem_aln: 50GB
+  mem_srf: 50GB
+  threads_aln: 8
+  threads_srf: 8
+ideogram:
+  height: 15
+  title: '{sm}'
+  width: 5
+moddotplot:
+  ident_thr: 70.0
+  mem: 10GB
+  window: 5000
+nucflag:
+  config_nucflag: config/nucflag.toml
+  ignore_type: asat
+  input_hifi_reads_fofn_dir: data/hifi
+  mem_aln: 50GB
+  mem_nucflag: 50GB
+  processes_nucflag: 8
+  samtools_view_flag: 2308
+  threads_aln: 8
+plot_hor_stv:
+  ref_stv: []
+  sat_annot_colors: config/repeatmasker_sat_annot_colors.json
+  stv_annot_colors: config/stv_annot_colors.tsv
+repeatmasker:
+  bp_shannon_window: 5000
+  ref_repeatmasker_output: []
+  repeat_colors: config/repeatmasker_colors.json
+  threads: 4

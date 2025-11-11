@@ -12,7 +12,7 @@ rule all_extended_qc:
         # Flagger results
         expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples),
         # CenMap
-        expand("analysis_other/cenmap/{asm}/cenmap.done", asm = finished_samples)
+        expand("analysis_other/cenmap/cenmap.done", asm = finished_samples)
 
 rule all_annotation:
     input:
@@ -153,75 +153,6 @@ rule repeatmasker_quick:
             >> $LOG 2>&1
 
         # Remove temporary files
-        rm -f assembly.fasta
-        rm -f assembly.fasta.cat
-        rm -f *.ori.out
-
-        # Clean up RepeatMasker temporary directories
-        rm -rf RM_*/
-
-        echo "RepeatMasker completed successfully" >> $LOG
-        """
-
-# Alternative: RepeatMasker with custom Dfam HMM library (slower but more comprehensive)
-rule repeatmasker_hmm:
-    input:
-        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased": "phased"})["assembly"]
-    output:
-        out="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.out",
-        gff="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.out.gff",
-        tbl="analysis_other/repeatmasker_hmm/{asm}/assembly.fasta.tbl"
-    conda:
-        "../env/repeatmasker.yml"
-    log:
-        "logs/repeatmasker/{asm}_repeatmasker_hmm.log"
-    threads: 32
-    benchmark:
-        "runtimes/repeatmasker/{asm}.repeatmasker_hmm.txt"
-    resources:
-        mem_mb=120000  # 120 GB RAM
-    params:
-        dfam_lib=config.get('dfam_hmm'),
-        outdir=lambda wc: f"analysis_other/repeatmasker_hmm/{wc.asm}",
-    shell:
-        """
-        set -euo pipefail
-
-        LOG=$(realpath {log})
-        FA=$(realpath {input.fa})
-        LIB=$(realpath {params.dfam_lib})
-        OUTDIR=$(realpath {params.outdir})
-
-        # Create output directory
-        mkdir -p $OUTDIR
-
-        # Change to output directory - RepeatMasker works best in the directory with the input
-        cd $OUTDIR
-
-        # Copy input fasta
-        cp $FA assembly.fasta
-
-        # Copy HMM library (not symlink - RepeatMasker may need to modify/index it)
-        cp $LIB dfam.hmm
-
-        # Run RepeatMasker with HMM library
-        # Using hmmer engine (auto-selects nhmmer for DNA)
-        # -q: quick search (5-10% less sensitive, but 3-4x faster)
-        # -no_is: skips bacterial insertion element check
-        # -xsmall: returns repetitive regions in lowercase
-        # -gff: creates GFF output
-        RepeatMasker \
-            -lib dfam.hmm \
-            -engine hmmer \
-            -pa {threads} \
-            -gff \
-            -q \
-            -no_is \
-            -xsmall \
-            assembly.fasta \
-            >> $LOG 2>&1
-
-        # Remove temporary files but keep the HMM database files for inspection
         rm -f assembly.fasta
         rm -f assembly.fasta.cat
         rm -f *.ori.out
@@ -486,60 +417,58 @@ rule gff_from_flagger_nucflag:
 #             > {log} 2>&1
 #         """
 
-rule create_plot:
+
+rule link_cenmap_input:
     input:
-        contig_file="analysis_other/assembly_info/{asm}/contigs.txt",
-        fai_file="analysis_other/assembly_info/{asm}/assembly.fasta.fai",
-        feature_bed="analysis_other/features/{asm}/features.bed"
+        fa=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"],
+        hq="assembly/input/{asm}/{asm}.HQ_herro.50x.fastq.gz",
+        mod=lambda wc: find_input_datasets(SimpleNamespace(dataset=wc.asm, type="UL"))["files"][0]
     output:
-        plot="analysis_other/plots/{asm}/{asm}_genomic_features.pdf"
-    conda:
-        "../env/R.yml"
-    log:
-        "logs/create_plot/{asm}_create_plot.log"
+        fa_link="analysis_other/cenmap/data/asm/{asm}/assembly.fasta",
+        hq_link="analysis_other/cenmap/data/hifi/{asm}/{asm}.HQ_herro.50x.fastq.gz",
+        hq_fofn="analysis_other/cenmap/data/hifi/{asm}.fofn",
+        mod_link="analysis_other/cenmap/data/ont/{asm}/{asm}.unmapped.mod.bam"
     shell:
         """
-        mkdir -p $(dirname {output.plot})
+        mkdir -p $(dirname {output.fa_link})
+        ln -sf $(realpath {input.fa}) {output.fa_link}
 
-        Rscript workflow/scripts/20_plot_genomic_features.R \
-            --contig_file {input.contig_file} \
-            --fai_file {input.fai_file} \
-            --feature_files {input.feature_bed} \
-            --output_prefix analysis_other/plots/{wildcards.asm}/{wildcards.asm} \
-            > {log} 2>&1
+        mkdir -p $(dirname {output.hq_link})
+        ln -sf $(realpath {input.hq}) {output.hq_link}
+
+        echo $(realpath {input.hq}) > {output.hq_fofn}
+
+        mkdir -p $(dirname {output.mod_link})
+        ln -sf $(realpath {input.mod}) {output.mod_link}
         """
 
 # Cenmap
 rule cenmap:
     input:
-        asm = "assembly/output/verkko/{asm}/assembly.fasta",
-        mod = lambda wc: find_input_datasets(SimpleNamespace(dataset=wc.asm, type="UL"))["files"][0],
-        hq = "assembly/input/{asm}/{asm}.HQ_herro.50x.fastq.gz"
+        fa_link=expand("analysis_other/cenmap/data/asm/{asm}/assembly.fasta", asm = finished_samples),
+        hq_link=expand("analysis_other/cenmap/data/hifi/{asm}/{asm}.HQ_herro.50x.fastq.gz", asm = finished_samples),
+        hq_fofn=expand("analysis_other/cenmap/data/hifi/{asm}.fofn", asm = finished_samples),
+        mod_link=expand("analysis_other/cenmap/data/ont/{asm}/{asm}.unmapped.mod.bam", asm = finished_samples)
     output:
-        done = "analysis_other/cenmap/{asm}/cenmap.done"
+        done = "analysis_other/cenmap/cenmap.done"
     conda:
         "../env/cenmap.yml"
     log:
-        "logs/cenmap/{asm}.yml"
+        "logs/cenmap.log"
     benchmark:
-        "runtimes/cenmap/{asm}/cenmap.txt"
+        "runtimes/cenmap/cenmap.txt"
     threads:
-        24
+        96
     shell:
         """
-        FA=$(realpath {input.asm})
-        HQ=$(realpath {input.hq})
-        MOD=$(realpath {input.mod})
         LOG=$(realpath {log})
         WD=$(dirname {output.done})
-
         pushd $WD >{log}
 
-        cenmap \
-            -i $FA \
-            -s {wildcards.asm} \
-            --hifi $HQ \
-            --ont $MOD \
+        snakemake \
+            --configfile config.yaml \
+            --cores {threads} \
+            -n \
             >$LOG 2>&1
         touch cenmap.done
         """
