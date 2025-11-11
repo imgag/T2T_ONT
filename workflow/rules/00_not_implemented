@@ -1,4 +1,55 @@
 
+# old hic_correct_matrix
+rule hic_correct_matrix:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool"
+    output:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+    log:
+        "logs/porec/hic_correct.{dataset}.{resolution}.log"
+    params:
+        correction_method = config.get("correction_method", "ICE"),
+        filter_threshold = config.get("filter_threshold", "-2.5 5")
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicCorrectMatrix correct \
+            --matrix {input.cool} \
+            --correctionMethod {params.correction_method} \
+            --outFileName {output.cool} \
+            --filterThreshold {params.filter_threshold} \
+            >{log} 2>&1 || {{
+            
+            echo "Standard correction failed, trying more stringent filtering..." >>{log}
+            
+            # Try with more stringent filtering
+            hicCorrectMatrix correct \
+                --matrix {input.cool} \
+                --correctionMethod {params.correction_method} \
+                --outFileName {output.cool} \
+                --filterThreshold -3.0 3.0 \
+                --iterNum 200 \
+                >>{log} 2>&1 || {{
+                
+                echo "Stringent correction failed, trying KR normalization..." >>{log}
+                
+                # Try Knight-Ruiz normalization as fallback
+                hicCorrectMatrix correct \
+                    --matrix {input.cool} \
+                    --correctionMethod KR \
+                    --outFileName {output.cool} \
+                    --filterThreshold -3.0 3.0 \
+                    >>{log} 2>&1 || {{
+                    
+                    echo "All correction methods failed, copying normalized matrix..." >>{log}
+                    # As last resort, just copy the normalized matrix
+                    cp {input.cool} {output.cool}
+                }}
+            }}
+        }}
+        """
+
 rule dip3d_jmatrix_to_hic:
     input:
         jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"

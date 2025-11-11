@@ -5,7 +5,7 @@ rule all_porec:
 rule collect_porec:
     input:
         expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.gz", hp = ["", ".hp1", ".hp2"]),
-        expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}_adj.pairs.gz", hp = ["", ".hp1", ".hp2"]), # new
+        #expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}_adj.pairs.gz", hp = ["", ".hp1", ".hp2"]), # new
         expand("analysis_other/porec/{{asm}}{hp}/pairs/{{asm}}{hp}.pairs.stats.html", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}.mcool", hp = ["", ".hp1", ".hp2"]),
         expand("analysis_other/porec/{{asm}}{hp}/cooler/{{asm}}{hp}_{res}_corrected.cool", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
@@ -16,8 +16,8 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"]), # new
         expand("analysis_other/porec/{{asm}}{hp}/compartments/{{asm}}{hp}.cis{file}", hp = ["", ".hp1", ".hp2"] ,file=[".vecs.tsv",".lam.txt",".bw"]),  # new
         expand("analysis_other/porec/{{asm}}{hp}/insulation/{{asm}}{hp}_{res}.insulation.tsv", hp = ["", ".hp1", ".hp2"], res = config['insulation_resolutions']), # new
-        expand("analysis_other/porec/{{asm}}{hp}/plots/whole_chr/{{asm}}{hp}_{chrom}_None-None.png", hp = ["", ".hp1", ".hp2"], chrom= [str(i) for i in range(1,23)] + ["X", "Y"] ), # new
-        expand("analysis_other/porec/{{asm}}{hp}/plots/imprinted_genes/{{asm}}{hp}_{region}.png", hp = [".hp1", ".hp2"], region = config['regions_fanc']) # new
+        #expand("analysis_other/porec/{{asm}}{hp}/plots/whole_chr/{{asm}}{hp}_{chrom}_None-None.png", hp = ["", ".hp1", ".hp2"], chrom= [str(i) for i in range(1,23)] + ["X", "Y"] ), # new
+        #expand("analysis_other/porec/{{asm}}{hp}/plots/imprinted_genes/{{asm}}{hp}_{region}.png", hp = [".hp1", ".hp2"], region = config['regions_fanc']) # new
     output:
         "analysis_other/porec/{asm}.done"
     shell:
@@ -45,7 +45,7 @@ def get_all_porec_runs(wc):
 # 1. adj contacts (_adj, not used downstream)
 rule pairtools_parse_bam_no_expand:
     input:
-        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.tagged.bam", 
+        bam = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/4-haplotag/{wc.dataset}.tagged.  bam", 
         chromsize = config['ref'] + ".chrom-size.txt"
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}_adj.pairs.gz"

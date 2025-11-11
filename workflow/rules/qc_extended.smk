@@ -12,7 +12,7 @@ rule all_extended_qc:
         # Flagger results
         expand("analysis_other/flagger/{asm}/prediction_summary_final.tsv", asm=finished_samples),
         # CenMap
-        #expand("analysis_other/cenmap/{asm}/cenmap.done", asm = finished_samples)
+        expand("analysis_other/cenmap/{asm}/cenmap.done", asm = finished_samples)
 
 rule all_annotation:
     input:

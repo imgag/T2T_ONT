@@ -3,7 +3,8 @@ rule all_plot:
         expand("results/{sample}/assembly_issues/{sample}.karyogram.gaps.clean.png", sample=finished_samples),
         expand("results/{sample}/ref_alignment/{sample}.synteny.png", sample=finished_samples),
         "doc/tables/for_plots/T2T_contigs.all.seqinfo.txt",
-        "doc/tables/for_plots/repeatmasker_summary.all_samples.csv"
+        "doc/tables/for_plots/repeatmasker_summary.all_samples.csv",
+        "doc/tables/for_plots/assembly_issues_all_samples.tsv"
 
 # Karyogram plotting rule for Snakemake
 rule plot_karyogram:
@@ -90,7 +91,7 @@ rule synteny_plot_genome:
         > {log} 2>&1
     """
 
-# Helper scripts to collect QC data for plottin
+# Helper scripts to collect QC data for plotting
 
 rule collect_T2T:
     input:
@@ -142,3 +143,44 @@ rule collect_repeatmasker_summaries:
         combined_df = combined_df[cols]
         
         combined_df.to_csv(output[0], index=False)
+
+rule collect_assembly_issues:
+    input:
+        flagger_files=expand("analysis_other/annotations/{sample}/flagger.lifted.bed", sample=finished_samples),
+        nucflag_files=expand("analysis_other/annotations/{sample}/nucflag.lifted.bed", sample=finished_samples),
+        gaps_files=expand("analysis_other/annotations/{sample}/gaps.lifted.bed", sample=finished_samples)
+    output:
+        "doc/tables/for_plots/assembly_issues_all_samples.tsv"
+    params:
+        samples=finished_samples
+    log:
+        "logs/plot/collect_assembly_issues.log"
+    run:
+        import pandas as pd
+        
+def parse_bed_file(file_path, issue_type, sample):
+    """Parse BED file and return standardized format"""
+    if not os.path.exists(file_path):
+        return pd.DataFrame(columns=['chromosome', 'start', 'end', 'issue_type', 'sample'])
+    
+    df = pd.read_csv(file_path, sep='\t', header=None, comment='#')
+    if df.empty:
+        return pd.DataFrame(columns=['chromosome', 'start', 'end', 'issue_type', 'sample'])
+    
+    # Take first 3 columns as chr, start, end
+    df = df.iloc[:, :3]
+    df.columns = ['chromosome', 'start', 'end']
+    
+    # Convert coordinates to numeric, handling non-numeric values
+    df['start'] = pd.to_numeric(df['start'], errors='coerce')
+    df['end'] = pd.to_numeric(df['end'], errors='coerce')
+    
+    # Filter out rows with invalid coordinates
+    df = df.dropna(subset=['start', 'end'])
+    df['start'] = df['start'].astype(int)
+    df['end'] = df['end'].astype(int)
+    
+    df['issue_type'] = issue_type
+    df['sample'] = sample
+    
+    return df
