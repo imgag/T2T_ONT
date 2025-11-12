@@ -1,6 +1,6 @@
 rule all_porec:
     input:
-        expand("analysis_other/porec/{sample}.done", sample = finished_samples)
+        expand("analysis_other/porec/{sample}.done", sample = "T2T01")
 
 rule collect_porec:
     input:
@@ -100,6 +100,7 @@ rule pairtools_parse_bam:
             --assembly {params.assembly} \
             --report-position {params.position} \
             --report-orientation {params.orientation} \
+            --add-pair-index \
             --single-end \
             --expand \
             --max-expansion-depth {params.expand_depth} \
@@ -112,10 +113,50 @@ rule pairtools_parse_bam:
             >{log}
         """
 
+rule pairtools_parse_bam_wfporec:
+    input:
+        chromsize = config['ref'] + ".chrom-size.txt",
+        bam = "analysis_other/wf-pore-c/{run}/bams/{run}.ns.bam"
+    output:
+        pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz"
+    log:
+        "logs/porec/pairtools_parse2_nonadj.{run}.log"
+    conda:
+        "../env/pairtools.yml"  
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction",
+        expand_depth = config['parse2_depth']
+    threads:
+        12
+    shell:
+        """
+        pairtools parse2 \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --add-pair-index \
+            --single-end \
+            --expand \
+            --max-expansion-depth {params.expand_depth} \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches \
+            --output {output.pairs} \
+            --nproc-in 3 \
+            --nproc-out {threads} \
+            {input.bam} \
+            >{log}
+        """
+
 # Create pairs file for all flowcells from sample
 rule merge_pairs:
     input:
-        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.pairs.gz", run = get_all_porec_runs(wc))
+        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz", run = get_all_porec_runs(wc))
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
     wildcard_constraints:
@@ -268,7 +309,7 @@ rule cooler_balance:
         --min-nnz 10 \
         --tol 1e-05 \
         --max-iters 500 \
-        --proc {threads} \
+        --nproc {threads} \
         {output} \
         >{log} 2>&1
         """   

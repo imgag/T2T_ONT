@@ -1,0 +1,13 @@
+2025-11-11 13:55:26,703 INFO Using non-interactive backend
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/bin/fancplot", line 261, in <module>
+    FancPlot()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/bin/fancplot", line 113, in __init__
+    plot, plot_args = plot_method(args)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/commands/fancplot_commands.py", line 63, in split
+    matrix_bottom = fanc.load(os.path.expanduser(args.hic_bottom), mode='r')
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/tools/load.py", line 85, in load
+    return JuicerHic(file_name, *args, **kwargs)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py", line 333, in __init__
+    raise ValueError("Resolution {} not supported ({})".format(resolution, bp_resolutions))
+ValueError: Resolution 500000 not supported ([1000000, 250000, 100000, 40000, 25000, 10000, 5000])

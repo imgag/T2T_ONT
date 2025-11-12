@@ -1,4 +1,26 @@
-INFO:hicexplorer.hicCorrectMatrix:Removing 54973 zero value bins
-INFO:hicexplorer.hicCorrectMatrix:matrix contains 139277434 data points. Sparsity 0.000.
+Start log .....
+INFO:hicexplorer.hicCorrectMatrix:Removing 53565 zero value bins
+INFO:hicexplorer.hicCorrectMatrix:matrix contains 798674639 data points. Sparsity 0.002.
 INFO:hicexplorer.hicCorrectMatrix:filtering by z-score
 INFO:hicexplorer.iterativeCorrection:starting iterative correction
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/bin/hicCorrectMatrix", line 7, in <module>
+    main()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicexplorer/hicCorrectMatrix.py", line 779, in main
+    ma.save(args.outFileName, pApplyCorrection=False)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicmatrix/HiCMatrix.py", line 101, in save
+    self.matrixFileHandler.save(pMatrixName, pSymmetric=pSymmetric, pApplyCorrection=pApplyCorrection)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicmatrix/lib/matrixFileHandler.py", line 58, in save
+    self.matrixFile.save(pName, pSymmetric, pApplyCorrection)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicmatrix/lib/cool.py", line 411, in save
+    cooler.create_cooler(cool_uri=pFileName,
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/cooler/create/_create.py", line 1077, in create_cooler
+    create(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/cooler/create/_create.py", line 685, in create
+    nnz, ncontacts = write_pixels(
+                     ^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/cooler/create/_create.py", line 258, in write_pixels
+    fw.flush()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/h5py/_hl/files.py", line 639, in flush
+    h5f.flush(self.id)
+KeyboardInterrupt
