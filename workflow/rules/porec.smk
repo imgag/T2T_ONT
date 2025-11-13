@@ -210,6 +210,9 @@ rule pairs_stats_report:
         """
 
 # Create Hic File for Juicebox Visualisation
+# Output file in MEDIUM format:
+# <readname> <str1> <chr1> <pos1> <frag1> <str2> <chr2> <pos2> <frag2> <mapq1> <mapq2>
+# Sort on both chromosome columns
 rule clean_pairs:
     input:
         "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
@@ -220,7 +223,8 @@ rule clean_pairs:
         zcat {input} | \
         grep -v '^#' | \
         awk '{{OFS="\\t"; print $1,$6,$2,$3,0,$7,$4,$5,1,$11,$12}}' | \
-        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}'> {output}
+        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}' | \
+        sort -k3,3V -k7,7V > {output}
         """
 
 rule pairs_to_hic:
