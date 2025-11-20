@@ -294,7 +294,7 @@ TUE_02_06UL_02DX:
   cov_DUPLEX: max
   cov_UL: 70
 
-# Hifiasm datasets
+# Hifiasm tests
 
 TUE_02_03_hifiasm_ont:
   dataset: TUE_02_03UL
@@ -308,11 +308,12 @@ TUE_02_03_hifiasm_herro:
   cov_HQ: 50
   hifiasm: "herro"
 
-TUE_02_03_hifiasm_trio:
-  dataset: TUE_02_03UL
-  HQ_method: herro
-  cov_HQ: 50
-  hifiasm: "herro_trio"
+T2T00_hifiasm_trio:
+  dataset: T2T00
+  HQ_method: herro # only needed for workflow, not as input data
+  cov_HQ: 502
+  cov_UL: 70
+  hifiasm: "ont_trio"
 
 ##################################################
 # Trio Phasing
