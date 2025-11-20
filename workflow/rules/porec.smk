@@ -1,6 +1,6 @@
 rule all_porec:
     input:
-        expand("analysis_other/porec/{sample}.done", sample = "T2T01")
+        expand("analysis_other/porec/{sample}.done", sample = finished_samples)
 
 rule collect_porec:
     input:
@@ -113,12 +113,14 @@ rule pairtools_parse_bam:
             >{log}
         """
 
+# needed: flip to order pairs, sort to order chunks by chr and cis/trans
 rule pairtools_parse_bam_wfporec:
     input:
         chromsize = config['ref'] + ".chrom-size.txt",
         bam = "analysis_other/wf-pore-c/{run}/bams/{run}.ns.bam"
     output:
-        pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz"
+        pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz", # sorted by read name, maybe useful for qc
+        sorted_pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.sorted.pairs.gz" # sorted by cis/trans + coordinate
     log:
         "logs/porec/pairtools_parse2_nonadj.{run}.log"
     conda:
@@ -128,7 +130,7 @@ rule pairtools_parse_bam_wfporec:
         columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
         orientation = "pair", 
         position = "junction",
-        expand_depth = config['parse2_depth']
+        #expand_depth = config['parse2_depth'] # maybe remove bc can be filtered later
     threads:
         12
     shell:
@@ -141,7 +143,7 @@ rule pairtools_parse_bam_wfporec:
             --add-pair-index \
             --single-end \
             --expand \
-            --max-expansion-depth {params.expand_depth} \
+            --flip \
             --readid-transform 'readID.split(":")[0]' \
             --drop-seq \
             --drop-sam \
@@ -151,12 +153,19 @@ rule pairtools_parse_bam_wfporec:
             --nproc-out {threads} \
             {input.bam} \
             >{log}
+        
+        pairtools sort \
+            --output {output.sorted_pairs} \
+            {output.pairs} >>{log}
+            
         """
+# if only nonadj <20: pairtools select "(walk_pair_type == 'R1') or regex_match(walk_pair_type, '^E([0-9]|1[0-9]|20)_R1$')" --output {output}
+#--max-expansion-depth {params.expand_depth} \
 
 # Create pairs file for all flowcells from sample
 rule merge_pairs:
     input:
-        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz", run = get_all_porec_runs(wc))
+        pairs = lambda wc: expand("analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.sorted.pairs.gz", run = get_all_porec_runs(wc))
     output:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
     wildcard_constraints:
@@ -213,6 +222,7 @@ rule pairs_stats_report:
 # Output file in MEDIUM format:
 # <readname> <str1> <chr1> <pos1> <frag1> <str2> <chr2> <pos2> <frag2> <mapq1> <mapq2>
 # Sort on both chromosome columns
+# not necessary: sort -k3,3V -k7,7V, sort done by pairtools sort
 rule clean_pairs:
     input:
         "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
@@ -223,10 +233,11 @@ rule clean_pairs:
         zcat {input} | \
         grep -v '^#' | \
         awk '{{OFS="\\t"; print $1,$6,$2,$3,0,$7,$4,$5,1,$11,$12}}' | \
-        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}' | \
-        sort -k3,3V -k7,7V > {output}
+        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}' \
+        > {output}
         """
 
+# more mem for diploid? otherwise will take very long
 rule pairs_to_hic:
     input:
         pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.for_juice",
@@ -237,9 +248,11 @@ rule pairs_to_hic:
         resolutions = config.get("juicer_resolutions", "5000,10000,25000,50000,100000,500000")
     log:
         "logs/porec/juicer_tools_pre.{dataset}.log"
+    resources:
+        mem_gb = 250
     shell:
         '''
-        java -Xmx50G -jar /mnt/storage2/users/ahleucs1/tools/juicertools/juicer_tools_1.19.02.jar \
+        java -Xmx{resources.mem_gb}G -jar /mnt/storage2/users/ahleucs1/tools/juicertools/juicer_tools_1.19.02.jar \
         pre {input.pairs} {output.hic} {input.chromsize} \
         -r {params.resolutions} > {log} 2>&1
         '''
@@ -386,6 +399,8 @@ rule hic_normalize:
         "logs/porec/hic_normalize.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
+    resources:
+        mem_gb = 100
     shell:
         """
         hicNormalize \
@@ -404,6 +419,8 @@ rule hic_diagnostic_plot:
         "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
+    resources:
+        mem_gb = 100
     shell: 
         """
         hicCorrectMatrix diagnostic_plot \
@@ -428,6 +445,8 @@ rule hic_correct_matrix:
         #filter_threshold = config.get("filter_threshold", "-1.5 4") 
     conda:
         "../env/hicexplorer.yml"
+    resources:
+        mem_gb = 100
     shell:
         """
         echo "Start log ....." > {log}
@@ -483,6 +502,8 @@ rule hic_plot_dist_vs_counts:
         "logs/porec/plot_dist_vs_counts.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
+    resources:
+        mem_gb = 250
     shell:
         """
         hicPlotDistVsCounts \
