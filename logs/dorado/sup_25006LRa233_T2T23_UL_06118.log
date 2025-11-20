@@ -1,0 +1,50 @@
+[2025-11-19 13:02:38.726] [info] Running: "basecaller" "data/dorado_models/dna_r10.4.1_e8.2_400bps_sup@v5.2.0" "data/raw/batch_october/25006LRa233_T2T23_UL_06118" "--models-directory" "data/dorado_models" "--modified-bases-models" "data/dorado_models/dna_r10.4.1_e8.2_400bps_sup@v5.2.0_5mCG_5hmCG@v1" "--recursive" "--trim" "all" "--output-dir" "data/basecalled/sup/25006LRa233_T2T23_UL_06118"
+[2025-11-19 13:02:39.538] [info] > Creating basecall pipeline
+[2025-11-19 13:03:22.884] [info] Using CUDA devices:
+[2025-11-19 13:03:22.921] [info] cuda:0 - NVIDIA H100 PCIe
+[2025-11-19 13:03:22.921] [info] cuda:1 - NVIDIA H100 PCIe
+[2025-11-19 13:03:35.382] [error] CUDA out of memory. Tried to allocate 20.00 MiB. GPU 0 has a total capacity of 79.18 GiB of which 10.94 MiB is free. Process 2677360 has 78.71 GiB memory in use. Including non-PyTorch memory, this process has 450.00 MiB memory in use. Of the allocated memory 1.07 MiB is allocated by PyTorch, and 957.00 KiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Exception raised from malloc at /builds/machine-learning/torch-builds/pytorch/c10/cuda/CUDACachingAllocator.cpp:1338 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0xb0 (0x1308945c7390 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #1: <unknown function> + 0xb25d373 (0x13089455b373 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #2: <unknown function> + 0xb25d63c (0x13089455b63c in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #3: <unknown function> + 0xb25dc1f (0x13089455bc1f in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #4: <unknown function> + 0x2148a88 (0x13088b446a88 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #5: at::detail::empty_strided_generic(c10::ArrayRef<long>, c10::ArrayRef<long>, c10::Allocator*, c10::DispatchKeySet, c10::ScalarType) + 0x2b (0x13088b4401bb in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #6: at::detail::empty_strided_cuda(c10::ArrayRef<long>, c10::ArrayRef<long>, c10::ScalarType, std::optional<c10::Device>) + 0x9d (0x13089191fedd in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #7: at::detail::empty_strided_cuda(c10::ArrayRef<long>, c10::ArrayRef<long>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>) + 0x83 (0x1308919200a3 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #8: at::native::empty_strided_cuda(c10::ArrayRef<long>, c10::ArrayRef<long>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>) + 0x4c (0x130891a9abfc in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #9: <unknown function> + 0xacda4c0 (0x130893fd84c0 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #10: <unknown function> + 0xacda5f4 (0x130893fd85f4 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #11: at::_ops::empty_strided::redispatch(c10::DispatchKeySet, c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>) + 0x107 (0x13088c57d637 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #12: <unknown function> + 0x36bb53b (0x13088c9b953b in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #13: at::_ops::empty_strided::call(c10::ArrayRef<c10::SymInt>, c10::ArrayRef<c10::SymInt>, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>) + 0x171 (0x13088c5d2da1 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #14: <unknown function> + 0x2570ef9 (0x13088b86eef9 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #15: at::native::_to_copy(at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, std::optional<c10::MemoryFormat>) + 0x1e24 (0x13088bc5fba4 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #16: <unknown function> + 0x38e56df (0x13088cbe36df in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #17: at::_ops::_to_copy::redispatch(c10::DispatchKeySet, at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, std::optional<c10::MemoryFormat>) + 0x109 (0x13088c197c69 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #18: <unknown function> + 0x36bee4a (0x13088c9bce4a in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #19: at::_ops::_to_copy::call(at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, std::optional<c10::MemoryFormat>) + 0x236 (0x13088c23cb96 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #20: at::native::to(at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, bool, std::optional<c10::MemoryFormat>) + 0x130 (0x13088bc5b020 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #21: <unknown function> + 0x3b4e1b5 (0x13088ce4c1b5 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #22: at::_ops::to_dtype_layout::redispatch(c10::DispatchKeySet, at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, bool, std::optional<c10::MemoryFormat>) + 0x128 (0x13088c38c818 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #23: <unknown function> + 0x36befb8 (0x13088c9bcfb8 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #24: at::_ops::to_dtype_layout::call(at::Tensor const&, std::optional<c10::ScalarType>, std::optional<c10::Layout>, std::optional<c10::Device>, std::optional<bool>, bool, bool, std::optional<c10::MemoryFormat>) + 0x24b (0x13088c418f0b in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #25: void torch::nn::Module::to_impl<c10::Device&, bool&>(c10::Device&, bool&) + 0x212 (0x1308903405f2 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #26: torch::nn::Module::to(c10::Device, bool) + 0x20 (0x130890339190 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #27: torch::nn::detail::RNNImplBase<torch::nn::LSTMImpl>::to(c10::Device, bool) + 0x10 (0x1308904057b0 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #28: void torch::nn::Module::to_impl<c10::Device&, bool&>(c10::Device&, bool&) + 0xd9 (0x1308903404b9 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #29: void torch::nn::Module::to_impl<c10::Device&, bool&>(c10::Device&, bool&) + 0xab (0x13089034048b in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #30: torch::nn::Module::to(c10::Device, bool) + 0x20 (0x130890339190 in /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/dorado-1.1.1-linux-x64/bin/../lib/libdorado_torch_lib.so)
+frame #31: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x1919521]
+frame #32: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x190ae0f]
+frame #33: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x190b932]
+frame #34: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x173991b]
+frame #35: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x17359e8]
+frame #36: bin/dorado-1.1.1-linux-x64/bin/dorado() [0xe0785f]
+frame #37: bin/dorado-1.1.1-linux-x64/bin/dorado() [0xe0d52e]
+frame #38: bin/dorado-1.1.1-linux-x64/bin/dorado() [0x5eae71]
+frame #39: <unknown function> + 0x2a1ca (0x130888a2a1ca in /lib/x86_64-linux-gnu/libc.so.6)
+frame #40: __libc_start_main + 0x8b (0x130888a2a28b in /lib/x86_64-linux-gnu/libc.so.6)
+frame #41: bin/dorado-1.1.1-linux-x64/bin/dorado() [0xde304e]
+

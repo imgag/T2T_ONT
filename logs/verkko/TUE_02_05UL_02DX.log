@@ -33,7 +33,7 @@ total                   31
 
 Select jobs to execute...
 
-[Tue Nov 11 08:34:22 2025]
+[Wed Nov 12 12:58:15 2025]
 rule layoutContigs:
     input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
     output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
@@ -42,287 +42,52 @@ rule layoutContigs:
     reason: Missing output files: 6-layoutContigs/unitig-popped.layout.scfmap
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
 
-[Tue Nov 11 08:45:00 2025]
-Finished job 91.
-1 of 31 steps (3%) done
-Select jobs to execute...
+Terminating processes on user request, this might take some time.
+[Wed Nov 12 12:58:22 2025]
+Error in rule layoutContigs:
+    jobid: 91
+    input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
+    log: 6-layoutContigs/createLayout.err (check log file(s) for error details)
+    shell:
+        
+cd 6-layoutContigs
 
-[Tue Nov 11 08:45:00 2025]
-checkpoint buildPackages:
-    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_05UL/TUE_02_05UL.HQ_combined.maxx_maxx.fastq.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
-    output: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished, 7-consensus/packages.report
-    log: 7-consensus/buildPackages.err
-    jobid: 95
-    reason: Input files updated by another job: 6-layoutContigs/unitig-popped.layout
-    threads: 8
-    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=75, time_h=24
-DAG of jobs will be updated after completion.
+cat > ./createLayout.sh <<EOF
+#!/bin/sh
+set -e
 
-[Tue Nov 11 11:06:44 2025]
-Finished job 95.
-2 of 31 steps (6%) done
-Select jobs to execute...
+if [ "True" = "True" ] && [ "False" = "True" ]; then
+   cat ../6-layoutContigs/hifi.alignments.gaf ../6-layoutContigs/ont.alignments.gaf > ../6-layoutContigs/combined-alignments.gaf
+else
+   cp ../6-layoutContigs/hifi.alignments.gaf ../6-layoutContigs/combined-alignments.gaf
+fi
 
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part020.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part020.fasta
-    log: 7-consensus/packages/part020.err
-    jobid: 99
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part020.cnspack
-    wildcards: nnnn=020
-    threads: 8
-    resources: tmpdir=/tmp, job_id=20, n_cpus=8, mem_gb=20, time_h=24
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/get_layout_from_mbg.py \\
+  ../6-layoutContigs/combined-nodemap.txt \\
+  ../6-layoutContigs/combined-edges.gfa \\
+  ../6-layoutContigs/combined-alignments.gaf \\
+  ../6-layoutContigs/consensus_paths.txt \\
+  ../6-layoutContigs/nodelens.txt \\
+  ../6-layoutContigs/unitig_initial.layout \\
+  ../6-layoutContigs/unitig-popped.layout.scfmap
 
+if [ "True" = "True" ] && [ "False" = "True" ]; then
+    /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/merge_layouts.py \\
+        ../6-layoutContigs/unitig_initial.layout \\
+        ../6-layoutContigs/ont.alignments.gaf \\
+        > ../6-layoutContigs/unitig-popped.layout
+else
+   cp ../6-layoutContigs/unitig_initial.layout  ../6-layoutContigs/unitig-popped.layout
+fi
 
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part018.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part018.fasta
-    log: 7-consensus/packages/part018.err
-    jobid: 104
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part018.cnspack
-    wildcards: nnnn=018
-    threads: 8
-    resources: tmpdir=/tmp, job_id=18, n_cpus=8, mem_gb=23, time_h=24
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/check_layout_gaps.py < ../6-layoutContigs/unitig-popped.layout > ../6-layoutContigs/gaps.txt
+EOF
 
+chmod +x ./createLayout.sh
 
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part024.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part024.fasta
-    log: 7-consensus/packages/part024.err
-    jobid: 106
-    reason: Updated input files: 7-consensus/packages/part024.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=024
-    threads: 8
-    resources: tmpdir=/tmp, job_id=24, n_cpus=8, mem_gb=14, time_h=24
+./createLayout.sh > ../6-layoutContigs/createLayout.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
 
-
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part019.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part019.fasta
-    log: 7-consensus/packages/part019.err
-    jobid: 110
-    reason: Updated input files: 7-consensus/packages/part019.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=019
-    threads: 8
-    resources: tmpdir=/tmp, job_id=19, n_cpus=8, mem_gb=21, time_h=24
-
-
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part025.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part025.fasta
-    log: 7-consensus/packages/part025.err
-    jobid: 109
-    reason: Updated input files: 7-consensus/packages/part025.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=025
-    threads: 8
-    resources: tmpdir=/tmp, job_id=25, n_cpus=8, mem_gb=13, time_h=24
-
-
-[Tue Nov 11 11:06:46 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part027.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part027.fasta
-    log: 7-consensus/packages/part027.err
-    jobid: 94
-    reason: Updated input files: 7-consensus/packages/part027.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=027
-    threads: 8
-    resources: tmpdir=/tmp, job_id=27, n_cpus=8, mem_gb=8, time_h=24
-
-[Tue Nov 11 14:36:22 2025]
-Finished job 110.
-3 of 31 steps (10%) done
-Select jobs to execute...
-
-[Tue Nov 11 14:36:24 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part022.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part022.fasta
-    log: 7-consensus/packages/part022.err
-    jobid: 97
-    reason: Updated input files: 7-consensus/packages/part022.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=022
-    threads: 8
-    resources: tmpdir=/tmp, job_id=22, n_cpus=8, mem_gb=16, time_h=24
-
-[Tue Nov 11 14:40:41 2025]
-Finished job 109.
-4 of 31 steps (13%) done
-Select jobs to execute...
-
-[Tue Nov 11 14:40:41 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part014.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part014.fasta
-    log: 7-consensus/packages/part014.err
-    jobid: 111
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part014.cnspack
-    wildcards: nnnn=014
-    threads: 8
-    resources: tmpdir=/tmp, job_id=14, n_cpus=8, mem_gb=28, time_h=24
-
-[Tue Nov 11 14:41:59 2025]
-Finished job 104.
-5 of 31 steps (16%) done
-Select jobs to execute...
-
-[Tue Nov 11 14:41:59 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part016.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part016.fasta
-    log: 7-consensus/packages/part016.err
-    jobid: 119
-    reason: Updated input files: 7-consensus/packages/part016.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=016
-    threads: 8
-    resources: tmpdir=/tmp, job_id=16, n_cpus=8, mem_gb=26, time_h=24
-
-[Tue Nov 11 14:42:22 2025]
-Finished job 106.
-6 of 31 steps (19%) done
-Select jobs to execute...
-
-[Tue Nov 11 14:42:22 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part021.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part021.fasta
-    log: 7-consensus/packages/part021.err
-    jobid: 108
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part021.cnspack
-    wildcards: nnnn=021
-    threads: 8
-    resources: tmpdir=/tmp, job_id=21, n_cpus=8, mem_gb=18, time_h=24
-
-[Tue Nov 11 14:42:50 2025]
-Finished job 99.
-7 of 31 steps (23%) done
-Select jobs to execute...
-
-[Tue Nov 11 14:42:50 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part010.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part010.fasta
-    log: 7-consensus/packages/part010.err
-    jobid: 112
-    reason: Updated input files: 7-consensus/packages/part010.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=010
-    threads: 8
-    resources: tmpdir=/tmp, job_id=10, n_cpus=8, mem_gb=34, time_h=24
-
-[Tue Nov 11 15:10:20 2025]
-Finished job 94.
-8 of 31 steps (26%) done
-Select jobs to execute...
-
-[Tue Nov 11 15:10:20 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part026.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part026.fasta
-    log: 7-consensus/packages/part026.err
-    jobid: 98
-    reason: Updated input files: 7-consensus/packages/part026.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=026
-    threads: 8
-    resources: tmpdir=/tmp, job_id=26, n_cpus=8, mem_gb=10, time_h=24
-
-[Tue Nov 11 18:19:58 2025]
-Finished job 97.
-9 of 31 steps (29%) done
-Select jobs to execute...
-
-[Tue Nov 11 18:19:59 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part017.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part017.fasta
-    log: 7-consensus/packages/part017.err
-    jobid: 121
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part017.cnspack
-    wildcards: nnnn=017
-    threads: 8
-    resources: tmpdir=/tmp, job_id=17, n_cpus=8, mem_gb=24, time_h=24
-
-[Tue Nov 11 18:30:45 2025]
-Finished job 111.
-10 of 31 steps (32%) done
-Select jobs to execute...
-
-[Tue Nov 11 18:30:45 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part013.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part013.fasta
-    log: 7-consensus/packages/part013.err
-    jobid: 114
-    reason: Updated input files: 7-consensus/packages/part013.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=013
-    threads: 8
-    resources: tmpdir=/tmp, job_id=13, n_cpus=8, mem_gb=31, time_h=24
-
-[Tue Nov 11 18:34:51 2025]
-Finished job 119.
-11 of 31 steps (35%) done
-Select jobs to execute...
-
-[Tue Nov 11 18:34:52 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part023.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part023.fasta
-    log: 7-consensus/packages/part023.err
-    jobid: 118
-    reason: Updated input files: 7-consensus/packages/part023.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=023
-    threads: 8
-    resources: tmpdir=/tmp, job_id=23, n_cpus=8, mem_gb=16, time_h=24
-
-[Tue Nov 11 18:42:49 2025]
-Finished job 108.
-12 of 31 steps (39%) done
-Select jobs to execute...
-
-[Tue Nov 11 18:42:49 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part002.fasta
-    log: 7-consensus/packages/part002.err
-    jobid: 100
-    reason: Updated input files: 7-consensus/packages/part002.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=002
-    threads: 8
-    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=73, time_h=24
-
-[Tue Nov 11 18:50:50 2025]
-Finished job 112.
-13 of 31 steps (42%) done
-Select jobs to execute...
-
-[Tue Nov 11 18:50:50 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part008.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part008.fasta
-    log: 7-consensus/packages/part008.err
-    jobid: 116
-    reason: Updated input files: 7-consensus/packages/part008.cnspack, 7-consensus/packages.report
-    wildcards: nnnn=008
-    threads: 8
-    resources: tmpdir=/tmp, job_id=8, n_cpus=8, mem_gb=41, time_h=24
-
-[Tue Nov 11 19:05:30 2025]
-Finished job 98.
-14 of 31 steps (45%) done
-Select jobs to execute...
-
-[Tue Nov 11 19:05:30 2025]
-rule generateConsensus:
-    input: 7-consensus/packages/part006.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
-    output: 7-consensus/packages/part006.fasta
-    log: 7-consensus/packages/part006.err
-    jobid: 102
-    reason: Updated input files: 7-consensus/packages.report, 7-consensus/packages/part006.cnspack
-    wildcards: nnnn=006
-    threads: 8
-    resources: tmpdir=/tmp, job_id=6, n_cpus=8, mem_gb=55, time_h=24
-
+Complete log: .snakemake/log/2025-11-12T125806.834437.snakemake.log
