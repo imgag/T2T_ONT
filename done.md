@@ -1,5 +1,11 @@
 # Done tasks
 
+- [] Rename repeatmasker and nucflag outputs
+- X] Check the accrocentric chromosomes, are there any that were assembled gap free?
+- [X] Better implementation of the methylation pipeline.
+- [X] Add nucflag and repeatmaskter outputs to Git: `/doc/tables/for_plots`
+- [X] Compare our samples to HPGRC pipeline
+- [X] Redo hifiasm QC table with latest version of scripts
 - [X] Check QC Input pipeline for Merqury / Pafstats.
 - [X] Aggregate Read and Mapping stats from `wf-PoreC` into a table
 - [X] Get sample IDs from NGSD, create MySQL connectiob

@@ -1,14 +1,16 @@
-# Haplotype-phased  T2T-3D genomes and genomewide topological domains of 20 individuals
+# Haplotype-phased T2T-3D genomes and genomewide topological domains of 20 individuals
 
-Comments about title:
+```
+Title comments:
 
-- Labelling the assemblies as T2T is problematic since not all chromosomes are fully gap free. Other authors use: near-compelete, ...
+- Maybe we should include near-T2T or similar on the title.
 - We should include nanopore-only
 - 3D Genome is good, topological domains are not relevant enough for title
 
 Suggestion:
 
 Near complete 3D-T2T genomes using Nanopore only for 20 individuals.
+```
 
 ## Introduction
 

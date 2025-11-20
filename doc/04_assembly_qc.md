@@ -13,7 +13,6 @@ Documentation of QC metrics used
 10. **Rcov**: Percentage of Reference genome (T2T) covered by assembly.
 9. **Qcov**: Percentage of Query (De novo Assembly) covered by reference .
 11. **Rdup**: Percentage of reference genome duplicates in assembly.
-19. **n_y_chrom**: Number of Y chromosome sequences.
 1. **MMC**: Missing Multi-Copy genes fraction, calculated as 1 - |{MCinASM} ∩ {MCinREF}| / |{MCinREF}|.
 2. **genome_completeness**: Percentage of single-copy genes present in the assembly compared to the reference.
 
@@ -94,7 +93,7 @@ Steps:
 2) Take 1000 bases from start and end with `seqkit subseq` and write into `$output.teloinput.fa`. Append _Start and _End to fasta header.
 3) Search telmere motif with tidk. Output file: '$output.haplotype1_telomeric_repeat_windows.csv' Columns: `id,window,forward_repeat_number,reverse_repeat_number,telomeric_repeat`
 4) Reformat tidk output to `$output_motif_T2T.txt`. It's filtering for regions with sufficient telomere occurences (≥15 in columns 3 and 4), extracting contig information, and identifying sequences that appear exactly twice in the dataset (found on both ends). Columns: `id \t len`
-5) Use minigraph to map ref to assembly and use cov_cal -T to detect T2T contigs. Not additional where this tools comes from. Output: `$output_alignment.txt` 
+5) Use minigraph to map ref to assembly and use cov_cal -T to detect T2T contigs. Part of the hifiasm QC suite. Needs to have 95% of sequence covered on both the Query and Reference with a single contiguous alignment. Output: `$output_alignment.txt` 
 6) Convert output to new file
 
 
@@ -102,8 +101,6 @@ Steps:
 
 - [GAVISUNK](https://github.com/pdishuck/GAVISUNK), 2022 E. Eichler Lab 
 
-ASat Annotation based on RepeatMasker:
-https://github.com/fedorrik/HumAS-HMMER_for_AnVIL
 
 Centromer Plots (implemented)
 https://github.com/logsdon-lab/CenPlot?tab=readme-ov-file

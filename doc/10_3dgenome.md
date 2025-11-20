@@ -29,10 +29,17 @@ Chen et al.:
 - chrX 42Mbp - 56Mbp
 
 
-
 ## Metrics and analyses currently missing
 
 - SDPR = (Count of distal fragments / Count of proximal fragment). Measure of chromosome compartion. Needs monomer groups with no fewwer then five monomers.
-- Monomer count per pair
+- Monomer count per read
 
 Chen et al used 190x Pore-C reads and were unable to chromsome interaction based imprinting effetcs on autosomes. Check if we can find something for this, else focus on XCI. They only looked at mice and Celllines.
+
+## Brainstorming additional PoreC Analysis
+
+These analyses probablt dont fit in the the first paper.
+
+- Use different phasing approach, replace dip3d. Idea: Map Monomers to the diploid genome. If the reads map uniquely they should be already phased. Use or adapt the haplotype imputation method from Dip3D (3 Steps). 
+- Is there any information in the trans contacts? 
+- Extended QC, QuasarQC 
