@@ -1,0 +1,173 @@
+2025-11-19 10:47:36,835 INFO Using non-interactive backend
+2025-11-19 10:47:37,066 INFO Found 1 regions
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py:793: UserWarning: Cannot find normalisation vector for chromosome: X, normalisation: KR, resolution: 10000, unit: BP. This could indicate that KR normalisation did not work for this chromosome. Will return NaN instead.
+  warnings.warn("Cannot find normalisation vector for "
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/e842b372ab81656c74c5586283c6aae3_/lib/python3.8/site-packages/fanc/compatibility/juicer.py:793: UserWarning: Cannot find normalisation vector for chromosome: Y, normalisation: KR, resolution: 10000, unit: BP. This could indicate that KR normalisation did not work for this chromosome. Will return NaN instead.
+  warnings.warn("Cannot find normalisation vector for "
+usage: fancplot <region> -p <plot type> [-h] [--aspect-ratio ASPECT_RATIO]
+                                        [--title TITLE] [--fix-chromosome]
+                                        [--hide-x] [--show-minor-ticks]
+                                        [--hide-major-ticks]
+                                        [--show-tick-legend] [-a ATTRIBUTE]
+                                        [-b BIN_SIZE] [--alpha ALPHA]
+                                        [-l LABELS [LABELS ...]]
+                                        [-y YLIM YLIM]
+                                        [-c COLORS [COLORS ...]]
+                                        [--legend-location LEGEND_LOCATION]
+                                        regions [regions ...]
+
+Bar plot for region scores.
+
+positional arguments:
+  regions               Region-based file, e.g. BED, GFF, BigWig, ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --aspect-ratio ASPECT_RATIO
+                        Aspect ratio of this panel. Default is determined by
+                        figure type (usually 1.0).
+  --title TITLE         Title of this plot.
+  --fix-chromosome      Fix chromosome identifier for this plot (add or remove
+                        "chr" as required). Use this ifthere is a mismatch
+                        between the nomenclature used by different datasets in
+                        the figure, specifically if the chromosome prefix for
+                        this dataset does not match the plot region
+                        definition.
+  --hide-x              Hide x-axis for this plot
+  --show-minor-ticks    Show minor ticks on genome axis
+  --hide-major-ticks    Hide major ticks on genome axis.
+  --show-tick-legend    Show tick legend with distance between ticks on genome
+                        axis
+  -a ATTRIBUTE, --attribute ATTRIBUTE
+                        Attribute to plot. Default: score
+  -b BIN_SIZE, --bin-size BIN_SIZE
+                        Bin size. Specify if you want to bin scores into
+                        larger regions (using weighted mean).
+  --alpha ALPHA         Transparency of bars. Value between 0 and 1, default:
+                        0.5
+  -l LABELS [LABELS ...], --labels LABELS [LABELS ...]
+                        Labels for region datasets
+  -y YLIM YLIM, --ylim YLIM YLIM
+                        Y-axis limits.
+  -c COLORS [COLORS ...], --colors COLORS [COLORS ...]
+                        Colors for region datasets
+  --legend-location LEGEND_LOCATION
+                        Location of the legend when providing data labels.
+usage: fancplot <region> -p <plot type> [-h] [--aspect-ratio ASPECT_RATIO]
+                                        [--title TITLE] [--fix-chromosome]
+                                        [--hide-x] [--show-minor-ticks]
+                                        [--hide-major-ticks]
+                                        [--show-tick-legend]
+                                        [-g GROUPING_ATTRIBUTE]
+                                        [-i INCLUDE [INCLUDE ...]]
+                                        [-e EXCLUDE [EXCLUDE ...]] [-S] [-C]
+                                        [-w SHADOW_WIDTH] [--no-colors]
+                                        features
+
+Layered feature plot.
+
+positional arguments:
+  features              Features file (GFF, BED, Tabix).
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --aspect-ratio ASPECT_RATIO
+                        Aspect ratio of this panel. Default is determined by
+                        figure type (usually 1.0).
+  --title TITLE         Title of this plot.
+  --fix-chromosome      Fix chromosome identifier for this plot (add or remove
+                        "chr" as required). Use this ifthere is a mismatch
+                        between the nomenclature used by different datasets in
+                        the figure, specifically if the chromosome prefix for
+                        this dataset does not match the plot region
+                        definition.
+  --hide-x              Hide x-axis for this plot
+  --show-minor-ticks    Show minor ticks on genome axis
+  --hide-major-ticks    Hide major ticks on genome axis.
+  --show-tick-legend    Show tick legend with distance between ticks on genome
+                        axis
+  -g GROUPING_ATTRIBUTE, --grouping GROUPING_ATTRIBUTE
+                        GFF attribute to use for grouping into layers. For BED
+                        this is always the name column.
+  -i INCLUDE [INCLUDE ...], --include INCLUDE [INCLUDE ...]
+                        Include only these groups.
+  -e EXCLUDE [EXCLUDE ...], --exclude EXCLUDE [EXCLUDE ...]
+                        Exclude these groups.
+  -S, --no-shadow       Plot element size "as is" without surrounding box to
+                        make it more visible.
+  -C, --collapse        Plot all elements in one row.
+  -w SHADOW_WIDTH, --shadow-width SHADOW_WIDTH
+                        Vertical distance between rows of genes in the plot.
+  --no-colors           Do not add color to plots.
+usage: fancplot <region> -p <plot type> [-h] [--aspect-ratio ASPECT_RATIO]
+                                        [--title TITLE] [--fix-chromosome]
+                                        [--hide-x] [--show-minor-ticks]
+                                        [--hide-major-ticks]
+                                        [--show-tick-legend]
+                                        [-f FEATURE_TYPES [FEATURE_TYPES ...]]
+                                        [-cn COLOR_NEUTRAL]
+                                        [-cf COLOR_FORWARD]
+                                        [-cr COLOR_REVERSE] [-cs]
+                                        [-b BOX_HEIGHT] [-s FONT_SIZE]
+                                        [-a ARROW_SIZE] [-l LINE_WIDTH]
+                                        [-g GROUP_BY]
+                                        [--label-field LABEL_FIELD]
+                                        [-m MIN_GENE_SIZE] [-L] [-C] [-sq]
+                                        genes
+
+Gene plot.
+
+positional arguments:
+  genes                 Genes file (GTF, BED).
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --aspect-ratio ASPECT_RATIO
+                        Aspect ratio of this panel. Default is determined by
+                        figure type (usually 1.0).
+  --title TITLE         Title of this plot.
+  --fix-chromosome      Fix chromosome identifier for this plot (add or remove
+                        "chr" as required). Use this ifthere is a mismatch
+                        between the nomenclature used by different datasets in
+                        the figure, specifically if the chromosome prefix for
+                        this dataset does not match the plot region
+                        definition.
+  --hide-x              Hide x-axis for this plot
+  --show-minor-ticks    Show minor ticks on genome axis
+  --hide-major-ticks    Hide major ticks on genome axis.
+  --show-tick-legend    Show tick legend with distance between ticks on genome
+                        axis
+  -f FEATURE_TYPES [FEATURE_TYPES ...], --feature-types FEATURE_TYPES [FEATURE_TYPES ...]
+                        Feature types to be plotted. By default only exons are
+                        shown.
+  -cn COLOR_NEUTRAL, --color-neutral COLOR_NEUTRAL
+                        Color for genes without strand information.
+  -cf COLOR_FORWARD, --color-forward COLOR_FORWARD
+                        Color for genes on the '+' strand.
+  -cr COLOR_REVERSE, --color-reverse COLOR_REVERSE
+                        Color for genes on the '-' strand.
+  -cs, --color-score    Assign color based on score value.
+  -b BOX_HEIGHT, --box-height BOX_HEIGHT
+                        Height of exon boxes. Default: 0.1
+  -s FONT_SIZE, --font-size FONT_SIZE
+                        Font size for gene labels. Default: 9
+  -a ARROW_SIZE, --arrow-size ARROW_SIZE
+                        Size of directionality arrows. Default: 8
+  -l LINE_WIDTH, --line-width LINE_WIDTH
+                        Width of the line along the length of the gene.
+                        Default: 2.
+  -g GROUP_BY, --group-by GROUP_BY
+                        Group exons according to this attribute (e.g. for
+                        plotting multiple transcripts of the same gene.
+                        Default: transcript_id
+  --label-field LABEL_FIELD
+                        Which field to use as label.
+  -m MIN_GENE_SIZE, --min-gene-size MIN_GENE_SIZE
+                        If set, forces the plotted gene to be at least this
+                        wide.
+  -L, --no-labels       Do not plot labels on genes.
+  -C, --collapse        Collapse all genes onto a single row.
+  -sq, --squash         Merge all exons of each grouping unit together. Useful
+                        especially when setting --group-by to "gene_id" or
+                        "gene_symbol". Overlapping genes will still draw on
+                        separate rows in contrast to --collapse

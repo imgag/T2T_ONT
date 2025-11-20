@@ -94,6 +94,59 @@ diamond-insulation tools.
 - maybe this will not be liked by reviewer, aka the "more difficult" datasets are generated with less stringent settings
 - best practice may be to treat both same starting from aligned bam outputs
 
+### problem with hic for diploid
+- why was it never a problem with haploid? 
+1.  no trans contacts
+2. all contacts are sorted by chr already bc the bam has been merged from phased single chr bams = pairs already in chromosomal order (1-1,2-2 etc)
+
+3. maybe this can be fixed easier by doing pairtools parse2 --flip and paitools sort
+
+- 25006LRa064_T2T06_PoreC_05350.ns.bam name sorted bam for each fc
+- format: 
+893dd98b-36a7-41b5-8b91-0e5aa27e5578:0000:0329
+893dd98b-36a7-41b5-8b91-0e5aa27e5578:0329:0336
+893dd98b-36a7-41b5-8b91-0e5aa27e5578:0336:0864
+.....
+
+- todo: count frags per read, count frag size, mapped frags per read
+
+-  this might NOT be correct!!! the ns bam is a paired-end. need to check 1 read. - but this checks out??
+-  why new nonadj bam so much larger than old (wf-pore-c also use expand? is it bc of restriction filters?)
+
+rule flip_pairs_wfporec:
+    input:
+        pairs = "../analysis_other/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.pairs.gz",
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        flipped = "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj_flipped.pairs.gz"
+    conda:
+        "../env/pairtools.yml"
+    log:
+        "logs/flip_pairs_25006LRa064_T2T06_PoreC_05350.log"
+    shell:
+        """
+        pairtools flip \
+        --chroms-path {input.chromsize} \
+        --output {output.flipped} {input.pairs}
+        """
+
+    
+rule clean_pairs2:
+    input:
+        "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj_flipped.pairs.gz"
+    output:
+        temp("outputs/hic_files_T2T/25006LRa064_T2T06_PoreC_05350/pairs_juice/25006LRa064_T2T06_PoreC_05350_flipped.pairs.for_juice")
+    shell:
+        """
+        zcat {input} | \
+        grep -v '^#' | \
+        awk '{{OFS="\\t"; print $1,$6,$2,$3,0,$7,$4,$5,1,$11,$12}}' | \
+        awk '{{OFS="\\t"; $2=($2=="+")?0:1; $6=($6=="+")?0:1; print}}' | \
+        sort -k3,3V -k7,7V > {output}
+        """
+- for parse2:
+    - Until recently, I'd been using pairtools parse. Recently I switched to parse2. In testing my parse2-based pipeline, I started running into issues with sorting where, for example, I'd have a (chr1, chr16) pair in one section of the .pairs file and (chr16, chr1) in another section. The problem appears to be resolved now that I started using the --flip parameter.
+    - I don't think this was ever an issue when I used parse, and I don't think I used the --flip parameter with parse. So I'm wondering if possibly pairtools has a different default value for the --flip parameter for parse vs. parse2? The documentation isn't clear on this (and could stand to be a bit more clearly worded, as this is a bit ambiguous:
 
 ### caspars snakemake
 - finished_samples = list of all sample names without hap, can be used in expand
@@ -101,6 +154,8 @@ diamond-insulation tools.
 # XCI
 - strong insulation changes across the superdomain boundary
 - 
+
+
 
 
 # errors#

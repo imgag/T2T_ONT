@@ -72,3 +72,32 @@ dist_to_31    29
 dist_to_32    30
 mismatches1   31
 mismatches2   32
+
+## asm.tagged.bam
+1 read_name
+2 strand
+3 chr
+4 pos
+5 mapq
+6 cigar
+7 
+8
+9
+10 seq of frag
+11 seq qual
+12 qi:i     read id / query id
+13 qd:i
+14 qs:i     read algn start (frag)
+15 qe:i     read algn end (frag)
+16 qS:i     nearest site to start (on read)
+17 qE:i     nearest site to end (on read)
+18 ql:i     total read len
+19 si:i
+20 ss:i     sequence start (of algn on ref)
+21 se:i     sequence end (of algn on ref)
+22 vS:i     nearest site to start (on ref)
+23 vE:i     earest site to end (on ref)
+24 sl:i     ref len
+25 pi:f     algn identity (%)
+26 SA:Z     homologous map of the fragment (not all)
+27 HP       haplotag (not all)

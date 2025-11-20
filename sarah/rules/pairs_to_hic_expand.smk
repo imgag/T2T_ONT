@@ -4,19 +4,15 @@ datasets = [f"{sample}.{hap}"
 
 rule collect_expanded_hic:
     input:
-        expand("outputs/hic_files_T2T/{dataset}/hic/{dataset}_{expansion}.hic",
-              dataset=datasets,
-              expansion =config["expansions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.gz",
-              dataset=datasets,
-              expansion =config["expansions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.stats.txt",
-              dataset=datasets,
-              expansion =config["expansions"]),
-        expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.stats.html", 
-              dataset=datasets,
-              expansion =config["expansions"])
-
+        #expand("outputs/hic_files_T2T/{dataset}/hic/{dataset}_{expansion}.hic",              dataset=datasets,              expansion =config["expansions"]),
+        #expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.gz",              dataset=datasets,              expansion =config["expansions"]),
+        #expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.stats.txt",              dataset=datasets,              expansion =config["expansions"]),
+        #expand("outputs/pairs_files_T2T/{dataset}/pairs/{dataset}_{expansion}.pairs.stats.html",  dataset=datasets,         expansion =config["expansions"]),
+       #"outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj_flipped.pairs.gz",
+       #"outputs/hic_files_T2T/25006LRa064_T2T06_PoreC_05350/hic/25006LRa064_T2T06_PoreC_05350.hic",
+       #"outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.stats.html",
+       #"outputs/hic_files_T2T/25006LRa064_T2T06_PoreC_05350/hic/25006LRa064_T2T06_PoreC_05350_from_pairtools_sorted_flipped.hic",
+       "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.for_juice_onlyE20"
 
 rule pairtools_parse_bam:
     input:
@@ -128,3 +124,138 @@ rule pairs_to_hic:
         pre {input.pairs} {output.hic} {input.chromsize} -v -r {params.resolutions} > {log} 2>&1
         '''
 
+
+rule flip_pairs_wfporec:
+    input:
+        pairs = "../analysis_other/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.pairs.gz",
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        flipped = "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj_flipped.pairs.gz"
+    conda:
+        "../env/pairtools.yml"
+    log:
+        "logs/flip_pairs_25006LRa064_T2T06_PoreC_05350.log"
+    shell:
+        """
+        pairtools flip \
+        --chroms-path {input.chromsize} \
+        --output {output.flipped} {input.pairs}
+        """
+
+# juicer: <readname> <str1> <chr1> <pos1> <frag1> <str2> <chr2> <pos2> <frag2> <mapq1> <mapq2>
+rule clean_pairs2:
+    input:
+        "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.gz"
+    output:
+        "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.for_juice_onlyE20"
+    conda:
+        "../env/pairtools.yml"
+    shell:
+        """
+        zcat {input} | head -n 100000 | pairtools select "(walk_pair_type == 'R1') or regex_match(walk_pair_type, '^E([0-9]|1[0-9]|20)_R1$')" \
+        --output {output}
+    
+        """
+
+# juicer_tools pre
+rule pairs_to_hic2:
+    input:
+        pairs = "outputs/hic_files_T2T/25006LRa064_T2T06_PoreC_05350/pairs_juice/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.for_juice",
+        chromsize = config['ref'] + ".chrom-size.txt" # config['chromsize_porec']
+    output:
+        hic = "outputs/hic_files_T2T/25006LRa064_T2T06_PoreC_05350/hic/25006LRa064_T2T06_PoreC_05350_from_pairtools_sorted_flipped.hic"
+    params:
+        resolutions = 500000
+    log:
+        "logs/juicer_tools_pre/25006LRa064_T2T06_PoreC_05350.log"
+    shell:
+        '''
+        java -Xmx50G -jar /mnt/storage2/users/ahleucs1/tools/juicertools/juicer_tools_1.19.02.jar \
+        pre {input.pairs} {output.hic} {input.chromsize} -v -r {params.resolutions} > {log} 2>&1
+        '''
+
+# try with pairtools
+rule pairtools_parse_bam_wfporec:
+    input:
+        chromsize = config['ref'] + ".chrom-size.txt",
+        bam = "../analysis_other/wf-pore-c/{run}/bams/{run}.ns.bam"
+    output:
+        flipped_pairs = "outputs/wf-pore-c/{run}/pairs/{run}.nonadj.flipped.pairs.gz",
+        sorted_pairs = "outputs/wf-pore-c/{run}/pairs/{run}.nonadj.sorted.pairs.gz"
+    log:
+        "logs/porec/pairtools_parse2_flip_sort_nonadj.{run}.log"
+    conda:
+        "../env/pairtools.yml"  
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction",
+        expand_depth = config['parse2_depth']
+    threads:
+        8
+    shell:
+        """
+        pairtools parse2 \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --add-pair-index \
+            --single-end \
+            --expand \
+            --flip \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches \
+            --output {output.flipped_pairs} \
+            --nproc-in 3 \
+            --nproc-out {threads} \
+            {input.bam} \
+            >{log}
+        
+        pairtools sort \
+            --output {output.sorted_pairs} \
+            {output.flipped_pairs} >>{log}
+        """
+
+#  pairtools select '(abs(pos1 - pos2) > 2000)' 
+
+rule merge_pairs_stats2:
+    input:
+        pairs = "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.gz"
+    output:
+        stats = "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.stats.txt"
+    log:
+        "logs/merge_pairs_stats.25006LRa064_T2T06_PoreC_05350.nonadj.sorted.log"
+    conda:
+        "../env/pairtools.yml"
+    threads:
+        8
+    shell:
+        """
+        pairtools stats \
+            --output {output.stats} \
+            {input.pairs} \
+            >{log} 2>&1
+        """
+
+# Stats script from wf-pore-c pipeline2
+rule pairs_stats_report2:
+    input:
+        "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.stats.txt"
+    output:
+        "outputs/wf-pore-c/25006LRa064_T2T06_PoreC_05350/pairs/25006LRa064_T2T06_PoreC_05350.nonadj.sorted.pairs.stats.html"
+    log:
+        "logs/merge_pairs_stats_report.25006LRa064_T2T06_PoreC_05350.nonadj.sorted.log"
+    params:
+        report_script = "scripts/create_pairs_report.py"
+    conda:
+        "../env/py_report.yml"
+    shell:
+        """
+        python {params.report_script} \
+            {input} {output} \
+            >{log} 2>&1
+        """
