@@ -103,7 +103,7 @@ rule collect_T2T:
     params:
         samples=" ".join(finished_samples)
     log:
-        "logs/pangenome/collect_T2T.log"
+        "logs/plot/collect_T2T.log"
     shell:
         """
         python3 workflow/scripts/41_collect_T2T_contigs.py \
