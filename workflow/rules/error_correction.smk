@@ -37,7 +37,7 @@ rule dorado_correct_mapping:
     output:
         paf=temp("data/corrected/{dataset}/{file}.ovl.paf"),
     params:
-        dorado=config["dorado"],
+        dorado=config["dorado_correct"],
         herro_model=config["herro_model"],
 #    threads: 30 get more done
     threads: 5
@@ -64,7 +64,7 @@ rule dorado_correct_inference:
     output:
         fa="data/corrected/{dataset}/{file}.corrected.fasta",
     params:
-        dorado=config["dorado"],
+        dorado=config["dorado_correct"],
         herro_model=config["herro_model"],
     threads: 1
     priority: 50
@@ -81,7 +81,7 @@ rule dorado_correct_inference:
             shell(
                 "{params.dorado} correct \
                 --from-paf {input.paf} \
-                --threads {threads} \
+                --threads 20 \
                 --model-path {params.herro_model} \
                 --device '{params.cuda_device}' \
                 --index-size 4G \

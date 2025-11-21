@@ -1,0 +1,129 @@
+Launching release v2.2.1
+Using snakemake 7.32.4.
+Verkko logging for failed commands: ./processGraph.sh > ../2-processGraph/process.err 2>&1
+2-processGraph/process.err:
+	mend <6483 >473
+	Traceback (most recent call last):
+	  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/fix_haplogaps.py", line 112, in <module>
+	    sys.stderr.write("can't fix " + key[0] + " " + key[1] + " due to overlap containing node (wanted " + str(wanted_gap_length) + ", node lengths " + str(len(node_seqs[key[0][1:]])) + ", " + str(len(node_seqs[key[1][1:]]) + ")"))
+	TypeError: unsupported operand type(s) for +: 'int' and 'str'
+mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 41: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 45: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 49: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 60: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 64: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 73: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 77: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 81: [[: not found
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 48
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=300
+Job stats:
+job                            count
+---------------------------  -------
+alignONT                          29
+buildPackages                      1
+combineConsensus                   1
+combineONT                         1
+combineTipsONT                     1
+extractONT                         1
+generateLayoutContigsInputs        1
+indexGraph                         1
+layoutContigs                      1
+processGraph                       1
+processONT                         1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             42
+
+Select jobs to execute...
+
+[Sun Oct  5 17:14:33 2025]
+rule processGraph:
+    input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
+    output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
+    log: 2-processGraph/process.err
+    jobid: 3
+    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun Oct  5 17:34:46 2025]
+Error in rule processGraph:
+    jobid: 3
+    input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
+    output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
+    log: 2-processGraph/process.err (check log file(s) for error details)
+    shell:
+        
+cd 2-processGraph
+
+cat > ./processGraph.sh <<EOF
+#!/bin/sh
+set -e
+
+echo Gap insertion pass 1.
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/insert_aln_gaps.py ../1-buildGraph/hifi-resolved.gfa ../1-buildGraph/paths.gaf 2 50 paths-nogap-1.gaf gaps-hifi-1.gaf gapone n \\
+  > gapped-once-hifi-resolved.gfa
+
+echo ""
+echo Gap insertion pass 2.
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/insert_aln_gaps.py gapped-once-hifi-resolved.gfa ../1-buildGraph/paths.gaf 2 300 paths-nogap-2.gaf gaps-hifi-2.gaf gaptwo n \\
+  > gapped-twice-hifi-resolved.gfa
+
+echo ""
+echo Gap insertion pass 3.
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/insert_aln_gaps.py gapped-twice-hifi-resolved.gfa ../1-buildGraph/paths.gaf 1 5 paths-nogap-3.gaf gaps-hifi-3.gaf gapthree n \\
+  > gapped-hifi-resolved.gfa
+
+echo ""
+echo Haplogap fixing.
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/fix_haplogaps.py gapped-hifi-resolved.gfa ../1-buildGraph/paths.gaf haplogap haplofix-mapping.txt \\
+  > fixed-hifi-resolved.gfa
+
+echo ""
+echo Tip nrolling.
+# coverage
+grep -h '^L' ../1-buildGraph/hifi-resolved.gfa gapped-once-hifi-resolved.gfa gapped-twice-hifi-resolved.gfa gapped-hifi-resolved.gfa fixed-hifi-resolved.gfa   > combined-edges-uniques.gfa
+
+# this used to have grep -v \*
+#
+cat ../1-buildGraph/hifi-resolved.gfa gapped-once-hifi-resolved.gfa gapped-twice-hifi-resolved.gfa gapped-hifi-resolved.gfa fixed-hifi-resolved.gfa | awk 'BEGIN \\
+     { \\
+        FS="[ \t]+"; OFS="\t"; \\
+     } \\
+     \$1 == "S" \\
+     { \\
+        print \$2, length(\$3); \\
+     }' \\
+  > nodelens-uniques.txt
+
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/get_original_coverage.py   fixed-hifi-resolved.gfa   haplofix-mapping.txt   combined-edges-uniques.gfa   nodelens-uniques.txt   ../1-buildGraph/hifi_nodecov.csv > hifi-nodecov.fixed-hifi-resolved.csv
+
+cut -f 6 < ../1-buildGraph/paths.gaf \\
+| \\
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/unroll_tip_loops.py fixed-hifi-resolved.gfa 2 hifi-nodecov.fixed-hifi-resolved.csv \\
+  > unrolled-hifi-resolved.gfa
+
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/get_unroll_mapping.py fixed-hifi-resolved.gfa unrolled-hifi-resolved.gfa \\
+  > unroll_mapping_1.txt
+
+echo ""
+echo Unitig creation.
+ /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/unitigify.py utig1- ../2-processGraph/unitig-mapping-1.txt \\
+  < unrolled-hifi-resolved.gfa \\
+  > ../2-processGraph/unitig-unrolled-hifi-resolved.gfa
+EOF
+
+chmod +x ./processGraph.sh
+
+./processGraph.sh > ../2-processGraph/process.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2025-10-05T171429.168054.snakemake.log
