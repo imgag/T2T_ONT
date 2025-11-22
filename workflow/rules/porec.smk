@@ -400,7 +400,7 @@ rule hic_normalize:
     conda:
         "../env/hicexplorer.yml"
     resources:
-        mem_gb = 100
+        mem_gb = 250
     shell:
         """
         hicNormalize \
@@ -419,8 +419,8 @@ rule hic_diagnostic_plot:
         "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
-    resources:
-        mem_gb = 100
+    resources:d
+        mem_gb = 250
     shell: 
         """
         hicCorrectMatrix diagnostic_plot \
@@ -446,7 +446,7 @@ rule hic_correct_matrix:
     conda:
         "../env/hicexplorer.yml"
     resources:
-        mem_gb = 100
+        mem_gb = 250
     shell:
         """
         echo "Start log ....." > {log}

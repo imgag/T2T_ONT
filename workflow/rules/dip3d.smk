@@ -78,7 +78,7 @@ rule dip3d_map_reads:
         fa = config['ref'],
         bed = config['ref'] + ".repeat_regions.bed"
     output:
-        bam = temp("analysis_other/dip3d/{asm}/1-falign/porec.fragments.bam")
+        bam = "analysis_other/dip3d/{asm}/1-falign/porec.fragments.bam"
     params:
         falign = config['falign']
     threads: 30

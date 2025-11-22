@@ -322,6 +322,8 @@ rule build_trio_meryldb:
     log:
         "logs/meryl_builddb/{asm}_{ped}.log",
     threads: 30
+    resources:
+        mem_gb = 400
     shell:
         """
         meryl count compress\
