@@ -1,0 +1,76 @@
+[modkit-logging/src/lib.rs::69][2025-11-24 08:47:19][DEBUG] command line: bin/dist_modkit_v0.5.1_8fa79e3/modkit summary --threads 8 --log-filepath logs/methylation/T2T19.modkit_summary.ref.log --num-reads 100420 data/mapped/T2T19/T2T19.UL.100G.ref.bam
+[modkit/src/commands.rs::204][2025-11-24 08:47:19][INFO] sampling 100420 reads from BAM
+> sampling 100420 reads from BAM
+[/builds/zUbCqThW/0/machine-learning/modkit/modkit-core/src/reads_sampler/mod.rs::49][2025-11-24 08:47:19][DEBUG] found BAM index, sampling reads in 1000000 base pair chunks
+[/builds/zUbCqThW/0/machine-learning/modkit/modkit-core/src/reads_sampler/sampling_schedule.rs::261][2025-11-24 08:47:19][DEBUG] removed 0 contigs from schedule with <= 1 reads
+[modkit-core/src/reads_sampler/sampling_schedule.rs::141][2025-11-24 08:47:19][DEBUG] derived sampling schedule, sampling total 100430 reads from 25 contigs, including unmapped reads
+[modkit-core/src/reads_sampler/sampling_schedule.rs::164][2025-11-24 08:47:19][DEBUG] schedule
+ chrom  count/frac 
+ 0      8205 
+ 1      8199 
+ 2      6867 
+ 3      6777 
+ 4      6215 
+ 5      5905 
+ 6      5438 
+ 9      4976 
+ 11     4489 
+ 12     4489 
+ 10     4468 
+ 8      4464 
+ 13     3728 
+ 14     3311 
+ 15     3206 
+ 16     2958 
+ 18     2737 
+ 17     2617 
+ 7      2615 
+ 19     2146 
+ 21     1864 
+ 22     1853 
+ 23     1543 
+ 20     1182 
+ 24     178 
+
+[modkit-core/src/reads_sampler/sampling_schedule.rs::167][2025-11-24 08:47:19][DEBUG] and 0 unmapped reads
+[modkit-core/src/interval_chunks.rs::531][2025-11-24 08:47:19][DEBUG] there are 25 contig(s) to work on (25 parts)
+[modkit-core/src/interval_chunks.rs::558][2025-11-24 08:52:17][DEBUG] no more records to process
+[modkit-core/src/reads_sampler/mod.rs::390][2025-11-24 08:52:17][DEBUG] final mapped reads sampled:
+ 0      5341 
+ 1      5339 
+ 2      4483 
+ 3      4420 
+ 4      4075 
+ 5      3866 
+ 6      3581 
+ 9      3266 
+ 11     2967 
+ 12     2948 
+ 10     2942 
+ 8      2935 
+ 13     2461 
+ 14     2195 
+ 15     2121 
+ 16     1971 
+ 18     1824 
+ 17     1760 
+ 7      1736 
+ 19     1449 
+ 21     1274 
+ 22     1268 
+ 23     1072 
+ 20     821 
+ 24     178 
+ total  66293 
+
+[/builds/zUbCqThW/0/machine-learning/modkit/modkit-core/src/reads_sampler/mod.rs::92][2025-11-24 08:52:17][DEBUG] sampled 66292 mapped records, sampling unmapped records
+[/builds/zUbCqThW/0/machine-learning/modkit/modkit-core/src/reads_sampler/mod.rs::119][2025-11-24 08:52:18][DEBUG] sampled 0 unmapped records
+[/builds/zUbCqThW/0/machine-learning/modkit/modkit-core/src/reads_sampler/mod.rs::126][2025-11-24 08:52:18][DEBUG] sampled 66292 records
+[modkit/src/commands.rs::1194][2025-11-24 08:52:18][INFO] calculating threshold at 10(th) percentile
+> calculating threshold at 10(th) percentile
+[modkit-core/src/thresholds.rs::87][2025-11-24 08:52:18][DEBUG] calculating per base thresholds
+[modkit-core/src/thresholds.rs::91][2025-11-24 08:52:19][DEBUG] probs per base took 1s
+[modkit-core/src/thresholds.rs::99][2025-11-24 08:52:20][DEBUG] filter thresholds took 1s
+[modkit-core/src/thresholds.rs::78][2025-11-24 08:52:20][INFO] calculated thresholds: C: 0.7480469
+> calculated thresholds: C: 0.7480469
+[modkit-core/src/summarize.rs::241][2025-11-24 08:52:24][DEBUG] computing summary took 3s

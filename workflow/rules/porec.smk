@@ -13,7 +13,7 @@ rule collect_porec:
         expand("analysis_other/porec/{{asm}}{hp}/qc/plot_vs_counts_{res}.png", hp = ["", ".hp1", ".hp2"], res=config['porec_resolutions']),
         expand("analysis_other/porec/{{asm}}{hp}/tad/{{asm}}{hp}_{res}_domains.bed", hp = ["", ".hp1", ".hp2"], res=config.get('tad_resolutions', ['25000'])),
         expand("analysis_other/porec/{{asm}}{hp}/loops/{{asm}}{hp}_{res}_loops.bedpe", hp = ["", ".hp1", ".hp2"], res=config.get('loop_resolutions', ['10000'])),
-        expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"]), # new
+        #expand("analysis_other/porec/{{asm}}{hp}/hic/{{asm}}{hp}.hic", hp = ["", ".hp1", ".hp2"]), # new
         expand("analysis_other/porec/{{asm}}{hp}/compartments/{{asm}}{hp}.cis{file}", hp = ["", ".hp1", ".hp2"] ,file=[".vecs.tsv",".lam.txt",".bw"]),  # new
         expand("analysis_other/porec/{{asm}}{hp}/insulation/{{asm}}{hp}_{res}.insulation.tsv", hp = ["", ".hp1", ".hp2"], res = config['insulation_resolutions']), # new
         #expand("analysis_other/porec/{{asm}}{hp}/plots/whole_chr/{{asm}}{hp}_{chrom}_None-None.png", hp = ["", ".hp1", ".hp2"], chrom= [str(i) for i in range(1,23)] + ["X", "Y"] ), # new
@@ -228,6 +228,8 @@ rule clean_pairs:
         "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
     output:
         temp("analysis_other/porec/{dataset}/pairs/{dataset}.pairs.for_juice")
+    resources:
+        mem_gb = 250
     shell:
         """
         zcat {input} | \
@@ -271,6 +273,8 @@ rule pairs_to_cooler:
     conda:
         "../env/cooler.yml"
     threads: 2
+    resources:
+        mem_gb = 250
     shell:
         """
         cooler cload pairs \
@@ -294,6 +298,8 @@ rule merge_mcools:
     conda:
         "../env/cooler.yml"
     threads: 2
+    resources:
+        mem_gb = 150
     shell:
         """
         cooler zoomify \
@@ -316,6 +322,8 @@ rule cooler_balance:
         16
     conda:
         "../env/cooler.yml"
+    resources:
+        mem_gb = 150
     shell:
         """
         cp {input} {output}
@@ -419,7 +427,7 @@ rule hic_diagnostic_plot:
         "logs/porec/hic_diagnostic.{dataset}.{resolution}.log"
     conda:
         "../env/hicexplorer.yml"
-    resources:d
+    resources:
         mem_gb = 250
     shell: 
         """
@@ -446,7 +454,7 @@ rule hic_correct_matrix:
     conda:
         "../env/hicexplorer.yml"
     resources:
-        mem_gb = 250
+        mem_gb = 500
     shell:
         """
         echo "Start log ....." > {log}

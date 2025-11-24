@@ -308,22 +308,19 @@ TUE_02_03_hifiasm_herro:
   cov_HQ: 50
   hifiasm: "herro"
 
-T2T00_hifiasm_trio:
-  dataset: T2T00
+#T2T00_hifiasm_trio:
+#  dataset: T2T00
+#  HQ_method: herro # only needed for workflow, not as input data
+#  cov_HQ: 50
+#  cov_UL: 70
+#  hifiasm: "ont_trio"
+
+T2T04_hifiasm_trio:
+  dataset: T2T04
   HQ_method: herro # only needed for workflow, not as input data
-  cov_HQ: 502
+  cov_HQ: 50
   cov_UL: 70
   hifiasm: "ont_trio"
-
-##################################################
-# Trio Phasing
-# use Trio data for calling the haplotypes
-
-#TUE_02_trio:
-#  dataset: TUE_02_03UL
-#  HQ_method: herro
-#  cov_HQ: 50
-#  trio_phasing: true
 
 ########################################################
 # Sample datasets
@@ -466,3 +463,21 @@ T2T19:
   HQ_method: herro
   cov_HQ: 50
   cov_UL: 70
+
+##################################################
+# Trio Phasing
+# use Trio data for calling the haplotypes
+
+TUE00_trio:
+  dataset: T2T00
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  trio_phasing: true
+
+TUE04_trio:
+  dataset: T2T04
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  trio_phasing: true
