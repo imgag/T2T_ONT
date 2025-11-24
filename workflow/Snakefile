@@ -493,6 +493,15 @@ rule all_flowcells:
         # Assembly QC
         "assembly/qc/qc_flowcells.tsv",
 
+rule all_trios:
+    input:
+        # Assembly Files
+        expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_trio),
+        expand("assembly/output/verkko/{asm}/create_trio_scaffold.done", asm=asm_trio),
+        # Assembly QC
+        #TODO "assembly/qc/qc_trios.tsv",  
+        #TODO Maybe add hifiasm trios?
+
 rule all_input_qc:
 # Creates wf-pore-c reports for all datasets with POREC
 # Creates QC for all assembly inputs (FastQ)

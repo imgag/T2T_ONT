@@ -433,10 +433,10 @@ rule yak_count:
         """
         {params.yak} count \
         -t {threads} \
-        -k31 \
         -b37 \
+        -o {output.yak} \
         {input} \
-        > {output} 2>&1
+        > {log} 2>&1
         """
 
 def get_hifiasm_opts(wildcards, input):
