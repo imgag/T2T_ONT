@@ -38,6 +38,8 @@ rule longphase_haplotag:
         "data/mapped/{sample}/{sample}.UL.100G.haplotagged.ref.bam"
     params:
         longphase = config['longphase']
+    log:
+        "logs/methylation/{sample}.longphase_haplotag.log"
     threads:
         4
     shell:
@@ -47,7 +49,7 @@ rule longphase_haplotag:
             --bam-file {input.bam} \
             --reference {input.ref} \
             --threads {threads} \
-            --out-prefix data/mapped/{wildcards.sample}/{wildcards.sample}.UL.70x.ref.haplotagged \
+            --out-prefix data/mapped/{wildcards.sample}/{wildcards.sample}.UL.100G.haplotagged.ref \
             >{log} 2>&1
 
         samtools index {output} \
@@ -60,6 +62,8 @@ rule modkit_pileup_complete:
         ref = config['ref']
     output:
         "analysis_other/mod/{sample}/{sample}.{ref}.methyl.bed"
+    wildcard_constraints:
+        ref = "[^\\.]+"
     log:
         "logs/methylation/{sample}.{ref}.modkit_pileup_complete.log"
     params:
@@ -83,12 +87,12 @@ rule extract_haplotype_reads:
     output:
         bam = temp("data/mapped/{sample}/{sample}.UL.100G.ref.hp{hp}.bam"),
         bai = temp("data/mapped/{sample}/{sample}.UL.100G.ref.hp{hp}.bam.bai")
+    wildcard_constraints:
+        hp = "0|1|2"
     log:
         "logs/methylation/{sample}.extract_hp{hp}.log"
     threads:
         4
-    wildcard_constraints:
-        haplotype = "HP1|HP2|HP0"
     shell:
         """
         samtools view \
@@ -105,9 +109,10 @@ rule extract_haplotype_reads:
 rule modkit_pileup_haplotype:
     input:
         bam = "data/mapped/{sample}/{sample}.UL.100G.ref.hp{hp}.bam",
+        bai = "data/mapped/{sample}/{sample}.UL.100G.ref.hp{hp}.bam.bai",
         ref = config['ref']
     output:
-        "analysis_other/mod/{sample}/{sample}.hp{hp}.methyl.bed"
+        "analysis_other/mod/{sample}/{sample}.ref.hp{hp}.methyl.bed"
     log:
         "logs/methylation/{sample}.modkit_pileup_hp{hp}.log"
     params:
@@ -115,7 +120,7 @@ rule modkit_pileup_haplotype:
     threads:
         8
     wildcard_constraints:
-        haplotype = "0|1|2"
+        hp = "0|1|2"
     shell:
         """
         {params.modkit} pileup \
@@ -140,10 +145,13 @@ rule bedmethyl_to_bigwig:
         1
     shell:
         """
+        tmpfile=$(mktemp)
+        awk 'BEGIN{{OFS="\\t"}} {{print $1, $2, $3, $4/($4+$5)}}' {input.bedmethyl} > ${{tmpfile}}      
         bedGraphToBigWig \
-            <(awk 'BEGIN{{OFS="\\t"}} {{print $1, $2, $3, $4/($4+$5)}}' {input.bedmethyl} ) \
+            ${{tmpfile}} \
             {input.chrom_sizes} \
             {output} \
         >{log} 2>&1
+        rm ${{tmpfile}}
         """
 
