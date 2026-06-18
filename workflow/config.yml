@@ -21,7 +21,7 @@ seq_kit : "SQK-ULK114"
 
 herro_model : ../ahthapp1_T2T_ONT/bin/herro-v1
 
-gpu_queues: "gpu_srv010,gpu_srv019"
+gpu_queues: "gpu_srv010,gpu_srv028"
 
 # Preprocessing settings
 min_length : 
@@ -37,6 +37,8 @@ verkko_dryrun : False
 hifiasm : ../ahthapp1_T2T_ONT/bin/hifiasm-0.25.0/hifiasm
 hifiasm_opts:
   ont:   "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 --ont {ul}"
+  ont_noscaff_primary:   "--telo-m CCCTTA --primary --ul-cut 70000 -l0 --ont {ul}"
+  ont_noscaff:   "--telo-m CCCTTA --ul-cut 70000 -l1 --ont {ul}"
   herro: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l1 {hq}"
   ont_trio: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l0 --trio-dual --ont -1 {maternal} -2 {paternal} {ul}"
   herro_trio: "--telo-m CCCTTA --dual-scaf --ul-cut 70000 -l0 --trio-dual -1 {maternal} -2 {paternal} {hq}"

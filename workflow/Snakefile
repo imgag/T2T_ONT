@@ -34,10 +34,9 @@ include: "rules/ancestry.smk"
 
 
 ## Only include diagnostic samples
-asm_samples = {
-    k: v
-    for k, v in asm.items()
-}
+asm_samples = {k: v for k, v in asm.items() if not v.get("hifiasm", False)}
+asm_hifiasm = {k: v for k, v in asm.items() if v.get("hifiasm", False)}
+
 
 # Initialize dictionaries with empty sets
 unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}
@@ -50,7 +49,7 @@ for dataset_set in datasets.keys():
     for data_type in datasets[dataset_set]:
         for run_folder in datasets[dataset_set][data_type]:
             # Check if path exists and starts with correct prefix
-            if os.path.isdir(run_folder) and run_folder.startswith("data/raw"):
+            if os.path.isdir(run_folder) and (run_folder.startswith("data/raw") or run_folder.startswith("/mnt/storage3/raw_data")):
                 # Get the leaf folder name
                 leaf_folder = os.path.basename(run_folder)
                 # Skip empty folder names
@@ -312,7 +311,7 @@ def qc_collection(
 rule all:
     input:
         expand("assembly/output/verkko/{asm}/create_porec_scaffold.done", asm=asm_samples),
-        #expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
+        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
         #"assembly/qc/qc_benchmark.tsv",
         #"assembly/qc/qc_flowcells.tsv",
         #"assembly/qc/qc_method_comparison.tsv"

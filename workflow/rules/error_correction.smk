@@ -15,7 +15,7 @@ rule dorado_trim:
     params:
         dorado=config["dorado"],
         seq_kit=config["seq_kit"]
-    threads: 5
+    threads: 20
     benchmark:
         "runtimes/dorado_trim/{dataset}_{file}.txt"
     log:
@@ -23,7 +23,7 @@ rule dorado_trim:
     shell:
         """
         {params.dorado} trim \
-            --threads 20 \
+            --threads {threads} \
             --emit-fastq \
             --sequencing-kit {params.seq_kit} \
             {input} > {output.fastq} \
@@ -40,7 +40,7 @@ rule dorado_correct_mapping:
         dorado=config["dorado_correct"],
         herro_model=config["herro_model"],
 #    threads: 30 get more done
-    threads: 5
+    threads: 20
     benchmark:
         "runtimes/dorado_correct_mapping/{dataset}_{file}.txt"
     log:
@@ -49,7 +49,7 @@ rule dorado_correct_mapping:
         """
         {params.dorado} correct \
             --to-paf \
-            --threads 30 \
+            --threads {threads} \
             --model-path {params.herro_model} \
             --device 'cpu' \
             {input.fastq} > {output.paf} \

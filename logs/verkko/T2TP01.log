@@ -25,34 +25,119 @@ Provided resources: mem_gb=300
 Job stats:
 job                            count
 ---------------------------  -------
-alignONT                          29
+buildGraph                         1
 buildPackages                      1
+buildStore                         1
 combineConsensus                   1
 combineONT                         1
 combineTipsONT                     1
+correctHiFi                        1
+emptyfile                          1
 extractONT                         1
+fixErrors                          1
 generateLayoutContigsInputs        1
-indexGraph                         1
 layoutContigs                      1
 processGraph                       1
 processONT                         1
+splitONT                           1
 splitTipsONT                       1
 untip                              1
 verkko                             1
-total                             42
+total                             18
 
 Select jobs to execute...
 
-[Sun Oct  5 17:14:33 2025]
+[Tue Nov 25 20:53:27 2025]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 8
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Tue Nov 25 20:53:27 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahgrosc1_T2T_diagnostic/assembly/input/T2TP01/T2TP01.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 10
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Tue Nov 25 20:53:27 2025]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahgrosc1_T2T_diagnostic/assembly/input/T2TP01/T2TP01.HQ_herro.50x.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Tue Nov 25 20:53:27 2025]
+Finished job 8.
+1 of 18 steps (6%) done
+[Tue Nov 25 21:23:07 2025]
+Finished job 7.
+2 of 18 steps (11%) done
+Select jobs to execute...
+
+[Tue Nov 25 21:23:07 2025]
+rule fixErrors:
+    input: 0-correction/hifi.seqStore, emptyfile, emptyfile, emptyfile
+    output: 0-correction/red.red, 0-correction/hifi-corrected.fasta.gz
+    log: 0-correction/fixErrors.err
+    jobid: 6
+    reason: Missing output files: 0-correction/hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi.seqStore, emptyfile
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=16, time_h=4
+
+[Tue Nov 25 21:23:47 2025]
+Finished job 10.
+3 of 18 steps (17%) done
+[Tue Nov 25 21:35:00 2025]
+Finished job 6.
+4 of 48 steps (8%) done
+Select jobs to execute...
+
+[Tue Nov 25 21:35:00 2025]
+localrule correctHiFi:
+    input: 0-correction/hifi-corrected.fasta.gz
+    output: hifi-corrected.fasta.gz
+    jobid: 5
+    reason: Missing output files: hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi-corrected.fasta.gz
+    resources: tmpdir=/tmp, n_cpus=1, mem_gb=1, time_h=1
+
+[Tue Nov 25 21:35:00 2025]
+Finished job 5.
+5 of 48 steps (10%) done
+Select jobs to execute...
+
+[Tue Nov 25 21:35:00 2025]
+rule buildGraph:
+    input: hifi-corrected.fasta.gz
+    output: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    log: 1-buildGraph/buildGraph.err
+    jobid: 4
+    reason: Missing output files: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv; Input files updated by another job: hifi-corrected.fasta.gz
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=57, time_h=72
+
+[Wed Nov 26 01:56:36 2025]
+Finished job 4.
+6 of 48 steps (12%) done
+Select jobs to execute...
+
+[Wed Nov 26 01:56:36 2025]
 rule processGraph:
     input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
     output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
     log: 2-processGraph/process.err
     jobid: 3
-    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa; Input files updated by another job: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
     resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
 
-[Sun Oct  5 17:34:46 2025]
+[Wed Nov 26 02:24:46 2025]
 Error in rule processGraph:
     jobid: 3
     input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
@@ -126,4 +211,4 @@ chmod +x ./processGraph.sh
         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
 
 Exiting because a job execution failed. Look above for error message
-Complete log: .snakemake/log/2025-10-05T171429.168054.snakemake.log
+Complete log: .snakemake/log/2025-11-25T205321.556603.snakemake.log
