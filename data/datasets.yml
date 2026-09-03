@@ -1,0 +1,713 @@
+# If Input is a folder, assume thats its raw data and run basecalling
+# All files in a folder will be merged for basecalling. Multiple folders will be merged for
+# If Input is a bam/fastq, file will be used directly as input for assembly
+
+published:
+  HQ_duplex: "data/raw/published/11_15_22_R1041_Duplex_HG002_Dorado_v0.1.1_400bps_sup_stereo_duplex_pass.bam"
+  HQ_herro:
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_10_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_11_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_12_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_2_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_3_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_4_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_5_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_6_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_7_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_8_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/11_15_22_R1041_Duplex_HG002_9_Dorado_v0.1.1_400bps_sup.fastq.gz
+    - downloads/simplex/1_3_23_R1041_Duplex_HG002_1_Dorado_v0.1.1_400bps_sup.pass.fastq.gz
+  UL: "data/raw/published/03_08_22_R941_HG002_Guppy_6.1.2_5mc_cg_prom_sup.bam"
+  POREC: "data/raw/published/SRR27664048.1.1.fastq.gz"
+
+## Flowcell benchmarking on the real sample
+
+TUE_02:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+    - "data/raw/set1/24070/24070LRa010_04400"
+    - "data/raw/set1/24070/24070LRa013_04506"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+    - "data/basecalled/Duplex/24070LRa003_04399"
+    - "data/basecalled/Duplex/24070LRa010_04400"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  APK:
+    - "data/raw/24070LRa002_04850"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+  Paternal: "data/raw/25006LRa025_04901"
+  Maternal: "data/raw/25006LRa029_04900"
+
+# The following datasets are benchmarking duplicates of TUE_02
+# We try to look at performance based on number of UL flowcells used
+
+TUE_02_01UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+
+TUE_02_02UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+
+TUE_02_03UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+  APK:
+    - "data/raw/24070LRa002_04850"
+  HQ_paternal: "data/raw/25006LRa025_04901"
+  HQ_maternal: "data/raw/25006LRa029_04900"
+
+TUE_02_04UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+
+TUE_02_05UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+    - "data/raw/set1/24070/24070LRa010_04400"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+    - "data/raw/set1/24070/24070LRa010_04400"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+
+TUE_02_06UL:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+    - "data/raw/set1/24070/24070LRa010_04400"
+    - "data/raw/set1/24070/24070LRa013_04506"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+    - "data/raw/set1/24070/24070LRa009_04505"
+    - "data/raw/set1/24070/24070LRa010_04400"
+    - "data/raw/set1/24070/24070LRa013_04506"
+  HQ_duplex:
+    - "data/raw/23074LRa001_03877"
+    - "data/raw/23074LRa003_03878"
+  POREC:
+    - "data/raw/24070LRa_PoreC_04921"
+
+#######################################################
+# Real samples                                        #
+#######################################################
+
+T2T00:
+  UL:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+  HQ_herro:
+    - "data/raw/set1/24070/24070LRa002_04503"
+    - "data/raw/set1/24070/24070LRa003_04399"
+    - "data/raw/set1/24070/24070LRa004_04504"
+  APK:
+    - "data/raw/24070LRa002_04850"
+  POREC:
+    - "data/raw/poreC/24070LRa_PoreC_04921"
+    - "data/raw/poreC/24070LRa018_T2T00_PoreC_05375"
+    - "data/raw/poreC/24070LRa019_T2T00_PoreC_05376"
+    - "data/raw/batch_october/25006LRa218_T2T00_PoreC_06049"
+  HQ_paternal: "data/raw/25006LRa025_04901"
+  HQ_maternal: "data/raw/25006LRa029_04900"
+
+
+T2T00_1:
+  UL:
+    - "data/raw/batch_september/25006LRa184_T2T00-1_05920"
+    - "data/raw/batch_september/25006LRa184_T2T00-1_05926"
+    - "data/raw/batch_september/25006LRa185_T2T00-1_05927"
+  HQ_herro:
+    - "data/raw/25006LRa025_04901"
+    - "data/raw/batch_september/25006LRa184_T2T00-1_05920"
+    - "data/raw/batch_september/25006LRa184_T2T00-1_05926"
+    - "data/raw/batch_september/25006LRa185_T2T00-1_05927"
+  POREC:
+    - "data/raw/batch_september/25006LRa192_T2T00-1_PoreC_05915"
+    - "data/raw/batch_september/25006LRa193_T2T00-1_PoreC_05916"
+
+
+T2T00_2:
+  UL:
+    - "data/raw/batch_september/25006LRa188_T2T00-2_05921"
+    - "data/raw/batch_september/25006LRa188_T2T00-2_05928"
+    - "data/raw/batch_september/25006LRa189_T2T00-2_05929"
+  HQ_herro:
+    - "data/raw/25006LRa029_04900"
+    - "data/raw/batch_september/25006LRa188_T2T00-2_05921"
+    - "data/raw/batch_september/25006LRa188_T2T00-2_05928"
+    - "data/raw/batch_september/25006LRa189_T2T00-2_05929"
+  POREC:
+    - "data/raw/batch_september/25006LRa194_T2T00-2_PoreC_05917"
+    - "data/raw/batch_september/25006LRa195_T2T00-2_PoreC_05918"
+
+
+T2T01:
+  UL:
+    - "data/raw/batch3/25006/25006LRa001_04696"
+    - "data/raw/batch3/25006/25006LRa002_04697"
+    - "data/raw/batch_jun2025/25006LRa042_T2T01_05316"
+    - "data/raw/batch_jun2025/25006LRa042_T2T01_05345"
+  HQ_herro:
+    - "data/raw/batch3/25006/25006LRa001_04696"
+    - "data/raw/batch3/25006/25006LRa002_04697"
+    - "data/raw/batch_jun2025/25006LRa042_T2T01_05316"
+    - "data/raw/batch_jun2025/25006LRa042_T2T01_05345"
+  POREC:
+    - "data/raw/25006LRa039_T2T01_PoreC_05236"
+    - "data/raw/batch_july/25006LRa116_T2T01_PoreC_05523"
+
+
+T2T02:
+  UL:
+    - "data/raw/batch3/25006/25006LRa005_04698"
+    - "data/raw/batch3/25006/25006LRa007_04699"
+    - "data/raw/batch_jun2025/25006LRa051_T2T02_05317"
+    - "data/raw/batch_jun2025/25006LRa051_T2T02_05346"
+  HQ_herro:
+    - "data/raw/batch3/25006/25006LRa005_04698"
+    - "data/raw/batch3/25006/25006LRa007_04699"
+    - "data/raw/batch_jun2025/25006LRa051_T2T02_05317"
+    - "data/raw/batch_jun2025/25006LRa051_T2T02_05346"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa063_T2T02_PoreC_05349"
+    - "data/raw/batch_july/25006LRa117_T2T02_PoreC_05524"
+
+T2T03:
+  UL:
+    - "data/raw/batch3/25006/25006LRa009_04700"
+    - "data/raw/batch3/25006/25006LRa011_04701"
+    - "data/raw/batch_july/25006LRa046_T2T03_05479"
+  HQ_herro:
+    - "data/raw/batch3/25006/25006LRa009_04700"
+    - "data/raw/batch3/25006/25006LRa011_04701"
+    - "data/raw/batch_july/25006LRa046_T2T03_05479"
+  APK:
+    - "data/raw/25006LRa010_04919"
+  POREC:
+    - "data/raw/25006LRa040_T2T03_PoreC_05237"
+    - "data/raw/batch_july/25006LRa118_T2T03_PoreC_05525"
+
+T2T04:
+  UL:
+    - "data/raw/batch3/25006/25006LRa015_04767"
+    - "data/raw/batch3/25006/25006LRa016_04768"
+    - "data/raw/25006LRa014_05011"
+    - "data/raw/25006LRa033_05208"
+    - "data/raw/25006LRa033_05205"
+    - "data/raw/25006LRa033_05209"
+  HQ_herro:
+    - "data/raw/batch3/25006/25006LRa015_04767"
+    - "data/raw/batch3/25006/25006LRa016_04768"
+    - "data/raw/25006LRa014_05011"
+    - "data/raw/25006LRa033_05208"
+    - "data/raw/25006LRa033_05205"
+    - "data/raw/25006LRa033_05209"
+  HQ_paternal: "data/raw/GEMED_04_Parents/25006LRa020_05009"
+  HQ_maternal: "data/raw/GEMED_04_Parents/25006LRa023_05010"
+  APK:
+    - "data/raw/25006LRa014_05173"
+  POREC:
+    - "data/raw/25006LRa037_T2T04_PoreC_05170"
+    - "data/raw/batch_jun2025/25006LRa078_T2T04_PoreC_05377"
+    - "data/raw/batch_jun2025/25006LRa079_T2T04_PoreC_05378"
+    - "data/raw/batch_october/25006LRa079_T2T04_PoreC_06050"
+    - "data/raw/batch_october/25006LRa219_T2T04_PoreC_06051"
+
+
+T2T04_1:
+  UL:
+    - "data/raw/batch3/25006/25006LRa018_04769"
+    - "data/raw/batch3/25006/25006LRa019_04770"
+    - "data/raw/batch_july/25006LRa087_T2T04_1_05480"
+    - "data/raw/batch_july/25006LRa087_T2T04_1_05481"
+  HQ_herro:
+    - "data/raw/batch3/25006/25006LRa018_04769"
+    - "data/raw/batch3/25006/25006LRa019_04770"
+    - "data/raw/GEMED_04_Parents/25006LRa020_05009"
+    - "data/raw/batch_july/25006LRa087_T2T04_1_05480"
+    - "data/raw/batch_july/25006LRa087_T2T04_1_05481"
+  POREC:
+    - "data/raw/batch_july/25006LRa097_T2T04_1_PoreC_05488"
+    - "data/raw/batch_july/25006LRa098_T2T04_1_PoreC_05489"
+
+T2T04_2:
+  UL:
+    - "data/raw/batch3/25006/25006LRa021_04771"
+    - "data/raw/batch3/25006/25006LRa022_04772"
+    - "data/raw/batch_july/25006LRa091_T2T04_2_05482"
+    - "data/raw/batch_july/25006LRa091_T2T04_2_05483"
+    - "data/raw/batch_july2/25006LRa094_T2T04_2_05585"
+  HQ_herro:
+    - "data/raw/GEMED_04_Parents/25006LRa023_05010"
+    - "data/raw/batch3/25006/25006LRa021_04771"
+    - "data/raw/batch3/25006/25006LRa022_04772"
+    - "data/raw/batch_july/25006LRa091_T2T04_2_05482"
+    - "data/raw/batch_july/25006LRa091_T2T04_2_05483"
+    - "data/raw/batch_july2/25006LRa094_T2T04_2_05585"
+  POREC:
+    - "data/raw/batch_july/25006LRa099_T2T04_2_PoreC_05490"
+    - "data/raw/batch_july/25006LRa100_T2T04_2_PoreC_05491"
+
+T2T05:
+  UL:
+    - "data/raw/25006LRa038_05176"
+    - "data/raw/25006LRa038_05178"
+    - "data/raw/batch_july2/25006LRa048_T2T05_05586"
+  HQ_herro:
+    - "data/raw/25006LRa038_05176"
+    - "data/raw/25006LRa038_05178"
+    - "data/raw/batch_july2/25006LRa048_T2T05_05586"
+  POREC:
+    - "data/raw/25006LRa041_T2T05_PoreC_05238"
+    - "data/raw/batch_july/25006LRa119_T2T05_PoreC_05526"
+
+T2T06:
+  UL:
+    - "data/raw/batch_jun2025/25006LRa055_T2T06_05318"
+    - "data/raw/batch_jun2025/25006LRa055_T2T06_05347"
+    - "data/raw/batch_july2/25006LRa056_T2T06_05587"
+  HQ_herro:
+    - "data/raw/batch_jun2025/25006LRa055_T2T06_05318"
+    - "data/raw/batch_jun2025/25006LRa055_T2T06_05347"
+    - "data/raw/batch_july2/25006LRa056_T2T06_05587"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa064_T2T06_PoreC_05350"
+    - "data/raw/batch_july/25006LRa120_T2T06_PoreC_05527"
+
+T2T07:
+  UL:
+    - "data/raw/batch_jun2025/25006LRa059_T2T07_05319"
+    - "data/raw/batch_jun2025/25006LRa059_T2T07_05348"
+    - "data/raw/batch_july2/25006LRa060_T2T07_05588"
+  HQ_herro:
+    - "data/raw/batch_jun2025/25006LRa059_T2T07_05319"
+    - "data/raw/batch_jun2025/25006LRa059_T2T07_05348"
+    - "data/raw/batch_july2/25006LRa060_T2T07_05588"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa065_T2T07_PoreC_05351"
+    - "data/raw/batch_july/25006LRa121_T2T07_PoreC_05528"
+
+T2T08:
+  UL:
+    - "data/raw/batch_jun2025/25006LRa069_T2T08_05369"
+    - "data/raw/batch_jun2025/25006LRa069_T2T08_05370"
+    - "data/raw/batch_july2/25006LRa066_T2T08_05589"
+  HQ_herro:
+    - "data/raw/batch_jun2025/25006LRa069_T2T08_05369"
+    - "data/raw/batch_jun2025/25006LRa069_T2T08_05370"
+    - "data/raw/batch_july2/25006LRa066_T2T08_05589"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa080_T2T08_PoreC_05379"
+    - "data/raw/batch_july/25006LRa122_T2T08_PoreC_05529"
+
+T2T09:
+  UL:
+    - "data/raw/batch_jun2025/25006LRa073_T2T09_05371"
+    - "data/raw/batch_jun2025/25006LRa073_T2T09_05372"
+    - "data/raw/batch_july_keep/25006LRa071_T2T09_05532"
+  HQ_herro:
+    - "data/raw/batch_jun2025/25006LRa073_T2T09_05371"
+    - "data/raw/batch_jun2025/25006LRa073_T2T09_05372"
+    - "data/raw/batch_july_keep/25006LRa071_T2T09_05532"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa081_T2T09_PoreC_05380"
+    - "data/raw/batch_july/25006LRa123_T2T09_PoreC_05530"
+
+T2T10:
+  UL:
+    - "data/raw/batch_jun2025/25006LRa077_T2T10_05373"
+    - "data/raw/batch_jun2025/25006LRa077_T2T10_05374"
+    - "data/raw/batch_july_keep/25006LRa075_T2T10_05533"
+    - "data/raw/batch_july2/25006LRa075_T2T10_05590"
+  HQ_herro:
+    - "data/raw/batch_jun2025/25006LRa077_T2T10_05373"
+    - "data/raw/batch_jun2025/25006LRa077_T2T10_05374"
+    - "data/raw/batch_july_keep/25006LRa075_T2T10_05533"
+    - "data/raw/batch_july2/25006LRa075_T2T10_05590"
+  POREC:
+    - "data/raw/batch_jun2025/25006LRa082_T2T10_PoreC_05381"
+    - "data/raw/batch_july/25006LRa124_T2T10_PoreC_05531"
+
+T2T11:
+  UL:
+    - "data/raw/batch_july/25006LRa083_T2T11_05484"
+    - "data/raw/batch_july/25006LRa083_T2T11_05485"
+    - "data/raw/batch_july2/25006LRa085_T2T11_05591"
+  HQ_herro:
+    - "data/raw/batch_july/25006LRa083_T2T11_05484"
+    - "data/raw/batch_july/25006LRa083_T2T11_05485"
+    - "data/raw/batch_july2/25006LRa085_T2T11_05591"
+  POREC:
+    - "data/raw/batch_july/25006LRa095_T2T11_PoreC_05486"
+    - "data/raw/batch_july/25006LRa096_T2T11_PoreC_05487"
+
+T2T12:
+  UL:
+    - "data/raw/batch_august/25006LRa131_T2T12_05680"
+    - "data/raw/batch_august/25006LRa130_T2T12_05679"
+    - "data/raw/batch_august/25006LRa130_T2T12_05678"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa131_T2T12_05680"
+    - "data/raw/batch_august/25006LRa130_T2T12_05679"
+    - "data/raw/batch_august/25006LRa130_T2T12_05678"
+  POREC:
+    - "data/raw/batch_august/25066LRa145_T2T12_PoreC_05688"
+    - "data/raw/batch_august/25066LRa146_T2T12_PoreC_05689"
+    - "data/raw/batch_october/25006LRa145_T2T12_PoreC_06052"
+    - "data/raw/batch_october/25006LRa220_T2T12_PoreC_06053"
+    - "data/raw/batch_october/25006LRa221_T2T12_PoreC_06054"
+
+T2T13:
+  UL:
+    - "data/raw/batch_july/25006LRa101_T2T13_05534"
+    - "data/raw/batch_july/25006LRa101_T2T13_05535"
+    - "data/raw/batch_july/25006LRa102_T2T13_05536"
+  HQ_herro:
+    - "data/raw/batch_july/25006LRa101_T2T13_05534"
+    - "data/raw/batch_july/25006LRa101_T2T13_05535"
+    - "data/raw/batch_july/25006LRa102_T2T13_05536"
+  POREC:
+    - "data/raw/batch_july/25006LRa112_T2T13_PoreC_05519"
+    - "data/raw/batch_july/25006LRa113_T2T13_PoreC_05520"
+    - "data/raw/batch_october/25006LRa112_T2T13_PoreC_06055"
+    - "data/raw/batch_october/25006LRa222_T2T13_PoreC_06056"
+    - "data/raw/batch_october/25006LRa223_T2T13_PoreC_06057"
+
+T2T15:
+  UL:
+    - "data/raw/batch_august/25006LRa136_T2T15_05683"
+    - "data/raw/batch_august/25006LRa135_T2T15_05682"
+    - "data/raw/batch_august/25006LRa135_T2T15_05681"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa136_T2T15_05683"
+    - "data/raw/batch_august/25006LRa135_T2T15_05682"
+    - "data/raw/batch_august/25006LRa135_T2T15_05681"
+  POREC:
+    - "data/raw/batch_august/25066LRa147_T2T15_PoreC_05690"
+    - "data/raw/batch_august/25066LRa148_T2T15_PoreC_05691"
+
+
+T2T16:
+  UL:
+    - "data/raw/batch_august/25006LRa141_T2T16_05686"
+    - "data/raw/batch_august/25006LRa140_T2T16_05685"
+    - "data/raw/batch_august/25006LRa140_T2T16_05684"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa141_T2T16_05686"
+    - "data/raw/batch_august/25006LRa140_T2T16_05685"
+    - "data/raw/batch_august/25006LRa140_T2T16_05684"
+  POREC:
+    - "data/raw/batch_august/25066LRa149_T2T16_PoreC_05692"
+    - "data/raw/batch_august/25066LRa150_T2T16_PoreC_05693"
+
+T2T17:
+  UL:
+    - "data/raw/batch_august/25006LRa153_T2T17_05793"
+    - "data/raw/batch_august/25006LRa153_T2T17_05794"
+    - "data/raw/batch_august/25006LRa154_T2T17_05795"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa153_T2T17_05793"
+    - "data/raw/batch_august/25006LRa153_T2T17_05794"
+    - "data/raw/batch_august/25006LRa154_T2T17_05795"
+  POREC:
+    - "data/raw/batch_august/25006LRa168_T2T17_PoreC_05787"
+    - "data/raw/batch_august/25006LRa169_T2T17_PoreC_05788"
+
+T2T18:
+  UL:
+    - "data/raw/batch_august/25006LRa159_T2T18_05798"
+    - "data/raw/batch_august/25006LRa158_T2T18_05797"
+    - "data/raw/batch_august/25006LRa158_T2T18_05796"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa159_T2T18_05798"
+    - "data/raw/batch_august/25006LRa158_T2T18_05797"
+    - "data/raw/batch_august/25006LRa158_T2T18_05796"
+  POREC:
+    - "data/raw/batch_august/25006LRa170_T2T18_PoreC_05789"
+    - "data/raw/batch_august/25006LRa171_T2T18_PoreC_05790"
+
+T2T19:
+  UL:
+    - "data/raw/batch_august/25006LRa164_T2T19_05801"
+    - "data/raw/batch_august/25006LRa163_T2T19_05800"
+    - "data/raw/batch_august/25006LRa163_T2T19_05799"
+  HQ_herro:
+    - "data/raw/batch_august/25006LRa164_T2T19_05801"
+    - "data/raw/batch_august/25006LRa163_T2T19_05800"
+    - "data/raw/batch_august/25006LRa163_T2T19_05799"
+  POREC:
+    - "data/raw/batch_august/25006LRa172_T2T19_PoreC_05791"
+    - "data/raw/batch_august/25006LRa173_T2T19_PoreC_05792"
+
+############################################################
+##  P U B L I C A T I O N      D A T A     F R E E Z E   ###
+############################################################
+
+T2T_HG002:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa314_T2T_HG002_06515"
+    - "data/raw/batch_feb_2026/25006LRa314_T2T_HG002_06554"
+    - "data/raw/batch_feb_2026/25006LRa328_T2T_HG002_06596"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa314_T2T_HG002_06515"
+    - "data/raw/batch_feb_2026/25006LRa314_T2T_HG002_06554"
+    - "data/raw/batch_feb_2026/25006LRa328_T2T_HG002_06596"
+  POREC:
+    - "/mnt/storage3/raw_data/MINERVA/25006/25006LRa332_T2T_HG002_PoreC_06710"
+
+T2T20:
+  UL:
+    - "data/raw/batch_december/25006LRa206_T2T20_06250"
+    - "data/raw/batch_december/25006LRa206_T2T20_06253"
+    - "data/raw/batch_december/25006LRa206_T2T20_06256"
+  HQ_herro:
+    - "data/raw/batch_december/25006LRa206_T2T20_06250"
+    - "data/raw/batch_december/25006LRa206_T2T20_06253"
+    - "data/raw/batch_december/25006LRa206_T2T20_06256"
+  POREC:
+    - "data/raw/batch_october/25006LRa224_T2T20_PoreC_06058"
+    - "data/raw/batch_december/25006LRa225_T2T20_PoreC_06261"
+
+T2T21:
+  UL:
+    - "data/raw/batch_october/25006LRa212_T2T21_UL_06113" # Buffered FC
+    - "data/raw/batch_october/25006LRa213_T2T21_UL_06114" # Normal FC
+    - "data/raw/batch_october/25006LRa216_T2T21_UUL_06140" # Buffered FC
+    - "data/raw/batch_october/25006LRa217_T2T21_UUL_06141" # Normal FC
+  HQ_herro:
+    - "data/raw/batch_october/25006LRa212_T2T21_UL_06113" # Buffered FC
+    - "data/raw/batch_october/25006LRa213_T2T21_UL_06114" # Normal FC
+    - "data/raw/batch_october/25006LRa216_T2T21_UUL_06140" # Buffered FC
+    - "data/raw/batch_october/25006LRa217_T2T21_UUL_06141" # Normal FC
+  POREC:
+    - "data/raw/batch_october/25006LRa226_T2T21_PoreC_06059"
+
+T2T22:
+  UL:
+    - "data/raw/batch_october/25006LRa228_T2T22_UL_06115"
+    - "data/raw/batch_october/25006LRa228_T2T22_UL_06116"
+    - "data/raw/batch_october/25006LRa229_T2T22_UL_06117"
+  HQ_herro:
+    - "data/raw/batch_october/25006LRa228_T2T22_UL_06115"
+    - "data/raw/batch_october/25006LRa228_T2T22_UL_06116"
+    - "data/raw/batch_october/25006LRa229_T2T22_UL_06117"
+  POREC:
+    - "data/raw/batch_december/25006LRa248_T2T22_PoreC_06262"
+
+T2T23:
+  UL:
+    - "data/raw/batch_october/25006LRa233_T2T23_UL_06118"
+    - "data/raw/batch_october/25006LRa233_T2T23_UL_06119"
+    - "data/raw/batch_october/25006LRa234_T2T23_UL_06120"
+  HQ_herro:
+    - "data/raw/batch_october/25006LRa233_T2T23_UL_06118"
+    - "data/raw/batch_october/25006LRa233_T2T23_UL_06119"
+    - "data/raw/batch_october/25006LRa234_T2T23_UL_06120"
+  POREC:
+    - "data/raw/batch_december/25006LRa249_T2T23_PoreC_06263"
+
+T2T24:
+  UL:
+    - "data/raw/batch_december/25006LRa238_T2T24_06251"
+    - "data/raw/batch_december/25006LRa238_T2T24_06254"
+    - "data/raw/batch_december/25006LRa238_T2T24_06257"
+  HQ_herro:
+    - "data/raw/batch_december/25006LRa238_T2T24_06251"
+    - "data/raw/batch_december/25006LRa238_T2T24_06254"
+    - "data/raw/batch_december/25006LRa238_T2T24_06257"
+  POREC:
+    - "data/raw/batch_december/25006LRa250_T2T24_PoreC_06264"
+
+T2T25:
+  UL:
+    - "data/raw/batch_december/25006LRa243_T2T25_06252"
+    - "data/raw/batch_december/25006LRa243_T2T25_06255"
+    - "data/raw/batch_december/25006LRa243_T2T25_06258"
+  HQ_herro:
+    - "data/raw/batch_december/25006LRa243_T2T25_06252"
+    - "data/raw/batch_december/25006LRa243_T2T25_06255"
+    - "data/raw/batch_december/25006LRa243_T2T25_06258"
+  POREC:
+    - "data/raw/batch_december/25006LRa251_T2T25_PoreC_06265"
+
+T2T26:
+  UL:
+    - "data/raw/batch_jan_2026/25006LRa252_T2T26_06402"
+    - "data/raw/batch_jan_2026/25006LRa253_T2T26_06403"
+    - "data/raw/batch_jan_2026/25006LRa253_T2T26_06404"
+    - "data/raw/batch_feb_2026/25006LRa300_T2T26_06591"
+  HQ_herro:
+    - "data/raw/batch_jan_2026/25006LRa252_T2T26_06402"
+    - "data/raw/batch_jan_2026/25006LRa253_T2T26_06403"
+    - "data/raw/batch_jan_2026/25006LRa253_T2T26_06404"
+    - "data/raw/batch_feb_2026/25006LRa300_T2T26_06591"
+  POREC:
+    - "data/raw/batch_jan_2026/25006LRa272_T2T26_PoreC_06396"
+
+T2T27:
+  UL:
+    - "data/raw/batch_jan_2026/25006LRa257_T2T27_06405"
+    - "data/raw/batch_jan_2026/25006LRa258_T2T27_06406"
+    - "data/raw/batch_jan_2026/25006LRa258_T2T27_06407"
+  HQ_herro:
+    - "data/raw/batch_jan_2026/25006LRa257_T2T27_06405"
+    - "data/raw/batch_jan_2026/25006LRa258_T2T27_06406"
+    - "data/raw/batch_jan_2026/25006LRa258_T2T27_06407"
+  POREC:
+    - "data/raw/batch_jan_2026/25006LRa273_T2T27_PoreC_06397"
+
+T2T28:
+  UL:
+    - "data/raw/batch_jan_2026/25006LRa262_T2T28_06408"
+    - "data/raw/batch_jan_2026/25006LRa263_T2T28_06409"
+    - "data/raw/batch_jan_2026/25006LRa263_T2T28_06410"
+  HQ_herro:
+    - "data/raw/batch_jan_2026/25006LRa262_T2T28_06408"
+    - "data/raw/batch_jan_2026/25006LRa263_T2T28_06409"
+    - "data/raw/batch_jan_2026/25006LRa263_T2T28_06410"
+  POREC:
+    - "data/raw/batch_jan_2026/25006LRa274_T2T28_PoreC_06398"
+
+T2T29:
+  UL:
+    - "data/raw/batch_jan_2026/25006LRa267_T2T29_06411"
+    - "data/raw/batch_jan_2026/25006LRa268_T2T29_06412"
+    - "data/raw/batch_jan_2026/25006LRa268_T2T29_06413"
+  HQ_herro:
+    - "data/raw/batch_jan_2026/25006LRa267_T2T29_06411"
+    - "data/raw/batch_jan_2026/25006LRa268_T2T29_06412"
+    - "data/raw/batch_jan_2026/25006LRa268_T2T29_06413"
+  POREC:
+    - "data/raw/batch_jan_2026/25006LRa275_T2T29_PoreC_06399"
+
+T2T30:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06449"
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06477"
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06481"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06449"
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06477"
+    - "data/raw/batch_feb_2026/25006LRa276_T2T30_06481"
+  POREC:
+    - "data/raw/batch_feb_2026/25006LRa315_T2T30_PoreC_06565"
+
+T2T31:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06450"
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06478"
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06482"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06450"
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06478"
+    - "data/raw/batch_feb_2026/25006LRa280_T2T31_06482"
+  POREC:
+    - "data/raw/batch_feb_2026/25006LRa316_T2T31_PoreC_06566"
+
+T2T32:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06451"
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06479"
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06483"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06451"
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06479"
+    - "data/raw/batch_feb_2026/25006LRa284_T2T32_06483"
+  POREC:
+    - "data/raw/batch_feb_2026/25006LRa317_T2T32_PoreC_06567"
+
+T2T33:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa304_T2T33_06592"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa304_T2T33_06592"
+  POREC:
+    - "data/raw/batch_feb_2026/25006LRa318_T2T33_PoreC_06568"
+
+T2T34:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa309_T2T34_06593"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa309_T2T34_06593"
+  POREC:
+    - "data/raw/batch_feb_2026/25006LRa319_T2T34_PoreC_06569"
+
+T2T35:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa320_T2T35_06594"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa320_T2T35_06594"
+  POREC:
+    - "data/raw/batch_march_2026/25006LRa330_T2T35_PoreC_06708"
+
+T2T36:
+  UL:
+    - "data/raw/batch_feb_2026/25006LRa324_T2T36_06595"
+  HQ_herro:
+    - "data/raw/batch_feb_2026/25006LRa324_T2T36_06595"
+  POREC:
+    - "data/raw/batch_march_2026/25006LRa331_T2T36_PoreC_06709"

@@ -1,0 +1,509 @@
+# Required parameters:
+#   - dataset: name of dataset defined in `data/datasets.yml`
+#   - HQ_method: Select one of:
+#        - duplex: Looks for duplex files defined in dataset
+#        - herro: Looks for herro files and creates them from simplex data if necessary
+#        - combined: 
+
+## Defaults if not specified:
+#   
+
+# Analysis matrix for testset chr19: 
+
+# LR↓/UL→ |         50x         |      70x     |     90x      |
+#         +---------------------+--------------+--------------+
+#     15x |     duplex          |       --     |      --      |
+#     20x |     duplex          |       --     |      --      |
+#     25x |     duplex          |       --     |      --      |
+#     35x | 15x DU + 20x herro  |       --     |      --      |  BOTH WITH AND WITHOUT POLISH
+#     35x | duplex/herro        | duplex/herro | duplex/herro |  BITH WITH AND WITHOUT VERRKO POLISH
+#     60x |     herro           |     herro    |    herro     |
+#    120x |     herro           |     herro    |    herro     |
+
+published_chr19_duplex15x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+  cov_HQ: 15
+  skip_verkko_polish: false
+
+published_chr19_duplex20x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+  cov_HQ: 20
+  skip_verkko_polish: false
+
+published_chr19_duplex25x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+  cov_HQ: 25
+  skip_verkko_polish: false
+
+published_chr19_combined35x:
+  dataset: published
+  HQ_method: combined
+  region: chr19
+  cov_UL: 50
+  cov_HERRO: 20
+  cov_DUPLEX: 15
+  skip_verkko_polish: false
+
+published_chr19_combined35x_nopolish:
+  dataset: published
+  
+  HQ_method: combined
+  region: chr19
+  cov_UL: 50
+  cov_HERRO: 20
+  cov_DUPLEX: 15
+  skip_verkko_polish: false
+
+published_chr19_duplex_UL50x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+  skip_verkko_polish: false
+
+published_chr19_duplex_UL50x_nopolish:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 50
+
+published_chr19_duplex_UL70x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 70
+  skip_verkko_polish: false
+
+published_chr19_duplex_UL90x:
+  dataset: published
+  HQ_method: duplex
+  region: chr19
+  cov_UL: 90
+  skip_verkko_polish: false
+
+published_chr19_herro_35x_UL50x_nopolish:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 35
+  region: chr19
+
+published_chr19_herro_35x_UL70x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 70
+  cov_HQ: 35
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_35x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 35
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_60x_UL50x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 60
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_60x_UL70x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 70
+  cov_HQ: 60
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_60x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 60
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_120x_UL50x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 50
+  cov_HQ: 120
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_120x_UL70x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 70
+  cov_HQ: 120
+  region: chr19
+  skip_verkko_polish: false
+
+published_chr19_herro_120x_UL90x:
+  dataset: published
+  HQ_method: herro
+  cov_UL: 90
+  cov_HQ: 120
+  region: chr19
+  skip_verkko_polish: false
+
+# Full genome published datasets:
+
+published_duplex:
+  dataset: published
+  HQ_method: duplex
+  cov_UL: 70
+  skip_verkko_polish: false
+
+published_herro:
+  dataset:  published
+  HQ_method: herro
+  cov_UL: 70
+  cov_HQ: 35
+  skip_verkko_polish: false
+
+##################################################
+# Benchmarking TUE_02: 
+# Investigate improvements with different number of UL FC
+## NO Duplex!
+
+TUE_02_01UL:
+  dataset: TUE_02_01UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+TUE_02_02UL:
+  dataset: TUE_02_02UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+TUE_02_03UL:
+  dataset: TUE_02_03UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+TUE_02_04UL:
+  dataset: TUE_02_04UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+TUE_02_05UL:
+  dataset: TUE_02_05UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+TUE_02_06UL:
+  dataset: TUE_02_06UL
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+## 1 Duplex!
+
+TUE_02_01UL_01DX:
+  dataset: TUE_02_01UL
+  HQ_method: combined
+  cov_HERRO: max
+  cov_DUPLEX: 10
+
+TUE_02_02UL_01DX:
+  dataset: TUE_02_02UL
+  HQ_method: combined
+  cov_HERRO: max
+  cov_DUPLEX: 10
+
+TUE_02_03UL_01DX:
+  dataset: TUE_02_03UL
+  HQ_method: combined
+  cov_HERRO: 30
+  cov_DUPLEX: 10
+
+TUE_02_04UL_01DX:
+  dataset: TUE_02_04UL
+  HQ_method: combined
+  cov_HERRO: 40
+  cov_DUPLEX: 10
+
+TUE_02_05UL_01DX:
+  dataset: TUE_02_05UL
+  HQ_method: combined
+  cov_HERRO: 30
+  cov_DUPLEX: 10
+  cov_UL: 70
+
+TUE_02_06UL_01DX:
+  dataset: TUE_02_06UL
+  HQ_method: combined
+  cov_HERRO: 40
+  cov_DUPLEX: 10
+  cov_UL: 70
+
+## 2 Duplex!
+
+TUE_02_01UL_02DX:
+  dataset: TUE_02_01UL
+  HQ_method: combined
+  cov_HERRO: max
+  cov_DUPLEX: max
+
+TUE_02_02UL_02DX:
+  dataset: TUE_02_02UL
+  HQ_method: combined
+  cov_HERRO: max
+  cov_DUPLEX: max
+
+TUE_02_03UL_02DX:
+  dataset: TUE_02_03UL
+  HQ_method: combined
+  cov_HQ: 50
+  cov_HERRO: max
+  cov_DUPLEX: max
+
+TUE_02_04UL_02DX:
+  dataset: TUE_02_04UL
+  HQ_method: combined
+  cov_HQ: 50
+  cov_HERRO: max
+  cov_DUPLEX: max
+
+TUE_02_06UL_02DX:
+  dataset: TUE_02_06UL
+  HQ_method: combined
+  cov_HQ: 50
+  cov_HERRO: max
+  cov_DUPLEX: max
+  cov_UL: 70
+
+########################################################
+# Hifiasm tests
+########################################################
+
+T2T00_hifiasm_ont:
+  dataset: T2T00
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "ont"
+
+T2T00_hifiasm_herro:
+  dataset: T2T00
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "herro"
+
+T2T00_hifiasm_trio:
+  dataset: T2T00
+  HQ_method: herro # only needed for workflow, not as input data
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "ont_trio"
+
+T2T04_hifiasm_trio:
+  dataset: T2T04
+  HQ_method: herro # only needed for workflow, not as input data
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "ont_trio"
+
+T2T00_hifiasm_porec:
+  dataset: T2T00
+  HQ_method: herro # only needed for workflow, not as input data
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "ont_porec"
+
+T2T04_hifiasm_porec:
+  dataset: T2T04
+  HQ_method: herro # only needed for workflow, not as input data
+  cov_HQ: 50
+  cov_UL: 70
+  hifiasm: "ont_porec"
+
+########################################################
+# Sample datasets
+########################################################
+
+T2T00:
+  dataset: T2T00
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  apk_polishing: true
+
+T2T00_1:
+  dataset: T2T00_1
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T00_2:
+  dataset: T2T00_2
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T01:
+  dataset: T2T01
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T02:
+  dataset: T2T02
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T03:
+  dataset: T2T03
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  apk_polishing: true
+
+T2T04:
+  dataset: T2T04
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  apk_polishing: true
+
+T2T04_1:
+  dataset: T2T04_1
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T04_2:
+  dataset: T2T04_2
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T05:
+  dataset: T2T05
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T06:
+  dataset: T2T06
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T07:
+  dataset: T2T07
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T08:
+  dataset: T2T08
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T09:
+  dataset: T2T09
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T10:
+  dataset: T2T10
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T11:
+  dataset: T2T11
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T12:
+  dataset: T2T12
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T13:
+  dataset: T2T13
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T15:
+  dataset: T2T15
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T16:
+  dataset: T2T16
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T17:
+  dataset: T2T17
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T18:
+  dataset: T2T18
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+T2T19:
+  dataset: T2T19
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+
+##################################################
+# Trio Phasing
+# use Trio data for calling the haplotypes
+
+T2T00_trio:
+  dataset: T2T00
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  trio_phasing: true
+
+T2T04_trio:
+  dataset: T2T04
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70
+  trio_phasing: true
+
+T2T_HG002:
+  dataset: T2T_HG002
+  HQ_method: herro
+  cov_HQ: 50
+  cov_UL: 70

@@ -1,0 +1,56 @@
+[31m
+ .d8888b.                    888b     d888        d8888 8888888b.
+d88P  Y88b                   8888b   d8888       d88888 888   Y88b
+888    888                   88888b.d88888      d88P888 888    888
+888         .d88b.  88888b.  888Y88888P888     d88P 888 888   d88P
+888        d8P  Y8b 888 "88b 888 Y888P 888    d88P  888 8888888P"
+888    888 88888888 888  888 888  Y8P  888   d88P   888 888
+Y88b  d88P Y8b.     888  888 888   "   888  d8888888888 888
+ "Y8888P"   "Y8888  888  888 888       888 d88P     888 888
+[0m
+Using existing configfile:
+	/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/config.yaml
+Running command:
+	snakemake --configfile /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/config.yaml -c 24 --workflow-profile workflow/profiles/all
+Output dir:
+	analysis_other/cenmap_single/T2T20
+With sample(s):
+	T2T20
+Using workflow specific profile workflow/profiles/all for setting default command line arguments.
+Using 1 out of 1 samples that have subdirs in data/ont for CDR-Finder.
+Assuming unrestricted shared filesystem usage.
+host: SRV010
+Building DAG of jobs...
+MissingInputException in rule check_asm_nucflag in file "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/workflow/rules/Snakemake-NucFlag/workflow/Snakefile", line 27:
+Missing input files for rule check_asm_nucflag:
+    output: results/8-nucflag/T2T20, results/8-nucflag/T2T20_misassemblies.bed, results/8-nucflag/T2T20_status.bed
+    wildcards: sm=T2T20
+    affected files:
+        config/nucflag.toml
+Using workflow specific profile workflow/profiles/all for setting default command line arguments.
+Using 1 out of 1 samples that have subdirs in data/ont for CDR-Finder.
+Building DAG of jobs...
+MissingInputException in rule check_asm_nucflag in file "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/workflow/rules/Snakemake-NucFlag/workflow/Snakefile", line 27:
+Missing input files for rule check_asm_nucflag:
+    output: results/8-nucflag/T2T20, results/8-nucflag/T2T20_misassemblies.bed, results/8-nucflag/T2T20_status.bed
+    wildcards: sm=T2T20
+    affected files:
+        config/nucflag.toml
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/cad24bafbc0bdc800927e29940d8ea41_/bin/cenmap", line 403, in main
+    subprocess.run(cmd, check=True, cwd=output_dir)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/cad24bafbc0bdc800927e29940d8ea41_/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['snakemake', '--configfile', '/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/config.yaml', '-c', '24', '--workflow-profile', 'workflow/profiles/all']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/cad24bafbc0bdc800927e29940d8ea41_/bin/cenmap", line 429, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/cad24bafbc0bdc800927e29940d8ea41_/bin/cenmap", line 405, in main
+    subprocess.run([*cmd, "--unlock"], check=True, cwd=output_dir)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/cad24bafbc0bdc800927e29940d8ea41_/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['snakemake', '--configfile', '/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T20/config.yaml', '-c', '24', '--workflow-profile', 'workflow/profiles/all', '--unlock']' returned non-zero exit status 1.

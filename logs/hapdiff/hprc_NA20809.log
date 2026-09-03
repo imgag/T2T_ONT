@@ -1,0 +1,170 @@
+[M::mm_idx_gen::38.309*1.57] collected minimizers
+[M::mm_idx_gen::43.334*2.62] sorted minimizers
+[M::main::43.334*2.62] loaded/built the index for 25 target sequence(s)
+[M::mm_mapopt_update::48.152*2.45] mid_occ = 177
+[M::mm_idx_stat] kmer size: 19; skip: 10; is_hpc: 0; #seq: 25
+[M::mm_idx_stat::50.158*2.40] distinct minimizers: 389106952 (91.92% are singletons); average occurrences: 1.459; average spacing: 5.491; total length: 3117292070
+[M::worker_pipeline::1881.024*4.41] mapped 102 sequences
+[M::main] Version: 2.22-r1110-dirty
+[M::main] CMD: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 -K 5G data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20809/NA20809.haplotype1.fasta
+[M::main] Real time: 1881.509 sec; CPU: 8288.002 sec; Peak RSS: 93.714 GB
+[bam_sort_core] merging from 0 files and 8 in-memory blocks...
+[M::mm_idx_gen::37.140*1.53] collected minimizers
+[M::mm_idx_gen::40.130*2.54] sorted minimizers
+[M::main::40.130*2.54] loaded/built the index for 25 target sequence(s)
+[M::mm_mapopt_update::44.111*2.40] mid_occ = 177
+[M::mm_idx_stat] kmer size: 19; skip: 10; is_hpc: 0; #seq: 25
+[M::mm_idx_stat::46.980*2.32] distinct minimizers: 389106952 (91.92% are singletons); average occurrences: 1.459; average spacing: 5.491; total length: 3117292070
+[M::worker_pipeline::846.311*5.51] mapped 104 sequences
+[M::main] Version: 2.22-r1110-dirty
+[M::main] CMD: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 -K 5G data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20809/NA20809.haplotype2.fasta
+[M::main] Real time: 846.910 sec; CPU: 4662.725 sec; Peak RSS: 90.536 GB
+[bam_sort_core] merging from 0 files and 8 in-memory blocks...
+bin/hapdiff/hapdiff.py:85: DeprecationWarning: Use shutil.which instead of find_executable
+  if not spawn.find_executable(e):
+2026-01-29 11:01:50,983 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2026-01-29 11:01:50,983 [INFO   ]  CMD: python3 diploid assembly/variants/NA20809/phased_hprc assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam data/ref/T2T-CHM13.v2.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample
+2026-01-29 11:01:50,983 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.fasta
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: verbose, VALUE: False
+2026-01-29 11:01:50,983 [INFO   ]  PARAMETER: phased_gt, VALUE: False
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: tandem, VALUE: None
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2026-01-29 11:01:50,984 [INFO   ]  PARAMETER: query_names, VALUE: True
+2026-01-29 11:01:50,984 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2026-01-29 11:01:50,984 [INFO   ]  MODE: diploid
+2026-01-29 11:01:50,984 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:01:50,984 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:02:44,931 [INFO   ]  ****************** STEP 2: PAIR ******************
+2026-01-29 11:02:44,953 [INFO   ]  Pairing 32423 deletions...
+2026-01-29 11:02:46,506 [INFO   ]  Pairing 39 inversions...
+2026-01-29 11:02:46,532 [INFO   ]  Pairing 32951 insertions...
+2026-01-29 11:02:48,559 [INFO   ]  Pairing 27 tandem duplications...
+2026-01-29 11:02:48,562 [INFO   ]  Pairing 0 interspersed duplications...
+2026-01-29 11:02:48,562 [INFO   ]  Pairing 4 breakends...
+2026-01-29 11:02:48,575 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2026-01-29 11:02:48,575 [INFO   ]  Found 27726 deletion candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Found 31 inversion candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Found 28355 insertion candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Found 27 tandem duplication candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Found 0 interspersed duplication candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Found 4 breakend candidates.
+2026-01-29 11:02:48,575 [INFO   ]  Write SV candidates..
+2026-01-29 11:02:49,659 [INFO   ]  Draw plots..
+2026-01-29 11:02:51,787 [INFO   ]  Done.
+2026-01-29 11:02:53,642 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2026-01-29 11:02:53,642 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2026-01-29 11:02:53,642 [INFO   ]  CMD: python3 diploid assembly/variants/NA20809/phased_hprc assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam data/ref/T2T-CHM13.v2.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample --phased_gt
+2026-01-29 11:02:53,642 [INFO   ]  CMD: python3 diploid assembly/variants/NA20809/phased_hprc assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam data/ref/T2T-CHM13.v2.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample --phased_gt
+2026-01-29 11:02:53,642 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:02:53,642 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.fasta
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.fasta
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: verbose, VALUE: False
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: verbose, VALUE: False
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: phased_gt, VALUE: True
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: phased_gt, VALUE: True
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: tandem, VALUE: None
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: tandem, VALUE: None
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2026-01-29 11:02:53,642 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: query_names, VALUE: True
+2026-01-29 11:02:53,643 [INFO   ]  PARAMETER: query_names, VALUE: True
+2026-01-29 11:02:53,643 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2026-01-29 11:02:53,643 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2026-01-29 11:02:53,643 [INFO   ]  MODE: diploid
+2026-01-29 11:02:53,643 [INFO   ]  MODE: diploid
+2026-01-29 11:02:53,643 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:02:53,643 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+2026-01-29 11:02:53,643 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:02:53,643 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam
+2026-01-29 11:03:38,895 [INFO   ]  ****************** STEP 2: PAIR ******************
+2026-01-29 11:03:38,895 [INFO   ]  ****************** STEP 2: PAIR ******************
+2026-01-29 11:03:38,920 [INFO   ]  Pairing 32423 deletions...
+2026-01-29 11:03:38,920 [INFO   ]  Pairing 32423 deletions...
+2026-01-29 11:03:40,488 [INFO   ]  Pairing 39 inversions...
+2026-01-29 11:03:40,488 [INFO   ]  Pairing 39 inversions...
+2026-01-29 11:03:40,514 [INFO   ]  Pairing 32951 insertions...
+2026-01-29 11:03:40,514 [INFO   ]  Pairing 32951 insertions...
+2026-01-29 11:03:42,543 [INFO   ]  Pairing 27 tandem duplications...
+2026-01-29 11:03:42,543 [INFO   ]  Pairing 27 tandem duplications...
+2026-01-29 11:03:42,546 [INFO   ]  Pairing 0 interspersed duplications...
+2026-01-29 11:03:42,546 [INFO   ]  Pairing 0 interspersed duplications...
+2026-01-29 11:03:42,546 [INFO   ]  Pairing 4 breakends...
+2026-01-29 11:03:42,546 [INFO   ]  Pairing 4 breakends...
+2026-01-29 11:03:42,559 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2026-01-29 11:03:42,559 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2026-01-29 11:03:42,559 [INFO   ]  Found 27726 deletion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 27726 deletion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 31 inversion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 31 inversion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 28355 insertion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 28355 insertion candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 27 tandem duplication candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 27 tandem duplication candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 0 interspersed duplication candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 0 interspersed duplication candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 4 breakend candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Found 4 breakend candidates.
+2026-01-29 11:03:42,559 [INFO   ]  Write SV candidates..
+2026-01-29 11:03:42,559 [INFO   ]  Write SV candidates..
+2026-01-29 11:03:43,635 [INFO   ]  Draw plots..
+2026-01-29 11:03:43,635 [INFO   ]  Draw plots..
+2026-01-29 11:03:45,459 [INFO   ]  Done.
+2026-01-29 11:03:45,459 [INFO   ]  Done.
+Running: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20809/NA20809.haplotype1.fasta -K 5G | samtools sort -m 4G -@ 8 >assembly/variants/NA20809/phased_hprc/hapdiff_pat.bam
+Running: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20809/NA20809.haplotype2.fasta -K 5G | samtools sort -m 4G -@ 8 >assembly/variants/NA20809/phased_hprc/hapdiff_mat.bam

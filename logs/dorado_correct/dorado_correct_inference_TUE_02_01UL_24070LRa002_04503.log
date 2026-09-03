@@ -1,0 +1,129 @@
+[2025-02-18 23:12:31.978] [info] Running: "correct" "--from-paf" "data/corrected/TUE_02_01UL/24070LRa002_04503.ovl.paf" "--threads" "12" "--model-path" "bin/herro-v1" "--device" "cuda:0" "--index-size" "4G" "data/corrected/TUE_02_01UL/24070LRa002_04503.trimmed.fastq"
+[2025-02-18 23:12:32.246] [info] Using batch size 36 on device cuda:0 in inference thread 0.
+[2025-02-18 23:12:32.246] [info] Using batch size 36 on device cuda:0 in inference thread 1.
+[2025-02-18 23:23:46.559] [info] Starting
+[2025-02-19 03:06:16.349] [warning] Caught Torch error 'The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript, serialized code (most recent call last):
+  File "code/__torch__/model.py", line 36, in forward
+    x0 = torch.permute(x, [0, 3, 1, 2])
+    qn = self.qn
+    sliced_sequences_concatenated = (qn).forward(x0, target_positions, lengths, )
+                                     ~~~~~~~~~~~ <--- HERE
+    fc2 = self.fc2
+    _1 = (fc2).forward(sliced_sequences_concatenated, )
+  File "code/__torch__/transformer.py", line 31, in forward
+    mask = torch.to(_5, dtype=None, layout=None, device=ops.prim.device(x3))
+    encoder = self.encoder
+    x4 = (encoder).forward(x3, None, mask, None, )
+          ~~~~~~~~~~~~~~~~ <--- HERE
+    batch0 = annotate(List[Tensor], [])
+    _6 = [9223372036854775807, torch.len(lengths)]
+  File "code/__torch__/transformer.py", line 169, in forward
+    _2 = getattr(layers0, "2")
+    _3 = getattr(layers0, "3")
+    output2 = (_00).forward(output, mask0, src_key_padding_mask_for_layers, make_causal0, )
+               ~~~~~~~~~~~~ <--- HERE
+    output3 = (_1).forward(output2, mask0, src_key_padding_mask_for_layers, make_causal0, )
+    output4 = (_2).forward(output3, mask0, src_key_padding_mask_for_layers, make_causal0, )
+  File "code/__torch__/transformer.py", line 446, in forward
+        linear23 = self.linear2
+        bias12 = linear23.bias
+        _137 = torch._transformer_encoder_layer_fwd(src, embed_dim, num_heads0, in_proj_weight0, in_proj_bias0, weight8, bias8, _136, True, 1.0000000000000001e-05, weight9, bias9, weight10, bias10, weight11, bias11, weight12, bias12, merged_mask, mask_type)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+        _133, _134 = True, _137
+      else:
+
+Traceback of TorchScript, original code (most recent call last):
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/model.py", line 157, in forward
+        sliced_sequences_concatenated = torch.cat(encoded)'''
+        x = x.permute((0, 3, 1, 2))
+        sliced_sequences_concatenated = self.qn(x, target_positions, lengths)
+                                        ~~~~~~~ <--- HERE
+    
+        # list of tensors of shape (selected_token_number, 1) -> (selected_token_number)
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 44, in forward
+        mask = create_mask(lengths).to(device=x.device)
+    
+        x = self.encoder(x, src_key_padding_mask=mask)  # [B, S, 256]
+            ~~~~~~~~~~~~ <--- HERE
+        batch = [x[i, :l] for i, l in enumerate(lengths)]
+    
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 190, in forward
+    
+        for mod in self.layers:
+            output = mod(output,
+                     ~~~ <--- HERE
+                         src_mask=mask,
+                         is_causal=is_causal,
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 297, in forward
+                merged_mask, mask_type = self.self_attn.merge_masks(
+                    src_mask, src_key_padding_mask, src)
+                return torch._transformer_encoder_layer_fwd(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+                    src,
+                    self.self_attn.embed_dim,
+RuntimeError: CUDA out of memory. Tried to allocate 8.33 GiB (GPU 0; 93.10 GiB total capacity; 17.28 GiB already allocated; 1005.88 MiB free; 19.60 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+', clearing CUDA cache and retrying.
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript, serialized code (most recent call last):
+  File "code/__torch__/model.py", line 36, in forward
+    x0 = torch.permute(x, [0, 3, 1, 2])
+    qn = self.qn
+    sliced_sequences_concatenated = (qn).forward(x0, target_positions, lengths, )
+                                     ~~~~~~~~~~~ <--- HERE
+    fc2 = self.fc2
+    _1 = (fc2).forward(sliced_sequences_concatenated, )
+  File "code/__torch__/transformer.py", line 31, in forward
+    mask = torch.to(_5, dtype=None, layout=None, device=ops.prim.device(x3))
+    encoder = self.encoder
+    x4 = (encoder).forward(x3, None, mask, None, )
+          ~~~~~~~~~~~~~~~~ <--- HERE
+    batch0 = annotate(List[Tensor], [])
+    _6 = [9223372036854775807, torch.len(lengths)]
+  File "code/__torch__/transformer.py", line 169, in forward
+    _2 = getattr(layers0, "2")
+    _3 = getattr(layers0, "3")
+    output2 = (_00).forward(output, mask0, src_key_padding_mask_for_layers, make_causal0, )
+               ~~~~~~~~~~~~ <--- HERE
+    output3 = (_1).forward(output2, mask0, src_key_padding_mask_for_layers, make_causal0, )
+    output4 = (_2).forward(output3, mask0, src_key_padding_mask_for_layers, make_causal0, )
+  File "code/__torch__/transformer.py", line 446, in forward
+        linear23 = self.linear2
+        bias12 = linear23.bias
+        _137 = torch._transformer_encoder_layer_fwd(src, embed_dim, num_heads0, in_proj_weight0, in_proj_bias0, weight8, bias8, _136, True, 1.0000000000000001e-05, weight9, bias9, weight10, bias10, weight11, bias11, weight12, bias12, merged_mask, mask_type)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+        _133, _134 = True, _137
+      else:
+
+Traceback of TorchScript, original code (most recent call last):
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/model.py", line 157, in forward
+        sliced_sequences_concatenated = torch.cat(encoded)'''
+        x = x.permute((0, 3, 1, 2))
+        sliced_sequences_concatenated = self.qn(x, target_positions, lengths)
+                                        ~~~~~~~ <--- HERE
+    
+        # list of tensors of shape (selected_token_number, 1) -> (selected_token_number)
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 44, in forward
+        mask = create_mask(lengths).to(device=x.device)
+    
+        x = self.encoder(x, src_key_padding_mask=mask)  # [B, S, 256]
+            ~~~~~~~~~~~~ <--- HERE
+        batch = [x[i, :l] for i, l in enumerate(lengths)]
+    
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 190, in forward
+    
+        for mod in self.layers:
+            output = mod(output,
+                     ~~~ <--- HERE
+                         src_mask=mask,
+                         is_causal=is_causal,
+  File "/raid/scratch/stanojevicd/projects/haec-BigBird/transformer.py", line 297, in forward
+                merged_mask, mask_type = self.self_attn.merge_masks(
+                    src_mask, src_key_padding_mask, src)
+                return torch._transformer_encoder_layer_fwd(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+                    src,
+                    self.self_attn.embed_dim,
+RuntimeError: CUDA out of memory. Tried to allocate 8.33 GiB (GPU 0; 93.10 GiB total capacity; 17.28 GiB already allocated; 727.88 MiB free; 19.88 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+

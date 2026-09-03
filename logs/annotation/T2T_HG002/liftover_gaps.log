@@ -1,0 +1,130 @@
+Loading PAF alignments from assembly/qc/phased_verkko/T2T_HG002/both.mapped_T2T.paf
+PAF alignment filtering stats:
+  Total alignments: 52002
+  Filtered (low MAPQ < 5): 32796
+  Filtered (short length < 50000): 15146
+  Passed filters: 4060
+Found alignments for 257 query sequences
+Using search window: 10000bp for unmappable positions
+Using alignment window: 10000bp for distant regions
+Strategy: Select single best alignment per region
+
+Processing BED entry 1: haplotype1-0000001:43398310-43405810 (N_region)
+    Best alignment: processing overlap 43398310-43405810
+      BED region: 43398310-43405810
+      Alignment: 43268038-43525413 -> 7492727-7638764
+      Alignment length: 249932, MAPQ: 60
+    Position 43398310 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 43398310
+    No mappable position found within 10000bp upstream of 43398310
+    Position 43405809 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 43405809
+    No mappable position found within 10000bp upstream of 43405809
+      FAIL: Could not map start position 43398310 even with 10000bp search window
+
+Processing BED entry 2: haplotype1-0000003:44364429-44371929 (N_region)
+  FAIL: No overlapping alignments found for region 44364429-44371929 even with 10000bp window
+
+Processing BED entry 3: haplotype1-0000004:83099243-83106743 (N_region)
+  FAIL: No overlapping alignments found for region 83099243-83106743 even with 10000bp window
+
+Processing BED entry 4: haplotype1-0000004:86365650-86426342 (N_region)
+    Best alignment: processing overlap 86365650-86426342
+      BED region: 86365650-86426342
+      Alignment: 86294863-87413696 -> 13571584-14642783
+      Alignment length: 1099665, MAPQ: 60
+    Exact mapping: 86365650 -> 13640748
+    Exact mapping: 86426341 -> 13678597
+      SUCCESS: 86365650-86426342 -> 13640748-13678598
+
+Processing BED entry 5: haplotype1-0000004:95409707-95509707 (N_region)
+    Best alignment: processing overlap 95509707-95609707 (windowed)
+      BED region: 95409707-95509707
+      Alignment: 95509707-95655299 -> 2353057-2497009
+      Alignment length: 145777, MAPQ: 60
+    Exact mapping: 95509707 -> 2354025
+    Exact mapping: 95609706 -> 2450714
+      SUCCESS: 95509707-95609707 -> 2354025-2450715
+
+Processing BED entry 6: haplotype1-0000005:40698801-40706301 (N_region)
+    Best alignment: processing overlap 40698801-40706301
+      BED region: 40698801-40706301
+      Alignment: 37723716-40841014 -> 37554321-40620664
+      Alignment length: 3114058, MAPQ: 60
+    Position 40698801 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 40698801
+    No mappable position found within 10000bp upstream of 40698801
+    Position 40706300 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 40706300
+    No mappable position found within 10000bp upstream of 40706300
+      FAIL: Could not map start position 40698801 even with 10000bp search window
+
+Processing BED entry 7: haplotype1-0000005:50679533-50779533 (N_region)
+    Best alignment: processing overlap 50779570-50879570 (windowed)
+      BED region: 50679533-50779533
+      Alignment: 50779570-50883920 -> 50008167-50114120
+      Alignment length: 105961, MAPQ: 60
+    Exact mapping: 50779570 -> 50008167
+    Exact mapping: 50879569 -> 50109765
+      SUCCESS: 50779570-50879570 -> 50008167-50109766
+
+Processing BED entry 8: haplotype1-0000005:51860670-51868170 (N_region)
+    Best alignment: processing overlap 51853128-51860628 (windowed)
+      BED region: 51860670-51868170
+      Alignment: 51713051-51860628 -> 50265007-50411312
+      Alignment length: 147846, MAPQ: 60
+    Exact mapping: 51853128 -> 50403808
+    Exact mapping: 51860627 -> 50411311
+      SUCCESS: 51853128-51860628 -> 50403808-50411312
+
+Processing BED entry 9: haplotype1-0000005:124778936-124786436 (N_region)
+    Best alignment: processing overlap 124778936-124786436
+      BED region: 124778936-124786436
+      Alignment: 122958935-126153368 -> 124669913-127793550
+      Alignment length: 3188365, MAPQ: 60
+    Position 124778936 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 124778936
+    Found mappable position 5099bp upstream of original: 124778936 -> 124773837 -> 126485047
+    Position 124786435 falls in insertion, searching for nearest mappable position
+    No mappable position found within 10000bp downstream of 124786435
+    No mappable position found within 10000bp upstream of 124786435
+      FAIL: Could not map end position 124786435 even with 10000bp search window
+
+Processing BED entry 10: haplotype1-0000006:154917654-154925154 (N_region)
+    Best alignment: processing overlap 154910128-154917628 (windowed)
+      BED region: 154917654-154925154
+      Alignment: 149111233-154917628 -> 149592031-155388454
+      Alignment length: 5811216, MAPQ: 60
+    Exact mapping: 154910128 -> 155380945
+    Exact mapping: 154917627 -> 155388453
+      SUCCESS: 154910128-154917628 -> 155380945-155388454
+
+SUMMARY:
+Successfully lifted 36 regions
+  - Direct overlaps: 9
+  - Using alignment window: 27
+Failed to lift 17 regions
+Success rate: 67.9%
+
+Failure reasons:
+     1x: Could not map start position 43398310 even with 10000bp search window
+     1x: No overlapping alignments found for region 44364429-44371929 even with 10000bp window
+     1x: No overlapping alignments found for region 83099243-83106743 even with 10000bp window
+     1x: Could not map start position 40698801 even with 10000bp search window
+     1x: Could not map end position 124786435 even with 10000bp search window
+     1x: No overlapping alignments found for region 68542926-68550426 even with 10000bp window
+     1x: Could not map end position 104847869 even with 10000bp search window
+     1x: No overlapping alignments found for region 100085376-100185376 even with 10000bp window
+     1x: Could not map start position 164191297 even with 10000bp search window
+     1x: No alignments found for chromosome 'haplotype2-0000095'
+     1x: No overlapping alignments found for region 45211143-45212643 even with 10000bp window
+     1x: Could not map start position 134322059 even with 10000bp search window
+     1x: No overlapping alignments found for region 82050911-82074829 even with 10000bp window
+     1x: No overlapping alignments found for region 134615308-134715308 even with 10000bp window
+     1x: No overlapping alignments found for region 209938-216205 even with 10000bp window
+     1x: No overlapping alignments found for region 533850-539658 even with 10000bp window
+     1x: No overlapping alignments found for region 799936-806728 even with 10000bp window
+Original regions: 53
+Lifted regions: 36
+Unmapped regions: 34
+Success rate: 51.00%

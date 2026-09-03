@@ -1,0 +1,49 @@
+INFO:hicexplorer.hicCorrectMatrix:Removing 2147257 zero value bins
+INFO:hicexplorer.hicCorrectMatrix:mad threshold -183008.66198261565
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/bin/hicCorrectMatrix", line 7, in <module>
+    main()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicexplorer/hicCorrectMatrix.py", line 640, in main
+    plot_total_contact_dist(ma, args)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/hicexplorer/hicCorrectMatrix.py", line 543, in plot_total_contact_dist
+    plt.tight_layout()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/pyplot.py", line 2599, in tight_layout
+    gcf().tight_layout(pad=pad, h_pad=h_pad, w_pad=w_pad, rect=rect)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/figure.py", line 3540, in tight_layout
+    engine.execute(self)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/layout_engine.py", line 183, in execute
+    kwargs = get_tight_layout_figure(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/_tight_layout.py", line 266, in get_tight_layout_figure
+    kwargs = _auto_adjust_subplotpars(fig, renderer,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/_tight_layout.py", line 82, in _auto_adjust_subplotpars
+    bb += [martist._get_tightbbox_for_layout_only(ax, renderer)]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/artist.py", line 1411, in _get_tightbbox_for_layout_only
+    return obj.get_tightbbox(*args, **{**kwargs, "for_layout_only": True})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/_api/deprecation.py", line 454, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/axes/_base.py", line 4398, in get_tightbbox
+    self._update_title_position(renderer)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/axes/_base.py", line 2969, in _update_title_position
+    bb = ax.xaxis.get_tightbbox(renderer)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/axis.py", line 1334, in get_tightbbox
+    ticks_to_draw = self._update_ticks()
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/axis.py", line 1282, in _update_ticks
+    minor_locs = self.get_minorticklocs()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/matplotlib/axis.py", line 1510, in get_minorticklocs
+    mask = np.isclose(tr_minor_locs[:, None], tr_major_locs[None, :],
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/numpy/core/numeric.py", line 2351, in isclose
+    return within_tol(x, y, atol, rtol)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/a06da84eebb340820372ebcf35a78de7_/lib/python3.12/site-packages/numpy/core/numeric.py", line 2332, in within_tol
+    return less_equal(abs(x-y), atol + rtol * abs(y))
+                          ~^~
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 1.99 TiB for an array with shape (1170438, 234089) and data type float64

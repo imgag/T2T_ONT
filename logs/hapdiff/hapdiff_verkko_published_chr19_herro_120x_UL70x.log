@@ -1,0 +1,169 @@
+[M::mm_idx_gen::1.539*1.00] collected minimizers
+[M::mm_idx_gen::1.760*1.79] sorted minimizers
+[M::main::1.760*1.79] loaded/built the index for 1 target sequence(s)
+[M::mm_mapopt_update::1.921*1.73] mid_occ = 209
+[M::mm_idx_stat] kmer size: 19; skip: 10; is_hpc: 0; #seq: 1
+[M::mm_idx_stat::2.017*1.69] distinct minimizers: 7683923 (94.02% are singletons); average occurrences: 1.462; average spacing: 5.493; total length: 61707364
+[M::worker_pipeline::191.261*1.10] mapped 27 sequences
+[M::main] Version: 2.22-r1110-dirty
+[M::main] CMD: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 -K 5G data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_herro_120x_UL70x/assembly.haplotype1.fasta
+[M::main] Real time: 191.403 sec; CPU: 210.289 sec; Peak RSS: 4.332 GB
+[M::mm_idx_gen::1.981*0.96] collected minimizers
+[M::mm_idx_gen::2.181*1.66] sorted minimizers
+[M::main::2.181*1.66] loaded/built the index for 1 target sequence(s)
+[M::mm_mapopt_update::2.372*1.60] mid_occ = 209
+[M::mm_idx_stat] kmer size: 19; skip: 10; is_hpc: 0; #seq: 1
+[M::mm_idx_stat::2.498*1.57] distinct minimizers: 7683923 (94.02% are singletons); average occurrences: 1.462; average spacing: 5.493; total length: 61707364
+[M::worker_pipeline::167.624*1.71] mapped 102 sequences
+[M::main] Version: 2.22-r1110-dirty
+[M::main] CMD: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 -K 5G data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_herro_120x_UL70x/assembly.haplotype2.fasta
+[M::main] Real time: 167.855 sec; CPU: 286.625 sec; Peak RSS: 6.782 GB
+[bam_sort_core] merging from 0 files and 8 in-memory blocks...
+bin/hapdiff/hapdiff.py:85: DeprecationWarning: Use shutil.which instead of find_executable
+  if not spawn.find_executable(e):
+2024-12-16 17:44:24,228 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2024-12-16 17:44:24,228 [INFO   ]  CMD: python3 diploid assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam data/ref/T2T-CHM13.v2.chr19.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample
+2024-12-16 17:44:24,228 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.chr19.fasta
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: verbose, VALUE: False
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: phased_gt, VALUE: False
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: tandem, VALUE: None
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2024-12-16 17:44:24,228 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2024-12-16 17:44:24,229 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:24,229 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:24,229 [INFO   ]  PARAMETER: query_names, VALUE: True
+2024-12-16 17:44:24,229 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2024-12-16 17:44:24,229 [INFO   ]  MODE: diploid
+2024-12-16 17:44:24,229 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:24,229 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:34,320 [INFO   ]  ****************** STEP 2: PAIR ******************
+2024-12-16 17:44:34,321 [INFO   ]  Pairing 866 deletions...
+2024-12-16 17:44:34,363 [INFO   ]  Pairing 0 inversions...
+2024-12-16 17:44:34,363 [INFO   ]  Pairing 775 insertions...
+2024-12-16 17:44:34,388 [INFO   ]  Pairing 6 tandem duplications...
+2024-12-16 17:44:34,388 [INFO   ]  Pairing 0 interspersed duplications...
+2024-12-16 17:44:34,388 [INFO   ]  Pairing 0 breakends...
+2024-12-16 17:44:34,388 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2024-12-16 17:44:34,388 [INFO   ]  Found 783 deletion candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Found 0 inversion candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Found 703 insertion candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Found 6 tandem duplication candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Found 0 interspersed duplication candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Found 0 breakend candidates.
+2024-12-16 17:44:34,388 [INFO   ]  Write SV candidates..
+2024-12-16 17:44:34,963 [INFO   ]  Draw plots..
+2024-12-16 17:44:37,379 [INFO   ]  Done.
+2024-12-16 17:44:40,107 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2024-12-16 17:44:40,107 [INFO   ]  ****************** Start SVIM-asm, version 1.0.2 ******************
+2024-12-16 17:44:40,107 [INFO   ]  CMD: python3 diploid assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam data/ref/T2T-CHM13.v2.chr19.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample --phased_gt
+2024-12-16 17:44:40,107 [INFO   ]  CMD: python3 diploid assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam data/ref/T2T-CHM13.v2.chr19.fasta --min_sv_size 30 --partition_max_distance 5000 --max_edit_distance 0.3 --filter_contained --query_names --sample Sample --phased_gt
+2024-12-16 17:44:40,107 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:40,107 [INFO   ]  WORKING DIR: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: sub, VALUE: diploid
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: working_dir, VALUE: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: bam_file1, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: bam_file2, VALUE: assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.chr19.fasta
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: genome, VALUE: data/ref/T2T-CHM13.v2.chr19.fasta
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: verbose, VALUE: False
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: verbose, VALUE: False
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: phased_gt, VALUE: True
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: phased_gt, VALUE: True
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: tandem, VALUE: None
+2024-12-16 17:44:40,107 [INFO   ]  PARAMETER: tandem, VALUE: None
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: filter_contained, VALUE: True
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: min_mapq, VALUE: 20
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: min_sv_size, VALUE: 30
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: max_sv_size, VALUE: 100000
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_gap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: reference_gap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: reference_overlap_tolerance, VALUE: 50
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: partition_max_distance, VALUE: 5000
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: max_edit_distance, VALUE: 0.3
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: sample, VALUE: Sample
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: types, VALUE: DEL,INS,INV,DUP:TANDEM,DUP:INT,BND
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: symbolic_alleles, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: tandem_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: interspersed_duplications_as_insertions, VALUE: False
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_names, VALUE: True
+2024-12-16 17:44:40,108 [INFO   ]  PARAMETER: query_names, VALUE: True
+2024-12-16 17:44:40,109 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2024-12-16 17:44:40,109 [INFO   ]  ****************** STEP 1: COLLECT ******************
+2024-12-16 17:44:40,109 [INFO   ]  MODE: diploid
+2024-12-16 17:44:40,109 [INFO   ]  MODE: diploid
+2024-12-16 17:44:40,109 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:40,109 [INFO   ]  INPUT1: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+2024-12-16 17:44:40,109 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:40,109 [INFO   ]  INPUT2: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam
+2024-12-16 17:44:41,251 [INFO   ]  ****************** STEP 2: PAIR ******************
+2024-12-16 17:44:41,251 [INFO   ]  ****************** STEP 2: PAIR ******************
+2024-12-16 17:44:41,252 [INFO   ]  Pairing 866 deletions...
+2024-12-16 17:44:41,252 [INFO   ]  Pairing 866 deletions...
+2024-12-16 17:44:41,288 [INFO   ]  Pairing 0 inversions...
+2024-12-16 17:44:41,288 [INFO   ]  Pairing 0 inversions...
+2024-12-16 17:44:41,288 [INFO   ]  Pairing 775 insertions...
+2024-12-16 17:44:41,288 [INFO   ]  Pairing 775 insertions...
+2024-12-16 17:44:41,311 [INFO   ]  Pairing 6 tandem duplications...
+2024-12-16 17:44:41,311 [INFO   ]  Pairing 6 tandem duplications...
+2024-12-16 17:44:41,312 [INFO   ]  Pairing 0 interspersed duplications...
+2024-12-16 17:44:41,312 [INFO   ]  Pairing 0 interspersed duplications...
+2024-12-16 17:44:41,312 [INFO   ]  Pairing 0 breakends...
+2024-12-16 17:44:41,312 [INFO   ]  Pairing 0 breakends...
+2024-12-16 17:44:41,312 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2024-12-16 17:44:41,312 [INFO   ]  ****************** STEP 3: OUTPUT ******************
+2024-12-16 17:44:41,312 [INFO   ]  Found 783 deletion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 783 deletion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 inversion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 inversion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 703 insertion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 703 insertion candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 6 tandem duplication candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 6 tandem duplication candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 interspersed duplication candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 interspersed duplication candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 breakend candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Found 0 breakend candidates.
+2024-12-16 17:44:41,312 [INFO   ]  Write SV candidates..
+2024-12-16 17:44:41,312 [INFO   ]  Write SV candidates..
+2024-12-16 17:44:41,356 [INFO   ]  Draw plots..
+2024-12-16 17:44:41,356 [INFO   ]  Draw plots..
+2024-12-16 17:44:43,310 [INFO   ]  Done.
+2024-12-16 17:44:43,310 [INFO   ]  Done.
+Running: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_herro_120x_UL70x/assembly.haplotype1.fasta -K 5G | samtools sort -m 4G -@ 8 >assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_pat.bam
+Running: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/hapdiff/submodules/minimap2/minimap2 -ax asm20 -B 2 -E 3,1 -O 6,100 --cs -t 20 data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_herro_120x_UL70x/assembly.haplotype2.fasta -K 5G | samtools sort -m 4G -@ 8 >assembly/variants/published_chr19_herro_120x_UL70x/phased_verkko/hapdiff_mat.bam

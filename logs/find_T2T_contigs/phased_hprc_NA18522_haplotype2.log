@@ -1,0 +1,199 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/NA18522/NA18522.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/NA18522/NA18522.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/NA18522/NA18522.haplotype2.fasta >assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/NA18522/NA18522.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome NA18522#2#CM087186.1_Start processed
+[+]	Chromosome NA18522#2#CM087187.1_Start processed
+[+]	Chromosome NA18522#2#CM087188.1_Start processed
+[+]	Chromosome NA18522#2#CM087189.1_Start processed
+[+]	Chromosome NA18522#2#CM087190.1_Start processed
+[+]	Chromosome NA18522#2#CM087191.1_Start processed
+[+]	Chromosome NA18522#2#CM087192.1_Start processed
+[+]	Chromosome NA18522#2#CM087193.1_Start processed
+[+]	Chromosome NA18522#2#CM087194.1_Start processed
+[+]	Chromosome NA18522#2#CM087195.1_Start processed
+[+]	Chromosome NA18522#2#CM087196.1_Start processed
+[+]	Chromosome NA18522#2#CM087197.1_Start processed
+[+]	Chromosome NA18522#2#CM087198.1_Start processed
+[+]	Chromosome NA18522#2#CM087199.1_Start processed
+[+]	Chromosome NA18522#2#CM087200.1_Start processed
+[+]	Chromosome NA18522#2#CM087201.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000004.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000006.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000007.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000009.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000012.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000013.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000014.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000015.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000016.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000017.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000018.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000019.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000020.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000021.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000022.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000023.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000024.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000025.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000026.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000027.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000028.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000029.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000030.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000031.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000032.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000033.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000034.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000035.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000036.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000037.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000038.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000047.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000049.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000050.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000051.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000052.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000053.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000054.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000055.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000056.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000057.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000058.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000059.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000060.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000061.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000062.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000063.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000064.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000065.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000066.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000067.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000068.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000069.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000070.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000071.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000072.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000073.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000074.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000075.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000076.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000077.1_Start processed
+[+]	Chromosome NA18522#2#JBHDWD010000078.1_Start processed
+[+]	Chromosome NA18522#2#CM087186.1_End processed
+[+]	Chromosome NA18522#2#CM087187.1_End processed
+[+]	Chromosome NA18522#2#CM087188.1_End processed
+[+]	Chromosome NA18522#2#CM087189.1_End processed
+[+]	Chromosome NA18522#2#CM087190.1_End processed
+[+]	Chromosome NA18522#2#CM087191.1_End processed
+[+]	Chromosome NA18522#2#CM087192.1_End processed
+[+]	Chromosome NA18522#2#CM087193.1_End processed
+[+]	Chromosome NA18522#2#CM087194.1_End processed
+[+]	Chromosome NA18522#2#CM087195.1_End processed
+[+]	Chromosome NA18522#2#CM087196.1_End processed
+[+]	Chromosome NA18522#2#CM087197.1_End processed
+[+]	Chromosome NA18522#2#CM087198.1_End processed
+[+]	Chromosome NA18522#2#CM087199.1_End processed
+[+]	Chromosome NA18522#2#CM087200.1_End processed
+[+]	Chromosome NA18522#2#CM087201.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000004.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000006.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000007.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000009.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000012.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000013.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000014.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000015.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000016.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000017.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000018.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000019.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000020.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000021.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000022.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000023.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000024.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000025.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000026.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000027.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000028.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000029.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000030.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000031.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000032.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000033.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000034.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000035.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000036.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000037.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000038.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000047.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000049.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000050.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000051.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000052.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000053.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000054.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000055.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000056.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000057.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000058.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000059.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000060.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000061.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000062.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000063.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000064.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000065.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000066.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000067.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000068.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000069.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000070.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000071.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000072.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000073.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000074.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000075.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000076.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000077.1_End processed
+[+]	Chromosome NA18522#2#JBHDWD010000078.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.043*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::55.787*1.45] indexed the graph
+[M::mg_opt_update::60.038*1.42] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::266.129*4.25] mapped 11 sequences
+[M::worker_pipeline::427.849*4.22] mapped 67 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA18522/NA18522.haplotype2.fasta
+[M::main] Real time: 428.534 sec; CPU: 1805.594 sec; Peak RSS: 52.182 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/NA18522/T2T_contigs.haplotype2_alignment_T2T.txt
+

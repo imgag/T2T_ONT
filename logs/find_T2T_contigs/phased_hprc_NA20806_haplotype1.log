@@ -1,0 +1,105 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/NA20806/NA20806.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1.seqinfo.txt data/ref/hprc/NA20806/NA20806.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/NA20806/NA20806.haplotype1.fasta >assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/NA20806/NA20806.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome NA20806#1#CM102437.1_Start processed
+[+]	Chromosome NA20806#1#CM102438.1_Start processed
+[+]	Chromosome NA20806#1#CM102439.1_Start processed
+[+]	Chromosome NA20806#1#CM102440.1_Start processed
+[+]	Chromosome NA20806#1#CM102441.1_Start processed
+[+]	Chromosome NA20806#1#CM102442.1_Start processed
+[+]	Chromosome NA20806#1#CM102443.1_Start processed
+[+]	Chromosome NA20806#1#CM102444.1_Start processed
+[+]	Chromosome NA20806#1#CM102445.1_Start processed
+[+]	Chromosome NA20806#1#CM102446.1_Start processed
+[+]	Chromosome NA20806#1#CM102447.1_Start processed
+[+]	Chromosome NA20806#1#CM102448.1_Start processed
+[+]	Chromosome NA20806#1#CM102449.1_Start processed
+[+]	Chromosome NA20806#1#CM102450.1_Start processed
+[+]	Chromosome NA20806#1#CM102451.1_Start processed
+[+]	Chromosome NA20806#1#CM102452.1_Start processed
+[+]	Chromosome NA20806#1#CM102453.1_Start processed
+[+]	Chromosome NA20806#1#CM102454.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000004.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000006.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000013.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000015.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000016.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000017.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000018.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000021.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000024.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000025.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000029.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000030.1_Start processed
+[+]	Chromosome NA20806#1#JBKOQU010000031.1_Start processed
+[+]	Chromosome NA20806#1#CM102437.1_End processed
+[+]	Chromosome NA20806#1#CM102438.1_End processed
+[+]	Chromosome NA20806#1#CM102439.1_End processed
+[+]	Chromosome NA20806#1#CM102440.1_End processed
+[+]	Chromosome NA20806#1#CM102441.1_End processed
+[+]	Chromosome NA20806#1#CM102442.1_End processed
+[+]	Chromosome NA20806#1#CM102443.1_End processed
+[+]	Chromosome NA20806#1#CM102444.1_End processed
+[+]	Chromosome NA20806#1#CM102445.1_End processed
+[+]	Chromosome NA20806#1#CM102446.1_End processed
+[+]	Chromosome NA20806#1#CM102447.1_End processed
+[+]	Chromosome NA20806#1#CM102448.1_End processed
+[+]	Chromosome NA20806#1#CM102449.1_End processed
+[+]	Chromosome NA20806#1#CM102450.1_End processed
+[+]	Chromosome NA20806#1#CM102451.1_End processed
+[+]	Chromosome NA20806#1#CM102452.1_End processed
+[+]	Chromosome NA20806#1#CM102453.1_End processed
+[+]	Chromosome NA20806#1#CM102454.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000004.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000006.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000013.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000015.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000016.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000017.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000018.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000021.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000024.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000025.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000029.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000030.1_End processed
+[+]	Chromosome NA20806#1#JBKOQU010000031.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.983*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::56.670*1.44] indexed the graph
+[M::mg_opt_update::60.654*1.41] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::317.483*3.57] mapped 11 sequences
+[M::worker_pipeline::454.895*3.74] mapped 20 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/NA20806/NA20806.haplotype1.fasta
+[M::main] Real time: 455.425 sec; CPU: 1700.048 sec; Peak RSS: 51.952 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/NA20806/T2T_contigs.haplotype1_alignment_T2T.txt
+

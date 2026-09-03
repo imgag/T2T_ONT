@@ -1,0 +1,209 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG02155/HG02155.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1.seqinfo.txt data/ref/hprc/HG02155/HG02155.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG02155/HG02155.haplotype1.fasta >assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG02155/HG02155.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG02155#1#CM091908.1_Start processed
+[+]	Chromosome HG02155#1#CM091909.1_Start processed
+[+]	Chromosome HG02155#1#CM091910.1_Start processed
+[+]	Chromosome HG02155#1#CM091911.1_Start processed
+[+]	Chromosome HG02155#1#CM091912.1_Start processed
+[+]	Chromosome HG02155#1#CM091913.1_Start processed
+[+]	Chromosome HG02155#1#CM091914.1_Start processed
+[+]	Chromosome HG02155#1#CM091915.1_Start processed
+[+]	Chromosome HG02155#1#CM091916.1_Start processed
+[+]	Chromosome HG02155#1#CM091917.1_Start processed
+[+]	Chromosome HG02155#1#CM091918.1_Start processed
+[+]	Chromosome HG02155#1#CM091919.1_Start processed
+[+]	Chromosome HG02155#1#CM091920.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000001.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000006.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000007.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000010.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000011.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000012.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000013.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000014.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000015.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000016.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000017.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000018.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000019.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000020.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000021.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000022.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000023.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000024.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000025.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000026.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000027.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000028.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000029.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000030.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000031.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000032.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000033.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000034.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000035.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000036.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000037.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000040.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000041.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000042.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000043.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000045.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000048.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000050.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000051.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000052.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000053.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000054.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000056.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000057.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000058.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000059.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000060.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000061.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000062.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000063.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000064.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000065.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000066.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000067.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000068.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000069.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000070.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000071.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000072.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000073.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000074.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000075.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000076.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000077.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000078.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000079.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000080.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000081.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000082.1_Start processed
+[+]	Chromosome HG02155#1#JBIECB010000083.1_Start processed
+[+]	Chromosome HG02155#1#CM091908.1_End processed
+[+]	Chromosome HG02155#1#CM091909.1_End processed
+[+]	Chromosome HG02155#1#CM091910.1_End processed
+[+]	Chromosome HG02155#1#CM091911.1_End processed
+[+]	Chromosome HG02155#1#CM091912.1_End processed
+[+]	Chromosome HG02155#1#CM091913.1_End processed
+[+]	Chromosome HG02155#1#CM091914.1_End processed
+[+]	Chromosome HG02155#1#CM091915.1_End processed
+[+]	Chromosome HG02155#1#CM091916.1_End processed
+[+]	Chromosome HG02155#1#CM091917.1_End processed
+[+]	Chromosome HG02155#1#CM091918.1_End processed
+[+]	Chromosome HG02155#1#CM091919.1_End processed
+[+]	Chromosome HG02155#1#CM091920.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000001.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000006.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000007.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000010.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000011.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000012.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000013.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000014.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000015.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000016.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000017.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000018.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000019.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000020.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000021.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000022.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000023.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000024.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000025.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000026.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000027.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000028.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000029.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000030.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000031.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000032.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000033.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000034.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000035.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000036.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000037.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000040.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000041.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000042.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000043.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000045.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000048.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000050.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000051.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000052.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000053.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000054.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000056.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000057.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000058.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000059.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000060.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000061.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000062.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000063.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000064.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000065.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000066.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000067.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000068.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000069.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000070.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000071.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000072.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000073.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000074.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000075.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000076.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000077.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000078.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000079.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000080.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000081.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000082.1_End processed
+[+]	Chromosome HG02155#1#JBIECB010000083.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::5.092*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::54.716*1.42] indexed the graph
+[M::mg_opt_update::58.557*1.39] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::271.695*4.35] mapped 14 sequences
+[M::worker_pipeline::408.177*4.38] mapped 69 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG02155/HG02155.haplotype1.fasta
+[M::main] Real time: 408.856 sec; CPU: 1788.671 sec; Peak RSS: 51.738 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG02155/T2T_contigs.haplotype1_alignment_T2T.txt
+

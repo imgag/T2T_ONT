@@ -1,0 +1,709 @@
+
+# needed: flip to order pairs, sort to order chunks by chr and cis/trans
+# old pairtools parse the wf-pore-c bams
+rule pairtools_parse_bam_wfporec:
+    input:
+        chromsize = config['ref'] + ".chrom-size.txt",
+        bam = "analysis_other/wf-pore-c/{run}/bams/{run}.ns.bam"
+    output:
+        pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.pairs.gz", # sorted by read name, maybe useful for qc
+        sorted_pairs = "analysis_other/wf-pore-c/{run}/pairs/{run}.nonadj.sorted.pairs.gz" # sorted by cis/trans + coordinate
+    log:
+        "logs/porec/pairtools_parse2_nonadj.{run}.log"
+    conda:
+        "../env/pairtools.yml"  
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2",
+        orientation = "pair", 
+        position = "junction",
+        #expand_depth = config['parse2_depth'] # maybe remove bc can be filtered later
+    threads:
+        12
+    shell:
+        """
+        pairtools parse2 \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --report-position {params.position} \
+            --report-orientation {params.orientation} \
+            --add-pair-index \
+            --single-end \
+            --expand \
+            --flip \
+            --readid-transform 'readID.split(":")[0]' \
+            --drop-seq \
+            --drop-sam \
+            --add-columns mapq,pos5,pos3,cigar,read_len,matched_bp,algn_ref_span,algn_read_span,dist_to_5,dist_to_3,mismatches \
+            --output {output.pairs} \
+            --nproc-in 3 \
+            --nproc-out {threads} \
+            {input.bam} \
+            >{log}
+        
+        pairtools sort \
+            --output {output.sorted_pairs} \
+            {output.pairs} >>{log}
+            
+        """
+        
+# old hic_correct_matrix
+rule hic_correct_matrix:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_norm.cool"
+    output:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+    log:
+        "logs/porec/hic_correct.{dataset}.{resolution}.log"
+    params:
+        correction_method = config.get("correction_method", "ICE"),
+        filter_threshold = config.get("filter_threshold", "-2.5 5")
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicCorrectMatrix correct \
+            --matrix {input.cool} \
+            --correctionMethod {params.correction_method} \
+            --outFileName {output.cool} \
+            --filterThreshold {params.filter_threshold} \
+            >{log} 2>&1 || {{
+            
+            echo "Standard correction failed, trying more stringent filtering..." >>{log}
+            
+            # Try with more stringent filtering
+            hicCorrectMatrix correct \
+                --matrix {input.cool} \
+                --correctionMethod {params.correction_method} \
+                --outFileName {output.cool} \
+                --filterThreshold -3.0 3.0 \
+                --iterNum 200 \
+                >>{log} 2>&1 || {{
+                
+                echo "Stringent correction failed, trying KR normalization..." >>{log}
+                
+                # Try Knight-Ruiz normalization as fallback
+                hicCorrectMatrix correct \
+                    --matrix {input.cool} \
+                    --correctionMethod KR \
+                    --outFileName {output.cool} \
+                    --filterThreshold -3.0 3.0 \
+                    >>{log} 2>&1 || {{
+                    
+                    echo "All correction methods failed, copying normalized matrix..." >>{log}
+                    # As last resort, just copy the normalized matrix
+                    cp {input.cool} {output.cool}
+                }}
+            }}
+        }}
+        """
+
+rule dip3d_jmatrix_to_hic:
+    input:
+        jmatrix = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.jmatrix"
+    output:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.jmatrix_to_hic.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools pre {input.jmatrix} {output.hic} chrNameSize.txt > {log} 2>&1
+        '''
+
+rule dip3d_hic_to_cool:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    conda:
+        "../env/hicexplorer.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.hic_to_cool.hp{hp}.log"
+    shell:
+        '''
+        hicConvertFormat -m {input.hic} --inputFormat hic --outputFormat cool -o {output.cool} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_eigs:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        eigs = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.eigs.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_eigs.hp{hp}.log"
+    shell:
+        '''
+        cooltools eigs-cis {input.cool} -o {output.eigs} > {log} 2>&1
+        '''
+
+rule dip3d_cooltools_insulation:
+    input:
+        cool = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.cool"
+    output:
+        insulation = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.insulation.tsv"
+    conda:
+        "../env/cooltools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.cooltools_insulation.hp{hp}.log"
+    shell:
+        '''
+        cooltools insulation {input.cool} -o {output.insulation} > {log} 2>&1
+        '''
+
+rule dip3d_juicer_apa:
+    input:
+        hic = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.hic"
+    output:
+        apa = "analysis_other/dip3d/{asm}/6-cooler/{chr}/hp{hp}.apa"
+    conda:
+        "../env/juicer_tools.yml"
+    log:
+        "logs/dip3d/6-cooler/{asm}.{chr}.juicer_apa.hp{hp}.log"
+    shell:
+        '''
+        juicer_tools apa {input.hic} {output.apa} > {log} 2>&1
+        '''
+
+
+rule hic_correlate:
+    input:
+        cool_files = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool"
+    output:
+        heatmap = "analysis_other/porec/{dataset}/qc/matrix_correlation_heatmap_{resolution}.png",
+        scatterplot = "analysis_other/porec/{dataset}/qc/matrix_correlation_scatter_{resolution}.png"
+    log:
+        "logs/porec/hic_correlate.{dataset}.{resolution}.log"
+    params:
+        range_param = config.get("correlation_range", "20000:500000")
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicCorrelate \
+            --log1p \
+            --matrices {input.cool_files} \
+            --range {params.range_param} \
+            -oh {output.heatmap} \
+            -os {output.scatterplot} \
+            >{log} 2>&1
+        """
+
+rule copy_haplotype_pairs:
+    input:
+        pairs = lambda wc: f"analysis_other/dip3d/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}/5-pairs/{wc.dataset}.pairs",
+        chromsize = config['ref'] + ".chrom-size.txt"
+    output:
+        pairs = "analysis_other/porec/{dataset}/pairs/{dataset}.pairs.gz"
+    log:
+        "logs/porec/copy_haplotype_pairs.{dataset}.log"
+    conda:
+        "../env/pairtools.yml"
+    params:
+        assembly = "T2T-CHM13.v2",
+        columns = "readID,chrom1,pos1,chrom2,pos2,strand1,strand2,mapq1,mapq2"
+    shell:
+        """
+        pairtools header generate \
+            --chroms-path {input.chromsize} \
+            --assembly {params.assembly} \
+            --columns {params.columns} \
+            --output {output.pairs} \
+            {input.pairs} \
+            >{log} 2>&1
+        """
+
+rule gff_from_flagger_nucflag:
+    input:
+        flagger="analysis_other/flagger/{asm}/final_flagger_prediction.bed",
+        nucflag="analysis_other/nucflag/{asm}/nucflag_status.bed",
+        gaps="assembly/qc/phased_verkko/{asm}/gap_stats.both.n_regions.bed"
+    output:
+        gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3"
+    log:
+        "logs/annotation/{asm}/gff_from_flagger_nucflag.log"
+    threads: 1
+    shell:
+        """
+        bash workflow/scripts/35_combine_bed_to_gff3.sh \
+            {input.flagger} \
+            {input.nucflag} \
+            {input.gaps} \
+            {output.gff} \
+            > {log} 2>&1
+        """
+
+rule liftoff_gff:
+    input:
+        gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.gff3",
+        ref=config["ref"],
+        asm=lambda wc: get_assembly_output({**wc, "tool": "verkko", "hp": "both", "isphased" : "phased"})["assembly"]
+    output:
+        lifted_gff="analysis_other/annotations/{asm}/flagger_nucflag_annotations.lifted.gff3",
+        unmapped = "analysis_other/annotations/{asm}/lifted_unmapped.txt",
+    conda:
+        "../env/liftoff.yml"
+    log:
+        "logs/annotation/{asm}/liftoff_gff.log"
+    threads: 8
+    shell:
+        """
+        feature_file=$(mktemp)
+        cut -f3 {input.gff} | sort | uniq | grep -v '##' > ${{feature_file}}
+
+        liftoff \
+            -f ${{feature_file}} \
+            -g {input.gff} \
+            -o {output.lifted_gff} \
+            -dir $(dirname {output.lifted_gff}) \
+            -p {threads} \
+            -u {output.unmapped} \
+            {input.ref} {input.asm} \
+            > {log} 2>&1
+        """
+
+
+## Unused rules from porec workflow
+# Not used yet
+rule hic_validate_viewpoints:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        loops = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_loops.bedpe"
+    output:
+        viewpoints = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_viewpoints.txt",
+        interactions = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_interactions.txt"
+    log:
+        "logs/porec/hic_validate_viewpoints.{dataset}.{resolution}.log"
+    params:
+        resolution_val = lambda wc: wc.resolution,
+        interaction_file = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_interactions.txt"
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicValidateLocations \
+            --matrix {input.cool} \
+            --locations {input.loops} \
+            --method loops \
+            --outFileName {output.viewpoints} \
+            --outFileNameInteractions {params.interaction_file} \
+            --resolution {params.resolution_val} \
+            >{log} 2>&1
+        """
+
+# Not used yet
+rule hic_aggregate_contacts:
+    input:
+        cool = "analysis_other/porec/{dataset}/cooler/{dataset}_{resolution}_corrected.cool",
+        loops = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_loops.bedpe"
+    output:
+        aggregate_plot = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_aggregate_loops.png",
+        aggregate_data = "analysis_other/porec/{dataset}/loops/{dataset}_{resolution}_aggregate_loops.npz"
+    log:
+        "logs/porec/hic_aggregate_contacts.{dataset}.{resolution}.log"
+    params:
+        range_around_loop = config.get("aggregate_range", 100000),
+        number_of_bins = config.get("aggregate_bins", 30)
+    conda:
+        "../env/hicexplorer.yml"
+    shell:
+        """
+        hicAggregateContacts \
+            --matrix {input.cool} \
+            --BED {input.loops} \
+            --outFileName {output.aggregate_plot} \
+            --outFilePrefixMatrix analysis_other/porec/{wildcards.dataset}/loops/{wildcards.dataset}_{wildcards.resolution}_aggregate_loops \
+            --range {params.range_around_loop}:{params.range_around_loop} \
+            --numberOfBins {params.number_of_bins} \
+            --plotType 2d \
+            >{log} 2>&1
+        """
+
+# Todo:
+# Differential TAD: HP1 vs HP2
+# Look at target regions:
+#   - Imprinted genes
+
+
+# 2. whole chr +  eigs
+rule fanc_plot_whole_chr_eigs_new:
+    input:
+        hic= "analysis_other/porec/{dataset}/hic/{dataset}_nonadj.hic",
+        eigs="analysis_other/porec/{dataset}/compartments/{dataset}_nonadj.cis.bw"
+    output:
+        "analysis_other/porec/{dataset}/plots/whole_chr/{dataset}_{chrom}_None-None.png"
+    params:
+        chroms= lambda wc: wc.chrom,
+        resolution=250000,
+        name= lambda wc: wc.dataset,
+        vmax=200
+    conda:
+        "../env/fanc.yml"
+    log:
+        "logs/porec/plotting/fanc_triangle_plot.whole_chr.{dataset}_{chrom}.log"
+    shell:
+        """
+        fancplot \
+        -n {params.name} \
+        -o {output} {params.chroms} \
+        -p square \
+        -vmin 0 -vmax {params.vmax} \
+        {input.hic}@{params.resolution}@KR \
+        -p line -f -c black --fix-chromosome {input.eigs} \
+        >{log} 2>&1
+        """
+
+# 3. interesting regions + insulation (can add tad later)
+# insulation resolution and chosen windows are hardcoded
+# change if need be; possible values: 25000: 75000, 125000, 250000, 625000; 40000: 120000, 200000, 400000, 1000000
+rule fanc_plot_imprinted_genes:
+    input:
+        insulation = "analysis_other/porec/{dataset}/insulation/{dataset}_25000.insulation.tsv_bw_pseudo", 
+        hic1= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1/hic/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1.hic", 
+        hic2= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2/hic/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2.hic", 
+    output:
+        "analysis_other/porec/{dataset}/plots/imprinted_genes/{dataset}_{region}.png"
+    params:
+        insulation1= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1/insulation/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp1_25000.insulation.tsv.125000.bw", 
+        insulation2= lambda wc: f"analysis_other/porec/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2/insulation/{re.sub(r'\.hp[12]', '', wc.dataset, count=1)}.hp2_25000.insulation.tsv.125000.bw",
+        regions= lambda wc: wc.region.replace("_",":"),
+        resolution=10000,
+        name= lambda wc: wc.dataset,
+        vmax=40
+    conda:
+        "../env/fanc.yml"
+    log:
+        "logs/porec/plotting/fanc_triangle_plot.imprinted_genes.{dataset}_{region}.log"
+    shell:
+        """
+        fancplot \
+        -n {params.name} \
+        -o {output} {params.regions} \
+        -p mirror \
+        -uvmin 0 -uvmax {params.vmax} \
+        -lvmin 0 -lvmax {params.vmax} \
+        {input.hic1}@{params.resolution}@KR {input.hic2}@{params.resolution}@KR \
+        -p line -l hp1 hp2 -c black red --fix-chromosome {params.insulation1} {params.insulation2} \
+        >{log} 2>&1
+        """
+
+
+## Global ancestry rules: Admixture, Iadmix
+
+# Step D2a-2: Calculate allele frequencies using population-specific keep files
+rule calculate_plink_frequencies:
+    input:
+        ref_bed="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bed",
+        ref_bim="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.bim", 
+        ref_fam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old.fam",
+        keep_file="analysis_other/ancestry/global/iadmix/keep_{population}.txt"
+    output:
+        freq_file="analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/iadmix/calculate_freq_{population}.log"  
+    threads: 4  
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/iadmix/freq
+        
+        POP={wildcards.population}
+        echo "Calculating frequencies for population: $POP" >{log}
+        
+        # Check if keep file has any samples
+        SAMPLE_COUNT=$(wc -l < {input.keep_file})
+        echo "Using $SAMPLE_COUNT samples for population $POP" >>{log}
+        
+        if [[ $SAMPLE_COUNT -gt 0 ]]; then
+            # Calculate frequencies using PLINK 1.9
+            plink \
+                --bfile analysis_other/ancestry/plink/reference/1000G_phase3_T2T_old \
+                --keep {input.keep_file} \
+                --freq \
+                --out analysis_other/ancestry/global/iadmix/freq_{wildcards.population} \
+                --allow-extra-chr \
+                >>{log} 2>&1
+            
+            # Check if freq file exists and has correct name
+            if [[ -f analysis_other/ancestry/global/iadmix/freq_{wildcards.population}.frq ]]; then
+                cp analysis_other/ancestry/global/iadmix/freq_{wildcards.population}.frq {output.freq_file}
+            else
+                echo "PLINK frequency calculation failed for $POP" >>{log}
+                touch {output.freq_file}
+            fi
+        else
+            echo "No samples found for population $POP, creating empty frequency file" >>{log}
+            touch {output.freq_file}
+        fi
+        """
+
+# Step D2b: Convert PLINK frequency output to iAdmix format
+rule convert_to_iadmix_freq_format:
+    input:
+        plink_freq=expand("analysis_other/ancestry/global/iadmix/freq/freq_{population}.frq", population=THOUSAND_G_POPS),  # Fixed extension
+        pvar="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.pvar",
+        psam="analysis_other/ancestry/plink/reference/1000G_phase3_T2T_filtered.psam"
+    output:
+        freq_file="analysis_other/ancestry/global/iadmix/freq/reference_frequencies.txt"
+    conda:
+        "../env/py_report.yml"  # Use Python environment
+    log:
+        "logs/ancestry/iadmix/convert_iadmix_freq.log"
+    shell:
+        """
+        # Convert PLINK frequency output to iAdmix format
+        python3 workflow/scripts/28_create_iadmix_freq.py \
+            --plink-freq {input.plink_freq} \
+            --pvar {input.pvar} \
+            --psam {input.psam} \
+            --output {output.freq_file} \
+            >{log} 2>&1
+        """
+
+# Function to get sample IDs from PSAM file
+def get_query_sample_ids():
+    import pandas as pd
+    psam_file = "analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    try:
+        psam_df = pd.read_csv(psam_file, sep='\t')
+        psam_df.columns = [col.lstrip('#') for col in psam_df.columns]
+        # Get only query samples (not 1000G reference)
+        if 'SUPERPOP' in psam_df.columns:
+            query_samples = psam_df[psam_df['SUPERPOP'] == 'QUERY']['IID'].tolist()
+        else:
+            # If no SUPERPOP column, get all samples (fallback)
+            query_samples = psam_df['IID'].tolist()
+        return query_samples
+    except:
+        # Fallback if file doesn't exist yet
+        return []
+
+# Get sample IDs (this will be populated after the merged PSAM file is created)
+QUERY_SAMPLES = get_query_sample_ids()
+
+# Step D2c: Export sample genotypes for individual processing
+rule export_iadmix_plink_genotypes_individual:
+    input:
+        pgen="analysis_other/ancestry/plink/samples/samples_filtered.pgen",
+        pvar="analysis_other/ancestry/plink/samples/samples_filtered.pvar",
+        psam="analysis_other/ancestry/plink/samples/samples_filtered.psam"
+    output:
+        raw_file="analysis_other/ancestry/global/iadmix/geno/samples_raw.traw"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/iadmix/export_plink_geno_individual.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/iadmix/geno
+        
+        # Export genotypes in A-transpose format (samples as columns, variants as rows)
+        plink2 \
+            --pfile analysis_other/ancestry/plink/samples/samples_filtered \
+            --export A-transpose \
+            --out analysis_other/ancestry/global/iadmix/geno/samples_raw \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Step D2d: Convert PLINK genotypes to iAdmix format for individual samples
+rule convert_to_iadmix_geno_format_individual:
+    input:
+        plink_raw="analysis_other/ancestry/global/iadmix/geno/samples_raw.traw"
+    output:
+        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_{sample}_genotypes.txt"
+    conda:
+        "../env/py_report.yml"
+    log:
+        "logs/ancestry/iadmix/convert_geno_{sample}.log"
+    shell:
+        """
+        # Convert to iAdmix genotype format for specific sample
+        python3 workflow/scripts/29_create_iadmix_geno.py \
+            --plink-raw {input.plink_raw} \
+            --sample {wildcards.sample} \
+            --output {output.geno_file} \
+            >{log} 2>&1
+        """
+
+# Step D2e: Run iAdmix for individual samples
+rule run_iadmix_individual:
+    input:
+        freq_file="analysis_other/ancestry/global/iadmix/freq/reference_frequencies.txt",
+        geno_file="analysis_other/ancestry/global/iadmix/geno/sample_{sample}_genotypes.txt"
+    output:
+        results="analysis_other/ancestry/global/iadmix/results/sample_{sample}_ancestry.txt"
+    log:
+        "logs/ancestry/iadmix/run_{sample}.log"
+    threads: 4
+    params:
+        wd = workflow.basedir
+    shell:  
+        """
+        docker run --rm \
+            -u $(id -u):$(id -g) \
+            -v $(realpath .):/workdir \
+            -w /workdir \
+            caspargross/iadmix \
+            python /usr/src/app/runancestry.py \
+            --freq {input.freq_file} \
+            --geno {input.geno_file} \
+            --out analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} \
+            --cores {threads} \
+            --path /usr/src/app/ \
+            >{log} 2>&1
+        
+        rm {input.geno_file}.ancestry.input   # Clean up genotype file after processing
+
+        if [[ -f analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample} ]]; then
+            # Extract ancestry proportions and create formatted output
+            echo -e "{wildcards.sample}\t$(tail -1 analysis_other/ancestry/global/iadmix/results/sample_{wildcards.sample})" > {output.results}
+        else
+            # Create empty result if analysis failed
+            echo "iAdmix analysis failed for {wildcards.sample}" >>{log}
+        fi
+        """
+
+# Step D2f: Combine all individual iAdmix results
+rule combine_iadmix_individual_results:
+    input:
+        lambda wildcards: expand("analysis_other/ancestry/global/iadmix/results/sample_{sample}_ancestry.txt", 
+                                sample=QUERY_SAMPLES) if QUERY_SAMPLES else []
+    output:
+        combined="analysis_other/ancestry/global/iadmix/all_samples_ancestry_individual.txt",
+        touch_file=touch("analysis_other/ancestry/global/iadmix/results.done")
+    log:
+        "logs/ancestry/iadmix/combine_individual_results.log"
+    run:
+        import os
+        
+        # Create output directory
+        os.makedirs("analysis_other/ancestry/global/iadmix", exist_ok=True)
+        
+        # Create header
+        with open(output.combined, 'w') as f:
+            f.write("Sample_ID\tAFR\tAMR\tEAS\tEUR\tSAS\n")
+        
+        # Combine results
+        if input:
+            shell("cat {input} >> {output.combined} 2>{log}")
+            with open(str(log), 'a') as f:
+                f.write(f"Combined ancestry results for {len(input)} sample files\\n")
+        else:
+            with open(output.combined, 'a') as f:
+                f.write("No samples processed\\n")
+            with open(str(log), 'a') as f:
+                f.write("No sample results to combine\\n")
+        
+        with open(str(log), 'a') as f:
+            f.write("Individual iAdmix analysis completed\n")
+
+# Update the main iadmix rule to use individual results
+rule run_iadmix:
+    input:
+        individual_results="analysis_other/ancestry/global/iadmix/all_samples_ancestry_individual.txt"
+    output:
+        results="analysis_other/ancestry/global/iadmix/results/admixture_proportions.txt"
+    log:
+        "logs/ancestry/iadmix_final.log"
+    shell:
+        """
+        # Copy individual results to main output location
+        cp {input.individual_results} {output.results} 2>{log}
+        echo "iAdmix individual sample analysis completed" >>{log}
+        """
+
+
+# Step D2a: Convert chromosome codes for ADMIXTURE (requires integer codes)
+rule prepare_bed_for_admixture:
+    input:
+        bed="analysis_other/ancestry/plink/merged/merged_cohort.bed",
+        bim="analysis_other/ancestry/plink/merged/merged_cohort.bim",
+        fam="analysis_other/ancestry/plink/merged/merged_cohort.fam"
+    output:
+        bed="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bed",
+        bim="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bim",
+        fam="analysis_other/ancestry/global/admixture/merged_cohort_numeric.fam"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/prepare_bed_for_admixture.log"
+    threads: 16
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/admixture
+        
+        # Convert chromosome codes to numeric format for ADMIXTURE
+        plink2 \
+            --bfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --make-bed \
+            --out analysis_other/ancestry/global/admixture/merged_cohort_numeric \
+            --chr 1-22,X \
+            --output-chr 26 \
+            --threads {threads} \
+            >{log} 2>&1
+        """
+
+# Updated ADMIXTURE rule to use numeric chromosome codes
+rule run_admixture:
+    input:
+        bed="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bed",
+        bim="analysis_other/ancestry/global/admixture/merged_cohort_numeric.bim",
+        fam="analysis_other/ancestry/global/admixture/merged_cohort_numeric.fam"
+    output:
+        touch("analysis_other/ancestry/global/admixture/results.done"),
+        results="analysis_other/ancestry/global/admixture/merged_cohort_numeric.5.Q"
+    conda:
+        "../env/admixture.yml"
+    log:
+        "logs/ancestry/admixture.log"
+    threads: 4
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/global/admixture
+        
+        # Store absolute path of log file before changing directory
+        LOGFILE=$(realpath {log})
+        
+        # Run ADMIXTURE from the target directory (files are already in the right place)
+        cd analysis_other/ancestry/global/admixture
+        
+        # Run ADMIXTURE for different K values
+        for K in {{3..7}}; do
+            echo "Running ADMIXTURE with K=$K" >>$LOGFILE 2>&1
+            admixture --cv merged_cohort_numeric.bed $K -j{threads} >>$LOGFILE 2>&1
+        done
+        
+        echo "ADMIXTURE analysis completed" >>$LOGFILE
+        """
+
+# Prepare data for local ancestry analysis - Step 1: Convert PGEN to VCF
+rule convert_pgen_to_vcf:
+    input:
+        pgen="analysis_other/ancestry/plink/merged/merged_cohort.pgen",
+        pvar="analysis_other/ancestry/plink/merged/merged_cohort.pvar",
+        psam="analysis_other/ancestry/plink/merged/merged_cohort.psam"
+    output:
+        phased_vcf="analysis_other/ancestry/local/input/merged_cohort_phased.vcf.gz"
+    conda:
+        "../env/plink2.yml"
+    log:
+        "logs/ancestry/convert_pgen_to_vcf.log"
+    threads: 32
+    shell:
+        """
+        mkdir -p analysis_other/ancestry/local/input
+        
+        # Convert PGEN to VCF format
+        plink2 \
+            --pfile analysis_other/ancestry/plink/merged/merged_cohort \
+            --export vcf bgz \
+            --out analysis_other/ancestry/local/input/merged_cohort_phased \
+            --threads {threads} \
+            >{log} 2>&1
+        """

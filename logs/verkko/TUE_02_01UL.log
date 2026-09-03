@@ -1,0 +1,869 @@
+Launching release v2.2.1
+Using snakemake 7.32.4.
+6a3f32e8028bc796ac407fffbd24b_/bin/verkko: 21: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 25: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 33: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 37: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 41: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 45: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 49: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 60: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 64: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 73: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 77: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 81: [[: not found
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 48
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=300
+Job stats:
+job                            count
+---------------------------  -------
+buildGraph                         1
+buildPackages                      1
+buildStore                         1
+combineConsensus                   1
+combineONT                         1
+combineTipsONT                     1
+correctHiFi                        1
+emptyfile                          1
+extractONT                         1
+fixErrors                          1
+generateLayoutContigsInputs        1
+layoutContigs                      1
+processGraph                       1
+processONT                         1
+splitONT                           1
+splitTipsONT                       1
+untip                              1
+verkko                             1
+total                             18
+
+Select jobs to execute...
+
+[Sun May 25 02:39:49 2025]
+localrule emptyfile:
+    output: emptyfile
+    jobid: 8
+    reason: Missing output files: emptyfile
+    resources: tmpdir=/tmp
+
+
+[Sun May 25 02:39:49 2025]
+checkpoint splitONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.UL.70x.fastq.gz
+    output: 3-align/splitONT.finished, 3-align/splitONT.ids
+    log: 3-align/splitONT.err
+    jobid: 10
+    reason: Missing output files: 3-align/splitONT.finished
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+
+[Sun May 25 02:39:49 2025]
+rule buildStore:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.50x.fastq.gz
+    output: 0-correction/hifi.seqStore
+    log: 0-correction/buildStore.err
+    jobid: 7
+    reason: Missing output files: 0-correction/hifi.seqStore
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=4
+
+[Sun May 25 02:39:49 2025]
+Finished job 8.
+1 of 18 steps (6%) done
+[Sun May 25 02:44:12 2025]
+Finished job 10.
+2 of 18 steps (11%) done
+[Sun May 25 02:54:37 2025]
+Finished job 7.
+3 of 24 steps (12%) done
+Select jobs to execute...
+
+[Sun May 25 02:54:37 2025]
+rule fixErrors:
+    input: 0-correction/hifi.seqStore, emptyfile, emptyfile, emptyfile
+    output: 0-correction/red.red, 0-correction/hifi-corrected.fasta.gz
+    log: 0-correction/fixErrors.err
+    jobid: 6
+    reason: Missing output files: 0-correction/hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi.seqStore, emptyfile
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=16, time_h=4
+
+[Sun May 25 03:02:32 2025]
+Finished job 6.
+4 of 24 steps (17%) done
+Select jobs to execute...
+
+[Sun May 25 03:02:32 2025]
+localrule correctHiFi:
+    input: 0-correction/hifi-corrected.fasta.gz
+    output: hifi-corrected.fasta.gz
+    jobid: 5
+    reason: Missing output files: hifi-corrected.fasta.gz; Input files updated by another job: 0-correction/hifi-corrected.fasta.gz
+    resources: tmpdir=/tmp, n_cpus=1, mem_gb=1, time_h=1
+
+[Sun May 25 03:02:32 2025]
+Finished job 5.
+5 of 24 steps (21%) done
+Select jobs to execute...
+
+[Sun May 25 03:02:32 2025]
+rule buildGraph:
+    input: hifi-corrected.fasta.gz
+    output: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 1-buildGraph/paths.gaf
+    log: 1-buildGraph/buildGraph.err
+    jobid: 4
+    reason: Missing output files: 1-buildGraph/paths.gaf, 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv; Input files updated by another job: hifi-corrected.fasta.gz
+    threads: 4
+    resources: tmpdir=/tmp, job_id=1, n_cpus=4, mem_gb=41, time_h=72
+
+[Sun May 25 04:57:01 2025]
+Finished job 4.
+6 of 24 steps (25%) done
+Select jobs to execute...
+
+[Sun May 25 04:57:01 2025]
+rule processGraph:
+    input: 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/paths.gaf, 1-buildGraph/hifi_nodecov.csv
+    output: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 2-processGraph/unitig-mapping-1.txt
+    log: 2-processGraph/process.err
+    jobid: 3
+    reason: Missing output files: 2-processGraph/unitig-unrolled-hifi-resolved.gfa; Input files updated by another job: 1-buildGraph/paths.gaf, 1-buildGraph/hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun May 25 05:02:18 2025]
+Finished job 3.
+7 of 24 steps (29%) done
+Select jobs to execute...
+
+[Sun May 25 05:02:18 2025]
+rule indexGraph:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/graph.index, 3-align/diploid.index
+    log: 3-align/index.err
+    jobid: 22
+    reason: Missing output files: 3-align/diploid.index, 3-align/graph.index; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=57, time_h=24
+
+[Sun May 25 06:02:17 2025]
+Finished job 22.
+8 of 24 steps (33%) done
+Select jobs to execute...
+
+[Sun May 25 06:02:17 2025]
+rule alignONT:
+    input: 3-align/split/ont001.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned001.gaf
+    log: 3-align/aligned001.err
+    jobid: 21
+    reason: Missing output files: 3-align/aligned001.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=22, time_h=24
+
+
+[Sun May 25 06:02:17 2025]
+rule alignONT:
+    input: 3-align/split/ont003.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned003.gaf
+    log: 3-align/aligned003.err
+    jobid: 24
+    reason: Missing output files: 3-align/aligned003.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=003
+    threads: 24
+    resources: tmpdir=/tmp, job_id=3, n_cpus=24, mem_gb=22, time_h=24
+
+[Sun May 25 06:15:22 2025]
+Finished job 21.
+9 of 24 steps (38%) done
+Select jobs to execute...
+
+[Sun May 25 06:15:22 2025]
+rule alignONT:
+    input: 3-align/split/ont004.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned004.gaf
+    log: 3-align/aligned004.err
+    jobid: 25
+    reason: Missing output files: 3-align/aligned004.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=004
+    threads: 24
+    resources: tmpdir=/tmp, job_id=4, n_cpus=24, mem_gb=22, time_h=24
+
+[Sun May 25 06:15:24 2025]
+Finished job 24.
+10 of 24 steps (42%) done
+Select jobs to execute...
+
+[Sun May 25 06:15:24 2025]
+rule alignONT:
+    input: 3-align/split/ont005.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned005.gaf
+    log: 3-align/aligned005.err
+    jobid: 26
+    reason: Missing output files: 3-align/aligned005.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=005
+    threads: 24
+    resources: tmpdir=/tmp, job_id=5, n_cpus=24, mem_gb=22, time_h=24
+
+[Sun May 25 06:21:28 2025]
+Finished job 26.
+11 of 24 steps (46%) done
+Select jobs to execute...
+
+[Sun May 25 06:21:28 2025]
+rule alignONT:
+    input: 3-align/split/ont002.fasta.gz, 3-align/graph.index, 3-align/diploid.index, 2-processGraph/unitig-unrolled-hifi-resolved.gfa
+    output: 3-align/aligned002.gaf
+    log: 3-align/aligned002.err
+    jobid: 23
+    reason: Missing output files: 3-align/aligned002.gaf; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/diploid.index, 3-align/graph.index
+    wildcards: nnnn=002
+    threads: 24
+    resources: tmpdir=/tmp, job_id=2, n_cpus=24, mem_gb=22, time_h=24
+
+[Sun May 25 06:28:30 2025]
+Finished job 25.
+12 of 24 steps (50%) done
+[Sun May 25 06:36:28 2025]
+Finished job 23.
+13 of 24 steps (54%) done
+Select jobs to execute...
+
+[Sun May 25 06:36:28 2025]
+rule combineONT:
+    input: 3-align/splitONT.finished, 3-align/aligned001.gaf, 3-align/aligned002.gaf, 3-align/aligned003.gaf, 3-align/aligned004.gaf, 3-align/aligned005.gaf
+    output: 3-align/alns-ont.gaf
+    log: 3-align/combineONT.err
+    jobid: 9
+    reason: Missing output files: 3-align/alns-ont.gaf; Input files updated by another job: 3-align/aligned003.gaf, 3-align/aligned002.gaf, 3-align/aligned005.gaf, 3-align/aligned004.gaf, 3-align/aligned001.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Sun May 25 06:36:28 2025]
+Finished job 9.
+14 of 24 steps (58%) done
+Select jobs to execute...
+
+[Sun May 25 06:36:28 2025]
+checkpoint splitTipsONT:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.UL.70x.fastq.gz, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf, 3-align/splitONT.finished
+    output: 3-alignTips/splitONT.finished
+    log: 3-alignTips/splitONT.err
+    jobid: 12
+    reason: Missing output files: 3-alignTips/splitONT.finished; Input files updated by another job: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 3-align/alns-ont.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=8, time_h=96
+DAG of jobs will be updated after completion.
+
+[Sun May 25 06:38:36 2025]
+Finished job 12.
+15 of 24 steps (62%) done
+Select jobs to execute...
+
+[Sun May 25 06:38:37 2025]
+rule alignTipsONT:
+    input: 3-alignTips/split/ont001.fasta.gz
+    output: 3-alignTips/aligned001.gaf
+    log: 3-alignTips/aligned001.err
+    jobid: 28
+    reason: Missing output files: 3-alignTips/aligned001.gaf
+    wildcards: nnnn=001
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=24
+
+[Sun May 25 06:44:14 2025]
+Finished job 28.
+16 of 25 steps (64%) done
+Select jobs to execute...
+
+[Sun May 25 06:44:14 2025]
+rule combineTipsONT:
+    input: 3-alignTips/splitONT.finished, 3-alignTips/aligned001.gaf
+    output: 3-alignTips/alns-ont.gaf
+    log: 3-alignTips/combineONT.err
+    jobid: 11
+    reason: Missing output files: 3-alignTips/alns-ont.gaf; Input files updated by another job: 3-alignTips/aligned001.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=4, time_h=2
+
+[Sun May 25 06:44:15 2025]
+Finished job 11.
+17 of 25 steps (68%) done
+Select jobs to execute...
+
+[Sun May 25 06:44:15 2025]
+rule processONT:
+    input: 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 3-align/alns-ont.gaf, 3-alignTips/alns-ont.gaf
+    output: 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf, 4-processONT/nodecovs-ont.csv
+    log: 4-processONT/processONT.err
+    jobid: 2
+    reason: Missing output files: 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/gaps-ont.gaf, 4-processONT/nodecovs-ont.csv; Input files updated by another job: 3-alignTips/alns-ont.gaf, 2-processGraph/unitig-unrolled-hifi-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 3-align/alns-ont.gaf
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=64, time_h=48
+
+[Sun May 25 06:53:59 2025]
+Finished job 2.
+18 of 25 steps (72%) done
+Select jobs to execute...
+
+[Sun May 25 06:53:59 2025]
+rule extractONT:
+    input: 4-processONT/gaps-ont.gaf, 3-align/splitONT.finished
+    output: 7-consensus/ont_subset.id, 7-consensus/ont_subset.extract, 7-consensus/ont_subset.fasta.gz
+    log: 7-consensus/extractONT.err
+    jobid: 17
+    reason: Missing output files: 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id; Input files updated by another job: 4-processONT/gaps-ont.gaf
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=16, time_h=24
+
+
+[Sun May 25 06:53:59 2025]
+rule untip:
+    input: 4-processONT/unitig-unrolled-ont-resolved.gfa, 1-buildGraph/hifi_nodecov.csv, 4-processONT/nodecovs-ont.csv
+    output: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    log: 5-untip/untip.err
+    jobid: 1
+    reason: Missing output files: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv; Input files updated by another job: 4-processONT/unitig-unrolled-ont-resolved.gfa, 4-processONT/nodecovs-ont.csv, 1-buildGraph/hifi_nodecov.csv
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=64, time_h=24
+
+[Sun May 25 06:54:13 2025]
+Finished job 17.
+19 of 25 steps (76%) done
+[Sun May 25 07:09:20 2025]
+Finished job 1.
+20 of 25 steps (80%) done
+Select jobs to execute...
+
+[Sun May 25 07:09:20 2025]
+rule generateLayoutContigsInputs:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 1-buildGraph/paths.gaf, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf
+    output: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    log: 6-layoutContigs/createLayoutInputs.err
+    jobid: 14
+    reason: Missing output files: 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/nodelens.txt, 6-layoutContigs/consensus_paths.txt; Input files updated by another job: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 1-buildGraph/paths.gaf, 4-processONT/alns-ont-mapqfilter.gaf, 4-processONT/gaps-ont.gaf
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Sun May 25 07:13:15 2025]
+Finished job 14.
+21 of 25 steps (84%) done
+Select jobs to execute...
+
+[Sun May 25 07:13:15 2025]
+rule layoutContigs:
+    input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
+    log: 6-layoutContigs/createLayout.err
+    jobid: 13
+    reason: Missing output files: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap; Input files updated by another job: 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/nodelens.txt, 6-layoutContigs/consensus_paths.txt
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Sun May 25 07:14:59 2025]
+Finished job 13.
+22 of 25 steps (88%) done
+Select jobs to execute...
+
+[Sun May 25 07:14:59 2025]
+checkpoint buildPackages:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/TUE_02_01UL/TUE_02_01UL.HQ_herro.50x.fastq.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
+    output: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished, 7-consensus/packages.report
+    log: 7-consensus/buildPackages.err
+    jobid: 16
+    reason: Missing output files: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished; Input files updated by another job: 7-consensus/ont_subset.fasta.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.id
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=13, time_h=24
+DAG of jobs will be updated after completion.
+
+[Sun May 25 07:35:10 2025]
+Finished job 16.
+23 of 25 steps (92%) done
+Select jobs to execute...
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part012.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part012.fasta
+    log: 7-consensus/packages/part012.err
+    jobid: 45
+    reason: Missing output files: 7-consensus/packages/part012.fasta
+    wildcards: nnnn=012
+    threads: 8
+    resources: tmpdir=/tmp, job_id=12, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part009.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part009.fasta
+    log: 7-consensus/packages/part009.err
+    jobid: 48
+    reason: Missing output files: 7-consensus/packages/part009.fasta
+    wildcards: nnnn=009
+    threads: 8
+    resources: tmpdir=/tmp, job_id=9, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part010.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part010.fasta
+    log: 7-consensus/packages/part010.err
+    jobid: 50
+    reason: Missing output files: 7-consensus/packages/part010.fasta
+    wildcards: nnnn=010
+    threads: 8
+    resources: tmpdir=/tmp, job_id=10, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part011.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part011.fasta
+    log: 7-consensus/packages/part011.err
+    jobid: 52
+    reason: Missing output files: 7-consensus/packages/part011.fasta
+    wildcards: nnnn=011
+    threads: 8
+    resources: tmpdir=/tmp, job_id=11, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part008.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part008.fasta
+    log: 7-consensus/packages/part008.err
+    jobid: 35
+    reason: Missing output files: 7-consensus/packages/part008.fasta
+    wildcards: nnnn=008
+    threads: 8
+    resources: tmpdir=/tmp, job_id=8, n_cpus=8, mem_gb=7, time_h=24
+
+
+[Sun May 25 07:35:10 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part013.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part013.fasta
+    log: 7-consensus/packages/part013.err
+    jobid: 51
+    reason: Missing output files: 7-consensus/packages/part013.fasta
+    wildcards: nnnn=013
+    threads: 8
+    resources: tmpdir=/tmp, job_id=13, n_cpus=8, mem_gb=7, time_h=24
+
+[Sun May 25 08:27:22 2025]
+Finished job 48.
+24 of 54 steps (44%) done
+Select jobs to execute...
+
+[Sun May 25 08:27:22 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part002.fasta
+    log: 7-consensus/packages/part002.err
+    jobid: 55
+    reason: Missing output files: 7-consensus/packages/part002.fasta
+    wildcards: nnnn=002
+    threads: 8
+    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=30, time_h=24
+
+[Sun May 25 08:27:47 2025]
+Finished job 45.
+25 of 54 steps (46%) done
+Select jobs to execute...
+
+[Sun May 25 08:27:47 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part003.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part003.fasta
+    log: 7-consensus/packages/part003.err
+    jobid: 56
+    reason: Missing output files: 7-consensus/packages/part003.fasta
+    wildcards: nnnn=003
+    threads: 8
+    resources: tmpdir=/tmp, job_id=3, n_cpus=8, mem_gb=25, time_h=24
+
+[Sun May 25 08:28:06 2025]
+Finished job 52.
+26 of 54 steps (48%) done
+Select jobs to execute...
+
+[Sun May 25 08:28:06 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part005.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part005.fasta
+    log: 7-consensus/packages/part005.err
+    jobid: 54
+    reason: Missing output files: 7-consensus/packages/part005.fasta
+    wildcards: nnnn=005
+    threads: 8
+    resources: tmpdir=/tmp, job_id=5, n_cpus=8, mem_gb=11, time_h=24
+
+[Sun May 25 08:28:33 2025]
+Finished job 50.
+27 of 54 steps (50%) done
+Select jobs to execute...
+
+[Sun May 25 08:28:33 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part007.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part007.fasta
+    log: 7-consensus/packages/part007.err
+    jobid: 53
+    reason: Missing output files: 7-consensus/packages/part007.fasta
+    wildcards: nnnn=007
+    threads: 8
+    resources: tmpdir=/tmp, job_id=7, n_cpus=8, mem_gb=8, time_h=24
+
+[Sun May 25 08:28:42 2025]
+Finished job 35.
+28 of 54 steps (52%) done
+Select jobs to execute...
+
+[Sun May 25 08:28:42 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part006.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part006.fasta
+    log: 7-consensus/packages/part006.err
+    jobid: 49
+    reason: Missing output files: 7-consensus/packages/part006.fasta
+    wildcards: nnnn=006
+    threads: 8
+    resources: tmpdir=/tmp, job_id=6, n_cpus=8, mem_gb=8, time_h=24
+
+[Sun May 25 08:29:28 2025]
+Finished job 51.
+29 of 54 steps (54%) done
+Select jobs to execute...
+
+[Sun May 25 08:29:28 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part001.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part001.fasta
+    log: 7-consensus/packages/part001.err
+    jobid: 57
+    reason: Missing output files: 7-consensus/packages/part001.fasta
+    wildcards: nnnn=001
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=31, time_h=24
+
+[Sun May 25 08:35:08 2025]
+Finished job 55.
+30 of 54 steps (56%) done
+Select jobs to execute...
+
+[Sun May 25 08:35:08 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part004.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part004.fasta
+    log: 7-consensus/packages/part004.err
+    jobid: 58
+    reason: Missing output files: 7-consensus/packages/part004.fasta
+    wildcards: nnnn=004
+    threads: 8
+    resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=17, time_h=24
+
+[Sun May 25 08:38:11 2025]
+Finished job 57.
+31 of 54 steps (57%) done
+Select jobs to execute...
+
+[Sun May 25 08:38:11 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part029.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part029.fasta
+    log: 7-consensus/packages/part029.err
+    jobid: 47
+    reason: Missing output files: 7-consensus/packages/part029.fasta
+    wildcards: nnnn=029
+    threads: 8
+    resources: tmpdir=/tmp, job_id=29, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 08:40:06 2025]
+Finished job 56.
+32 of 54 steps (59%) done
+Select jobs to execute...
+
+[Sun May 25 08:40:06 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part026.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part026.fasta
+    log: 7-consensus/packages/part026.err
+    jobid: 33
+    reason: Missing output files: 7-consensus/packages/part026.fasta
+    wildcards: nnnn=026
+    threads: 8
+    resources: tmpdir=/tmp, job_id=26, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 08:52:48 2025]
+Finished job 47.
+33 of 54 steps (61%) done
+Select jobs to execute...
+
+[Sun May 25 08:52:48 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part023.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part023.fasta
+    log: 7-consensus/packages/part023.err
+    jobid: 37
+    reason: Missing output files: 7-consensus/packages/part023.fasta
+    wildcards: nnnn=023
+    threads: 8
+    resources: tmpdir=/tmp, job_id=23, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 08:59:57 2025]
+Finished job 58.
+34 of 54 steps (63%) done
+Select jobs to execute...
+
+[Sun May 25 08:59:57 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part017.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part017.fasta
+    log: 7-consensus/packages/part017.err
+    jobid: 43
+    reason: Missing output files: 7-consensus/packages/part017.fasta
+    wildcards: nnnn=017
+    threads: 8
+    resources: tmpdir=/tmp, job_id=17, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:19:42 2025]
+Finished job 53.
+35 of 54 steps (65%) done
+Select jobs to execute...
+
+[Sun May 25 09:19:42 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part027.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part027.fasta
+    log: 7-consensus/packages/part027.err
+    jobid: 39
+    reason: Missing output files: 7-consensus/packages/part027.fasta
+    wildcards: nnnn=027
+    threads: 8
+    resources: tmpdir=/tmp, job_id=27, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:21:59 2025]
+Finished job 54.
+36 of 54 steps (67%) done
+Select jobs to execute...
+
+[Sun May 25 09:21:59 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part022.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part022.fasta
+    log: 7-consensus/packages/part022.err
+    jobid: 41
+    reason: Missing output files: 7-consensus/packages/part022.fasta
+    wildcards: nnnn=022
+    threads: 8
+    resources: tmpdir=/tmp, job_id=22, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:22:28 2025]
+Finished job 49.
+37 of 54 steps (69%) done
+Select jobs to execute...
+
+[Sun May 25 09:22:28 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part015.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part015.fasta
+    log: 7-consensus/packages/part015.err
+    jobid: 30
+    reason: Missing output files: 7-consensus/packages/part015.fasta
+    wildcards: nnnn=015
+    threads: 8
+    resources: tmpdir=/tmp, job_id=15, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:49:18 2025]
+Finished job 33.
+38 of 54 steps (70%) done
+Select jobs to execute...
+
+[Sun May 25 09:49:19 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part018.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part018.fasta
+    log: 7-consensus/packages/part018.err
+    jobid: 44
+    reason: Missing output files: 7-consensus/packages/part018.fasta
+    wildcards: nnnn=018
+    threads: 8
+    resources: tmpdir=/tmp, job_id=18, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:52:41 2025]
+Finished job 37.
+39 of 54 steps (72%) done
+Select jobs to execute...
+
+[Sun May 25 09:52:41 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part016.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part016.fasta
+    log: 7-consensus/packages/part016.err
+    jobid: 42
+    reason: Missing output files: 7-consensus/packages/part016.fasta
+    wildcards: nnnn=016
+    threads: 8
+    resources: tmpdir=/tmp, job_id=16, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 09:53:25 2025]
+Finished job 43.
+40 of 54 steps (74%) done
+Select jobs to execute...
+
+[Sun May 25 09:53:25 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part021.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part021.fasta
+    log: 7-consensus/packages/part021.err
+    jobid: 40
+    reason: Missing output files: 7-consensus/packages/part021.fasta
+    wildcards: nnnn=021
+    threads: 8
+    resources: tmpdir=/tmp, job_id=21, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:17:11 2025]
+Finished job 30.
+41 of 54 steps (76%) done
+Select jobs to execute...
+
+[Sun May 25 10:17:11 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part024.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part024.fasta
+    log: 7-consensus/packages/part024.err
+    jobid: 38
+    reason: Missing output files: 7-consensus/packages/part024.fasta
+    wildcards: nnnn=024
+    threads: 8
+    resources: tmpdir=/tmp, job_id=24, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:21:33 2025]
+Finished job 41.
+42 of 54 steps (78%) done
+Select jobs to execute...
+
+[Sun May 25 10:21:33 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part020.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part020.fasta
+    log: 7-consensus/packages/part020.err
+    jobid: 36
+    reason: Missing output files: 7-consensus/packages/part020.fasta
+    wildcards: nnnn=020
+    threads: 8
+    resources: tmpdir=/tmp, job_id=20, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:28:13 2025]
+Finished job 39.
+43 of 54 steps (80%) done
+Select jobs to execute...
+
+[Sun May 25 10:28:13 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part025.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part025.fasta
+    log: 7-consensus/packages/part025.err
+    jobid: 34
+    reason: Missing output files: 7-consensus/packages/part025.fasta
+    wildcards: nnnn=025
+    threads: 8
+    resources: tmpdir=/tmp, job_id=25, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:45:06 2025]
+Finished job 44.
+44 of 54 steps (81%) done
+Select jobs to execute...
+
+[Sun May 25 10:45:06 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part019.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part019.fasta
+    log: 7-consensus/packages/part019.err
+    jobid: 46
+    reason: Missing output files: 7-consensus/packages/part019.fasta
+    wildcards: nnnn=019
+    threads: 8
+    resources: tmpdir=/tmp, job_id=19, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:48:04 2025]
+Finished job 42.
+45 of 54 steps (83%) done
+Select jobs to execute...
+
+[Sun May 25 10:48:04 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part014.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part014.fasta
+    log: 7-consensus/packages/part014.err
+    jobid: 31
+    reason: Missing output files: 7-consensus/packages/part014.fasta
+    wildcards: nnnn=014
+    threads: 8
+    resources: tmpdir=/tmp, job_id=14, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 10:51:02 2025]
+Finished job 40.
+46 of 54 steps (85%) done
+Select jobs to execute...
+
+[Sun May 25 10:51:02 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part028.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part028.fasta
+    log: 7-consensus/packages/part028.err
+    jobid: 32
+    reason: Missing output files: 7-consensus/packages/part028.fasta
+    wildcards: nnnn=028
+    threads: 8
+    resources: tmpdir=/tmp, job_id=28, n_cpus=8, mem_gb=6, time_h=24
+
+[Sun May 25 11:18:15 2025]
+Finished job 36.
+47 of 54 steps (87%) done
+[Sun May 25 11:22:00 2025]
+Finished job 38.
+48 of 54 steps (89%) done
+[Sun May 25 11:36:29 2025]
+Finished job 34.
+49 of 54 steps (91%) done
+[Sun May 25 11:43:53 2025]
+Finished job 46.
+50 of 54 steps (93%) done
+[Sun May 25 11:44:14 2025]
+Finished job 31.
+51 of 54 steps (94%) done
+[Sun May 25 12:12:25 2025]
+Finished job 32.
+52 of 54 steps (96%) done
+Select jobs to execute...
+
+[Sun May 25 12:12:25 2025]
+rule combineConsensus:
+    input: 7-consensus/packages/part015.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part028.fasta, 7-consensus/packages/part026.fasta, 7-consensus/packages/part025.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part023.fasta, 7-consensus/packages/part024.fasta, 7-consensus/packages/part027.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part022.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part029.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages.tigName_to_ID.map, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/ont.alignments.gaf, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 7-consensus/packages.finished, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa
+    output: 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/combined.fasta
+    log: 7-consensus/combineConsensus.out, 7-consensus/combineConsensus.err
+    jobid: 15
+    reason: Missing output files: 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.bam; Input files updated by another job: 7-consensus/packages/part005.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part024.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part020.fasta, 7-consensus/packages/part026.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part022.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part025.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part019.fasta, 7-consensus/packages/part023.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part027.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part018.fasta, 7-consensus/packages/part028.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part021.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part029.fasta
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=13, time_h=4
+
+[Sun May 25 12:16:01 2025]
+Finished job 15.
+53 of 54 steps (98%) done
+Select jobs to execute...
+
+[Sun May 25 12:16:01 2025]
+localrule verkko:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, emptyfile, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    output: assembly.homopolymer-compressed.gfa, assembly.homopolymer-compressed.noseq.gfa, assembly.homopolymer-compressed.layout, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.fasta, assembly.scfmap
+    jobid: 0
+    reason: Missing output files: assembly.homopolymer-compressed.gfa, assembly.homopolymer-compressed.noseq.gfa, assembly.hifi-coverage.csv, assembly.scfmap, assembly.homopolymer-compressed.layout, assembly.fasta, assembly.ont-coverage.csv; Input files updated by another job: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.bam, 6-layoutContigs/unitig-popped.layout, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv
+    resources: tmpdir=/tmp
+
+Reading graph from stdin
+[Sun May 25 12:16:15 2025]
+Finished job 0.
+54 of 54 steps (100%) done
+Complete log: .snakemake/log/2025-05-25T023940.701438.snakemake.log

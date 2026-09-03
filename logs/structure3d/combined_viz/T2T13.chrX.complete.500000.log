@@ -1,0 +1,22 @@
+Loaded ashic_hp1: 618 coordinates
+Loaded ashic_hp2: 618 coordinates
+Loaded lordg_hp1: 309 coordinates
+Loaded lordg_hp2: 309 coordinates
+Loaded particlechromo3d_hp1: 309 coordinates
+Loaded particlechromo3d_hp2: 309 coordinates
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/50_compare_3d_structures.py", line 262, in <module>
+    main()
+    ~~~~^^
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/50_compare_3d_structures.py", line 234, in main
+    _, rmsd = align_structures(coords1, coords2)
+              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/workflow/scripts/50_compare_3d_structures.py", line 76, in align_structures
+    U, S, Vt = np.linalg.svd(H)
+               ~~~~~~~~~~~~~^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/76c6ec0a1198e84506c2269648ad31af_/lib/python3.14/site-packages/numpy/linalg/_linalg.py", line 1841, in svd
+    u, s, vh = gufunc(a, signature=signature)
+               ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/76c6ec0a1198e84506c2269648ad31af_/lib/python3.14/site-packages/numpy/linalg/_linalg.py", line 154, in _raise_linalgerror_svd_nonconvergence
+    raise LinAlgError("SVD did not converge")
+numpy.linalg.LinAlgError: SVD did not converge

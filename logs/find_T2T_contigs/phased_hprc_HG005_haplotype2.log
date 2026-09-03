@@ -1,0 +1,313 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG005/HG005.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/HG005/HG005.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG005/HG005.haplotype2.fasta >assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG005/HG005.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG005#2#CM099973.1_Start processed
+[+]	Chromosome HG005#2#CM099974.1_Start processed
+[+]	Chromosome HG005#2#CM099975.1_Start processed
+[+]	Chromosome HG005#2#CM099976.1_Start processed
+[+]	Chromosome HG005#2#CM099977.1_Start processed
+[+]	Chromosome HG005#2#CM099978.1_Start processed
+[+]	Chromosome HG005#2#CM099979.1_Start processed
+[+]	Chromosome HG005#2#CM099980.1_Start processed
+[+]	Chromosome HG005#2#CM099981.1_Start processed
+[+]	Chromosome HG005#2#CM099982.1_Start processed
+[+]	Chromosome HG005#2#CM099983.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000002.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000004.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000005.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000007.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000009.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000010.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000011.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000012.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000014.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000016.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000017.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000019.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000020.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000021.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000022.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000023.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000024.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000025.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000026.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000027.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000028.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000029.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000030.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000031.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000032.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000033.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000034.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000035.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000036.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000037.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000038.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000039.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000040.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000041.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000042.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000043.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000044.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000045.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000046.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000047.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000048.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000049.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000050.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000051.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000052.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000053.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000054.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000055.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000056.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000057.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000058.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000059.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000060.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000061.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000062.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000063.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000064.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000065.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000066.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000067.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000068.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000069.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000070.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000071.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000075.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000076.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000077.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000079.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000080.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000081.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000082.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000083.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000084.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000085.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000086.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000087.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000088.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000089.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000090.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000091.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000092.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000093.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000094.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000095.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000096.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000097.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000098.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000099.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000100.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000101.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000102.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000103.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000104.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000105.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000106.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000107.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000108.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000109.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000110.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000111.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000112.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000113.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000114.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000115.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000116.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000117.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000118.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000119.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000120.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000121.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000122.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000123.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000124.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000125.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000126.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000127.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000128.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000129.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000130.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000131.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000132.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000133.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000134.1_Start processed
+[+]	Chromosome HG005#2#JAHEPN020000135.1_Start processed
+[+]	Chromosome HG005#2#CM099973.1_End processed
+[+]	Chromosome HG005#2#CM099974.1_End processed
+[+]	Chromosome HG005#2#CM099975.1_End processed
+[+]	Chromosome HG005#2#CM099976.1_End processed
+[+]	Chromosome HG005#2#CM099977.1_End processed
+[+]	Chromosome HG005#2#CM099978.1_End processed
+[+]	Chromosome HG005#2#CM099979.1_End processed
+[+]	Chromosome HG005#2#CM099980.1_End processed
+[+]	Chromosome HG005#2#CM099981.1_End processed
+[+]	Chromosome HG005#2#CM099982.1_End processed
+[+]	Chromosome HG005#2#CM099983.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000002.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000004.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000005.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000007.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000009.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000010.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000011.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000012.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000014.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000016.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000017.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000019.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000020.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000021.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000022.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000023.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000024.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000025.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000026.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000027.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000028.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000029.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000030.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000031.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000032.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000033.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000034.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000035.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000036.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000037.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000038.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000039.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000040.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000041.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000042.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000043.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000044.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000045.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000046.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000047.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000048.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000049.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000050.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000051.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000052.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000053.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000054.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000055.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000056.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000057.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000058.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000059.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000060.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000061.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000062.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000063.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000064.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000065.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000066.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000067.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000068.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000069.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000070.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000071.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000075.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000076.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000077.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000079.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000080.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000081.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000082.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000083.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000084.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000085.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000086.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000087.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000088.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000089.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000090.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000091.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000092.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000093.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000094.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000095.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000096.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000097.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000098.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000099.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000100.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000101.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000102.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000103.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000104.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000105.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000106.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000107.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000108.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000109.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000110.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000111.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000112.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000113.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000114.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000115.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000116.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000117.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000118.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000119.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000120.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000121.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000122.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000123.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000124.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000125.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000126.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000127.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000128.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000129.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000130.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000131.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000132.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000133.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000134.1_End processed
+[+]	Chromosome HG005#2#JAHEPN020000135.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::5.462*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::70.247*1.60] indexed the graph
+[M::mg_opt_update::77.363*1.55] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::372.349*4.54] mapped 15 sequences
+[M::worker_pipeline::505.664*4.49] mapped 120 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG005/HG005.haplotype2.fasta
+[M::main] Real time: 506.129 sec; CPU: 2273.136 sec; Peak RSS: 48.273 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG005/T2T_contigs.haplotype2_alignment_T2T.txt
+

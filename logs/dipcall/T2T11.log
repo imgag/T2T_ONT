@@ -1,0 +1,2 @@
+bin/dipcall.kit/htsbox pileup -q5 -evcf /mnt/storage2/megSAP/data_hg19/genomes/GRCh37.fa assembly/variants/hg19/T2T11/small_variants.hap1.bam assembly/variants/hg19/T2T11/small_variants.hap2.bam | bin/dipcall.kit/htsbox bgzip > assembly/variants/hg19/T2T11/small_variants.pair.vcf.gz
+bin/dipcall.kit/k8 bin/dipcall.kit/dipcall-aux.js vcfpair  assembly/variants/hg19/T2T11/small_variants.pair.vcf.gz | bin/dipcall.kit/htsbox bgzip > assembly/variants/hg19/T2T11/small_variants.dip.vcf.gz

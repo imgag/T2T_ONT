@@ -1,0 +1,211 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/hifiasm/T2T00_hifiasm_ont/assembly.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1.seqinfo.txt assembly/output/hifiasm/T2T00_hifiasm_ont/assembly.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/hifiasm/T2T00_hifiasm_ont/assembly.haplotype1.fasta >assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for assembly/output/hifiasm/T2T00_hifiasm_ont/assembly.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome h1tg000001l_Start processed
+[+]	Chromosome h1tg000002l_Start processed
+[+]	Chromosome h1tg000003l_Start processed
+[+]	Chromosome h1tg000004l_Start processed
+[+]	Chromosome h1tg000005l_Start processed
+[+]	Chromosome h1tg000006l_Start processed
+[+]	Chromosome h1tg000007l_Start processed
+[+]	Chromosome h1tg000008l_Start processed
+[+]	Chromosome h1tg000009l_Start processed
+[+]	Chromosome h1tg000010l_Start processed
+[+]	Chromosome h1tg000011l_Start processed
+[+]	Chromosome h1tg000012l_Start processed
+[+]	Chromosome h1tg000013l_Start processed
+[+]	Chromosome h1tg000014l_Start processed
+[+]	Chromosome h1tg000015l_Start processed
+[+]	Chromosome h1tg000016l_Start processed
+[+]	Chromosome h1tg000017l_Start processed
+[+]	Chromosome h1tg000018l_Start processed
+[+]	Chromosome h1tg000019l_Start processed
+[+]	Chromosome h1tg000020l_Start processed
+[+]	Chromosome h1tg000021l_Start processed
+[+]	Chromosome h1tg000022l_Start processed
+[+]	Chromosome h1tg000023l_Start processed
+[+]	Chromosome h1tg000024l_Start processed
+[+]	Chromosome h1tg000025l_Start processed
+[+]	Chromosome h1tg000026l_Start processed
+[+]	Chromosome h1tg000027l_Start processed
+[+]	Chromosome h1tg000028l_Start processed
+[+]	Chromosome h1tg000029l_Start processed
+[+]	Chromosome h1tg000030l_Start processed
+[+]	Chromosome h1tg000031l_Start processed
+[+]	Chromosome h1tg000032l_Start processed
+[+]	Chromosome h1tg000033l_Start processed
+[+]	Chromosome h1tg000034l_Start processed
+[+]	Chromosome h1tg000035l_Start processed
+[+]	Chromosome h1tg000036l_Start processed
+[+]	Chromosome h1tg000037l_Start processed
+[+]	Chromosome h1tg000038l_Start processed
+[+]	Chromosome h1tg000039l_Start processed
+[+]	Chromosome h1tg000040l_Start processed
+[+]	Chromosome h1tg000041l_Start processed
+[+]	Chromosome h1tg000042l_Start processed
+[+]	Chromosome h1tg000043l_Start processed
+[+]	Chromosome h1tg000044l_Start processed
+[+]	Chromosome h1tg000045l_Start processed
+[+]	Chromosome h1tg000046l_Start processed
+[+]	Chromosome h1tg000047l_Start processed
+[+]	Chromosome h1tg000048l_Start processed
+[+]	Chromosome h1tg000049l_Start processed
+[+]	Chromosome h1tg000050l_Start processed
+[+]	Chromosome h1tg000051l_Start processed
+[+]	Chromosome h1tg000052l_Start processed
+[+]	Chromosome h1tg000053l_Start processed
+[+]	Chromosome h1tg000054l_Start processed
+[+]	Chromosome h1tg000055l_Start processed
+[+]	Chromosome h1tg000056l_Start processed
+[+]	Chromosome h1tg000057l_Start processed
+[+]	Chromosome h1tg000058l_Start processed
+[+]	Chromosome h1tg000059l_Start processed
+[+]	Chromosome h1tg000060l_Start processed
+[+]	Chromosome h1tg000061l_Start processed
+[+]	Chromosome h1tg000062l_Start processed
+[+]	Chromosome h1tg000063l_Start processed
+[+]	Chromosome h1tg000064l_Start processed
+[+]	Chromosome h1tg000065l_Start processed
+[+]	Chromosome h1tg000066l_Start processed
+[+]	Chromosome h1tg000067l_Start processed
+[+]	Chromosome h1tg000068l_Start processed
+[+]	Chromosome h1tg000069l_Start processed
+[+]	Chromosome h1tg000070l_Start processed
+[+]	Chromosome h1tg000071l_Start processed
+[+]	Chromosome h1tg000072l_Start processed
+[+]	Chromosome h1tg000073l_Start processed
+[+]	Chromosome h1tg000074l_Start processed
+[+]	Chromosome h1tg000075l_Start processed
+[+]	Chromosome h1tg000076l_Start processed
+[+]	Chromosome h1tg000077l_Start processed
+[+]	Chromosome h1tg000078l_Start processed
+[+]	Chromosome h1tg000079l_Start processed
+[+]	Chromosome h1tg000080l_Start processed
+[+]	Chromosome h1tg000081l_Start processed
+[+]	Chromosome h1tg000082l_Start processed
+[+]	Chromosome h1tg000083l_Start processed
+[+]	Chromosome h1tg000084l_Start processed
+[+]	Chromosome h1tg000001l_End processed
+[+]	Chromosome h1tg000002l_End processed
+[+]	Chromosome h1tg000003l_End processed
+[+]	Chromosome h1tg000004l_End processed
+[+]	Chromosome h1tg000005l_End processed
+[+]	Chromosome h1tg000006l_End processed
+[+]	Chromosome h1tg000007l_End processed
+[+]	Chromosome h1tg000008l_End processed
+[+]	Chromosome h1tg000009l_End processed
+[+]	Chromosome h1tg000010l_End processed
+[+]	Chromosome h1tg000011l_End processed
+[+]	Chromosome h1tg000012l_End processed
+[+]	Chromosome h1tg000013l_End processed
+[+]	Chromosome h1tg000014l_End processed
+[+]	Chromosome h1tg000015l_End processed
+[+]	Chromosome h1tg000016l_End processed
+[+]	Chromosome h1tg000017l_End processed
+[+]	Chromosome h1tg000018l_End processed
+[+]	Chromosome h1tg000019l_End processed
+[+]	Chromosome h1tg000020l_End processed
+[+]	Chromosome h1tg000021l_End processed
+[+]	Chromosome h1tg000022l_End processed
+[+]	Chromosome h1tg000023l_End processed
+[+]	Chromosome h1tg000024l_End processed
+[+]	Chromosome h1tg000025l_End processed
+[+]	Chromosome h1tg000026l_End processed
+[+]	Chromosome h1tg000027l_End processed
+[+]	Chromosome h1tg000028l_End processed
+[+]	Chromosome h1tg000029l_End processed
+[+]	Chromosome h1tg000030l_End processed
+[+]	Chromosome h1tg000031l_End processed
+[+]	Chromosome h1tg000032l_End processed
+[+]	Chromosome h1tg000033l_End processed
+[+]	Chromosome h1tg000034l_End processed
+[+]	Chromosome h1tg000035l_End processed
+[+]	Chromosome h1tg000036l_End processed
+[+]	Chromosome h1tg000037l_End processed
+[+]	Chromosome h1tg000038l_End processed
+[+]	Chromosome h1tg000039l_End processed
+[+]	Chromosome h1tg000040l_End processed
+[+]	Chromosome h1tg000041l_End processed
+[+]	Chromosome h1tg000042l_End processed
+[+]	Chromosome h1tg000043l_End processed
+[+]	Chromosome h1tg000044l_End processed
+[+]	Chromosome h1tg000045l_End processed
+[+]	Chromosome h1tg000046l_End processed
+[+]	Chromosome h1tg000047l_End processed
+[+]	Chromosome h1tg000048l_End processed
+[+]	Chromosome h1tg000049l_End processed
+[+]	Chromosome h1tg000050l_End processed
+[+]	Chromosome h1tg000051l_End processed
+[+]	Chromosome h1tg000052l_End processed
+[+]	Chromosome h1tg000053l_End processed
+[+]	Chromosome h1tg000054l_End processed
+[+]	Chromosome h1tg000055l_End processed
+[+]	Chromosome h1tg000056l_End processed
+[+]	Chromosome h1tg000057l_End processed
+[+]	Chromosome h1tg000058l_End processed
+[+]	Chromosome h1tg000059l_End processed
+[+]	Chromosome h1tg000060l_End processed
+[+]	Chromosome h1tg000061l_End processed
+[+]	Chromosome h1tg000062l_End processed
+[+]	Chromosome h1tg000063l_End processed
+[+]	Chromosome h1tg000064l_End processed
+[+]	Chromosome h1tg000065l_End processed
+[+]	Chromosome h1tg000066l_End processed
+[+]	Chromosome h1tg000067l_End processed
+[+]	Chromosome h1tg000068l_End processed
+[+]	Chromosome h1tg000069l_End processed
+[+]	Chromosome h1tg000070l_End processed
+[+]	Chromosome h1tg000071l_End processed
+[+]	Chromosome h1tg000072l_End processed
+[+]	Chromosome h1tg000073l_End processed
+[+]	Chromosome h1tg000074l_End processed
+[+]	Chromosome h1tg000075l_End processed
+[+]	Chromosome h1tg000076l_End processed
+[+]	Chromosome h1tg000077l_End processed
+[+]	Chromosome h1tg000078l_End processed
+[+]	Chromosome h1tg000079l_End processed
+[+]	Chromosome h1tg000080l_End processed
+[+]	Chromosome h1tg000081l_End processed
+[+]	Chromosome h1tg000082l_End processed
+[+]	Chromosome h1tg000083l_End processed
+[+]	Chromosome h1tg000084l_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::8.371*0.96] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::84.411*1.43] indexed the graph
+[M::mg_opt_update::89.806*1.41] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::338.965*4.01] mapped 25 sequences
+[M::worker_pipeline::451.600*4.30] mapped 59 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta assembly/output/hifiasm/T2T00_hifiasm_ont/assembly.haplotype1.fasta
+[M::main] Real time: 452.372 sec; CPU: 1943.029 sec; Peak RSS: 43.770 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hifiasm/T2T00_hifiasm_ont/T2T_contigs.haplotype1_alignment_T2T.txt
+

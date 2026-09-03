@@ -1,0 +1,72 @@
+Using workflow specific profile workflow/profiles/default for setting default command line arguments.
+Using 23 out of 23 samples that have subdirs in data/ont for CDR-Finder.
+Assuming unrestricted shared filesystem usage.
+host: SRV025
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Traceback (most recent call last):
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/bin/snakemake", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/cli.py", line 2239, in main
+    success = args_to_api(args, parser)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/cli.py", line 2153, in args_to_api
+    dag_api.execute_workflow(
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/api.py", line 603, in execute_workflow
+    workflow.execute(
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/workflow.py", line 1242, in execute
+    self._build_dag()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/workflow.py", line 1189, in _build_dag
+    async_run(self.dag.update_checkpoint_dependencies())
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/common/__init__.py", line 99, in async_run
+    return asyncio.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/base_events.py", line 678, in run_until_complete
+    self.run_forever()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/base_events.py", line 645, in run_forever
+    self._run_once()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/base_events.py", line 1999, in _run_once
+    handle._run()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/dag.py", line 2155, in update_checkpoint_dependencies
+    await self.postprocess_after_update()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/dag.py", line 2160, in postprocess_after_update
+    await self.postprocess()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/dag.py", line 1878, in postprocess
+    await self.update_needrun()
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/dag.py", line 1543, in update_needrun
+    if await update_needrun(job):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/dag.py", line 1459, in update_needrun
+    if not self.workflow.persistence.has_metadata(job):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/persistence.py", line 415, in has_metadata
+    return all(self.metadata(path) for path in job.output)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/persistence.py", line 415, in <genexpr>
+    return all(self.metadata(path) for path in job.output)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/persistence.py", line 424, in metadata
+    return self._read_record(self._metadata_path, path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/persistence.py", line 685, in _read_record_cached
+    return self._read_record_uncached(subject, id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/site-packages/snakemake/persistence.py", line 692, in _read_record_uncached
+    return json.load(f)
+           ^^^^^^^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+  File "<frozen codecs>", line 319, in decode
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/asyncio/runners.py", line 157, in _on_sigint
+    raise KeyboardInterrupt()
+KeyboardInterrupt

@@ -1,0 +1,57 @@
+Unable to find image 'oluwadarelab/hicgnn:latest' locally
+latest: Pulling from oluwadarelab/hicgnn
+16ec32c2132b: Already exists
+d28f614aa3f9: Already exists
+e83cf9a24636: Already exists
+70c6d55f06aa: Already exists
+a7ed67e8130c: Already exists
+d0bc4b8df176: Pulling fs layer
+d0bc4b8df176: Pull complete
+Digest: sha256:a4ef0de39f16ea56adc0c15f37a7d085cd73341c3c5f83c3d20cdc1b87c03eaa
+Status: Downloaded newer image for oluwadarelab/hicgnn:latest
+[1] "input_matrix_matrix"
+WARNING:tensorflow:From /opt/venv/lib/python3.7/site-packages/tensorflow_core/python/keras/initializers.py:119: calling RandomUniform.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:From /opt/venv/lib/python3.7/site-packages/tensorflow_core/python/ops/resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+WARNING:tensorflow:From /opt/venv/lib/python3.7/site-packages/ge-0.0.0-py3.7.egg/ge/models/line.py:53: calling reduce_sum_v1 (from tensorflow.python.ops.math_ops) with keep_dims is deprecated and will be removed in a future version.
+Instructions for updating:
+keep_dims is deprecated, use keepdims instead
+Converting coordinate list format to matrix.
+Created normalized matrix form of /workdir/input_matrix.txt as Data/input_matrix_matrix_KR_normed.txt
+Epoch 1/10
+1/9 [==>...........................] - ETA: 3s - loss: 0.69339/9 [==============================] - 0s 47ms/step - loss: 0.6929
+Epoch 2/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.68779/9 [==============================] - 0s 2ms/step - loss: 0.6847
+Epoch 3/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.70079/9 [==============================] - 0s 2ms/step - loss: 0.6766
+Epoch 4/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.66199/9 [==============================] - 0s 2ms/step - loss: 0.6581
+Epoch 5/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.72499/9 [==============================] - 0s 1ms/step - loss: 0.6469
+Epoch 6/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.59789/9 [==============================] - 0s 1ms/step - loss: 0.5987
+Epoch 7/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.78809/9 [==============================] - 0s 1ms/step - loss: 0.5920
+Epoch 8/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.49249/9 [==============================] - 0s 1ms/step - loss: 0.5092
+Epoch 9/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.90599/9 [==============================] - 0s 2ms/step - loss: 0.5214
+Epoch 10/10
+1/9 [==>...........................] - ETA: 0s - loss: 0.36279/9 [==============================] - 0s 3ms/step - loss: 0.4205
+Created embeddings corresponding to /workdir/input_matrix.txt as Data/input_matrix_embeddings.txt
+Training model using conversion value 0.1.
+Traceback (most recent call last):
+  File "HiC-GNN_main.py", line 98, in <module>
+    out = model(data.x, data.edge_index)
+  File "/opt/venv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/HiC-GNN/models.py", line 16, in forward
+    x = self.conv(x, edge_index)
+  File "/opt/venv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/HiC-GNN/layers.py", line 63, in forward
+    out += self.lin_r(x_r.float())
+RuntimeError: The size of tensor a (8) must match the size of tensor b (20) at non-singleton dimension 0

@@ -1,0 +1,363 @@
+Launching release v2.2.1
+Using snakemake 7.32.4.
+6a3f32e8028bc796ac407fffbd24b_/bin/verkko: 21: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 25: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 29: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 33: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 37: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 41: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 45: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 49: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 60: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 64: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 68: linux: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 73: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 77: [[: not found
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/verkko: 81: [[: not found
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 72
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=300
+Job stats:
+job                   count
+------------------  -------
+HiC_rdnascaff             1
+copyFiles                 1
+hicPhasing                1
+indexBWA                  1
+mergeBWA                  1
+prepareScaffolding        1
+runMashMap                1
+runRukkiHIC               1
+run_seqtktelo             1
+splitHIC                  1
+transformBWA              1
+total                    11
+
+Select jobs to execute...
+
+[Thu Dec  4 12:21:05 2025]
+rule copyFiles:
+    input: 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/combined.fasta, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv
+    output: 8-hicPipeline/contigs_rename.map, 8-hicPipeline/unitigs.fasta, 8-hicPipeline/unitigs.hpc.fasta, 8-hicPipeline/unitigs.hpc.noseq.gfa, assembly.homopolymer-compressed.noseq.gfa
+    log: 8-hicPipeline/prepare_hic.err
+    jobid: 1
+    reason: Missing output files: 8-hicPipeline/unitigs.hpc.noseq.gfa, 8-hicPipeline/unitigs.hpc.fasta, 8-hicPipeline/unitigs.fasta
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:21:05 2025]
+checkpoint splitHIC:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/T2T04/T2T04.POREC.fastq.gz, emptyfile
+    output: 8-hicPipeline/splitHIC.finished
+    log: 8-hicPipeline/splitHIC.err
+    jobid: 98
+    reason: Missing output files: 8-hicPipeline/splitHIC.finished
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=48, time_h=6
+DAG of jobs will be updated after completion.
+
+[Thu Dec  4 12:22:25 2025]
+Finished job 1.
+1 of 11 steps (9%) done
+Select jobs to execute...
+
+[Thu Dec  4 12:22:25 2025]
+rule indexBWA:
+    input: 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs.fasta.bwt
+    log: 8-hicPipeline/index_bwa.err
+    jobid: 99
+    reason: Missing output files: 8-hicPipeline/unitigs.fasta.bwt; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:22:25 2025]
+rule run_seqtktelo:
+    input: 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs.telo
+    log: 8-hicPipeline/run_seqtktelo.err
+    jobid: 100
+    reason: Missing output files: 8-hicPipeline/unitigs.telo; Input files updated by another job: 8-hicPipeline/unitigs.fasta
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:22:25 2025]
+rule runMashMap:
+    input: 8-hicPipeline/unitigs.hpc.fasta, 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs_hpc50.mashmap, 8-hicPipeline/unitigs_nonhpc50.mashmap
+    log: 8-hicPipeline/run_mashmap.err
+    jobid: 95
+    reason: Missing output files: 8-hicPipeline/unitigs_hpc50.mashmap, 8-hicPipeline/unitigs_nonhpc50.mashmap; Input files updated by another job: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/unitigs.hpc.fasta
+    threads: 16
+    resources: tmpdir=/tmp, job_id=1, n_cpus=16, mem_gb=48, time_h=6
+
+[Thu Dec  4 12:22:36 2025]
+Finished job 100.
+2 of 11 steps (18%) done
+[Thu Dec  4 12:28:01 2025]
+Finished job 95.
+3 of 11 steps (27%) done
+[Thu Dec  4 12:59:16 2025]
+Finished job 98.
+4 of 11 steps (36%) done
+Select jobs to execute...
+
+[Thu Dec  4 12:59:18 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1003.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped003.bam
+    log: 8-hicPipeline/align_bwa003.err
+    jobid: 134
+    reason: Missing output files: 8-hicPipeline/mapped003.bam; Updated input files: 8-hicPipeline/split/hic1003.fasta.gz, 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=003
+    threads: 16
+    resources: tmpdir=/tmp, job_id=3, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:59:18 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1010.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped010.bam
+    log: 8-hicPipeline/align_bwa010.err
+    jobid: 141
+    reason: Missing output files: 8-hicPipeline/mapped010.bam; Updated input files: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1010.fasta.gz
+    wildcards: nnnn=010
+    threads: 16
+    resources: tmpdir=/tmp, job_id=10, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:59:18 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1011.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped011.bam
+    log: 8-hicPipeline/align_bwa011.err
+    jobid: 142
+    reason: Missing output files: 8-hicPipeline/mapped011.bam; Updated input files: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1011.fasta.gz
+    wildcards: nnnn=011
+    threads: 16
+    resources: tmpdir=/tmp, job_id=11, n_cpus=16, mem_gb=48, time_h=6
+
+
+[Thu Dec  4 12:59:18 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1031.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped031.bam
+    log: 8-hicPipeline/align_bwa031.err
+    jobid: 162
+    reason: Missing output files: 8-hicPipeline/mapped031.bam; Updated input files: 8-hicPipeline/split/hic1031.fasta.gz, 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=031
+    threads: 16
+    resources: tmpdir=/tmp, job_id=31, n_cpus=16, mem_gb=48, time_h=6
+
+Terminating processes on user request, this might take some time.
+[Thu Dec  4 13:12:47 2025]
+Error in rule indexBWA:
+    jobid: 99
+    input: 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs.fasta.bwt
+    log: 8-hicPipeline/index_bwa.err (check log file(s) for error details)
+    shell:
+        
+cd 8-hicPipeline
+
+cat > ./index_bwa.sh <<EOF
+#!/bin/sh
+set -e
+echo "---Creating BWA index for 8-hicPipeline/unitigs.fasta"
+/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/bwa index ../8-hicPipeline/unitigs.fasta
+EOF
+
+chmod +x ./index_bwa.sh
+./index_bwa.sh > ../8-hicPipeline/index_bwa.err 2>&1
+
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/scheduler.py", line 546, in schedule
+    self._open_jobs.acquire()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/threading.py", line 450, in acquire
+    self._cond.wait(timeout)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/threading.py", line 312, in wait
+    waiter.acquire()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/__init__.py", line 792, in snakemake
+    success = workflow.execute(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/workflow.py", line 1242, in execute
+    success = self.scheduler.schedule()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/scheduler.py", line 641, in schedule
+    self._executor.cancel()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/executors/__init__.py", line 707, in cancel
+    self.pool.shutdown()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/concurrent/futures/thread.py", line 235, in shutdown
+    t.join()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/threading.py", line 1060, in join
+    self._wait_for_tstate_lock()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/threading.py", line 1080, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/snakemake", line 10, in <module>
+    sys.exit(main())
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/__init__.py", line 3141, in main
+    success = snakemake(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/__init__.py", line 897, in snakemake
+    print_exception(ex, workflow.linemaps)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/exceptions.py", line 82, in print_exception
+    log_verbose_traceback(ex)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/site-packages/snakemake/exceptions.py", line 69, in log_verbose_traceback
+    tb = "Full " + "".join(traceback.format_exception(type(ex), ex, ex.__traceback__))
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/traceback.py", line 120, in format_exception
+    return list(TracebackException(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/traceback.py", line 517, in __init__
+    self.stack = StackSummary.extract(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/traceback.py", line 366, in extract
+    f.line
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/traceback.py", line 288, in line
+    self._line = linecache.getline(self.filename, self.lineno).strip()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/linecache.py", line 30, in getline
+    lines = getlines(filename, module_globals)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/linecache.py", line 46, in getlines
+    return updatecache(filename, module_globals)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/linecache.py", line 136, in updatecache
+    with tokenize.open(fullname) as fp:
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/tokenize.py", line 394, in open
+    encoding, lines = detect_encoding(buffer.readline)
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/tokenize.py", line 363, in detect_encoding
+    first = read_or_stop()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/python3.9/tokenize.py", line 321, in read_or_stop
+    return readline()
+KeyboardInterrupt
+[Thu Dec  4 13:12:53 2025]
+Error in rule alignBWA:
+    jobid: 134
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1003.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped003.bam
+    log: 8-hicPipeline/align_bwa003.err (check log file(s) for error details)
+    shell:
+        
+cd 8-hicPipeline
+
+cat > ./align_bwa003.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+if [ True = "False" ] ; then
+   echo "---Mapping 8-hicPipeline/split/hic1003.fasta.gz and emptyfile to 8-hicPipeline/unitigs.fasta with BWA"
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/bwa mem -t 16 -5 -S -P ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1003.fasta.gz ../emptyfile | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -bh -@ 16  -F 0x900 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 24 - |   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/hic_prefilter.py > ../8-hicPipeline/mapped003.bam
+else
+   echo "--Mapping 8-hicPipeline/split/hic1003.fasta.gz to 8-hicPipeline/unitigs.fasta with minimap2"
+   mem=\`expr 48 \/ 16 | awk '{print \$1"G"}' \`
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/minimap2 -ax map-ont -t 16 -I40G -K \$mem ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1003.fasta.gz | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -T ../8-hicPipeline/unitigs.fasta -bh -@ 16 -q 3 -F 0x100 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 16 - -o ../8-hicPipeline/mapped003.bam
+fi
+EOF
+
+chmod +x ./align_bwa003.sh
+
+./align_bwa003.sh > ../8-hicPipeline/align_bwa003.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+[Thu Dec  4 13:12:53 2025]
+Error in rule alignBWA:
+    jobid: 141
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1010.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped010.bam
+    log: 8-hicPipeline/align_bwa010.err (check log file(s) for error details)
+    shell:
+        
+cd 8-hicPipeline
+
+cat > ./align_bwa010.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+if [ True = "False" ] ; then
+   echo "---Mapping 8-hicPipeline/split/hic1010.fasta.gz and emptyfile to 8-hicPipeline/unitigs.fasta with BWA"
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/bwa mem -t 16 -5 -S -P ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1010.fasta.gz ../emptyfile | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -bh -@ 16  -F 0x900 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 24 - |   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/hic_prefilter.py > ../8-hicPipeline/mapped010.bam
+else
+   echo "--Mapping 8-hicPipeline/split/hic1010.fasta.gz to 8-hicPipeline/unitigs.fasta with minimap2"
+   mem=\`expr 48 \/ 16 | awk '{print \$1"G"}' \`
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/minimap2 -ax map-ont -t 16 -I40G -K \$mem ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1010.fasta.gz | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -T ../8-hicPipeline/unitigs.fasta -bh -@ 16 -q 3 -F 0x100 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 16 - -o ../8-hicPipeline/mapped010.bam
+fi
+EOF
+
+chmod +x ./align_bwa010.sh
+
+./align_bwa010.sh > ../8-hicPipeline/align_bwa010.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+[Thu Dec  4 13:12:54 2025]
+Error in rule alignBWA:
+    jobid: 162
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1031.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped031.bam
+    log: 8-hicPipeline/align_bwa031.err (check log file(s) for error details)
+    shell:
+        
+cd 8-hicPipeline
+
+cat > ./align_bwa031.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+if [ True = "False" ] ; then
+   echo "---Mapping 8-hicPipeline/split/hic1031.fasta.gz and emptyfile to 8-hicPipeline/unitigs.fasta with BWA"
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/bwa mem -t 16 -5 -S -P ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1031.fasta.gz ../emptyfile | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -bh -@ 16  -F 0x900 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 24 - |   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/hic_prefilter.py > ../8-hicPipeline/mapped031.bam
+else
+   echo "--Mapping 8-hicPipeline/split/hic1031.fasta.gz to 8-hicPipeline/unitigs.fasta with minimap2"
+   mem=\`expr 48 \/ 16 | awk '{print \$1"G"}' \`
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/minimap2 -ax map-ont -t 16 -I40G -K \$mem ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1031.fasta.gz | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -T ../8-hicPipeline/unitigs.fasta -bh -@ 16 -q 3 -F 0x100 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 16 - -o ../8-hicPipeline/mapped031.bam
+fi
+EOF
+
+chmod +x ./align_bwa031.sh
+
+./align_bwa031.sh > ../8-hicPipeline/align_bwa031.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+[Thu Dec  4 13:12:54 2025]
+Error in rule alignBWA:
+    jobid: 142
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1011.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped011.bam
+    log: 8-hicPipeline/align_bwa011.err (check log file(s) for error details)
+    shell:
+        
+cd 8-hicPipeline
+
+cat > ./align_bwa011.sh <<EOF
+#!/usr/bin/env bash
+set -e -o pipefail
+
+if [ True = "False" ] ; then
+   echo "---Mapping 8-hicPipeline/split/hic1011.fasta.gz and emptyfile to 8-hicPipeline/unitigs.fasta with BWA"
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/bwa mem -t 16 -5 -S -P ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1011.fasta.gz ../emptyfile | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -bh -@ 16  -F 0x900 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 24 - |   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/lib/verkko/scripts/hic_prefilter.py > ../8-hicPipeline/mapped011.bam
+else
+   echo "--Mapping 8-hicPipeline/split/hic1011.fasta.gz to 8-hicPipeline/unitigs.fasta with minimap2"
+   mem=\`expr 48 \/ 16 | awk '{print \$1"G"}' \`
+   /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/minimap2 -ax map-ont -t 16 -I40G -K \$mem ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1011.fasta.gz | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools view -T ../8-hicPipeline/unitigs.fasta -bh -@ 16 -q 3 -F 0x100 - | /mnt/storage2/users/ahgrosc1/.snakemake-conda/2a26a3f32e8028bc796ac407fffbd24b_/bin/samtools sort -n -@ 16 - -o ../8-hicPipeline/mapped011.bam
+fi
+EOF
+
+chmod +x ./align_bwa011.sh
+
+./align_bwa011.sh > ../8-hicPipeline/align_bwa011.err 2>&1
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
