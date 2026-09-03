@@ -1,0 +1,560 @@
+[modkit-logging/src/lib.rs::69][2025-11-25 10:15:23][DEBUG] command line: bin/dist_modkit_v0.5.1_8fa79e3/modkit pileup --threads 8 --ref data/ref/T2T-CHM13.v2.fasta --log-filepath logs/methylation/T2T13.modkit_pileup_hp1.log data/mapped/T2T13/T2T13.UL.100G.ref.hp1.bam analysis_other/mod/T2T13/T2T13.ref.hp1.methyl.bed
+[modkit-core/src/command_utils.rs::295][2025-11-25 10:15:24][INFO] calculated chunk size: 12, interval size 100000, processing 1200000 positions concurrently
+> calculated chunk size: 12, interval size 100000, processing 1200000 positions concurrently
+[modkit-core/src/command_utils.rs::102][2025-11-25 10:15:24][INFO] attempting to sample 10042 reads
+> attempting to sample 10042 reads
+[modkit-core/src/reads_sampler/mod.rs::49][2025-11-25 10:15:24][DEBUG] found BAM index, sampling reads in 1000000 base pair chunks
+[modkit-core/src/reads_sampler/sampling_schedule.rs::261][2025-11-25 10:15:24][DEBUG] removed 0 contigs from schedule with <= 1 reads
+[modkit-core/src/reads_sampler/sampling_schedule.rs::141][2025-11-25 10:15:24][DEBUG] derived sampling schedule, sampling total 10052 reads from 23 contigs, 0 unmapped reads
+[modkit-core/src/reads_sampler/sampling_schedule.rs::164][2025-11-25 10:15:24][DEBUG] schedule
+ chrom  count/frac 
+ 1      864 
+ 0      769 
+ 2      709 
+ 3      706 
+ 4      668 
+ 7      632 
+ 5      606 
+ 6      535 
+ 9      522 
+ 10     459 
+ 12     456 
+ 11     435 
+ 8      390 
+ 13     359 
+ 14     334 
+ 18     273 
+ 15     263 
+ 17     233 
+ 16     230 
+ 19     204 
+ 21     156 
+ 22     129 
+ 23     120 
+
+[modkit-core/src/interval_chunks.rs::531][2025-11-25 10:15:24][DEBUG] there are 23 contig(s) to work on (23 parts)
+[modkit-core/src/interval_chunks.rs::558][2025-11-25 10:15:42][DEBUG] no more records to process
+[modkit-core/src/reads_sampler/mod.rs::390][2025-11-25 10:15:42][DEBUG] final mapped reads sampled:
+ 1      649 
+ 0      573 
+ 2      532 
+ 3      529 
+ 4      493 
+ 7      459 
+ 5      455 
+ 6      401 
+ 9      393 
+ 12     347 
+ 10     340 
+ 11     330 
+ 8      275 
+ 13     264 
+ 14     261 
+ 18     216 
+ 15     200 
+ 17     179 
+ 16     179 
+ 19     154 
+ 21     128 
+ 22     104 
+ 23     92 
+ total  7553 
+
+[modkit-core/src/reads_sampler/mod.rs::126][2025-11-25 10:15:42][DEBUG] sampled 7553 records
+[modkit-core/src/command_utils.rs::123][2025-11-25 10:15:43][DEBUG] estimated pass threshold 0.6855469 for primary sequence base C
+[modkit-core/src/pileup/subcommand.rs::650][2025-11-25 10:15:43][WARN] Threshold of 0.6855469 for base C is low. Consider increasing the filter-percentile or specifying a higher threshold.
+> Threshold of 0.6855469 for base C is low. Consider increasing the filter-percentile or specifying a higher threshold.
+[modkit-core/src/interval_chunks.rs::531][2025-11-25 10:15:43][DEBUG] there are 25 contig(s) to work on (25 parts)
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:43][DEBUG] 76b9d89e-e02a-47f3-ac0c-bc992e32c184: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] c3d458d3-c8d9-4b28-9577-b2ce36c8f787: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] 0f520f55-0345-4db6-a11e-9bb5e80b8089: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] d72f86f0-0fc7-4f79-a219-701324e4d3ea: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] 9513072a-c03c-41d7-97ae-5b5ba487b7a7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] f17753bb-fafb-49f5-93f7-12c1ad707b29: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] d87ceb35-9dee-42f4-97da-00ad289919c1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] bd136987-d561-4ba9-b99b-57eecd6f7caf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:48][DEBUG] 28cdca19-c50e-492f-92bd-394e1ed0aa87: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:55][DEBUG] cd60c7ac-d511-4e42-bb06-6c41a5c5ff39: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:15:55][DEBUG] bb16b892-e484-4bae-88dc-3b470e75ac84: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:07][DEBUG] 33d5c4f7-b894-45d1-9d50-a25076ff6646: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:10][DEBUG] 68af9104-b854-4af3-8144-d392cb35e8a8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:11][DEBUG] 5d87c916-f790-4109-9be4-3fba3189ec39: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:13][DEBUG] a2651bcb-a91b-4649-b7f7-978378510c20: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:32][DEBUG] 9e9e5ade-e21e-4179-91d9-8beee94508c2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:36][DEBUG] efa80602-2a9d-47da-82b5-7aa9060d688a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:50][DEBUG] b88f89c5-1ccd-4abf-923e-13cca959b503: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:16:54][DEBUG] c9fa4799-af98-49c3-a4dc-bbcb3a1549ac: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:01][DEBUG] 197cf30b-74c9-48fe-acee-cb6a9ae17b0d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:01][DEBUG] ef73f787-f67d-4648-8a41-ac4ef45603b1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:02][DEBUG] e5cc641f-f152-448b-9084-88dadd0fe02f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:06][DEBUG] 5326a27c-0bce-4bfa-a489-2e1121c526e6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:11][DEBUG] 1e9b980b-cb4b-4db9-8513-1081aee5230b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:12][DEBUG] d9a65a6e-9498-4eaf-ac20-b9305e0a3ee3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:13][DEBUG] d9a65a6e-9498-4eaf-ac20-b9305e0a3ee3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:13][DEBUG] d1531b67-71dc-42b7-a012-0a6f84df8e30: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:19][DEBUG] fecc46cc-16f2-48fb-9afd-6e615ee63e07: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:26][DEBUG] 75e562a0-9cb9-4d87-b68e-14779e80135f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:31][DEBUG] 2df0e9a9-81e0-4e73-8f2e-156d822b5022: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:31][DEBUG] 43cd3c32-aaad-4fb8-b0a4-27db4ae5dce6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:34][DEBUG] 9fe3cf75-b039-4d68-aa21-6e7b83e2b414: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:42][DEBUG] 1b7baded-bbd8-4c81-a476-20ed901b579d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:44][DEBUG] fa6e8da5-a2ac-4984-a608-8098773b9299: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:51][DEBUG] 5d34a64c-34b5-4d0c-8e1a-3b9a41f1adf2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:52][DEBUG] 8eb5072a-a921-4868-8a38-15e2b4a97fa6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:52][DEBUG] d55e4e7b-ff75-47ec-aede-0b16b0a5820a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:54][DEBUG] f74bb080-4f94-4fbd-8e16-288f4be7f338: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:55][DEBUG] b145106e-aaa0-4221-84dc-99b495614441: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:17:59][DEBUG] 5acc72fb-ec1f-4f2b-990f-acb68614ba75: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:03][DEBUG] eb75975e-684d-48ff-beeb-d5287f3e83ab: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:03][DEBUG] 86169d9d-6c0e-4189-a252-76d5996a37fa: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:07][DEBUG] c2244fd2-df2a-40d0-a1b3-41ac248cf820: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:08][DEBUG] f174e387-cc23-423d-80f1-926d465887df: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:18][DEBUG] d9fd177a-bbfa-44b6-b5c4-f9ac192605ee: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:22][DEBUG] 3fa760de-fa24-4b1e-aca2-9e5da74f533c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:22][DEBUG] 80218e39-ad77-4138-b0eb-7ead2d368a83: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:24][DEBUG] 73dc4166-104b-44e4-a885-2a19dcc543f7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:24][DEBUG] c40fc8e4-b0ed-493c-a8ba-d307de1c1caf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:25][DEBUG] 1418d923-aad3-4283-8528-aa2d0a5ebb17: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:25][DEBUG] 526c42d4-2173-45cf-9179-68c47b184faf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:27][DEBUG] 57b11198-e8d2-43a8-aab5-edf0de8d4641: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:31][DEBUG] 76debbf4-ab2c-46aa-a4ef-7c498049429e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:31][DEBUG] f42697d0-d690-4427-ae7b-24181512c74a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:33][DEBUG] cce39ed6-c4c9-4ab1-b220-253368bc9300: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:35][DEBUG] 5659de52-9f49-4730-aaf1-2d98266dacc1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:38][DEBUG] 32fc85f4-5520-4bd2-a84f-0cd0010875d1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:40][DEBUG] 84a8f0b1-350b-46c7-934a-fabad356a3c3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:41][DEBUG] 261d049f-e52e-46ee-beb9-e003a107f776: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:50][DEBUG] e098798e-cd25-4a92-9ce3-31624b4338be: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:18:51][DEBUG] 0f2d0cfb-8731-4a1a-ac6e-7e54b53e0f36: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:01][DEBUG] 32fbcb41-9301-4a20-9fb5-400dc6c09967: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:15][DEBUG] 43a44a17-db7b-4a9d-9e56-1465724df874: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:20][DEBUG] 38820e07-f007-48c0-86de-73415d6965e0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:39][DEBUG] 5b00cbdb-243a-4e5b-823c-5969de7a0e31: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:44][DEBUG] 85fad0a8-9743-408b-8d3c-01c7391858b1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:47][DEBUG] 1d19a331-9208-4b4a-ac9a-6fcf6fc8d636: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:47][DEBUG] 9e084ec9-c123-4472-b5d7-a935315b13f6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:48][DEBUG] 5acb547f-6480-44aa-8a61-b2de25e69799: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:19:54][DEBUG] d3b63dfe-8b53-4e32-a2ed-b69c38f490e9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:00][DEBUG] cceef2da-89d8-458e-bee1-b348294d6892: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:11][DEBUG] b34b0bd5-1bdf-423c-92c1-626cb5119a26: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:12][DEBUG] ebd83d69-2f87-4f09-bf73-f96fe35083cd: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:12][DEBUG] 883fab16-0b9f-4220-9dc3-87a032a6768a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:14][DEBUG] 368b2cf5-facf-4c76-a0d2-39d6cd29de8c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:17][DEBUG] 0f1b4a80-955f-423d-b222-90a30bdcbcc2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:17][DEBUG] 13caf363-b260-49b4-88a2-a962db7c48cf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:19][DEBUG] b9f8e080-c1a9-4f53-a809-1bb2b6a0353c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:21][DEBUG] fdde59b4-21d5-4a64-9d9d-1abc178b6351: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:23][DEBUG] 63ab52e2-6c4b-4624-be5c-19044b9aa161: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:23][DEBUG] 95a60a0e-e411-4299-9a81-806bca43dec9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:26][DEBUG] 6a46b0d9-d507-494f-ac47-af377183df54: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:27][DEBUG] 86ac6e67-36dd-47eb-af14-12e967b82366: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:40][DEBUG] f1ef7728-1596-4f17-87a9-fb6c0d3deb7e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:45][DEBUG] 7cf03e36-a838-49da-89f4-fa7fbffcdc54: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:48][DEBUG] c7a48399-16d0-446a-ad1a-fe4dc69492dd: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:52][DEBUG] 62a56447-063d-4fb5-af70-268aedcbe892: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] 8f75011e-206a-4eae-945d-330e2447d52c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] 0a97fd24-2c33-455f-8a43-3ab427c19928: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] f7f45bc2-a2fa-47a6-9bbf-07517ef99f4a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] 764f85ef-2934-4db8-aebb-4506c407960f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] 2e096a49-a467-4aa8-9736-e21b293268b7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:54][DEBUG] f3327c92-4c31-4a40-8e85-8a33fca5e617: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:56][DEBUG] 73a19519-4afd-4c0d-a628-2e28dce90e72: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:20:57][DEBUG] 9a27ac83-afff-4a06-b776-fcbac8962de5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:06][DEBUG] 77758e39-303b-4053-87ce-c3fd6576187e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:07][DEBUG] 73d04276-8992-4fce-8022-7a7d9ef0530d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:12][DEBUG] fa1ea1b1-1942-4ba0-817e-60081b962fe5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:12][DEBUG] 4dcc29af-099d-4c53-a913-bb6e832b986b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:20][DEBUG] a6c11645-74f3-4cf6-9c8a-a5e1b99ea3d8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:22][DEBUG] a23f01e4-665e-4e50-8a98-d847e2eaa3df: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:24][DEBUG] 4b21d809-f5aa-4398-af06-c6ae558fca98: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:24][DEBUG] d2a03a50-07c3-4519-8cd5-e724cbefc34c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:26][DEBUG] 79b0d6ee-c25f-4ae5-978a-68c805860071: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:32][DEBUG] e5497a2c-46c7-4b06-839c-cf3bdd98d292: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:34][DEBUG] cacce038-cfe5-42a6-93dd-b676485e0c89: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:35][DEBUG] dd6cbeec-989b-4e77-bf55-637c6fba8028: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:36][DEBUG] dd6cbeec-989b-4e77-bf55-637c6fba8028: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:39][DEBUG] eb357a36-5a9a-44d2-8d96-9a5ee1bbf0b6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:39][DEBUG] b97dd595-98f1-4de1-b7dc-13d29f343ec5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:41][DEBUG] 81a4b233-42ee-4cff-8529-1994b8b70b7e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:41][DEBUG] cb4c9849-91c3-4842-b4af-18eac25c2b5e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:44][DEBUG] f7956a61-0709-402b-b24c-1cdcf62f5cef: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:47][DEBUG] fcd8ef66-c43f-445f-ab47-967141c9ac96: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:47][DEBUG] 55deafd5-c1e6-4e7f-9a12-3f88451ee0fb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:56][DEBUG] ac401877-6d3b-4835-994c-b5de138d8908: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:21:59][DEBUG] 61700c53-cc5c-448d-b52b-28eea0e61c82: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:01][DEBUG] e3a9d91d-c165-49f7-ac1b-af478bf9bfc6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:07][DEBUG] f6b9885c-f321-4b50-84b5-6a47b154d43f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:07][DEBUG] b552bb01-b22f-4b67-b51a-a0c19131b97c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:08][DEBUG] 1d320acf-f939-43b9-88d9-124f9b0616db: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:15][DEBUG] 18db3e82-603d-41a4-a16d-dad127b2aaab: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:16][DEBUG] 870c86c7-35b6-4fc4-9d3a-c2383b68226d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:18][DEBUG] 7c461dfd-09be-45c6-85ee-fade95b5b8d0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:21][DEBUG] ac093e00-e885-47c7-b2a0-596f3101edbf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:27][DEBUG] 4a5ba633-392b-41dd-871d-448d1d9d94c5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:29][DEBUG] 1a4167bc-28a9-4a22-96c3-1715608bfb17: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:30][DEBUG] a691ede3-e089-46c3-9d8c-8bfc4af27eda: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:33][DEBUG] bdafb7dd-4832-4651-a631-644e0dfa4c8c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:33][DEBUG] 56ad2929-65dd-48d2-a6b5-f24298b3b410: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:33][DEBUG] f9615d92-6681-42de-857f-7dec27fe59eb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:34][DEBUG] 729c6825-1b66-4535-89ea-529390cad4dc: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:36][DEBUG] 82a45b90-3e9f-45eb-b65b-5eb6756665ac: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:36][DEBUG] 53f7ce89-4220-4834-9578-9a85f3cef95a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:36][DEBUG] 5baa17e6-1374-4b40-b355-b2ebeeec7b75: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:41][DEBUG] c4342fbd-defb-4671-8485-bff2d6877897: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:44][DEBUG] cc8e4ce4-eea5-4707-b7dd-4570606ec700: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:44][DEBUG] 28dd4b87-3bd1-49c7-8ce7-1ff22371bda5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:44][DEBUG] 9cf3c47c-e7dd-4e21-be78-dc5c45220fef: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:49][DEBUG] 8f473c26-3585-466c-88fa-9874bdde2680: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:52][DEBUG] 47caf12a-1829-413b-a1c8-18481ede537a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:52][DEBUG] e82c9c7a-44e1-4402-91e9-f7bda3d15fbb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:54][DEBUG] 7b69f681-544f-4978-a937-2e51f66ba80c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:54][DEBUG] 598ee237-1049-45c3-a630-a1932700a3b5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:55][DEBUG] fd561f1a-2aea-4c4a-ba56-67a7eb8b238f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:55][DEBUG] ec1eb3c1-b7ff-4838-9266-ccc90b5bc611: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:56][DEBUG] 2f659568-d241-44d3-a002-283edef5956f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:57][DEBUG] df6a6a89-d939-49a1-8cae-c1bbc0238dbe: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:22:57][DEBUG] dada7958-d5d0-4f10-b4f5-d46266c7fee1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:02][DEBUG] fba72111-3eb8-4cbb-ad72-61f488907efd: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:02][DEBUG] 9c1725a9-1ee3-4591-888c-643380ce8c40: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:12][DEBUG] d4b1eed4-4c8f-4469-a4c5-4eacab6a1b01: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:18][DEBUG] 463c9f0c-4635-43fa-8566-6d05c012108a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:21][DEBUG] 6a07726e-37ac-4240-99f0-364031f1be53: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:22][DEBUG] 2aaadab7-775d-447b-8761-c09ca89d184b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:22][DEBUG] 9a37ef0a-7ecf-4507-802c-881ce39a6597: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:24][DEBUG] 87c9cfac-4775-4322-ae70-c585fd3a482f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:26][DEBUG] e8c8a75a-3879-4ddc-8e99-9820035d7b99: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:31][DEBUG] 8fb7b9f5-249f-4dea-8518-a26e6f0fc917: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:31][DEBUG] cfd20d97-c606-4a3e-a673-6743dc1ccb93: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:33][DEBUG] 6d3f629c-0ecc-431d-9c8c-5c9d4872e7e0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:36][DEBUG] 891d4563-f62f-4e79-91d0-749396c83941: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:44][DEBUG] e53e8a32-190b-4228-926c-88f629db4448: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:48][DEBUG] 02cb526d-ad30-4776-94e8-d5f0f9fa7b72: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:48][DEBUG] 6787d199-ddbe-4bff-9bc0-f4f189bfb538: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:53][DEBUG] c6cebe6b-4880-4986-93dd-1902d01c0348: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:54][DEBUG] 950e9177-4aba-469a-80a4-8dacb8893410: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:23:59][DEBUG] b6257723-ab84-40c3-8cc8-46ab8c36c594: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:07][DEBUG] 267261b1-b0d7-41b7-b5d4-bfea64b9ca16: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:23][DEBUG] 87816908-9986-47b8-9e8f-ae85d56e9941: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:24][DEBUG] 9edbff08-6566-49a6-a412-f015e5f7f043: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:32][DEBUG] b602213f-629d-46d0-9ffb-9d66e95d1c14: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:33][DEBUG] fb4b8ca9-6bf4-4979-a32a-624345f2a6da: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:33][DEBUG] 4932a0b5-3abb-48d1-9568-334045ac2e5c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:40][DEBUG] 174e8b2c-e73b-42d3-9514-4fc641822cab: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:42][DEBUG] 7212d6c4-c0b1-4b2d-8fe3-83fe41471d85: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:46][DEBUG] 0c281fa1-25bc-48c5-8fa4-0f7af68c029c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:47][DEBUG] a7d49053-f15c-424d-ac7e-60ad9cc20de5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:47][DEBUG] f020e4b7-52d1-4905-a4cf-7b8fd426883f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:47][DEBUG] 6fb416e0-8ec4-4ed9-9975-b4232ab299cf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:48][DEBUG] 3c031932-40f0-44af-ac14-24b7f86527fe: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:50][DEBUG] 1493c2e9-4e6f-41da-8083-9639baf6cb23: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:51][DEBUG] 59721648-60f8-4c5f-8448-7993eb3dd72b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:51][DEBUG] 58e79d4f-45a5-4c7a-b1b9-cfe171d442c7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:51][DEBUG] 9021f4fa-97f0-404b-889b-f143bcc00174: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:52][DEBUG] 6b41adf6-7456-44d7-b17a-8867e9a6d69c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:56][DEBUG] 59e8599a-3ad0-44b6-a289-ff60ea54c3a8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:24:59][DEBUG] 44506263-8215-4e30-9d17-e42de22317f0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:00][DEBUG] a2a8473e-901c-458e-a4b8-9b55af867d5d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:05][DEBUG] cddb5f0a-4c06-4948-993e-f29685cef775: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:06][DEBUG] 7d55c981-4d0a-4cf9-9f81-9993bf816895: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:11][DEBUG] 822e6575-00c8-4113-b813-c9adbce45cb3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:11][DEBUG] c99d1d07-f8ed-43b6-8873-490b015da81e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:13][DEBUG] 8d437097-65fb-480e-bc77-86ddbbbf4708: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:14][DEBUG] 2be93824-2326-4f10-bc7a-cff556f95971: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:16][DEBUG] 4192561a-4817-4ff4-ae57-b0ed1a7b1396: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:26][DEBUG] 5ee91fc5-5f5e-40bc-bf12-484091220b76: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:27][DEBUG] 25e20a11-ef23-48f6-a229-d9c874643c9d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:31][DEBUG] f840da32-8236-4b11-bab0-e3c53b014380: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:34][DEBUG] f8d58221-979d-4c02-b18d-dc5d20fe1b66: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:39][DEBUG] 6882acb2-74d5-4195-a973-40b1f9c7ef77: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:40][DEBUG] 0d07d6d9-b27d-4875-8476-477c344ffa1e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:45][DEBUG] 577db376-ae7a-45d2-990b-b14f49eae0ca: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:50][DEBUG] 9f53058e-0112-431a-be31-07906a8899f0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:25:51][DEBUG] f2e0fff9-046b-4e58-ba78-a4213d41716a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] 2341ccc8-84d2-40f0-a43a-434726419b9c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] aef11f8a-17f5-41c5-b264-2b7e03509841: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] 15b3ac2b-1f5f-433c-b3ae-ca0b857de74f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] ab8cff2d-f209-4aef-b995-86e796664854: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] e015e700-cd49-4344-b5cc-edf7298a4fb2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] e0cc8d35-6103-42d1-888d-629454db6891: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:08][DEBUG] 070beff9-9dd1-4f15-815d-e217c00af085: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:12][DEBUG] 3caf0a5b-d89f-4a74-a4ec-57916941648d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:13][DEBUG] 8f4311ed-ff8b-4020-8893-2c73f832a0bf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:14][DEBUG] 17bf0eb8-79b1-422c-a70f-81e3aaceeb63: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:17][DEBUG] f0d6b89e-36df-4757-95b6-035fb2804ce0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:17][DEBUG] 9bad5060-c2da-4c69-97fa-a910391e14e2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:27][DEBUG] ba74a5c9-c9ac-4ac9-bc7b-8c73ff34883f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:37][DEBUG] 75e00e99-f25d-405c-8135-b14ccebe2d90: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:48][DEBUG] 66396405-b4e2-4718-b297-f51b59724a92: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:26:58][DEBUG] a6c87875-945a-4d0e-9448-e8c50b64dc88: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:04][DEBUG] 46f7a675-4ed1-404e-b173-73a0a548b75d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:07][DEBUG] abef89db-22d7-48f6-9edc-68c7a0b863b0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:08][DEBUG] 066a4681-6e52-4863-9e7e-59eacb49bf29: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:09][DEBUG] e97540cf-90c2-44a0-bd31-ba9defa1a696: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:13][DEBUG] 446ca8ca-6a24-459e-9243-996ab3232746: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:20][DEBUG] 258aeb79-8a24-44cf-ac26-edf6f168757b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:27:54][DEBUG] 42cb7745-4a08-4952-acb5-e4086ebe5d00: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:07][DEBUG] f312e00a-6885-4d63-9d3e-556739d54708: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:19][DEBUG] a719770b-37b0-4ed0-8927-cac4fa1928ba: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:21][DEBUG] da821cea-3bf4-4e06-8c6b-1eb49726c81c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:37][DEBUG] a8132f8e-4b69-4f64-8271-6455b6883b3c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:48][DEBUG] 06a56d2b-fd1b-4c61-85cb-933dae46248d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:48][DEBUG] e54f5af8-712f-489a-aa25-d3c24fbf2171: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:48][DEBUG] 06a56d2b-fd1b-4c61-85cb-933dae46248d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:49][DEBUG] 02d07ca7-0f91-4bdc-a163-92bfa1143ded: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:50][DEBUG] 3a8b9082-b984-4802-b9f4-1bc7207f81aa: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:51][DEBUG] e0f6a8f5-ce27-4c84-8b47-6dc012bcafc7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:28:53][DEBUG] 71ceb3c0-a926-453f-a8d0-cc9c89b07634: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:06][DEBUG] 055a59ea-9d0b-42fe-b15f-96c269f2adff: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:09][DEBUG] 15b3ba19-76a1-44cd-a8d6-6364262f26ea: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:13][DEBUG] 93b92d57-21c5-4b1b-b817-4b09b586bd9a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:24][DEBUG] 215a0b61-7b91-4dfd-9ca9-3fc83d0ee7c4: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:27][DEBUG] 5adc181c-5cbb-4e18-9265-c4258b5c451f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:29:43][DEBUG] baf60b54-f144-4997-b5ac-69ebd362fb2d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:11][DEBUG] f58983c4-d228-4db2-bcee-0f6633d0e411: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:16][DEBUG] eab36aa0-8da8-4972-9d92-a6862d2fae21: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:17][DEBUG] e4e09908-664a-4196-b0c2-353837cd7cec: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:18][DEBUG] 148a0a6a-bd72-4c82-9303-a46a38094f35: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:20][DEBUG] 541086b1-fee4-4444-854b-9fda6ac52b8e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:21][DEBUG] a2599fbf-b888-4471-b498-4294530c7ec9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:34][DEBUG] 71c582a6-b455-4ae6-80a0-d17d1ccf6352: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:35][DEBUG] 188c709a-811e-4b6f-ae95-f0b9412462e2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:35][DEBUG] f9363d72-5063-4887-b008-7a8af0860606: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:38][DEBUG] 1ae8c8ed-ec74-4253-bbff-2132dca605cd: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:40][DEBUG] ae6b00f6-dcf0-46ec-8a4b-2ce839540c8a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:42][DEBUG] e58e0ab6-5df0-4d61-8a0e-54928447a783: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:46][DEBUG] 1e05a927-da30-4cf6-9a80-7a86c5221523: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:49][DEBUG] 289dd808-f848-45fd-8834-c9b322742b7d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:55][DEBUG] 1f8ef085-60cd-4a1e-9760-032a105debcc: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:58][DEBUG] 852f82b1-a260-4fd2-94d7-3c0c58226e70: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:30:58][DEBUG] 666677a8-c5be-4ce4-a194-ea863dfc9efb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:02][DEBUG] 18fe4081-e18f-41a3-84c0-4b38d4f2d7d2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:16][DEBUG] d0925342-5fe1-452f-b4ea-7e5e0cf4d08d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:28][DEBUG] 90fca8bd-4238-4cab-8556-41cfe1c21e4e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:29][DEBUG] 9096aa13-78b9-41cc-8802-0078404b3b5c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:34][DEBUG] 7cb75e60-9925-4fa8-97b6-fbb6df7120b5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:39][DEBUG] 183c719a-bb4e-4890-891c-62ec140981b4: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:47][DEBUG] 7073b329-5e80-41c1-b040-4b09cd9d20db: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:50][DEBUG] 5db1dd08-e8d5-46b0-8699-7b72ecf91724: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:51][DEBUG] 04484de1-f168-4011-9ff2-e5cae57f9007: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:54][DEBUG] 76fb628d-4c56-4753-b56c-7eb49de5177d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:31:55][DEBUG] a6ac883b-227e-45d4-80d1-7adb19c1782a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:03][DEBUG] 1b613d10-c17b-4aaf-bb59-bb162f32aa14: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:09][DEBUG] d12e510d-0af0-4c23-abf1-48d256cf3844: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:11][DEBUG] 7bf615b8-94e9-4579-b283-447215499244: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:11][DEBUG] d11747f7-27ff-4ae9-9b3d-bf99988ebd2d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:11][DEBUG] b4202958-c354-475b-9976-cb17dbd19e1b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:11][DEBUG] fc4a7090-0cc5-4a5a-9530-f1833ded0521: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:11][DEBUG] c576aa8e-6580-440c-ba8e-51a8da67b91d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 0bf50bff-e24f-4f2b-bbb0-e55a2e3b0612: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] b4efe637-29ff-497e-8a3d-6bfe53d98b8f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 39237f0d-e921-4a6d-8599-176fe37f7013: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 64806aed-648c-429f-89e0-2389b951e0e2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] b18461b1-4f39-4a3c-970b-3218009512d5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 29add9da-f2d2-46aa-bb8f-6e34301752a1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] fefd8e7e-22b2-4cb6-9ba3-2f92bc6a6da5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 7bd21d6f-862f-4065-9f27-cb155bab4b92: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 156773b5-0e03-4317-ba8b-cfcbae370284: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:12][DEBUG] 6b1bc18f-ff01-48ff-b8e5-b7d480a4991f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:16][DEBUG] f7690d9b-5646-4525-ab98-97c861591be7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:23][DEBUG] 8f739abe-dc8c-42fb-9627-e8f0a5b2b76b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:27][DEBUG] ae6f9216-0550-4847-8f10-c78fa9ca7956: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:28][DEBUG] 56076b23-d544-4e00-ae74-af03051bab60: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:28][DEBUG] 337e938a-2602-482e-a9ec-67a54f25c2d8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:28][DEBUG] b5054424-c1f3-4a0a-8059-7465ddeae5a6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:29][DEBUG] 40a554e8-db2f-41c5-8297-580f9cfd67b6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:35][DEBUG] 046e1de4-e8b8-4c59-8ba8-036513ae4694: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:35][DEBUG] b1da1f0d-93f2-46b5-9d21-f39f9df44ec0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:35][DEBUG] 398e2dd7-c00b-405c-98e8-acdeb39b6b22: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:36][DEBUG] e4f4f8a1-41f9-4a90-9801-2c7b678a7fe7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:39][DEBUG] 8cf67553-5e2c-4d85-b1c8-8fe78f26e672: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:43][DEBUG] 4ba76ee3-5072-4107-84a4-c516ab12cc5d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:44][DEBUG] a625fd5a-1c11-4231-bf93-7579f2f67fd9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:54][DEBUG] edcab640-60d7-41bf-a0b0-1db605520001: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:57][DEBUG] e8c9642a-f877-43a2-8ae3-d5f8b05a0624: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:57][DEBUG] 57acceb3-93b1-436c-a6d6-e24bb88384e6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:32:59][DEBUG] b46f4394-50ee-45e8-b0dd-14031d16e9ab: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:02][DEBUG] ab7a57ec-e28d-4943-bc35-66ee1700d2ba: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:04][DEBUG] 28f0211d-c403-4078-a257-7cf3492b0692: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:17][DEBUG] 4e268e54-0053-4de3-bc75-1c04c38bba11: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:18][DEBUG] 919af043-9891-4969-9166-e81f0dd330a8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:18][DEBUG] 67ccf6a0-5480-4898-b32e-89cb794290e2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:20][DEBUG] 85b64c33-778b-4992-9792-6df4c47a931a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:23][DEBUG] ba3c974a-8340-4517-8229-67d0d46be6b0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:28][DEBUG] 36ceb2a0-c3bc-4cbb-8986-a42017a56c92: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:40][DEBUG] 5e241a05-df4e-445a-8c8b-77aa71515c55: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:42][DEBUG] ad2f0958-4df9-4787-ad1a-63308bb69283: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:53][DEBUG] 14202d8a-c571-448b-9fff-20f98f403064: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:56][DEBUG] d34cd845-fe89-4eb1-bbde-07481665c99e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:56][DEBUG] 5ed2ce19-16f5-4de1-a928-c4bf46e058b4: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:33:58][DEBUG] e4db06c6-30fe-4b9b-974e-b4d6f86660c2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:01][DEBUG] 4343a503-e928-4ba2-9cdd-9fe4e817fb98: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:05][DEBUG] a96c240c-fe56-4ffd-8773-4d6900758812: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:08][DEBUG] 550b029b-0b30-4772-87e7-4999782e4439: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:21][DEBUG] 8bdac986-2acf-4ebd-b4ba-42ce644ce655: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:29][DEBUG] c1b31c39-94a9-4001-8426-f0098839af34: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:31][DEBUG] af02f408-3019-4777-a40f-a23e754b26a2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:32][DEBUG] 918e34ff-b46f-44d6-a1aa-1a7bc6e77f52: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] bcddd684-6e69-452b-9226-6846cc39f03b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 632eafb9-0eeb-45d6-af12-fb2718043849: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 5faca29a-72b6-41b7-909b-b61a12b8c3b2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 689c965e-1b47-49f6-96cf-5b2f6f57420e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] eb22e639-a56a-47ec-a762-e9789d9080c9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 8ffa7d3e-18b0-4275-b732-13ef6190ddff: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 8cd795f1-2f09-460a-9c87-e0faefe6e031: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 854e090f-1cfb-4ce4-9b1d-07dda024ad78: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 5fdc692b-e4a7-4b1c-ab7c-5f2faa8721c2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] a38fd10a-ae03-48cb-bd13-ab2f04a5ed6d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 1a3ba6ed-1324-4034-a534-61e3a8cb6e2e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 64f4c337-509b-442f-85be-6121cd46f8a0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 9fcdbcdb-e4ce-47fe-99de-3b7a5e7a57ef: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] b56aac73-9e55-4aeb-a4e6-cd091ed2b74d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 82870e8d-9d84-4bcf-9723-a5e140881e04: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] d281d9e0-be7d-4378-ad3f-1816a9a79f4f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] dc51595c-ef1c-4ca6-94de-2ebff4319276: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 8f8b5b07-b5fc-4c59-a7f5-7a12a0996c13: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] ec93c02d-d2af-4a9f-8c16-f1edc8525ef0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 5bf6eede-cd35-4b97-9b63-762c51e2688e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 41f15d00-742a-4f46-835f-9561858db659: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] c8774830-90e8-4cdc-879a-d4ae56f71635: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] a682ad27-aaff-43a6-bd92-41e998a8e58a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] cb2d945f-baba-43f1-a1c2-3f818d6e0214: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 5cbca0de-247b-4acd-b7bb-c9c7d89e77ab: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 67ca9c20-b367-48dc-a6d9-5be460b12d94: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] c260eaed-a3ef-4e7f-9f20-21fa0262c000: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 1e05211d-74f0-4a2e-903d-45080b2a6a94: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] f1bd6d3d-4d69-49e6-8fc4-4bbd803b2d07: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 694c2e49-9ba0-447f-96fe-4c0442c6330d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] ebf48bf8-752b-41c8-8cd6-40500d2ac0db: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] 9b1e0a4d-639a-49ce-bef7-2ff3148bd0cc: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] a4636b85-83f0-474a-baf6-d3716c9a8f78: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:34][DEBUG] b9e3a972-3de9-4826-83ba-52391630f195: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:35][DEBUG] e42b0ddc-5826-4950-be04-1da031aab4af: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:36][DEBUG] 35b320f3-9013-463e-9f2c-8731a832ec0c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:39][DEBUG] fc7639d7-6179-48ac-b8d4-631d9523ef37: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:45][DEBUG] a8a26628-05fe-4b0c-b5b8-ce73308c5951: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:58][DEBUG] cfff3123-450a-4f06-bbc9-340f89ad9041: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:34:58][DEBUG] 3e4d9caa-d015-4871-9508-56641999325f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:00][DEBUG] 188071fc-3ad8-4f79-8517-ebc31135bce6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:08][DEBUG] 7c47ba87-8d1b-43ab-b541-d2b9f292258b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:09][DEBUG] de48beb9-f55a-443e-9cf2-ce49a222fa54: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:09][DEBUG] dd856530-47e9-4a21-b945-5fdabcf0f406: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:12][DEBUG] 66eda6d5-77ae-4233-92bd-89ab65e6227c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:15][DEBUG] 2364364b-f37b-4108-af15-48c4a29503b3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:15][DEBUG] ae019683-20a4-4b4c-b838-679f9d22f258: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:23][DEBUG] 1ccec295-4714-4cb8-bbcb-07d9e6b1d73c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:26][DEBUG] 7892d227-0c4c-4198-87cf-2d2af5b28028: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:30][DEBUG] c0a7736b-eb10-428c-a54a-1f2dc070f925: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:30][DEBUG] cccd36e7-1503-4aa5-a645-64aebb7e922d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:32][DEBUG] 4d285758-3476-479a-ad64-4c7e7dfaa0f7: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:35][DEBUG] 5052190b-2b4d-4e0d-9d2f-21ebfa8ea904: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:45][DEBUG] 675e9f96-62a6-4455-853a-7176e845c359: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:49][DEBUG] 02178fea-f347-4cce-b31f-ea209cc4bf94: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:49][DEBUG] 6aacfc5d-c156-4c70-9bd2-7ac7bc0846fa: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:35:59][DEBUG] f6ddf104-7232-4ca9-ad2c-564f0f7b1e80: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:07][DEBUG] 4d09661c-d220-4331-96af-3b43d3e985a9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:11][DEBUG] dc61bdac-54ac-4d28-90b8-55db1d14b912: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:12][DEBUG] db5b4ea3-080c-4747-9350-9518f5cd60e8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:16][DEBUG] 382f765b-c279-41fb-a293-d3cfa4b67843: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:23][DEBUG] 99112e15-70c3-4e44-b37e-25c1c7931367: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:24][DEBUG] 1868f7ba-9fb7-4670-b7eb-ca755df87e07: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:25][DEBUG] bcbe8126-dcf0-4699-b0a2-bbe7a3b75b5d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:31][DEBUG] a3f5cc25-71e6-4962-b0ee-5efcc167e917: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:33][DEBUG] ff1aceb1-086c-49d9-b446-3229ed389eb8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:39][DEBUG] 30d620cf-3a5d-4bc3-848d-5e11834cdc26: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:43][DEBUG] f0a2227b-d2ed-4a6e-aebf-335d7f5afb6e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:36:57][DEBUG] 9647e705-1aa0-4e41-bf5f-7ac2d272318f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:01][DEBUG] af542c40-143a-42af-86e8-eb5e25352992: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:07][DEBUG] 989d8d7f-c4ee-4b6c-b948-6fb0ed6b29b5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:07][DEBUG] 2b2e5f6c-f0b3-41fd-8f8b-d65675b4717f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:16][DEBUG] 7107e207-5631-4ab2-9f29-36dd87f5bc88: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:32][DEBUG] ad1ffbc6-4b60-4434-afa3-d917f93a660e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:35][DEBUG] 065d9640-dd98-48f3-86f0-28d15f81409f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:44][DEBUG] b6638e80-41b1-4990-bb73-960551f9fd55: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:47][DEBUG] 1d81c6f7-0fb6-4d35-b1b3-e26eb937e6f3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:54][DEBUG] 7aa33ce9-7d4f-41a4-a292-dc4747de7b9b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:54][DEBUG] 4c09bde1-8d50-43f4-83b8-80283f88d234: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:37:57][DEBUG] 6763485e-6396-4eff-bbfe-58df578e0626: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:06][DEBUG] fdcd6eec-57fa-47fc-b9ad-825f4b768eaa: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:16][DEBUG] 20fa84fb-0a51-433e-8cc8-282baa0f2712: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:19][DEBUG] 174fcf5b-a423-42ba-ad2e-d82db7475bbd: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:20][DEBUG] 0fd8d909-f8bb-4754-8a86-ea12ad8d0108: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:20][DEBUG] 58ed622b-f91b-42f2-a53a-dfd9dc923948: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:31][DEBUG] a251c529-4ba4-447f-b590-7f262aa61638: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:32][DEBUG] 91feab27-4ac9-41c3-8ddf-0c3a01e7acc8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:35][DEBUG] ad16ec2d-5a4c-42a2-b550-8adfff60107d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:40][DEBUG] 8dd737c0-ebc7-4093-806c-be108e3da69e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 82006ab3-26e8-4f8b-9205-91927ba82961: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] d3ad84b2-630c-4c00-9f22-97fe07848f31: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] c51d3f0d-9a81-4818-9a19-2ea8959d723b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] c6d98fb4-80be-44f6-8219-324ce386137c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 8f1cd698-1a30-4141-9bcd-9fa54ccba128: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] ab398eea-29d4-4d91-bc56-92eb2c75286e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 85a11c43-5a70-43b0-bd8a-c0c35b964566: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 5602a7d2-bc5b-4936-bfa7-ea103608b7d0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 13b61f96-08eb-47a7-a8d5-464229c77561: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 557a7244-ea86-4938-b211-befc946f38bf: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 864e27f1-9935-49dc-8c16-240a6ecd063e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 4a1ec09b-7cfd-4821-91dc-2404eb151810: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] a49b585f-6fe8-4d56-96d2-6543aa0e03eb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] e98d7c29-6564-44a1-a0bc-7dbd5d5d3de8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] aff2bc3e-c517-4f11-ac48-6e980d70fdd5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] bf1e0217-2f94-45da-aa7f-473d0ef5c74d: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 422c3154-5e60-4db1-ba67-8394a27f701c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 6dfb05b8-d996-4e52-bb56-feedb356e4e4: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] e2ba62bf-fca7-405d-a87b-7d38c4ea3f26: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 577b9edb-e310-4519-bec4-688c4b73003c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 392d783e-69b4-4a63-9e77-5f5e248f25d5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 16fc5823-3292-49c2-afad-97604a281887: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 86ab6d17-3a4d-4e51-ace7-ae008f4d4d87: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 4e887d0a-63ed-4370-8825-c40d8ca0b934: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 38d070e6-9781-4642-81ba-3d73c07e42af: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 290e6dda-fac0-461c-bd66-58cf947381f6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] e2cf4d42-b410-4ab6-81b6-5a3424de5920: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 9c98a5f2-4531-451b-951b-f768c5f0b0cb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 19f33743-069c-4d6c-a94b-bc631e9c0343: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] dc943b65-de21-47d5-bf58-7634b9b597b0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] d29a8e35-0599-4779-b57e-f37f22c06d1e: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] de42ef59-548c-43ae-bfde-5990f968a11c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 6fdb34d5-713f-443e-b2f9-74bfb3a73bd3: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 96908f2d-1f36-4236-a5dc-cf95edc82249: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] e1e9b383-8f75-490a-88b3-eb9d8355f19b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] bb9d657b-07aa-4f49-89c5-fe6b2140d81b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 86dbbef0-95e8-4518-a183-e9ac5f6eca69: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 8b95028b-30f0-461f-b6d6-bff35e87a75a: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] ff8f8bb2-b7b7-4ee2-b229-28b0e585a79f: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 7f0cdff7-77fa-455e-a24a-ed544bc309a9: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 7f9e2391-a941-474e-ae3a-36301f4dcb71: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 574d76dd-b6c0-4d91-a2bd-2b8fa4918329: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 56d0e336-1b6a-459a-aa89-d4ec59f3b347: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] d1ed9a63-121e-4390-91b8-239cb3b7f4cb: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] d079d3d3-7dae-4a2a-aca7-e24b0a683cd1: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 36646f50-b453-4614-9800-d7a279a0f121: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] dd95b7c4-1295-454a-87d0-2dbf32ee7f90: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 070b317a-a38d-45ce-98cc-5589bfc4e011: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 3ed7a00a-a05a-4e44-b087-3fd2df91b9b0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] adba986a-320b-4a76-a35f-17e6db047e60: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] d69f6166-5d16-4342-936f-937ca5f6f89c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] f9f4b0af-4ef6-42cd-92f3-43bcf1c61710: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] f978f631-1ee3-4756-aa9b-de83fdbdbff0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 4f2b5ca3-07b9-4cb8-8e34-88c3bde89faa: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 151352dd-48e1-4152-b0bb-cf791f0bf1b6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] f9b6bfd7-95a7-453b-9d3e-279002e7134b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] 0bfbb18f-30d3-43a5-8c42-102a64d550d2: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] ffee4776-dfb8-4222-ba1a-344238da56c5: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] fb46d58e-1ba1-492d-ad6c-b63ced877ded: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:47][DEBUG] df825e8e-5eec-41b0-ba8d-8bf7137a07ad: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:53][DEBUG] daa1187b-d390-4701-951a-33a2dde4b7b6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:53][DEBUG] 72c461a0-ed8c-4fcd-8c7d-a0fd6d5ff6c0: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:53][DEBUG] b4180982-b177-4ad9-b5dd-d22cb8dfa2f8: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:38:58][DEBUG] 41af81e7-a4a5-4cf2-a3fe-0bbe7e382ec6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:03][DEBUG] 4124f3ec-1d16-452c-b7f0-f31b3c272120: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:10][DEBUG] 6baefe2a-5694-4c2d-b2fe-60a76a8223ac: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:23][DEBUG] be526550-f826-408a-9860-d992da3c182b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:24][DEBUG] 11d35906-fef1-4b62-9d55-e901cb0f1737: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:40][DEBUG] d1eb9a5a-7104-426e-9c6e-19fc8c6fe14b: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:42][DEBUG] 43503573-46e6-44f7-b822-7cf4532ecba6: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:44][DEBUG] 1687e76a-83d6-4e9d-bd4f-ed9cf5f3ea8c: no-modbase-info
+[modkit-core/src/read_cache.rs::329][2025-11-25 10:39:45][DEBUG] 54bb7e52-fcc5-487d-9efd-cd43a4881494: no-modbase-info
+[modkit-core/src/interval_chunks.rs::558][2025-11-25 10:39:54][DEBUG] no more records to process
+[modkit-core/src/pileup/subcommand.rs::812][2025-11-25 10:39:55][INFO] Done, processed 42519644 rows. Processed ~481867 reads and skipped ~490 reads.
+> Done, processed 42519644 rows. Processed ~481867 reads and skipped ~490 reads.

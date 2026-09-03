@@ -1,0 +1,200 @@
+[31m
+ .d8888b.                    888b     d888        d8888 8888888b.
+d88P  Y88b                   8888b   d8888       d88888 888   Y88b
+888    888                   88888b.d88888      d88P888 888    888
+888         .d88b.  88888b.  888Y88888P888     d88P 888 888   d88P
+888        d8P  Y8b 888 "88b 888 Y888P 888    d88P  888 8888888P"
+888    888 88888888 888  888 888  Y8P  888   d88P   888 888
+Y88b  d88P Y8b.     888  888 888   "   888  d8888888888 888
+ "Y8888P"   "Y8888  888  888 888       888 d88P     888 888
+[0m
+Using existing configfile:
+	/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T_HG002/config.yaml
+Running command:
+	snakemake --configfile /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T_HG002/config.yaml -c 10 --workflow-profile workflow/profiles/all
+Output dir:
+	analysis_other/cenmap_single/T2T_HG002
+With sample(s):
+	T2T_HG002
+Using workflow specific profile workflow/profiles/all for setting default command line arguments.
+Traceback (most recent call last):
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/cli.py", line 2393, in main
+    parser, args = parse_args(argv)
+                   ~~~~~~~~~~^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/cli.py", line 1979, in parse_args
+    args = parser.parse_args(argv)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/configargparse.py", line 1048, in parse_args
+    args, argv = self.parse_known_args(
+                 ~~~~~~~~~~~~~~~~~~~~~^
+        args=args,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        ignore_help_args=False,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/configargparse.py", line 1266, in parse_known_args
+    namespace, unknown_args = argparse.ArgumentParser.parse_known_args(
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, args=args, namespace=namespace
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2015, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2044, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2295, in _parse_known_args
+    start_index = consume_optional(start_index)
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2219, in consume_optional
+    take_action(action, args, option_string)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2120, in take_action
+    action(self, namespace, argument_values, option_string)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/common/argparse.py", line 56, in __call__
+    parsed = parse_func(values)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake_interface_executor_plugins/utils.py", line 171, in inner
+    return apply_parser(decoded)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake_interface_executor_plugins/utils.py", line 163, in apply_parser
+    return parser_func(args)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 1014, in <lambda>
+    return lambda exprs: cls.parse(
+                         ~~~~~~~~~^
+        exprs,
+        ^^^^^^
+        allow_expressions=allow_expressions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        defaults=defaults,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 1093, in parse
+    default_resources.update(cls(result))
+                             ~~~^^^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 932, in __init__
+    self._normalize_sizes(res)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 942, in _normalize_sizes
+    raise ResourceDuplicationError(list(found))
+
+snakemake.exceptions.ResourceDuplicationError: ('The following resources are equivalent and cannot be simultaneously provided to a rule:', ['mem', 'mem_mb'])
+
+Using workflow specific profile workflow/profiles/all for setting default command line arguments.
+Traceback (most recent call last):
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/cli.py", line 2393, in main
+    parser, args = parse_args(argv)
+                   ~~~~~~~~~~^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/cli.py", line 1979, in parse_args
+    args = parser.parse_args(argv)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/configargparse.py", line 1048, in parse_args
+    args, argv = self.parse_known_args(
+                 ~~~~~~~~~~~~~~~~~~~~~^
+        args=args,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        ignore_help_args=False,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/configargparse.py", line 1266, in parse_known_args
+    namespace, unknown_args = argparse.ArgumentParser.parse_known_args(
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, args=args, namespace=namespace
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2015, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2044, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2295, in _parse_known_args
+    start_index = consume_optional(start_index)
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2219, in consume_optional
+    take_action(action, args, option_string)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/mnt/storage5/users/ahgrosc1/environments/envs/r-notebooks/lib/python3.14/argparse.py", line 2120, in take_action
+    action(self, namespace, argument_values, option_string)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/common/argparse.py", line 56, in __call__
+    parsed = parse_func(values)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake_interface_executor_plugins/utils.py", line 171, in inner
+    return apply_parser(decoded)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake_interface_executor_plugins/utils.py", line 163, in apply_parser
+    return parser_func(args)
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 1014, in <lambda>
+    return lambda exprs: cls.parse(
+                         ~~~~~~~~~^
+        exprs,
+        ^^^^^^
+        allow_expressions=allow_expressions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        defaults=defaults,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 1093, in parse
+    default_resources.update(cls(result))
+                             ~~~^^^^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 932, in __init__
+    self._normalize_sizes(res)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^
+
+  File "/home/ukt.ad.local/ahgrosc1/.local/share/uv/tools/snakemake/lib/python3.14/site-packages/snakemake/resources.py", line 942, in _normalize_sizes
+    raise ResourceDuplicationError(list(found))
+
+snakemake.exceptions.ResourceDuplicationError: ('The following resources are equivalent and cannot be simultaneously provided to a rule:', ['mem', 'mem_mb'])
+
+Traceback (most recent call last):
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/bin/cenmap", line 403, in main
+    subprocess.run(cmd, check=True, cwd=output_dir)
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['snakemake', '--configfile', '/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T_HG002/config.yaml', '-c', '10', '--workflow-profile', 'workflow/profiles/all']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/bin/cenmap", line 429, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/bin/cenmap", line 405, in main
+    subprocess.run([*cmd, "--unlock"], check=True, cwd=output_dir)
+  File "/mnt/storage5/users/ahgrosc1/.snakemake-conda/7f7ea3f1eb873d0d7f86dbc537c7a15d_/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['snakemake', '--configfile', '/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap_single/T2T_HG002/config.yaml', '-c', '10', '--workflow-profile', 'workflow/profiles/all', '--unlock']' returned non-zero exit status 1.

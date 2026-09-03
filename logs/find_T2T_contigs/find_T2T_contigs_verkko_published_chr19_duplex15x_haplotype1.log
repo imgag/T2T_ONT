@@ -1,0 +1,49 @@
+Proceeding analysis with
+	Input fasta:             assembly/output/verkko/published_chr19_duplex15x/assembly.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.chr19.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1.seqinfo.txt assembly/output/verkko/published_chr19_duplex15x/assembly.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 assembly/output/verkko/published_chr19_duplex15x/assembly.haplotype1.fasta >assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1.teloinput.fa
+
+
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome haplotype1-0000001_Start processed
+[+]	Chromosome haplotype1-0000002_Start processed
+[+]	Chromosome haplotype1-0000003_Start processed
+[+]	Chromosome haplotype1-0000004_Start processed
+[+]	Chromosome haplotype1-0000001_End processed
+[+]	Chromosome haplotype1-0000002_End processed
+[+]	Chromosome haplotype1-0000003_End processed
+[+]	Chromosome haplotype1-0000004_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::0.157*1.01] loaded the graph from "data/ref/T2T-CHM13.v2.chr19.fasta"
+[M::mg_index::2.196*1.48] indexed the graph
+[M::mg_opt_update::2.375*1.44] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::70.972*1.33] mapped 4 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.chr19.fasta assembly/output/verkko/published_chr19_duplex15x/assembly.haplotype1.fasta
+[M::main] Real time: 71.029 sec; CPU: 94.241 sec; Peak RSS: 2.958 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_verkko/published_chr19_duplex15x/find_T2T/T2T_contigs.haplotype1_alignment_T2T.txt
+

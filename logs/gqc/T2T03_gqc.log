@@ -1,0 +1,59 @@
+
+  Kmer size is 40
+
+  Creating a profile of v1.1.matnotpat.k40.hap against the assembly assembly
+
+  Running command FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T03/assemblybench/tmp -k40 -p:data/ref/gqc_resources/v1.1.matnotpat.k40.hap assembly/output/verkko/T2T03/assembly.fasta -N._MQY_RP.CtQntb
+
+Partitioning 1 .fasta file into 2 parts
+
+Determining minimizer scheme & partition for ._MQY_RP.CtQntb
+  Estimate 6.130G 40-mers
+  Dividing data into 7 blocks
+  Using 5-minimizers with 1024 core prefixes
+
+Phase 1: Partitioning K-mers into 14 Super-mer Files
+
+    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%  100%  101%           There are 627 reads totalling 6,129,536,875 bps
+
+     Part:         40-mer   super-mers  ave. length
+        0:    888,318,262   41,369,746         21.5
+        1:    872,407,299   52,101,069         16.7
+        2:    883,038,733   50,416,728         17.5
+        3:    869,281,449   54,502,443         15.9
+        4:    854,561,404   51,647,820         16.5
+        5:    882,376,469   57,143,260         15.4
+        6:    879,043,930   54,878,370         16.0
+      Sum:  6,129,027,546  362,059,436         16.9
+
+      Range 854,561,404 - 888,318,262 (3.87%)
+
+  Resources for phase:  58.816u  9.338s  1:38.043w  69.5%
+
+Phase 1a: Partitioning K-mer table data/ref/gqc_resources/v1.1.matnotpat.k40.hap.ktab into 7 block tables
+
+    0%    0%    1%    2%    3%    4%    5%    6%    7%    8%    9%   10%   11%   12%   13%   14%   15%   16%   17%   18%   19%   20%   21%   22%   23%   24%   25%   26%   27%   28%   29%   30%   31%   32%   33%   34%   35%   36%   37%   38%   39%   40%   41%   42%   43%   44%   45%   46%   47%   48%   49%   50%   51%   52%   53%   54%   55%   56%   57%   58%   59%   60%   61%   62%   63%   64%   65%   66%   67%   68%   69%   70%   71%   72%   73%   74%   75%   76%   77%   78%   79%   80%   81%   82%   83%   84%   85%   86%   87%   88%   89%   90%   91%   92%   93%   94%   95%   96%   97%   98%   99%         
+  Resources for phase:  8.998u  3.766s  23.817w  53.6%
+
+Phase 2: Sorting & Counting K-mers in 7 blocks
+
+  Processing block 1: Sorting super-mers       Processing block 1: Sorting weighted k-mers  Processing block 1: Inverse profile sortingFile analysis_other/GQC/T2T03/assemblybench/T2T03.HG002v1.1.hapmers.merged.bed does not exist--calling FASTK to generate one
+Traceback (most recent call last):
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/venv/bin/assemblybench", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/GQC/bench.py", line 199, in main
+    phasing.map_benchmark_hapmers_onto_assembly(args.queryfasta, benchparams["matmarkerdb"], benchparams["patmarkerdb"], outputdir, outputfiles)
+  File "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/bin/GQC/GQC/phasing.py", line 130, in map_benchmark_hapmers_onto_assembly
+    proc.wait()
+  File "/mnt/storage2/users/ahgrosc1/environments/lib/python3.11/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/environments/lib/python3.11/subprocess.py", line 2051, in _wait
+    (pid, sts) = self._try_wait(0)
+                 ^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/environments/lib/python3.11/subprocess.py", line 2009, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+KmerMap: Command 'FastK -v -T2 -P/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/GQC/T2T03/assemblybench/tmp -k40 -p:data/ref/gqc_resources/v1.1.matnotpat.k40.hap assembly/output/verkko/T2T03/assembly.fasta -N._MQY_RP.CtQntb' failed

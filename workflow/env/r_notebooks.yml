@@ -1,0 +1,38 @@
+name: r-notebooks
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pandoc
+  - r-base=4.5.1
+  - r-tidyverse
+  - r-ggplot2
+  - r-argparse
+  - r-scales
+  - r-proto
+  - r-data.table
+  - r-viridis
+  - r-optparse
+  - r-extrafont
+  - r-flextable
+  - r-officer
+  # R kernel and VSCode integration
+  - r-irkernel
+  - r-httpgd
+  - r-languageserver
+  - radian
+  - jupyter
+  - jupyter_client
+  # notebook dependencies
+  - r-yaml
+  - r-ggridges
+  - r-gt
+  - r-openxlsx
+  - r-ggnewscale
+  - r-ggpubr
+  - r-patchwork
+  - r-devtools
+  - r-remotes
+  # r-ggideogram is not on conda-forge; install manually after env creation:
+  #   Rscript -e 'remotes::install_github("caspargross/ggideogram")'

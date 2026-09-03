@@ -1,0 +1,62 @@
+[2026-02-24 10:17:56.032] [info] Running: "correct" "--from-paf" "data/corrected/25006LRa253_T2T26_06403/25006LRa253_T2T26_06403.ovl.paf" "--threads" "1" "--model-path" "bin/herro-v1" "--device" "cuda:2" "--index-size" "4G" "data/corrected/25006LRa253_T2T26_06403/25006LRa253_T2T26_06403.trimmed.fastq"
+[2026-02-24 10:17:57.100] [info] Using CUDA devices:
+[2026-02-24 10:17:57.100] [info] cuda:2 - NVIDIA RTX PRO 6000 Blackwell Server Edition
+[2026-02-24 10:17:57.387] [info] Using batch size 36 on device cuda:2 in inference thread 0.
+[2026-02-24 10:17:57.387] [info] Using batch size 36 on device cuda:2 in inference thread 1.
+[2026-02-24 10:17:57.388] [info] Using batch size 36 on device cuda:2 in inference thread 2.
+[2026-02-24 10:17:57.404] [info] Starting
+[2026-02-24 10:19:14.904] [warning] Caught Torch error 'nvrtc: error: failed to open libnvrtc-builtins.so.12.8.
+  Make sure that libnvrtc-builtins.so.12.8 is installed correctly.
+nvrtc compilation failed: 
+
+#define NAN __int_as_float(0x7fffffff)
+#define POS_INFINITY __int_as_float(0x7f800000)
+#define NEG_INFINITY __int_as_float(0xff800000)
+
+
+template<typename T>
+__device__ T maximum(T a, T b) {
+  return isnan(a) ? a : (a > b ? a : b);
+}
+
+template<typename T>
+__device__ T minimum(T a, T b) {
+  return isnan(a) ? a : (a < b ? a : b);
+}
+
+extern "C" __global__
+void fused_unsqueeze_cat(float* tbases_embeds_1, float* tqualities_1, float* aten_cat) {
+{
+if ((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)<34599348ll ? 1 : 0) {
+    aten_cat[(long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)] = ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) % 7ll<6ll ? 1 : 0) ? __ldg(tbases_embeds_1 + ((186ll * ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 217ll) % 4429ll) + ((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) % 7ll) + 6ll * ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 7ll) % 31ll)) + 823794ll * (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 961093ll)) : __ldg(tqualities_1 + 137299ll * (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 961093ll) + (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 7ll) % 137299ll));
+  }}
+}
+', clearing CUDA cache and retrying.
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  nvrtc: error: failed to open libnvrtc-builtins.so.12.8.
+  Make sure that libnvrtc-builtins.so.12.8 is installed correctly.
+nvrtc compilation failed: 
+
+#define NAN __int_as_float(0x7fffffff)
+#define POS_INFINITY __int_as_float(0x7f800000)
+#define NEG_INFINITY __int_as_float(0xff800000)
+
+
+template<typename T>
+__device__ T maximum(T a, T b) {
+  return isnan(a) ? a : (a > b ? a : b);
+}
+
+template<typename T>
+__device__ T minimum(T a, T b) {
+  return isnan(a) ? a : (a < b ? a : b);
+}
+
+extern "C" __global__
+void fused_unsqueeze_cat(float* tbases_embeds_1, float* tqualities_1, float* aten_cat) {
+{
+if ((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)<34599348ll ? 1 : 0) {
+    aten_cat[(long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)] = ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) % 7ll<6ll ? 1 : 0) ? __ldg(tbases_embeds_1 + ((186ll * ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 217ll) % 4429ll) + ((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) % 7ll) + 6ll * ((((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 7ll) % 31ll)) + 823794ll * (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 961093ll)) : __ldg(tqualities_1 + 137299ll * (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 961093ll) + (((long long)(threadIdx.x) + 512ll * (long long)(blockIdx.x)) / 7ll) % 137299ll));
+  }}
+}
+

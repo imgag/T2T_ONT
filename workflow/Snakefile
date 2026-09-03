@@ -1,0 +1,701 @@
+import glob
+import yaml
+import re
+import gzip
+import os
+import pandas as pd
+from types import SimpleNamespace
+
+
+configfile: os.path.join(workflow.basedir, "config.yml")
+
+
+with open("data/datasets.yml") as f:
+    datasets = yaml.safe_load(f)
+
+with open("assembly/assemblies.yml") as f:
+    asm = yaml.safe_load(f)
+
+with open("data/finished_samples.yml") as f:
+        finished_samples = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+
+# List of samples for trio comparison QC
+asm_method_comparison = [
+    "T2T00", "T2T04",
+    "T2T00_trio", "T2T04_trio",
+    "T2T00_hifiasm_trio", "T2T04_hifiasm_trio",
+    "T2T00_hifiasm_porec", "T2T04_hifiasm_porec",
+    "T2T00_pofo", "T2T04_pofo",
+]
+
+include: "rules/_functions.smk"
+include: "rules/handle_gpu.smk"
+include: "rules/basecalling.smk"
+include: "rules/mapping.smk"
+include: "rules/data_preparation.smk"
+include: "rules/error_correction.smk"
+include: "rules/qc_input.smk"
+include: "rules/assembly.smk"
+include: "rules/polishing.smk"
+include: "rules/qc_assembly.smk"
+include: "rules/call_variants.smk"
+include: "rules/qc_extended.smk"
+include: "rules/error_classification.smk"
+include: "rules/dip3d.smk"
+include: "rules/structure3d.smk"  # 3D structure prediction (ASHIC, LorDG, HiC-GNN, ParticleChromo3D, TADbit)
+include: "rules/porec.smk"
+include: "rules/ancestry.smk"
+include: "rules/methylation.smk"
+include: "rules/pangenome.smk"
+include: "rules/plot.smk"
+include: "rules/ancestry_gedmatch.smk"
+include: "rules/parent_of_origin.smk"
+include: "rules/file_upload.smk"
+
+
+# Data subgroups
+
+## Create subset of datasets for benchmarking, published dataset only
+
+datasets_benchmark = {key: datasets[key] for key in ["published"]}
+asm_benchmark = {k: v for k, v in asm.items() if v["dataset"] == "published"}
+
+## Create subset of assemblies for reduced flowcell number
+asm_flowcell_ids = [
+    "TUE_02_01UL",
+    "TUE_02_02UL",
+    "TUE_02_03UL",
+    "TUE_02_04UL",
+    "TUE_02_05UL",
+    "TUE_02_06UL",
+    "TUE_02_01UL_01DX",
+    "TUE_02_02UL_01DX",
+    "TUE_02_03UL_01DX",
+    "TUE_02_04UL_01DX",
+    "TUE_02_05UL_01DX",
+    "TUE_02_06UL_01DX",
+    "TUE_02_01UL_02DX",
+    "TUE_02_02UL_02DX",
+    "TUE_02_03UL_02DX",
+    "TUE_02_04UL_02DX",
+    "TUE_02_05UL_02DX",
+    "TUE_02_06UL_02DX",
+]
+
+
+asm_flowcells = {k: v for k, v in asm.items() if k in asm_flowcell_ids}
+asm_trio = {k: v for k, v in asm.items() if v.get("trio_phasing", False)}
+asm_with_apk = {k: v for k, v in asm.items() if v.get("apk_polishing", False)}
+asm_hifiasm = {k: v for k, v in asm.items() if v.get("hifiasm", False)}
+asm_with_porec = {k: v for k, v in asm.items() if "POREC" in datasets[v["dataset"]].keys()}
+
+## All other assemblies are "real" samples
+asm_samples = {
+    k: v
+    for k, v in asm.items()
+    if k not in (asm_flowcells.keys() | asm_benchmark.keys() | asm_trio.keys() | asm_hifiasm.keys())
+}
+
+print("Benchmark assemblies:")
+for key, value in asm_benchmark.items():
+    print(f"  {key}: {value}")
+
+print("\nFlowcell number assemblies:")
+for key, value in asm_flowcells.items():
+    print(f"  {key}: {value}")
+
+print("\nReal sample assemblies:")
+for key, value in asm_samples.items():
+    print(f"  {key}: {value}")
+
+print("\nTrio assemblies:")
+for key, value in asm_trio.items():
+    print(f"  {key}: {value}")
+
+print("\nHifiasm assemblies:")
+for key, value in asm_hifiasm.items():
+    print(f"  {key}: {value}")
+
+print("\nAssemblies with APK polishing:")
+for key, value in asm_with_apk.items():
+    print(f"  {key}: {value}")
+
+print("----------------------------------------------------------")
+
+# Create QC for all input FASTQ files
+
+fq_qc = []
+fq_files = [
+    str(item) for x in asm for item in get_assembly_input(SimpleNamespace(**{"asm": x})).values() if str(item).endswith(".fastq.gz")
+]
+fq_qc = [
+    x.replace("/input/", "/input_qc/").replace(".fastq.gz", "/read_stats.txt")
+    for x in fq_files
+]
+
+# # Create BAMS and mapping QC for all benchmark datasets
+bam_qc = []
+
+for dataset in datasets_benchmark:
+    for filetype in datasets_benchmark[dataset]:
+        if filetype != "POREC":
+            bam_qc.append(
+                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamstats.txt"
+            )  # ONT bamstats
+            bam_qc.append(
+                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/cov.mosdepth.summary.txt"
+            )  # Coverage
+            bam_qc.append(
+                f"data/bamstats/mapped/{dataset}/{dataset}.{filetype}/bamqc.tsv.gz"
+            )  # Alfred Bamqc
+
+# Create Dorado summary files for basecalled unmapped bams
+for dataset in datasets:
+    for entry in datasets[dataset]:
+        files = (
+            datasets[dataset].get(entry, [])
+            if isinstance(datasets[dataset].get(entry), list)
+            else [datasets[dataset].get(entry)]
+        )
+        for e in files:
+            if os.path.isdir(e):
+                if entry == "UL":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
+                    )
+                elif entry == "HQ_duplex":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/Duplex/{os.path.basename(e)}/{os.path.basename(e)}.duplex.sequencing_summary.processed.txt"
+                    )
+                elif "aternal" in entry:
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
+                    )
+                if entry == "POREC":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/sup/{os.path.basename(e)}/{os.path.basename(e)}.sup.sequencing_summary.processed.txt"
+                    )
+                if entry == "APK":
+                    bam_qc.append(
+                        f"data/bamstats/basecalled/apk/{os.path.basename(e)}/{os.path.basename(e)}.apk.sequencing_summary.processed.txt"
+                    )
+            else:
+                print("Not included in BAM QC:", e)
+
+print("----------------------------------------------------------")
+
+# Initialize dictionaries with empty sets
+unique_datasets = {"sup": {}, "herro": {}, "duplex": {}, "porec": {}, "apk": {}	}
+
+# Track original paths for conflict detection
+path_tracking = {}
+
+# Create dict with unique datasets for run folder lookup
+for dataset_set in datasets.keys():
+    for data_type in datasets[dataset_set]:
+        for run_folder in datasets[dataset_set][data_type]:
+            # Check if path exists and starts with correct prefix
+            if os.path.isdir(run_folder) and (run_folder.startswith("data/raw") or run_folder.startswith("/mnt/storage3/raw_data")):
+                # Get the leaf folder name
+                leaf_folder = os.path.basename(run_folder)
+                # Skip empty folder names
+                if leaf_folder == "":
+                    print(f"Warning: Empty folder name found in {run_folder}, skipping")
+                    continue
+
+                # Function to add to unique_datasets with conflict resolution
+                def add_to_unique_datasets(data_type_key, leaf_folder, run_folder):
+                    original_leaf = leaf_folder
+                    suffix = 1
+
+                    # Check for conflicts and resolve with suffix
+                    while leaf_folder in unique_datasets[data_type_key]:
+                        existing_path = unique_datasets[data_type_key][leaf_folder]
+                        if existing_path != run_folder:
+                            print(f"Warning: Duplicate run folder name '{original_leaf}' found!")
+                            print(f"  Existing: {existing_path}")
+                            print(f"  New: {run_folder}")
+                            print(f"  Adding suffix '_{suffix}' to new entry")
+                            leaf_folder = f"{original_leaf}_{suffix}"
+                            suffix += 1
+                        else:
+                            # Same path, no conflict
+                            break
+
+                    unique_datasets[data_type_key][leaf_folder] = run_folder
+
+                    # Track for cross-type conflicts
+                    if run_folder in path_tracking:
+                        path_tracking[run_folder].append((data_type_key, leaf_folder))
+                    else:
+                        path_tracking[run_folder] = [(data_type_key, leaf_folder)]
+
+                    return leaf_folder
+
+                if data_type == "UL":
+                    add_to_unique_datasets("sup", leaf_folder, run_folder)
+                elif data_type == "HQ_herro":  # Herro needs to be sup basecalled first
+                    final_leaf = add_to_unique_datasets("sup", leaf_folder, run_folder)
+                    add_to_unique_datasets("herro", final_leaf, run_folder)
+                elif data_type == "HQ_duplex":
+                    add_to_unique_datasets("duplex", leaf_folder, run_folder)
+                elif data_type == "POREC":
+                    final_leaf = add_to_unique_datasets("sup", leaf_folder, run_folder)
+                    add_to_unique_datasets("porec", final_leaf, run_folder)
+                elif data_type == "APK":
+                    add_to_unique_datasets("apk", leaf_folder, run_folder)
+
+# Check for cross-type conflicts (same path mapped to different run IDs across types)
+for run_folder, mappings in path_tracking.items():
+    if len(set(mapping[1] for mapping in mappings)) > 1:
+        print(f"Warning: Path '{run_folder}' is mapped to different run IDs across data types:")
+        for data_type, run_id in mappings:
+            print(f"  {data_type}: {run_id}")
+
+print("Unique datasets:")
+print(unique_datasets)
+
+### Create collections of QC files. Specify assemblies and assembly methods that should be included.
+def qc_collection(
+    asm, methods_unphased=["unphased_verkko"], methods_phased=["phased_verkko"], haplotypes = ["haplotype1", "haplotype2", "both"]
+):
+    results_unphased = {}
+    results_phased = {}
+    results = {}
+    results_stats = {}
+
+    if methods_unphased:
+        results_unphased = {
+                # QV for diploid assembly (merqury)
+                "merqury_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.qv",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "t2t_scaffold": expand(
+                    "assembly/qc/{method}/{asm}/T2T_scaffolds.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                # PAF stats
+                "paf_stat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_stat.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "paf_asmstat": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmstat.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "paf_asmgene": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.unphased.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "sex": expand(
+                    "assembly/qc/{method}/{asm}/sample_sex.txt",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+                "gap_stats": expand(
+                    "assembly/qc/{method}/{asm}/gap_stats.unphased.n_stats.tsv",
+                    asm=asm,
+                    method=methods_unphased,
+                ),
+            }
+
+
+    # Count number of files in each category
+    for key, files in results_unphased.items():
+        if isinstance(files, list):
+            if "unphased" not in results_stats:
+                results_stats["unphased"] = {}
+            results_stats["unphased"][key] = len(files)
+
+        if key not in results:
+            results[key] = files
+        else:
+            # Assuming the values are lists, concatenate them
+            if isinstance(results[key], list) and isinstance(files, list):
+                results[key].extend(files)
+            else:
+                print(f"Warning: Unexpected value type for {key} in QC collection")
+
+    if methods_phased:
+        if "both" in haplotypes:
+            results_phased = {
+                # Merqury stats are special (Also account for polished/unpolished and are managed inside the QC re)
+                "merqury_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.qv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+            }
+
+        # Rules valid for "hap1" and  "hap2"
+        if "haplotype1" in haplotypes and "haplotype2" in haplotypes:
+            results_phased.update({
+                "whatshap_stats": expand(
+                    "assembly/qc/{method}/{asm}/whatshap_stats.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+                "whatshap_compare": expand(
+                    "assembly/qc/{method}/{asm}/whatshap_compare.tsv",
+                    asm=asm,
+                    method=methods_phased,
+                ),
+                "paf_asmgene": expand(
+                    "assembly/qc/{method}/{asm}/qc_paftools_asmgene.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+                "merqury_hap_stats": expand(
+                    "assembly/qc/{method}/{asm}/merqury.{hp}.qv",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=["haplotype1", "haplotype2"],
+                ),
+            })
+
+        # Rules valid for "hap1", "hap2" and "both"
+        results_phased.update({
+            "paf_stat": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_stat.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "paf_asmstat": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_asmstat.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "paf_misjoin": expand(
+                "assembly/qc/{method}/{asm}/qc_paftools_misjoin.{hp}.txt",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "t2t_scaffold": expand(
+                    "assembly/qc/{method}/{asm}/T2T_scaffolds.{hp}.txt",
+                    asm=asm,
+                    method=methods_phased,
+                    hp=haplotypes,
+            ),
+            "gap_stats": expand(
+                "assembly/qc/{method}/{asm}/gap_stats.{hp}.n_stats.tsv",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes,
+            ),
+            "contig_stats": expand(
+                "assembly/qc/{method}/{asm}/contig_stats.{hp}.tsv",
+                asm=asm,
+                method=methods_phased,
+                hp=haplotypes
+            )
+        })
+
+    for key, files in results_phased.items():
+        if isinstance(files, list):
+            if "phased" not in results_stats:
+                results_stats["phased"] = {}
+            results_stats["phased"][key] = len(files)
+
+        if key not in results:
+            results[key] = files
+        else:
+            # Assuming the values are lists, concatenate them
+            if isinstance(results[key], list) and isinstance(files, list):
+                results[key].extend(files)
+            else:
+                print(f"Warning: Unexpected value type for {key} in QC collection")
+
+    # Print summary of QC files being collected
+    for key, files in results.items():
+        if isinstance(files, list):
+            if "total" not in results_stats:
+                results_stats["total"] = {}
+            results_stats["total"][key] = len(files)
+
+    print(f"\nAssembly QC Collection for samples: {', '.join(asm)}")
+    for key, files in results_stats.items():
+        print(f"{key}:")
+        print(f"    {files}")
+
+    return results
+
+# Generate all result
+rule all:
+    input:
+        # Input QC
+        fq_qc,
+        bam_qc,  # For benchmark samples only
+        expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
+        # Assemblies
+        expand("assembly/output/verkko/{asm}/create_scaffold.done", asm=asm_trio),
+        expand("assembly/output/verkko/{asm}/create_scaffold.done", asm=asm_samples),
+        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
+        "assembly/all_trio.done",
+        "assembly/all_hifiasm.done",
+        # Assembly QC
+        "assembly/qc/qc_benchmark.tsv",
+        "assembly/qc/qc_flowcells.tsv",
+        "assembly/qc/qc_samples.tsv",
+        # 3D Genome analysis
+        expand("analysis_other/dip3d/{asm}/dip3d.done", asm = asm_samples),
+        expand("analysis_other/porec/{sample}.done", sample = asm_samples),
+        # Methylation analysis
+        "analysis_other/mod/methylation_analysis.done",
+        # All other extended qc
+        "analysis_other/extended_qc.done",
+        # Create plots
+        "doc/tables/created_plots.done"
+
+rule all_samples:
+# Assembly + QC for all samples
+    input:
+        fq_qc,
+        expand("assembly/output/verkko/{asm}/create_scaffold.done", asm=asm_samples),
+        "assembly/qc/qc_samples.tsv",
+        expand("assembly/qc/phased_verkko/{asm}/bandage_graph.png", asm=asm_samples),
+        expand("assembly/variants/{asm}/phased_verkko/hapdiff_phased.vcf.gz", asm=asm_samples)
+
+rule all_polishing:
+# Polishing for samples with APK
+    input:
+        expand("assembly/output/apk_polish/{asm}/assembly.fasta", asm=asm_with_apk),
+
+rule all_hifiasm:
+# Hifiasm produces always two haplotypes, even when unphased
+    input:
+        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=asm_hifiasm),
+        "assembly/qc/qc_hifiasm.tsv"
+    output:
+        touch("assembly/all_hifiasm.done")
+
+
+rule all_benchmark:
+# Creates QC for all test/benchmark assemblies
+    input:
+        # Read QC Files
+        fq_qc,
+        bam_qc,
+        # Assembly Files
+        expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_benchmark),
+        expand("assembly/output/gfase/{asm}/gfase/chained.gfa", asm=asm_benchmark),
+        # Assembly QC
+        "assembly/qc/qc_benchmark.tsv",
+
+rule all_flowcells:
+    input:
+        # Assembly Files
+        expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_flowcells),
+        # Assembly QC
+        "assembly/qc/qc_flowcells.tsv",
+
+rule all_trio:
+    input:
+        # Assembly Files
+        expand("assembly/output/verkko/{asm}/assembly.fasta", asm=asm_trio),
+        expand("assembly/output/verkko/{asm}/create_scaffold.done", asm=asm_trio),
+        expand("assembly/output/hifiasm/{asm}/assembly.fasta", asm=[x for x in asm_hifiasm]),
+        # Trioeval
+        "analysis_other/trioeval/trioeval_summary.tsv",
+        "analysis_other/trioeval/trioeval_phaseblocks.tsv",
+        # Assembly QC
+        "assembly/qc/qc_trio.tsv",
+    output:
+        touch("assembly/all_trio.done")
+ 
+
+rule all_input_qc:
+# Creates QC for all assembly inputs (FastQ)
+# Creates processed summary stats for basecalled bam
+# Creates wf-pore-c reports for all datasets with POREC
+    input:
+        fq_qc,
+        bam_qc,
+        expand("analysis_other/wf-pore-c/{dataset}/wf-pore-c-report.html", dataset=unique_datasets.get("porec", {}).keys()),
+
+rule all_repair:
+    input:
+        "assembly/qc/qc_repair_test.tsv"
+
+rule all_basecalling:
+# This rule just makes the basecalling for raw datasets, no QC, no downstream processing
+    input:
+        expand(
+            "data/basecalled/Duplex/{dataset}/{dataset}.duplexonly.unmapped.bam",
+            dataset=unique_datasets["duplex"],
+        ),
+        expand(
+            "data/basecalled/sup/{dataset}/{dataset}.sup.sequencing_summary.txt",
+            dataset=unique_datasets["sup"],
+        ),
+        expand(
+            "data/corrected/{dataset}/{dataset}.corrected.fasta",
+            dataset=unique_datasets["herro"],
+        ),
+        expand(
+            "data/basecalled/apk/{dataset}/{dataset}.apk.unmapped.bam",
+            dataset=unique_datasets["apk"],
+        )
+
+
+rule collect_qc_benchmark:
+    input:
+        **qc_collection(
+            asm_benchmark,
+            methods_unphased=["unphased_verkko", "phased_verkko"],
+            methods_phased=["phased_verkko", "phased_gfase"],
+        ),
+    output:
+        tsv="assembly/qc/qc_benchmark.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+rule collect_qc_hifiasm:
+    input:
+        **qc_collection(
+            asm_hifiasm,
+            methods_phased=["phased_hifiasm"],
+            methods_unphased=[]
+        )
+    output:
+        tsv="assembly/qc/qc_hifiasm.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_hifiasm.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+
+rule collect_qc_samples:
+    input:
+        **qc_collection(asm_samples, methods_phased=["phased_verkko"], methods_unphased=[]),
+    output:
+        tsv="assembly/qc/qc_samples.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+rule collect_qc_flowcells:
+    input:
+        **qc_collection(
+            asm_flowcells,
+            methods_unphased=[],
+            methods_phased=["phased_verkko"],
+        ),
+    output:
+        tsv="assembly/qc/qc_flowcells.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_flowcells.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+
+
+rule collect_qc_repair_test:
+    input:
+        **qc_collection(
+            ["T2T00"],
+            methods_phased=[],
+            methods_unphased=["phased_verkko", "phased_repair"],
+            haplotypes=[]),
+    output:
+        tsv="assembly/qc/qc_repair_test.tsv",
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_method_comparison.log",
+    script:
+        "scripts/06_collect_qc.R"
+
+
+hprc_samples, = glob_wildcards("data/ref/hprc/{sample}/{sample}.haplotype1.fasta")
+
+rule collect_qc_hprc:
+    input:
+        **qc_collection(
+            hprc_samples,
+            methods_phased=["phased_hprc"],
+            methods_unphased=[],
+            haplotypes=["haplotype1", "haplotype2"]
+        )
+    output:
+        tsv = "assembly/qc/qc_hprc.tsv"
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_hprc.log"
+    script:
+        "scripts/06_collect_qc.R"
+
+def merge_qc_collections(*collections):
+    """Merge multiple QC collection dictionaries, concatenating lists for matching keys."""
+    merged = {}
+    for collection in collections:
+        for key, value in collection.items():
+            if key in merged:
+                if isinstance(merged[key], list) and isinstance(value, list):
+                    merged[key].extend(value)
+            else:
+                merged[key] = value if not isinstance(value, list) else value.copy()
+    return merged
+
+rule collect_qc_trio:
+    input:
+        **merge_qc_collections(
+            qc_collection(
+                ["T2T00_trio", "T2T04_trio", "T2T00", "T2T04"],
+                methods_phased=["phased_verkko"],
+                methods_unphased=[],
+                haplotypes=["haplotype1", "haplotype2"]
+            ),
+            qc_collection(
+                [x for x in asm_method_comparison if x in asm_hifiasm],
+                methods_phased=["phased_hifiasm"],
+                methods_unphased=[],
+                haplotypes=["haplotype1", "haplotype2"]
+            )
+        ),
+    output:
+        tsv = "assembly/qc/qc_trio.tsv"
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_trio.log"
+    script:
+        "scripts/06_collect_qc.R"
+
+rule collect_qc_polish:
+    input:
+        **qc_collection(
+            asm_with_apk,
+            methods_phased=["phased_apkpolish"],
+            methods_unphased=[],
+            haplotypes=["both"]
+        )
+    output:
+        tsv = "assembly/qc/qc_polish.tsv"
+    conda:
+        "env/R.yml"
+    log:
+        "logs/collect_qc_polish.log"
+    script:
+        "scripts/06_collect_qc.R"

@@ -1,0 +1,345 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 30
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job                  count
+-----------------  -------
+buildPackages            1
+combineConsensus         1
+generateConsensus       17
+layoutContigs            1
+verkko                   1
+total                   21
+
+Select jobs to execute...
+
+[Fri Jan 17 17:00:00 2025]
+rule layoutContigs:
+    input: 6-layoutContigs/combined-nodemap.txt, 6-layoutContigs/combined-edges.gfa, 6-layoutContigs/hifi.alignments.gaf, 6-layoutContigs/ont.alignments.gaf, 6-layoutContigs/consensus_paths.txt, 6-layoutContigs/nodelens.txt
+    output: 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 6-layoutContigs/gaps.txt
+    log: 6-layoutContigs/createLayout.err
+    jobid: 55
+    reason: Missing output files: 6-layoutContigs/unitig-popped.layout.scfmap
+    resources: tmpdir=/tmp, job_id=1, n_cpus=1, mem_gb=32, time_h=24
+
+[Fri Jan 17 17:00:05 2025]
+Finished job 55.
+1 of 21 steps (5%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:00:05 2025]
+checkpoint buildPackages:
+    input: /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input/published/published.HQ_duplex.20x.chr19.fastq.gz, 6-layoutContigs/unitig-popped.layout, 7-consensus/ont_subset.fasta.gz, 7-consensus/ont_subset.id
+    output: 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.finished, 7-consensus/packages.report
+    log: 7-consensus/buildPackages.err
+    jobid: 59
+    reason: Input files updated by another job: 6-layoutContigs/unitig-popped.layout
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=3, time_h=24
+DAG of jobs will be updated after completion.
+
+[Fri Jan 17 17:00:27 2025]
+Finished job 59.
+2 of 21 steps (10%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:00:27 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part001.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part001.fasta
+    log: 7-consensus/packages/part001.err
+    jobid: 73
+    reason: Updated input files: 7-consensus/packages/part001.cnspack
+    wildcards: nnnn=001
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=18, time_h=24
+
+
+[Fri Jan 17 17:00:27 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part009.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part009.fasta
+    log: 7-consensus/packages/part009.err
+    jobid: 74
+    reason: Updated input files: 7-consensus/packages/part009.cnspack
+    wildcards: nnnn=009
+    threads: 8
+    resources: tmpdir=/tmp, job_id=9, n_cpus=8, mem_gb=11, time_h=24
+
+
+[Fri Jan 17 17:00:27 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part003.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part003.fasta
+    log: 7-consensus/packages/part003.err
+    jobid: 58
+    reason: Updated input files: 7-consensus/packages/part003.cnspack
+    wildcards: nnnn=003
+    threads: 8
+    resources: tmpdir=/tmp, job_id=3, n_cpus=8, mem_gb=14, time_h=24
+
+[Fri Jan 17 17:02:04 2025]
+Finished job 74.
+3 of 21 steps (14%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:02:04 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part006.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part006.fasta
+    log: 7-consensus/packages/part006.err
+    jobid: 72
+    reason: Updated input files: 7-consensus/packages/part006.cnspack
+    wildcards: nnnn=006
+    threads: 8
+    resources: tmpdir=/tmp, job_id=6, n_cpus=8, mem_gb=13, time_h=24
+
+[Fri Jan 17 17:02:53 2025]
+Finished job 58.
+4 of 21 steps (19%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:02:53 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part017.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part017.fasta
+    log: 7-consensus/packages/part017.err
+    jobid: 76
+    reason: Updated input files: 7-consensus/packages/part017.cnspack
+    wildcards: nnnn=017
+    threads: 8
+    resources: tmpdir=/tmp, job_id=17, n_cpus=8, mem_gb=6, time_h=24
+
+[Fri Jan 17 17:03:04 2025]
+Finished job 76.
+5 of 21 steps (24%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:03:04 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part002.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part002.fasta
+    log: 7-consensus/packages/part002.err
+    jobid: 69
+    reason: Updated input files: 7-consensus/packages/part002.cnspack
+    wildcards: nnnn=002
+    threads: 8
+    resources: tmpdir=/tmp, job_id=2, n_cpus=8, mem_gb=17, time_h=24
+
+[Fri Jan 17 17:04:27 2025]
+Finished job 73.
+6 of 21 steps (29%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:04:27 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part005.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part005.fasta
+    log: 7-consensus/packages/part005.err
+    jobid: 71
+    reason: Updated input files: 7-consensus/packages/part005.cnspack
+    wildcards: nnnn=005
+    threads: 8
+    resources: tmpdir=/tmp, job_id=5, n_cpus=8, mem_gb=13, time_h=24
+
+[Fri Jan 17 17:04:53 2025]
+Finished job 72.
+7 of 21 steps (33%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:04:53 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part007.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part007.fasta
+    log: 7-consensus/packages/part007.err
+    jobid: 64
+    reason: Updated input files: 7-consensus/packages/part007.cnspack
+    wildcards: nnnn=007
+    threads: 8
+    resources: tmpdir=/tmp, job_id=7, n_cpus=8, mem_gb=11, time_h=24
+
+[Fri Jan 17 17:06:39 2025]
+Finished job 71.
+8 of 21 steps (38%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:06:39 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part010.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part010.fasta
+    log: 7-consensus/packages/part010.err
+    jobid: 75
+    reason: Updated input files: 7-consensus/packages/part010.cnspack
+    wildcards: nnnn=010
+    threads: 8
+    resources: tmpdir=/tmp, job_id=10, n_cpus=8, mem_gb=11, time_h=24
+
+[Fri Jan 17 17:06:54 2025]
+Finished job 64.
+9 of 21 steps (43%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:06:54 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part004.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part004.fasta
+    log: 7-consensus/packages/part004.err
+    jobid: 63
+    reason: Updated input files: 7-consensus/packages/part004.cnspack
+    wildcards: nnnn=004
+    threads: 8
+    resources: tmpdir=/tmp, job_id=4, n_cpus=8, mem_gb=14, time_h=24
+
+[Fri Jan 17 17:07:12 2025]
+Finished job 69.
+10 of 21 steps (48%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:07:12 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part012.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part012.fasta
+    log: 7-consensus/packages/part012.err
+    jobid: 62
+    reason: Updated input files: 7-consensus/packages/part012.cnspack
+    wildcards: nnnn=012
+    threads: 8
+    resources: tmpdir=/tmp, job_id=12, n_cpus=8, mem_gb=8, time_h=24
+
+[Fri Jan 17 17:08:01 2025]
+Finished job 75.
+11 of 21 steps (52%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:08:01 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part016.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part016.fasta
+    log: 7-consensus/packages/part016.err
+    jobid: 70
+    reason: Updated input files: 7-consensus/packages/part016.cnspack
+    wildcards: nnnn=016
+    threads: 8
+    resources: tmpdir=/tmp, job_id=16, n_cpus=8, mem_gb=7, time_h=24
+
+[Fri Jan 17 17:08:37 2025]
+Finished job 62.
+12 of 21 steps (57%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:08:37 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part008.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part008.fasta
+    log: 7-consensus/packages/part008.err
+    jobid: 65
+    reason: Updated input files: 7-consensus/packages/part008.cnspack
+    wildcards: nnnn=008
+    threads: 8
+    resources: tmpdir=/tmp, job_id=8, n_cpus=8, mem_gb=11, time_h=24
+
+[Fri Jan 17 17:09:42 2025]
+Finished job 63.
+13 of 21 steps (62%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:09:42 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part014.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part014.fasta
+    log: 7-consensus/packages/part014.err
+    jobid: 66
+    reason: Updated input files: 7-consensus/packages/part014.cnspack
+    wildcards: nnnn=014
+    threads: 8
+    resources: tmpdir=/tmp, job_id=14, n_cpus=8, mem_gb=7, time_h=24
+
+[Fri Jan 17 17:10:03 2025]
+Finished job 70.
+14 of 21 steps (67%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:10:03 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part015.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part015.fasta
+    log: 7-consensus/packages/part015.err
+    jobid: 67
+    reason: Updated input files: 7-consensus/packages/part015.cnspack
+    wildcards: nnnn=015
+    threads: 8
+    resources: tmpdir=/tmp, job_id=15, n_cpus=8, mem_gb=7, time_h=24
+
+[Fri Jan 17 17:10:13 2025]
+Finished job 65.
+15 of 21 steps (71%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:10:13 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part011.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part011.fasta
+    log: 7-consensus/packages/part011.err
+    jobid: 61
+    reason: Updated input files: 7-consensus/packages/part011.cnspack
+    wildcards: nnnn=011
+    threads: 8
+    resources: tmpdir=/tmp, job_id=11, n_cpus=8, mem_gb=8, time_h=24
+
+[Fri Jan 17 17:10:55 2025]
+Finished job 67.
+16 of 21 steps (76%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:10:55 2025]
+rule generateConsensus:
+    input: 7-consensus/packages/part013.cnspack, 7-consensus/packages.tigName_to_ID.map, 7-consensus/packages.report, 7-consensus/ont_subset.id
+    output: 7-consensus/packages/part013.fasta
+    log: 7-consensus/packages/part013.err
+    jobid: 68
+    reason: Updated input files: 7-consensus/packages/part013.cnspack
+    wildcards: nnnn=013
+    threads: 8
+    resources: tmpdir=/tmp, job_id=13, n_cpus=8, mem_gb=8, time_h=24
+
+[Fri Jan 17 17:11:14 2025]
+Finished job 61.
+17 of 21 steps (81%) done
+[Fri Jan 17 17:11:46 2025]
+Finished job 66.
+18 of 21 steps (86%) done
+[Fri Jan 17 17:12:03 2025]
+Finished job 68.
+19 of 21 steps (90%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:12:03 2025]
+rule combineConsensus:
+    input: 7-consensus/packages/part003.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part006.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part010.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages.tigName_to_ID.map, 6-layoutContigs/unitig-popped.layout.scfmap, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 7-consensus/packages.finished, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa
+    output: 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/combined.fasta
+    log: 7-consensus/combineConsensus.out, 7-consensus/combineConsensus.err
+    jobid: 57
+    reason: Input files updated by another job: 7-consensus/packages/part006.fasta, 7-consensus/packages/part005.fasta, 7-consensus/packages/part016.fasta, 7-consensus/packages/part001.fasta, 7-consensus/packages/part015.fasta, 7-consensus/packages/part002.fasta, 7-consensus/packages/part008.fasta, 7-consensus/packages/part009.fasta, 7-consensus/packages/part007.fasta, 7-consensus/packages/part003.fasta, 7-consensus/packages/part017.fasta, 7-consensus/packages/part004.fasta, 7-consensus/packages/part012.fasta, 7-consensus/packages/part011.fasta, 7-consensus/packages/part014.fasta, 7-consensus/packages/part013.fasta, 7-consensus/packages/part010.fasta
+    threads: 8
+    resources: tmpdir=/tmp, job_id=1, n_cpus=8, mem_gb=1, time_h=4
+
+[Fri Jan 17 17:12:08 2025]
+Finished job 57.
+20 of 21 steps (95%) done
+Select jobs to execute...
+
+[Fri Jan 17 17:12:08 2025]
+localrule verkko:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, emptyfile, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    output: assembly.homopolymer-compressed.gfa, assembly.homopolymer-compressed.noseq.gfa, assembly.homopolymer-compressed.layout, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.fasta, assembly.scfmap
+    jobid: 0
+    reason: Missing output files: assembly.homopolymer-compressed.gfa, assembly.fasta, assembly.homopolymer-compressed.noseq.gfa; Input files updated by another job: 7-consensus/unitig-popped.unassigned.fasta, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.bam, 6-layoutContigs/unitig-popped.layout, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 6-layoutContigs/unitig-popped.layout.scfmap
+    resources: tmpdir=/tmp
+
+Reading graph from stdin
+[Fri Jan 17 17:12:09 2025]
+Finished job 0.
+21 of 21 steps (100%) done
+Complete log: .snakemake/log/2025-01-17T165953.780636.snakemake.log

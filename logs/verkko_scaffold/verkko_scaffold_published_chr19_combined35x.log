@@ -1,0 +1,660 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bERROR!, HiC/Pore-C phasing failed, look above for error message.
+Not running final consensus since no rukki paths are available!
+Verkko logging for failed commands:     log: 8-hicPipeline/run_mashmap.err
+./run_mashmap.sh > ../8-hicPipeline/run_mashmap.err 2>&1
+8-hicPipeline/splitHIC.err:
+	File split/hic1087.fasta.gz complete with 3000007812 bp and 864073 reads.
+	File split/hic1088.fasta.gz complete with 3000004464 bp and 876055 reads.
+	File split/hic1089.fasta.gz complete with 3000001742 bp and 879857 reads.
+	File split/hic1090.fasta.gz complete with 3000001871 bp and 873970 reads.
+	File split/hic1091.fasta.gz complete with 187463815 bp and 63920 reads.
+8-hicPipeline/align_bwa051.err:
+	[M::worker_pipeline::194.897*21.98] mapped 289490 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1051.fasta.gz
+	[M::main] Real time: 195.181 sec; CPU: 4284.464 sec; Peak RSS: 12.836 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/prepare_hic.err:
+	Starting file ../7-consensus/combined.fasta.
+	Reading graph from stdin
+8-hicPipeline/run_seqtktelo.err:
+	---Running seqtk telo
+	44206	126952131
+8-hicPipeline/run_mashmap.err:
+	---Running MashMap
+	/mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/mashmap: error while loading shared libraries: libblis.so.4: cannot open shared object file: No such file or directory
+8-hicPipeline/align_bwa010.err:
+	[M::worker_pipeline::194.798*21.57] mapped 293925 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1010.fasta.gz
+	[M::main] Real time: 195.156 sec; CPU: 4201.943 sec; Peak RSS: 12.744 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/index_bwa.err:
+	[bwa_index] Pack forward-only FASTA... 0.31 sec
+	[bwa_index] Construct SA from BWT and Occ... 31.75 sec
+	[main] Version: 0.7.18-r1243-dirty
+	[main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/bwa index ../8-hicPipeline/unitigs.fasta
+	[main] Real time: 90.612 sec; CPU: 89.523 sec
+8-hicPipeline/align_bwa082.err:
+	[M::worker_pipeline::186.893*21.83] mapped 293174 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1082.fasta.gz
+	[M::main] Real time: 187.175 sec; CPU: 4079.798 sec; Peak RSS: 12.833 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa055.err:
+	[M::worker_pipeline::204.202*21.71] mapped 291784 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1055.fasta.gz
+	[M::main] Real time: 204.575 sec; CPU: 4433.545 sec; Peak RSS: 11.721 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa044.err:
+	[M::worker_pipeline::188.970*22.00] mapped 287411 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1044.fasta.gz
+	[M::main] Real time: 189.268 sec; CPU: 4157.575 sec; Peak RSS: 12.451 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa086.err:
+	[M::worker_pipeline::195.207*21.85] mapped 292601 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1086.fasta.gz
+	[M::main] Real time: 195.506 sec; CPU: 4264.908 sec; Peak RSS: 12.665 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa072.err:
+	[M::worker_pipeline::197.094*21.69] mapped 288259 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1072.fasta.gz
+	[M::main] Real time: 197.451 sec; CPU: 4275.851 sec; Peak RSS: 12.813 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa073.err:
+	[M::worker_pipeline::191.971*21.99] mapped 291223 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1073.fasta.gz
+	[M::main] Real time: 192.363 sec; CPU: 4221.107 sec; Peak RSS: 12.786 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa001.err:
+	[M::worker_pipeline::202.947*22.07] mapped 310130 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1001.fasta.gz
+	[M::main] Real time: 203.240 sec; CPU: 4479.063 sec; Peak RSS: 12.712 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa015.err:
+	[M::worker_pipeline::187.938*21.90] mapped 285271 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1015.fasta.gz
+	[M::main] Real time: 188.305 sec; CPU: 4116.856 sec; Peak RSS: 12.351 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa029.err:
+	[M::worker_pipeline::189.195*21.60] mapped 288167 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1029.fasta.gz
+	[M::main] Real time: 189.501 sec; CPU: 4086.320 sec; Peak RSS: 12.678 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa057.err:
+	[M::worker_pipeline::190.031*21.93] mapped 291655 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1057.fasta.gz
+	[M::main] Real time: 190.622 sec; CPU: 4168.424 sec; Peak RSS: 13.253 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa084.err:
+	[M::worker_pipeline::190.819*22.00] mapped 291963 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1084.fasta.gz
+	[M::main] Real time: 191.151 sec; CPU: 4197.897 sec; Peak RSS: 12.738 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa002.err:
+	[M::worker_pipeline::193.142*21.83] mapped 302383 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1002.fasta.gz
+	[M::main] Real time: 193.524 sec; CPU: 4216.009 sec; Peak RSS: 12.673 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa016.err:
+	[M::worker_pipeline::196.579*21.85] mapped 290773 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1016.fasta.gz
+	[M::main] Real time: 196.912 sec; CPU: 4295.408 sec; Peak RSS: 12.453 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa030.err:
+	[M::worker_pipeline::194.004*21.91] mapped 286765 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1030.fasta.gz
+	[M::main] Real time: 194.392 sec; CPU: 4251.136 sec; Peak RSS: 12.706 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa056.err:
+	[M::worker_pipeline::188.885*21.97] mapped 288419 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1056.fasta.gz
+	[M::main] Real time: 189.167 sec; CPU: 4150.838 sec; Peak RSS: 13.396 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa039.err:
+	[M::worker_pipeline::211.162*20.93] mapped 293609 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1039.fasta.gz
+	[M::main] Real time: 211.508 sec; CPU: 4420.586 sec; Peak RSS: 11.850 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa067.err:
+	[M::worker_pipeline::202.772*21.49] mapped 292617 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1067.fasta.gz
+	[M::main] Real time: 203.143 sec; CPU: 4357.981 sec; Peak RSS: 12.178 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa046.err:
+	[M::worker_pipeline::204.999*21.47] mapped 304795 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1046.fasta.gz
+	[M::main] Real time: 205.404 sec; CPU: 4400.810 sec; Peak RSS: 12.301 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa025.err:
+	[M::worker_pipeline::202.040*21.44] mapped 274337 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1025.fasta.gz
+	[M::main] Real time: 202.597 sec; CPU: 4333.168 sec; Peak RSS: 12.929 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa088.err:
+	[M::worker_pipeline::184.455*21.91] mapped 289831 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1088.fasta.gz
+	[M::main] Real time: 184.706 sec; CPU: 4041.353 sec; Peak RSS: 12.075 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa074.err:
+	[M::worker_pipeline::190.307*21.91] mapped 291037 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1074.fasta.gz
+	[M::main] Real time: 190.607 sec; CPU: 4170.662 sec; Peak RSS: 11.913 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa004.err:
+	[M::worker_pipeline::193.663*21.73] mapped 302373 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1004.fasta.gz
+	[M::main] Real time: 194.064 sec; CPU: 4208.808 sec; Peak RSS: 12.287 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa011.err:
+	[M::worker_pipeline::203.684*21.63] mapped 293216 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1011.fasta.gz
+	[M::main] Real time: 204.106 sec; CPU: 4406.058 sec; Peak RSS: 12.737 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa018.err:
+	[M::worker_pipeline::191.969*21.90] mapped 287798 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1018.fasta.gz
+	[M::main] Real time: 192.261 sec; CPU: 4205.029 sec; Peak RSS: 13.027 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa033.err:
+	[M::worker_pipeline::192.221*21.92] mapped 300260 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1033.fasta.gz
+	[M::main] Real time: 192.635 sec; CPU: 4213.950 sec; Peak RSS: 12.749 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa061.err:
+	[M::worker_pipeline::189.540*22.03] mapped 287230 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1061.fasta.gz
+	[M::main] Real time: 189.862 sec; CPU: 4175.625 sec; Peak RSS: 12.449 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa019.err:
+	[M::worker_pipeline::195.170*22.05] mapped 265902 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1019.fasta.gz
+	[M::main] Real time: 195.524 sec; CPU: 4303.212 sec; Peak RSS: 12.553 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa083.err:
+	[M::worker_pipeline::202.980*21.63] mapped 290432 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1083.fasta.gz
+	[M::main] Real time: 203.386 sec; CPU: 4391.230 sec; Peak RSS: 12.709 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa005.err:
+	[M::worker_pipeline::192.268*22.03] mapped 294350 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1005.fasta.gz
+	[M::main] Real time: 192.554 sec; CPU: 4235.268 sec; Peak RSS: 12.756 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa013.err:
+	[M::worker_pipeline::204.950*21.43] mapped 274916 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1013.fasta.gz
+	[M::main] Real time: 205.388 sec; CPU: 4392.661 sec; Peak RSS: 12.433 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa089.err:
+	[M::worker_pipeline::191.745*22.08] mapped 296985 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1089.fasta.gz
+	[M::main] Real time: 192.091 sec; CPU: 4234.771 sec; Peak RSS: 12.683 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa027.err:
+	[M::worker_pipeline::203.755*21.19] mapped 287149 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1027.fasta.gz
+	[M::main] Real time: 204.283 sec; CPU: 4318.180 sec; Peak RSS: 12.326 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa075.err:
+	[M::worker_pipeline::187.492*22.02] mapped 290474 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1075.fasta.gz
+	[M::main] Real time: 187.788 sec; CPU: 4128.215 sec; Peak RSS: 12.581 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa041.err:
+	[M::worker_pipeline::194.153*21.71] mapped 284364 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1041.fasta.gz
+	[M::main] Real time: 194.719 sec; CPU: 4215.453 sec; Peak RSS: 12.339 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa047.err:
+	[M::worker_pipeline::190.893*21.92] mapped 295701 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1047.fasta.gz
+	[M::main] Real time: 191.182 sec; CPU: 4184.344 sec; Peak RSS: 12.326 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa069.err:
+	[M::worker_pipeline::233.291*18.95] mapped 290758 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1069.fasta.gz
+	[M::main] Real time: 233.688 sec; CPU: 4420.610 sec; Peak RSS: 12.644 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa068.err:
+	[M::worker_pipeline::199.264*21.20] mapped 292076 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1068.fasta.gz
+	[M::main] Real time: 199.577 sec; CPU: 4224.590 sec; Peak RSS: 12.897 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa090.err:
+	[M::worker_pipeline::189.951*21.98] mapped 301004 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1090.fasta.gz
+	[M::main] Real time: 190.275 sec; CPU: 4175.859 sec; Peak RSS: 12.318 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa008.err:
+	[M::worker_pipeline::189.361*22.02] mapped 294590 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1008.fasta.gz
+	[M::main] Real time: 189.681 sec; CPU: 4169.385 sec; Peak RSS: 12.704 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa076.err:
+	[M::worker_pipeline::191.294*21.60] mapped 289210 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1076.fasta.gz
+	[M::main] Real time: 191.586 sec; CPU: 4132.933 sec; Peak RSS: 11.805 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa040.err:
+	[M::worker_pipeline::193.529*21.87] mapped 285317 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1040.fasta.gz
+	[M::main] Real time: 193.807 sec; CPU: 4231.839 sec; Peak RSS: 11.340 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa048.err:
+	[M::worker_pipeline::191.093*22.02] mapped 292266 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1048.fasta.gz
+	[M::main] Real time: 191.419 sec; CPU: 4208.380 sec; Peak RSS: 11.912 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa079.err:
+	[M::worker_pipeline::190.674*21.82] mapped 290182 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1079.fasta.gz
+	[M::main] Real time: 191.160 sec; CPU: 4160.914 sec; Peak RSS: 12.533 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa020.err:
+	[M::worker_pipeline::191.874*21.68] mapped 279587 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1020.fasta.gz
+	[M::main] Real time: 192.176 sec; CPU: 4159.885 sec; Peak RSS: 12.995 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa034.err:
+	[M::worker_pipeline::194.029*22.06] mapped 295316 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1034.fasta.gz
+	[M::main] Real time: 194.367 sec; CPU: 4280.886 sec; Peak RSS: 12.423 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa006.err:
+	[M::worker_pipeline::193.789*21.77] mapped 296353 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1006.fasta.gz
+	[M::main] Real time: 194.223 sec; CPU: 4218.680 sec; Peak RSS: 12.677 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa062.err:
+	[M::worker_pipeline::193.013*21.73] mapped 289293 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1062.fasta.gz
+	[M::main] Real time: 193.401 sec; CPU: 4194.945 sec; Peak RSS: 12.603 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa026.err:
+	[M::worker_pipeline::191.753*21.78] mapped 287444 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1026.fasta.gz
+	[M::main] Real time: 192.118 sec; CPU: 4175.852 sec; Peak RSS: 12.532 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa078.err:
+	[M::worker_pipeline::190.486*22.02] mapped 297104 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1078.fasta.gz
+	[M::main] Real time: 190.813 sec; CPU: 4195.374 sec; Peak RSS: 12.664 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa012.err:
+	[M::worker_pipeline::191.539*21.81] mapped 281551 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1012.fasta.gz
+	[M::main] Real time: 191.895 sec; CPU: 4178.544 sec; Peak RSS: 11.810 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa014.err:
+	[M::worker_pipeline::195.023*21.94] mapped 292414 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1014.fasta.gz
+	[M::main] Real time: 195.430 sec; CPU: 4279.468 sec; Peak RSS: 12.175 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa054.err:
+	[M::worker_pipeline::184.236*21.90] mapped 291703 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1054.fasta.gz
+	[M::main] Real time: 184.530 sec; CPU: 4034.892 sec; Peak RSS: 12.254 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa028.err:
+	[M::worker_pipeline::194.784*22.04] mapped 287274 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1028.fasta.gz
+	[M::main] Real time: 195.050 sec; CPU: 4294.151 sec; Peak RSS: 12.019 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa060.err:
+	[M::worker_pipeline::205.583*21.67] mapped 306052 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1060.fasta.gz
+	[M::main] Real time: 205.913 sec; CPU: 4456.217 sec; Peak RSS: 12.618 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa042.err:
+	[M::worker_pipeline::190.808*21.63] mapped 288343 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1042.fasta.gz
+	[M::main] Real time: 191.038 sec; CPU: 4127.857 sec; Peak RSS: 11.575 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa032.err:
+	[M::worker_pipeline::186.117*21.87] mapped 297814 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1032.fasta.gz
+	[M::main] Real time: 186.457 sec; CPU: 4070.238 sec; Peak RSS: 12.348 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa070.err:
+	[M::worker_pipeline::197.058*21.99] mapped 293159 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1070.fasta.gz
+	[M::main] Real time: 197.475 sec; CPU: 4333.141 sec; Peak RSS: 12.973 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa085.err:
+	[M::worker_pipeline::189.498*21.88] mapped 293490 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1085.fasta.gz
+	[M::main] Real time: 189.726 sec; CPU: 4145.504 sec; Peak RSS: 12.392 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa071.err:
+	[M::worker_pipeline::197.645*21.79] mapped 291702 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1071.fasta.gz
+	[M::main] Real time: 198.078 sec; CPU: 4306.828 sec; Peak RSS: 12.867 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa009.err:
+	[M::worker_pipeline::191.513*21.81] mapped 293466 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1009.fasta.gz
+	[M::main] Real time: 191.819 sec; CPU: 4177.863 sec; Peak RSS: 12.586 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa023.err:
+	[M::worker_pipeline::192.248*21.80] mapped 261951 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1023.fasta.gz
+	[M::main] Real time: 192.929 sec; CPU: 4192.061 sec; Peak RSS: 12.220 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa037.err:
+	[M::worker_pipeline::196.263*21.65] mapped 288959 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1037.fasta.gz
+	[M::main] Real time: 196.606 sec; CPU: 4249.399 sec; Peak RSS: 12.997 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa065.err:
+	[M::worker_pipeline::196.052*21.79] mapped 288823 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1065.fasta.gz
+	[M::main] Real time: 196.458 sec; CPU: 4272.704 sec; Peak RSS: 12.360 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa058.err:
+	[M::worker_pipeline::194.827*21.86] mapped 294362 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1058.fasta.gz
+	[M::main] Real time: 195.197 sec; CPU: 4259.491 sec; Peak RSS: 12.616 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa080.err:
+	[M::worker_pipeline::194.853*21.75] mapped 291760 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1080.fasta.gz
+	[M::main] Real time: 195.229 sec; CPU: 4237.551 sec; Peak RSS: 12.538 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa050.err:
+	[M::worker_pipeline::193.155*21.92] mapped 293089 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1050.fasta.gz
+	[M::main] Real time: 193.564 sec; CPU: 4233.314 sec; Peak RSS: 12.882 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa052.err:
+	[M::worker_pipeline::196.036*22.07] mapped 287622 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1052.fasta.gz
+	[M::main] Real time: 196.387 sec; CPU: 4326.603 sec; Peak RSS: 12.542 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa043.err:
+	[M::worker_pipeline::189.208*21.92] mapped 285834 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1043.fasta.gz
+	[M::main] Real time: 189.507 sec; CPU: 4147.533 sec; Peak RSS: 12.624 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa024.err:
+	[M::worker_pipeline::190.064*21.75] mapped 274874 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1024.fasta.gz
+	[M::main] Real time: 190.417 sec; CPU: 4134.210 sec; Peak RSS: 12.766 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa038.err:
+	[M::worker_pipeline::195.277*21.74] mapped 292513 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1038.fasta.gz
+	[M::main] Real time: 195.592 sec; CPU: 4245.746 sec; Peak RSS: 12.143 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa064.err:
+	[M::worker_pipeline::191.597*21.98] mapped 282377 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1064.fasta.gz
+	[M::main] Real time: 191.904 sec; CPU: 4211.434 sec; Peak RSS: 11.885 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa066.err:
+	[M::worker_pipeline::191.114*21.93] mapped 280248 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1066.fasta.gz
+	[M::main] Real time: 191.487 sec; CPU: 4192.182 sec; Peak RSS: 11.853 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa036.err:
+	[M::worker_pipeline::189.013*22.10] mapped 292724 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1036.fasta.gz
+	[M::main] Real time: 189.325 sec; CPU: 4176.966 sec; Peak RSS: 12.479 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa087.err:
+	[M::worker_pipeline::194.505*21.94] mapped 289798 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1087.fasta.gz
+	[M::main] Real time: 194.777 sec; CPU: 4268.518 sec; Peak RSS: 12.384 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa045.err:
+	[M::worker_pipeline::191.797*21.72] mapped 278805 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1045.fasta.gz
+	[M::main] Real time: 192.109 sec; CPU: 4165.716 sec; Peak RSS: 12.442 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/hic_phasing.err:
+	Median coverage is 3.3
+	
+	utig4-78
+	Median coverage is 2.7
+	
+8-hicPipeline/rukki_hic.err:
+	[2024-12-09T05:27:58Z INFO  rukki] Writing refined node annotation to out_refined_ann.csv
+	[2024-12-09T05:27:58Z INFO  rukki] Writing final node annotation to out_final_ann.csv
+	[2024-12-09T05:27:58Z INFO  rukki] Outputting haplo-paths to ../8-hicPipeline/prescaf_rukki.paths.gaf
+	[2024-12-09T05:27:58Z INFO  rukki] All done
+	[2024-12-09T05:27:58Z INFO  rukki] Success
+8-hicPipeline/prepare_ref_mashmap.err:
+	[mashmap::skch::Map::mapQuery] WARNING, no .fai index found for ../8-hicPipeline/paths.hpc.fasta, reading the file to sum sequence length (slow)
+	[mashmap::skch::Map::mapQuery] mapped  0.00% @ 0.00e+00 bp/s elapsed: 00:00:00:00 remain: 00:00:00:00[mashmap::skch::Map::mapQuery] mapped 15.70% @ 2.77e+07 bp/s elapsed: 00:00:00:00 remain: 00:00:00:02[mashmap::skch::Map::mapQuery] mapped 32.94% @ 2.90e+07 bp/s elapsed: 00:00:00:01 remain: 00:00:00:02[mashmap::skch::Map::mapQuery] mapped 50.92% @ 2.99e+07 bp/s elapsed: 00:00:00:01 remain: 00:00:00:01[mashmap::skch::Map::mapQuery] mapped 68.49% @ 3.02e+07 bp/s elapsed: 00:00:00:02 remain: 00:00:00:00[mashmap::skch::Map::mapQuery] mapped 85.62% @ 3.02e+07 bp/s elapsed: 00:00:00:02 remain: 00:00:00:00[mashmap::skch::Map::mapQuery] mapped 100.00% @ 2.88e+07 bp/s elapsed: 00:00:00:03 remain: 00:00:00:00
+	[mashmap::skch::Map::mapQuery] count of mapped reads = 54, reads qualified for mapping = 54, total input reads = 54, total input bp = 88160639
+	[mashmap::map] time spent mapping the query: 3.59e+00 sec
+	[mashmap::map] mapping results saved in: /dev/fd/63
+8-hicPipeline/hic_scaff.err:
+	00:00:21 INFO:  ScaffoldGraph - Starting last telomere tuning
+	00:00:21 INFO:  ScaffoldGraph - Checking 15 weakly connected components 
+	00:00:21 WARNING:  ScaffoldGraph - Total last telomere tuned scaffolds (all t2t) 0, jumps 0
+	00:00:21 INFO:  ScaffoldGraph - Reassigned 0 large haploids, groups of distant haploid paths detected: 0
+	00:00:21 WARNING:  ScaffoldGraph - Total normal scaffolds 0 last telomere tuned 0 total jumps 0 new T2T 0
+8-hicPipeline/align_bwa053.err:
+	[M::worker_pipeline::195.987*21.79] mapped 290942 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1053.fasta.gz
+	[M::main] Real time: 196.225 sec; CPU: 4270.868 sec; Peak RSS: 13.091 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa081.err:
+	[M::worker_pipeline::208.671*21.51] mapped 296188 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1081.fasta.gz
+	[M::main] Real time: 209.049 sec; CPU: 4488.138 sec; Peak RSS: 12.553 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa049.err:
+	[M::worker_pipeline::202.001*21.24] mapped 290264 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1049.fasta.gz
+	[M::main] Real time: 202.325 sec; CPU: 4290.123 sec; Peak RSS: 12.305 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa035.err:
+	[M::worker_pipeline::190.857*21.95] mapped 291070 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1035.fasta.gz
+	[M::main] Real time: 191.140 sec; CPU: 4189.589 sec; Peak RSS: 12.101 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa077.err:
+	[M::worker_pipeline::189.069*22.01] mapped 293251 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1077.fasta.gz
+	[M::main] Real time: 189.332 sec; CPU: 4161.964 sec; Peak RSS: 12.354 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa031.err:
+	[M::worker_pipeline::189.277*21.65] mapped 312669 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1031.fasta.gz
+	[M::main] Real time: 189.783 sec; CPU: 4098.652 sec; Peak RSS: 12.106 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa017.err:
+	[M::worker_pipeline::194.530*21.84] mapped 292959 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1017.fasta.gz
+	[M::main] Real time: 194.939 sec; CPU: 4249.239 sec; Peak RSS: 12.614 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa003.err:
+	[M::worker_pipeline::194.755*21.85] mapped 296233 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1003.fasta.gz
+	[M::main] Real time: 195.046 sec; CPU: 4255.602 sec; Peak RSS: 12.133 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa059.err:
+	[M::worker_pipeline::188.255*21.85] mapped 290454 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1059.fasta.gz
+	[M::main] Real time: 188.569 sec; CPU: 4113.148 sec; Peak RSS: 12.832 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa007.err:
+	[M::worker_pipeline::186.522*21.85] mapped 297154 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1007.fasta.gz
+	[M::main] Real time: 186.844 sec; CPU: 4075.393 sec; Peak RSS: 12.793 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa021.err:
+	[M::worker_pipeline::189.124*21.59] mapped 273849 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1021.fasta.gz
+	[M::main] Real time: 189.469 sec; CPU: 4083.729 sec; Peak RSS: 12.924 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa091.err:
+	[M::worker_pipeline::17.801*17.93] mapped 63920 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1091.fasta.gz
+	[M::main] Real time: 17.937 sec; CPU: 319.278 sec; Peak RSS: 6.829 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa022.err:
+	[M::worker_pipeline::190.713*21.95] mapped 269144 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1022.fasta.gz
+	[M::main] Real time: 191.015 sec; CPU: 4186.407 sec; Peak RSS: 12.806 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/align_bwa063.err:
+	[M::worker_pipeline::190.788*22.02] mapped 283124 sequences
+	[M::main] Version: 2.28-r1209
+	[M::main] CMD: /mnt/storage2/users/ahgrosc1/.snakemake-conda/f08cc0a51ac77e174db5daac5135a1f6_/bin/minimap2 -ax map-ont -t 24 -I40G -K 2G ../8-hicPipeline/unitigs.fasta ../8-hicPipeline/split/hic1063.fasta.gz
+	[M::main] Real time: 191.062 sec; CPU: 4201.117 sec; Peak RSS: 12.585 GB
+	[bam_sort_core] merging from 0 files and 24 in-memory blocks...
+8-hicPipeline/mergeBWA.err:
+8-hicPipeline/transform_bwa.err:
+elect jobs to execute...
+
+[Mon May 12 16:44:05 2025]
+rule alignBWA:
+    input: 8-hicPipeline/unitigs.fasta, 8-hicPipeline/split/hic1063.fasta.gz, emptyfile, emptyfile
+    output: 8-hicPipeline/mapped063.bam
+    log: 8-hicPipeline/align_bwa063.err
+    jobid: 146
+    reason: Updated input files: 8-hicPipeline/unitigs.fasta
+    wildcards: nnnn=063
+    threads: 24
+    resources: tmpdir=/tmp, job_id=63, n_cpus=24, mem_gb=64, time_h=6
+
+[Mon May 12 16:47:17 2025]
+Finished job 146.
+89 of 97 steps (92%) done
+Select jobs to execute...
+
+[Mon May 12 16:47:17 2025]
+rule indexBWA:
+    input: 8-hicPipeline/unitigs.fasta
+    output: 8-hicPipeline/unitigs.fasta.bwt
+    log: 8-hicPipeline/index_bwa.err
+    jobid: 83
+    reason: Updated input files: 8-hicPipeline/unitigs.fasta
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=6
+
+[Mon May 12 16:48:48 2025]
+Finished job 83.
+90 of 97 steps (93%) done
+Select jobs to execute...
+
+[Mon May 12 16:48:48 2025]
+rule mergeBWA:
+    input: 8-hicPipeline/splitHIC.finished, 8-hicPipeline/unitigs.fasta.bwt, 8-hicPipeline/mapped001.bam, 8-hicPipeline/mapped002.bam, 8-hicPipeline/mapped003.bam, 8-hicPipeline/mapped004.bam, 8-hicPipeline/mapped005.bam, 8-hicPipeline/mapped006.bam, 8-hicPipeline/mapped007.bam, 8-hicPipeline/mapped008.bam, 8-hicPipeline/mapped009.bam, 8-hicPipeline/mapped010.bam, 8-hicPipeline/mapped011.bam, 8-hicPipeline/mapped012.bam, 8-hicPipeline/mapped013.bam, 8-hicPipeline/mapped014.bam, 8-hicPipeline/mapped015.bam, 8-hicPipeline/mapped016.bam, 8-hicPipeline/mapped017.bam, 8-hicPipeline/mapped018.bam, 8-hicPipeline/mapped019.bam, 8-hicPipeline/mapped020.bam, 8-hicPipeline/mapped021.bam, 8-hicPipeline/mapped022.bam, 8-hicPipeline/mapped023.bam, 8-hicPipeline/mapped024.bam, 8-hicPipeline/mapped025.bam, 8-hicPipeline/mapped026.bam, 8-hicPipeline/mapped027.bam, 8-hicPipeline/mapped028.bam, 8-hicPipeline/mapped029.bam, 8-hicPipeline/mapped030.bam, 8-hicPipeline/mapped031.bam, 8-hicPipeline/mapped032.bam, 8-hicPipeline/mapped033.bam, 8-hicPipeline/mapped034.bam, 8-hicPipeline/mapped035.bam, 8-hicPipeline/mapped036.bam, 8-hicPipeline/mapped037.bam, 8-hicPipeline/mapped038.bam, 8-hicPipeline/mapped039.bam, 8-hicPipeline/mapped040.bam, 8-hicPipeline/mapped041.bam, 8-hicPipeline/mapped042.bam, 8-hicPipeline/mapped043.bam, 8-hicPipeline/mapped044.bam, 8-hicPipeline/mapped045.bam, 8-hicPipeline/mapped046.bam, 8-hicPipeline/mapped047.bam, 8-hicPipeline/mapped048.bam, 8-hicPipeline/mapped049.bam, 8-hicPipeline/mapped050.bam, 8-hicPipeline/mapped051.bam, 8-hicPipeline/mapped052.bam, 8-hicPipeline/mapped053.bam, 8-hicPipeline/mapped054.bam, 8-hicPipeline/mapped055.bam, 8-hicPipeline/mapped056.bam, 8-hicPipeline/mapped057.bam, 8-hicPipeline/mapped058.bam, 8-hicPipeline/mapped059.bam, 8-hicPipeline/mapped060.bam, 8-hicPipeline/mapped061.bam, 8-hicPipeline/mapped062.bam, 8-hicPipeline/mapped063.bam, 8-hicPipeline/mapped064.bam, 8-hicPipeline/mapped065.bam, 8-hicPipeline/mapped066.bam, 8-hicPipeline/mapped067.bam, 8-hicPipeline/mapped068.bam, 8-hicPipeline/mapped069.bam, 8-hicPipeline/mapped070.bam, 8-hicPipeline/mapped071.bam, 8-hicPipeline/mapped072.bam, 8-hicPipeline/mapped073.bam, 8-hicPipeline/mapped074.bam, 8-hicPipeline/mapped075.bam, 8-hicPipeline/mapped076.bam, 8-hicPipeline/mapped077.bam, 8-hicPipeline/mapped078.bam, 8-hicPipeline/mapped079.bam, 8-hicPipeline/mapped080.bam, 8-hicPipeline/mapped081.bam, 8-hicPipeline/mapped082.bam, 8-hicPipeline/mapped083.bam, 8-hicPipeline/mapped084.bam, 8-hicPipeline/mapped085.bam, 8-hicPipeline/mapped086.bam, 8-hicPipeline/mapped087.bam, 8-hicPipeline/mapped088.bam, 8-hicPipeline/mapped089.bam, 8-hicPipeline/mapped090.bam, 8-hicPipeline/mapped091.bam
+    output: 8-hicPipeline/unique_mappings.bam
+    log: 8-hicPipeline/mergeBWA.err
+    jobid: 81
+    reason: Input files updated by another job: 8-hicPipeline/mapped048.bam, 8-hicPipeline/mapped006.bam, 8-hicPipeline/mapped025.bam, 8-hicPipeline/mapped083.bam, 8-hicPipeline/mapped050.bam, 8-hicPipeline/mapped017.bam, 8-hicPipeline/mapped085.bam, 8-hicPipeline/mapped066.bam, 8-hicPipeline/mapped043.bam, 8-hicPipeline/mapped063.bam, 8-hicPipeline/mapped018.bam, 8-hicPipeline/mapped038.bam, 8-hicPipeline/mapped014.bam, 8-hicPipeline/mapped091.bam, 8-hicPipeline/mapped068.bam, 8-hicPipeline/mapped071.bam, 8-hicPipeline/mapped057.bam, 8-hicPipeline/mapped024.bam, 8-hicPipeline/mapped004.bam, 8-hicPipeline/mapped074.bam, 8-hicPipeline/mapped054.bam, 8-hicPipeline/mapped003.bam, 8-hicPipeline/mapped036.bam, 8-hicPipeline/mapped011.bam, 8-hicPipeline/mapped044.bam, 8-hicPipeline/mapped046.bam, 8-hicPipeline/mapped086.bam, 8-hicPipeline/mapped089.bam, 8-hicPipeline/mapped012.bam, 8-hicPipeline/mapped015.bam, 8-hicPipeline/mapped042.bam, 8-hicPipeline/mapped062.bam, 8-hicPipeline/mapped029.bam, 8-hicPipeline/mapped087.bam, 8-hicPipeline/mapped079.bam, 8-hicPipeline/mapped035.bam, 8-hicPipeline/mapped060.bam, 8-hicPipeline/mapped049.bam, 8-hicPipeline/mapped064.bam, 8-hicPipeline/mapped072.bam, 8-hicPipeline/mapped069.bam, 8-hicPipeline/mapped078.bam, 8-hicPipeline/mapped059.bam, 8-hicPipeline/mapped082.bam, 8-hicPipeline/mapped088.bam, 8-hicPipeline/mapped002.bam, 8-hicPipeline/mapped045.bam, 8-hicPipeline/mapped080.bam, 8-hicPipeline/mapped061.bam, 8-hicPipeline/mapped073.bam, 8-hicPipeline/mapped008.bam, 8-hicPipeline/mapped022.bam, 8-hicPipeline/mapped041.bam, 8-hicPipeline/mapped023.bam, 8-hicPipeline/mapped026.bam, 8-hicPipeline/mapped009.bam, 8-hicPipeline/mapped056.bam, 8-hicPipeline/mapped032.bam, 8-hicPipeline/mapped016.bam, 8-hicPipeline/unitigs.fasta.bwt, 8-hicPipeline/mapped034.bam, 8-hicPipeline/mapped010.bam, 8-hicPipeline/mapped001.bam, 8-hicPipeline/mapped005.bam, 8-hicPipeline/mapped027.bam, 8-hicPipeline/mapped047.bam, 8-hicPipeline/mapped013.bam, 8-hicPipeline/mapped053.bam, 8-hicPipeline/mapped031.bam, 8-hicPipeline/mapped070.bam, 8-hicPipeline/mapped033.bam, 8-hicPipeline/mapped077.bam, 8-hicPipeline/mapped020.bam, 8-hicPipeline/mapped058.bam, 8-hicPipeline/mapped037.bam, 8-hicPipeline/mapped030.bam, 8-hicPipeline/mapped055.bam, 8-hicPipeline/mapped076.bam, 8-hicPipeline/mapped084.bam, 8-hicPipeline/mapped028.bam, 8-hicPipeline/mapped021.bam, 8-hicPipeline/mapped039.bam, 8-hicPipeline/mapped090.bam, 8-hicPipeline/mapped067.bam, 8-hicPipeline/mapped075.bam, 8-hicPipeline/mapped040.bam, 8-hicPipeline/mapped081.bam, 8-hicPipeline/mapped019.bam, 8-hicPipeline/mapped007.bam
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=6
+
+[Mon May 12 16:54:41 2025]
+Finished job 81.
+91 of 97 steps (94%) done
+Select jobs to execute...
+
+[Mon May 12 16:54:41 2025]
+rule transformBWA:
+    input: 8-hicPipeline/unique_mappings.bam
+    output: 8-hicPipeline/hic_mapping.byread.output
+    log: 8-hicPipeline/transform_bwa.err
+    jobid: 80
+    reason: Input files updated by another job: 8-hicPipeline/unique_mappings.bam
+    threads: 24
+    resources: tmpdir=/tmp, job_id=1, n_cpus=24, mem_gb=64, time_h=6
+
+[Mon May 12 16:55:59 2025]
+Finished job 80.
+92 of 97 steps (95%) done
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2025-05-12T120222.085225.snakemake.log

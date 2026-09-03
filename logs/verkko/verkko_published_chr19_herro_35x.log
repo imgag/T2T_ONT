@@ -1,0 +1,26 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 60
+Rules claiming more threads will be scaled down.
+Provided resources: mem_gb=64
+Job stats:
+job       count
+------  -------
+verkko        1
+total         1
+
+Select jobs to execute...
+
+[Fri Oct 25 21:43:43 2024]
+localrule verkko:
+    input: 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.gfa, emptyfile, 6-layoutContigs/unitig-popped.layout, 6-layoutContigs/unitig-popped.layout.scfmap, 7-consensus/unitig-popped.bam, 7-consensus/unitig-popped.fasta, 7-consensus/unitig-popped.haplotype1.fasta, 7-consensus/unitig-popped.haplotype2.fasta, 7-consensus/unitig-popped.unassigned.fasta, emptyfile, emptyfile, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.hifi-coverage.csv, 5-untip/unitig-unrolled-unitig-unrolled-popped-unitig-normal-connected-tip.ont-coverage.csv
+    output: assembly.homopolymer-compressed.gfa, assembly.homopolymer-compressed.noseq.gfa, assembly.homopolymer-compressed.layout, assembly.hifi-coverage.csv, assembly.ont-coverage.csv, assembly.fasta, assembly.scfmap
+    jobid: 0
+    reason: Missing output files: assembly.homopolymer-compressed.noseq.gfa, assembly.ont-coverage.csv, assembly.fasta, assembly.hifi-coverage.csv
+    resources: tmpdir=/tmp
+
+Reading graph from stdin
+[Fri Oct 25 21:43:44 2024]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2024-10-25T214331.909960.snakemake.log

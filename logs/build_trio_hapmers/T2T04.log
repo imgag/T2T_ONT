@@ -1,0 +1,554 @@
+# Maternal specific k-mers
+	meryl difference output maternal_compress.k30_not_paternal_compress.k30.meryl maternal_compress.k30.meryl paternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    maternal_compress.k30.meryl
+    paternal_compress.k30.meryl
+    output to maternal_compress.k30_not_paternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+  bash /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/build/filt.sh maternal_compress.k30_not_paternal_compress.k30.meryl maternal_compress.k30.only
+Generate maternal_compress.k30_not_paternal_compress.k30.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar maternal_compress.k30_not_paternal_compress.k30.hist
+
+Processing file maternal_compress.k30_not_paternal_compress.k30.hist
+Start sampling here: 7, 17390.0
+Estimated haploid peak here: 23, 2450026.0
+Next max here: 25, 2636216.0
+Kick out local maxima: 23, 2450026.0
+Next min here: 41, 317262.0
+Next max here: 51, 489802.0
+Stop sampling here: 75, 17221.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	7
+1	25	41
+2	51	75
+
+Filter out kmers <= 7
+
+meryl greater-than 7 output maternal_compress.k30_not_paternal_compress.k30.gt7.meryl maternal_compress.k30_not_paternal_compress.k30.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=7
+    maternal_compress.k30_not_paternal_compress.k30.meryl
+    output to maternal_compress.k30_not_paternal_compress.k30.gt7.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final maternal_compress.k30_not_paternal_compress.k30.gt7.meryl to maternal_compress.k30.only.meryl
+
+# Paternal specific k-mers
+	meryl difference output paternal_compress.k30_not_maternal_compress.k30.meryl paternal_compress.k30.meryl maternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    paternal_compress.k30.meryl
+    maternal_compress.k30.meryl
+    output to paternal_compress.k30_not_maternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+  bash /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/build/filt.sh paternal_compress.k30_not_maternal_compress.k30.meryl paternal_compress.k30.only
+Generate paternal_compress.k30_not_maternal_compress.k30.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar paternal_compress.k30_not_maternal_compress.k30.hist
+
+Processing file paternal_compress.k30_not_maternal_compress.k30.hist
+Start sampling here: 5, 24785.0
+Estimated haploid peak here: 21, 3497350.0
+Next max here: 21, 3497350.0
+Next min here: 35, 498847.0
+Next max here: 43, 606837.0
+Stop sampling here: 67, 22340.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	5
+1	21	21
+2	43	35
+
+Filter out kmers <= 5
+
+meryl greater-than 5 output paternal_compress.k30_not_maternal_compress.k30.gt5.meryl paternal_compress.k30_not_maternal_compress.k30.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=5
+    paternal_compress.k30_not_maternal_compress.k30.meryl
+    output to paternal_compress.k30_not_maternal_compress.k30.gt5.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final paternal_compress.k30_not_maternal_compress.k30.gt5.meryl to paternal_compress.k30.only.meryl
+
+# Shared k-mers
+	meryl intersect output maternal_compress.k30_and_paternal_compress.k30.meryl maternal_compress.k30.meryl paternal_compress.k30.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    maternal_compress.k30.meryl
+    paternal_compress.k30.meryl
+    output to maternal_compress.k30_and_paternal_compress.k30.meryl
+
+Cleaning up.
+
+Bye.
+
+
+# maternal_compress.k30 hap-mers
+	meryl intersect output child_compress.k30_and_maternal_compress.k30.only.meryl child_compress.k30.meryl maternal_compress.k30.only.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    maternal_compress.k30.only.meryl
+    output to child_compress.k30_and_maternal_compress.k30.only.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate maternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar maternal_compress.k30.inherited.hist
+
+Processing file maternal_compress.k30.inherited.hist
+Start sampling here: 5, 3349.0
+Estimated haploid peak here: 26, 1758891.0
+Next max here: 27, 1774675.0
+Kick out local maxima: 26, 1758891.0
+Next min here: 52, 9700.0
+Next max here: 53, 9819.0
+Next min here: 57, 7161.0
+Next max here: 58, 7591.0
+Next min here: 59, 7419.0
+Next max here: 60, 7523.0
+Next min here: 61, 5464.0
+Next max here: 63, 6057.0
+Stop sampling here: 67, 3271.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	5
+1	27	52
+2	53	57
+3	58	59
+4	63	61
+
+Filter out kmers <= 5
+
+meryl greater-than 5 output maternal_compress.k30.inherited.gt5.meryl maternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=5
+    maternal_compress.k30.inherited.meryl
+    output to maternal_compress.k30.inherited.gt5.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final maternal_compress.k30.inherited.gt5.meryl to maternal_compress.k30.hapmer.meryl
+
+# paternal_compress.k30 hap-mers
+	meryl intersect output child_compress.k30_and_paternal_compress.k30.only.meryl child_compress.k30.meryl paternal_compress.k30.only.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    paternal_compress.k30.only.meryl
+    output to child_compress.k30_and_paternal_compress.k30.only.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate paternal_compress.k30.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar paternal_compress.k30.inherited.hist
+
+Processing file paternal_compress.k30.inherited.hist
+Start sampling here: 5, 2953.0
+Estimated haploid peak here: 22, 1718331.0
+Next max here: 26, 2256274.0
+Next min here: 48, 67659.0
+Next max here: 50, 96581.0
+Next min here: 53, 66963.0
+Next max here: 55, 82106.0
+Next min here: 56, 70469.0
+Next max here: 58, 79601.0
+Next min here: 73, 7934.0
+Next max here: 76, 15082.0
+Next min here: 77, 14980.0
+Next max here: 78, 17263.0
+Kick out local maxima: 76, 15082.0
+Next min here: 79, 16369.0
+Next max here: 82, 22921.0
+Next min here: 86, 11448.0
+Next max here: 88, 17388.0
+Next min here: 90, 8218.0
+Next max here: 91, 8602.0
+Next min here: 92, 7582.0
+Next max here: 93, 9391.0
+Next min here: 94, 8110.0
+Next max here: 95, 10620.0
+Kick out local maxima: 93, 9391.0
+Next min here: 97, 7699.0
+Next max here: 99, 8516.0
+Next min here: 101, 5495.0
+Next max here: 102, 5710.0
+Next min here: 103, 5239.0
+Next max here: 105, 14362.0
+Next min here: 106, 13240.0
+Next max here: 108, 20630.0
+Kick out local maxima: 105, 14362.0
+Next min here: 111, 12924.0
+Next max here: 112, 15658.0
+Next min here: 113, 14819.0
+Next max here: 114, 21507.0
+Kick out local maxima: 112, 15658.0
+Next min here: 116, 5649.0
+Next max here: 118, 6479.0
+Next min here: 121, 4461.0
+Next max here: 126, 7415.0
+Next min here: 127, 3910.0
+Next max here: 128, 4376.0
+Stop sampling here: 131, 2159.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	5
+1	22	24
+2	26	48
+3	50	53
+4	55	56
+5	78	73
+6	82	79
+7	88	86
+8	95	90
+9	99	92
+10	108	97
+11	114	101
+12	118	103
+13	126	111
+
+Filter out kmers <= 5
+
+meryl greater-than 5 output paternal_compress.k30.inherited.gt5.meryl paternal_compress.k30.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=5
+    paternal_compress.k30.inherited.meryl
+    output to paternal_compress.k30.inherited.gt5.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final paternal_compress.k30.inherited.gt5.meryl to paternal_compress.k30.hapmer.meryl
+
+# Shared k-mers
+	meryl intersect output child_compress.k30_and_shrd.meryl child_compress.k30.meryl shrd.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opIntersect
+    child_compress.k30.meryl
+    shrd.meryl
+    output to child_compress.k30_and_shrd.meryl
+
+Cleaning up.
+
+Bye.
+
+Generate shrd.inherited.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /mnt/storage2/users/ahgrosc1/.snakemake-conda/13b90a503f32bec5f64afebbcf87f733_/share/merqury/eval/kmerHistToPloidyDepth.jar shrd.inherited.hist
+
+Processing file shrd.inherited.hist
+Start sampling here: 5, 30728.0
+Next max here: 6, 41134.0
+Next min here: 7, 34471.0
+Next max here: 26, 9277539.0
+Next min here: 28, 8975313.0
+Next max here: 29, 9075097.0
+Next min here: 32, 8681285.0
+Next max here: 54, 7.1081614E7
+Next min here: 89, 508323.0
+Next max here: 92, 556712.0
+Next min here: 93, 545703.0
+Next max here: 94, 572438.0
+Kick out local maxima: 92, 556712.0
+Next min here: 95, 562398.0
+Next max here: 98, 669916.0
+Next min here: 99, 660289.0
+Next max here: 102, 728468.0
+Next min here: 103, 726698.0
+Next max here: 106, 768561.0
+Next min here: 107, 760075.0
+Next max here: 108, 776854.0
+Kick out local maxima: 106, 768561.0
+Next min here: 109, 753995.0
+Next max here: 110, 768806.0
+Next min here: 127, 310463.0
+Next max here: 128, 311861.0
+Next min here: 137, 193490.0
+Next max here: 138, 196905.0
+Next min here: 142, 186691.0
+Next max here: 144, 191386.0
+Next min here: 146, 177494.0
+Next max here: 147, 187056.0
+Next min here: 148, 181668.0
+Next max here: 151, 196888.0
+Next min here: 152, 195143.0
+Next max here: 154, 200519.0
+Kick out local maxima: 151, 196888.0
+Next min here: 155, 199504.0
+Next max here: 156, 205497.0
+Kick out local maxima: 154, 200519.0
+Next min here: 157, 199271.0
+Next max here: 159, 200992.0
+Next min here: 160, 195654.0
+Next max here: 162, 197218.0
+Next min here: 163, 194563.0
+Next max here: 164, 194862.0
+Next min here: 166, 184424.0
+Next max here: 167, 189346.0
+Next min here: 188, 98937.0
+Next max here: 189, 100681.0
+Next min here: 192, 93459.0
+Next max here: 193, 93648.0
+Next min here: 194, 91278.0
+Next max here: 195, 95510.0
+Kick out local maxima: 193, 93648.0
+Next min here: 198, 86341.0
+Next max here: 199, 90927.0
+Next min here: 200, 89421.0
+Next max here: 201, 91973.0
+Kick out local maxima: 199, 90927.0
+Next min here: 203, 90454.0
+Next max here: 204, 90504.0
+Next min here: 205, 88591.0
+Next max here: 206, 89709.0
+Next min here: 207, 88826.0
+Next max here: 208, 91202.0
+Kick out local maxima: 206, 89709.0
+Next min here: 209, 90926.0
+Next max here: 210, 95162.0
+Kick out local maxima: 208, 91202.0
+Next min here: 216, 83682.0
+Next max here: 217, 85055.0
+Next min here: 218, 83068.0
+Next max here: 220, 87531.0
+Kick out local maxima: 217, 85055.0
+Next min here: 222, 82965.0
+Next max here: 223, 83284.0
+Next min here: 225, 79256.0
+Next max here: 226, 79863.0
+Next min here: 229, 76836.0
+Next max here: 230, 80899.0
+Next min here: 231, 76087.0
+Next max here: 232, 76196.0
+Next min here: 233, 72979.0
+Next max here: 234, 73722.0
+Next min here: 236, 67860.0
+Next max here: 238, 69516.0
+Next min here: 243, 56577.0
+Next max here: 244, 56933.0
+Next min here: 245, 55043.0
+Next max here: 248, 56442.0
+Next min here: 251, 53079.0
+Next max here: 253, 55790.0
+Next min here: 254, 54679.0
+Next max here: 255, 54851.0
+Next min here: 258, 49966.0
+Next max here: 259, 50395.0
+Next min here: 261, 47833.0
+Next max here: 262, 49001.0
+Next min here: 263, 48965.0
+Next max here: 264, 51121.0
+Next min here: 265, 50972.0
+Next max here: 267, 55701.0
+Kick out local maxima: 264, 51121.0
+Next min here: 274, 49321.0
+Next max here: 275, 50990.0
+Next min here: 277, 48945.0
+Next max here: 279, 53438.0
+Next min here: 281, 51966.0
+Next max here: 283, 53671.0
+Next min here: 285, 48259.0
+Next max here: 286, 48617.0
+Next min here: 287, 46980.0
+Next max here: 288, 47824.0
+Next min here: 289, 44082.0
+Next max here: 291, 46430.0
+Next min here: 298, 36142.0
+Next max here: 300, 37852.0
+Next min here: 302, 34021.0
+Next max here: 304, 34872.0
+Next min here: 307, 31719.0
+Next max here: 308, 32019.0
+Next min here: 309, 31067.0
+Next max here: 310, 32183.0
+Kick out local maxima: 308, 32019.0
+Next min here: 311, 32018.0
+Next max here: 312, 32571.0
+Kick out local maxima: 310, 32183.0
+Stop sampling here: 314, 30232.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	5
+1	6	7
+2	26	28
+3	54	32
+4	94	89
+5	98	95
+6	102	99
+7	108	103
+8	128	109
+9	138	127
+10	144	137
+11	156	142
+12	162	146
+13	167	148
+14	189	157
+15	195	160
+16	201	163
+17	210	166
+18	220	188
+19	226	192
+20	230	198
+21	234	203
+22	238	205
+23	244	216
+24	248	222
+25	253	225
+26	259	229
+27	267	231
+28	275	233
+29	279	236
+30	283	243
+31	288	245
+32	300	251
+33	304	254
+34	312	258
+
+Filter out kmers <= 5
+
+meryl greater-than 5 output shrd.inherited.gt5.meryl shrd.inherited.meryl
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opGreaterThan
+    threshold=5
+    shrd.inherited.meryl
+    output to shrd.inherited.gt5.meryl
+
+Cleaning up.
+
+Bye.
+
+Link the final shrd.inherited.gt5.meryl to shrd.filt.meryl
+
+# Read only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opUnionSum
+    maternal_compress.k30.inherited.meryl
+    paternal_compress.k30.inherited.meryl
+    shrd.inherited.meryl
+    output to child_compress.k30.inherited.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 30 threads.
+  opDifference
+    child_compress.k30.meryl
+    child_compress.k30.inherited.meryl
+    output to read.only.meryl
+
+Cleaning up.
+
+Bye.
+
+# Get histogram
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Plot inherited_hapmers.hist
+No modules available..
+
+Loading required package: argparse
+Loading required package: ggplot2
+Loading required package: scales
+[1] "x_max: 135"
+[1] "y_max: 78189775.4"
+[1] "## Line graph"
+[1] "## Area under the curve filled"
+[1] "## Stacked"
+
+Done!

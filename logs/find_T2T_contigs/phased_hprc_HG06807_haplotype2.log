@@ -1,0 +1,91 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG06807/HG06807.haplotype2.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2.seqinfo.txt data/ref/hprc/HG06807/HG06807.haplotype2.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG06807/HG06807.haplotype2.fasta >assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG06807/HG06807.haplotype2.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2.teloinput.fa -o assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG06807#2#CM101429.1_Start processed
+[+]	Chromosome HG06807#2#CM101430.1_Start processed
+[+]	Chromosome HG06807#2#CM101431.1_Start processed
+[+]	Chromosome HG06807#2#CM101432.1_Start processed
+[+]	Chromosome HG06807#2#CM101433.1_Start processed
+[+]	Chromosome HG06807#2#CM101434.1_Start processed
+[+]	Chromosome HG06807#2#CM101435.1_Start processed
+[+]	Chromosome HG06807#2#CM101436.1_Start processed
+[+]	Chromosome HG06807#2#CM101437.1_Start processed
+[+]	Chromosome HG06807#2#CM101438.1_Start processed
+[+]	Chromosome HG06807#2#CM101439.1_Start processed
+[+]	Chromosome HG06807#2#CM101440.1_Start processed
+[+]	Chromosome HG06807#2#CM101441.1_Start processed
+[+]	Chromosome HG06807#2#CM101442.1_Start processed
+[+]	Chromosome HG06807#2#CM101443.1_Start processed
+[+]	Chromosome HG06807#2#CM101444.1_Start processed
+[+]	Chromosome HG06807#2#CM101445.1_Start processed
+[+]	Chromosome HG06807#2#CM101446.1_Start processed
+[+]	Chromosome HG06807#2#CM101447.1_Start processed
+[+]	Chromosome HG06807#2#CM101448.1_Start processed
+[+]	Chromosome HG06807#2#CM101449.1_Start processed
+[+]	Chromosome HG06807#2#CM101450.1_Start processed
+[+]	Chromosome HG06807#2#CM101451.1_Start processed
+[+]	Chromosome HG06807#2#JBKABR010000024.1_Start processed
+[+]	Chromosome HG06807#2#CM101429.1_End processed
+[+]	Chromosome HG06807#2#CM101430.1_End processed
+[+]	Chromosome HG06807#2#CM101431.1_End processed
+[+]	Chromosome HG06807#2#CM101432.1_End processed
+[+]	Chromosome HG06807#2#CM101433.1_End processed
+[+]	Chromosome HG06807#2#CM101434.1_End processed
+[+]	Chromosome HG06807#2#CM101435.1_End processed
+[+]	Chromosome HG06807#2#CM101436.1_End processed
+[+]	Chromosome HG06807#2#CM101437.1_End processed
+[+]	Chromosome HG06807#2#CM101438.1_End processed
+[+]	Chromosome HG06807#2#CM101439.1_End processed
+[+]	Chromosome HG06807#2#CM101440.1_End processed
+[+]	Chromosome HG06807#2#CM101441.1_End processed
+[+]	Chromosome HG06807#2#CM101442.1_End processed
+[+]	Chromosome HG06807#2#CM101443.1_End processed
+[+]	Chromosome HG06807#2#CM101444.1_End processed
+[+]	Chromosome HG06807#2#CM101445.1_End processed
+[+]	Chromosome HG06807#2#CM101446.1_End processed
+[+]	Chromosome HG06807#2#CM101447.1_End processed
+[+]	Chromosome HG06807#2#CM101448.1_End processed
+[+]	Chromosome HG06807#2#CM101449.1_End processed
+[+]	Chromosome HG06807#2#CM101450.1_End processed
+[+]	Chromosome HG06807#2#CM101451.1_End processed
+[+]	Chromosome HG06807#2#JBKABR010000024.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.703*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::54.635*1.42] indexed the graph
+[M::mg_opt_update::58.499*1.39] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::308.847*3.75] mapped 11 sequences
+[M::worker_pipeline::478.658*4.04] mapped 13 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG06807/HG06807.haplotype2.fasta
+[M::main] Real time: 479.596 sec; CPU: 1936.911 sec; Peak RSS: 52.143 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG06807/T2T_contigs.haplotype2_alignment_T2T.txt
+

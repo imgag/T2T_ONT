@@ -1,0 +1,213 @@
+Proceeding analysis with
+	Input fasta:             data/ref/hprc/HG01361/HG01361.haplotype1.fasta
+	Reference fasta:         data/ref/T2T-CHM13.v2.fasta
+	Telomere motif:          TTAGGG
+
+
+Extracting sequence information
+
+seqkit fx2tab -j 6 -o assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1.seqinfo.txt data/ref/hprc/HG01361/HG01361.haplotype1.fasta
+
+
+Extracting 1000bps from start and end of sequences for telomere motif identification
+
+seqkit subseq -w 0 -j 6 -r 1:1000/-1000:-1 data/ref/hprc/HG01361/HG01361.haplotype1.fasta >assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1.teloinput.fa
+
+
+[INFO][0m create FASTA index for data/ref/hprc/HG01361/HG01361.haplotype1.fasta
+searching telomere motif
+
+tidk search -d . -f assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1.teloinput.fa -o assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1 -s TTAGGG -w 1000
+
+
+[+]	Searching genome for telomeric repeat: TTAGGG
+[+]	Chromosome HG01361#1#CM089019.1_Start processed
+[+]	Chromosome HG01361#1#CM089020.1_Start processed
+[+]	Chromosome HG01361#1#CM089021.1_Start processed
+[+]	Chromosome HG01361#1#CM089022.1_Start processed
+[+]	Chromosome HG01361#1#CM089023.1_Start processed
+[+]	Chromosome HG01361#1#CM089024.1_Start processed
+[+]	Chromosome HG01361#1#CM089025.1_Start processed
+[+]	Chromosome HG01361#1#CM089026.1_Start processed
+[+]	Chromosome HG01361#1#CM089027.1_Start processed
+[+]	Chromosome HG01361#1#CM089028.1_Start processed
+[+]	Chromosome HG01361#1#CM089029.1_Start processed
+[+]	Chromosome HG01361#1#CM089030.1_Start processed
+[+]	Chromosome HG01361#1#CM089031.1_Start processed
+[+]	Chromosome HG01361#1#CM089032.1_Start processed
+[+]	Chromosome HG01361#1#CM089033.1_Start processed
+[+]	Chromosome HG01361#1#CM089034.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000001.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000007.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000008.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000010.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000013.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000014.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000015.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000016.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000018.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000019.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000020.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000021.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000022.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000023.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000024.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000025.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000026.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000027.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000028.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000029.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000030.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000031.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000032.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000033.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000034.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000035.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000036.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000037.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000038.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000039.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000040.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000041.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000042.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000043.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000044.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000045.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000046.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000047.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000048.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000053.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000054.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000058.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000059.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000060.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000061.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000062.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000063.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000064.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000065.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000066.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000067.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000068.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000069.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000070.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000071.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000072.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000073.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000074.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000075.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000076.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000077.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000078.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000079.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000080.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000081.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000082.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000083.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000084.1_Start processed
+[+]	Chromosome HG01361#1#JAGYYX020000085.1_Start processed
+[+]	Chromosome HG01361#1#CM089019.1_End processed
+[+]	Chromosome HG01361#1#CM089020.1_End processed
+[+]	Chromosome HG01361#1#CM089021.1_End processed
+[+]	Chromosome HG01361#1#CM089022.1_End processed
+[+]	Chromosome HG01361#1#CM089023.1_End processed
+[+]	Chromosome HG01361#1#CM089024.1_End processed
+[+]	Chromosome HG01361#1#CM089025.1_End processed
+[+]	Chromosome HG01361#1#CM089026.1_End processed
+[+]	Chromosome HG01361#1#CM089027.1_End processed
+[+]	Chromosome HG01361#1#CM089028.1_End processed
+[+]	Chromosome HG01361#1#CM089029.1_End processed
+[+]	Chromosome HG01361#1#CM089030.1_End processed
+[+]	Chromosome HG01361#1#CM089031.1_End processed
+[+]	Chromosome HG01361#1#CM089032.1_End processed
+[+]	Chromosome HG01361#1#CM089033.1_End processed
+[+]	Chromosome HG01361#1#CM089034.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000001.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000007.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000008.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000010.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000013.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000014.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000015.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000016.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000018.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000019.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000020.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000021.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000022.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000023.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000024.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000025.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000026.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000027.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000028.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000029.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000030.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000031.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000032.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000033.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000034.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000035.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000036.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000037.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000038.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000039.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000040.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000041.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000042.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000043.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000044.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000045.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000046.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000047.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000048.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000053.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000054.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000058.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000059.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000060.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000061.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000062.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000063.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000064.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000065.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000066.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000067.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000068.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000069.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000070.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000071.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000072.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000073.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000074.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000075.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000076.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000077.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000078.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000079.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000080.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000081.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000082.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000083.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000084.1_End processed
+[+]	Chromosome HG01361#1#JAGYYX020000085.1_End processed
+[+]	Finished searching genome.
+
+
+Reference sequence provided, proceeding with mapping based T2T filtering
+
+[M::main::4.842*1.00] loaded the graph from "data/ref/T2T-CHM13.v2.fasta"
+[M::mg_index::61.212*1.41] indexed the graph
+[M::mg_opt_update::65.405*1.38] occ_max1=100; lc_max_occ=2
+[M::worker_pipeline::275.022*4.10] mapped 11 sequences
+[M::worker_pipeline::381.026*4.53] mapped 74 sequences
+[M::main] Version: 0.20-r559
+[M::main] CMD: minigraph -x asm --show-unmap=yes -t 6 -K1.9g data/ref/T2T-CHM13.v2.fasta data/ref/hprc/HG01361/HG01361.haplotype1.fasta
+[M::main] Real time: 381.601 sec; CPU: 1724.905 sec; Peak RSS: 52.376 GB
+[M::load_paf::] ==> Loaded assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1.paf
+
+
+Motif based T2T sequences are                 : assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1_motif_T2T.txt
+
+Alignment and motif based T2T sequences       : assembly/qc/phased_hprc/HG01361/T2T_contigs.haplotype1_alignment_T2T.txt
+

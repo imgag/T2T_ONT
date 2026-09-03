@@ -1,0 +1,24 @@
+# Summary stats
+sites_ref_only	0	# sites skipped because there was no ALT allele
+sites_many_als	0	# skipped because of too many ALT alleles
+sites_fail	0	# skipped because of failed -i/-e filter
+sites_no_GT	0	# skipped because of absent FORMAT/GT field
+sites_not_diploid	0	# skipped because FORMAT/GT not formatted diploid
+sites_missing	42372	# number of sites with at least one trio GT missing
+sites_merr	119602	# number of sites with at least one Mendelian error
+sites_good	2818428	# number of sites with at least one good trio
+# Per-trio stats, each column corresponds to one trio. List of trios is below.
+# The meaning of per-trio stats is the same as described above, ngood_alt is
+# the number of good genotypes with at least one non-reference allele, and is
+# included in the ngood counter
+ngood	2818428
+ngood_alt	2818428
+nmerr	119602
+nmissing	42372
+nfail	0
+# List of trios. Their ids are in the same order as the values listed in the stats lines above. For
+# example, the values for the first trio (id=1) and the third trio (id=3) are in the 2nd and the 4th
+# column and their stats can be obtained with the unix command
+#     cat stats.txt | grep ^n | cut -f1,2,4
+# TRIO	[2]id	[3]child	[4]father	[5]mother
+TRIO	1	T2T00	T2T00_1	T2T00_2

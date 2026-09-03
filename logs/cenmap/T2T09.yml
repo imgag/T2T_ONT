@@ -1,0 +1,1291 @@
+[31m
+ .d8888b.                    888b     d888        d8888 8888888b.
+d88P  Y88b                   8888b   d8888       d88888 888   Y88b
+888    888                   88888b.d88888      d88P888 888    888
+888         .d88b.  88888b.  888Y88888P888     d88P 888 888   d88P
+888        d8P  Y8b 888 "88b 888 Y888P 888    d88P  888 8888888P"
+888    888 88888888 888  888 888  Y8P  888   d88P   888 888
+Y88b  d88P Y8b.     888  888 888   "   888  d8888888888 888
+ "Y8888P"   "Y8888  888  888 888       888 d88P     888 888
+[0m
+Generated configfile:
+	/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap/T2T09/results/T2T09/config.yaml
+Running command:
+	snakemake --configfile /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap/T2T09/results/T2T09/config.yaml -c 24 --workflow-profile workflow/profiles/all
+Output dir:
+	results/T2T09
+With sample(s):
+	T2T09
+Using workflow specific profile workflow/profiles/all for setting default command line arguments.
+Using 1 out of 1 samples that have subdirs in data/ont for CDR-Finder.
+Assuming unrestricted shared filesystem usage.
+host: SRV025
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /usr/bin/bash
+Provided cores: 24
+Rules claiming more threads will be scaled down.
+Conda environments: ignored
+Singularity containers: ignored
+Job stats:
+job                                  count
+---------------------------------  -------
+aggregate_as_hor_length                  1
+align_reads_to_asm                       1
+all                                      1
+calculate_as_hor_length                 24
+cdr_cdr_plots                            1
+check_asm_nucflag                        1
+count_complete_cens                      1
+filter_annotations_hor_stv_by_chr       24
+filter_complete_correct_stv_row         24
+get_complete_correct_cens_bed            1
+get_complete_correct_cens_fa             1
+merge_read_asm_alignments                1
+moddotplot_chr                          24
+plot_as_hor_length                       1
+plot_cen_moddotplot                     45
+plot_complete_cen_counts                 1
+plot_hor_stv_by_chr                     48
+plot_ideogram                            1
+total                                  201
+
+Select jobs to execute...
+Execute 17 jobs...
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.yaml, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/sat_annot.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/ident.bedpe, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/stv.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/cdrs.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.png
+    log: logs/11-moddotplot/plot_moddotplot_chr14_T2T09_rc-chr14_haplotype1-0000009:116452-13329835.log
+    jobid: 1312
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.png
+    wildcards: chr=chr14, fname=T2T09_rc-chr14_haplotype1-0000009:116452-13329835
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.yaml -d results/11-moddotplot/combined/plots/chr14 -c T2T09_rc-chr14_haplotype1-0000009:116452-13329835 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr14_T2T09_rc-chr14_haplotype1-0000009:116452-13329835.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule align_reads_to_asm:
+    input: results/8-nucflag/T2T09_merged_dedup_asm.fa, /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap/T2T09/results/T2T09/data/hifi/T2T09/T2T09.HQ_herro.50x.fastq.gz
+    output: results/8-nucflag/T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912.bam
+    log: logs/8-nucflag/align_T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912_hifi_reads_to_asm.log
+    jobid: 120
+    benchmark: benchmarks/8-nucflag/align_T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912_hifi_reads_to_asm.tsv
+    reason: Missing output files: results/8-nucflag/T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912.bam
+    wildcards: sm=T2T09, id=020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912
+    threads: 8
+    resources: mem_mb=50000, mem_mib=7630, disk_mb=84044, disk_mib=80151, tmpdir=/tmp, mem=50GB, sort_mem=4
+Shell command: 
+        { pbmm2 align         --log-level DEBUG --preset SUBREAD --min-length 5000 --strip         -j 8 results/8-nucflag/T2T09_merged_dedup_asm.fa /mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/analysis_other/cenmap/T2T09/results/T2T09/data/hifi/T2T09/T2T09.HQ_herro.50x.fastq.gz | samtools view -F 2308 -u - |         samtools sort -m 4G -@ 8 - ;} > results/8-nucflag/T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912.bam 2>> logs/8-nucflag/align_T2T09_020379d095daaac7cbf46d3a261b0adb1cef9fb61b0fd4adb785d040515cd912_hifi_reads_to_asm.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.yaml, results/11-moddotplot/combined/bed/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/sat_annot.bed, results/11-moddotplot/combined/bed/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/ident.bedpe, results/11-moddotplot/combined/bed/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/stv.bed, results/11-moddotplot/combined/bed/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/cdrs.bed, results/11-moddotplot/combined/bed/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.png
+    log: logs/11-moddotplot/plot_moddotplot_chr20_T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.log
+    jobid: 1361
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.png
+    wildcards: chr=chr20, fname=T2T09_rc-chr20_haplotype1-0000002:25387975-33878350
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.yaml -d results/11-moddotplot/combined/plots/chr20 -c T2T09_rc-chr20_haplotype1-0000002:25387975-33878350 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr20_T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.yaml, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/sat_annot.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/ident.bedpe, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/stv.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/cdrs.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.png
+    log: logs/11-moddotplot/plot_moddotplot_chr7_T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.log
+    jobid: 1245
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.png
+    wildcards: chr=chr7, fname=T2T09_rc-chr7_haplotype2-0000115:57355495-65971216
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.yaml -d results/11-moddotplot/combined/plots/chr7 -c T2T09_rc-chr7_haplotype2-0000115:57355495-65971216 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr7_T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.yaml, results/11-moddotplot/combined/bed/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/sat_annot.bed, results/11-moddotplot/combined/bed/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/ident.bedpe, results/11-moddotplot/combined/bed/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/stv.bed, results/11-moddotplot/combined/bed/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/cdrs.bed, results/11-moddotplot/combined/bed/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.pdf, results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.png
+    log: logs/11-moddotplot/plot_moddotplot_chr13_T2T09_rc-chr13_haplotype2-0000100:2-12269991.log
+    jobid: 1301
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.png, results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.pdf
+    wildcards: chr=chr13, fname=T2T09_rc-chr13_haplotype2-0000100:2-12269991
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.yaml -d results/11-moddotplot/combined/plots/chr13 -c T2T09_rc-chr13_haplotype2-0000100:2-12269991 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr13_T2T09_rc-chr13_haplotype2-0000100:2-12269991.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.yaml, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/sat_annot.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/ident.bedpe, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/stv.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/cdrs.bed, results/11-moddotplot/combined/bed/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.png
+    log: logs/11-moddotplot/plot_moddotplot_chr7_T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.log
+    jobid: 1248
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.png
+    wildcards: chr=chr7, fname=T2T09_rc-chr7_haplotype1-0000025:57283221-65852805
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.yaml -d results/11-moddotplot/combined/plots/chr7 -c T2T09_rc-chr7_haplotype1-0000025:57283221-65852805 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr7_T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.yaml, results/11-moddotplot/combined/bed/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/sat_annot.bed, results/11-moddotplot/combined/bed/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/ident.bedpe, results/11-moddotplot/combined/bed/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/stv.bed, results/11-moddotplot/combined/bed/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/cdrs.bed, results/11-moddotplot/combined/bed/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.png
+    log: logs/11-moddotplot/plot_moddotplot_chr22_T2T09_rc-chr22_haplotype1-0000022:2-10890070.log
+    jobid: 1381
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.png
+    wildcards: chr=chr22, fname=T2T09_rc-chr22_haplotype1-0000022:2-10890070
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.yaml -d results/11-moddotplot/combined/plots/chr22 -c T2T09_rc-chr22_haplotype1-0000022:2-10890070 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr22_T2T09_rc-chr22_haplotype1-0000022:2-10890070.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.yaml, results/11-moddotplot/combined/bed/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/sat_annot.bed, results/11-moddotplot/combined/bed/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/ident.bedpe, results/11-moddotplot/combined/bed/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/stv.bed, results/11-moddotplot/combined/bed/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/cdrs.bed, results/11-moddotplot/combined/bed/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.png
+    log: logs/11-moddotplot/plot_moddotplot_chr1_T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.log
+    jobid: 1185
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.png
+    wildcards: chr=chr1, fname=T2T09_rc-chr1_haplotype2-0000097:121211861-130020115
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.yaml -d results/11-moddotplot/combined/plots/chr1 -c T2T09_rc-chr1_haplotype2-0000097:121211861-130020115 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr1_T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.yaml, results/11-moddotplot/combined/bed/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/sat_annot.bed, results/11-moddotplot/combined/bed/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/ident.bedpe, results/11-moddotplot/combined/bed/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/stv.bed, results/11-moddotplot/combined/bed/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/cdrs.bed, results/11-moddotplot/combined/bed/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.png
+    log: logs/11-moddotplot/plot_moddotplot_chr19_T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.log
+    jobid: 1353
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.png
+    wildcards: chr=chr19, fname=T2T09_rc-chr19_haplotype2-0000110:23414034-30922155
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.yaml -d results/11-moddotplot/combined/plots/chr19 -c T2T09_rc-chr19_haplotype2-0000110:23414034-30922155 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr19_T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.yaml, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/sat_annot.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/ident.bedpe, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/stv.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/cdrs.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.png
+    log: logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype2-0000092:2-10085693.log
+    jobid: 1266
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.pdf
+    wildcards: chr=chr9, fname=T2T09_rc-chr9_haplotype2-0000092:2-10085693
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.yaml -d results/11-moddotplot/combined/plots/chr9 -c T2T09_rc-chr9_haplotype2-0000092:2-10085693 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype2-0000092:2-10085693.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.yaml, results/11-moddotplot/combined/bed/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/sat_annot.bed, results/11-moddotplot/combined/bed/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/ident.bedpe, results/11-moddotplot/combined/bed/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/stv.bed, results/11-moddotplot/combined/bed/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/cdrs.bed, results/11-moddotplot/combined/bed/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.png
+    log: logs/11-moddotplot/plot_moddotplot_chr22_T2T09_chr22_haplotype2-0000101:2-11913582.log
+    jobid: 1384
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.png
+    wildcards: chr=chr22, fname=T2T09_chr22_haplotype2-0000101:2-11913582
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.yaml -d results/11-moddotplot/combined/plots/chr22 -c T2T09_chr22_haplotype2-0000101:2-11913582 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr22_T2T09_chr22_haplotype2-0000101:2-11913582.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.yaml, results/11-moddotplot/combined/bed/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/sat_annot.bed, results/11-moddotplot/combined/bed/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/ident.bedpe, results/11-moddotplot/combined/bed/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/stv.bed, results/11-moddotplot/combined/bed/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/cdrs.bed, results/11-moddotplot/combined/bed/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.png
+    log: logs/11-moddotplot/plot_moddotplot_chr1_T2T09_chr1_haplotype1-0000003:120462921-129022995.log
+    jobid: 1188
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.png, results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.pdf
+    wildcards: chr=chr1, fname=T2T09_chr1_haplotype1-0000003:120462921-129022995
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.yaml -d results/11-moddotplot/combined/plots/chr1 -c T2T09_chr1_haplotype1-0000003:120462921-129022995 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr1_T2T09_chr1_haplotype1-0000003:120462921-129022995.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.yaml, results/11-moddotplot/combined/bed/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/sat_annot.bed, results/11-moddotplot/combined/bed/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/ident.bedpe, results/11-moddotplot/combined/bed/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/stv.bed, results/11-moddotplot/combined/bed/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/cdrs.bed, results/11-moddotplot/combined/bed/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.png
+    log: logs/11-moddotplot/plot_moddotplot_chr19_T2T09_chr19_haplotype1-0000028:23231842-30641283.log
+    jobid: 1356
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.png, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.pdf
+    wildcards: chr=chr19, fname=T2T09_chr19_haplotype1-0000028:23231842-30641283
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.yaml -d results/11-moddotplot/combined/plots/chr19 -c T2T09_chr19_haplotype1-0000028:23231842-30641283 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr19_T2T09_chr19_haplotype1-0000028:23231842-30641283.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.yaml, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/sat_annot.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/ident.bedpe, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/stv.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/cdrs.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.png
+    log: logs/11-moddotplot/plot_moddotplot_chr18_T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.log
+    jobid: 1345
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.png, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.pdf
+    wildcards: chr=chr18, fname=T2T09_rc-chr18_haplotype2-0000106:14559003-21498538
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.yaml -d results/11-moddotplot/combined/plots/chr18 -c T2T09_rc-chr18_haplotype2-0000106:14559003-21498538 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr18_T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.yaml, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/sat_annot.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/ident.bedpe, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/stv.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/cdrs.bed, results/11-moddotplot/combined/bed/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.png
+    log: logs/11-moddotplot/plot_moddotplot_chr18_T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.log
+    jobid: 1348
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.png
+    wildcards: chr=chr18, fname=T2T09_rc-chr18_haplotype1-0000013:14398407-23346233
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.yaml -d results/11-moddotplot/combined/plots/chr18 -c T2T09_rc-chr18_haplotype1-0000013:14398407-23346233 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr18_T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.yaml, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/sat_annot.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/ident.bedpe, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/stv.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/cdrs.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.pdf, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.png
+    log: logs/11-moddotplot/plot_moddotplot_chr11_T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.log
+    jobid: 1288
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.png, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.pdf
+    wildcards: chr=chr11, fname=T2T09_rc-chr11_haplotype1-0000008:47590003-56643956
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.yaml -d results/11-moddotplot/combined/plots/chr11 -c T2T09_rc-chr11_haplotype1-0000008:47590003-56643956 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr11_T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.log
+        
+
+[Tue Nov 11 14:12:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.yaml, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/sat_annot.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/ident.bedpe, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/stv.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/cdrs.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.png
+    log: logs/11-moddotplot/plot_moddotplot_chr4_T2T09_chr4_haplotype2-0000085:48871153-57276480.log
+    jobid: 1221
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.png
+    wildcards: chr=chr4, fname=T2T09_chr4_haplotype2-0000085:48871153-57276480
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.yaml -d results/11-moddotplot/combined/plots/chr4 -c T2T09_chr4_haplotype2-0000085:48871153-57276480 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr4_T2T09_chr4_haplotype2-0000085:48871153-57276480.log
+        
+Select jobs to execute...
+Using 1 out of 1 samples that have subdirs in data/ont for CDR-Finder.
+[Tue Nov 11 14:48:43 2025]
+Finished jobid: 1345 (Rule: plot_cen_moddotplot)
+1 of 201 steps (0.5%) done
+Execute 1 jobs...
+
+[Tue Nov 11 14:48:43 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.yaml, results/11-moddotplot/combined/bed/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/sat_annot.bed, results/11-moddotplot/combined/bed/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/ident.bedpe, results/11-moddotplot/combined/bed/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/stv.bed, results/11-moddotplot/combined/bed/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/cdrs.bed, results/11-moddotplot/combined/bed/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.png
+    log: logs/11-moddotplot/plot_moddotplot_chr20_T2T09_chr20_haplotype2-0000095:25368578-33071685.log
+    jobid: 1364
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.png, results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.pdf
+    wildcards: chr=chr20, fname=T2T09_chr20_haplotype2-0000095:25368578-33071685
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.yaml -d results/11-moddotplot/combined/plots/chr20 -c T2T09_chr20_haplotype2-0000095:25368578-33071685 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr20_T2T09_chr20_haplotype2-0000095:25368578-33071685.log
+        
+Select jobs to execute...
+[Tue Nov 11 14:53:32 2025]
+Finished jobid: 1245 (Rule: plot_cen_moddotplot)
+2 of 201 steps (1%) done
+Execute 1 jobs...
+
+[Tue Nov 11 14:53:32 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.yaml, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/sat_annot.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/ident.bedpe, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/stv.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/cdrs.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.png
+    log: logs/11-moddotplot/plot_moddotplot_chr5_T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.log
+    jobid: 1229
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.png
+    wildcards: chr=chr5, fname=T2T09_rc-chr5_haplotype2-0000107:45095952-52208713
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.yaml -d results/11-moddotplot/combined/plots/chr5 -c T2T09_rc-chr5_haplotype2-0000107:45095952-52208713 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr5_T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.log
+        
+Select jobs to execute...
+[Tue Nov 11 14:57:55 2025]
+Finished jobid: 1301 (Rule: plot_cen_moddotplot)
+3 of 201 steps (1%) done
+Execute 1 jobs...
+
+[Tue Nov 11 14:57:55 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991/T2T09_rc-chr13_haplotype2-0000100:2-12269991.bed, results/11-moddotplot/original/chr13/T2T09_chr13_haplotype1-0000021:469312-8352073/T2T09_chr13_haplotype1-0000021:469312-8352073.bed, results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.pdf, results/11-moddotplot/combined/plots/chr13/T2T09_chr13_haplotype1-0000021:469312-8352073.pdf, results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.png, results/11-moddotplot/combined/plots/chr13/T2T09_chr13_haplotype1-0000021:469312-8352073.png
+    output: results/11-moddotplot/moddotplot_chr13.done
+    jobid: 265
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr13.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.png, results/11-moddotplot/combined/plots/chr13/T2T09_rc-chr13_haplotype2-0000100:2-12269991.pdf
+    wildcards: chr=chr13
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr13.done.
+[Tue Nov 11 14:57:55 2025]
+Finished jobid: 265 (Rule: moddotplot_chr)
+4 of 201 steps (2%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 14:57:55 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.yaml, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/sat_annot.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/ident.bedpe, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/stv.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/cdrs.bed, results/11-moddotplot/combined/bed/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.png
+    log: logs/11-moddotplot/plot_moddotplot_chr14_T2T09_rc-chr14_haplotype2-0000108:89302-9991563.log
+    jobid: 1309
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.png, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.pdf
+    wildcards: chr=chr14, fname=T2T09_rc-chr14_haplotype2-0000108:89302-9991563
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.yaml -d results/11-moddotplot/combined/plots/chr14 -c T2T09_rc-chr14_haplotype2-0000108:89302-9991563 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr14_T2T09_rc-chr14_haplotype2-0000108:89302-9991563.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:03:53 2025]
+Finished jobid: 1312 (Rule: plot_cen_moddotplot)
+5 of 201 steps (2%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:03:53 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.yaml, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/sat_annot.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/ident.bedpe, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/stv.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/cdrs.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.png
+    log: logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.log
+    jobid: 1272
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.png
+    wildcards: chr=chr9, fname=T2T09_rc-chr9_haplotype1-0000011:39770943-46934045
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.yaml -d results/11-moddotplot/combined/plots/chr9 -c T2T09_rc-chr9_haplotype1-0000011:39770943-46934045 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:08:39 2025]
+Finished jobid: 1188 (Rule: plot_cen_moddotplot)
+6 of 201 steps (3%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:08:39 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.yaml, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/sat_annot.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/ident.bedpe, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/stv.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/cdrs.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.pdf, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.png
+    log: logs/11-moddotplot/plot_moddotplot_chr3_T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.log
+    jobid: 1216
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.png, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.pdf
+    wildcards: chr=chr3, fname=T2T09_rc-chr3_haplotype1-0000015:88717115-97089388
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.yaml -d results/11-moddotplot/combined/plots/chr3 -c T2T09_rc-chr3_haplotype1-0000015:88717115-97089388 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr3_T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:11:39 2025]
+Finished jobid: 1348 (Rule: plot_cen_moddotplot)
+7 of 201 steps (3%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:11:39 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.bed, results/11-moddotplot/original/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.bed, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.png, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.png
+    output: results/11-moddotplot/moddotplot_chr18.done
+    jobid: 270
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr18.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.pdf, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.png, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype1-0000013:14398407-23346233.png, results/11-moddotplot/combined/plots/chr18/T2T09_rc-chr18_haplotype2-0000106:14559003-21498538.pdf
+    wildcards: chr=chr18
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr18.done.
+[Tue Nov 11 15:11:39 2025]
+Finished jobid: 270 (Rule: moddotplot_chr)
+8 of 201 steps (4%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:11:39 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.yaml, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/sat_annot.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/ident.bedpe, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/stv.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/cdrs.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.png
+    log: logs/11-moddotplot/plot_moddotplot_chr15_T2T09_chr15_haplotype2-0000094:3752690-10647127.log
+    jobid: 1317
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.png
+    wildcards: chr=chr15, fname=T2T09_chr15_haplotype2-0000094:3752690-10647127
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.yaml -d results/11-moddotplot/combined/plots/chr15 -c T2T09_chr15_haplotype2-0000094:3752690-10647127 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr15_T2T09_chr15_haplotype2-0000094:3752690-10647127.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:23:19 2025]
+Finished jobid: 1364 (Rule: plot_cen_moddotplot)
+9 of 201 steps (4%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:23:19 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.yaml, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/sat_annot.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/ident.bedpe, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/stv.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/cdrs.bed, results/11-moddotplot/combined/bed/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.pdf, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.png
+    log: logs/11-moddotplot/plot_moddotplot_chr11_T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.log
+    jobid: 1285
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.png, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.pdf
+    wildcards: chr=chr11, fname=T2T09_rc-chr11_haplotype2-0000089:47776022-55035950
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.yaml -d results/11-moddotplot/combined/plots/chr11 -c T2T09_rc-chr11_haplotype2-0000089:47776022-55035950 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr11_T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:25:34 2025]
+Finished jobid: 1229 (Rule: plot_cen_moddotplot)
+10 of 201 steps (5%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:25:34 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.yaml, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/sat_annot.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/ident.bedpe, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/stv.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/cdrs.bed, results/11-moddotplot/combined/bed/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.png
+    log: logs/11-moddotplot/plot_moddotplot_chr5_T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.log
+    jobid: 1232
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.png
+    wildcards: chr=chr5, fname=T2T09_rc-chr5_haplotype1-0000024:45460374-51924898
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.yaml -d results/11-moddotplot/combined/plots/chr5 -c T2T09_rc-chr5_haplotype1-0000024:45460374-51924898 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr5_T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:28:22 2025]
+Finished jobid: 1309 (Rule: plot_cen_moddotplot)
+11 of 201 steps (5%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:28:23 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.bed, results/11-moddotplot/original/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.bed, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.png, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.png
+    output: results/11-moddotplot/moddotplot_chr14.done
+    jobid: 266
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr14.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.png, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype2-0000108:89302-9991563.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.pdf, results/11-moddotplot/combined/plots/chr14/T2T09_rc-chr14_haplotype1-0000009:116452-13329835.png
+    wildcards: chr=chr14
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr14.done.
+[Tue Nov 11 15:28:23 2025]
+Finished jobid: 266 (Rule: moddotplot_chr)
+12 of 201 steps (6%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:28:23 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.yaml, results/11-moddotplot/combined/bed/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/sat_annot.bed, results/11-moddotplot/combined/bed/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/ident.bedpe, results/11-moddotplot/combined/bed/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/stv.bed, results/11-moddotplot/combined/bed/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/cdrs.bed, results/11-moddotplot/combined/bed/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/methyl.bed
+    output: results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.pdf, results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.png
+    log: logs/11-moddotplot/plot_moddotplot_chrX_T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.log
+    jobid: 1388
+    reason: Missing output files: results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.pdf, results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.png
+    wildcards: chr=chrX, fname=T2T09_rc-chrX_haplotype2-0000113:56751174-62738622
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.yaml -d results/11-moddotplot/combined/plots/chrX -c T2T09_rc-chrX_haplotype2-0000113:56751174-62738622 -p 1 2> logs/11-moddotplot/plot_moddotplot_chrX_T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:30:53 2025]
+Finished jobid: 1248 (Rule: plot_cen_moddotplot)
+13 of 201 steps (6%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:30:54 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.bed, results/11-moddotplot/original/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.bed, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.png, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.png
+    output: results/11-moddotplot/moddotplot_chr7.done
+    jobid: 259
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr7.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.png, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype1-0000025:57283221-65852805.pdf, results/11-moddotplot/combined/plots/chr7/T2T09_rc-chr7_haplotype2-0000115:57355495-65971216.png
+    wildcards: chr=chr7
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr7.done.
+[Tue Nov 11 15:30:54 2025]
+Finished jobid: 259 (Rule: moddotplot_chr)
+14 of 201 steps (7%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:30:54 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.yaml, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/sat_annot.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/ident.bedpe, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/stv.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/cdrs.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.pdf, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.png
+    log: logs/11-moddotplot/plot_moddotplot_chr12_T2T09_chr12_haplotype1-0000010:33357858-39585635.log
+    jobid: 1296
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.png, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.pdf
+    wildcards: chr=chr12, fname=T2T09_chr12_haplotype1-0000010:33357858-39585635
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.yaml -d results/11-moddotplot/combined/plots/chr12 -c T2T09_chr12_haplotype1-0000010:33357858-39585635 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr12_T2T09_chr12_haplotype1-0000010:33357858-39585635.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:36:01 2025]
+Finished jobid: 1216 (Rule: plot_cen_moddotplot)
+15 of 201 steps (7%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:36:01 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.yaml, results/11-moddotplot/combined/bed/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/sat_annot.bed, results/11-moddotplot/combined/bed/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/ident.bedpe, results/11-moddotplot/combined/bed/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/stv.bed, results/11-moddotplot/combined/bed/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/cdrs.bed, results/11-moddotplot/combined/bed/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.png
+    log: logs/11-moddotplot/plot_moddotplot_chr16_T2T09_chr16_haplotype1-0000014:10686895-18575545.log
+    jobid: 1332
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.png, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.pdf
+    wildcards: chr=chr16, fname=T2T09_chr16_haplotype1-0000014:10686895-18575545
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.yaml -d results/11-moddotplot/combined/plots/chr16 -c T2T09_chr16_haplotype1-0000014:10686895-18575545 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr16_T2T09_chr16_haplotype1-0000014:10686895-18575545.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:36:04 2025]
+Finished jobid: 1356 (Rule: plot_cen_moddotplot)
+16 of 201 steps (8%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:36:04 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.yaml, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/sat_annot.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/ident.bedpe, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/stv.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/cdrs.bed, results/11-moddotplot/combined/bed/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.pdf, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.png
+    log: logs/11-moddotplot/plot_moddotplot_chr12_T2T09_chr12_haplotype2-0000091:33514235-39547000.log
+    jobid: 1293
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.png, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.pdf
+    wildcards: chr=chr12, fname=T2T09_chr12_haplotype2-0000091:33514235-39547000
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.yaml -d results/11-moddotplot/combined/plots/chr12 -c T2T09_chr12_haplotype2-0000091:33514235-39547000 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr12_T2T09_chr12_haplotype2-0000091:33514235-39547000.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:36:23 2025]
+Finished jobid: 1272 (Rule: plot_cen_moddotplot)
+17 of 201 steps (8%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:36:23 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.yaml, results/11-moddotplot/combined/bed/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/sat_annot.bed, results/11-moddotplot/combined/bed/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/ident.bedpe, results/11-moddotplot/combined/bed/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/stv.bed, results/11-moddotplot/combined/bed/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/cdrs.bed, results/11-moddotplot/combined/bed/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.pdf, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.png
+    log: logs/11-moddotplot/plot_moddotplot_chr17_T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.log
+    jobid: 1340
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.png, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.pdf
+    wildcards: chr=chr17, fname=T2T09_rc-chr17_haplotype1-0000026:21805293-27794439
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.yaml -d results/11-moddotplot/combined/plots/chr17 -c T2T09_rc-chr17_haplotype1-0000026:21805293-27794439 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr17_T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:39:29 2025]
+Finished jobid: 1221 (Rule: plot_cen_moddotplot)
+18 of 201 steps (9%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:39:29 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.yaml, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/sat_annot.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/ident.bedpe, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/stv.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/cdrs.bed, results/11-moddotplot/combined/bed/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.pdf, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.png
+    log: logs/11-moddotplot/plot_moddotplot_chr3_T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.log
+    jobid: 1213
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.png, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.pdf
+    wildcards: chr=chr3, fname=T2T09_rc-chr3_haplotype2-0000112:89330192-96006352
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.yaml -d results/11-moddotplot/combined/plots/chr3 -c T2T09_rc-chr3_haplotype2-0000112:89330192-96006352 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr3_T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:40:30 2025]
+Finished jobid: 1361 (Rule: plot_cen_moddotplot)
+19 of 201 steps (9%) done
+[Tue Nov 11 15:40:30 2025]
+Finished jobid: 1317 (Rule: plot_cen_moddotplot)
+20 of 201 steps (10%) done
+Execute 2 jobs...
+
+[Tue Nov 11 15:40:30 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.bed, results/11-moddotplot/original/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685/T2T09_chr20_haplotype2-0000095:25368578-33071685.bed, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.png, results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.png
+    output: results/11-moddotplot/moddotplot_chr20.done
+    jobid: 272
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr20.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.png, results/11-moddotplot/combined/plots/chr20/T2T09_chr20_haplotype2-0000095:25368578-33071685.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.pdf, results/11-moddotplot/combined/plots/chr20/T2T09_rc-chr20_haplotype1-0000002:25387975-33878350.png
+    wildcards: chr=chr20
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+
+[Tue Nov 11 15:40:30 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.yaml, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/sat_annot.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/ident.bedpe, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/stv.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/cdrs.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.png
+    log: logs/11-moddotplot/plot_moddotplot_chr8_T2T09_chr8_haplotype2-0000099:42070232-48042665.log
+    jobid: 1253
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.png
+    wildcards: chr=chr8, fname=T2T09_chr8_haplotype2-0000099:42070232-48042665
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.yaml -d results/11-moddotplot/combined/plots/chr8 -c T2T09_chr8_haplotype2-0000099:42070232-48042665 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr8_T2T09_chr8_haplotype2-0000099:42070232-48042665.log
+        
+Touching output file results/11-moddotplot/moddotplot_chr20.done.
+[Tue Nov 11 15:40:30 2025]
+Finished jobid: 272 (Rule: moddotplot_chr)
+21 of 201 steps (10%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:40:30 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.yaml, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/sat_annot.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/ident.bedpe, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/stv.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/cdrs.bed, results/11-moddotplot/combined/bed/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.png
+    log: logs/11-moddotplot/plot_moddotplot_chr8_T2T09_chr8_haplotype1-0000020:41476976-47180245.log
+    jobid: 1256
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.png
+    wildcards: chr=chr8, fname=T2T09_chr8_haplotype1-0000020:41476976-47180245
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.yaml -d results/11-moddotplot/combined/plots/chr8 -c T2T09_chr8_haplotype1-0000020:41476976-47180245 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr8_T2T09_chr8_haplotype1-0000020:41476976-47180245.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:44:40 2025]
+Finished jobid: 1288 (Rule: plot_cen_moddotplot)
+22 of 201 steps (11%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:44:40 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.yaml, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/sat_annot.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/ident.bedpe, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/stv.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/cdrs.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.png
+    log: logs/11-moddotplot/plot_moddotplot_chr6_T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.log
+    jobid: 1240
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.png
+    wildcards: chr=chr6, fname=T2T09_rc-chr6_haplotype1-0000005:57344970-63290155
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.yaml -d results/11-moddotplot/combined/plots/chr6 -c T2T09_rc-chr6_haplotype1-0000005:57344970-63290155 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr6_T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:49:49 2025]
+Finished jobid: 1232 (Rule: plot_cen_moddotplot)
+23 of 201 steps (11%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:49:49 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.bed, results/11-moddotplot/original/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.bed, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.png, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.png
+    output: results/11-moddotplot/moddotplot_chr5.done
+    jobid: 257
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr5.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.png, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype1-0000024:45460374-51924898.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.pdf, results/11-moddotplot/combined/plots/chr5/T2T09_rc-chr5_haplotype2-0000107:45095952-52208713.png
+    wildcards: chr=chr5
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr5.done.
+[Tue Nov 11 15:49:49 2025]
+Finished jobid: 257 (Rule: moddotplot_chr)
+24 of 201 steps (12%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:49:49 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.yaml, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/sat_annot.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/ident.bedpe, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/stv.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/cdrs.bed, results/11-moddotplot/combined/bed/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.png
+    log: logs/11-moddotplot/plot_moddotplot_chr4_T2T09_chr4_haplotype1-0000001:48854575-55573965.log
+    jobid: 1224
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.png, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.pdf
+    wildcards: chr=chr4, fname=T2T09_chr4_haplotype1-0000001:48854575-55573965
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.yaml -d results/11-moddotplot/combined/plots/chr4 -c T2T09_chr4_haplotype1-0000001:48854575-55573965 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr4_T2T09_chr4_haplotype1-0000001:48854575-55573965.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:50:16 2025]
+Finished jobid: 1353 (Rule: plot_cen_moddotplot)
+25 of 201 steps (12%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:50:16 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.bed, results/11-moddotplot/original/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283/T2T09_chr19_haplotype1-0000028:23231842-30641283.bed, results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.png, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.png
+    output: results/11-moddotplot/moddotplot_chr19.done
+    jobid: 271
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr19.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.pdf, results/11-moddotplot/combined/plots/chr19/T2T09_rc-chr19_haplotype2-0000110:23414034-30922155.png, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.png, results/11-moddotplot/combined/plots/chr19/T2T09_chr19_haplotype1-0000028:23231842-30641283.pdf
+    wildcards: chr=chr19
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr19.done.
+[Tue Nov 11 15:50:16 2025]
+Finished jobid: 271 (Rule: moddotplot_chr)
+26 of 201 steps (13%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:50:16 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.yaml, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/sat_annot.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/ident.bedpe, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/stv.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/cdrs.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.png
+    log: logs/11-moddotplot/plot_moddotplot_chr2_T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.log
+    jobid: 1199
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.png
+    wildcards: chr=chr2, fname=T2T09_rc-chr2_haplotype2-0000098:91373477-96790616
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.yaml -d results/11-moddotplot/combined/plots/chr2 -c T2T09_rc-chr2_haplotype2-0000098:91373477-96790616 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr2_T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:52:32 2025]
+Finished jobid: 1381 (Rule: plot_cen_moddotplot)
+27 of 201 steps (13%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:52:32 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.yaml, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/sat_annot.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/ident.bedpe, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/stv.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/cdrs.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.png
+    log: logs/11-moddotplot/plot_moddotplot_chr16_T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.log
+    jobid: 1326
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.png
+    wildcards: chr=chr16, fname=T2T09_rc-chr16_haplotype2-0000086:31618740-38389382
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.yaml -d results/11-moddotplot/combined/plots/chr16 -c T2T09_rc-chr16_haplotype2-0000086:31618740-38389382 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr16_T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:56:57 2025]
+Finished jobid: 1285 (Rule: plot_cen_moddotplot)
+28 of 201 steps (14%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:56:57 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.bed, results/11-moddotplot/original/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.bed, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.pdf, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.pdf, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.png, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.png
+    output: results/11-moddotplot/moddotplot_chr11.done
+    jobid: 263
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr11.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.png, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype2-0000089:47776022-55035950.pdf, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.png, results/11-moddotplot/combined/plots/chr11/T2T09_rc-chr11_haplotype1-0000008:47590003-56643956.pdf
+    wildcards: chr=chr11
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr11.done.
+[Tue Nov 11 15:56:57 2025]
+Finished jobid: 263 (Rule: moddotplot_chr)
+29 of 201 steps (14%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:56:57 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.yaml, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/sat_annot.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/ident.bedpe, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/stv.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/cdrs.bed, results/11-moddotplot/combined/bed/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.png
+    log: logs/11-moddotplot/plot_moddotplot_chr15_T2T09_chr15_haplotype1-0000012:3788492-9452391.log
+    jobid: 1320
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.png
+    wildcards: chr=chr15, fname=T2T09_chr15_haplotype1-0000012:3788492-9452391
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.yaml -d results/11-moddotplot/combined/plots/chr15 -c T2T09_chr15_haplotype1-0000012:3788492-9452391 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr15_T2T09_chr15_haplotype1-0000012:3788492-9452391.log
+        
+Select jobs to execute...
+[Tue Nov 11 15:58:54 2025]
+Finished jobid: 1384 (Rule: plot_cen_moddotplot)
+30 of 201 steps (15%) done
+Execute 1 jobs...
+
+[Tue Nov 11 15:58:54 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070/T2T09_rc-chr22_haplotype1-0000022:2-10890070.bed, results/11-moddotplot/original/chr22/T2T09_chr22_haplotype2-0000101:2-11913582/T2T09_chr22_haplotype2-0000101:2-11913582.bed, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.png, results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.png
+    output: results/11-moddotplot/moddotplot_chr22.done
+    jobid: 274
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr22.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.png, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_chr22_haplotype2-0000101:2-11913582.pdf, results/11-moddotplot/combined/plots/chr22/T2T09_rc-chr22_haplotype1-0000022:2-10890070.png
+    wildcards: chr=chr22
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr22.done.
+[Tue Nov 11 15:58:54 2025]
+Finished jobid: 274 (Rule: moddotplot_chr)
+31 of 201 steps (15%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 15:58:54 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.yaml, results/11-moddotplot/combined/bed/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/sat_annot.bed, results/11-moddotplot/combined/bed/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/ident.bedpe, results/11-moddotplot/combined/bed/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/stv.bed, results/11-moddotplot/combined/bed/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/cdrs.bed, results/11-moddotplot/combined/bed/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.png
+    log: logs/11-moddotplot/plot_moddotplot_chr21_T2T09_chr21_haplotype1-0000023:339553-7192802.log
+    jobid: 1376
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.png
+    wildcards: chr=chr21, fname=T2T09_chr21_haplotype1-0000023:339553-7192802
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.yaml -d results/11-moddotplot/combined/plots/chr21 -c T2T09_chr21_haplotype1-0000023:339553-7192802 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr21_T2T09_chr21_haplotype1-0000023:339553-7192802.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:01:06 2025]
+Finished jobid: 1340 (Rule: plot_cen_moddotplot)
+32 of 201 steps (16%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:01:06 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr17/T2T09_rc-chr17_haplotype2-0000088:22101198-27219747/T2T09_rc-chr17_haplotype2-0000088:22101198-27219747.bed, results/11-moddotplot/original/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.bed, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype2-0000088:22101198-27219747.pdf, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.pdf, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype2-0000088:22101198-27219747.png, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.png
+    output: results/11-moddotplot/moddotplot_chr17.done
+    jobid: 269
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr17.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.png, results/11-moddotplot/combined/plots/chr17/T2T09_rc-chr17_haplotype1-0000026:21805293-27794439.pdf
+    wildcards: chr=chr17
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr17.done.
+[Tue Nov 11 16:01:06 2025]
+Finished jobid: 269 (Rule: moddotplot_chr)
+33 of 201 steps (16%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:01:06 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.yaml, results/11-moddotplot/combined/bed/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/sat_annot.bed, results/11-moddotplot/combined/bed/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/ident.bedpe, results/11-moddotplot/combined/bed/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/stv.bed, results/11-moddotplot/combined/bed/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/cdrs.bed, results/11-moddotplot/combined/bed/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.pdf, results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.png
+    log: logs/11-moddotplot/plot_moddotplot_chr10_T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.log
+    jobid: 1277
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.pdf, results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.png
+    wildcards: chr=chr10, fname=T2T09_rc-chr10_haplotype2-0000096:38085234-43205546
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.yaml -d results/11-moddotplot/combined/plots/chr10 -c T2T09_rc-chr10_haplotype2-0000096:38085234-43205546 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr10_T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:08:03 2025]
+Finished jobid: 1224 (Rule: plot_cen_moddotplot)
+34 of 201 steps (17%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:08:03 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480/T2T09_chr4_haplotype2-0000085:48871153-57276480.bed, results/11-moddotplot/original/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965/T2T09_chr4_haplotype1-0000001:48854575-55573965.bed, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.png, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.png
+    output: results/11-moddotplot/moddotplot_chr4.done
+    jobid: 256
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr4.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.png, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype1-0000001:48854575-55573965.pdf, results/11-moddotplot/combined/plots/chr4/T2T09_chr4_haplotype2-0000085:48871153-57276480.png
+    wildcards: chr=chr4
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr4.done.
+[Tue Nov 11 16:08:03 2025]
+Finished jobid: 256 (Rule: moddotplot_chr)
+35 of 201 steps (17%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:08:03 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.yaml, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/sat_annot.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/ident.bedpe, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/stv.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/cdrs.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.png
+    log: logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.log
+    jobid: 1263
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.png
+    wildcards: chr=chr9, fname=T2T09_rc-chr9_haplotype2-0000092:23331778-27998432
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.yaml -d results/11-moddotplot/combined/plots/chr9 -c T2T09_rc-chr9_haplotype2-0000092:23331778-27998432 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:08:42 2025]
+Finished jobid: 1293 (Rule: plot_cen_moddotplot)
+36 of 201 steps (18%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:08:42 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.yaml, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/sat_annot.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/ident.bedpe, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/stv.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/cdrs.bed, results/11-moddotplot/combined/bed/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.png
+    log: logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.log
+    jobid: 1269
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.png
+    wildcards: chr=chr9, fname=T2T09_rc-chr9_haplotype1-0000011:57717836-62398938
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.yaml -d results/11-moddotplot/combined/plots/chr9 -c T2T09_rc-chr9_haplotype1-0000011:57717836-62398938 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr9_T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:09:01 2025]
+Finished jobid: 1199 (Rule: plot_cen_moddotplot)
+37 of 201 steps (18%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:09:01 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.yaml, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/sat_annot.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/ident.bedpe, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/stv.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/cdrs.bed, results/11-moddotplot/combined/bed/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.png
+    log: logs/11-moddotplot/plot_moddotplot_chr6_T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.log
+    jobid: 1237
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.png, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.pdf
+    wildcards: chr=chr6, fname=T2T09_rc-chr6_haplotype2-0000090:57646271-62921133
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.yaml -d results/11-moddotplot/combined/plots/chr6 -c T2T09_rc-chr6_haplotype2-0000090:57646271-62921133 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr6_T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:09:10 2025]
+Finished jobid: 1256 (Rule: plot_cen_moddotplot)
+38 of 201 steps (19%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:09:10 2025]
+localrule cdr_cdr_plots:
+    input: results/8-cdr_finder/plot/T2T09/T2T09_rc-chr17_haplotype1-0000026.png, results/8-cdr_finder/plot/T2T09/T2T09_chr21_haplotype2-0000174.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr20_haplotype1-0000002.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr1_haplotype2-0000097.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr18_haplotype1-0000013.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr18_haplotype2-0000106.png, results/8-cdr_finder/plot/T2T09/T2T09_chr12_haplotype2-0000091.png, results/8-cdr_finder/plot/T2T09/T2T09_chr15_haplotype1-0000012.png, results/8-cdr_finder/plot/T2T09/T2T09_chr8_haplotype1-0000020.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr5_haplotype2-0000107.png, results/8-cdr_finder/plot/T2T09/T2T09_chr10_haplotype1-0000004.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr9_haplotype2-0000092.png, results/8-cdr_finder/plot/T2T09/T2T09_chr13_haplotype1-0000021.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr13_haplotype2-0000100.png, results/8-cdr_finder/plot/T2T09/T2T09_chr19_haplotype1-0000028.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr5_haplotype1-0000024.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr6_haplotype1-0000005.png, results/8-cdr_finder/plot/T2T09/T2T09_chr21_haplotype1-0000023.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr22_haplotype1-0000022.png, results/8-cdr_finder/plot/T2T09/T2T09_chr4_haplotype1-0000001.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr7_haplotype2-0000115.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr19_haplotype2-0000110.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr2_haplotype2-0000098.png, results/8-cdr_finder/plot/T2T09/T2T09_chr22_haplotype2-0000101.png, results/8-cdr_finder/plot/T2T09/T2T09_chr21_haplotype2-0000103.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr9_haplotype1-0000011.png, results/8-cdr_finder/plot/T2T09/T2T09_chr1_haplotype1-0000003.png, results/8-cdr_finder/plot/T2T09/T2T09_chr20_haplotype2-0000095.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr10_haplotype2-0000096.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr11_haplotype1-0000008.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr2_haplotype1-0000017.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr6_haplotype2-0000090.png, results/8-cdr_finder/plot/T2T09/T2T09_chr15_haplotype2-0000094.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr17_haplotype2-0000088.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chrX_haplotype2-0000113.png, results/8-cdr_finder/plot/T2T09/T2T09_chrY_haplotype1-0000018.png, results/8-cdr_finder/plot/T2T09/T2T09_chr8_haplotype2-0000099.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr14_haplotype1-0000009.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr11_haplotype2-0000089.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr16_haplotype2-0000086.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr16_haplotype1-0000075.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr3_haplotype2-0000112.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr3_haplotype1-0000015.png, results/8-cdr_finder/plot/T2T09/T2T09_chr4_haplotype2-0000085.png, results/8-cdr_finder/plot/T2T09/T2T09_chr16_haplotype1-0000014.png, results/8-cdr_finder/plot/T2T09/T2T09_chr12_haplotype1-0000010.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr7_haplotype1-0000025.png, results/8-cdr_finder/plot/T2T09/T2T09_rc-chr14_haplotype2-0000108.png
+    output: results/8-cdr_finder/plot/T2T09.done
+    jobid: 306
+    reason: Missing output files: results/8-cdr_finder/plot/T2T09.done
+    wildcards: sample=T2T09
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/8-cdr_finder/plot/T2T09.done.
+[Tue Nov 11 16:09:11 2025]
+Finished jobid: 306 (Rule: cdr_cdr_plots)
+39 of 201 steps (19%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:09:11 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.yaml, results/11-moddotplot/combined/bed/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/sat_annot.bed, results/11-moddotplot/combined/bed/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/ident.bedpe, results/11-moddotplot/combined/bed/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/stv.bed, results/11-moddotplot/combined/bed/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/cdrs.bed, results/11-moddotplot/combined/bed/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/methyl.bed
+    output: results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.pdf, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.png
+    log: logs/11-moddotplot/plot_moddotplot_chrY_T2T09_chrY_haplotype1-0000018:9068905-11606555.log
+    jobid: 1393
+    reason: Missing output files: results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.png, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.pdf
+    wildcards: chr=chrY, fname=T2T09_chrY_haplotype1-0000018:9068905-11606555
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.yaml -d results/11-moddotplot/combined/plots/chrY -c T2T09_chrY_haplotype1-0000018:9068905-11606555 -p 1 2> logs/11-moddotplot/plot_moddotplot_chrY_T2T09_chrY_haplotype1-0000018:9068905-11606555.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:09:42 2025]
+Finished jobid: 1185 (Rule: plot_cen_moddotplot)
+40 of 201 steps (20%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:09:42 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.bed, results/11-moddotplot/original/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995/T2T09_chr1_haplotype1-0000003:120462921-129022995.bed, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.png, results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.png
+    output: results/11-moddotplot/moddotplot_chr1.done
+    jobid: 253
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr1.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.png, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.pdf, results/11-moddotplot/combined/plots/chr1/T2T09_rc-chr1_haplotype2-0000097:121211861-130020115.png, results/11-moddotplot/combined/plots/chr1/T2T09_chr1_haplotype1-0000003:120462921-129022995.pdf
+    wildcards: chr=chr1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr1.done.
+[Tue Nov 11 16:09:42 2025]
+Finished jobid: 253 (Rule: moddotplot_chr)
+41 of 201 steps (20%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:09:42 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.yaml, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/sat_annot.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/ident.bedpe, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/stv.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/cdrs.bed, results/11-moddotplot/combined/bed/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.png
+    log: logs/11-moddotplot/plot_moddotplot_chr16_T2T09_rc-chr16_haplotype1-0000075:2-764361.log
+    jobid: 1329
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.png
+    wildcards: chr=chr16, fname=T2T09_rc-chr16_haplotype1-0000075:2-764361
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.yaml -d results/11-moddotplot/combined/plots/chr16 -c T2T09_rc-chr16_haplotype1-0000075:2-764361 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr16_T2T09_rc-chr16_haplotype1-0000075:2-764361.log
+        
+Select jobs to execute...
+[Tue Nov 11 16:10:06 2025]
+Finished jobid: 1329 (Rule: plot_cen_moddotplot)
+42 of 201 steps (21%) done
+Execute 1 jobs...
+
+[Tue Nov 11 16:10:06 2025]
+localrule plot_cen_moddotplot:
+    input: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.yaml, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/sat_annot.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/ident.bedpe, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/stv.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/cdrs.bed, results/11-moddotplot/combined/bed/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/methyl.bed
+    output: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.png
+    log: logs/11-moddotplot/plot_moddotplot_chr2_T2T09_rc-chr2_unassigned-0000262:2-153129.log
+    jobid: 1196
+    reason: Missing output files: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.png
+    wildcards: chr=chr2, fname=T2T09_rc-chr2_unassigned-0000262:2-153129
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: 
+        cenplot draw -t results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.yaml -d results/11-moddotplot/combined/plots/chr2 -c T2T09_rc-chr2_unassigned-0000262:2-153129 -p 1 2> logs/11-moddotplot/plot_moddotplot_chr2_T2T09_rc-chr2_unassigned-0000262:2-153129.log
+        
+[Tue Nov 11 16:10:19 2025]
+Finished jobid: 1196 (Rule: plot_cen_moddotplot)
+43 of 201 steps (21%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:10:19 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129/T2T09_rc-chr2_unassigned-0000262:2-153129.bed, results/11-moddotplot/original/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.bed, results/11-moddotplot/original/chr2/T2T09_rc-chr2_haplotype2-0000098:132376988-134416839/T2T09_rc-chr2_haplotype2-0000098:132376988-134416839.bed, results/11-moddotplot/original/chr2/T2T09_rc-chr2_haplotype1-0000017:91510603-95191589/T2T09_rc-chr2_haplotype1-0000017:91510603-95191589.bed, results/11-moddotplot/original/chr2/T2T09_rc-chr2_haplotype1-0000017:130707291-132748419/T2T09_rc-chr2_haplotype1-0000017:130707291-132748419.bed, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:132376988-134416839.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype1-0000017:91510603-95191589.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype1-0000017:130707291-132748419.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.png, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.png, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:132376988-134416839.png, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype1-0000017:91510603-95191589.png, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype1-0000017:130707291-132748419.png
+    output: results/11-moddotplot/moddotplot_chr2.done
+    jobid: 254
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr2.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_haplotype2-0000098:91373477-96790616.png, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.pdf, results/11-moddotplot/combined/plots/chr2/T2T09_rc-chr2_unassigned-0000262:2-153129.png
+    wildcards: chr=chr2
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr2.done.
+[Tue Nov 11 16:10:19 2025]
+Finished jobid: 254 (Rule: moddotplot_chr)
+44 of 201 steps (22%) done
+[Tue Nov 11 16:10:53 2025]
+Finished jobid: 1332 (Rule: plot_cen_moddotplot)
+45 of 201 steps (22%) done
+[Tue Nov 11 16:11:14 2025]
+Finished jobid: 1296 (Rule: plot_cen_moddotplot)
+46 of 201 steps (23%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:11:14 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000/T2T09_chr12_haplotype2-0000091:33514235-39547000.bed, results/11-moddotplot/original/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635/T2T09_chr12_haplotype1-0000010:33357858-39585635.bed, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.pdf, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.pdf, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.png, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.png
+    output: results/11-moddotplot/moddotplot_chr12.done
+    jobid: 264
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr12.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.pdf, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype1-0000010:33357858-39585635.png, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.png, results/11-moddotplot/combined/plots/chr12/T2T09_chr12_haplotype2-0000091:33514235-39547000.pdf
+    wildcards: chr=chr12
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr12.done.
+[Tue Nov 11 16:11:14 2025]
+Finished jobid: 264 (Rule: moddotplot_chr)
+47 of 201 steps (23%) done
+[Tue Nov 11 16:11:25 2025]
+Finished jobid: 1240 (Rule: plot_cen_moddotplot)
+48 of 201 steps (24%) done
+[Tue Nov 11 16:11:27 2025]
+Finished jobid: 1213 (Rule: plot_cen_moddotplot)
+49 of 201 steps (24%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:11:27 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.bed, results/11-moddotplot/original/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.bed, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.pdf, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.pdf, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.png, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.png
+    output: results/11-moddotplot/moddotplot_chr3.done
+    jobid: 255
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr3.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.png, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.pdf, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype1-0000015:88717115-97089388.png, results/11-moddotplot/combined/plots/chr3/T2T09_rc-chr3_haplotype2-0000112:89330192-96006352.pdf
+    wildcards: chr=chr3
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr3.done.
+[Tue Nov 11 16:11:27 2025]
+Finished jobid: 255 (Rule: moddotplot_chr)
+50 of 201 steps (25%) done
+[Tue Nov 11 16:12:15 2025]
+Finished jobid: 1266 (Rule: plot_cen_moddotplot)
+51 of 201 steps (25%) done
+[Tue Nov 11 16:12:50 2025]
+Finished jobid: 1393 (Rule: plot_cen_moddotplot)
+52 of 201 steps (26%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:12:50 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555/T2T09_chrY_haplotype1-0000018:9068905-11606555.bed, results/11-moddotplot/original/chrY/T2T09_chrY_haplotype1-0000018:17959718-20006233/T2T09_chrY_haplotype1-0000018:17959718-20006233.bed, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.pdf, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:17959718-20006233.pdf, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.png, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:17959718-20006233.png
+    output: results/11-moddotplot/moddotplot_chrY.done
+    jobid: 276
+    reason: Missing output files: results/11-moddotplot/moddotplot_chrY.done; Input files updated by another job: results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.png, results/11-moddotplot/combined/plots/chrY/T2T09_chrY_haplotype1-0000018:9068905-11606555.pdf
+    wildcards: chr=chrY
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chrY.done.
+[Tue Nov 11 16:12:50 2025]
+Finished jobid: 276 (Rule: moddotplot_chr)
+53 of 201 steps (26%) done
+[Tue Nov 11 16:13:32 2025]
+Finished jobid: 1320 (Rule: plot_cen_moddotplot)
+54 of 201 steps (27%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:13:32 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127/T2T09_chr15_haplotype2-0000094:3752690-10647127.bed, results/11-moddotplot/original/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391/T2T09_chr15_haplotype1-0000012:3788492-9452391.bed, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.png, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.png
+    output: results/11-moddotplot/moddotplot_chr15.done
+    jobid: 267
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr15.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.pdf, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype1-0000012:3788492-9452391.png, results/11-moddotplot/combined/plots/chr15/T2T09_chr15_haplotype2-0000094:3752690-10647127.png
+    wildcards: chr=chr15
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr15.done.
+[Tue Nov 11 16:13:32 2025]
+Finished jobid: 267 (Rule: moddotplot_chr)
+55 of 201 steps (27%) done
+[Tue Nov 11 16:13:34 2025]
+Finished jobid: 1376 (Rule: plot_cen_moddotplot)
+56 of 201 steps (28%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:13:34 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr21/T2T09_chr21_haplotype2-0000174:2-581119/T2T09_chr21_haplotype2-0000174:2-581119.bed, results/11-moddotplot/original/chr21/T2T09_chr21_haplotype2-0000103:2-3392364/T2T09_chr21_haplotype2-0000103:2-3392364.bed, results/11-moddotplot/original/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802/T2T09_chr21_haplotype1-0000023:339553-7192802.bed, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype2-0000174:2-581119.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype2-0000103:2-3392364.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype2-0000174:2-581119.png, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype2-0000103:2-3392364.png, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.png
+    output: results/11-moddotplot/moddotplot_chr21.done
+    jobid: 273
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr21.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.pdf, results/11-moddotplot/combined/plots/chr21/T2T09_chr21_haplotype1-0000023:339553-7192802.png
+    wildcards: chr=chr21
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr21.done.
+[Tue Nov 11 16:13:34 2025]
+Finished jobid: 273 (Rule: moddotplot_chr)
+57 of 201 steps (28%) done
+[Tue Nov 11 16:14:48 2025]
+Finished jobid: 1388 (Rule: plot_cen_moddotplot)
+58 of 201 steps (29%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:14:48 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.bed, results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.pdf, results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.png
+    output: results/11-moddotplot/moddotplot_chrX.done
+    jobid: 275
+    reason: Missing output files: results/11-moddotplot/moddotplot_chrX.done; Input files updated by another job: results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.pdf, results/11-moddotplot/combined/plots/chrX/T2T09_rc-chrX_haplotype2-0000113:56751174-62738622.png
+    wildcards: chr=chrX
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chrX.done.
+[Tue Nov 11 16:14:48 2025]
+Finished jobid: 275 (Rule: moddotplot_chr)
+59 of 201 steps (29%) done
+[Tue Nov 11 16:15:50 2025]
+Finished jobid: 1253 (Rule: plot_cen_moddotplot)
+60 of 201 steps (30%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:15:50 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665/T2T09_chr8_haplotype2-0000099:42070232-48042665.bed, results/11-moddotplot/original/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245/T2T09_chr8_haplotype1-0000020:41476976-47180245.bed, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.png, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.png
+    output: results/11-moddotplot/moddotplot_chr8.done
+    jobid: 260
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr8.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.pdf, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype2-0000099:42070232-48042665.png, results/11-moddotplot/combined/plots/chr8/T2T09_chr8_haplotype1-0000020:41476976-47180245.png
+    wildcards: chr=chr8
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr8.done.
+[Tue Nov 11 16:15:50 2025]
+Finished jobid: 260 (Rule: moddotplot_chr)
+61 of 201 steps (30%) done
+[Tue Nov 11 16:16:21 2025]
+Finished jobid: 1277 (Rule: plot_cen_moddotplot)
+62 of 201 steps (31%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:16:21 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.bed, results/11-moddotplot/original/chr10/T2T09_chr10_haplotype1-0000004:38101674-42738528/T2T09_chr10_haplotype1-0000004:38101674-42738528.bed, results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.pdf, results/11-moddotplot/combined/plots/chr10/T2T09_chr10_haplotype1-0000004:38101674-42738528.pdf, results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.png, results/11-moddotplot/combined/plots/chr10/T2T09_chr10_haplotype1-0000004:38101674-42738528.png
+    output: results/11-moddotplot/moddotplot_chr10.done
+    jobid: 262
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr10.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.pdf, results/11-moddotplot/combined/plots/chr10/T2T09_rc-chr10_haplotype2-0000096:38085234-43205546.png
+    wildcards: chr=chr10
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr10.done.
+[Tue Nov 11 16:16:21 2025]
+Finished jobid: 262 (Rule: moddotplot_chr)
+63 of 201 steps (31%) done
+[Tue Nov 11 16:17:49 2025]
+Finished jobid: 1326 (Rule: plot_cen_moddotplot)
+64 of 201 steps (32%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:17:49 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.bed, results/11-moddotplot/original/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361/T2T09_rc-chr16_haplotype1-0000075:2-764361.bed, results/11-moddotplot/original/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545/T2T09_chr16_haplotype1-0000014:10686895-18575545.bed, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.png, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.png, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.png
+    output: results/11-moddotplot/moddotplot_chr16.done
+    jobid: 268
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr16.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype2-0000086:31618740-38389382.png, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.png, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.png, results/11-moddotplot/combined/plots/chr16/T2T09_chr16_haplotype1-0000014:10686895-18575545.pdf, results/11-moddotplot/combined/plots/chr16/T2T09_rc-chr16_haplotype1-0000075:2-764361.pdf
+    wildcards: chr=chr16
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr16.done.
+[Tue Nov 11 16:17:49 2025]
+Finished jobid: 268 (Rule: moddotplot_chr)
+65 of 201 steps (32%) done
+[Tue Nov 11 16:18:57 2025]
+Finished jobid: 1263 (Rule: plot_cen_moddotplot)
+66 of 201 steps (33%) done
+[Tue Nov 11 16:19:25 2025]
+Finished jobid: 1269 (Rule: plot_cen_moddotplot)
+67 of 201 steps (33%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:19:25 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.bed, results/11-moddotplot/original/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693/T2T09_rc-chr9_haplotype2-0000092:2-10085693.bed, results/11-moddotplot/original/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.bed, results/11-moddotplot/original/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.bed, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.png
+    output: results/11-moddotplot/moddotplot_chr9.done
+    jobid: 261
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr9.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:23331778-27998432.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:39770943-46934045.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.png, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype1-0000011:57717836-62398938.pdf, results/11-moddotplot/combined/plots/chr9/T2T09_rc-chr9_haplotype2-0000092:2-10085693.pdf
+    wildcards: chr=chr9
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr9.done.
+[Tue Nov 11 16:19:25 2025]
+Finished jobid: 261 (Rule: moddotplot_chr)
+68 of 201 steps (34%) done
+[Tue Nov 11 16:20:12 2025]
+Finished jobid: 1237 (Rule: plot_cen_moddotplot)
+69 of 201 steps (34%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 11 16:20:12 2025]
+localrule moddotplot_chr:
+    input: results/11-moddotplot/original/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.bed, results/11-moddotplot/original/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.bed, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.png, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.png
+    output: results/11-moddotplot/moddotplot_chr6.done
+    jobid: 258
+    reason: Missing output files: results/11-moddotplot/moddotplot_chr6.done; Input files updated by another job: results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.png, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.png, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype2-0000090:57646271-62921133.pdf, results/11-moddotplot/combined/plots/chr6/T2T09_rc-chr6_haplotype1-0000005:57344970-63290155.pdf
+    wildcards: chr=chr6
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, mem=8GB
+Shell command: None
+Touching output file results/11-moddotplot/moddotplot_chr6.done.
+[Tue Nov 11 16:20:12 2025]
+Finished jobid: 258 (Rule: moddotplot_chr)
+70 of 201 steps (35%) done
+Terminating processes on user request, this might take some time.
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/bin/cenmap", line 429, in <module>
+Traceback (most recent call last):
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/scheduling/job_scheduler.py", line 221, in schedule
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/bin/cenmap", line 403, in main
+object address  : 0x7e6661df07c0
+object refcount : 3
+object type     : 0x5fa89e8c12a0
+object type name: KeyboardInterrupt
+object repr     : KeyboardInterrupt()
+lost sys.stderr
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/threading.py", line 507, in acquire
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/threading.py", line 355, in wait
+    waiter.acquire()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/__main__.py", line 4, in <module>
+    main()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/cli.py", line 2271, in main
+    success = args_to_api(args, parser)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/cli.py", line 2187, in args_to_api
+    dag_api.execute_workflow(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/api.py", line 634, in execute_workflow
+    workflow.execute(
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/workflow.py", line 1431, in execute
+    success = self.scheduler.schedule()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/scheduling/job_scheduler.py", line 383, in schedule
+    self._executor.cancel()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/site-packages/snakemake/executors/local.py", line 255, in cancel
+    self.pool.shutdown()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/concurrent/futures/thread.py", line 239, in shutdown
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/threading.py", line 1149, in join
+    self._wait_for_tstate_lock()
+  File "/mnt/storage2/users/ahgrosc1/.snakemake-conda/440c08c004de5b3fc2a73e0616391b9f_/lib/python3.12/threading.py", line 1169, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
