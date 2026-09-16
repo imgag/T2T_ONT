@@ -33,7 +33,11 @@ rule dorado:
         dorado=config["dorado"],
         model=lambda wc: config["dorado_model"][wc.type],
         models_directory=config["models_directory"],
-        model_mod = lambda wc: f"--modified-bases-models {config["dorado_model"]["mod"]}" if wc.type == "sup" else ""
+        model_mod = lambda wc: f"--modified-bases-models {config["dorado_model"]["mod"]}" if wc.type == "sup" else "",
+        # Only pins a device when gpu_local_override is set (see handle_gpu.smk) -
+        # cluster-sync dispatch across gpu_queues relies on the qsub gpu
+        # resource to bind the right GPU(s) and gets no --device flag here.
+        device_flag = lambda wc: f"--device 'cuda:{config['gpu_local_override']}'" if config.get("gpu_local_override") is not None else ""
     shell:
         """
         export LD_LIBRARY_PATH="$(dirname {params.dorado})/../lib:${{LD_LIBRARY_PATH:-}}"
@@ -42,7 +46,7 @@ rule dorado:
             {input.pod5} \
             --models-directory {params.models_directory} {params.model_mod} \
             --recursive \
-            --trim all \
+            --trim all {params.device_flag} \
             --output-dir $(dirname {output.done}) \
             2> {log}
         touch {output.done}

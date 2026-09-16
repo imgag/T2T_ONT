@@ -22,6 +22,13 @@ herro_model : ../ahthapp1_T2T_ONT/bin/herro-v1.1
 
 gpu_queues: "gpu_srv010,gpu_srv028,gpu_srv019"
 
+# Hardcode which GPU device basecalling/error-correction use, bypassing
+# automatic GPUtil-based selection. Only cuda:1 is currently usable on
+# srv010 when running with the local executor (not cluster-sync). Set to
+# null to go back to automatic selection (needed for cluster-sync dispatch
+# across gpu_queues).
+gpu_local_override: 1
+
 # Preprocessing settings
 min_length : 
   default: 10000

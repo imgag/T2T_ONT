@@ -33,6 +33,23 @@ def get_gpu_id(get_gid=True, n_gpus=2):
         the ID of the GPU to use
 
     """
+    # Bypass GPUtil auto-detection and always hand out this fixed device
+    # instead. Needed when running with the local executor on a host where
+    # GPUtil's view of what's "available" doesn't match reality (e.g. on
+    # srv010, where only cuda:1 is currently usable for basecalling/error
+    # correction) -- set to null/omit to fall back to automatic selection,
+    # which is what cluster-sync dispatch across gpu_queues expects.
+    gpu_local_override = config.get("gpu_local_override")
+    if gpu_local_override is not None:
+        allocated_gid = gpu_local_override
+        while os.system(f"dotlockfile -r 1 /tmp/LCK_gpu_{allocated_gid}.lock") != 0:
+            sleep(randint(1, 5))
+        try:
+            yield allocated_gid
+        finally:
+            os.system(f"dotlockfile -u /tmp/LCK_gpu_{allocated_gid}.lock")
+        return
+
     allocated_gid = None
     sleep(randint(0, 5))
     avail_gpus = GPUtil.getAvailable(
