@@ -1,8 +1,22 @@
+PROCESSED_FILE_EXT_RE = r"(\.fastq|\.fastq.gz|\.bam|\.fasta|\.fq|\.fq.gz|\.fa|\.cram)$"
+
+
+def is_raw_run_folder(f):
+    # Raw run folders (e.g. from data/raw/... or a MINERVA landing path) are
+    # named without a recognized data-file extension, unlike already-processed
+    # inputs listed directly in datasets.yml (*.fastq.gz, *.bam, ...). Raw
+    # folders sometimes get cleaned up from disk once basecalling has already
+    # produced data/basecalled/.../*.bam from them, so os.path.isdir(f) alone
+    # can no longer be used to detect them once that happens -- fall back to
+    # the naming convention instead.
+    if not f:
+        return False
+    return os.path.isdir(f) or not re.search(PROCESSED_FILE_EXT_RE, f, flags=re.I)
+
+
 def update_herro_paths(f, dataset):
     f = os.path.basename(f)
-    match = re.search(
-        r"(\.fastq|\.fastq.gz|\.bam|\.fasta|\.fq|\.fq.gz|\.fa|\.cram)$", f, flags=re.I
-    )
+    match = re.search(PROCESSED_FILE_EXT_RE, f, flags=re.I)
     if bool(match):
         ext = match[1]
         fn = re.sub(rf"\{ext}$", "", f)
@@ -77,8 +91,10 @@ def find_input_datasets(wc, print_debug=True, all_porec=False):
             # print("Input elements:")
             # pprint(elements)
             for e in elements:
-                # Is a folder
-                if os.path.isdir(e):
+                # Is a folder (or was one -- already basecalled and since
+                # cleaned up from the raw-data landing area, see
+                # is_raw_run_folder)
+                if is_raw_run_folder(e):
                     if print_debug:
                         print(f"--> transform input folder: {e}")
 

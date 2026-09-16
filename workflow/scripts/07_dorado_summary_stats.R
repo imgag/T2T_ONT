@@ -14,10 +14,11 @@ process_summary <- function(f, out){
                 reads_longer_1e6 = length(length[length >= 1e6]),
             ),
         dt %>%
+            arrange(desc(length)) %>%
             mutate(cumsum = cumsum(length)) %>%
-            mutate(N50_reached = cumsum > max(cumsum)/2) %>%
+            mutate(N50_reached = cumsum > max(cumsum) / 2) %>%
             filter(N50_reached) %>%
-            summarise(N50 = first(cumsum)) 
+            summarise(N50 = first(length))
     )
 
     write_tsv(summary, out)

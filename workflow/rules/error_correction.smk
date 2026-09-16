@@ -37,9 +37,8 @@ rule dorado_correct_mapping:
     output:
         paf=temp("data/corrected/{dataset}/{file}.ovl.paf"),
     params:
-        dorado=config["dorado_correct"],
+        dorado=config["dorado"],
         herro_model=config["herro_model"],
-#    threads: 30 get more done
     threads: 20
     benchmark:
         "runtimes/dorado_correct_mapping/{dataset}_{file}.txt"
@@ -64,7 +63,7 @@ rule dorado_correct_inference:
     output:
         fa="data/corrected/{dataset}/{file}.corrected.fasta",
     params:
-        dorado=config["dorado_correct"],
+        dorado=config["dorado"],
         herro_model=config["herro_model"],
     threads: 1
     priority: 50
@@ -73,15 +72,16 @@ rule dorado_correct_inference:
     log:
         "logs/dorado_correct_inference/{dataset}_{file}.log",
     resources:
-        queue="gpu_srv010", 
+        queue=config['gpu_queues'],
         gpu=1,
     run:
         with get_gpu_id() as gid:  # Check for unused GPU
             params.cuda_device = f"cuda:{gid}"
             shell(
-                "{params.dorado} correct \
+                "export LD_LIBRARY_PATH=\"$(dirname {params.dorado})/../lib:${{LD_LIBRARY_PATH:-}}\" && \
+                {params.dorado} correct \
                 --from-paf {input.paf} \
-                --threads 20 \
+                --threads {threads} \
                 --model-path {params.herro_model} \
                 --device '{params.cuda_device}' \
                 --index-size 4G \
