@@ -20,6 +20,15 @@ with open("data/finished_samples.yml") as f:
 asm_samples = {k: v for k, v in asm.items() if not v.get("hifiasm", False)}
 asm_hifiasm = {k: v for k, v in asm.items() if v.get("hifiasm", False)}
 
+# gpu_local_override pins every GPU-using rule (dorado, dorado_duplex,
+# dorado_correct_inference - see handle_gpu.smk) to the same physical
+# device, so cap the scheduler's gpu resource pool at 1 to match: without
+# this, several basecalling/error-correction jobs can be scheduled in
+# parallel (each individually satisfying its own `resources: gpu=N`
+# request) and collide on that single device.
+if config.get("gpu_local_override") is not None:
+    workflow.register_resource("gpu", 1)
+
 include: "rules/_functions.smk"
 include: "rules/handle_gpu.smk"
 include: "rules/basecalling.smk"
