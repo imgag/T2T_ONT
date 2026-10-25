@@ -186,14 +186,15 @@ rule pairs_to_hic:
     output:
         hic = "analysis_other/porec/{dataset}/hic/{dataset}.hic"
     params:
-        resolutions = config.get("juicer_resolutions", "5000,10000,25000,50000,100000,500000")
+        resolutions = config.get("juicer_resolutions", "5000,10000,25000,50000,100000,500000"),
+        juicer_tools_jar = config["juicer_tools_jar"]
     log:
         "logs/porec/juicer_tools_pre.{dataset}.log"
     resources:
         mem_gb = 250
     shell:
         """
-        java -Xmx{resources.mem_gb}G -jar /mnt/storage2/users/ahleucs1/tools/juicertools/juicer_tools_1.19.02.jar \
+        java -Xmx{resources.mem_gb}G -jar {params.juicer_tools_jar} \
         pre {input.pairs} {output.hic} {input.chromsize} \
         -r {params.resolutions} > {log} 2>&1
         """

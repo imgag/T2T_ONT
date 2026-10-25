@@ -1,6 +1,9 @@
 # Snakemake run log
 snakemake.out
 
+# Machine-local config overrides (personal keys, raw-data paths) — see config.local.yml.example
+workflow/config.local.yml
+
 # Subdirs
 downloads/
 bin/
@@ -13,6 +16,7 @@ megSAP
 
 # Filetypes
 .*
+!.zenodo.json
 *.bam
 *.cram
 *.crai
@@ -96,10 +100,6 @@ analysis_other/assembly_issue_classification
 results/*.pdf
 results/**/*.pdf
 
-# Sarahs Folder
-sarah/outputs
-sarah/data
-
 # Ancestry Folder
 analysis_other/ancestry/local
 analysis_other/ancestry/plink
@@ -145,6 +145,17 @@ logs/ancestry
 # Parent of Origin
 *Variant_Assignment_info.tsv
 small_variants.diploid.vcf.gz.tbi
+
+# Generated results/logs/benchmarks, removed from the repo and archived
+# separately on Zenodo (see README.md "Data availability")
+/results/
+/logs/
+/runtimes/
+/assembly/qc/
+/assembly/input_qc/
+/analysis_other/
+/doc/run_reports/
+/doc/tables/for_plots/
 
 # Newer samples
 

@@ -15,8 +15,8 @@ from glob import glob
 
 MEGSAP_DIR     = "megSAP"
 BASECALLED_DIR = "data/basecalled/sup"
-MEGSAP_PHP     = "/mnt/storage2/users/ahgrosc1/dev/megsap/src/Pipelines/analyze_longread.php"
-MERGE_PHP      = "/mnt/storage2/megSAP/pipeline/src/Tools/merge_samples.php"
+MEGSAP_PHP     = config["megsap_analyze_longread_php"]
+MERGE_PHP      = config["megsap_merge_samples_php"]
 THREADS        = 32
 ASSOC_TABLE    = "doc/tables/flowcell_biological_sample.tsv"
 

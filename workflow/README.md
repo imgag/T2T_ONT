@@ -58,6 +58,28 @@ Key parameters:
 | `min_mean_q` | Minimum mean read quality (default: 9) |
 | `genome_length` | Expected genome size in bp (default: 3,200,000,000) |
 
+### 4. Machine-local overrides (`workflow/config.local.yml`, optional)
+
+`config.yml` ships with placeholders for anything specific to the machine it
+was originally run on — personal credentials/keys and institute-internal
+paths that no external user can resolve:
+
+| Key | What it is |
+|:----|:-----------|
+| `ghga_pub_key` / `ghga_sec_key` | Personal GHGA crypt4gh key pair |
+| `ref_grch37` | Local GRCh37 FASTA (only needed for the optional megSAP comparison rules) |
+| `kmer_refs.<sample>` | Short-read FASTQ per sample, used for meryl kmer QC |
+| `patmat_conda_env` | Pre-built PatMat conda environment (see `workflow/env/patmat.yml`) |
+| `megsap_analyze_longread_php` / `megsap_merge_samples_php` / `megsap_backup_queue_php` | Paths into an institute-internal megSAP installation; only needed to reproduce `rules/megsap.smk`, not the main assembly/QC workflow |
+| `juicer_tools_jar` | Local `juicer_tools.jar` (Pore-C `.hic` matrix generation) |
+| `raw_data_mount` | Absolute mount point for raw instrument run folders referenced in `data/datasets.yml`, if any live outside `data/raw` |
+
+Copy `workflow/config.local.yml.example` to `workflow/config.local.yml` and
+fill in your own values; it is gitignored and deep-merged on top of
+`config.yml` automatically by the Snakefile (keys you don't list fall back
+to the `config.yml` placeholder, so unused rules like `megsap.smk` still
+resolve without error, they just won't run anything useful).
+
 ## Running the workflow
 
 ### Dry run (check which jobs would be executed)

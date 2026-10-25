@@ -52,19 +52,19 @@ plot_boxplots <- function(cov_files, out_prefix) {
 
 plot_boxplots(
   cov_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex.15x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex.20x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_duplex.25x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_herro/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_herro.35x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_herro.60x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_herro.120x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.UL/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.UL.50x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.UL.70x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.UL.90x/cov.mosdepth.global.dist.txt",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/data/bamstats/published/published.HQ_combined.15x_20x/cov.mosdepth.global.dist.txt"
+    "data/bamstats/published/published.HQ_duplex/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_duplex.15x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_duplex.20x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_duplex.25x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_herro/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_herro.35x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_herro.60x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_herro.120x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.UL/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.UL.50x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.UL.70x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.UL.90x/cov.mosdepth.global.dist.txt",
+    "data/bamstats/published/published.HQ_combined.15x_20x/cov.mosdepth.global.dist.txt"
 
   ), 
   out_prefix = "subsampling_coverages"

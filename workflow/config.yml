@@ -4,8 +4,8 @@ resources:
 
 # GHGA upload settings
 ghga_proxy: "socks5://localhost:8080"
-ghga_pub_key: "/mnt/storage5/users/ahgrosc1/keys/crypt4gh_caspargross_key.pub"
-ghga_sec_key: "/mnt/storage5/users/ahgrosc1/keys/crypt4gh_caspargross_key.sec"
+ghga_pub_key: "path/to/crypt4gh_key.pub"  # your personal GHGA crypt4gh public key; override in config.local.yml
+ghga_sec_key: "path/to/crypt4gh_key.sec"  # your personal GHGA crypt4gh secret key; override in config.local.yml
 
 # Reference datasets
 ref: data/ref/T2T-CHM13.v2.fasta
@@ -16,7 +16,7 @@ ref_giab_vcf: data/ref/CHM13v2.0_HG2-T2TQ100-V1.1.vcf.gz
 ref_hg002_q100: data/ref/hg002v1.1.fasta.gz
 ref_centromer_bed: data/ref/hg002v1.1.cenSatv2.0.bed
 censat_chm13: data/ref/chm13v2.0_censat_v2.0.bed
-ref_grch37: /mnt/storage2/megSAP/data_hg19/genomes/GRCh37.fa
+ref_grch37: "path/to/GRCh37.fa"  # GRCh37 reference FASTA (only needed for megSAP comparison rules); override in config.local.yml
 gene_annotation_chm13: data/ref/chm13v2.0_RefSeq_Liftoff_v5.1.sorted.gff3.gz
 segdup_chm13: data/ref/chm13v2.0_SD.full.bed
 
@@ -75,33 +75,33 @@ K-mer: 37  # For QC
 K-mer_phasing: 30 # For Trio phasing
 
 kmer_refs:
-  T2T00: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T00_L01_UDB-385_1.fq.gz"
+  T2T00: "path/to/short_read_fastq/T00_L01_UDB-385_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
   T2T00_trio: "analysis_other/merqury_shortread/T2T00/T2T00_k_30.meryl"
   T2T00_hifiasm_herro: "analysis_other/merqury_shortread/T2T00/T2T00_k_30.meryl"
   T2T00_hifism_ont: "analysis_other/merqury_shortread/T2T00/T2T00_k_30.meryl"
   T2T00_hifiasm_trio: "analysis_other/merqury_shortread/T2T00/T2T00_k_30.meryl"
-  T2T00_1: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T00.1_L01_UDB-386_1.fq.gz"
-  T2T00_2: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T00.2_L01_UDB-387_1.fq.gz"
-  T2T02: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T02_L01_UDB-388_1.fq.gz"
-  T2T03: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T03_L01_UDB-389_1.fq.gz"
-  T2T04: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T04_L01_UDB-390_1.fq.gz"
+  T2T00_1: "path/to/short_read_fastq/T00.1_L01_UDB-386_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T00_2: "path/to/short_read_fastq/T00.2_L01_UDB-387_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T02: "path/to/short_read_fastq/T02_L01_UDB-388_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T03: "path/to/short_read_fastq/T03_L01_UDB-389_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T04: "path/to/short_read_fastq/T04_L01_UDB-390_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
   T2T04_trio: "analysis_other/merqury_shortread/T2T04/T2T04_k_30.meryl"
   T2T04_hifiasm_trio: "analysis_other/merqury_shortread/T2T04/T2T04_k_30.meryl"
   T2T04_hifiasm_porec: "analysis_other/merqury_shortread/T2T04/T2T04_k_30.meryl"
-  T2T04_1: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T04.1_L01_UDB-391_1.fq.gz"
-  T2T04_2: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T04.2_L01_UDB-392_1.fq.gz"
-  T2T05: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T05_L01_UDB-393_1.fq.gz"
-  T2T06: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T06_L01_UDB-394_1.fq.gz"
-  T2T07: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T07_L01_UDB-399_1.fq.gz"
-  T2T08: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T08_L01_UDB-400_1.fq.gz"
-  T2T09: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T09_L01_UDB-401_1.fq.gz"
-  T2T12: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T12_L01_UDB-402_1.fq.gz"
-  T2T13: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T13_L01_UDB-403_1.fq.gz"
-  T2T15: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T15_L01_UDB-404_1.fq.gz"
-  T2T16: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T16_L01_UDB-405_1.fq.gz"
-  T2T17: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T17_L01_UDB-406_1.fq.gz"
-  T2T18: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T18_L01_UDB-407_1.fq.gz"
-  T2T19: "/mnt/storage3b/projects/no_ngsd/ahgrosc1_2026_technology_comparison/DNBSEQ-T7/T19_L01_UDB-408_1.fq.gz"
+  T2T04_1: "path/to/short_read_fastq/T04.1_L01_UDB-391_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T04_2: "path/to/short_read_fastq/T04.2_L01_UDB-392_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T05: "path/to/short_read_fastq/T05_L01_UDB-393_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T06: "path/to/short_read_fastq/T06_L01_UDB-394_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T07: "path/to/short_read_fastq/T07_L01_UDB-399_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T08: "path/to/short_read_fastq/T08_L01_UDB-400_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T09: "path/to/short_read_fastq/T09_L01_UDB-401_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T12: "path/to/short_read_fastq/T12_L01_UDB-402_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T13: "path/to/short_read_fastq/T13_L01_UDB-403_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T15: "path/to/short_read_fastq/T15_L01_UDB-404_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T16: "path/to/short_read_fastq/T16_L01_UDB-405_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T17: "path/to/short_read_fastq/T17_L01_UDB-406_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T18: "path/to/short_read_fastq/T18_L01_UDB-407_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
+  T2T19: "path/to/short_read_fastq/T19_L01_UDB-408_1.fq.gz"  # short-read FASTQ for meryl kmer QC; override in config.local.yml
 
 
 # Find T2T Chromosomes
@@ -153,6 +153,22 @@ longphase: bin/longphase_linux-x64
 # PatMat parent-of-origin
 patmat: bin/PatMat/patmat
 patmat_dmr: bin/PatMat/patmat/Imprinted_DMR_List_V1.LiftedOverToT2T-CHM13v2Hs1.tsv
+patmat_conda_env: "path/to/conda/envs/patmat"  # pre-built PatMat conda env (see workflow/env/patmat.yml); override in config.local.yml
+
+# megSAP (institute-internal diagnostics pipeline) — only needed to reproduce
+# the megSAP comparison rules in rules/megsap.smk; not required for the main
+# assembly/QC workflow. Override in config.local.yml.
+megsap_analyze_longread_php: "path/to/megSAP/src/Pipelines/analyze_longread.php"
+megsap_merge_samples_php: "path/to/megSAP/pipeline/src/Tools/merge_samples.php"
+megsap_backup_queue_php: "path/to/megSAP/pipeline/src/IMGAG/backup_queue.php"
+
+# Juicer tools (Pore-C .hic matrix generation); override in config.local.yml
+juicer_tools_jar: "path/to/juicer_tools.jar"
+
+# Absolute mount point where raw instrument run folders live outside this repo
+# (used only to recognise external run folders listed in data/datasets.yml for
+# QC-target generation; everything else uses data/raw). Override in config.local.yml.
+raw_data_mount: "data/raw"
 
 # Cenmap
 cenmap_single_configfile: analysis_other/cenmap_single/config.yaml
@@ -224,7 +240,7 @@ min_bin_width: 1000
 cooler_resolutions: "1000,5000,10000,50000,100000"
 
 # Cooltools
-gc_track: "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/sarah/data/gc.100000.tsv"
+gc_track: "data/ref/T2T-CHM13.v2.fasta.gc.100000.tsv"
 insulation_resolutions:
   - "25000"
   - "40000"

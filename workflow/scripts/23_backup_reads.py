@@ -14,8 +14,9 @@ from datetime import datetime
 import json
 
 class BackupManager:
-    def __init__(self, base_folder, mode="run", email=None, dry_run=False, force=False):
+    def __init__(self, base_folder, backup_queue_php, mode="run", email=None, dry_run=False, force=False):
         self.base_folder = Path(base_folder).resolve()
+        self.backup_queue_php = backup_queue_php
         self.mode = mode
         self.email = email
         self.dry_run = dry_run
@@ -71,8 +72,8 @@ class BackupManager:
         
         # Construct the backup command
         cmd = [
-            "sudo", "-u", "archive-gs", "php", 
-            f"/mnt/storage2/megSAP/pipeline/src/IMGAG/backup_queue.php",
+            "sudo", "-u", "archive-gs", "php",
+            self.backup_queue_php,
             "-in", str(folder_path),
             "-mode", self.mode,
             "-email", "ahgrosc1"
@@ -219,8 +220,25 @@ def main():
         action="store_true",
         help="List backup status of all folders and exit"
     )
-    
+    parser.add_argument(
+        "--backup-queue-php",
+        default=None,
+        help="Path to megSAP's backup_queue.php (default: megsap_backup_queue_php in workflow/config.yml)"
+    )
+
     args = parser.parse_args()
+
+    backup_queue_php = args.backup_queue_php
+    if backup_queue_php is None:
+        import yaml
+        config_dir = os.path.join(os.path.dirname(__file__), "..")
+        with open(os.path.join(config_dir, "config.yml")) as f:
+            cfg = yaml.safe_load(f)
+        local_configfile = os.path.join(config_dir, "config.local.yml")
+        if os.path.exists(local_configfile):
+            with open(local_configfile) as f:
+                cfg.update(yaml.safe_load(f) or {})
+        backup_queue_php = cfg["megsap_backup_queue_php"]
     
     # Validate base folder
     if not os.path.exists(args.base_folder):
@@ -230,6 +248,7 @@ def main():
     # Create backup manager
     backup_manager = BackupManager(
         base_folder=args.base_folder,
+        backup_queue_php=backup_queue_php,
         mode=args.mode,
         email=args.email,
         dry_run=args.dry_run,

@@ -29,6 +29,11 @@ done
 # Path to the association table
 ASSOC_TABLE="doc/tables/flowcell_biological_sample.tsv"
 
+# megSAP (institute-internal) tool paths — match megsap_merge_samples_php /
+# megsap_analyze_longread_php in workflow/config.yml / config.local.yml
+MERGE_PHP="/mnt/storage2/megSAP/pipeline/src/Tools/merge_samples.php"
+MEGSAP_PHP="/mnt/storage2/users/ahgrosc1/dev/megsap/pipeline/src/Pipelines/analyze_longread.php"
+
 # Read the association table and group samples by their biological sample ID and processing system
 declare -A samples
 declare -A final_merged_samples
@@ -71,7 +76,7 @@ for composite_key in "${!samples[@]}"; do
         for ((i=0; i<${#sorted_samples[@]}-1; i++)); do
             current_sample="${sorted_samples[$i]}"
             next_sample="${sorted_samples[$i+1]}"
-            echo php /mnt/storage2/megSAP/pipeline/src/Tools/merge_samples.php -ps "$current_sample" -into "$next_sample"
+            echo php "$MERGE_PHP" -ps "$current_sample" -into "$next_sample"
         done
 
         # Store the last merged sample as the final one for this biological sample and processing system
@@ -102,6 +107,6 @@ if [[ ${#final_merged_samples[@]} -eq 0 ]]; then
 else
     for biological_sample in "${!final_merged_samples[@]}"; do
         merged_sample="${final_merged_samples[$biological_sample]}"
-        echo "php /mnt/storage2/users/ahgrosc1/dev/megsap/pipeline/src/Pipelines/analyze_longread.php -folder Sample_${merged_sample} -name ${merged_sample} -threads 32 # Processing biological sample: $biological_sample"
+        echo "php \"$MEGSAP_PHP\" -folder Sample_${merged_sample} -name ${merged_sample} -threads 32 # Processing biological sample: $biological_sample"
     done
 fi

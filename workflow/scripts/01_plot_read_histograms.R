@@ -95,14 +95,14 @@ plot_read_histograms <- function(length_files, qual_files, out_prefix) {
 # Compare UL published and sequenced
 plot_read_histograms(
   length_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/run_04399/run_04399.UL/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/run_04400/run_04400.UL/length.hist"
+    "assembly/input_qc/published/published.UL/length.hist",
+    "assembly/input_qc/run_04399/run_04399.UL/length.hist",
+    "assembly/input_qc/run_04400/run_04400.UL/length.hist"
   ),
   qual_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/run_04399/run_04399.UL/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/run_04400/run_04400.UL/quality.hist"
+    "assembly/input_qc/published/published.UL/quality.hist",
+    "assembly/input_qc/run_04399/run_04399.UL/quality.hist",
+    "assembly/input_qc/run_04400/run_04400.UL/quality.hist"
   ),
   out_prefix = "UL_comparison"
 )
@@ -110,16 +110,16 @@ plot_read_histograms(
 # Compare subsampling of UL published
 plot_read_histograms(
   length_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.90x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.70x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/length.hist"
+    "assembly/input_qc/published/published.UL/length.hist",
+    "assembly/input_qc/published/published.UL.90x/length.hist",
+    "assembly/input_qc/published/published.UL.70x/length.hist",
+    "assembly/input_qc/published/published.UL.50x/length.hist"
   ),
   qual_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.90x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.70x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/quality.hist"
+    "assembly/input_qc/published/published.UL/quality.hist",
+    "assembly/input_qc/published/published.UL.90x/quality.hist",
+    "assembly/input_qc/published/published.UL.70x/quality.hist",
+    "assembly/input_qc/published/published.UL.50x/quality.hist"
   ),
   out_prefix = "UL_published_subsampling"
 )
@@ -128,12 +128,12 @@ plot_read_histograms(
 # Processeds UL datasets, merged two runs, downsampled to 50x
 plot_read_histograms(
   length_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/TUE_01/TUE_01.UL.50x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/length.hist"
+    "assembly/input_qc/TUE_01/TUE_01.UL.50x/length.hist",
+    "assembly/input_qc/published/published.UL.50x/length.hist"
   ),
   qual_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/TUE_01/TUE_01.UL.50x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.UL.50x/quality.hist"
+    "assembly/input_qc/TUE_01/TUE_01.UL.50x/quality.hist",
+    "assembly/input_qc/published/published.UL.50x/quality.hist"
   ),
   out_prefix = "UL_comparison_50x"
 )
@@ -141,16 +141,16 @@ plot_read_histograms(
 # Compare subsampling of HERRO
 plot_read_histograms(
   length_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.120x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.60x/length.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/length.hist"
+    "assembly/input_qc/published/published.HQ_herro/length.hist",
+    "assembly/input_qc/published/published.HQ_herro.120x/length.hist",
+    "assembly/input_qc/published/published.HQ_herro.60x/length.hist",
+    "assembly/input_qc/published/published.HQ_herro.35x/length.hist"
   ),
   qual_files = c(
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.120x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.60x/quality.hist",
-    "/mnt/storage3b/projects/no_ngsd/ahthapp1_T2T_ONT/assembly/input_qc/published/published.HQ_herro.35x/quality.hist"
+    "assembly/input_qc/published/published.HQ_herro/quality.hist",
+    "assembly/input_qc/published/published.HQ_herro.120x/quality.hist",
+    "assembly/input_qc/published/published.HQ_herro.60x/quality.hist",
+    "assembly/input_qc/published/published.HQ_herro.35x/quality.hist"
   ),
   out_prefix = "HQ_herro_published_subsampling"
 )

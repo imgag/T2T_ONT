@@ -11,6 +11,7 @@ For each conda package it tries (in order):
 Binary tools are queried directly from the paths in config.yml.
 """
 
+import argparse
 import json
 import re
 import subprocess
@@ -27,11 +28,11 @@ PROJECT_ROOT = Path(".")
 ENV_DIR      = PROJECT_ROOT / "workflow" / "env"
 CONFIG_FILE  = PROJECT_ROOT / "workflow" / "config.yml"
 
-# Additional snakemake conda cache directories to scan
+# Snakemake conda cache directories to scan. Add machine-local cache dirs
+# (e.g. a shared .snakemake-conda outside the repo) via --extra-conda-dir.
 SNAKEMAKE_CONDA_DIRS = [
     PROJECT_ROOT / ".snakemake" / "conda",
     PROJECT_ROOT / "analysis_other" / "cenmap" / ".snakemake" / "conda",
-    Path("/mnt/storage5/users/ahgrosc1/.snakemake-conda"),
 ]
 
 # ── Which env files each workflow uses ────────────────────────────────────────
@@ -346,6 +347,15 @@ def collect_container_tools(config):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--extra-conda-dir", action="append", default=[], metavar="DIR",
+        help="Additional snakemake conda cache directory to scan (repeatable)"
+    )
+    args = parser.parse_args()
+    for d in args.extra_conda_dir:
+        SNAKEMAKE_CONDA_DIRS.append(Path(d))
+
     with open(CONFIG_FILE) as f:
         config = yaml.safe_load(f)
 

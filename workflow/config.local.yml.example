@@ -1,0 +1,20 @@
+# Copy this file to workflow/config.local.yml and fill in your own paths.
+# config.local.yml is gitignored and is deep-merged on top of config.yml at
+# runtime (see "configfile:" lines in workflow/Snakefile), so you only need
+# to list the keys you want to override.
+#
+# Typical overrides:
+#   - ghga_pub_key / ghga_sec_key: your personal GHGA crypt4gh key pair
+#   - ref_grch37: local GRCh37 FASTA (only needed for megSAP comparison rules)
+#   - kmer_refs: short-read FASTQ files for meryl kmer QC, one per sample
+#   - patmat_conda_env: pre-built PatMat conda environment path
+#   - megsap_*: paths into an institute-internal megSAP installation (optional)
+#   - juicer_tools_jar: local juicer_tools.jar path
+
+ghga_pub_key: "path/to/crypt4gh_key.pub"
+ghga_sec_key: "path/to/crypt4gh_key.sec"
+
+ref_grch37: "path/to/GRCh37.fa"
+
+kmer_refs:
+  T2T00: "path/to/short_read_fastq/T00_L01_UDB-385_1.fq.gz"

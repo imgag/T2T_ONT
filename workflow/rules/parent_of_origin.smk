@@ -75,7 +75,7 @@ rule patmat:
         "runtimes/patmat/{sample}.txt",
     threads: 8
     conda:
-        "/mnt/storage5/users/ahgrosc1/environments/envs/patmap"
+        config["patmat_conda_env"]
     shell:
         # The assembly-phased VCF is chromosome-scale by construction (Verkko + PoreC),
         # so it is passed as both -v (per-variant phasing) and -stv (chromosome-scale

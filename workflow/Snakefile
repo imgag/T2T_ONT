@@ -9,6 +9,13 @@ from types import SimpleNamespace
 
 configfile: os.path.join(workflow.basedir, "config.yml")
 
+# Optional machine-local overrides (personal keys, raw-data paths outside the
+# repo, etc.) — see config.local.yml.example. Not committed to git; deep-merged
+# on top of config.yml if present.
+_local_configfile = os.path.join(workflow.basedir, "config.local.yml")
+if os.path.exists(_local_configfile):
+    configfile: _local_configfile
+
 
 with open("data/datasets.yml") as f:
     datasets = yaml.safe_load(f)
@@ -195,7 +202,7 @@ for dataset_set in datasets.keys():
     for data_type in datasets[dataset_set]:
         for run_folder in datasets[dataset_set][data_type]:
             # Check if path exists and starts with correct prefix
-            if os.path.isdir(run_folder) and (run_folder.startswith("data/raw") or run_folder.startswith("/mnt/storage3/raw_data")):
+            if os.path.isdir(run_folder) and (run_folder.startswith("data/raw") or run_folder.startswith(config.get("raw_data_mount", "data/raw"))):
                 # Get the leaf folder name
                 leaf_folder = os.path.basename(run_folder)
                 # Skip empty folder names
