@@ -56,6 +56,21 @@ snakemake --snakefile workflow/Snakefile \
 
 
 
+## Data availability
+
+Generated results, logs, and benchmark files are not stored in this
+repository. Together with the phased genome assemblies (FASTA) for all
+24 samples, they are archived on Zenodo:
+[10.5281/zenodo.23595767](https://doi.org/10.5281/zenodo.23595767)
+(draft, not yet published). Raw sequencing reads for this study's own
+participants are controlled-access individual-level human genome data,
+available via GHGA (study accession GHGAS08644233257767), not on Zenodo.
+
+## Citing this repository
+
+See [CITATION.cff](CITATION.cff). This repository is archived on Zenodo for
+citation with a version-specific DOI: **DOI TBD**.
+
 ## License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
