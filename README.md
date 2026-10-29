@@ -62,7 +62,10 @@ GHGA (study accession GHGAS08644233257767), not on Zenodo.
 ## Citing this repository
 
 See [CITATION.cff](CITATION.cff). This repository is archived on Zenodo for
-citation with a version-specific DOI: **DOI TBD**.
+citation with a version-specific DOI:
+[10.5281/zenodo.23766508](https://doi.org/10.5281/zenodo.23766508)
+(concept DOI, always resolves to the latest release:
+[10.5281/zenodo.23766507](https://doi.org/10.5281/zenodo.23766507)).
 
 ## License
 
