@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0-ncomms (Nature Communications revision, 2026-10-23)
+## v1.2 (Nature Communications revision, 2026-10-23)
 
 Changes made in response to Reviewer 4 and the editor's requests ahead of
 Nature Communications publication (NCOMMS-26-022296A):
