@@ -4,7 +4,9 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python
+  - python=3.12
   - pip
   - pip:
-    - moddotplot
+    # Not used by any Snakemake rule -- manual/exploratory inspection only.
+    # Pinned to latest available (no run of this env to check against).
+    - moddotplot=1.0.0
