@@ -29,10 +29,12 @@ done
 # Path to the association table
 ASSOC_TABLE="doc/tables/flowcell_biological_sample.tsv"
 
-# megSAP (institute-internal) tool paths — match megsap_merge_samples_php /
-# megsap_analyze_longread_php in workflow/config.yml / config.local.yml
-MERGE_PHP="/mnt/storage2/megSAP/pipeline/src/Tools/merge_samples.php"
-MEGSAP_PHP="/mnt/storage2/users/ahgrosc1/dev/megsap/pipeline/src/Pipelines/analyze_longread.php"
+# megSAP (institute-internal) installation root — set megsap_dir in
+# workflow/config.yml or workflow/config.local.yml (same key rules/megsap.smk
+# and 23_backup_reads.py use)
+MEGSAP_DIR="$(grep -h '^megsap_dir:' workflow/config.local.yml workflow/config.yml 2>/dev/null | head -1 | sed -E 's/^megsap_dir:\s*"?([^"]*)"?\s*$/\1/')"
+MERGE_PHP="$MEGSAP_DIR/pipeline/src/Tools/merge_samples.php"
+MEGSAP_PHP="$MEGSAP_DIR/pipeline/src/Pipelines/analyze_longread.php"
 
 # Read the association table and group samples by their biological sample ID and processing system
 declare -A samples

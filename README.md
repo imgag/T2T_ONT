@@ -25,14 +25,7 @@ doc/            Analysis documentation
 ## Documentation
 
 - [**Datasets**](doc/01_datasets.md): Reference genomes, databases, and published datasets used for benchmarking
-- [**Methods**](doc/02_methods.md): Key analysis methods and tool configuration
-- [**Data QC**](doc/03_data_qc.md): Sequencing quality control and comparison with public datasets
 - [**Assembly QC**](doc/04_assembly_qc.md): QC metrics and their definitions
-- [**Duplex Basecalling**](doc/05_duplex_basecalling.md): Duplex read generation and basecalling
-- [**Assembly Polishing**](doc/06_assembly_polishing.md): Medaka APK/ULK polishing
-- [**TAD and Loop Analysis**](doc/09_tads.md): 3D chromatin structure analysis
-- [**3D Genome**](doc/10_3dgenome.md): Haplotype-resolved 3D genome reconstruction
-- [**Ancestry Analysis**](doc/11_ancestry_analysis.md): Population genetics methods
 - [**Parent-of-Origin**](doc/12_parent_of_origin.md): Methylation-based parent-of-origin assignment
 
 ## Quick Start
@@ -61,10 +54,10 @@ snakemake --snakefile workflow/Snakefile \
 Generated results, logs, and benchmark files are not stored in this
 repository. Together with the phased genome assemblies (FASTA) for all
 24 samples, they are archived on Zenodo:
-[10.5281/zenodo.23595767](https://doi.org/10.5281/zenodo.23595767)
-(draft, not yet published). Raw sequencing reads for this study's own
-participants are controlled-access individual-level human genome data,
-available via GHGA (study accession GHGAS08644233257767), not on Zenodo.
+[10.5281/zenodo.23595767](https://doi.org/10.5281/zenodo.23595767).
+Raw sequencing reads for this study's own participants are
+controlled-access individual-level human genome data, available via
+GHGA (study accession GHGAS08644233257767), not on Zenodo.
 
 ## Citing this repository
 

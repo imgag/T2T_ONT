@@ -223,7 +223,7 @@ def main():
     parser.add_argument(
         "--backup-queue-php",
         default=None,
-        help="Path to megSAP's backup_queue.php (default: megsap_backup_queue_php in workflow/config.yml)"
+        help="Path to megSAP's backup_queue.php (default: <megsap_dir>/pipeline/src/IMGAG/backup_queue.php, megsap_dir from workflow/config.yml)"
     )
 
     args = parser.parse_args()
@@ -238,7 +238,7 @@ def main():
         if os.path.exists(local_configfile):
             with open(local_configfile) as f:
                 cfg.update(yaml.safe_load(f) or {})
-        backup_queue_php = cfg["megsap_backup_queue_php"]
+        backup_queue_php = os.path.join(cfg["megsap_dir"], "pipeline/src/IMGAG/backup_queue.php")
     
     # Validate base folder
     if not os.path.exists(args.base_folder):

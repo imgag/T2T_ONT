@@ -70,7 +70,7 @@ paths that no external user can resolve:
 | `ref_grch37` | Local GRCh37 FASTA (only needed for the optional megSAP comparison rules) |
 | `kmer_refs.<sample>` | Short-read FASTQ per sample, used for meryl kmer QC |
 | `patmat_conda_env` | Pre-built PatMat conda environment (see `workflow/env/patmat.yml`) |
-| `megsap_analyze_longread_php` / `megsap_merge_samples_php` / `megsap_backup_queue_php` | Paths into an institute-internal megSAP installation; only needed to reproduce `rules/megsap.smk`, not the main assembly/QC workflow |
+| `megsap_dir` | Root of an institute-internal megSAP installation; only needed to reproduce `rules/megsap.smk`, not the main assembly/QC workflow |
 | `juicer_tools_jar` | Local `juicer_tools.jar` (Pore-C `.hic` matrix generation) |
 | `raw_data_mount` | Absolute mount point for raw instrument run folders referenced in `data/datasets.yml`, if any live outside `data/raw` |
 
